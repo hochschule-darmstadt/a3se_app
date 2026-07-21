@@ -10,3 +10,4 @@ Start with:
 - [docs/README.md](docs/README.md) for the context map and reading paths.
 - [docs/requirements/README.md](docs/requirements/README.md) for requirements work.
 - [docs/engineering/continuous-spec-alignment.md](docs/engineering/continuous-spec-alignment.md) for keeping specifications and implementation aligned.
+- [docs/engineering/diagram-tooling.md](docs/engineering/diagram-tooling.md) for installing and using the pinned diagrams-as-code toolchain.

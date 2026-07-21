@@ -1,0 +1,5 @@
+@startuml
+actor Collaborator
+component "Diagram toolchain" as Toolchain
+Collaborator --> Toolchain : validates
+@enduml

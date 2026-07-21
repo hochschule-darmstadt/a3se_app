@@ -6,3 +6,4 @@ Use immutable, sequential files such as `0001-short-title.md`, copied from [../t
 
 | ADR | Decision | Status | Date | Supersedes |
 |---|---|---|---|---|
+| [ADR-0001](0001-diagrams-as-code-toolchain.md) | Adopt a notation-aware diagrams-as-code toolchain | accepted | 2026-07-21 | none |

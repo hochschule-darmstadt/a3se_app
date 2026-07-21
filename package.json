@@ -1,0 +1,18 @@
+{
+  "name": "a3se-diagram-tooling",
+  "private": true,
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "diagrams:doctor": "node tools/diagrams/doctor.mjs",
+    "diagrams:render": "node tools/diagrams/render.mjs",
+    "diagrams:validate": "node tools/diagrams/validate.mjs"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "11.16.0",
+    "bpmn-js": "18.21.0",
+    "bpmnlint": "11.12.1",
+    "puppeteer": "25.3.0"
+  }
+}

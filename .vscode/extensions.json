@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "jebbs.plantuml",
+    "contextmapper.context-mapper-vscode-extension",
+    "systemticks.c4-dsl-extension",
+    "bpmn-io.vs-code-bpmn-io"
+  ]
+}
+

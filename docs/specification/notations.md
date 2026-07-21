@@ -20,4 +20,4 @@ Prefer established, text-based notations that can be reviewed and versioned.
 | Threat modeling | STRIDE with data-flow diagrams | systematic threat discovery |
 | Personas/UX | ISO 9241-210 human-centred design process | research-backed artifacts; clearly mark proto-personas |
 
-Diagram source belongs beside its owning specification. Generated images are derived artifacts. Mermaid or PlantUML may be chosen later as renderers; renderer choice must not distort the standard semantics being expressed.
+Diagram source belongs beside its owning specification. Generated images are derived artifacts. The notation-aware renderer and validation policy is defined in [Diagram Tooling](../engineering/diagram-tooling.md); renderer choice must not distort the standard semantics being expressed.

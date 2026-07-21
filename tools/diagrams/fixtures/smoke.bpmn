@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Smoke" targetNamespace="https://example.invalid/a3se">
+  <bpmn:process id="Process_Smoke" name="Validate diagram" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_Request" name="Source ready">
+      <bpmn:outgoing>Flow_Validate</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_Validate" name="Validate diagram">
+      <bpmn:incoming>Flow_Validate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Complete</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_Complete" name="Validation complete">
+      <bpmn:incoming>Flow_Complete</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Validate" sourceRef="StartEvent_Request" targetRef="Task_Validate" />
+    <bpmn:sequenceFlow id="Flow_Complete" sourceRef="Task_Validate" targetRef="EndEvent_Complete" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Smoke">
+    <bpmndi:BPMNPlane id="BPMNPlane_Smoke" bpmnElement="Process_Smoke">
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="StartEvent_Request">
+        <dc:Bounds x="160" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task" bpmnElement="Task_Validate">
+        <dc:Bounds x="250" y="80" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End" bpmnElement="EndEvent_Complete">
+        <dc:Bounds x="430" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Validate" bpmnElement="Flow_Validate">
+        <di:waypoint x="196" y="120" />
+        <di:waypoint x="250" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Complete" bpmnElement="Flow_Complete">
+        <di:waypoint x="370" y="120" />
+        <di:waypoint x="430" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

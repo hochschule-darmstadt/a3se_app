@@ -1,0 +1,14 @@
+{
+  "node": "22.x",
+  "mermaidCli": "11.16.0",
+  "bpmnlint": "11.12.1",
+  "bpmnJs": "18.21.0",
+  "puppeteer": "25.3.0",
+  "plantuml": {
+    "version": "1.2026.3",
+    "url": "https://github.com/plantuml/plantuml/releases/download/v1.2026.3/plantuml-1.2026.3.jar",
+    "sha256": "53af6760d96bb2737e5e4386e832b46339fc29dec74f412d7c12db7c30db8ec4"
+  },
+  "structurizrImage": "structurizr/structurizr:2026.06.28-playwright",
+  "contextMapper": "6.12.0"
+}
