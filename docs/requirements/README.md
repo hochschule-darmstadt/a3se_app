@@ -12,6 +12,10 @@
 4. Elicit quality scenarios and constraints.
 5. Validate terminology, conflicts, feasibility, and traceability.
 
+## Discovery sources
+
+- [Quasar Enterprise, Chapter 1 analysis brief](sources/quasar-enterprise-chapter-1.md): use PDF pages 11–70 as business-functional inspiration, excluding management and methodology material.
+
 ## Requirement ID namespaces
 
 | Prefix | Meaning | Authoritative file |

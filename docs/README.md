@@ -13,7 +13,7 @@ This directory is the durable context harness for humans and AI agents. Document
 
 | Task | Read first | Then read |
 |---|---|---|
-| Requirements | [requirements/README.md](requirements/README.md) | glossary, stakeholders, use cases, quality requirements |
+| Requirements | [requirements/README.md](requirements/README.md) | discovery-source briefs, glossary, stakeholders, use cases, quality requirements |
 | Domain modeling | [domain/README.md](domain/README.md) | glossary, business rules, bounded contexts |
 | Architecture or stack | [architecture/README.md](architecture/README.md) | quality requirements, constraints, ADRs |
 | UX | [product/personas.md](product/personas.md) | use cases and accessibility constraints |
