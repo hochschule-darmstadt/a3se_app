@@ -1,0 +1,15 @@
+# Specialist Agents
+
+- Status: proposed
+- Owner: Engineering
+- Last reviewed: 2026-07-21
+
+The collaboration protocol is defined in [operating-model.md](operating-model.md); durable negotiation state uses [shared-state.md](shared-state.md). Initial independent review charters are:
+
+- [qa.md](qa.md)
+- [security.md](security.md)
+- [ux.md](ux.md)
+- [domain.md](domain.md)
+- [architecture.md](architecture.md)
+
+These are roles, not necessarily permanent processes. The orchestrator activates only the specialists justified by task risk.

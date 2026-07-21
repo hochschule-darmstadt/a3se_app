@@ -1,2 +1,12 @@
-# a3se_app
-A tour operator app, demonstrating advanced AI-assisted software engineering (A3SE)
+# A3SE Tour Operator
+
+A requirements-first demonstration of advanced AI-assisted software engineering for a tour operator business information system.
+
+Technology choices are intentionally deferred until the requirements, domain boundaries, and quality goals provide enough evidence for an informed decision.
+
+Start with:
+
+- [AGENTS.md](AGENTS.md) for repository-wide agent rules.
+- [docs/README.md](docs/README.md) for the context map and reading paths.
+- [docs/requirements/README.md](docs/requirements/README.md) for requirements work.
+- [docs/engineering/continuous-spec-alignment.md](docs/engineering/continuous-spec-alignment.md) for keeping specifications and implementation aligned.
