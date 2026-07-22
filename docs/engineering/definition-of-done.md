@@ -12,3 +12,4 @@
 - Relevant checks passed; skipped checks and residual risks are explicit.
 - Traceability links point to authoritative artifacts.
 - Consequential decisions and changed assumptions are recorded.
+- Material AI-generated artifacts were critically reviewed, and consequential limitations or corrections were recorded in the appropriate specification, review, or decision artifact.

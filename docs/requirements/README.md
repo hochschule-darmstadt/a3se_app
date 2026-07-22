@@ -22,9 +22,10 @@
 |---|---|---|
 | `CAP-` | Business capability | [capabilities.md](capabilities.md) |
 | `UC-` | Use case | [use-cases.md](use-cases.md) |
+| `US-` | User story/backlog slice | [user-stories.md](user-stories.md) |
 | `FR-` | Functional requirement not adequately represented by a use case | [functional-requirements.md](functional-requirements.md) |
 | `QR-` | Quality requirement/scenario | [quality-requirements.md](quality-requirements.md) |
 | `CON-` | Constraint | [constraints.md](constraints.md) |
 | `BR-` | Business rule | [../domain/business-rules.md](../domain/business-rules.md) |
 
-Requirements use normative `shall` language only after acceptance. Draft discovery notes should use neutral language and identify their evidence.
+Requirements use normative `shall` language only after acceptance. Draft discovery notes should use neutral language and identify their evidence. User stories complement but do not replace goal-oriented use cases, business rules, or quality scenarios.

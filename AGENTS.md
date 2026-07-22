@@ -2,7 +2,7 @@
 
 ## Mission
 
-Build a tour operator business information system while demonstrating disciplined, advanced AI-assisted software engineering. Treat requirements, models, decisions, tests, and code as one evolving product specification.
+Build a tour operator business information system while demonstrating disciplined AI assistance across the complete software lifecycle, not merely rapid code generation. Treat requirements, models, decisions, tests, infrastructure, operational evidence, and code as one evolving product specification.
 
 ## Current phase
 
@@ -20,6 +20,8 @@ The project is in requirements engineering. Do not select a technology stack or 
 8. Keep documents concise, link rather than duplicate, and name one authoritative location for each fact.
 9. Surface contradictions and unresolved questions explicitly. Do not resolve material business questions without stakeholder evidence.
 10. Preserve user work and keep changes scoped to the assigned task.
+11. Critically validate AI-generated artifacts. Record material limitations, rejected output, human decisions, and validation evidence when they affect engineering decisions; do not present AI output as inherently correct.
+12. Write repository artifacts in English. Translate non-English sources by domain meaning, retaining the original term only when it is needed to resolve ambiguity.
 
 ## Definition of done
 

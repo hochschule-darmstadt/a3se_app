@@ -54,10 +54,13 @@ The second path is optional and defaults to an SVG beside the source. For C4, us
 | Concern | Source | Tool |
 |---|---|---|
 | UML and STRIDE data-flow diagrams | `.puml` | PlantUML |
+| Conceptual/logical data views | `.puml` | PlantUML UML or Information Engineering notation |
 | C4 model and views | `workspace.dsl` | Structurizr |
 | BPMN 2.0 processes | `.bpmn` | bpmnlint, bpmn-js-based SVG renderer, bpmn.io/Camunda-compatible editor |
 | Lightweight explanatory diagrams | `.mmd` | Mermaid CLI |
 | Strategic DDD context maps | `.cml` | Context Mapper 6.12.0, opt-in |
+
+Low-fidelity wireframes may be stored as reviewable SVG/image artifacts during discovery; after UI technology selection, prefer accessible executable HTML/CSS prototypes. The current tools cover the project's formal business, architecture, data, process, interaction, deployment, and threat-model views. D2 is intentionally not part of the project toolchain because it would overlap these capabilities without adding a required notation.
 
 Use the recommended VS Code extensions in `.vscode/extensions.json` for previews and interactive editing. Extensions are conveniences; repository validation is authoritative.
 
