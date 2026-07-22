@@ -14,7 +14,7 @@ The project is in requirements engineering. Do not select a technology stack or 
 2. Check the glossary and existing decisions before introducing a business or technical term.
 3. Distinguish facts, assumptions, proposals, and decisions. Never silently turn an assumption into a requirement.
 4. Give every requirement a stable identifier. Preserve identifiers when wording changes; retire rather than reuse them.
-5. Record consequential choices as ADRs. Technology remains undecided until requirements justify a choice.
+5. Record consequential choices as ADRs (Architecture Decision Records). Technology remains undecided until requirements justify a choice.
 6. Update affected specifications, diagrams, acceptance examples, and traceability in the same change as the behavior they describe.
 7. Use established notations and standards listed in [docs/specification/notations.md](docs/specification/notations.md). Do not invent a DSL when a suitable standard exists.
 8. Keep documents concise, link rather than duplicate, and name one authoritative location for each fact.
@@ -29,7 +29,7 @@ A change is complete only when its acceptance evidence is present, links and ide
 
 ## Agent collaboration
 
-Specialist agents are advisory unless explicitly delegated authority. They work from the same evidence, report findings with severity and confidence, and negotiate conflicts through the shared-state protocol in [docs/agents/operating-model.md](docs/agents/operating-model.md). No agent may silently overwrite another agent's unresolved decision.
+Specialist agents are advisory unless explicitly delegated authority. They work from the same evidence, report findings with severity and confidence, and negotiate temporary conflicts in the active session under the orchestrator. Persist only consequential outcomes or unresolved work in the appropriate authoritative project artifact or external task system. No agent may silently overwrite another agent's unresolved decision.
 
 ## Security and privacy
 

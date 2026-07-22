@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Engineering
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-07-22
 
 Specialists may be implemented with different models or execution environments according to data sensitivity, task complexity, cost, latency, and required tool access. Model selection must not change the evidence or quality bar.
 
@@ -20,9 +20,12 @@ Specialists may be implemented with different models or execution environments a
 1. The orchestrator gives each specialist the same task statement and relevant evidence.
 2. Specialists report independently before seeing proposed resolutions when bias matters.
 3. Each finding states evidence, affected IDs, severity, confidence, and a proposed action.
-4. Conflicts become explicit decision items in [shared-state.md](shared-state.md).
+4. Specialists and the orchestrator negotiate temporary conflicts in the active session context.
 5. The accountable owner accepts, rejects with rationale, requests evidence, or escalates.
-6. Only accepted outcomes update authoritative specifications.
+6. Persist only consequential outcomes or unresolved work that must survive the session, using the appropriate authoritative project artifact or external task system.
+7. Accepted outcomes are recorded directly in their authoritative requirement, rule, model, ADR, risk, test, or other project artifact—not in a generic coordination record.
+
+Session context is the default coordination medium. It may contain tentative findings and intermediate work, but it is not durable project documentation. Before a session ends, the orchestrator decides whether consequential unresolved work needs an explicit owner and durable record.
 
 ## Guardrails
 
