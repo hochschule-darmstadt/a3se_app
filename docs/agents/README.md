@@ -1,15 +1,14 @@
-# Specialist Agents
+# Agent Roles
 
-- Status: proposed
+- Status: accepted
 - Owner: Engineering
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-07-27
 
-The collaboration protocol is defined in [operating-model.md](operating-model.md). Normal coordination stays in session context; persist only consequential outcomes or unresolved work in the appropriate authoritative project artifact or external task system. Initial independent review charters are:
+The collaboration protocol and cross-cutting responsibility model are defined in [operating-model.md](operating-model.md). Normal coordination stays in session context; persist only consequential outcomes or unresolved work in the appropriate authoritative project artifact or external task system. The role charters are:
 
+- [product-domain.md](product-domain.md)
+- [engineering.md](engineering.md)
 - [qa.md](qa.md)
-- [security.md](security.md)
-- [ux.md](ux.md)
-- [domain.md](domain.md)
-- [architecture.md](architecture.md)
+- [operations-reliability.md](operations-reliability.md)
 
-These are roles, not necessarily permanent processes. The orchestrator activates only the specialists justified by task risk.
+The orchestrator is defined directly in the operating model. Roles are responsibilities, not necessarily permanent processes or separate agents. Dedicated specialists may be activated when task risk requires independent expertise.

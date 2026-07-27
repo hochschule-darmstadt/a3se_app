@@ -19,7 +19,7 @@ This directory is the durable context harness for humans and AI agents. Document
 | UX | [product/personas.md](product/personas.md) | use cases and accessibility constraints |
 | QA | requirements and acceptance criteria | use cases, quality scenarios, traceability |
 | Security/privacy | stakeholders and context | [security/README.md](security/README.md), threats, relevant ADRs |
-| Agent orchestration | [agents/operating-model.md](agents/operating-model.md) | specialist charters and collaboration rules |
+| Agent orchestration | [agents/operating-model.md](agents/operating-model.md) | role charters and collaboration rules |
 | Re-engineering | [reengineering/README.md](reengineering/README.md) | inventory, target design, impact analysis, and validation |
 | Infrastructure/operations | [operations/README.md](operations/README.md) | IaC, CI/CD, deployment, and operability evidence |
 
@@ -34,7 +34,7 @@ This directory is the durable context harness for humans and AI agents. Document
 - [architecture/](architecture/): architecture drivers, candidate technologies, and decisions
 - [technology/](technology/): selected stack and stack-specific engineering guidance (empty until decided)
 - [security/](security/): data classification, threats, controls, and privacy concerns
-- [agents/](agents/): specialist-agent charters and collaboration protocol
+- [agents/](agents/): agent role charters and collaboration protocol
 - [engineering/](engineering/): workflow, quality gates, and continuous alignment
 - [testing/](testing/): AI-assisted test design, automation, and validation strategy
 - [automation/](automation/): conversational agents, workflow automation, and multi-agent systems
