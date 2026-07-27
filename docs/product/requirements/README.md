@@ -16,10 +16,12 @@
 
 - [Quasar Enterprise, Chapter 1 analysis brief](sources/quasar-enterprise-chapter-1.md): use PDF pages 11–70 as business-functional inspiration, excluding management and methodology material.
 
-## Requirement ID namespaces
+## Stable ID namespaces
 
 | Prefix | Meaning | Authoritative file |
 |---|---|---|
+| `STK-` | Stakeholder or actor | [../stakeholders.md](../stakeholders.md) |
+| `PER-` | Persona or proto-persona | [../personas.md](../personas.md) |
 | `CAP-` | Business capability | [capabilities.md](capabilities.md) |
 | `UC-` | Use case | [use-cases.md](use-cases.md) |
 | `US-` | User story/backlog slice | [user-stories.md](user-stories.md) |

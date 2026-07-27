@@ -13,3 +13,5 @@ This theme is authoritative for stakeholder intent and the product specification
 - [vision.md](vision.md), [stakeholders.md](stakeholders.md), [personas.md](personas.md), and [glossary.md](glossary.md): shared product context
 
 Product artifacts state what outcomes and behavior are required without prematurely selecting implementation technology.
+
+Begin a coherent slice of product work with the [Product Definition Playbook](../governance/agents/product-definition-playbook.md).

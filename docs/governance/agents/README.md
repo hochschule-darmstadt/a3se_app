@@ -11,4 +11,8 @@ The collaboration protocol and cross-cutting responsibility model are defined in
 - [qa.md](qa.md)
 - [operations.md](operations.md)
 
+The operational playbook needed for the current phase is:
+
+- [Product Definition Playbook](product-definition-playbook.md)
+
 The orchestrator is defined directly in the operating model. Roles are responsibilities, not necessarily permanent processes or separate agents. Dedicated specialists may be activated when task risk requires independent expertise.

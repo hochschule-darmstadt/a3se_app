@@ -1,7 +1,7 @@
 # Technology Evaluation
 
 - Status: draft
-- Owner: Architecture
+- Owner: Engineering
 - Last reviewed: 2026-07-21
 
 ## Architecture drivers

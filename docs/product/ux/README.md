@@ -1,7 +1,7 @@
 # UX, Accessibility, and Wireframes
 
 - Status: draft
-- Owner: UX/Product
+- Owner: Product
 - Last reviewed: 2026-07-22
 
 Use human-centred design informed by stakeholder and user research. Link journeys, wireframes, and UI concepts to personas/proto-personas, actor goals, use cases, and acceptance evidence.

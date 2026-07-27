@@ -5,7 +5,7 @@
 - Last reviewed: 2026-07-27
 
 1. Start from an identified requirement, risk, defect, or decision.
-2. Declare scope and affected stable IDs.
+2. Declare scope and affected stable IDs using the [artifact authority and lifecycle](artifact-lifecycle.md).
 3. Make the smallest coherent change, including specifications and acceptance evidence.
 4. Run proportionate checks and independent specialist review where risk warrants it.
 5. Reconcile traceability and continuous alignment.

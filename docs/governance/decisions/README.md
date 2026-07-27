@@ -10,3 +10,4 @@ Use immutable, sequential files such as `0001-short-title.md`, copied from [../t
 | [ADR-0002](0002-adopt-five-role-agent-operating-model.md) | Adopt a five-role agent operating model | accepted | 2026-07-27 | none |
 | [ADR-0003](0003-organize-documentation-by-information-theme.md) | Organize documentation by information theme | accepted | 2026-07-27 | none |
 | [ADR-0004](0004-defer-dedicated-ai-assistance-governance.md) | Defer dedicated AI-assistance governance | accepted | 2026-07-27 | ADR-0003 (in part) |
+| [ADR-0005](0005-operationalize-product-definition-harness.md) | Operationalize the product-definition harness | accepted | 2026-07-27 | none |

@@ -1,7 +1,7 @@
 # Quasar Enterprise, Chapter 1: Discovery Report
 
 - Status: draft
-- Owner: Product/Domain
+- Owner: Product
 - Last reviewed: 2026-07-22
 - Source brief: [quasar-enterprise-chapter-1.md](quasar-enterprise-chapter-1.md)
 

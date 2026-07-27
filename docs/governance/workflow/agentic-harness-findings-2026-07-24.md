@@ -1,6 +1,6 @@
 # Agentic Engineering Harness Review
 
-- Status: draft
+- Status: deprecated
 - Owner: Engineering
 - Last reviewed: 2026-07-27
 
@@ -17,6 +17,20 @@ The review focused on:
 - specialist-agent roles and collaboration guidance;
 - engineering workflow, traceability, and decision practices;
 - the current separation between specification artifacts and delivery/planning artifacts.
+
+## Resolution
+
+This review is retained as historical evidence. Its actionable findings were resolved or deliberately deferred on 2026-07-27:
+
+| Finding | Resolution |
+|---|---|
+| Documentation structure was difficult to navigate | Covered by [ADR-0003](../decisions/0003-organize-documentation-by-information-theme.md) and the five authoritative themes. |
+| Specification and delivery authority was implicit | Covered by [Artifact Authority and Lifecycle](artifact-lifecycle.md). |
+| No promotion path or product-definition slice policy | Covered by the lifecycle and product-definition slice sections of the artifact lifecycle. |
+| Agent charters lacked operational guidance | Covered for the current phase by the [Product Definition Playbook](../agents/product-definition-playbook.md); other role playbooks remain deferred until their phases require them. |
+| Harness integrity checks were mostly manual | Initial objective checks are implemented by `npm run harness:validate`; semantic correctness remains a review responsibility. |
+
+The repository may now begin product definition. Revisit the deferred role playbooks and delivery integration when accepted product requirements justify implementation planning.
 
 ## Executive summary
 
@@ -84,9 +98,9 @@ The intended separation between `Spec` and `Delivery/PM` is not yet written down
 
 This is a material improvement opportunity because humans can often compensate for this ambiguity informally, while agents generally cannot.
 
-### 6. Specialist-agent roles exist, but mostly as charters rather than operational skills
+### 6. Specialist-agent roles existed mostly as charters rather than operational skills
 
-The role definitions for domain, QA, UX, security, and architecture are directionally strong. They set quality expectations and review posture well.
+At the time of the review, the role definitions for domain, QA, UX, security, and architecture were directionally strong. They set quality expectations and review posture well. These roles were later consolidated into the accepted five-role operating model.
 
 However, they are not yet full operational playbooks. Missing elements include:
 
@@ -207,10 +221,10 @@ For the findings in this document, `docs/governance/workflow/` is the correct ho
 
 ## Open questions
 
-- Should the repository define a dedicated artifact for `business slice`, or keep slices implicit through links between capabilities, use cases, stories, and acceptance examples?
-- Should the specification/delivery reference model live in `docs/governance/workflow/` or be summarized in `docs/README.md` as a first-class navigation concept?
-- Which parts of the harness should remain human-judgment-based, and which should become machine-checkable first?
+- Resolved: define a product-definition slice as a linked set of authoritative artifacts, not as another catalog.
+- Resolved: keep the detailed artifact reference model in `docs/governance/workflow/` and link it from navigation and workflow guidance.
+- Resolved for the current phase: automate objective structure, links, IDs, placeholders, and ADR consistency; retain semantic correctness as human and specialist judgment.
 
 ## Suggested next step
 
-Create a short authoritative `artifact reference model` document under `docs/governance/workflow/` and link it from the main context map and workflow guidance.
+Completed. Begin product definition using the Product Definition Playbook and revisit this historical review only when evaluating later-phase harness needs.

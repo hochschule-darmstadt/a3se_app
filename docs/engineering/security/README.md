@@ -1,7 +1,7 @@
 # Security, Privacy, and Data
 
 - Status: draft
-- Owner: Security/Privacy
+- Owner: Engineering
 - Last reviewed: 2026-07-21
 
 Security and privacy requirements are elicited with the domain requirements, not added only after implementation.

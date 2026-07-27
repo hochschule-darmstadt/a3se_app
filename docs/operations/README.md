@@ -1,7 +1,7 @@
 # Infrastructure, Delivery, and Operations
 
 - Status: draft
-- Owner: Platform/Engineering
+- Owner: Operations
 - Last reviewed: 2026-07-22
 
 This area will contain:

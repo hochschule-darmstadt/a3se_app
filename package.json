@@ -5,6 +5,7 @@
     "node": ">=22 <23"
   },
   "scripts": {
+    "harness:validate": "node tools/harness/validate.mjs",
     "diagrams:doctor": "node tools/diagrams/doctor.mjs",
     "diagrams:render": "node tools/diagrams/render.mjs",
     "diagrams:validate": "node tools/diagrams/validate.mjs"

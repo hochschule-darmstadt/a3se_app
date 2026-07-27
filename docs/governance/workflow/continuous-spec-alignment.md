@@ -6,6 +6,8 @@
 
 Continuous Spec Alignment keeps stakeholder intent, requirements, models, decisions, acceptance examples, tests, and implementation mutually consistent throughout delivery.
 
+Artifact authority, status transitions, and product-definition slices are defined in [Artifact Authority and Lifecycle](artifact-lifecycle.md).
+
 ## Alignment loop
 
 1. Detect a change in intent, evidence, behavior, or constraints.
@@ -25,3 +27,9 @@ Continuous Spec Alignment keeps stakeholder intent, requirements, models, decisi
 - Changed behavior has corresponding specification and test changes, or a recorded rationale.
 
 Automate these checks incrementally after document formats stabilize. Automation supports judgment; it cannot decide whether stakeholder intent and system behavior are semantically aligned.
+
+Run the current structural checks with:
+
+```powershell
+npm run harness:validate
+```

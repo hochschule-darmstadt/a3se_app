@@ -1,7 +1,7 @@
 # Specification Languages and Notations
 
 - Status: proposed
-- Owner: Architecture
+- Owner: Engineering
 - Last reviewed: 2026-07-21
 
 Prefer established, text-based notations that can be reviewed and versioned.

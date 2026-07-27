@@ -32,7 +32,8 @@ Folders express authoritative information themes, not exclusive role ownership. 
 | QA | [quality/testing/README.md](quality/testing/README.md) | requirements, acceptance criteria, quality scenarios, and traceability |
 | Infrastructure/operations | [operations/README.md](operations/README.md) | IaC, CI/CD, deployment, and operability evidence |
 | Agent orchestration | [governance/agents/operating-model.md](governance/agents/operating-model.md) | role charters and collaboration rules |
-| Engineering workflow | [governance/workflow/commit-workflow.md](governance/workflow/commit-workflow.md) | definition of done and continuous alignment |
+| Product definition | [governance/agents/product-definition-playbook.md](governance/agents/product-definition-playbook.md) | artifact lifecycle, product sources, and relevant specifications |
+| Engineering workflow | [governance/workflow/commit-workflow.md](governance/workflow/commit-workflow.md) | artifact lifecycle, definition of done, and continuous alignment |
 | Notations and standards | [governance/standards/notations.md](governance/standards/notations.md) | diagram tooling and templates |
 
 ## Context hygiene

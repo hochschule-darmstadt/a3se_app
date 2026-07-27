@@ -10,4 +10,3 @@ Use the established form: `As a <role>, I want <goal>, so that <outcome>.` Add a
 
 | ID | Story | Linked capability/use case | Acceptance evidence | Status |
 |---|---|---|---|---|
-| US-001 | To be discovered | | | draft |

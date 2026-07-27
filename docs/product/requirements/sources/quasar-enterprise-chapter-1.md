@@ -1,7 +1,7 @@
 # Quasar Enterprise, Chapter 1: Analysis Brief
 
 - Status: accepted
-- Owner: Product/Domain
+- Owner: Product
 - Last reviewed: 2026-07-22
 - Source: [Buch Quasar Enterprise (2007-12-20).pdf](../../../governance/references/Buch%20Quasar%20Enterprise%20(2007-12-20).pdf)
 - Discovery report: [quasar-enterprise-chapter-1-discovery-report.md](quasar-enterprise-chapter-1-discovery-report.md)

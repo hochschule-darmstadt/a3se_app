@@ -1,7 +1,7 @@
 # Data Modeling and Governance
 
 - Status: draft
-- Owner: Domain/Data/Architecture
+- Owner: Product
 - Last reviewed: 2026-07-22
 
 Progress from business meaning to implementation:

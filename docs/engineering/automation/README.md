@@ -1,7 +1,7 @@
 # Conversational, Workflow, and Multi-Agent Automation
 
 - Status: draft
-- Owner: Product/Architecture/AI Engineering
+- Owner: Product/Engineering
 - Last reviewed: 2026-07-22
 
 This area governs chatbots, workflow automation, and multi-agent systems. Features must arise from a clear user or operational goal; do not add an LLM merely to satisfy a technology checklist.

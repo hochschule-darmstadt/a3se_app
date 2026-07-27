@@ -1,7 +1,7 @@
 # Technology Stack Guidance
 
 - Status: draft
-- Owner: Architecture/Engineering
+- Owner: Engineering
 - Last reviewed: 2026-07-21
 
 This area is intentionally empty of stack choices. Populate it only after an accepted ADR selects a technology.

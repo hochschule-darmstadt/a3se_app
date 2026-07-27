@@ -1,7 +1,7 @@
 # Architecture and Technology
 
 - Status: draft
-- Owner: Architecture
+- Owner: Engineering
 - Last reviewed: 2026-07-21
 
 No stack is selected. Architecture begins with business goals, quality scenarios, constraints, domain boundaries, risks, and team context.

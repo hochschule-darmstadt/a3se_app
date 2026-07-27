@@ -10,4 +10,3 @@ Use the Cockburn-style template in [../../governance/templates/use-case.md](../.
 
 | ID | Goal | Primary actor | Linked capabilities | Status |
 |---|---|---|---|---|
-| UC-001 | To be discovered | | | draft |

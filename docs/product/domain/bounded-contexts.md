@@ -1,7 +1,7 @@
 # Bounded Contexts and Context Map
 
 - Status: draft
-- Owner: Domain/Architecture
+- Owner: Product
 - Last reviewed: 2026-07-21
 
 Do not treat an initial noun list or organizational chart as context boundaries. Record evidence from language differences, business capabilities, consistency needs, ownership, and rates of change.

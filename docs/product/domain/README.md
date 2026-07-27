@@ -1,7 +1,7 @@
 # Domain Model
 
 - Status: draft
-- Owner: Domain
+- Owner: Product
 - Last reviewed: 2026-07-21
 
 Apply strategic DDD before tactical patterns. Discover language, processes, policies, consistency boundaries, and context relationships before proposing aggregates or services.
