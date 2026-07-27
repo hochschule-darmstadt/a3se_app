@@ -9,10 +9,10 @@ Specialists may be implemented with different models or execution environments a
 ## Roles
 
 - Orchestrator: scopes work, assigns bounded tasks, manages dependencies, and integrates results.
-- Product and domain: protects stakeholder outcomes, scope, rules, language, traceability, user experience, accessibility, and product-side privacy expectations.
+- Product: protects stakeholder outcomes, scope, rules, language, traceability, user experience, accessibility, and product-side privacy expectations.
 - Engineering: evaluates architecture trade-offs, records decisions, implements accepted behavior, maintains technology guidance, and validates implementation quality.
 - QA: challenges testability, edge cases, consistency, and acceptance evidence.
-- Operations and reliability: protects deployability, observability, resilience, recovery, capacity, and operational security.
+- Operations: protects deployability, observability, resilience, recovery, capacity, and operational security.
 
 These are responsibilities, not necessarily permanent processes or separate agents. The orchestrator activates only the roles justified by the task and may combine them when independence is not required. Role-specific technology and platform guidance remains deferred until accepted decisions establish it.
 
@@ -20,9 +20,9 @@ These are responsibilities, not necessarily permanent processes or separate agen
 
 Security and privacy remain explicit cross-cutting responsibilities:
 
-- Product and domain owns user privacy expectations, data minimization, and appropriate user control.
+- Product owns user privacy expectations, data minimization, and appropriate user control.
 - Engineering owns threat modeling, secure architecture, secure implementation, and dependency hygiene.
-- Operations and reliability owns infrastructure security, secrets handling, operational access, recovery, and incident readiness.
+- Operations owns infrastructure security, secrets handling, operational access, recovery, and incident readiness.
 - QA independently challenges abuse cases, control behavior, and security acceptance evidence.
 
 The orchestrator activates a dedicated security/privacy specialist when work involves identity, payments, sensitive personal data, externally exposed interfaces, trust-boundary changes, consequential threats, or uncertain legal obligations.

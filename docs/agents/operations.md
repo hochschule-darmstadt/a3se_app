@@ -1,4 +1,4 @@
-# Operations and Reliability Agent Charter
+# Operations Agent Charter
 
 - Status: accepted
 - Owner: Operations/Engineering

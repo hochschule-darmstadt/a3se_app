@@ -29,12 +29,12 @@ The initial operating model defined separate product/domain, UX/accessibility, s
 Use five roles:
 
 - Orchestrator;
-- Product and domain, including UX, accessibility, and product-side privacy;
+- Product, including domain responsibilities, UX, accessibility, and product-side privacy;
 - Engineering, including architecture, implementation, secure engineering, and technology guidance;
 - QA;
-- Operations and reliability, including operational security.
+- Operations, including reliability and operational security.
 
-Security and privacy are cross-cutting responsibilities distributed among product and domain, engineering, QA, and operations and reliability. The orchestrator activates a dedicated specialist when risk or uncertainty requires independent expertise.
+Security and privacy are cross-cutting responsibilities distributed among Product, Engineering, QA, and Operations. The orchestrator activates a dedicated specialist when risk or uncertainty requires independent expertise.
 
 The roles exist before technologies or platforms are selected. Their charters remain technology-independent; specific coding, tooling, deployment, and operational rules are added only after accepted decisions establish them.
 
