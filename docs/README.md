@@ -2,6 +2,16 @@
 
 This directory is the durable context harness for humans and AI agents. Documents should be loaded progressively: begin here, then read only the sources relevant to the task.
 
+## Authoritative themes
+
+- [governance/](governance/): agent roles, decisions, workflows, standards, references, and templates
+- [product/](product/): stakeholder intent, requirements, domain knowledge, UX, and data meaning
+- [engineering/](engineering/): architecture, technology, security engineering, automation, and engineering tooling
+- [quality/](quality/): independent testing and validation strategy and evidence
+- [operations/](operations/): infrastructure, CI/CD, deployment, observability, resilience, and recovery
+
+Folders express authoritative information themes, not exclusive role ownership. Cross-cutting concerns such as security, privacy, accessibility, reliability, and AI validation retain the responsibilities defined in the operating model and definition of done.
+
 ## Status vocabulary
 
 - `draft`: incomplete and open for discussion
@@ -24,17 +34,6 @@ This directory is the durable context harness for humans and AI agents. Document
 | Agent orchestration | [governance/agents/operating-model.md](governance/agents/operating-model.md) | role charters and collaboration rules |
 | Engineering workflow | [governance/workflow/commit-workflow.md](governance/workflow/commit-workflow.md) | definition of done and continuous alignment |
 | Notations and standards | [governance/standards/notations.md](governance/standards/notations.md) | diagram tooling and templates |
-| AI-assisted work | [governance/ai-assistance/README.md](governance/ai-assistance/README.md) | validation evidence, risks, and relevant decisions |
-
-## Authoritative themes
-
-- [product/](product/): stakeholder intent, requirements, domain knowledge, UX, and data meaning
-- [engineering/](engineering/): architecture, technology, security engineering, automation, and engineering tooling
-- [quality/](quality/): independent testing and validation strategy and evidence
-- [operations/](operations/): infrastructure, CI/CD, deployment, observability, resilience, and recovery
-- [governance/](governance/): agent roles, decisions, workflows, standards, AI-assistance policy, references, and templates
-
-Folders express authoritative information themes, not exclusive role ownership. Cross-cutting concerns such as security, privacy, accessibility, reliability, and AI validation retain the responsibilities defined in the operating model and definition of done.
 
 ## Context hygiene
 

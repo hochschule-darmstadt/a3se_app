@@ -10,7 +10,6 @@ This theme is authoritative for rules governing project work:
 - [decisions/](decisions/): immutable architecture decision records
 - [workflow/](workflow/): commit workflow, definition of done, continuous alignment, and harness findings
 - [standards/](standards/): approved specification languages and notations
-- [ai-assistance/](ai-assistance/): critical evaluation and governance of AI-assisted work
 - [references/](references/): source publications retained for evidence and educational context
 - [templates/](templates/): canonical document fragments
 

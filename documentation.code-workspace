@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "name": "Governance",
+      "path": "docs/governance"
+    },
+    {
+      "name": "Product",
+      "path": "docs/product"
+    },
+    {
+      "name": "Engineering",
+      "path": "docs/engineering"
+    },
+    {
+      "name": "Quality",
+      "path": "docs/quality"
+    },
+    {
+      "name": "Operations",
+      "path": "docs/operations"
+    }
+  ]
+}

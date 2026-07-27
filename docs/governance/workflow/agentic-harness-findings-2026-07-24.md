@@ -36,7 +36,6 @@ The repository already includes a coherent set of early-phase artifacts and guid
 - `docs/governance/workflow/` for workflow, continuous alignment, and definition of done;
 - `docs/engineering/tooling/` for diagram and other engineering tools;
 - `docs/governance/decisions/` for ADRs;
-- `docs/governance/ai-assistance/` for AI-assistance governance;
 - `docs/engineering/automation/` for product and workflow automation design.
 
 In addition, the discovery brief and discovery report derived from *Quasar Enterprise* provide the most content-rich current source for early requirements work.
@@ -201,7 +200,7 @@ Recommended placement policy:
 
 - `docs/governance/workflow/` for harness design, artifact models, workflow rules, and repository operating policies.
 - `docs/governance/agents/` for role charters, orchestration rules, and specialist-agent operating contracts.
-- `docs/governance/ai-assistance/` for reflections on AI assistance quality, risks, validation limits, and workflow learning.
+- the owning workflow, review, risk, or decision artifact for consequential reflections on AI assistance quality, risks, validation limits, and workflow learning.
 - `docs/governance/decisions/` for accepted and consequential decisions about the harness itself when trade-offs need durable recording.
 
 For the findings in this document, `docs/governance/workflow/` is the correct home because the content governs workflow and artifact responsibilities across roles.
