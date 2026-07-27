@@ -4,7 +4,7 @@
 - Owner: Engineering/Architecture
 - Last reviewed: 2026-07-21
 
-The toolchain implements [ADR-0001](../decisions/0001-diagrams-as-code-toolchain.md). Sources are authoritative; SVGs are derived review artifacts.
+The toolchain implements [ADR-0001](../../governance/decisions/0001-diagrams-as-code-toolchain.md). Sources are authoritative; SVGs are derived review artifacts.
 
 ## Prerequisites
 

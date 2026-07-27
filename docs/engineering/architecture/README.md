@@ -14,4 +14,4 @@ No stack is selected. Architecture begins with business goals, quality scenarios
 4. Use time-boxed evidence or spikes for material uncertainty.
 5. Record the decision and rejected alternatives in an ADR.
 
-See [technology-evaluation.md](technology-evaluation.md) and [../decisions/README.md](../decisions/README.md).
+See [technology-evaluation.md](technology-evaluation.md) and [architecture decisions](../../governance/decisions/README.md).

@@ -23,9 +23,9 @@ Prefer established, text-based notations that can be reviewed and versioned.
 | Threat modeling | STRIDE with data-flow diagrams | systematic threat discovery |
 | Personas/UX | ISO 9241-210 human-centred design process | research-backed artifacts; clearly mark proto-personas |
 | UI concepts | annotated low-fidelity wireframes, followed by accessible executable prototypes | information hierarchy, actions, states, and interaction hypotheses |
-| Re-engineering exchange | CycloneDX or SPDX for SBOMs; SARIF for static-analysis findings | machine-readable inventory and findings, not proof of runtime behavior |
+| Software supply chain and findings exchange | CycloneDX or SPDX for SBOMs; SARIF for static-analysis findings | machine-readable inventory and findings, not proof of runtime behavior |
 | Infrastructure | declarative platform-native IaC plus C4 deployment views | reproducible resources and deployment communication after platform selection |
 
-Diagram source belongs beside its owning specification. Generated images are derived artifacts. The notation-aware renderer and validation policy is defined in [Diagram Tooling](../engineering/diagram-tooling.md); renderer choice must not distort the standard semantics being expressed.
+Diagram source belongs beside its owning specification. Generated images are derived artifacts. The notation-aware renderer and validation policy is defined in [Diagram Tooling](../../engineering/tooling/diagram-tooling.md); renderer choice must not distort the standard semantics being expressed.
 
 Not every artifact benefits from a diagram DSL. Personas, ethical reflection, AI evaluation results, and most quality scenarios are usually clearer as structured text or tables. Wireframes need visual review but have no single standards-equivalent notation; do not mislabel generic boxes and arrows as UML or BPMN.

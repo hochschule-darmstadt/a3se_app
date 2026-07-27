@@ -50,5 +50,5 @@ Review when a tool is unsupported, a security issue affects a pinned version, re
 
 ## Links
 
-- [Diagram tooling](../engineering/diagram-tooling.md)
-- [Specification notations](../specification/notations.md)
+- [Diagram tooling](../../engineering/tooling/diagram-tooling.md)
+- [Specification notations](../standards/notations.md)

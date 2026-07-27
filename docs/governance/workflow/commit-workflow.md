@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Engineering
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-07-27
 
 1. Start from an identified requirement, risk, defect, or decision.
 2. Declare scope and affected stable IDs.

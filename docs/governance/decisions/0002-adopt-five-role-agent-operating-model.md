@@ -62,5 +62,5 @@ Review the model when role boundaries repeatedly cause missed concerns, handoff 
 
 - [Multi-agent operating model](../agents/operating-model.md)
 - [Agent roles](../agents/README.md)
-- [Engineering workflow](../engineering/workflow.md)
-- [Technology stack guidance](../technology/README.md)
+- [Commit workflow](../workflow/commit-workflow.md)
+- [Technology stack guidance](../../engineering/technology/README.md)

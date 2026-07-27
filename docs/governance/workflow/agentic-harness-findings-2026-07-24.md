@@ -2,7 +2,7 @@
 
 - Status: draft
 - Owner: Engineering
-- Last reviewed: 2026-07-24
+- Last reviewed: 2026-07-27
 
 ## Purpose
 
@@ -31,13 +31,13 @@ The main gap is not missing structure, but missing operationalization. The repos
 The repository already includes a coherent set of early-phase artifacts and guidance, especially in:
 
 - `docs/README.md` as the context map and reading-path entry point;
-- `docs/product/` for vision, stakeholders, glossary, and personas;
-- `docs/requirements/` for capabilities, use cases, user stories, functional requirements, quality requirements, constraints, and traceability;
-- `docs/domain/` for business rules, bounded contexts, and domain modeling;
-- `docs/agents/` for role charters and multi-agent collaboration;
-- `docs/engineering/` for workflow, continuous alignment, definition of done, and diagram rules;
-- `docs/decisions/` for ADRs;
-- `docs/responsible-ai/` and `docs/automation/` for AI-method and automation governance.
+- `docs/product/` for vision, stakeholders, glossary, personas, requirements, domain knowledge, UX, and data meaning;
+- `docs/governance/agents/` for role charters and multi-agent collaboration;
+- `docs/governance/workflow/` for workflow, continuous alignment, and definition of done;
+- `docs/engineering/tooling/` for diagram and other engineering tools;
+- `docs/governance/decisions/` for ADRs;
+- `docs/governance/ai-assistance/` for AI-assistance governance;
+- `docs/engineering/automation/` for product and workflow automation design.
 
 In addition, the discovery brief and discovery report derived from *Quasar Enterprise* provide the most content-rich current source for early requirements work.
 
@@ -199,19 +199,19 @@ Meta-artifacts should not all go into one folder. Their placement should depend 
 
 Recommended placement policy:
 
-- `docs/engineering/` for harness design, artifact models, workflow rules, and repository operating policies.
-- `docs/agents/` for role charters, orchestration rules, and specialist-agent operating contracts.
-- `docs/responsible-ai/` for reflections on AI assistance quality, risks, validation limits, and workflow learning.
-- `docs/decisions/` for accepted and consequential decisions about the harness itself when trade-offs need durable recording.
+- `docs/governance/workflow/` for harness design, artifact models, workflow rules, and repository operating policies.
+- `docs/governance/agents/` for role charters, orchestration rules, and specialist-agent operating contracts.
+- `docs/governance/ai-assistance/` for reflections on AI assistance quality, risks, validation limits, and workflow learning.
+- `docs/governance/decisions/` for accepted and consequential decisions about the harness itself when trade-offs need durable recording.
 
-For the findings in this document, `docs/engineering/` is the correct home because the content mainly governs engineering workflow and artifact responsibilities.
+For the findings in this document, `docs/governance/workflow/` is the correct home because the content governs workflow and artifact responsibilities across roles.
 
 ## Open questions
 
 - Should the repository define a dedicated artifact for `business slice`, or keep slices implicit through links between capabilities, use cases, stories, and acceptance examples?
-- Should the specification/delivery reference model live in `docs/engineering/` or be summarized in `docs/README.md` as a first-class navigation concept?
+- Should the specification/delivery reference model live in `docs/governance/workflow/` or be summarized in `docs/README.md` as a first-class navigation concept?
 - Which parts of the harness should remain human-judgment-based, and which should become machine-checkable first?
 
 ## Suggested next step
 
-Create a short authoritative `artifact reference model` document under `docs/engineering/` and link it from the main context map and workflow guidance.
+Create a short authoritative `artifact reference model` document under `docs/governance/workflow/` and link it from the main context map and workflow guidance.

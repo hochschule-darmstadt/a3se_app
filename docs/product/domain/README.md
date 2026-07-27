@@ -9,4 +9,4 @@ Apply strategic DDD before tactical patterns. Discover language, processes, poli
 - [business-rules.md](business-rules.md): policy and invariant catalog
 - [bounded-contexts.md](bounded-contexts.md): candidate semantic boundaries and context map
 - [domain-model.md](domain-model.md): concepts and behavior within accepted contexts
-- [../product/glossary.md](../product/glossary.md): ubiquitous language
+- [../glossary.md](../glossary.md): ubiquitous language

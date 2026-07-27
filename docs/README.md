@@ -1,6 +1,6 @@
 # Project Context Map
 
-This directory is the durable context harness for humans and AI agents. Documents should be loaded progressively: begin here, then read only the sources relevant to the current task.
+This directory is the durable context harness for humans and AI agents. Documents should be loaded progressively: begin here, then read only the sources relevant to the task.
 
 ## Status vocabulary
 
@@ -13,36 +13,28 @@ This directory is the durable context harness for humans and AI agents. Document
 
 | Task | Read first | Then read |
 |---|---|---|
-| Requirements | [requirements/README.md](requirements/README.md) | discovery-source briefs, glossary, stakeholders, use cases, quality requirements |
-| Domain modeling | [domain/README.md](domain/README.md) | glossary, business rules, bounded contexts |
-| Architecture or stack | [architecture/README.md](architecture/README.md) | quality requirements, constraints, ADRs |
+| Requirements | [product/requirements/README.md](product/requirements/README.md) | discovery sources, glossary, stakeholders, use cases, quality requirements |
+| Domain modeling | [product/domain/README.md](product/domain/README.md) | glossary, business rules, bounded contexts |
 | UX | [product/personas.md](product/personas.md) | use cases and accessibility constraints |
-| QA | requirements and acceptance criteria | use cases, quality scenarios, traceability |
-| Security/privacy | stakeholders and context | [security/README.md](security/README.md), threats, relevant ADRs |
-| Agent orchestration | [agents/operating-model.md](agents/operating-model.md) | role charters and collaboration rules |
-| Re-engineering | [reengineering/README.md](reengineering/README.md) | inventory, target design, impact analysis, and validation |
+| Data | [product/data/README.md](product/data/README.md) | domain model, classification, privacy, and ownership |
+| Architecture or stack | [engineering/architecture/README.md](engineering/architecture/README.md) | quality requirements, constraints, technology guidance, and ADRs |
+| Security/privacy | [engineering/security/README.md](engineering/security/README.md) | stakeholders, data classification, threats, and relevant ADRs |
+| QA | [quality/testing/README.md](quality/testing/README.md) | requirements, acceptance criteria, quality scenarios, and traceability |
 | Infrastructure/operations | [operations/README.md](operations/README.md) | IaC, CI/CD, deployment, and operability evidence |
+| Agent orchestration | [governance/agents/operating-model.md](governance/agents/operating-model.md) | role charters and collaboration rules |
+| Engineering workflow | [governance/workflow/commit-workflow.md](governance/workflow/commit-workflow.md) | definition of done and continuous alignment |
+| Notations and standards | [governance/standards/notations.md](governance/standards/notations.md) | diagram tooling and templates |
+| AI-assisted work | [governance/ai-assistance/README.md](governance/ai-assistance/README.md) | validation evidence, risks, and relevant decisions |
 
-## Authoritative areas
+## Authoritative themes
 
-- [product/](product/): vision, scope, stakeholders, and glossary
-- [requirements/](requirements/): functional and quality requirements with acceptance evidence
-- [ux/](ux/): user research, journeys, wireframes, accessibility, and UI concepts
-- [domain/](domain/): domain language, rules, models, and boundaries
-- [data/](data/): conceptual, logical, and physical data models and governance
-- [specification/](specification/): approved notations and diagram-as-code rules
-- [architecture/](architecture/): architecture drivers, candidate technologies, and decisions
-- [technology/](technology/): selected stack and stack-specific engineering guidance (empty until decided)
-- [security/](security/): data classification, threats, controls, and privacy concerns
-- [agents/](agents/): agent role charters and collaboration protocol
-- [engineering/](engineering/): workflow, quality gates, and continuous alignment
-- [testing/](testing/): AI-assisted test design, automation, and validation strategy
-- [automation/](automation/): conversational agents, workflow automation, and multi-agent systems
-- [reengineering/](reengineering/): brownfield inventory, restructuring, and forward-engineering evidence
-- [operations/](operations/): infrastructure as code, CI/CD, deployment, and operations
-- [responsible-ai/](responsible-ai/): critical evaluation and ethical, legal, societal, and professional reflection
-- [decisions/](decisions/): immutable architecture decision records
-- [templates/](templates/): canonical document fragments to copy when adding content
+- [product/](product/): stakeholder intent, requirements, domain knowledge, UX, and data meaning
+- [engineering/](engineering/): architecture, technology, security engineering, automation, and engineering tooling
+- [quality/](quality/): independent testing and validation strategy and evidence
+- [operations/](operations/): infrastructure, CI/CD, deployment, observability, resilience, and recovery
+- [governance/](governance/): agent roles, decisions, workflows, standards, AI-assistance policy, references, and templates
+
+Folders express authoritative information themes, not exclusive role ownership. Cross-cutting concerns such as security, privacy, accessibility, reliability, and AI validation retain the responsibilities defined in the operating model and definition of done.
 
 ## Context hygiene
 

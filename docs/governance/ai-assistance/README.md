@@ -1,8 +1,8 @@
-# Responsible AI-Assisted Engineering
+# AI Assistance Governance
 
 - Status: draft
-- Owner: Engineering/Security
-- Last reviewed: 2026-07-22
+- Owner: Engineering
+- Last reviewed: 2026-07-27
 
 Evaluate AI assistance as an engineering method and, if included, AI behavior as a product capability.
 
