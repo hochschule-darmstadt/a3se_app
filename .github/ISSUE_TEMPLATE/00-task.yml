@@ -1,0 +1,78 @@
+# Canonical source: docs/governance/templates/task.md
+name: Task
+description: Track concrete lifecycle, analysis, decision, implementation, test, or operational work.
+title: "[Task] "
+labels:
+  - task
+projects:
+  - hochschule-darmstadt/2
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A task organizes work. Its outputs become authoritative only through the applicable review and acceptance process.
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Intended outcome
+      description: Describe the concrete result or deliverable and why it is needed.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Preconditions and dependencies
+      description: Link blocking or blocked issues and state required evidence, accepted specifications, decisions, access, or other entry conditions.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: State the work that is included and explicitly excluded.
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Affected artifacts
+      description: Link relevant IDs, specifications, decisions, risks, evidence, code, tests, infrastructure, or operational guidance.
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Approach
+      description: Describe the planned work at the level needed for review. Separate constraints from proposals.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance evidence
+      description: Describe the artifacts, checks, reviews, or decisions that will demonstrate completion.
+    validations:
+      required: true
+  - type: textarea
+    id: lifecycle
+    attributes:
+      label: Lifecycle considerations
+      description: Cover relevant requirements, architecture, implementation, test, security, privacy, accessibility, operations, data, and management implications.
+    validations:
+      required: true
+  - type: textarea
+    id: questions
+    attributes:
+      label: Open questions
+      description: List unresolved matters, owners, and the evidence or decision needed to close them.
+    validations:
+      required: false
+  - type: checkboxes
+    id: completion
+    attributes:
+      label: Completion
+      options:
+        - label: Preconditions and dependencies are satisfied or explicitly waived with rationale.
+        - label: Intended artifacts and affected stable IDs are updated or linked.
+        - label: Acceptance evidence and relevant lifecycle reviews are present.
+        - label: Residual risks, skipped checks, and follow-up work are explicit.

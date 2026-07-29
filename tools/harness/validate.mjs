@@ -205,6 +205,11 @@ for (const [number, indexed] of indexedDecisions) {
 
 const issueTemplatePairs = [
   {
+    canonical: 'docs/governance/templates/task.md',
+    form: '.github/ISSUE_TEMPLATE/00-task.yml',
+    label: 'task'
+  },
+  {
     canonical: 'docs/governance/templates/feature.md',
     form: '.github/ISSUE_TEMPLATE/01-feature.yml',
     label: 'feature'

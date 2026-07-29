@@ -26,12 +26,13 @@ The project needs a simple, visible mechanism for proposing features, reporting 
 
 ## Decision
 
-Use GitHub Issues for work tracking. Use two issue kinds:
+Use GitHub Issues for work tracking. Use three issue kinds:
 
+- `task` for concrete lifecycle, governance, analysis, decision, implementation, test, or operational work;
 - `feature` for proposed capabilities, behavior changes, or lifecycle improvements;
 - `bug` for observed deviations from accepted expectations.
 
-The canonical Markdown templates are [feature.md](../templates/feature.md) and [bug.md](../templates/bug.md). GitHub Issue Forms in `.github/ISSUE_TEMPLATE/` implement those templates for manual entry, apply the corresponding `feature` or `bug` label, and add new issues to organization Project 2. Blank issue creation is disabled for ordinary contributors.
+The canonical Markdown templates are [task.md](../templates/task.md), [feature.md](../templates/feature.md), and [bug.md](../templates/bug.md). GitHub Issue Forms in `.github/ISSUE_TEMPLATE/` implement those templates for manual entry, apply the corresponding `task`, `feature`, or `bug` label, and add new issues to organization Project 2. Blank issue creation is disabled for ordinary contributors.
 
 Use a GitHub Project board owned by the `hochschule-darmstadt` organization and associated with this repository. Its `Status` field has exactly `Open`, `In progress`, and `Done`, and the board groups items by that field. New repository issues enter `Open`; completed items enter `Done` and the underlying issue is closed as completed.
 
@@ -43,7 +44,7 @@ Status is Project metadata, not a repository label. GitHub's native issue state 
 
 ### Positive
 
-- Feature and bug reports request consistent, lifecycle-aware evidence.
+- Task, feature, and bug reports request consistent, lifecycle-aware evidence.
 - Agents can use templates without depending on GitHub availability.
 - Manual GitHub entry receives equivalent guidance.
 - A small board communicates progress without a parallel status-label system.
@@ -56,7 +57,7 @@ Status is Project metadata, not a repository label. GitHub's native issue state 
 
 ## Validation and revisit triggers
 
-The harness validator checks that both canonical templates and GitHub forms exist, reference one another, use the expected labels, and disable blank issues. Revisit when issue volume justifies additional types, priorities, workflow states, or automation.
+The harness validator checks that all canonical templates and GitHub forms exist, reference one another, use the expected labels, and disable blank issues. Revisit when issue volume justifies additional types, priorities, workflow states, or automation.
 
 ## Links
 

@@ -32,7 +32,7 @@ Discovery material does not become a requirement merely because it appears plaus
 | What consequential choice was made? | Decision record | `DR-` |
 | How are evidence, specifications, delivery, and validation related? | Traceability catalog | referenced IDs |
 
-Plans and GitHub Issues organize work; they are not authoritative for stakeholder intent. Reprioritizing or closing them does not change accepted requirements. Use the canonical [feature](../templates/feature.md) and [bug](../templates/bug.md) templates.
+Plans and GitHub Issues organize work; they are not authoritative for stakeholder intent. Reprioritizing or closing them does not change accepted requirements. Use the canonical [task](../templates/task.md), [feature](../templates/feature.md), and [bug](../templates/bug.md) templates.
 
 ## Lifecycle
 
