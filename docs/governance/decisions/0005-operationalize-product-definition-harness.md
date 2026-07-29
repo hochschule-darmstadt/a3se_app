@@ -1,9 +1,10 @@
-# ADR-0005: Operationalize the product-definition harness
+# DR-0005: Operationalize the product-definition harness
 
 - Status: accepted
 - Date: 2026-07-27
 - Deciders: project owner and engineering
 - Supersedes: none
+- Superseded by: DR-0006 in part
 
 ## Context
 
@@ -17,7 +18,7 @@ Before product definition begins:
 - provide an operational Product Definition Playbook for the current phase;
 - reserve stable identifiers only for real artifacts rather than placeholder rows;
 - align artifact owners with the accepted five-role operating model;
-- validate relative links, stable IDs, placeholder misuse, and ADR index consistency with `npm run harness:validate`.
+- validate relative links, stable IDs, placeholder misuse, and decision-record index consistency with `npm run harness:validate`.
 
 Automate objective integrity rules while retaining product meaning, evidence sufficiency, and semantic consistency as accountable human and specialist judgments. Defer other role playbooks and technology-specific checks until their lifecycle phases require them.
 
@@ -42,7 +43,8 @@ Run `npm run harness:validate` for documentation changes. Revisit when new artif
 
 ## Links
 
-- [Artifact Authority and Lifecycle](../workflow/artifact-lifecycle.md)
-- [Product Definition Playbook](../agents/product-definition-playbook.md)
-- [Continuous Specification Alignment](../workflow/continuous-spec-alignment.md)
-- [Definition of Done](../workflow/definition-of-done.md)
+- [Artifact Authority and Lifecycle](../workflows/artifact-lifecycle.md)
+- [Requirements Engineering Workflow](../workflows/requirements-workflow.md)
+- [Continuous Specification Alignment](../workflows/continuous-spec-alignment.md)
+- [Definition of Done](../workflows/definition-of-done.md)
+- [DR-0006](0006-align-harness-with-lifecycle-terminology.md)

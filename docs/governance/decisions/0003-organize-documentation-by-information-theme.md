@@ -1,9 +1,10 @@
-# ADR-0003: Organize documentation by information theme
+# DR-0003: Organize documentation by information theme
 
-- Status: accepted
+- Status: deprecated
 - Date: 2026-07-27
 - Deciders: project owner and engineering
 - Supersedes: none
+- Superseded by: DR-0006
 
 ## Context
 
@@ -60,5 +61,6 @@ Validate relative links, repository instructions, path-sensitive automation, and
 ## Links
 
 - [Project context map](../../README.md)
-- [Multi-agent operating model](../agents/operating-model.md)
-- [Definition of done](../workflow/definition-of-done.md)
+- [Superseding lifecycle operating model](../agents/README.md)
+- [Definition of done](../workflows/definition-of-done.md)
+- [DR-0006](0006-align-harness-with-lifecycle-terminology.md)

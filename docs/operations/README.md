@@ -1,16 +1,11 @@
-# Infrastructure, Delivery, and Operations
+# Operations
 
 - Status: draft
 - Owner: Operations
-- Last reviewed: 2026-07-22
+- Last reviewed: 2026-07-29
 
-This area will contain:
+Operations covers delivery and runtime concerns including reproducible builds, deployment, configuration, observability, resilience, backup, recovery, capacity, cost, access, and incident readiness.
 
-- infrastructure as code and environment definitions;
-- reproducible build and dependency management;
-- CI quality gates and CD promotion controls;
-- deployment topology and configuration policy;
-- observability, backup/restore, incident, rollback, and recovery guidance;
-- operational quality evidence and cost considerations.
+- [deployment-architecture.md](deployment-architecture.md): deployment topology and operational boundaries
 
-IaC language, cloud/platform, container strategy, and CI/CD product are technology decisions and remain undecided. Prefer declarative, reviewable, least-privilege automation with pinned dependencies and environment parity.
+Infrastructure language, cloud or platform, container strategy, and CI/CD product remain undecided. Operational requirements should influence architecture before platform selection.

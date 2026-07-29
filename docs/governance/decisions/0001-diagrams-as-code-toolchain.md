@@ -1,4 +1,4 @@
-# ADR-0001: Adopt a notation-aware diagrams-as-code toolchain
+# DR-0001: Adopt a notation-aware diagrams-as-code toolchain
 
 - Status: accepted
 - Date: 2026-07-21
@@ -50,5 +50,5 @@ Review when a tool is unsupported, a security issue affects a pinned version, re
 
 ## Links
 
-- [Diagram tooling](../../engineering/tooling/diagram-tooling.md)
+- [Diagram tooling](../tooling/diagram-tooling.md)
 - [Specification notations](../standards/notations.md)

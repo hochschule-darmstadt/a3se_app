@@ -3,19 +3,17 @@ import { dirname, extname, relative, resolve, sep } from 'node:path';
 
 const root = resolve(import.meta.dirname, '../..');
 const docs = resolve(root, 'docs');
-const adrDirectory = resolve(docs, 'governance/decisions');
+const decisionDirectory = resolve(docs, 'governance/decisions');
 const ignoredDirectories = new Set(['.git', '.diagram-tools', 'node_modules']);
-const knownPrefixes = ['STK', 'PER', 'CAP', 'UC', 'US', 'FR', 'QR', 'CON', 'BR'];
+const knownPrefixes = ['STK', 'CAP', 'UC', 'FR', 'QR', 'CON', 'BR'];
 const authoritativeDefinitions = new Map([
-  ['STK', 'docs/product/stakeholders.md'],
-  ['PER', 'docs/product/personas.md'],
-  ['CAP', 'docs/product/requirements/capabilities.md'],
-  ['UC', 'docs/product/requirements/use-cases.md'],
-  ['US', 'docs/product/requirements/user-stories.md'],
-  ['FR', 'docs/product/requirements/functional-requirements.md'],
-  ['QR', 'docs/product/requirements/quality-requirements.md'],
-  ['CON', 'docs/product/requirements/constraints.md'],
-  ['BR', 'docs/product/domain/business-rules.md']
+  ['STK', 'docs/requirements/actors.md'],
+  ['CAP', 'docs/requirements/capabilities.md'],
+  ['UC', 'docs/requirements/use-cases.md'],
+  ['FR', 'docs/requirements/functional-requirements.md'],
+  ['QR', 'docs/requirements/quality-requirements.md'],
+  ['CON', 'docs/requirements/constraints.md'],
+  ['BR', 'docs/requirements/business-rules.md']
 ]);
 const errors = [];
 
@@ -32,6 +30,15 @@ function walk(directory) {
     else files.push(path);
   }
   return files;
+}
+
+function walkDirectories(directory) {
+  const directories = [directory];
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if (!entry.isDirectory() || ignoredDirectories.has(entry.name)) continue;
+    directories.push(...walkDirectories(resolve(directory, entry.name)));
+  }
+  return directories;
 }
 
 function error(file, line, message) {
@@ -100,6 +107,11 @@ function validateLinks(file, markdown) {
 }
 
 const markdownFiles = walk(root).filter((file) => extname(file).toLowerCase() === '.md');
+for (const directory of walkDirectories(docs)) {
+  if (!existsSync(resolve(directory, 'README.md'))) {
+    error(directory, 0, 'directory has no README.md');
+  }
+}
 const definitions = new Map();
 const references = new Map();
 const idPattern = new RegExp(`\\b(${knownPrefixes.join('|')})-(\\d+)\\b`, 'gu');
@@ -117,8 +129,8 @@ for (const file of markdownFiles) {
       references.get(id).push({ file, line: lineNumber });
     }
 
-    const tableDefinition = line.match(/^\s*\|\s*((?:STK|PER|CAP|UC|US|FR|QR|CON|BR)-\d{3,})\s*\|/u);
-    const headingDefinition = line.match(/^#{1,6}\s+((?:STK|PER|CAP|UC|US|FR|QR|CON|BR)-\d{3,})\b/u);
+    const tableDefinition = line.match(/^\s*\|\s*((?:STK|CAP|UC|FR|QR|CON|BR)-\d{3,})\s*\|/u);
+    const headingDefinition = line.match(/^#{1,6}\s+((?:STK|CAP|UC|FR|QR|CON|BR)-\d{3,})\b/u);
     const id = tableDefinition?.[1] ?? headingDefinition?.[1];
     if (!id) continue;
     const prefix = id.split('-')[0];
@@ -141,46 +153,52 @@ for (const [id, locations] of references) {
   for (const location of locations) error(location.file, location.line, `references undefined stable ID ${id}`);
 }
 
-const adrFiles = readdirSync(adrDirectory)
+const decisionFiles = readdirSync(decisionDirectory)
   .filter((name) => /^\d{4}-.+\.md$/u.test(name))
   .sort();
-const adrIndexFile = resolve(adrDirectory, 'README.md');
-const adrIndex = readFileSync(adrIndexFile, 'utf8');
-const indexedAdrs = new Map();
+const decisionIndexFile = resolve(decisionDirectory, 'README.md');
+const decisionIndex = readFileSync(decisionIndexFile, 'utf8');
+const indexedDecisions = new Map();
 
-for (const [offset, line] of adrIndex.split(/\r?\n/u).entries()) {
+for (const [offset, line] of decisionIndex.split(/\r?\n/u).entries()) {
   const match = line.match(
-    /^\|\s*\[ADR-(\d{4})\]\(([^)]+)\)\s*\|\s*[^|]+\|\s*([^|]+)\|/u
+    /^\|\s*\[(DR-(\d{4}))\]\(([^)]+)\)\s*\|\s*[^|]+\|\s*([^|]+)\|/u
   );
   if (!match) continue;
-  const [, number, filename, status] = match;
-  if (indexedAdrs.has(number)) error(adrIndexFile, offset + 1, `duplicates ADR-${number} in the index`);
-  indexedAdrs.set(number, { filename, status: status.trim(), line: offset + 1 });
+  const [, id, number, filename, status] = match;
+  if (indexedDecisions.has(number)) {
+    error(decisionIndexFile, offset + 1, `duplicates decision number ${number} in the index`);
+  }
+  indexedDecisions.set(number, { id, filename, status: status.trim(), line: offset + 1 });
 }
 
-for (const filename of adrFiles) {
-  const file = resolve(adrDirectory, filename);
+for (const filename of decisionFiles) {
+  const file = resolve(decisionDirectory, filename);
   const number = filename.slice(0, 4);
   const markdown = readFileSync(file, 'utf8');
-  if (!markdown.startsWith(`# ADR-${number}:`)) error(file, 1, `heading does not match ADR-${number}`);
+  const heading = markdown.match(/^# (DR-(\d{4})):/u);
+  if (!heading || heading[2] !== number) error(file, 1, `heading does not match decision number ${number}`);
   const status = markdown.match(/^- Status:\s*([a-z]+)\s*$/mu)?.[1];
   if (!status) error(file, 0, 'has no valid status metadata');
-  const indexed = indexedAdrs.get(number);
+  const indexed = indexedDecisions.get(number);
   if (!indexed) {
-    error(adrIndexFile, 0, `does not index ADR-${number}`);
+    error(decisionIndexFile, 0, `does not index decision number ${number}`);
     continue;
   }
+  if (heading && indexed.id !== heading[1]) {
+    error(decisionIndexFile, indexed.line, `indexes ${indexed.id}, expected ${heading[1]}`);
+  }
   if (indexed.filename !== filename) {
-    error(adrIndexFile, indexed.line, `links ADR-${number} to ${indexed.filename}, expected ${filename}`);
+    error(decisionIndexFile, indexed.line, `links decision ${number} to ${indexed.filename}, expected ${filename}`);
   }
   if (status && indexed.status !== status) {
-    error(adrIndexFile, indexed.line, `lists ADR-${number} as ${indexed.status}, expected ${status}`);
+    error(decisionIndexFile, indexed.line, `lists decision ${number} as ${indexed.status}, expected ${status}`);
   }
 }
 
-for (const [number, indexed] of indexedAdrs) {
-  if (!adrFiles.some((filename) => filename.startsWith(`${number}-`))) {
-    error(adrIndexFile, indexed.line, `indexes missing ADR-${number}`);
+for (const [number, indexed] of indexedDecisions) {
+  if (!decisionFiles.some((filename) => filename.startsWith(`${number}-`))) {
+    error(decisionIndexFile, indexed.line, `indexes missing decision number ${number}`);
   }
 }
 
@@ -190,5 +208,5 @@ if (errors.length) {
 }
 
 console.log(
-  `OK harness integrity: ${markdownFiles.length} Markdown files, ${definitions.size} stable IDs, ${adrFiles.length} ADRs`
+  `OK harness integrity: ${markdownFiles.length} Markdown files, ${definitions.size} stable IDs, ${decisionFiles.length} decision records`
 );

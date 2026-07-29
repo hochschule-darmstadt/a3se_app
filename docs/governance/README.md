@@ -1,16 +1,17 @@
 # Governance
 
 - Status: accepted
-- Owner: Engineering
-- Last reviewed: 2026-07-27
+- Owner: Management
+- Last reviewed: 2026-07-29
 
-This theme is authoritative for rules governing project work:
+Governance defines how lifecycle work is performed, reviewed, evidenced, and changed.
 
-- [agents/](agents/): role charters and collaboration protocol
-- [decisions/](decisions/): immutable architecture decision records
-- [workflow/](workflow/): artifact authority and lifecycle, commit workflow, definition of done, continuous alignment, and harness findings
+- [agents/](agents/): lifecycle responsibility charters and collaboration model
+- [workflows/](workflows/): artifact lifecycle, requirements workflow, continuous alignment, commit workflow, and definition of done
 - [standards/](standards/): approved specification languages and notations
-- [references/](references/): source publications retained for evidence and educational context
-- [templates/](templates/): canonical document fragments
+- [templates/](templates/): reusable document structures
+- [tooling/](tooling/): governed tool setup and validation policy
+- [decisions/](decisions/): consequential business, governance, architecture, technology, and operational decisions
+- [references/](references/): retained external source material
 
-Governance artifacts constrain how work is performed; they do not replace the authoritative product, engineering, quality, or operations artifacts.
+The [topic growth strategy](../README.md#topic-growth-strategy) governs when a single topic file becomes a directory.

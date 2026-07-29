@@ -10,6 +10,6 @@ Start with:
 
 - [AGENTS.md](AGENTS.md) for repository-wide agent rules.
 - [docs/README.md](docs/README.md) for the context map and reading paths.
-- [docs/product/requirements/README.md](docs/product/requirements/README.md) for requirements work.
-- [docs/governance/workflow/continuous-spec-alignment.md](docs/governance/workflow/continuous-spec-alignment.md) for keeping specifications and implementation aligned.
-- [docs/engineering/tooling/diagram-tooling.md](docs/engineering/tooling/diagram-tooling.md) for installing and using the pinned diagrams-as-code toolchain.
+- [docs/requirements/README.md](docs/requirements/README.md) for requirements work.
+- [docs/governance/workflows/continuous-spec-alignment.md](docs/governance/workflows/continuous-spec-alignment.md) for keeping lifecycle specifications aligned.
+- [docs/governance/tooling/diagram-tooling.md](docs/governance/tooling/diagram-tooling.md) for installing and using the pinned diagrams-as-code toolchain.

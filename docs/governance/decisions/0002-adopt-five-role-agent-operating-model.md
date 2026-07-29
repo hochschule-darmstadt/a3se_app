@@ -1,9 +1,10 @@
-# ADR-0002: Adopt a five-role agent operating model
+# DR-0002: Adopt a five-role agent operating model
 
-- Status: accepted
+- Status: deprecated
 - Date: 2026-07-27
 - Deciders: project owner and engineering
 - Supersedes: none
+- Superseded by: DR-0006
 
 ## Context
 
@@ -60,7 +61,8 @@ Review the model when role boundaries repeatedly cause missed concerns, handoff 
 
 ## Links
 
-- [Multi-agent operating model](../agents/operating-model.md)
+- [Superseding lifecycle operating model](../agents/README.md)
 - [Agent roles](../agents/README.md)
-- [Commit workflow](../workflow/commit-workflow.md)
-- [Technology stack guidance](../../engineering/technology/README.md)
+- [Commit workflow](../workflows/commit-workflow.md)
+- [Technology evaluation](../../architecture/technology.md)
+- [DR-0006](0006-align-harness-with-lifecycle-terminology.md)

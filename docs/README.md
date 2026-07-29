@@ -1,16 +1,22 @@
-# Project Context Map
+# Software Engineering Lifecycle Harness
 
-This directory is the durable context harness for humans and AI agents. Documents should be loaded progressively: begin here, then read only the sources relevant to the task.
+- Status: accepted
+- Owner: Management
+- Last reviewed: 2026-07-29
 
-## Authoritative themes
+This directory is the durable context harness for humans and AI agents. Start here, then load only the lifecycle information needed for the task. The folders organize authoritative information; they are not sequential phase gates or exclusive role boundaries.
 
-- [governance/](governance/): agent roles, decisions, workflows, standards, references, and templates
-- [product/](product/): stakeholder intent, requirements, domain knowledge, UX, and data meaning
-- [engineering/](engineering/): architecture, technology, security engineering, automation, and engineering tooling
-- [quality/](quality/): independent testing and validation strategy and evidence
-- [operations/](operations/): infrastructure, CI/CD, deployment, observability, resilience, and recovery
+## Lifecycle areas
 
-Folders express authoritative information themes, not exclusive role ownership. Cross-cutting concerns such as security, privacy, accessibility, reliability, and AI validation retain the responsibilities defined in the operating model and definition of done.
+- [requirements/](requirements/): business context, stakeholder needs, terminology, behavior, rules, constraints, UX, and source evidence
+- [architecture/](architecture/): system structure, data architecture, technology decisions, and security architecture
+- [implementation/](implementation/): technology-specific implementation guidance after technology selection
+- [test/](test/): independent test design, scenarios, and verification evidence
+- [operations/](operations/): deployment and runtime operation
+- [management/](management/): planning, stakeholder engagement, risks, and lifecycle coordination
+- [governance/](governance/): agents, workflows, standards, templates, tooling policy, references, and decisions
+
+Cross-cutting concerns such as security, privacy, accessibility, reliability, traceability, and AI validation remain shared responsibilities defined by the operating model and definition of done.
 
 ## Status vocabulary
 
@@ -23,19 +29,40 @@ Folders express authoritative information themes, not exclusive role ownership. 
 
 | Task | Read first | Then read |
 |---|---|---|
-| Requirements | [product/requirements/README.md](product/requirements/README.md) | discovery sources, glossary, stakeholders, use cases, quality requirements |
-| Domain modeling | [product/domain/README.md](product/domain/README.md) | glossary, business rules, bounded contexts |
-| UX | [product/personas.md](product/personas.md) | use cases and accessibility constraints |
-| Data | [product/data/README.md](product/data/README.md) | domain model, classification, privacy, and ownership |
-| Architecture or stack | [engineering/architecture/README.md](engineering/architecture/README.md) | quality requirements, constraints, technology guidance, and ADRs |
-| Security/privacy | [engineering/security/README.md](engineering/security/README.md) | stakeholders, data classification, threats, and relevant ADRs |
-| QA | [quality/testing/README.md](quality/testing/README.md) | requirements, acceptance criteria, quality scenarios, and traceability |
-| Infrastructure/operations | [operations/README.md](operations/README.md) | IaC, CI/CD, deployment, and operability evidence |
-| Agent orchestration | [governance/agents/operating-model.md](governance/agents/operating-model.md) | role charters and collaboration rules |
-| Product definition | [governance/agents/product-definition-playbook.md](governance/agents/product-definition-playbook.md) | artifact lifecycle, product sources, and relevant specifications |
-| Engineering workflow | [governance/workflow/commit-workflow.md](governance/workflow/commit-workflow.md) | artifact lifecycle, definition of done, and continuous alignment |
-| Notations and standards | [governance/standards/notations.md](governance/standards/notations.md) | diagram tooling and templates |
+| Requirements | [requirements/README.md](requirements/README.md) | glossary, actors, use cases, rules, constraints, UX, and sources |
+| Domain modeling | [requirements/context-map.md](requirements/context-map.md) | glossary, bounded contexts, business objects, and rules |
+| UX | [requirements/ux/README.md](requirements/ux/README.md) | actors, use cases, and quality requirements |
+| Architecture or technology | [architecture/README.md](architecture/README.md) | requirements, constraints, quality requirements, and decisions |
+| Implementation | [implementation/README.md](implementation/README.md) | accepted architecture and technology decision |
+| Test | [test/README.md](test/README.md) | requirements, acceptance examples, scenarios, and traceability |
+| Operations | [operations/README.md](operations/README.md) | architecture, deployment architecture, and operational risks |
+| Management | [management/README.md](management/README.md) | project plan, stakeholder management, and risk management |
+| Agent responsibilities | [governance/agents/README.md](governance/agents/README.md) | relevant lifecycle agent charter |
+| Workflow | [governance/workflows/README.md](governance/workflows/README.md) | artifact lifecycle and definition of done |
+| Standards and notations | [governance/standards/README.md](governance/standards/README.md) | relevant notation and tooling guidance |
+| Decisions | [governance/decisions/README.md](governance/decisions/README.md) | applicable decision records |
+
+## Topic growth strategy
+
+A topic starts as a single file such as `architecture.md`. When it needs independently reviewable parts, diagram sources, or supporting assets, replace that file with a same-named directory whose `README.md` is the topic entry point. Put the constituent files beside that README and preserve the topic title, authority, and inbound links.
+
+Examples:
+
+```text
+architecture.md
+```
+
+grows into:
+
+```text
+architecture/
+    README.md
+    context.puml
+    building-blocks.md
+```
+
+Do not create a directory merely to hold one short document. Existing multi-document collections such as standards, templates, tooling, decisions, references, workflows, and source evidence are already grown topics.
 
 ## Context hygiene
 
-Every substantive document begins with status, owner, and last-reviewed metadata. Prefer stable IDs and relative links. Avoid copying the same requirement into several files; link to its authoritative definition instead.
+Every directory has a `README.md`. Every substantive document begins with status, owner, and last-reviewed metadata. Prefer stable IDs and relative links. Link to one authoritative definition rather than copying it.

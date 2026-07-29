@@ -14,7 +14,7 @@ The project is in requirements engineering. Do not select a technology stack or 
 2. Check the glossary and existing decisions before introducing a business or technical term.
 3. Distinguish facts, assumptions, proposals, and decisions. Never silently turn an assumption into a requirement.
 4. Give every requirement a stable identifier. Preserve identifiers when wording changes; retire rather than reuse them.
-5. Record consequential choices as ADRs (Architecture Decision Records). Technology remains undecided until requirements justify a choice.
+5. Record consequential choices as decision records (DRs). Technology remains undecided until requirements justify a choice.
 6. Update affected specifications, diagrams, acceptance examples, and traceability in the same change as the behavior they describe.
 7. Use established notations and standards listed in [docs/governance/standards/notations.md](docs/governance/standards/notations.md). Do not invent a DSL when a suitable standard exists.
 8. Keep documents concise, link rather than duplicate, and name one authoritative location for each fact.
@@ -22,10 +22,11 @@ The project is in requirements engineering. Do not select a technology stack or 
 10. Preserve user work and keep changes scoped to the assigned task.
 11. Critically validate AI-generated artifacts. Record material limitations, rejected output, human decisions, and validation evidence when they affect engineering decisions; do not present AI output as inherently correct.
 12. Write repository artifacts in English. Translate non-English sources by domain meaning, retaining the original term only when it is needed to resolve ambiguity.
+13. Follow the topic growth strategy in [docs/README.md](docs/README.md): begin with `topic.md`; grow it into `topic/README.md` plus constituent files only when the topic needs independently reviewable parts or supporting assets. Every directory must contain a `README.md`.
 
 ## Definition of done
 
-A change is complete only when its acceptance evidence is present, links and identifiers remain valid, relevant specifications agree, and the checks in [docs/governance/workflow/definition-of-done.md](docs/governance/workflow/definition-of-done.md) pass.
+A change is complete only when its acceptance evidence is present, links and identifiers remain valid, relevant specifications agree, and the checks in [docs/governance/workflows/definition-of-done.md](docs/governance/workflows/definition-of-done.md) pass.
 
 ## Agent collaboration
 
