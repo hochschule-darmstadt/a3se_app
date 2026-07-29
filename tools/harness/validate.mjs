@@ -4,6 +4,7 @@ import { dirname, extname, relative, resolve, sep } from 'node:path';
 const root = resolve(import.meta.dirname, '../..');
 const docs = resolve(root, 'docs');
 const decisionDirectory = resolve(docs, 'governance/decisions');
+const issueTemplateDirectory = resolve(root, '.github/ISSUE_TEMPLATE');
 const ignoredDirectories = new Set(['.git', '.diagram-tools', 'node_modules']);
 const knownPrefixes = ['STK', 'CAP', 'UC', 'FR', 'QR', 'CON', 'BR'];
 const authoritativeDefinitions = new Map([
@@ -199,6 +200,50 @@ for (const filename of decisionFiles) {
 for (const [number, indexed] of indexedDecisions) {
   if (!decisionFiles.some((filename) => filename.startsWith(`${number}-`))) {
     error(decisionIndexFile, indexed.line, `indexes missing decision number ${number}`);
+  }
+}
+
+const issueTemplatePairs = [
+  {
+    canonical: 'docs/governance/templates/feature.md',
+    form: '.github/ISSUE_TEMPLATE/01-feature.yml',
+    label: 'feature'
+  },
+  {
+    canonical: 'docs/governance/templates/bug.md',
+    form: '.github/ISSUE_TEMPLATE/02-bug.yml',
+    label: 'bug'
+  }
+];
+
+for (const pair of issueTemplatePairs) {
+  const canonicalFile = resolve(root, pair.canonical);
+  const formFile = resolve(root, pair.form);
+  if (!existsSync(canonicalFile)) error(canonicalFile, 0, 'canonical issue template is missing');
+  if (!existsSync(formFile)) {
+    error(formFile, 0, 'GitHub issue form is missing');
+    continue;
+  }
+  const form = readFileSync(formFile, 'utf8');
+  if (!form.startsWith(`# Canonical source: ${pair.canonical}\n`)) {
+    error(formFile, 1, `must reference canonical source ${pair.canonical}`);
+  }
+  if (!new RegExp(`^\\s+- ${pair.label}\\s*$`, 'mu').test(form)) {
+    error(formFile, 0, `does not apply expected label ${pair.label}`);
+  }
+  if (!/^\s+- hochschule-darmstadt\/2\s*$/mu.test(form)) {
+    error(formFile, 0, 'does not add new issues to the governed GitHub Project');
+  }
+  if (!/^body:\s*$/mu.test(form)) error(formFile, 0, 'has no issue-form body');
+}
+
+const issueChooserFile = resolve(issueTemplateDirectory, 'config.yml');
+if (!existsSync(issueChooserFile)) {
+  error(issueChooserFile, 0, 'GitHub issue chooser configuration is missing');
+} else {
+  const issueChooser = readFileSync(issueChooserFile, 'utf8');
+  if (!/^blank_issues_enabled:\s*false\s*$/mu.test(issueChooser)) {
+    error(issueChooserFile, 0, 'must disable blank issues');
   }
 }
 

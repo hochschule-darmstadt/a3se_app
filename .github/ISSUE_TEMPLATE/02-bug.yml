@@ -1,0 +1,71 @@
+# Canonical source: docs/governance/templates/bug.md
+name: Bug
+description: Report observed behavior that contradicts an accepted expectation.
+title: "[Bug] "
+labels:
+  - bug
+projects:
+  - hochschule-darmstadt/2
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use synthetic, privacy-safe evidence. Never include secrets, credentials, or personal data.
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: Describe what happened and include relevant privacy-safe evidence.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Link the authoritative expectation, or state that the expected behavior still requires clarification.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide the smallest repeatable sequence, preconditions, frequency, and synthetic test data.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Identify relevant versions, configuration, deployment context, browser, device, or dependency without credentials.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact and severity
+      description: Describe affected actors, impact, scope, workaround, and proposed severity with rationale.
+    validations:
+      required: true
+  - type: textarea
+    id: lifecycle
+    attributes:
+      label: Lifecycle considerations
+      description: Identify affected requirements, architecture, implementation, tests, security/privacy controls, data, operations, and risks. Separate evidence from hypotheses.
+    validations:
+      required: true
+  - type: textarea
+    id: regression
+    attributes:
+      label: Regression evidence
+      description: Describe the test or evidence that will demonstrate the fix and prevent recurrence.
+    validations:
+      required: true
+  - type: checkboxes
+    id: completion
+    attributes:
+      label: Completion
+      options:
+        - label: Root cause or unresolved uncertainty is recorded.
+        - label: Authoritative specifications are reconciled where necessary.
+        - label: Regression evidence passes.
+        - label: Residual risks, skipped checks, and follow-up work are explicit.

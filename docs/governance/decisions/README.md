@@ -18,3 +18,4 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0004](0004-defer-dedicated-ai-assistance-governance.md) | Defer dedicated AI-assistance governance | accepted | 2026-07-27 | DR-0003 (in part) |
 | [DR-0005](0005-operationalize-product-definition-harness.md) | Operationalize the product-definition harness | accepted | 2026-07-27 | none |
 | [DR-0006](0006-align-harness-with-lifecycle-terminology.md) | Align the harness with software engineering lifecycle terminology | accepted | 2026-07-29 | DR-0002, DR-0003, DR-0005 in part |
+| [DR-0007](0007-govern-work-with-github-issues-and-project.md) | Govern work with GitHub Issues and a Project board | accepted | 2026-07-29 | none |

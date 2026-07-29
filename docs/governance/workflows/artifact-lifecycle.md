@@ -28,11 +28,11 @@ Discovery material does not become a requirement merely because it appears plaus
 | What limitation or provisional assumption applies? | Constraint and assumption catalog | `CON-` |
 | What term has what meaning in a context? | Glossary | none |
 | What behavior demonstrates acceptance? | Examples in or linked from the owning requirement | owning requirement ID |
-| What work is a negotiable delivery slice? | External planning or delivery item | external ID |
+| What work is a negotiable delivery slice or defect? | GitHub Issue | GitHub issue number |
 | What consequential choice was made? | Decision record | `DR-` |
 | How are evidence, specifications, delivery, and validation related? | Traceability catalog | referenced IDs |
 
-Plans and delivery items organize work; they are not authoritative for stakeholder intent. Reprioritizing them does not change accepted requirements.
+Plans and GitHub Issues organize work; they are not authoritative for stakeholder intent. Reprioritizing or closing them does not change accepted requirements. Use the canonical [feature](../templates/feature.md) and [bug](../templates/bug.md) templates.
 
 ## Lifecycle
 
