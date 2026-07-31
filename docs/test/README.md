@@ -8,4 +8,4 @@ This area defines independent test design and evidence across the lifecycle. Tes
 
 - [test-scenarios.md](test-scenarios.md): scenario catalog and test strategy
 
-Acceptance examples belong in or link from their owning requirements. Test evidence links back through [traceability](../requirements/traceability.md).
+Acceptance examples belong in or link from their owning requirements. Test evidence links directly back to the requirements it validates.

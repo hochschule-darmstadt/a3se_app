@@ -54,7 +54,7 @@ Detailed policies and stated gaps require stakeholder confirmation.
 
 ## Quality and compliance considerations
 
-make commercial commitment changes attributable and traceable.
+make commercial commitment changes attributable and auditable.
 
 ## Acceptance example
 

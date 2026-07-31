@@ -13,7 +13,7 @@ Stakeholder direction proposes `epic -> feature -> story`: an epic roughly corre
 
 ## Decision drivers
 
-- traceable alignment between product scope, bounded contexts, use cases, and delivery slices;
+- explicit alignment between product scope, bounded contexts, use cases, and delivery slices;
 - explicit parent-child relationships and completion rules;
 - independent, reviewable acceptance evidence;
 - separation of planning metadata from authoritative requirements;
@@ -22,7 +22,7 @@ Stakeholder direction proposes `epic -> feature -> story`: an epic roughly corre
 
 ## Considered options
 
-- Use labels only: visually simple, but labels neither enforce parentage nor express traceability.
+- Use labels only: visually simple, but labels neither enforce parentage nor express the required relationships.
 - Treat backlog items as the requirements artifacts: reduces links, but mixes planning state with specification approval and creates competing authority.
 - Use an explicit three-level planning hierarchy linked to authoritative artifacts: adds refinement discipline and maintenance, while preserving authority boundaries.
 
@@ -36,7 +36,7 @@ Adopt the model defined in [Backlog and Scope Management](../../management/backl
 - levels may not be skipped, and parent changes require rechecking authoritative links;
 - tasks and bugs remain supporting work types outside the product-scope hierarchy.
 
-The correspondence is traceable rather than identical. Backlog items do not approve or replace bounded contexts, use cases, requirements, rules, acceptance specifications, or decisions.
+The correspondence is explicit rather than identical. Backlog items do not approve or replace bounded contexts, use cases, requirements, rules, acceptance specifications, or decisions.
 
 Use GitHub parent/sub-issue relationships where available and include the parent URL in the issue body. Add all issue kinds to organization Project 2. Retain the `Status` field from DR-0007, enable the built-in `Parent issue` and `Sub-issue progress` fields, and add a `Backlog level` single-select field with `Epic`, `Feature`, `Story`, and `Supporting work`.
 

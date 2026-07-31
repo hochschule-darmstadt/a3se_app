@@ -15,7 +15,7 @@ The harness uses six lifecycle responsibilities:
 
 These are responsibilities, not necessarily permanent processes or separate agents. Management scopes work and activates only the responsibilities justified by a task. Roles may be combined when independence is not required; Test should remain independent when risk or acceptance confidence warrants it.
 
-Lifecycle folders organize information, not exclusive ownership. Security, privacy, accessibility, reliability, traceability, and AI validation remain cross-cutting. Activate dedicated expertise when identity, payments, sensitive personal data, externally exposed interfaces, trust-boundary changes, consequential threats, uncertain legal obligations, or material accessibility risks exceed the standing roles' evidence.
+Lifecycle folders organize information, not exclusive ownership. Security, privacy, accessibility, reliability, and AI validation remain cross-cutting. Activate dedicated expertise when identity, payments, sensitive personal data, externally exposed interfaces, trust-boundary changes, consequential threats, uncertain legal obligations, or material accessibility risks exceed the standing roles' evidence.
 
 ## Collaboration
 

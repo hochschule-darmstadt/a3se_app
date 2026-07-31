@@ -54,7 +54,7 @@ Detailed policies and stated gaps require stakeholder confirmation.
 
 ## Quality and compliance considerations
 
-preserve traceability to planning intent and procurement dependencies.
+preserve explicit links to planning intent and procurement dependencies.
 
 ## Acceptance example
 

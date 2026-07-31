@@ -40,7 +40,7 @@ The Customer documents become eligible or are requested.
 
 ## Success guarantee
 
-authorized access to current required documents with traceable issuance.
+authorized access to current required documents with auditable issuance.
 
 ## Minimal guarantee
 

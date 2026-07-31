@@ -16,7 +16,7 @@ This directory is the durable context harness for humans and AI agents. Start he
 - [management/](management/): planning, stakeholder engagement, risks, and lifecycle coordination
 - [governance/](governance/): agents, workflows, standards, templates, tooling policy, references, and decisions
 
-Cross-cutting concerns such as security, privacy, accessibility, reliability, traceability, and AI validation remain shared responsibilities defined by the operating model and definition of done.
+Cross-cutting concerns such as security, privacy, accessibility, reliability, and AI validation remain shared responsibilities defined by the operating model and definition of done.
 
 ## Status vocabulary
 
@@ -34,7 +34,7 @@ Cross-cutting concerns such as security, privacy, accessibility, reliability, tr
 | UX | [requirements/ux/README.md](requirements/ux/README.md) | actors, use cases, and quality requirements |
 | Architecture or technology | [architecture/README.md](architecture/README.md) | requirements, constraints, quality requirements, and decisions |
 | Implementation | [implementation/README.md](implementation/README.md) | accepted architecture and technology decision |
-| Test | [test/README.md](test/README.md) | requirements, acceptance examples, scenarios, and traceability |
+| Test | [test/README.md](test/README.md) | requirements, acceptance examples, scenarios, and validation evidence |
 | Operations | [operations/README.md](operations/README.md) | architecture, deployment architecture, and operational risks |
 | Management | [management/README.md](management/README.md) | project plan, stakeholder management, and risk management |
 | Agent responsibilities | [governance/agents/README.md](governance/agents/README.md) | relevant lifecycle agent charter |

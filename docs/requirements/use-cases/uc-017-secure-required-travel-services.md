@@ -44,7 +44,7 @@ all required services consistently committed and linked.
 
 ## Minimal guarantee
 
-attempts and partial results remain traceable and are not reported secured.
+attempts and partial results remain auditable and are not reported secured.
 
 ## Policies and information
 

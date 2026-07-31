@@ -22,14 +22,12 @@ Discovery material does not become a requirement merely because it appears plaus
 | Who interacts with the system? | Actor catalog | `ACT-` |
 | Who has an interest in the system without necessarily interacting with it? | Stakeholder management | none |
 | What actor goal and observable interaction must be supported? | Use case | `UC-` |
-| What behavior cannot be expressed adequately by a use case? | Functional requirement catalog | `FR-` |
 | What measurable quality outcome is required? | Quality requirement catalog | `QR-` |
 | What limitation or provisional assumption applies? | Constraint and assumption catalog | `CON-` |
 | What term has what meaning in a context? | Glossary | none |
 | What behavior demonstrates acceptance? | Examples in or linked from the owning requirement | owning requirement ID |
 | What work is a negotiable delivery slice or defect? | GitHub Issue | GitHub issue number |
 | What consequential choice was made? | Decision record | `DR-` |
-| How are evidence, specifications, delivery, and validation related? | Traceability catalog | referenced IDs |
 
 Plans and GitHub Issues organize work; they are not authoritative for stakeholder intent. Reprioritizing or closing them does not change accepted requirements. Use the canonical [task](../templates/task.md), [feature](../templates/feature.md), and [bug](../templates/bug.md) templates.
 
@@ -49,7 +47,7 @@ These activities iterate. They are not mandatory sequential project phases.
 
 ## Requirements slice
 
-A coherent requirements slice normally contains stakeholder outcomes, actor goals, relevant policies and information concepts, quality concerns and constraints, acceptance examples, source evidence and open questions, and traceability among affected artifacts. Work vertically through one reviewable slice before populating many catalogs horizontally.
+A coherent requirements slice normally contains stakeholder outcomes, actor goals, relevant policies and information concepts, quality concerns and constraints, acceptance examples, source evidence and open questions, and direct links among affected artifacts. Work vertically through one reviewable slice before populating many catalogs horizontally.
 
 ## Change propagation
 
