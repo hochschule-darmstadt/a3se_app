@@ -230,7 +230,7 @@ for (const pair of issueTemplatePairs) {
     continue;
   }
   const form = readFileSync(formFile, 'utf8');
-  if (!form.startsWith(`# Canonical source: ${pair.canonical}\n`)) {
+  if (form.split(/\r?\n/u)[0] !== `# Canonical source: ${pair.canonical}`) {
     error(formFile, 1, `must reference canonical source ${pair.canonical}`);
   }
   if (!new RegExp(`^\\s+- ${pair.label}\\s*$`, 'mu').test(form)) {
