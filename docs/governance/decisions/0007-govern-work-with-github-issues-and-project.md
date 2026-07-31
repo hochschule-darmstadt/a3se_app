@@ -61,6 +61,7 @@ The harness validator checks that all canonical templates and GitHub forms exist
 
 ## Links
 
+- Partially superseded by [DR-0008](0008-adopt-epic-feature-story-backlog-hierarchy.md), which proposes the product-scope hierarchy and narrows the meaning of `feature`.
 - [Templates](../templates/README.md)
 - [Artifact lifecycle](../workflows/artifact-lifecycle.md)
 - [Management](../../management/README.md)

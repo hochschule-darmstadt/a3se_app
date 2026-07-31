@@ -1,26 +1,26 @@
 # Feature
 
-Use this template for a proposed capability, behavior change, or lifecycle improvement. A feature issue is a planning item, not an accepted requirement.
+Use this template for one proposed actor goal represented by a use case within an epic. A feature is a planning item, not the authoritative use-case specification.
 
 ## Outcome and rationale
 
-Describe the stakeholder or engineering outcome and why it matters.
+Describe the actor outcome and why it matters.
 
-## Evidence and affected artifacts
+## Parent epic and use case
 
-Link source evidence, accepted requirement IDs, risks, decisions, or other authoritative artifacts. Classify unsupported statements as assumptions or proposals.
+Link exactly one epic parent and exactly one use case within that epic's bounded context. Link relevant source evidence and accepted requirement IDs; classify unsupported statements as assumptions or proposals.
 
 ## Scope
 
-State what is included and explicitly excluded.
+State the use-case flows included and explicitly excluded. List the intended story child issues, or explain why slicing is still pending.
 
 ## Acceptance evidence
 
-Describe observable acceptance examples, including normal, alternative, error, and boundary behavior where relevant.
+Summarize observable feature-level acceptance across the main success, alternative, exception, and boundary behavior. Keep detailed examples in authoritative requirements or child stories as appropriate.
 
-## Lifecycle considerations
+## Dependencies and lifecycle considerations
 
-Summarize relevant architecture, security, privacy, accessibility, test, operations, data, and management implications. Use `Not applicable` with a reason where appropriate.
+Link dependencies, risks, decisions, and relevant architecture, security, privacy, accessibility, data, test, operations, and management concerns.
 
 ## Open questions
 
@@ -28,7 +28,7 @@ List unresolved matters with an owner and the evidence or decision required to c
 
 ## Completion
 
-- [ ] Authoritative artifacts and affected stable IDs are updated or linked.
-- [ ] Acceptance evidence is present.
-- [ ] Relevant lifecycle reviews and checks pass.
+- [ ] The parent epic, use case, and requirement links are current.
+- [ ] Every intended story is linked or its removal is explained.
+- [ ] Feature-level acceptance evidence is present.
 - [ ] Residual risks, skipped checks, and follow-up work are explicit.
