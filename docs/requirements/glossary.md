@@ -14,6 +14,7 @@ The glossary defines the shared business vocabulary for the tour operator inform
 | Tour operator cycle | Feedback loop from seasonal planning and purchasing through product design, sales, travel order management, payment, document issuance, settlement, and subsequent planning | Tour Operator enterprise | Booking process, trip lifecycle |
 | Seasonal planner | Staff member who plans seasonal offerings and the capacity needed to support them | Travel Product Management | Purchaser |
 | Seasonal offering | Set of travel products and prices planned for a defined sales or travel season | Travel Product Management | Travel, travel order |
+| Travel product | Maintained travel offering that can be presented or used when composing travel | Travel Product Management | Travel service, itinerary |
 | Purchaser | Staff member who negotiates contracts, purchases capacity, and maintains supplier relationships | Procurement | Seasonal planner, supplier |
 | Supplier | External party that provides a travel service directly, such as a hotel or airline | Procurement | Intermediary, tour operator |
 | Intermediary | External party through which the tour operator obtains on-demand travel services under a commercial agreement | Procurement | Supplier, broker, aggregator |
@@ -27,6 +28,7 @@ The glossary defines the shared business vocabulary for the tour operator inform
 | Itinerary | Ordered sequence of travel legs, stays, locations, and related services that makes up travel | Travel Product Design | Product, travel order |
 | Plausibility check | Evaluation that a customer-assembled combination of components is operationally coherent and allowed | Travel Product Design | Availability check |
 | Sale price | Amount charged to the customer for travel or a travel service | Sales | Purchase price |
+| Sales offer | Commercial proposal presented to a customer for an orderable travel composition at a sale price | Sales | Seasonal offering, travel order |
 | Travel advisor | Human staff member or automated conversational agent that assists a customer with travel selection, composition, or ordering | Customer Interaction | Travel agency, customer service agent |
 | Availability check | Verification that each required travel service can still be committed from internal capacity or an external party | Sales | Plausibility check, reservation |
 | Reservation | Commitment or hold for one travel service required by a travel order | Order Management | Travel order |
