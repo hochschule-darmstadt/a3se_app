@@ -14,8 +14,9 @@ Read the populated requirements documents in this order, moving from overall int
 2. [Glossary](glossary.md) establishes the shared business language used by all subsequent documents.
 3. [Bounded Contexts](bounded-contexts/bounded-contexts.md) divides the Tour Operator enterprise into coherent areas of responsibility and provides the structural overview.
 4. [Actors](actors.md) identifies the people, external parties, and external systems that interact with those contexts.
-5. [Business Objects](business-objects.md) introduces the coarse-grained information concepts and assigns their ownership to bounded contexts.
-6. [Use Cases](use-cases/use-cases.md) provides the behavioral overview and links to one detailed specification for each actor goal.
+5. [Use Cases](use-cases/use-cases.md) provides the behavioral overview and links to one detailed specification for each actor goal.
+6. [Business Objects](business-objects.md) introduces the coarse-grained information concepts and assigns their ownership to bounded contexts.
+
 
 The [requirements sources](sources/) retain discovery evidence and provenance. They support the specification but are not accepted requirements and need not be read sequentially.
 
