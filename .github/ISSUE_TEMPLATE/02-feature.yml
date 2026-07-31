@@ -1,0 +1,64 @@
+# Canonical source: docs/governance/templates/feature.md
+name: Feature
+description: Plan one use case within an epic.
+title: "[Feature] "
+labels:
+  - feature
+projects:
+  - hochschule-darmstadt/2
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A feature is a planning item, not the authoritative use-case specification. Add it as a sub-issue of its epic and repeat the epic URL below.
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome and rationale
+      description: Describe the actor outcome and why it matters.
+    validations:
+      required: true
+  - type: textarea
+    id: parent
+    attributes:
+      label: Parent epic and use case
+      description: Link exactly one epic parent and one use case in its bounded context, plus relevant evidence and requirement IDs. Identify assumptions and proposals.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: State included and excluded flows and list intended story child issues, or explain why slicing is pending.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance evidence
+      description: Summarize observable main success, alternative, exception, and boundary behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and lifecycle considerations
+      description: Link dependencies, risks, decisions, and relevant architecture, security, privacy, accessibility, data, test, operations, and management concerns.
+    validations:
+      required: true
+  - type: textarea
+    id: questions
+    attributes:
+      label: Open questions
+      description: List unresolved matters, owners, and the evidence or decision needed to close them.
+    validations:
+      required: false
+  - type: checkboxes
+    id: completion
+    attributes:
+      label: Completion
+      options:
+        - label: The parent epic, use case, and requirement links are current.
+        - label: Every intended story is linked or its removal is explained.
+        - label: Feature-level acceptance evidence is present.
+        - label: Residual risks, skipped checks, and follow-up work are explicit.

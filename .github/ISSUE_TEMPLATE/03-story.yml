@@ -1,0 +1,77 @@
+# Canonical source: docs/governance/templates/story.md
+name: Story
+description: Plan one independently reviewable use-case slice.
+title: "[Story] "
+labels:
+  - story
+projects:
+  - hochschule-darmstadt/2
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A story is a planning item, not an authoritative requirement. Add it as a sub-issue of its feature and repeat the feature URL below. Use synthetic data.
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Actor outcome
+      description: State the observable outcome for the actor and why this slice matters.
+    validations:
+      required: true
+  - type: textarea
+    id: parent
+    attributes:
+      label: Parent feature and authoritative links
+      description: Link exactly one feature, its use case, the selected flow or rules, and requirement IDs. Identify assumptions and proposals.
+    validations:
+      required: true
+  - type: dropdown
+    id: slice_type
+    attributes:
+      label: Slice type
+      description: Select the primary reason this behavior is independently reviewable.
+      options:
+        - Main success path
+        - Alternative path
+        - Exception path
+        - Boundary condition
+        - Cohesive business-rule subset
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Slice and exclusions
+      description: State exact included behavior and exclude adjacent flows, rules, and technical work.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance examples
+      description: Provide Given/When/Then examples with synthetic data for this path and its relevant boundaries.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and lifecycle considerations
+      description: State dependencies and relevant security, privacy, accessibility, data, test, operations, and management implications; link supporting tasks or bugs.
+    validations:
+      required: true
+  - type: textarea
+    id: questions
+    attributes:
+      label: Open questions
+      description: List unresolved matters, owners, and the evidence or decision needed to close them.
+    validations:
+      required: false
+  - type: checkboxes
+    id: completion
+    attributes:
+      label: Completion
+      options:
+        - label: The parent feature, use-case slice, and requirement links are current.
+        - label: Acceptance examples for this slice pass or have review evidence.
+        - label: Authoritative artifacts and affected stable IDs are updated or linked.
+        - label: Residual risks, skipped checks, and follow-up work are explicit.

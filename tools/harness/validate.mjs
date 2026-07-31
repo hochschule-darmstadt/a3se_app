@@ -210,9 +210,19 @@ const issueTemplatePairs = [
     label: 'task'
   },
   {
+    canonical: 'docs/governance/templates/epic.md',
+    form: '.github/ISSUE_TEMPLATE/01-epic.yml',
+    label: 'epic'
+  },
+  {
     canonical: 'docs/governance/templates/feature.md',
-    form: '.github/ISSUE_TEMPLATE/01-feature.yml',
+    form: '.github/ISSUE_TEMPLATE/02-feature.yml',
     label: 'feature'
+  },
+  {
+    canonical: 'docs/governance/templates/story.md',
+    form: '.github/ISSUE_TEMPLATE/03-story.yml',
+    label: 'story'
   },
   {
     canonical: 'docs/governance/templates/bug.md',
