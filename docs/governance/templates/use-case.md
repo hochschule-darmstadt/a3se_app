@@ -4,7 +4,6 @@
 - Owner: TBD
 - Primary actor: TBD
 - Supporting actors: TBD
-- Linked capabilities: TBD
 - Source/evidence: TBD
 
 ## Goal and scope
@@ -26,7 +25,7 @@
 
 ## Minimal guarantee
 
-## Business rules and information
+## Policies and information
 
 ## Quality and compliance considerations
 

@@ -21,10 +21,8 @@ Discovery material does not become a requirement merely because it appears plaus
 |---|---|---|
 | Who interacts with the system? | Actor catalog | `ACT-` |
 | Who has an interest in the system without necessarily interacting with it? | Stakeholder management | none |
-| What must the business be able to do? | Capability catalog | `CAP-` |
 | What actor goal and observable interaction must be supported? | Use case | `UC-` |
-| What invariant or business policy applies? | Business rule catalog | `BR-` |
-| What behavior cannot be expressed adequately by a use case or rule? | Functional requirement catalog | `FR-` |
+| What behavior cannot be expressed adequately by a use case? | Functional requirement catalog | `FR-` |
 | What measurable quality outcome is required? | Quality requirement catalog | `QR-` |
 | What limitation or provisional assumption applies? | Constraint and assumption catalog | `CON-` |
 | What term has what meaning in a context? | Glossary | none |
@@ -51,14 +49,14 @@ These activities iterate. They are not mandatory sequential project phases.
 
 ## Requirements slice
 
-A coherent requirements slice normally contains stakeholder outcome and capability, actor goals, rules and information concepts, quality concerns and constraints, acceptance examples, source evidence and open questions, and traceability among affected artifacts. Work vertically through one reviewable slice before populating many catalogs horizontally.
+A coherent requirements slice normally contains stakeholder outcomes, actor goals, relevant policies and information concepts, quality concerns and constraints, acceptance examples, source evidence and open questions, and traceability among affected artifacts. Work vertically through one reviewable slice before populating many catalogs horizontally.
 
 ## Change propagation
 
 When evidence, intent, architecture, behavior, or constraints change:
 
 1. update the authoritative artifact without changing its stable identifier;
-2. identify affected rules, models, examples, plans, tests, diagrams, decisions, implementation, and operational guidance;
+2. identify affected policies, models, examples, plans, tests, diagrams, decisions, implementation, and operational guidance;
 3. update affected artifacts in the same coherent change where practical;
 4. record unresolved divergence with an owner and resolution condition;
 5. rerun structural validation and proportionate specialist review.

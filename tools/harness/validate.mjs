@@ -6,15 +6,13 @@ const docs = resolve(root, 'docs');
 const decisionDirectory = resolve(docs, 'governance/decisions');
 const issueTemplateDirectory = resolve(root, '.github/ISSUE_TEMPLATE');
 const ignoredDirectories = new Set(['.git', '.diagram-tools', 'node_modules']);
-const knownPrefixes = ['ACT', 'CAP', 'UC', 'FR', 'QR', 'CON', 'BR'];
+const knownPrefixes = ['ACT', 'UC', 'FR', 'QR', 'CON'];
 const authoritativeDefinitions = new Map([
   ['ACT', 'docs/requirements/actors.md'],
-  ['CAP', 'docs/requirements/capabilities.md'],
-  ['UC', 'docs/requirements/use-cases.md'],
+  ['UC', 'docs/requirements/use-cases/use-cases.md'],
   ['FR', 'docs/requirements/functional-requirements.md'],
   ['QR', 'docs/requirements/quality-requirements.md'],
   ['CON', 'docs/requirements/constraints.md'],
-  ['BR', 'docs/requirements/business-rules.md']
 ]);
 const errors = [];
 

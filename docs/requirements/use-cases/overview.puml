@@ -1,0 +1,101 @@
+@startuml
+title Main Use Cases
+
+top to bottom direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor White
+  BorderColor #334155
+  FontColor #0F172A
+}
+skinparam package {
+  BackgroundColor White
+  BorderColor #64748B
+  FontColor #0F172A
+}
+
+actor "Customer" as Customer
+actor "Traveler" as Traveler
+actor "Travel Advisor" as TravelAdvisor
+actor "Seasonal Planner" as SeasonalPlanner
+actor "Purchaser" as Purchaser
+
+rectangle "Tour Operator Information System" {
+  package "Customer Interaction" <<bounded context>> {
+    usecase "UC-001\nSeek Travel Advice" as UC001
+    usecase "UC-002\nObtain Ongoing Travel Assistance" as UC002
+  }
+
+  package "Travel Product Design" <<bounded context>> {
+    usecase "UC-003\nCompose Individual Travel" as UC003
+    usecase "UC-004\nDesign Package Travel" as UC004
+    usecase "UC-005\nObtain a Plausible Itinerary" as UC005
+  }
+
+  package "Procurement" <<bounded context>> {
+    usecase "UC-006\nProcure Stock Services" as UC006
+    usecase "UC-007\nArrange On-demand Sourcing" as UC007
+  }
+
+  package "Sales" <<bounded context>> {
+    usecase "UC-008\nReceive a Sales Offer" as UC008
+    usecase "UC-009\nObtain Availability Confirmation" as UC009
+    usecase "UC-010\nAccept a Sales Offer" as UC010
+  }
+
+  package "Travel Execution" <<bounded context>> {
+    usecase "UC-011\nPrepare Ordered Travel" as UC011
+    usecase "UC-012\nReceive Travel Documents" as UC012
+    usecase "UC-013\nCoordinate Active Travel" as UC013
+  }
+
+  package "Customer Management" <<bounded context>> {
+    usecase "UC-014\nMaintain a Customer Record" as UC014
+  }
+
+  package "Travel Product Management" <<bounded context>> {
+    usecase "UC-015\nMaintain Travel Products and Services" as UC015
+  }
+
+  package "Order Management" <<bounded context>> {
+    usecase "UC-016\nPlace a Travel Order" as UC016
+    usecase "UC-017\nSecure Required Travel Services" as UC017
+    usecase "UC-018\nPay for Travel" as UC018
+  }
+}
+
+UC001 -[hidden]right- UC003
+UC006 -[hidden]right- UC008
+UC011 -[hidden]right- UC014
+UC014 -[hidden]right- UC015
+UC015 -[hidden]right- UC016
+
+UC001 -[hidden]down- UC006
+UC003 -[hidden]down- UC008
+UC006 -[hidden]down- UC011
+UC008 -[hidden]down- UC014
+UC011 -[hidden]down- UC015
+UC014 -[hidden]down- UC016
+
+Customer -- UC001
+Traveler -- UC002
+Customer -- UC003
+SeasonalPlanner -- UC004
+Customer -- UC005
+Purchaser -- UC006
+Purchaser -- UC007
+Customer -- UC008
+Customer -- UC009
+Customer -- UC010
+TravelAdvisor -- UC011
+Customer -- UC012
+Traveler -- UC013
+Customer -- UC014
+SeasonalPlanner -- UC015
+Customer -- UC016
+Customer -- UC017
+Customer -- UC018
+
+@enduml

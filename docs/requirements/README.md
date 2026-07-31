@@ -12,14 +12,12 @@ This area is authoritative for the business problem, stakeholder intent, termino
 - [glossary.md](glossary.md): ubiquitous language
 - [bounded-contexts/bounded-contexts.md](bounded-contexts/bounded-contexts.md): bounded-context overview, details, relationships, and diagram
 - [actors.md](actors.md): stakeholders and system actors
-- [use-cases.md](use-cases.md): actor goals and observable behavior
+- [use-cases/](use-cases/): actor goals and observable behavior
 - [business-objects.md](business-objects.md): conceptual information model
-- [business-rules.md](business-rules.md): policies and invariants
 - [constraints.md](constraints.md): limitations and explicit assumptions
 
 ## Supporting catalogs
 
-- [capabilities.md](capabilities.md): business capabilities
 - [functional-requirements.md](functional-requirements.md): behavior not adequately expressed elsewhere
 - [quality-requirements.md](quality-requirements.md): measurable quality outcomes
 - [traceability.md](traceability.md): evidence and lifecycle relationships

@@ -25,7 +25,7 @@ Prefer the smallest slice that produces observable acceptance evidence. A story 
 - the main success scenario (happy path);
 - one alternative or exception path;
 - one boundary condition; or
-- a cohesive subset of business rules that can be reviewed independently.
+- a cohesive subset of domain policies that can be reviewed independently.
 
 Do not split solely by technical layer, component, or activity. Cross-cutting analysis, governance, infrastructure, and documentation work remains a `task`; observed deviations remain a `bug`. Tasks and bugs may link to any backlog level but are not children in the product-scope hierarchy unless their outcome genuinely meets that level's definition.
 
