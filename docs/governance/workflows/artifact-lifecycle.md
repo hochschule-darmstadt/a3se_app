@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements/Architecture/Test/Management
-- Last reviewed: 2026-07-29
+- Last reviewed: 2026-07-31
 
 This document defines which artifact answers which question, how evidence becomes accepted specification, and what constitutes a coherent requirements slice.
 
@@ -19,7 +19,8 @@ Discovery material does not become a requirement merely because it appears plaus
 
 | Question | Authoritative artifact | Identifier |
 |---|---|---|
-| Who has an interest or interacts with the system? | Actor catalog | `STK-` |
+| Who interacts with the system? | Actor catalog | `ACT-` |
+| Who has an interest in the system without necessarily interacting with it? | Stakeholder management | none |
 | What must the business be able to do? | Capability catalog | `CAP-` |
 | What actor goal and observable interaction must be supported? | Use case | `UC-` |
 | What invariant or business policy applies? | Business rule catalog | `BR-` |

@@ -6,9 +6,9 @@ const docs = resolve(root, 'docs');
 const decisionDirectory = resolve(docs, 'governance/decisions');
 const issueTemplateDirectory = resolve(root, '.github/ISSUE_TEMPLATE');
 const ignoredDirectories = new Set(['.git', '.diagram-tools', 'node_modules']);
-const knownPrefixes = ['STK', 'CAP', 'UC', 'FR', 'QR', 'CON', 'BR'];
+const knownPrefixes = ['ACT', 'CAP', 'UC', 'FR', 'QR', 'CON', 'BR'];
 const authoritativeDefinitions = new Map([
-  ['STK', 'docs/requirements/actors.md'],
+  ['ACT', 'docs/requirements/actors.md'],
   ['CAP', 'docs/requirements/capabilities.md'],
   ['UC', 'docs/requirements/use-cases.md'],
   ['FR', 'docs/requirements/functional-requirements.md'],
@@ -115,7 +115,16 @@ for (const directory of walkDirectories(docs)) {
 }
 const definitions = new Map();
 const references = new Map();
-const idPattern = new RegExp(`\\b(${knownPrefixes.join('|')})-(\\d+)\\b`, 'gu');
+const prefixAlternation = knownPrefixes.join('|');
+const idPattern = new RegExp(`\\b(${prefixAlternation})-(\\d+)\\b`, 'gu');
+const tableDefinitionPattern = new RegExp(
+  `^\\s*\\|\\s*((?:${prefixAlternation})-\\d{3,})\\s*\\|`,
+  'u'
+);
+const headingDefinitionPattern = new RegExp(
+  `^#{1,6}\\s+((?:${prefixAlternation})-\\d{3,})\\b`,
+  'u'
+);
 
 for (const file of markdownFiles) {
   const markdown = readFileSync(file, 'utf8');
@@ -130,8 +139,8 @@ for (const file of markdownFiles) {
       references.get(id).push({ file, line: lineNumber });
     }
 
-    const tableDefinition = line.match(/^\s*\|\s*((?:STK|CAP|UC|FR|QR|CON|BR)-\d{3,})\s*\|/u);
-    const headingDefinition = line.match(/^#{1,6}\s+((?:STK|CAP|UC|FR|QR|CON|BR)-\d{3,})\b/u);
+    const tableDefinition = line.match(tableDefinitionPattern);
+    const headingDefinition = line.match(headingDefinitionPattern);
     const id = tableDefinition?.[1] ?? headingDefinition?.[1];
     if (!id) continue;
     const prefix = id.split('-')[0];
