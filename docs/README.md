@@ -30,7 +30,7 @@ Cross-cutting concerns such as security, privacy, accessibility, reliability, tr
 | Task | Read first | Then read |
 |---|---|---|
 | Requirements | [requirements/README.md](requirements/README.md) | glossary, actors, use cases, rules, constraints, UX, and sources |
-| Domain modeling | [requirements/context-map.md](requirements/context-map.md) | glossary, bounded contexts, business objects, and rules |
+| Domain modeling | [requirements/bounded-contexts/bounded-contexts.md](requirements/bounded-contexts/bounded-contexts.md) | glossary, business objects, and rules |
 | UX | [requirements/ux/README.md](requirements/ux/README.md) | actors, use cases, and quality requirements |
 | Architecture or technology | [architecture/README.md](architecture/README.md) | requirements, constraints, quality requirements, and decisions |
 | Implementation | [implementation/README.md](implementation/README.md) | accepted architecture and technology decision |

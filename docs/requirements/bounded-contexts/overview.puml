@@ -1,0 +1,51 @@
+@startuml
+title Tour Operator Bounded Context Overview
+
+top to bottom direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam package {
+  BackgroundColor White
+  BorderColor #334155
+  FontColor #0F172A
+}
+package "Tour Operator" <<enterprise>> {
+  package "Interaction" <<layer>> {
+    rectangle "<color:transparent>__________________________________________________________________________________________________</color>" as CustomerAccessLeft #transparent;line:transparent
+    package "Customer Interaction" <<bounded context>>
+    rectangle "<color:transparent>________________________________________________________________________________________________</color>" as CustomerAccessRight #transparent;line:transparent
+
+    CustomerAccessLeft -[hidden]right- "Customer Interaction"
+    "Customer Interaction" -[hidden]right- CustomerAccessRight
+  }
+
+  package "Core Business" <<layer>> {
+    package "Travel Product Design" <<bounded context>>
+    package "Procurement" <<bounded context>>
+    package "Sales" <<bounded context>>
+    package "Travel Execution" <<bounded context>>
+
+    "Travel Product Design" -[hidden]right- "Procurement"
+    "Procurement" -[hidden]right- "Sales"
+    "Sales" -[hidden]right- "Travel Execution"
+  }
+
+  package "Resources" <<layer>> {
+    package "Customer Management" <<bounded context>>
+    package "Travel Product Management" <<bounded context>>
+    package "Order Management" <<bounded context>>
+
+    "Customer Management" -[hidden]right- "Travel Product Management"
+    "Travel Product Management" -[hidden]right- "Order Management"
+  }
+
+  CustomerAccessLeft -[hidden]down- "Travel Product Design"
+  "Customer Interaction" -[hidden]down- "Procurement"
+  CustomerAccessRight -[hidden]down- "Travel Execution"
+
+  "Travel Product Design" -[hidden]down- "Customer Management"
+  "Procurement" -[hidden]down- "Travel Product Management"
+  "Travel Execution" -[hidden]down- "Order Management"
+}
+
+@enduml

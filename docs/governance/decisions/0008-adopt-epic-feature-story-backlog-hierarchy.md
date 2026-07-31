@@ -67,7 +67,7 @@ Validate canonical templates and Issue Forms together with `npm run harness:vali
 
 - [Backlog and Scope Management](../../management/backlog-management.md)
 - [Project Plan](../../management/project-plan.md)
-- [Bounded Contexts](../../requirements/bounded-contexts.md)
+- [Bounded Contexts](../../requirements/bounded-contexts/bounded-contexts.md)
 - [Use Cases](../../requirements/use-cases.md)
 - [DR-0007](0007-govern-work-with-github-issues-and-project.md)
 - [GitHub Project](https://github.com/orgs/hochschule-darmstadt/projects/2/views/2)

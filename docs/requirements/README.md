@@ -10,8 +10,7 @@ This area is authoritative for the business problem, stakeholder intent, termino
 
 - [vision.md](vision.md): purpose, outcomes, and scope
 - [glossary.md](glossary.md): ubiquitous language
-- [context-map.md](context-map.md): relationships among bounded contexts
-- [bounded-contexts.md](bounded-contexts.md): semantic boundaries
+- [bounded-contexts/bounded-contexts.md](bounded-contexts/bounded-contexts.md): bounded-context overview, details, relationships, and diagram
 - [actors.md](actors.md): stakeholders and system actors
 - [use-cases.md](use-cases.md): actor goals and observable behavior
 - [business-objects.md](business-objects.md): conceptual information model
