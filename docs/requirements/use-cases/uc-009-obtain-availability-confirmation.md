@@ -52,7 +52,7 @@ composition version, services, sources, per-service results, time, validity, lim
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 state freshness and whether a result is informational or backed by a hold.
 

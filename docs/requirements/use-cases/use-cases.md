@@ -54,4 +54,4 @@ Use cases describe actor goals and observable system responsibilities. The prima
 - [UC-017: Secure Required Travel Services](uc-017-secure-required-travel-services.md)
 - [UC-018: Pay for Travel](uc-018-pay-for-travel.md)
 
-Each proposed detail defines a main success scenario, extensions, guarantees, policies and information needs, quality considerations, and an initial acceptance example. Policy gaps remain explicit until supported by stakeholder evidence.
+Each proposed detail defines a main success scenario, extensions, guarantees, policies and information needs, applicable cross-cutting requirement identifiers, and an initial acceptance example. Use cases remain authoritative for actor-goal behavior. Cross-cutting statements belong in the [functional](../functional-requirements.md) or [non-functional](../non-functional-requirements.md) requirement catalog and are referenced rather than repeated. Policy gaps remain explicit until supported by stakeholder evidence.

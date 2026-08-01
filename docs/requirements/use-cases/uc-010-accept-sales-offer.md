@@ -52,7 +52,7 @@ Customer authorization, offer version, acceptance time, conditions, order-placem
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 make acceptance explicit, attributable, and resistant to duplicate submission.
 

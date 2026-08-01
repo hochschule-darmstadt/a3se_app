@@ -52,7 +52,7 @@ Itinerary version, timing, locations, constraints, assumptions, results, blocker
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 make results explainable and distinct from an Availability Check.
 

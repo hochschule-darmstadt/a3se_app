@@ -52,7 +52,7 @@ Travel Order, amount, currency, purpose, attempt reference, status, allocation, 
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 protect sensitive data, ensure auditability, and communicate pending outcomes.
 

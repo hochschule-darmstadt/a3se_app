@@ -52,7 +52,7 @@ Travel Order reference, execution state, interaction history, authorization, req
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 acknowledge urgent needs promptly and never imply unconfirmed resolution.
 

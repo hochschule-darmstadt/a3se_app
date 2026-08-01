@@ -52,7 +52,7 @@ travel goals, constraints, preferences, open questions, handover state.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 distinguish advice from a committed Sales Offer; provide human handover.
 

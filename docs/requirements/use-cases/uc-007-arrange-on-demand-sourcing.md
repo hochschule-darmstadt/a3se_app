@@ -52,7 +52,7 @@ sourcing party, services, price terms, validity, access method, limits, status.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 protect commercial terms and credentials; technology remains undecided.
 

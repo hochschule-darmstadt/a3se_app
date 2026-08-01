@@ -52,7 +52,7 @@ Travel Order, document type, version, recipient, conditions, issuance, delivery 
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 preserve confidentiality, integrity, accessibility, and permitted retrieval.
 

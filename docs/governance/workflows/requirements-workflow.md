@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-07-29
+- Last reviewed: 2026-08-01
 
 Use this workflow when defining or materially changing stakeholder intent or system requirements.
 
@@ -14,7 +14,7 @@ Read the [documentation context map](../../README.md), [artifact lifecycle](arti
 
 1. State the requirements slice, affected IDs, evidence, and intended outcome.
 2. Separate facts, assumptions, proposals, decisions, and open questions.
-3. Update each statement in its authoritative artifact; link rather than duplicate.
+3. Update each statement in its authoritative artifact; link rather than duplicate. Keep actor-goal behavior in its use case, and place only behavior or measurable outcomes applying across multiple use cases in the functional or non-functional requirement catalog.
 4. Add acceptance examples and relevant alternative, error, and boundary behavior.
 5. Reconcile terminology, rules, business objects, quality concerns, constraints, UX, and direct links among affected artifacts.
 6. Request independent Test review and other lifecycle reviews when risk warrants them.

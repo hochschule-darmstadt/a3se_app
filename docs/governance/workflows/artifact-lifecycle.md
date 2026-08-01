@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements/Architecture/Test/Management
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-01
 
 This document defines which artifact answers which question, how evidence becomes accepted specification, and what constitutes a coherent requirements slice.
 
@@ -22,7 +22,9 @@ Discovery material does not become a requirement merely because it appears plaus
 | Who interacts with the system? | Actor catalog | `ACT-` |
 | Who has an interest in the system without necessarily interacting with it? | Stakeholder management | none |
 | What actor goal and observable interaction must be supported? | Use case | `UC-` |
-| What measurable quality outcome is required? | Quality requirement catalog | `QR-` |
+| What behavior applies across multiple use cases? | Functional requirement catalog | `FR-` |
+| What measurable cross-cutting quality or compliance outcome is required? | Non-functional requirement catalog | `NFR-` |
+| What capability is explicitly outside the product scope? | Scope exclusion catalog | `SE-` |
 | What limitation or provisional assumption applies? | Constraint and assumption catalog | `CON-` |
 | What term has what meaning in a context? | Glossary | none |
 | What behavior demonstrates acceptance? | Examples in or linked from the owning requirement | owning requirement ID |
@@ -30,6 +32,8 @@ Discovery material does not become a requirement merely because it appears plaus
 | What consequential choice was made? | Decision record | `DR-` |
 
 Plans and GitHub Issues organize work; they are not authoritative for stakeholder intent. Reprioritizing or closing them does not change accepted requirements. Use the canonical [task](../templates/task.md), [feature](../templates/feature.md), and [bug](../templates/bug.md) templates.
+
+Use cases are authoritative for actor goals, observable interactions, scenarios, and guarantees. The functional and non-functional catalogs contain only requirements that apply across multiple use cases. A use case references applicable `FR-` and `NFR-` identifiers instead of repeating their statements; a catalog entry links back to its applicable use cases.
 
 ## Lifecycle
 

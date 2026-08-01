@@ -52,7 +52,7 @@ identity and contact information, provenance, consent, authorization, history.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 minimize and purpose-limit personal information; support correction and audit.
 

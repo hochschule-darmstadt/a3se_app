@@ -52,7 +52,7 @@ Customer, Itinerary, services, Sale Price, validity, conditions, version, availa
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 identify the accountable Tour Operator and clearly present price and conditions.
 

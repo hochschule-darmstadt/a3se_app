@@ -52,7 +52,7 @@ products, services, Supplier, descriptions, validity, availability inputs, relat
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 make changes attributable, versioned, effective-dated, and consistent.
 

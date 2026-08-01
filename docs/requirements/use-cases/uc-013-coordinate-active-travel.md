@@ -52,7 +52,7 @@ Travel Order, affected services, event, urgency, parties, decisions, changes, co
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 acknowledge time-critical events and distinguish assistance from emergency services.
 

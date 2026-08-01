@@ -27,6 +27,12 @@
 
 ## Policies and information
 
-## Quality and compliance considerations
+## Applicable cross-cutting requirements
+
+Reference applicable `FR-` and `NFR-` identifiers. Do not repeat their normative statements here.
+
+## Use-case-specific quality and compliance considerations
+
+Record only concerns unique to this actor goal. Promote a concern that applies across multiple use cases to one `NFR-` entry and replace repeated text with references.
 
 ## Acceptance examples

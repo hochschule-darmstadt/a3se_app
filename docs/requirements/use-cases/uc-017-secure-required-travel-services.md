@@ -52,7 +52,7 @@ Travel Order, services, sourcing routes, reservations, validity, attempts, resul
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 tolerate uncertain external outcomes and prevent or reconcile duplicates.
 

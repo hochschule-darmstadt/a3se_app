@@ -52,7 +52,7 @@ Customer, Travelers, accepted offer, Itinerary, price, conditions, reference, st
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 make creation atomic to the Customer, idempotent, attributable, and auditable.
 

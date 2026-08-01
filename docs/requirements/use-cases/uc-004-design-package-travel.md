@@ -52,7 +52,7 @@ Package Travel, Seasonal Offering, Itinerary, services, capacity needs, validity
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 preserve explicit links to planning intent and procurement dependencies.
 

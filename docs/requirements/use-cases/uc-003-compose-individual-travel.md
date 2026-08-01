@@ -52,7 +52,7 @@ Individual Travel, Itinerary, Travel Components, constraints, assumptions, gaps.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
-## Quality and compliance considerations
+## Use-case-specific quality and compliance considerations
 
 make every component and assumption understandable and revisable.
 
