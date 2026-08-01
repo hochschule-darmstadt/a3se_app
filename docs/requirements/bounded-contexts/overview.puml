@@ -11,12 +11,12 @@ skinparam package {
 }
 package "Christopher Columbus Travel" <<enterprise>> {
   package "Interaction" <<layer>> {
-    rectangle "<color:transparent>__________________________________________________________________________________________________</color>" as CustomerAccessLeft #transparent;line:transparent
     package "Customer Interaction" <<bounded context>>
-    rectangle "<color:transparent>________________________________________________________________________________________________</color>" as CustomerAccessRight #transparent;line:transparent
+    package "Staff Interaction" <<bounded context>>
+    package "Supplier Interaction" <<bounded context>>
 
-    CustomerAccessLeft -[hidden]right- "Customer Interaction"
-    "Customer Interaction" -[hidden]right- CustomerAccessRight
+    "Customer Interaction" -[hidden]right- "Staff Interaction"
+    "Staff Interaction" -[hidden]right- "Supplier Interaction"
   }
 
   package "Core Business" <<layer>> {
@@ -39,13 +39,26 @@ package "Christopher Columbus Travel" <<enterprise>> {
     "Travel Product Management" -[hidden]right- "Order Management"
   }
 
-  CustomerAccessLeft -[hidden]down- "Travel Product Design"
-  "Customer Interaction" -[hidden]down- "Procurement"
-  CustomerAccessRight -[hidden]down- "Travel Execution"
+  package "Supporting Processes" <<layer>> {
+    package "Accounting" <<bounded context>>
+    package "Reporting" <<bounded context>>
+    package "Human Resources" <<bounded context>>
+
+    "Accounting" -[hidden]right- "Reporting"
+    "Reporting" -[hidden]right- "Human Resources"
+  }
+
+  "Customer Interaction" -[hidden]down- "Travel Product Design"
+  "Staff Interaction" -[hidden]down- "Procurement"
+  "Supplier Interaction" -[hidden]down- "Travel Execution"
 
   "Travel Product Design" -[hidden]down- "Customer Management"
   "Procurement" -[hidden]down- "Travel Product Management"
   "Travel Execution" -[hidden]down- "Order Management"
+
+  "Customer Management" -[hidden]down- "Accounting"
+  "Travel Product Management" -[hidden]down- "Reporting"
+  "Order Management" -[hidden]down- "Human Resources"
 }
 
 @enduml
