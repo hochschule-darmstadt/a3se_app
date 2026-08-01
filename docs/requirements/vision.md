@@ -2,11 +2,13 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-01
 
 ## Vision
 
-Enable a tour operator to offer individual travel alongside package travel. Customers can use an AI-enabled travel advisor to explore, compose, and refine travel around their individual needs and interact seamlessly with the tour operator from the initial idea through the travel itself and thereafter.
+Christopher Columbus Travel's claim is **“Explore the world, beyond boundaries.”**
+
+Enable Christopher Columbus Travel to offer individual travel alongside package travel. Customers can use an AI-enabled travel advisor to explore, compose, and refine travel around their individual needs and interact seamlessly with the tour operator from the initial idea through the travel itself and thereafter.
 
 The defining value is not AI-generated conversation by itself. It is the ability to turn a flexible conversation into coherent, available, and orderable travel while preserving the tour operator's accountability to the customer.
 

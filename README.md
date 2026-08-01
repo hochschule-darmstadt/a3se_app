@@ -1,6 +1,6 @@
-# A3SE Tour Operator
+# Christopher Columbus Travel
 
-A best-practice reference project for the M.Sc. module *Advanced AI-Assisted Software Engineering*, using a tour operator business information system to demonstrate responsible AI assistance across the software lifecycle.
+Christopher Columbus Travel is a fictitious but realistic tour operator used in this best-practice reference project for the M.Sc. module *Advanced AI-Assisted Software Engineering*. Its business information system demonstrates responsible AI assistance across the software lifecycle.
 
 Educational context: [module description](docs/governance/references/MB%20Advanced%20AI-Assisted%20Software%20Engineering.pdf). The engineering harness under `docs/` is project-oriented and reusable independently of the educational context.
 

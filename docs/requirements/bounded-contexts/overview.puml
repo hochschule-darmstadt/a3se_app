@@ -9,7 +9,7 @@ skinparam package {
   BorderColor #334155
   FontColor #0F172A
 }
-package "Tour Operator" <<enterprise>> {
+package "Christopher Columbus Travel" <<enterprise>> {
   package "Interaction" <<layer>> {
     rectangle "<color:transparent>__________________________________________________________________________________________________</color>" as CustomerAccessLeft #transparent;line:transparent
     package "Customer Interaction" <<bounded context>>
