@@ -52,6 +52,11 @@ Travel Order reference, execution state, interaction history, authorization, req
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
+## Applicable cross-cutting requirements
+
+- [FR-001 through FR-004](../functional-requirements.md): interaction language, language extensibility, web delivery, and responsive customer interaction
+- [NFR-002](../non-functional-requirements.md): conversational response time
+
 ## Use-case-specific quality and compliance considerations
 
 acknowledge urgent needs promptly and never imply unconfirmed resolution.

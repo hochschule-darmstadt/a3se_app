@@ -52,6 +52,11 @@ travel goals, constraints, preferences, open questions, handover state.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
+## Applicable cross-cutting requirements
+
+- [FR-001 through FR-004](../functional-requirements.md): interaction language, language extensibility, web delivery, and responsive customer interaction
+- [NFR-002](../non-functional-requirements.md): conversational response time
+
 ## Use-case-specific quality and compliance considerations
 
 distinguish advice from a committed Sales Offer; provide human handover.

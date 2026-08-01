@@ -12,6 +12,8 @@ Bounded contexts divide the tour operator enterprise into explicit business boun
 
 The diagram uses nested UML packages for the enterprise, layers, and bounded contexts.
 
+The diagram shows business boundaries, not implementation scope. Under [SE-001](../scope-exclusions.md), the project covers only interfaces to Accounting, Reporting, and Human Resources; implementing those three bounded contexts is excluded.
+
 ## Bounded contexts
 
 | Context | Purpose | Layer | Owned information |
