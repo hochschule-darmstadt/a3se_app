@@ -1,0 +1,22 @@
+@startuml
+title UC-015 Maintain Travel Products and Services - Module Interaction
+autonumber
+actor "Seasonal Planner" as Planner
+participant "MOD-SI\nStaff Interaction" as SI
+participant "MOD-TPM\nTravel Product Management" as TPM
+participant "TravelProductSupplierPort\n<<required interface>>" as PORT
+participant "MOD-SUPI\nSupplier Adapter" as SUPI
+actor Supplier
+
+Planner -> SI: maintainProductsAndServices(definitionChange)
+SI -> TPM: maintainProductsAndServices(definitionChange)
+TPM -> PORT: obtainServiceDefinition(supplierReference, serviceReference)
+PORT -> SUPI: obtainServiceDefinition(supplierReference, serviceReference)
+SUPI -> Supplier: obtain service definition
+Supplier --> SUPI: confirmedServiceDefinition
+SUPI --> PORT: confirmedServiceDefinition
+PORT --> TPM: confirmedServiceDefinition
+TPM -> TPM: validateVersionAndEffectivePeriod()
+TPM --> SI: activeDefinitionVersion
+SI --> Planner: maintenance outcome
+@enduml

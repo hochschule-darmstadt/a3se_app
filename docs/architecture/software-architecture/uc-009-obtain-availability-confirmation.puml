@@ -1,0 +1,27 @@
+@startuml
+title UC-009 Obtain Availability Confirmation - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-SALES\nSales" as SALES
+participant "MOD-TPM\nTravel Product Management" as TPM
+participant "MOD-PROC\nProcurement" as PROC
+participant "ProcurementSupplierPort\n<<required interface>>" as PORT
+participant "MOD-SUPI\nSupplier Adapter" as SUPI
+actor Supplier
+
+Customer -> CI: confirmAvailability(compositionVersion)
+CI -> SALES: confirmAvailability(compositionVersion)
+SALES -> TPM: getServiceSnapshots(serviceReferences)
+TPM --> SALES: internalAvailabilityInputs
+SALES -> PROC: checkSourcingAvailability(serviceReferences)
+PROC -> PORT: queryExternalAvailability(sourcingRequests)
+PORT -> SUPI: queryExternalAvailability(sourcingRequests)
+SUPI -> Supplier: query availability
+Supplier --> SUPI: externalAvailabilityResults
+SUPI --> PORT: externalAvailabilityResults
+PORT --> PROC: externalAvailabilityResults
+PROC --> SALES: sourcingAvailability
+SALES --> CI: completeTimeBoundResult
+CI --> Customer: availability and limitations
+@enduml

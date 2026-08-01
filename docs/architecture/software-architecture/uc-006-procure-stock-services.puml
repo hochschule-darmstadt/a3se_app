@@ -1,0 +1,24 @@
+@startuml
+title UC-006 Procure Stock Services - Module Interaction
+autonumber
+actor Purchaser
+participant "MOD-SI\nStaff Interaction" as SI
+participant "MOD-PROC\nProcurement" as PROC
+participant "ProcurementSupplierPort\n<<required interface>>" as PORT
+participant "MOD-SUPI\nSupplier Adapter" as SUPI
+actor Supplier
+participant "MOD-TPM\nTravel Product Management" as TPM
+
+Purchaser -> SI: procureStockCapacity(serviceNeed, terms)
+SI -> PROC: procureStockCapacity(serviceNeed, terms)
+PROC -> PORT: requestStockCapacity(serviceNeed, terms)
+PORT -> SUPI: requestStockCapacity(serviceNeed, terms)
+SUPI -> Supplier: request capacity
+Supplier --> SUPI: supplierCommitment
+SUPI --> PORT: supplierCommitment
+PORT --> PROC: supplierCommitment
+PROC -> TPM: recordStockAvailability(supplierCommitment)
+TPM --> PROC: availabilityRecorded
+PROC --> SI: committedCapacity
+SI --> Purchaser: procurement outcome
+@enduml

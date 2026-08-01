@@ -1,0 +1,15 @@
+@startuml
+title UC-003 Compose Individual Travel - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-TPD\nTravel Product Design" as TPD
+participant "MOD-TPM\nTravel Product Management" as TPM
+
+Customer -> CI: composeIndividualTravel(confirmedNeeds)
+CI -> TPD: composeIndividualTravel(confirmedNeeds)
+TPD -> TPM: findTravelServices(confirmedNeeds)
+TPM --> TPD: candidateServices
+TPD --> CI: reviewableItinerary
+CI --> Customer: itinerary and unresolved gaps
+@enduml

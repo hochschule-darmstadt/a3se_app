@@ -1,0 +1,24 @@
+@startuml
+title UC-008 Receive a Sales Offer - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-SALES\nSales" as SALES
+participant "MOD-CM\nCustomer Management" as CM
+participant "MOD-TPD\nTravel Product Design" as TPD
+participant "MOD-TPM\nTravel Product Management" as TPM
+participant "MOD-PROC\nProcurement" as PROC
+
+Customer -> CI: requestSalesOffer(itineraryReference)
+CI -> SALES: createSalesOffer(customerReference, itineraryReference)
+SALES -> CM: getCustomerContext(customerReference)
+CM --> SALES: customerSnapshot
+SALES -> TPD: getItinerarySnapshot(itineraryReference)
+TPD --> SALES: itinerarySnapshot
+SALES -> TPM: getServiceSnapshots(serviceReferences)
+TPM --> SALES: serviceSnapshots
+SALES -> PROC: getSourcingTerms(serviceReferences)
+PROC --> SALES: sourcingTerms
+SALES --> CI: versionedSalesOffer
+CI --> Customer: price, validity, conditions, next action
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+title UC-007 Arrange On-demand Sourcing - Module Interaction
+autonumber
+actor Purchaser
+participant "MOD-SI\nStaff Interaction" as SI
+participant "MOD-PROC\nProcurement" as PROC
+participant "ProcurementSupplierPort\n<<required interface>>" as PORT
+participant "MOD-SUPI\nSupplier Adapter" as SUPI
+actor "Supplier / Intermediary" as Supplier
+
+Purchaser -> SI: arrangeOnDemandSourcing(serviceScope, conditions)
+SI -> PROC: arrangeOnDemandSourcing(serviceScope, conditions)
+PROC -> PORT: establishSourcingAccess(serviceScope, conditions)
+PORT -> SUPI: establishSourcingAccess(serviceScope, conditions)
+SUPI -> Supplier: establish access
+Supplier --> SUPI: confirmedAccess
+SUPI --> PORT: confirmedAccess
+PORT --> PROC: confirmedAccess
+PROC --> SI: activeSourcingArrangement
+SI --> Purchaser: arrangement outcome
+@enduml

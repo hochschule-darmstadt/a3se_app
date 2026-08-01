@@ -1,0 +1,13 @@
+@startuml
+title UC-016 Place a Travel Order - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-OM\nOrder Management" as OM
+
+Customer -> CI: placeTravelOrder(acceptedOfferSnapshot)
+CI -> OM: createTravelOrder(acceptedOfferSnapshot)
+OM -> OM: ensureIdempotentCreation()
+OM --> CI: travelOrderReference
+CI --> Customer: identifiable travel order
+@enduml

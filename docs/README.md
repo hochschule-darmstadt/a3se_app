@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Management
-- Last reviewed: 2026-07-29
+- Last reviewed: 2026-08-01
 
 This directory is the durable context harness for humans and AI agents. Start here, then load only the lifecycle information needed for the task. The folders organize authoritative information; they are not sequential phase gates or exclusive role boundaries.
 
@@ -44,7 +44,7 @@ Cross-cutting concerns such as security, privacy, accessibility, reliability, an
 
 ## Topic growth strategy
 
-A topic starts as a single file such as `architecture.md`. When it needs independently reviewable parts, diagram sources, or supporting assets, replace that file with a same-named directory whose `README.md` is the topic entry point. Put the constituent files beside that README and preserve the topic title, authority, and inbound links.
+A topic starts as a single file such as `architecture.md`. When it needs independently reviewable parts, diagram sources, or supporting assets, replace that file with a same-named directory containing both `README.md` and a same-named authoritative document. The `README.md` is only a routing page: it identifies the authoritative topic document and tells readers what to read, without duplicating the specification or requiring them to inspect included diagram assets individually. Put the authoritative document and supporting files beside that README, and preserve the topic title, authority, and inbound links.
 
 Examples:
 
@@ -57,9 +57,12 @@ grows into:
 ```text
 architecture/
     README.md
+    architecture.md
     context.puml
     building-blocks.md
 ```
+
+The routing README of a grown topic declares a `Topic document` link to the same-named Markdown file. Harness validation checks that declaration. Multi-document collections such as standards, workflows, or source evidence are not grown single topics and do not use it.
 
 Do not create a directory merely to hold one short document. Existing multi-document collections such as standards, templates, tooling, decisions, references, workflows, and source evidence are already grown topics.
 

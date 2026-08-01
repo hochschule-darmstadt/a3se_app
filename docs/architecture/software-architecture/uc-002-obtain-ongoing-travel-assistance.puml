@@ -1,0 +1,15 @@
+@startuml
+title UC-002 Obtain Ongoing Travel Assistance - Module Interaction
+autonumber
+actor Traveler
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-OM\nOrder Management" as OM
+participant "MOD-EXEC\nTravel Execution" as EXEC
+
+Traveler -> CI: obtainOngoingAssistance(orderReference, request)
+CI -> OM: getTravelContext(orderReference)
+OM --> CI: authorisedTravelContext
+CI -> EXEC: assistDuringOrAfterTravel(authorisedTravelContext, request)
+EXEC --> CI: assistanceOutcome
+CI --> Traveler: contextual help or handover
+@enduml

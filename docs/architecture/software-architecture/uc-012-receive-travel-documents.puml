@@ -1,0 +1,18 @@
+@startuml
+title UC-012 Receive Travel Documents - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-EXEC\nTravel Execution" as EXEC
+participant "MOD-OM\nOrder Management" as OM
+participant "MOD-CM\nCustomer Management" as CM
+
+Customer -> CI: receiveTravelDocuments(orderReference)
+CI -> EXEC: issueTravelDocuments(orderReference, recipientReference)
+EXEC -> OM: getTravelOrder(orderReference)
+OM --> EXEC: orderAndReleaseState
+EXEC -> CM: getAuthorisedRecipient(recipientReference)
+CM --> EXEC: recipientSnapshot
+EXEC --> CI: issuedDocumentReferences
+CI --> Customer: authorised document access
+@enduml

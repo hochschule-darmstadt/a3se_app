@@ -1,0 +1,24 @@
+@startuml
+title UC-013 Coordinate Active Travel - Module Interaction
+autonumber
+actor Traveler
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-EXEC\nTravel Execution" as EXEC
+participant "MOD-OM\nOrder Management" as OM
+participant "ExecutionSupplierPort\n<<required interface>>" as PORT
+participant "MOD-SUPI\nSupplier Adapter" as SUPI
+actor Supplier
+
+Traveler -> CI: coordinateActiveTravel(orderReference, event)
+CI -> EXEC: coordinateActiveTravel(orderReference, event)
+EXEC -> OM: getTravelOrder(orderReference)
+OM --> EXEC: activeOrderContext
+EXEC -> PORT: coordinateExecutionChange(affectedServices, event)
+PORT -> SUPI: coordinateExecutionChange(affectedServices, event)
+SUPI -> Supplier: coordinate change
+Supplier --> SUPI: confirmedResolution
+SUPI --> PORT: confirmedResolution
+PORT --> EXEC: confirmedResolution
+EXEC --> CI: coordinatedOutcome
+CI --> Traveler: actionable information
+@enduml

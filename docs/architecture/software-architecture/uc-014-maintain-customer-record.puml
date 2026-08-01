@@ -1,0 +1,13 @@
+@startuml
+title UC-014 Maintain a Customer Record - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-CM\nCustomer Management" as CM
+
+Customer -> CI: maintainCustomerRecord(customerInformation)
+CI -> CM: maintainCustomerRecord(customerReference, customerInformation)
+CM -> CM: validateAuthorityAndProvenance()
+CM --> CI: currentCustomerRecord
+CI --> Customer: confirmed update
+@enduml

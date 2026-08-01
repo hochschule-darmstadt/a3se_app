@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { dirname, extname, relative, resolve, sep } from 'node:path';
+import { basename, dirname, extname, relative, resolve, sep } from 'node:path';
 
 const root = resolve(import.meta.dirname, '../..');
 const docs = resolve(root, 'docs');
@@ -108,8 +108,27 @@ function validateLinks(file, markdown) {
 
 const markdownFiles = walk(root).filter((file) => extname(file).toLowerCase() === '.md');
 for (const directory of walkDirectories(docs)) {
-  if (!existsSync(resolve(directory, 'README.md'))) {
+  const readme = resolve(directory, 'README.md');
+  if (!existsSync(readme)) {
     error(directory, 0, 'directory has no README.md');
+    continue;
+  }
+  const routing = readFileSync(readme, 'utf8');
+  const topicDeclaration = routing.match(/^- Topic document: \[[^\]]+\]\(([^)]+)\)\s*$/mu);
+  const expectedName = `${basename(directory)}.md`;
+  const sameNamedTopic = resolve(directory, expectedName);
+  if (existsSync(sameNamedTopic) && !topicDeclaration) {
+    error(readme, 0, `must declare same-named topic document ${expectedName}`);
+    continue;
+  }
+  if (topicDeclaration) {
+    if (topicDeclaration[1] !== expectedName) {
+      error(readme, 0, `declares topic document ${topicDeclaration[1]}; expected ${expectedName}`);
+      continue;
+    }
+    if (!existsSync(resolve(directory, expectedName))) {
+      error(readme, 0, `declares missing topic document ${expectedName}`);
+    }
   }
 }
 const definitions = new Map();

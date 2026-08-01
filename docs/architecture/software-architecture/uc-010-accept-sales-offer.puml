@@ -1,0 +1,16 @@
+@startuml
+title UC-010 Accept a Sales Offer - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-SALES\nSales" as SALES
+participant "MOD-OM\nOrder Management" as OM
+
+Customer -> CI: acceptSalesOffer(offerVersion)
+CI -> SALES: acceptSalesOffer(customerReference, offerVersion)
+SALES -> SALES: validateOfferAndRecordAcceptance()
+SALES -> OM: createTravelOrder(acceptedOfferSnapshot)
+OM --> SALES: orderReference
+SALES --> CI: acceptedOffer and orderReference
+CI --> Customer: acceptance confirmation
+@enduml

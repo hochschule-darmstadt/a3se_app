@@ -20,3 +20,4 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0006](0006-align-harness-with-lifecycle-terminology.md) | Align the harness with software engineering lifecycle terminology | accepted | 2026-07-29 | DR-0002, DR-0003, DR-0005 in part |
 | [DR-0007](0007-govern-work-with-github-issues-and-project.md) | Govern work with GitHub Issues and a Project board | accepted | 2026-07-29 | none |
 | [DR-0008](0008-adopt-epic-feature-story-backlog-hierarchy.md) | Adopt an epic-feature-story backlog hierarchy | proposed | 2026-07-31 | DR-0007 in part |
+| [DR-0009](0009-preserve-authoritative-document-when-growing-topics.md) | Preserve the authoritative document when growing topics | accepted | 2026-08-01 | DR-0006 in part |

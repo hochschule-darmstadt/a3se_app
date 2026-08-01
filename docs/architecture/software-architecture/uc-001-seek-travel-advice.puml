@@ -1,0 +1,15 @@
+@startuml
+title UC-001 Seek Travel Advice - Module Interaction
+autonumber
+actor Customer
+participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-CM\nCustomer Management" as CM
+participant "MOD-TPM\nTravel Product Management" as TPM
+
+Customer -> CI: seekTravelAdvice(goals, preferences)
+CI -> CM: getCustomerContext(customerReference)
+CM --> CI: confirmedContext
+CI -> TPM: findTravelOptions(confirmedContext)
+TPM --> CI: suitableOptions
+CI --> Customer: advice and resumable context
+@enduml
