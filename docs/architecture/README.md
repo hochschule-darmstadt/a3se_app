@@ -7,7 +7,7 @@
 Architecture translates accepted requirements and constraints into consequential structural decisions without selecting technology prematurely.
 
 - [software-architecture/](software-architecture/README.md): reading path for the modular software architecture, interfaces, and use-case interactions
-- [data-model.md](data-model.md): logical data architecture
+- [data-model/](data-model/README.md): reading path for the logical entity model, module ownership, and cross-module relationship semantics
 - [technology.md](technology.md): technology requirements and evaluation
 - [security.md](security.md): security and privacy architecture
 - [automation.md](automation.md): conversational, workflow, and multi-agent automation architecture
