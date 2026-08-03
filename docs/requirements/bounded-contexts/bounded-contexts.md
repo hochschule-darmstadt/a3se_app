@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-08-01
+- Last reviewed: 2026-08-03
 
 Bounded contexts divide the tour operator enterprise into explicit business boundaries with distinct responsibilities, language, and owned information.
 
@@ -20,9 +20,9 @@ The diagram shows business boundaries, not implementation scope. Under [SE-001](
 |---|---|---|---|
 | Customer Interaction | Provide customers with seamless interaction with the tour operator and its travel advisor across supported channels and devices | Interaction | Customer-facing interaction |
 | Staff Interaction | Provide staff with role-appropriate interaction across the tour operator's business processes | Interaction | Staff-facing interaction |
-| Supplier Interaction | Provide suppliers and intermediaries with coordinated interaction across supported business processes | Interaction | Supplier- and intermediary-facing interaction |
+| Supplier Interaction | Provide suppliers with coordinated interaction across supported business processes | Interaction | Supplier-facing interaction |
 | Travel Product Design | Design package travel and compose individual travel from travel services | Core Business | Travel compositions and itineraries |
-| Procurement | Obtain stock services and establish access to on-demand sourced services | Core Business | Procurement terms and purchased capacity |
+| Procurement | Obtain travel-service capacity in advance under agreed commercial terms | Core Business | Procurement terms and purchased capacity |
 | Sales | Guide customers toward an orderable composition and sale price | Core Business | Sales interaction and commercial offer |
 | Travel Execution | Coordinate the activities needed to carry out ordered travel | Core Business | Execution state and coordination |
 | Customer Management | Maintain customer information needed across the tour operator cycle | Resources | Customer records |

@@ -15,6 +15,7 @@ for (const match of overview.matchAll(
 const derivedEdges = new Set();
 for (const filename of readdirSync(directory).filter((name) => /^uc-\d{3}-.+\.puml$/u.test(name))) {
   const source = readFileSync(resolve(directory, filename), 'utf8');
+  if (source.includes('Deprecated / Excluded')) continue;
   const aliases = new Map();
   for (const match of source.matchAll(/participant "(MOD-[A-Z]+)\\n[^"]+" as (\w+)/gu)) {
     aliases.set(match[2], match[1]);
@@ -38,8 +39,7 @@ const portOwners = new Map([
   ['ProcurementSupplierPort', 'MOD-PROC'],
   ['ExecutionSupplierPort', 'MOD-EXEC'],
   ['TravelProductSupplierPort', 'MOD-TPM'],
-  ['OrderSupplierPort', 'MOD-OM'],
-  ['OrderSourcingPort', 'MOD-OM'],
+  ['OrderStockPort', 'MOD-OM'],
 ]);
 const adapterModules = new Map([
   ['SupplierAdapter', 'MOD-SUPI'],
@@ -49,8 +49,7 @@ const expectedImplementations = new Set([
   'SupplierAdapter->ProcurementSupplierPort',
   'SupplierAdapter->ExecutionSupplierPort',
   'SupplierAdapter->TravelProductSupplierPort',
-  'SupplierAdapter->OrderSupplierPort',
-  'ProcurementAdapter->OrderSourcingPort',
+  'ProcurementAdapter->OrderStockPort',
 ]);
 const implementations = new Set();
 for (const match of overview.matchAll(/^\s*(\w+)\s+\.\[norank\]\.\|>\s+(\w+)\s*$/gmu)) {

@@ -5,21 +5,21 @@
 - Catalog ID: [UC-017](use-cases.md)
 - Owning bounded context: Order Management
 - Primary actor: [Customer](../actors.md)
-- Supporting actors: [Travel Advisor](../actors.md); [Supplier](../actors.md); [Intermediary](../actors.md)
+- Supporting actors: [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-03
 
 ## Goal and scope
 
-Enable the Customer to obtain coherent reservations for every service required by a Travel Order.
+Enable the Customer to obtain coherent allocations from pre-procured capacity for every service required by a Travel Order.
 
 ## Preconditions
 
-an order with exact services and sourcing routes.
+an order with exact services backed by sufficient pre-procured capacity.
 
 ## Trigger
 
-The Customer requires its services to be committed or held.
+The Customer requires stock capacity to be allocated to its services.
 
 ## Main success scenario
 
@@ -40,27 +40,27 @@ The Customer requires its services to be committed or held.
 
 ## Success guarantee
 
-all required services consistently committed and linked.
+all required services consistently allocated from pre-procured capacity and linked.
 
 ## Minimal guarantee
 
-attempts and partial results remain auditable and are not reported secured.
+allocation attempts and partial results remain auditable and are not reported secured.
 
 ## Policies and information
 
-Travel Order, services, sourcing routes, reservations, validity, attempts, results, releases.
+Travel Order, services, stock capacity, reservations, validity, allocation attempts, results, releases.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
 ## Use-case-specific quality and compliance considerations
 
-tolerate uncertain external outcomes and prevent or reconcile duplicates.
+prevent over-allocation and prevent or reconcile duplicate allocation attempts.
 
 ## Acceptance example
 
 ```gherkin
 Scenario: Secure Required Travel Services
-  Given the Customer has an order with all services and sourcing routes
-  When the Customer each service is successfully committed
+  Given the Customer has an order whose services have sufficient pre-procured capacity
+  When capacity is allocated to each service
   Then the Customer the order is marked fully secured with linked reservations
 ```

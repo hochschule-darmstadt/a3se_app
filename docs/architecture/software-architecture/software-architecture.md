@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture
-- Last reviewed: 2026-08-01
+- Last reviewed: 2026-08-03
 
 This specification defines technology-neutral software modules, their provided interfaces, and their dependencies. It does not select processes, containers, servers, independently deployable services, or infrastructure. The same module boundaries must remain implementable as a modular monolith, independently deployable services, or a hybrid such as a main backend with a separately scalable AI capability. Runtime placement belongs to [Deployment Architecture](../../operations/deployment-architecture.md).
 
@@ -13,6 +13,8 @@ This architecture is accepted on the expectation that later detail changes to th
 A DDD bounded context is a boundary within which a domain model and its language are consistent. A software module is an implementation boundary that encapsulates code and exposes interfaces. The accepted [bounded contexts](../../requirements/bounded-contexts/bounded-contexts.md) are therefore starting candidates for modules, not synonyms for them. This initial design maps each implemented bounded context to one UML package stereotyped `«module»`; later evidence may justify splitting or combining modules without silently changing the bounded-context model.
 
 The Accounting, Reporting, and Human Resources bounded contexts remain visible as external module contracts. Their implementations are excluded by [SE-001](../../requirements/scope-exclusions.md).
+
+Customer-time on-demand sourcing is excluded by [SE-002](../../requirements/scope-exclusions.md). UC-007 and its historical diagram source are retained as deprecated evidence but do not contribute operations or capabilities to this accepted architecture.
 
 ## Method and evidence
 
@@ -55,12 +57,6 @@ Each accepted use case has a module-level UML sequence diagram. Lifelines are ac
 [Requirement](../../requirements/use-cases/uc-006-procure-stock-services.md)
 
 ![UC-006 module interaction](uc-006-procure-stock-services.svg)
-
-### UC-007: Arrange On-demand Sourcing
-
-[Requirement](../../requirements/use-cases/uc-007-arrange-on-demand-sourcing.md)
-
-![UC-007 module interaction](uc-007-arrange-on-demand-sourcing.svg)
 
 ### UC-008: Receive a Sales Offer
 
@@ -139,10 +135,10 @@ Operations are architectural candidates derived from use-case calls. Names may b
 | Module ID | Module / provided interface | Candidate operations | Derived from |
 |---|---|---|---|
 | MOD-CI | Customer Interaction / `CustomerInteraction` | `seekTravelAdvice`, `obtainOngoingAssistance`, `composeIndividualTravel`, `checkItineraryPlausibility`, `requestSalesOffer`, `confirmAvailability`, `acceptSalesOffer`, `receiveTravelDocuments`, `coordinateActiveTravel`, `maintainCustomerRecord`, `placeTravelOrder`, `secureRequiredServices`, `payForTravel` | UC-001–003, UC-005, UC-008–010, UC-012–014, UC-016–018 |
-| MOD-SI | Staff Interaction / `StaffInteraction` | `designPackageTravel`, `procureStockCapacity`, `arrangeOnDemandSourcing`, `prepareOrderedTravel`, `maintainProductsAndServices` | UC-004, UC-006–007, UC-011, UC-015 |
+| MOD-SI | Staff Interaction / `StaffInteraction` | `designPackageTravel`, `procureStockCapacity`, `prepareOrderedTravel`, `maintainProductsAndServices` | UC-004, UC-006, UC-011, UC-015 |
 | MOD-SUPI | Supplier Interaction / `SupplierInteraction` | none yet; supplier-facing outbound calls are adapter implementations of business-owned required ports | no accepted supplier-initiated use case |
 | MOD-TPD | Travel Product Design / `TravelProductDesign` | `composeIndividualTravel`, `designPackageTravel`, `checkItineraryPlausibility`, `getItinerarySnapshot` | UC-003–005, UC-008 |
-| MOD-PROC | Procurement / `Procurement` | `procureStockCapacity`, `arrangeOnDemandSourcing`, `getCapacityConstraints`, `getSourcingTerms`, `checkSourcingAvailability`, `getSourcingRoutes` | UC-004, UC-006–009, UC-017 |
+| MOD-PROC | Procurement / `Procurement` | `procureStockCapacity`, `getCapacityConstraints`, `getSourcingTerms`, `checkStockAvailability`, `allocateStockCapacity` | UC-004, UC-006, UC-008–009, UC-017 |
 | MOD-SALES | Sales / `Sales` | `createSalesOffer`, `confirmAvailability`, `acceptSalesOffer` | UC-008–010 |
 | MOD-EXEC | Travel Execution / `TravelExecution` | `prepareOrderedTravel`, `issueTravelDocuments`, `coordinateActiveTravel`, `assistDuringOrAfterTravel` | UC-002, UC-011–013 |
 | MOD-CM | Customer Management / `CustomerManagement` | `getCustomerContext`, `getAuthorisedRecipient`, `maintainCustomerRecord` | UC-001, UC-008, UC-012, UC-014 |
@@ -158,11 +154,10 @@ Required ports express capabilities needed by a business module without making t
 
 | Owning module | Required port | Candidate operations | Implemented by | Evidence |
 |---|---|---|---|---|
-| MOD-PROC | `ProcurementSupplierPort` | `requestStockCapacity`, `establishSourcingAccess`, `queryExternalAvailability` | `SupplierAdapter` in MOD-SUPI | UC-006–007, UC-009 |
+| MOD-PROC | `ProcurementSupplierPort` | `requestStockCapacity` | `SupplierAdapter` in MOD-SUPI | UC-006 |
 | MOD-EXEC | `ExecutionSupplierPort` | `obtainFulfilmentConfirmation`, `coordinateExecutionChange` | `SupplierAdapter` in MOD-SUPI | UC-011, UC-013 |
 | MOD-TPM | `TravelProductSupplierPort` | `obtainServiceDefinition` | `SupplierAdapter` in MOD-SUPI | UC-015 |
-| MOD-OM | `OrderSupplierPort` | `commitExternalService` | `SupplierAdapter` in MOD-SUPI | UC-017 |
-| MOD-OM | `OrderSourcingPort` | `getSourcingRoutes` | `ProcurementAdapter` in MOD-PROC | UC-017 |
+| MOD-OM | `OrderStockPort` | `allocateStockCapacity` | `ProcurementAdapter` in MOD-PROC | UC-017 |
 
 ## Dependency rule and result
 

@@ -5,9 +5,9 @@
 - Catalog ID: [UC-013](use-cases.md)
 - Owning bounded context: Travel Execution
 - Primary actor: [Traveler](../actors.md)
-- Supporting actors: [Customer](../actors.md); [Travel Advisor](../actors.md); [Supplier](../actors.md); [Intermediary](../actors.md)
+- Supporting actors: [Customer](../actors.md); [Travel Advisor](../actors.md); [Supplier](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-03
 
 ## Goal and scope
 

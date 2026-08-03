@@ -1,17 +1,19 @@
 # Arrange On-demand Sourcing
 
-- Status: proposed
+- Status: deprecated
 - Owner: Requirements
 - Catalog ID: [UC-007](use-cases.md)
 - Owning bounded context: Procurement
 - Primary actor: [Purchaser](../actors.md)
 - Supporting actors: [Intermediary](../actors.md); [Supplier](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-03
 
 ## Goal and scope
 
 Enable the Purchaser to establish commercial access to Travel Services sourced when demand arises.
+
+This use case was retired on 2026-08-03 because [SE-002](../scope-exclusions.md) excludes customer-time on-demand acquisition. It is retained for history and its identifier shall not be reused.
 
 ## Preconditions
 

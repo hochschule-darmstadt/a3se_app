@@ -25,7 +25,6 @@ package "Christopher Columbus Travel" <<enterprise>> {
       class StaffInteraction <<interface>> {
         +designPackageTravel()
         +procureStockCapacity()
-        +arrangeOnDemandSourcing()
         +prepareOrderedTravel()
         +maintainProductsAndServices()
       }
@@ -50,17 +49,14 @@ package "Christopher Columbus Travel" <<enterprise>> {
     package "MOD-PROC\nProcurement" <<module>> {
       class Procurement <<interface>> {
         +procureStockCapacity()
-        +arrangeOnDemandSourcing()
         +getCapacityConstraints()
         +getSourcingTerms()
-        +checkSourcingAvailability()
-        +getSourcingRoutes()
+        +checkStockAvailability()
+        +allocateStockCapacity()
       }
       class ProcurementAdapter <<adapter>>
       class ProcurementSupplierPort <<required interface>> {
         +requestStockCapacity()
-        +establishSourcingAccess()
-        +queryExternalAvailability()
       }
     }
     package "MOD-SALES\nSales" <<module>> {
@@ -116,11 +112,8 @@ package "Christopher Columbus Travel" <<enterprise>> {
         +secureRequiredServices()
         +applyPayment()
       }
-      class OrderSupplierPort <<required interface>> {
-        +commitExternalService()
-      }
-      class OrderSourcingPort <<required interface>> {
-        +getSourcingRoutes()
+      class OrderStockPort <<required interface>> {
+        +allocateStockCapacity()
       }
     }
     TravelProductManagement -[hidden]right- CustomerManagement
@@ -189,8 +182,7 @@ package "Christopher Columbus Travel" <<enterprise>> {
   SupplierAdapter .[norank].|> ProcurementSupplierPort
   SupplierAdapter .[norank].|> ExecutionSupplierPort
   SupplierAdapter .[norank].|> TravelProductSupplierPort
-  SupplierAdapter .[norank].|> OrderSupplierPort
-  ProcurementAdapter .[norank].|> OrderSourcingPort
+  ProcurementAdapter .[norank].|> OrderStockPort
 }
 
 @enduml

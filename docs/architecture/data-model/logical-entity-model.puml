@@ -44,11 +44,6 @@ package "Christopher Columbus Travel" <<enterprise>> {
         name: Text
         status: PartyStatus
       }
-      class Intermediary <<entity>> {
-        intermediaryId: Identifier
-        name: Text
-        status: PartyStatus
-      }
       class StockCapacity <<entity>> {
         capacityId: Identifier
         serviceId: Identifier
@@ -57,16 +52,6 @@ package "Christopher Columbus Travel" <<enterprise>> {
         validUntil: Date
         purchasePrice: Money
         status: CapacityStatus
-      }
-      class SourcingArrangement <<entity>> {
-        arrangementId: Identifier
-        serviceScope: Text
-        validFrom: Date
-        validUntil: Date
-        priceTerms: Text
-        accessMethod: Text
-        limits: Text
-        status: ArrangementStatus
       }
     }
 
@@ -221,9 +206,6 @@ package "Christopher Columbus Travel" <<enterprise>> {
   TravelComponent .[norank].> TravelService : <<reference by ID>>
   TravelService .[norank].> Supplier : <<reference by ID>>
   StockCapacity .[norank].> TravelService : <<reference by ID>>
-  SourcingArrangement .[norank].> TravelService : <<reference by ID>>
-  SourcingArrangement .[norank].> Supplier : <<sourcing party ID>>
-  SourcingArrangement .[norank].> Intermediary : <<sourcing party ID>>
   SalesOffer .[norank].> Customer : <<reference by ID>>
   SalesOffer .[norank].> Itinerary : <<snapshot>>
   SalesOffer .[norank].> TravelProduct : <<snapshot>>
@@ -233,8 +215,7 @@ package "Christopher Columbus Travel" <<enterprise>> {
   TravelOrder .[norank].> SalesOffer : <<snapshot>>
   TravelOrder .[norank].> Itinerary : <<snapshot>>
   OrderLine .[norank].> TravelService : <<snapshot>>
-  Reservation .[norank].> StockCapacity : <<sourcing route ID>>
-  Reservation .[norank].> SourcingArrangement : <<sourcing route ID>>
+  Reservation .[norank].> StockCapacity : <<allocated capacity ID>>
   ExecutionCase .[norank].> TravelOrder : <<projection>>
 }
 

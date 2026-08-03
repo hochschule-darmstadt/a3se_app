@@ -36,7 +36,6 @@ rectangle "Tour Operator Information System" {
 
   package "Procurement" <<bounded context>> {
     usecase "UC-006\nProcure Stock Services" as UC006
-    usecase "UC-007\nArrange On-demand Sourcing" as UC007
   }
 
   package "Sales" <<bounded context>> {
@@ -85,7 +84,6 @@ Customer -- UC003
 SeasonalPlanner -- UC004
 Customer -- UC005
 Purchaser -- UC006
-Purchaser -- UC007
 Customer -- UC008
 Customer -- UC009
 Customer -- UC010

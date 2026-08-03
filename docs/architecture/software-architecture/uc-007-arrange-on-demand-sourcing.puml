@@ -1,5 +1,9 @@
 @startuml
-title UC-007 Arrange On-demand Sourcing - Module Interaction
+title UC-007 Arrange On-demand Sourcing - Deprecated / Excluded
+note across
+  Historical architecture evidence only.
+  Customer-time on-demand sourcing is excluded by SE-002.
+end note
 autonumber
 actor Purchaser
 participant "MOD-SI\nStaff Interaction" as SI

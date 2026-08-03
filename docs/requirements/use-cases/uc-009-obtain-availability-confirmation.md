@@ -5,17 +5,17 @@
 - Catalog ID: [UC-009](use-cases.md)
 - Owning bounded context: Sales
 - Primary actor: [Customer](../actors.md)
-- Supporting actors: [Travel Advisor](../actors.md); [Supplier](../actors.md); [Intermediary](../actors.md)
+- Supporting actors: [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-03
 
 ## Goal and scope
 
-Enable the Customer to learn whether every required Travel Service can currently be committed.
+Enable the Customer to learn whether sufficient pre-procured capacity remains available for every required Travel Service.
 
 ## Preconditions
 
-a defined composition with sourcing routes.
+a defined composition whose Travel Services are backed by pre-procured capacity.
 
 ## Trigger
 
@@ -48,7 +48,7 @@ unchecked, stale, or partial results are not full confirmation.
 
 ## Policies and information
 
-composition version, services, sources, per-service results, time, validity, limitations.
+composition version, services, stock-capacity allocations, per-service results, time, validity, limitations.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
@@ -60,7 +60,7 @@ state freshness and whether a result is informational or backed by a hold.
 
 ```gherkin
 Scenario: Obtain Availability Confirmation
-  Given the Customer has a composition with known sourcing routes
-  When the Customer availability is checked for every service
+  Given the Customer has a composition backed by pre-procured capacity
+  When the remaining stock capacity is checked for every service
   Then the Customer receives the complete result with time and limitations
 ```

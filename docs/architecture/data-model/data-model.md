@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture
-- Last reviewed: 2026-08-01
+- Last reviewed: 2026-08-03
 
 This technology-neutral logical model refines the accepted [business objects](../../requirements/business-objects.md) into entity candidates owned by modules in the Core Business and Resources layers of the accepted [modular software architecture](../software-architecture/software-architecture.md). It describes business identity, attributes, associations, and ownership. It does not prescribe tables, foreign keys, graph edges, document collections, persistence annotations, or database products.
 
@@ -29,9 +29,7 @@ Attributes use logical domain types. `Identifier`, `Text`, `Date`, `DateTime`, `
 | Core Business / MOD-TPD Travel Product Design | `Itinerary` | `itineraryId`, `compositionType`, `version`, `status`, `startDate`, `endDate` | Accepted business object; Individual/Package Travel, versioned composition, dates, and plausibility evidence from UC-003–005 |
 | Core Business / MOD-TPD | `TravelComponent` | `componentId`, `sequence`, `componentType`, `startAt`, `endAt`, `status` | Glossary-defined service selected in a specific travel; ordered composition and timing from UC-003–005 |
 | Core Business / MOD-PROC Procurement | `Supplier` | `supplierId`, `name`, `status` | Accepted business object and glossary |
-| Core Business / MOD-PROC | `Intermediary` | `intermediaryId`, `name`, `status` | Glossary and UC-007/UC-017 distinguish an intermediary from a direct supplier |
 | Core Business / MOD-PROC | `StockCapacity` | `capacityId`, `serviceId`, `quantity`, `validFrom`, `validUntil`, `purchasePrice`, `status` | Stock Service definition and UC-006 information needs |
-| Core Business / MOD-PROC | `SourcingArrangement` | `arrangementId`, `serviceScope`, `validFrom`, `validUntil`, `priceTerms`, `accessMethod`, `limits`, `status` | On-demand sourcing definition and UC-007 information needs |
 | Core Business / MOD-SALES Sales | `SalesOffer` | `offerId`, `version`, `salePrice`, `validUntil`, `conditions`, `availabilityStatus`, `status` | Accepted business object and UC-008–010 |
 | Core Business / MOD-SALES | `OfferLine` | `offerLineId`, `sequence`, `serviceDescription`, `salePrice`, `conditions` | Candidate immutable commercial breakdown of the offered composition, supported by UC-008–010 |
 | Core Business / MOD-EXEC Travel Execution | `ExecutionCase` | `executionCaseId`, `status`, `readiness`, `startedAt`, `completedAt` | Execution state explicitly owned by the bounded context; UC-011–013 |
@@ -65,8 +63,6 @@ Attributes use logical domain types. `Identifier`, `Text`, `Date`, `DateTime`, `
 | `TravelComponent` | `TravelService` | `1` `«reference by ID»` | A component identifies the reusable service it instantiates without sharing its model. |
 | `TravelService` | `Supplier` | `1` `«reference by ID»` | A service identifies its direct provider; supplier data remains owned by Procurement. |
 | `StockCapacity` | `TravelService` | `1` `«reference by ID»` | Purchased capacity applies to one maintained service. |
-| `SourcingArrangement` | `TravelService` | `1..*` `«reference by ID»` | An arrangement covers one or more maintained services. |
-| `SourcingArrangement` | `Supplier` / `Intermediary` | exactly one sourcing party | The current model permits either direct or intermediated sourcing; the exclusivity rule needs confirmation. |
 | `SalesOffer` | `Customer` | `1` `«reference by ID»` | The offer identifies its recipient. |
 | `SalesOffer` | `Itinerary` | `1` `«snapshot»` | The offered composition is preserved at its offered version. |
 | `SalesOffer` | `TravelProduct` | `0..*` `«snapshot»` | An offer preserves any maintained products included in the commercial composition. |
@@ -75,7 +71,7 @@ Attributes use logical domain types. `Identifier`, `Text`, `Date`, `DateTime`, `
 | `TravelOrder` | `Traveler` | `1..*` `«reference by ID»` | The order identifies its travelers without owning customer records. |
 | `TravelOrder` | `SalesOffer` / `Itinerary` | `1` each `«snapshot»` | The accepted offer and composition are preserved as the basis of the order. |
 | `OrderLine` | `TravelService` | `1` `«snapshot»` | Ordered service details survive later product-definition changes. |
-| `Reservation` | `StockCapacity` / `SourcingArrangement` | `0..1` each `«reference by ID»` | A reservation records its selected sourcing route; the exclusive-route rule needs confirmation. |
+| `Reservation` | `StockCapacity` | `1` `«reference by ID»` | A reservation records the pre-procured capacity allocated to its ordered service. |
 | `Reservation` | `OrderLine` | each reservation secures `1` line; a line has `0..*` attempts/results | The reservation records which ordered service it attempts to secure. |
 | `ExecutionCase` | `TravelOrder` | `1` `«projection»` | Execution consumes the order information required to coordinate travel. |
 
@@ -94,7 +90,7 @@ The diagram shows conceptual relationships in both directions where that improve
 - Proposed detailed use cases provide candidate attributes but do not yet establish complete invariants, state machines, or optionality.
 - `Money`, contact information, personal identity, consent, provenance, audit history, and external credentials require dedicated value-object and security/privacy refinement.
 - The model does not yet decide whether Customer and Traveler are persons, organizations, roles, or a party hierarchy.
-- The exact exclusivity of supplier versus intermediary sourcing and stock versus on-demand reservation routes requires stakeholder confirmation.
+- Customer-time on-demand sourcing is absent from the model because [SE-002](../../requirements/scope-exclusions.md) limits sales to pre-procured capacity.
 - Availability is represented as input evidence, not a promise that availability can be stored as a single current fact.
 - Reporting, Accounting, and Human Resources entities are intentionally absent because their implementations are excluded by [SE-001](../../requirements/scope-exclusions.md).
 - No association in this model selects relational, graph, document, or hybrid persistence.

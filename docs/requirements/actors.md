@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-03
 
 Actors are stable human roles, external parties, or external systems that interact with the tour operator information system. Assignment identifies the bounded contexts in which an actor directly participates; it does not imply that the actor owns those contexts or their information.
 
@@ -12,8 +12,13 @@ Actors are stable human roles, external parties, or external systems that intera
 | ACT-002 | Traveler | External business actor | Provide traveler-specific details, undertake the ordered travel, receive relevant documents and assistance, and communicate travel-related needs | Customer Interaction; Customer Management; Order Management; Travel Execution | A travel order may involve one or more travelers who are not the customer |
 | ACT-003 | Travel Advisor | Internal human role | Assist customers with travel exploration, composition, ordering, exceptions, and continuity across the travel lifecycle | Customer Interaction; Travel Product Design; Sales; Order Management; Travel Execution | An automated travel advisor is part of the system when it operates inside the system boundary; the human role remains an actor |
 | ACT-004 | Seasonal Planner | Internal human role | Plan seasonal offerings and the capacity needed to support them | Travel Product Management; Travel Product Design | Distinct from the purchaser who negotiates and obtains capacity |
-| ACT-005 | Purchaser | Internal human role | Negotiate procurement terms, obtain stock services, arrange access to on-demand sourced services, and maintain supplier relationships | Procurement; Travel Product Management | Uses product and service demand from planning without owning seasonal planning |
+| ACT-005 | Purchaser | Internal human role | Negotiate procurement terms, obtain stock services, and maintain supplier relationships | Procurement; Travel Product Management | Uses product and service demand from planning without owning seasonal planning |
 | ACT-006 | Supplier | External business party or system | Provide travel services, expose or confirm availability, fulfill reservations, and participate in settlement | Procurement; Travel Product Management; Order Management; Travel Execution | Examples include hotels and airlines; interaction may be human or system-to-system |
-| ACT-007 | Intermediary | External business party or system | Provide access to on-demand sourced services, availability, reservation, and fulfillment information under a commercial agreement | Procurement; Sales; Order Management; Travel Execution | Distinct from the party that directly delivers the travel service |
+
+## Retired actors
+
+| ID | Actor | Retirement reason | Status |
+|---|---|---|---|
+| ACT-007 | Intermediary | The actor existed only for customer-time on-demand sourcing, which is excluded by [SE-002](scope-exclusions.md). The identifier is retained and shall not be reused. | deprecated |
 
 Stakeholders who influence the system without directly interacting with it belong in stakeholder-management or source-evidence artifacts rather than this actor catalog.

@@ -4,25 +4,16 @@ autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-OM\nOrder Management" as OM
-participant "OrderSourcingPort\n<<required interface>>" as SOURCING
+participant "OrderStockPort\n<<required interface>>" as STOCK
 participant "MOD-PROC\nProcurement Adapter" as PROC
-participant "OrderSupplierPort\n<<required interface>>" as SUPPLIER_PORT
-participant "MOD-SUPI\nSupplier Adapter" as SUPI
-actor Supplier
 
 Customer -> CI: secureRequiredServices(orderReference)
 CI -> OM: secureRequiredServices(orderReference)
-OM -> SOURCING: getSourcingRoutes(serviceReferences)
-SOURCING -> PROC: getSourcingRoutes(serviceReferences)
-PROC --> SOURCING: sourcingRoutes
-SOURCING --> OM: sourcingRoutes
-loop each required external service
-  OM -> SUPPLIER_PORT: commitExternalService(service, sourcingRoute)
-  SUPPLIER_PORT -> SUPI: commitExternalService(service, sourcingRoute)
-  SUPI -> Supplier: commit service
-  Supplier --> SUPI: reservationOutcome
-  SUPI --> SUPPLIER_PORT: reservationOutcome
-  SUPPLIER_PORT --> OM: reservationOutcome
+loop each required service
+  OM -> STOCK: allocateStockCapacity(service, quantity)
+  STOCK -> PROC: allocateStockCapacity(service, quantity)
+  PROC --> STOCK: allocationOutcome
+  STOCK --> OM: allocationOutcome
 end
 OM --> CI: coherentReservationState
 CI --> Customer: secured or partial outcome
