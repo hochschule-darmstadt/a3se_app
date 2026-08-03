@@ -3,7 +3,7 @@
 - Status: proposed
 - Owner: Requirements
 - Catalog ID: [UC-006](use-cases.md)
-- Owning bounded context: Procurement
+- Owning subdomain: Procurement
 - Primary actor: [Purchaser](../actors.md)
 - Supporting actors: [Supplier](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
@@ -26,7 +26,7 @@ The Purchaser initiates advance capacity acquisition.
 1. The Purchaser initiates the use case and identifies its subject.
 2. The system retrieves the relevant confirmed context and checks authorization.
 3. The system obtains and validates the information needed for the requested outcome.
-4. The system performs the responsibilities owned by Procurement and coordinates required participants.
+4. The system performs the responsibilities owned by Procurement and coordinates required modules.
 5. The Purchaser reviews or confirms the resulting state.
 6. The system records the outcome, provenance, and unresolved next steps and communicates them to affected actors.
 

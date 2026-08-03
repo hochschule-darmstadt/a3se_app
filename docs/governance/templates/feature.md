@@ -8,7 +8,7 @@ Describe the actor outcome and why it matters.
 
 ## Parent epic and use case
 
-Link exactly one epic parent and exactly one use case within that epic's bounded context. Link relevant source evidence and accepted requirement IDs; classify unsupported statements as assumptions or proposals.
+Link exactly one epic parent and exactly one use case within that epic's subdomain. Link relevant source evidence and accepted requirement IDs; classify unsupported statements as assumptions or proposals.
 
 ## Scope
 

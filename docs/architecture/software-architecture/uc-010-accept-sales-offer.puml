@@ -6,11 +6,10 @@ participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-SALES\nSales" as SALES
 participant "MOD-OM\nOrder Management" as OM
 
-Customer -> CI: acceptSalesOffer(offerVersion)
-CI -> SALES: acceptSalesOffer(customerReference, offerVersion)
-SALES -> SALES: validateOfferAndRecordAcceptance()
-SALES -> OM: createTravelOrder(acceptedOfferSnapshot)
-OM --> SALES: orderReference
-SALES --> CI: acceptedOffer and orderReference
-CI --> Customer: acceptance confirmation
+Customer -> CI: acceptSalesOffer(offerRef, version)
+CI -> SALES: acceptSalesOffer(offerRef, version, customerRef)
+SALES -> OM: recordAcceptedOffer(offerSnapshot, acceptanceEvidence)
+OM --> SALES: acceptedOfferRecord
+SALES --> CI: acceptanceOutcome
+CI --> Customer: accepted offer confirmation
 @enduml

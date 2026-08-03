@@ -3,11 +3,13 @@ title UC-016 Place a Travel Order - Module Interaction
 autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-SALES\nSales" as SALES
 participant "MOD-OM\nOrder Management" as OM
 
-Customer -> CI: placeTravelOrder(acceptedOfferSnapshot)
-CI -> OM: createTravelOrder(acceptedOfferSnapshot)
-OM -> OM: ensureIdempotentCreation()
-OM --> CI: travelOrderReference
-CI --> Customer: identifiable travel order
+Customer -> CI: placeTravelOrder(acceptedOfferRef)
+CI -> SALES: validateAcceptedOffer(acceptedOfferRef, customerRef)
+SALES --> CI: acceptedOfferSnapshot
+CI -> OM: createOrder(acceptedOfferSnapshot, personRoleRefs)
+OM --> CI: travelOrder
+CI --> Customer: order reference and status
 @enduml

@@ -4,12 +4,12 @@ autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-CM\nCustomer Management" as CM
-participant "MOD-TPM\nTravel Product Management" as TPM
+participant "MOD-TPM\nTouristic Product Management" as TPM
 
-Customer -> CI: seekTravelAdvice(goals, preferences)
-CI -> CM: getCustomerContext(customerReference)
-CM --> CI: confirmedContext
-CI -> TPM: findTravelOptions(confirmedContext)
-TPM --> CI: suitableOptions
-CI --> Customer: advice and resumable context
+Customer -> CI: seekTravelAdvice(travelGoals)
+CI -> CM: getCustomerContext(customerRef)
+CM --> CI: customerContext
+CI -> TPM: findTouristicProducts(travelGoals, customerContext)
+TPM --> CI: productOptions
+CI --> Customer: advice and refinement options
 @enduml

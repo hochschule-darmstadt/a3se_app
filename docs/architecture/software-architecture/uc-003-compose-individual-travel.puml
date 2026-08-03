@@ -3,13 +3,19 @@ title UC-003 Compose Individual Travel - Module Interaction
 autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
-participant "MOD-TPD\nTravel Product Design" as TPD
-participant "MOD-TPM\nTravel Product Management" as TPM
+participant "MOD-TPD\nTouristic Product Design" as TPD
+participant "MOD-CM\nCustomer Management" as CM
+participant "MOD-TPM\nTouristic Product Management" as TPM
+participant "MOD-INV\nInventory" as INV
 
-Customer -> CI: composeIndividualTravel(confirmedNeeds)
-CI -> TPD: composeIndividualTravel(confirmedNeeds)
-TPD -> TPM: findTravelServices(confirmedNeeds)
-TPM --> TPD: candidateServices
-TPD --> CI: reviewableItinerary
-CI --> Customer: itinerary and unresolved gaps
+Customer -> CI: composeIndividualTravel(travelGoals)
+CI -> TPD: composeIndividualTravel(travelGoals, customerRef)
+TPD -> CM: getTravelerRequirements(customerRef)
+CM --> TPD: travelerRequirements
+TPD -> TPM: findProductItems(travelGoals)
+TPM --> TPD: productItems
+TPD -> INV: findAvailableStock(productItemRefs, travelPeriod)
+INV --> TPD: stockOptions
+TPD --> CI: itineraryDraft
+CI --> Customer: reviewable itinerary
 @enduml

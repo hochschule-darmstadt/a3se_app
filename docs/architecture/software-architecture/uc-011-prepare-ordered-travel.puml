@@ -3,22 +3,19 @@ title UC-011 Prepare Ordered Travel - Module Interaction
 autonumber
 actor "Travel Advisor" as Advisor
 participant "MOD-SI\nStaff Interaction" as SI
-participant "MOD-EXEC\nTravel Execution" as EXEC
+participant "MOD-CARE\nCustomer Care" as CARE
 participant "MOD-OM\nOrder Management" as OM
-participant "ExecutionSupplierPort\n<<required interface>>" as PORT
-participant "MOD-SUPI\nSupplier Adapter" as SUPI
-actor Supplier
+participant "MOD-INV\nInventory" as INV
+participant "MOD-SM\nSupplier Management" as SM
 
-Advisor -> SI: prepareOrderedTravel(orderReference)
-SI -> EXEC: prepareOrderedTravel(orderReference)
-EXEC -> OM: getTravelOrder(orderReference)
-OM --> EXEC: orderAndReservations
-EXEC -> PORT: obtainFulfilmentConfirmation(serviceReferences)
-PORT -> SUPI: obtainFulfilmentConfirmation(serviceReferences)
-SUPI -> Supplier: obtain confirmation
-Supplier --> SUPI: fulfilmentConfirmations
-SUPI --> PORT: fulfilmentConfirmations
-PORT --> EXEC: fulfilmentConfirmations
-EXEC --> SI: readiness and unresolvedDependencies
-SI --> Advisor: preparation outcome
+Advisor -> SI: prepareOrderedTravel(orderRef)
+SI -> CARE: prepareOrderedTravel(orderRef)
+CARE -> OM: getOrder(orderRef)
+OM --> CARE: orderAndRoles
+CARE -> INV: getAllocatedStock(orderItemRefs)
+INV --> CARE: allocatedStock
+CARE -> SM: getFulfilmentContacts(orgRoleRefs)
+SM --> CARE: fulfilmentContacts
+CARE --> SI: readinessOutcome
+SI --> Advisor: readiness and unresolved dependencies
 @enduml

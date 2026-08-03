@@ -5,20 +5,20 @@ actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-SALES\nSales" as SALES
 participant "MOD-CM\nCustomer Management" as CM
-participant "MOD-TPD\nTravel Product Design" as TPD
-participant "MOD-TPM\nTravel Product Management" as TPM
-participant "MOD-PROC\nProcurement" as PROC
+participant "MOD-TPD\nTouristic Product Design" as TPD
+participant "MOD-TPM\nTouristic Product Management" as TPM
+participant "MOD-INV\nInventory" as INV
 
-Customer -> CI: requestSalesOffer(itineraryReference)
-CI -> SALES: createSalesOffer(customerReference, itineraryReference)
-SALES -> CM: getCustomerContext(customerReference)
-CM --> SALES: customerSnapshot
-SALES -> TPD: getItinerarySnapshot(itineraryReference)
-TPD --> SALES: itinerarySnapshot
-SALES -> TPM: getServiceSnapshots(serviceReferences)
-TPM --> SALES: serviceSnapshots
-SALES -> PROC: getSourcingTerms(serviceReferences)
-PROC --> SALES: sourcingTerms
+Customer -> CI: requestSalesOffer(itineraryRef)
+CI -> SALES: createSalesOffer(customerRef, itineraryRef)
+SALES -> CM: getCustomerRole(customerRef)
+CM --> SALES: customerRole
+SALES -> TPD: getCompositionSnapshot(itineraryRef)
+TPD --> SALES: compositionSnapshot
+SALES -> TPM: getProductRepresentations(productItemRefs)
+TPM --> SALES: productRepresentations
+SALES -> INV: priceAvailableStock(stockNeeds)
+INV --> SALES: pricedStock
 SALES --> CI: versionedSalesOffer
-CI --> Customer: price, validity, conditions, next action
+CI --> Customer: offer, validity, and conditions
 @enduml

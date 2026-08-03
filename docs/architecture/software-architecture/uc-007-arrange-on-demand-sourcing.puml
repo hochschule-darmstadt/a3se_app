@@ -1,25 +1,13 @@
 @startuml
 title UC-007 Arrange On-demand Sourcing - Deprecated / Excluded
-note across
-  Historical architecture evidence only.
-  Customer-time on-demand sourcing is excluded by SE-002.
-end note
 autonumber
 actor Purchaser
 participant "MOD-SI\nStaff Interaction" as SI
-participant "MOD-PROC\nProcurement" as PROC
-participant "ProcurementSupplierPort\n<<required interface>>" as PORT
-participant "MOD-SUPI\nSupplier Adapter" as SUPI
-actor "Supplier / Intermediary" as Supplier
 
-Purchaser -> SI: arrangeOnDemandSourcing(serviceScope, conditions)
-SI -> PROC: arrangeOnDemandSourcing(serviceScope, conditions)
-PROC -> PORT: establishSourcingAccess(serviceScope, conditions)
-PORT -> SUPI: establishSourcingAccess(serviceScope, conditions)
-SUPI -> Supplier: establish access
-Supplier --> SUPI: confirmedAccess
-SUPI --> PORT: confirmedAccess
-PORT --> PROC: confirmedAccess
-PROC --> SI: activeSourcingArrangement
-SI --> Purchaser: arrangement outcome
+Purchaser -> SI: requestOnDemandSourcing(serviceNeed)
+SI --> Purchaser: rejectAsOutOfScope(SE-002)
+note right of SI
+  Historical use case retained without business-module behavior.
+  Only pre-procured stock is sold.
+end note
 @enduml

@@ -3,7 +3,7 @@
 - Status: deprecated
 - Owner: Requirements
 - Catalog ID: [UC-007](use-cases.md)
-- Owning bounded context: Procurement
+- Owning subdomain: Procurement
 - Primary actor: [Purchaser](../actors.md)
 - Supporting actors: [Intermediary](../actors.md); [Supplier](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)

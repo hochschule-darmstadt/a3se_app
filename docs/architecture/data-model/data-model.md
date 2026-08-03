@@ -4,93 +4,68 @@
 - Owner: Architecture
 - Last reviewed: 2026-08-03
 
-This technology-neutral logical model refines the accepted [business objects](../../requirements/business-objects.md) into entity candidates owned by modules in the Core Business and Resources layers of the accepted [modular software architecture](../software-architecture/software-architecture.md). It describes business identity, attributes, associations, and ownership. It does not prescribe tables, foreign keys, graph edges, document collections, persistence annotations, or database products.
+This technology-neutral logical model defines generic entity structures owned by Resources modules in the accepted [software architecture](../software-architecture/software-architecture.md). It was produced by iteratively refining the accepted [business objects](../../requirements/business-objects.md): recurring party roles and item structures were generalized while concrete business meaning remains expressed through types, properties, and relationships.
 
-The accepted business objects and bounded-context ownership are authoritative. Additional entities, attributes, multiplicities, and integration semantics in this document are architecture proposals derived from the currently proposed detailed use cases; accepting this model would not accept those use cases.
+It does not prescribe database tables, foreign keys, graph labels, collections, persistence annotations, or a database product.
 
 ## Overview
 
-![Logical entity model by layer and module](logical-entity-model.svg)
+![Logical data model](data-model.svg)
 
-Solid associations stay within one module-owned model. Dashed cross-module relationships make enterprise-wide business relationships visible while preserving encapsulation:
+Arrows show conceptual references across entity and module boundaries; they do not by themselves require object navigation or database foreign keys.
 
-- `«reference by ID»` means the source retains the target's stable identifier;
-- `«snapshot»` means the source retains an immutable representation needed for its own historical consistency;
-- `«projection»` means the source consumes a purpose-specific view owned elsewhere.
+## Concrete object usage
 
-These relationships do not imply direct object navigation, shared mutable state, a distributed transaction, or a database foreign key. Every entity has exactly one owning module.
+The following synthetic object diagram illustrates how the generic logical data model is used for one comprehensive travel example. It is explanatory architecture evidence, not a physical database design or additional requirements source.
 
-## Entity catalog
+![Concrete object example](objects.svg)
 
-Attributes use logical domain types. `Identifier`, `Text`, `Date`, `DateTime`, `Money`, `Quantity`, and the named `...Status`/`...Type` types are conceptual value types, not programming-language or storage types.
+John and Sarah are Persons playing customer/traveler roles. Supplier Organisations play airline and hotel roles. Recursive TouristicProductItems describe a flight with seats and a hotel room category with a room; corresponding StockItems make dated capacity sellable; OrderItems connect the customer and travelers to the allocated stock.
 
-| Layer / owning module | Entity | Candidate attributes | Evidence and rationale |
-|---|---|---|---|
-| Core Business / MOD-TPD Travel Product Design | `Itinerary` | `itineraryId`, `compositionType`, `version`, `status`, `startDate`, `endDate` | Accepted business object; Individual/Package Travel, versioned composition, dates, and plausibility evidence from UC-003–005 |
-| Core Business / MOD-TPD | `TravelComponent` | `componentId`, `sequence`, `componentType`, `startAt`, `endAt`, `status` | Glossary-defined service selected in a specific travel; ordered composition and timing from UC-003–005 |
-| Core Business / MOD-PROC Procurement | `Supplier` | `supplierId`, `name`, `status` | Accepted business object and glossary |
-| Core Business / MOD-PROC | `StockCapacity` | `capacityId`, `serviceId`, `quantity`, `validFrom`, `validUntil`, `purchasePrice`, `status` | Stock Service definition and UC-006 information needs |
-| Core Business / MOD-SALES Sales | `SalesOffer` | `offerId`, `version`, `salePrice`, `validUntil`, `conditions`, `availabilityStatus`, `status` | Accepted business object and UC-008–010 |
-| Core Business / MOD-SALES | `OfferLine` | `offerLineId`, `sequence`, `serviceDescription`, `salePrice`, `conditions` | Candidate immutable commercial breakdown of the offered composition, supported by UC-008–010 |
-| Core Business / MOD-EXEC Travel Execution | `ExecutionCase` | `executionCaseId`, `status`, `readiness`, `startedAt`, `completedAt` | Execution state explicitly owned by the bounded context; UC-011–013 |
-| Core Business / MOD-EXEC | `TravelDocument` | `documentId`, `documentType`, `version`, `releaseStatus`, `issuedAt` | Glossary and UC-012 |
-| Core Business / MOD-EXEC | `ExecutionEvent` | `eventId`, `eventType`, `occurredAt`, `status`, `resolution` | Active-travel event coordination from UC-013 |
-| Resources / MOD-CM Customer Management | `Customer` | `customerId`, `displayName`, `contactDetails`, `consentStatus`, `recordStatus` | Accepted business object and UC-014 information needs |
-| Resources / MOD-CM | `Traveler` | `travelerId`, `name`, `travelDetails`, `recordStatus` | Glossary distinguishes traveler from customer; UC-003, UC-011–013, UC-016 |
-| Resources / MOD-TPM Travel Product Management | `TravelProduct` | `productId`, `name`, `description`, `version`, `validFrom`, `validUntil`, `status` | Accepted business object and UC-015 |
-| Resources / MOD-TPM | `TravelService` | `serviceId`, `serviceType`, `name`, `description`, `version`, `validFrom`, `validUntil`, `status` | Accepted business object and UC-015 |
-| Resources / MOD-TPM | `AvailabilityInput` | `availabilityInputId`, `availabilityType`, `quantity`, `validFrom`, `validUntil`, `status` | Availability inputs owned by the context; UC-006, UC-009, UC-015 |
-| Resources / MOD-OM Order Management | `TravelOrder` | `orderId`, `orderReference`, `createdAt`, `totalPrice`, `currency`, `status`, `securedStatus`, `balanceDue` | Accepted business object and UC-016–018 |
-| Resources / MOD-OM | `OrderLine` | `orderLineId`, `sequence`, `serviceDescription`, `salePrice`, `status` | Candidate immutable ordered-service breakdown needed by UC-016–017 |
-| Resources / MOD-OM | `Reservation` | `reservationId`, `externalReference`, `status`, `heldUntil`, `attemptReference` | Glossary and UC-017 |
-| Resources / MOD-OM | `Payment` | `paymentId`, `purpose`, `amount`, `currency`, `attemptReference`, `status`, `confirmedAt` | Deposit/Payment concepts and UC-018 |
+## Semantic property contracts
 
-`Traveler`, execution entities, and the supporting line/capacity/arrangement entities refine concepts already present in the glossary, bounded-context ownership, or accepted use-case catalog. Their exact attribute sets remain proposed because the detailed use cases explicitly state that their policies and gaps require stakeholder confirmation.
+Keys and coded values in generic `properties` collections shall use established touristic vocabularies and standards where suitable, for example OpenTravel Alliance (OTA), International Air Transport Association (IATA), and International Civil Aviation Organization (ICAO) specifications. Each adopted vocabulary, version, and any project-specific extension shall be identified explicitly; similar local terms shall not silently replace an applicable standard term or code.
 
-## Associations and ownership
+The module that owns an entity shall also own an executable property validator or equivalent declarative rule set. Its rules shall define, at minimum:
 
-| Source | Target | Multiplicity / semantics | Meaning |
-|---|---|---|---|
-| `Itinerary` | `TravelComponent` | `1` composition to `1..*` | An itinerary owns its ordered components. |
-| `TravelProduct` | `TravelService` | `0..*` to `1..*` | A maintained product uses one or more reusable services; a service may support multiple products. |
-| `TravelService` | `AvailabilityInput` | `1` composition to `0..*` | Availability inputs exist for one maintained service. |
-| `SalesOffer` | `OfferLine` | `1` composition to `1..*` | An offer owns its immutable commercial lines. |
-| `TravelOrder` | `OrderLine` | `1` composition to `1..*` | An order owns the services captured at ordering time. |
-| `TravelOrder` | `Reservation` | `1` composition to `0..*` | Reservations record commitments or holds for an order. |
-| `TravelOrder` | `Payment` | `1` composition to `0..*` | Payments are applied exactly once to an order. |
-| `ExecutionCase` | `TravelDocument` / `ExecutionEvent` | `1` composition to `0..*` | Execution owns its issued-document and coordination history. |
-| `Customer` | `Traveler` | `0..*` association to `0..*` | A customer may maintain travelers; a traveler may be relevant to more than one customer. This multiplicity needs stakeholder confirmation. |
-| `TravelComponent` | `TravelService` | `1` `«reference by ID»` | A component identifies the reusable service it instantiates without sharing its model. |
-| `TravelService` | `Supplier` | `1` `«reference by ID»` | A service identifies its direct provider; supplier data remains owned by Procurement. |
-| `StockCapacity` | `TravelService` | `1` `«reference by ID»` | Purchased capacity applies to one maintained service. |
-| `SalesOffer` | `Customer` | `1` `«reference by ID»` | The offer identifies its recipient. |
-| `SalesOffer` | `Itinerary` | `1` `«snapshot»` | The offered composition is preserved at its offered version. |
-| `SalesOffer` | `TravelProduct` | `0..*` `«snapshot»` | An offer preserves any maintained products included in the commercial composition. |
-| `OfferLine` | `TravelService` | `1` `«snapshot»` | Commercial service details remain stable after source definitions change. |
-| `TravelOrder` | `Customer` | `1` `«reference by ID»` | The order identifies the ordering customer. |
-| `TravelOrder` | `Traveler` | `1..*` `«reference by ID»` | The order identifies its travelers without owning customer records. |
-| `TravelOrder` | `SalesOffer` / `Itinerary` | `1` each `«snapshot»` | The accepted offer and composition are preserved as the basis of the order. |
-| `OrderLine` | `TravelService` | `1` `«snapshot»` | Ordered service details survive later product-definition changes. |
-| `Reservation` | `StockCapacity` | `1` `«reference by ID»` | A reservation records the pre-procured capacity allocated to its ordered service. |
-| `Reservation` | `OrderLine` | each reservation secures `1` line; a line has `0..*` attempts/results | The reservation records which ordered service it attempts to secure. |
-| `ExecutionCase` | `TravelOrder` | `1` `«projection»` | Execution consumes the order information required to coordinate travel. |
+- the entity types to which each property applies;
+- whether a property is mandatory, optional, conditionally required, or prohibited;
+- its datatype, cardinality, format, unit, and permitted vocabulary or value set;
+- cross-property and temporal constraints, such as `start < end`; and
+- the applicable rule and vocabulary versions.
 
-The diagram shows conceptual relationships in both directions where that improves understanding, but its arrows denote knowledge held by the source module, not ownership of the target entity.
+Owning modules shall validate properties at their boundaries before accepting state changes. Interaction and Core Business Process modules shall consume the owning module's validation result rather than duplicate its semantic rules. Validation failures shall identify the violated rule sufficiently for the calling module to present or handle the error without exposing the Resource module's internal model.
 
-## Modeling rules
+## Entities and module ownership
 
-1. An entity is defined and changed only by its owning module.
-2. Within-module composition means lifecycle ownership in this logical model, not a storage decision.
-3. Cross-module relationships must declare `reference by ID`, `snapshot`, or `projection` semantics before implementation design.
-4. Historical commercial and ordered facts use snapshots so later changes to products, services, itineraries, or offers cannot silently rewrite commitments.
-5. Sensitive attributes are deliberately coarse. Identity, contact, consent, traveler, payment, and document detail requires privacy classification and purpose/retention decisions before refinement.
+| Resource module | Entity | Meaning |
+|---|---|---|
+| Customer Management | `Person` | A natural person identified by person-specific properties such as name. |
+| Customer Management | `PersonRole` | A contextual role played by a Person, such as customer or traveler, with role-specific properties. |
+| Supplier Management | `Organisation` | An organization identified by organization-specific properties such as name. |
+| Supplier Management | `OrgaRole` | A contextual role played by an Organisation, such as supplier, airline, or hotel, with role-specific properties. |
+| Touristic Product Management | `TouristicProductItem` | A typed reusable touristic product element. Recursive relationships allow composite structures such as a flight type with seats or a room category with rooms. |
+| Inventory | `StockItem` | A dated, priced, or otherwise qualified unit of pre-procured sellable stock. Recursive relationships allow stock groupings. |
+| Order Management | `OrderItem` | A typed order or ordered component. Recursive relationships allow an order to contain its components. |
+
+## Associations
+
+- A `PersonRole` belongs to a `Person`.
+- An `OrgaRole` belongs to an `Organisation`.
+- A `TouristicProductItem` may contain or specialize other `TouristicProductItem` instances and refers to the supplying `OrgaRole` where relevant.
+- A `StockItem` represents inventory for a `TouristicProductItem` and may participate in a recursive stock structure.
+- An `OrderItem` may contain other `OrderItem` instances, refers to the allocated `StockItem`, and links relevant customer/traveler `PersonRole` instances.
+
+Every entity has exactly one owning module. Cross-module associations remain visible because they explain the business graph, but implementation must preserve module encapsulation through identifiers, representations, or module interfaces.
+
+## Modeling consequences
+
+The generic model deliberately avoids a separate physical entity class for every product subtype or business role. `type` selects the semantic kind and `properties` holds kind-specific information at this logical level. The [semantic property contracts](#semantic-property-contracts) require established touristic vocabularies and owning-module validation. Before implementation, accepted rules must define supported types, property schemas, vocabulary versions, identifiers, multiplicities, and lifecycle constraints. A technology decision must evaluate how those varying structures can be represented without sacrificing validation or queryability.
 
 ## Limitations and open questions
 
-- Proposed detailed use cases provide candidate attributes but do not yet establish complete invariants, state machines, or optionality.
-- `Money`, contact information, personal identity, consent, provenance, audit history, and external credentials require dedicated value-object and security/privacy refinement.
-- The model does not yet decide whether Customer and Traveler are persons, organizations, roles, or a party hierarchy.
-- Customer-time on-demand sourcing is absent from the model because [SE-002](../../requirements/scope-exclusions.md) limits sales to pre-procured capacity.
-- Availability is represented as input evidence, not a promise that availability can be stored as a single current fact.
-- Reporting, Accounting, and Human Resources entities are intentionally absent because their implementations are excluded by [SE-001](../../requirements/scope-exclusions.md).
-- No association in this model selects relational, graph, document, or hybrid persistence.
+- Exact association multiplicities and delete/lifecycle semantics remain to be specified.
+- Concrete type catalogs, property schemas, and adopted vocabulary versions remain open; properties must not become uncontrolled free-form data in implementation.
+- Prices, dates, addresses, payment methods, identifiers, and personal data require explicit value types, classification, and validation.
+- Historical snapshots versus live references must be decided per cross-module relationship.
+- Customer-time on-demand sourcing remains excluded by [SE-002](../../requirements/scope-exclusions.md); `StockItem` represents capacity procured before sale.

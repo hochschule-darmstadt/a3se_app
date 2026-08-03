@@ -4,17 +4,14 @@ autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-OM\nOrder Management" as OM
-participant "OrderStockPort\n<<required interface>>" as STOCK
-participant "MOD-PROC\nProcurement Adapter" as PROC
+participant "MOD-INV\nInventory" as INV
 
-Customer -> CI: secureRequiredServices(orderReference)
-CI -> OM: secureRequiredServices(orderReference)
-loop each required service
-  OM -> STOCK: allocateStockCapacity(service, quantity)
-  STOCK -> PROC: allocateStockCapacity(service, quantity)
-  PROC --> STOCK: allocationOutcome
-  STOCK --> OM: allocationOutcome
+Customer -> CI: secureRequiredServices(orderRef)
+CI -> OM: secureRequiredServices(orderRef)
+loop each order component
+  OM -> INV: allocateStockItem(orderItemRef, stockCriteria)
+  INV --> OM: allocationOutcome
 end
-OM --> CI: coherentReservationState
+OM --> CI: coherentAllocationState
 CI --> Customer: secured or partial outcome
 @enduml

@@ -4,15 +4,12 @@ autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-SALES\nSales" as SALES
-participant "MOD-TPM\nTravel Product Management" as TPM
-participant "MOD-PROC\nProcurement" as PROC
+participant "MOD-INV\nInventory" as INV
 
-Customer -> CI: confirmAvailability(compositionVersion)
-CI -> SALES: confirmAvailability(compositionVersion)
-SALES -> TPM: getServiceSnapshots(serviceReferences)
-TPM --> SALES: internalAvailabilityInputs
-SALES -> PROC: checkStockAvailability(serviceReferences)
-PROC --> SALES: remainingStockAvailability
-SALES --> CI: completeTimeBoundResult
+Customer -> CI: confirmAvailability(offerRef)
+CI -> SALES: confirmAvailability(offerRef)
+SALES -> INV: confirmStockAvailability(stockItemRefs)
+INV --> SALES: timeBoundAvailability
+SALES --> CI: completeAvailabilityResult
 CI --> Customer: availability and limitations
 @enduml

@@ -5,9 +5,9 @@ actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-CM\nCustomer Management" as CM
 
-Customer -> CI: maintainCustomerRecord(customerInformation)
-CI -> CM: maintainCustomerRecord(customerReference, customerInformation)
+Customer -> CI: maintainCustomerRecord(changeRequest)
+CI -> CM: updatePersonAndRoles(customerRef, changeRequest)
 CM -> CM: validateAuthorityAndProvenance()
-CM --> CI: currentCustomerRecord
-CI --> Customer: confirmed update
+CM --> CI: updatedCustomerRecord
+CI --> Customer: maintenance outcome
 @enduml

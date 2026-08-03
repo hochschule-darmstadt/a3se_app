@@ -4,21 +4,18 @@ autonumber
 actor Purchaser
 participant "MOD-SI\nStaff Interaction" as SI
 participant "MOD-PROC\nProcurement" as PROC
-participant "ProcurementSupplierPort\n<<required interface>>" as PORT
-participant "MOD-SUPI\nSupplier Adapter" as SUPI
-actor Supplier
-participant "MOD-TPM\nTravel Product Management" as TPM
+participant "MOD-SM\nSupplier Management" as SM
+participant "MOD-TPM\nTouristic Product Management" as TPM
+participant "MOD-INV\nInventory" as INV
 
-Purchaser -> SI: procureStockCapacity(serviceNeed, terms)
-SI -> PROC: procureStockCapacity(serviceNeed, terms)
-PROC -> PORT: requestStockCapacity(serviceNeed, terms)
-PORT -> SUPI: requestStockCapacity(serviceNeed, terms)
-SUPI -> Supplier: request capacity
-Supplier --> SUPI: supplierCommitment
-SUPI --> PORT: supplierCommitment
-PORT --> PROC: supplierCommitment
-PROC -> TPM: recordStockAvailability(supplierCommitment)
-TPM --> PROC: availabilityRecorded
-PROC --> SI: committedCapacity
-SI --> Purchaser: procurement outcome
+Purchaser -> SI: procureStockCapacity(procurementRequest)
+SI -> PROC: procureStockCapacity(procurementRequest)
+PROC -> SM: getSupplierRole(supplierRef)
+SM --> PROC: supplierRole
+PROC -> TPM: getProductItem(productItemRef)
+TPM --> PROC: productItem
+PROC -> INV: recordStockItems(productItemRef, commitment)
+INV --> PROC: recordedStock
+PROC --> SI: procurementOutcome
+SI --> Purchaser: committed capacity
 @enduml

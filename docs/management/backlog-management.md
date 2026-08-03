@@ -4,14 +4,14 @@
 - Owner: Management
 - Last reviewed: 2026-07-31
 
-The product backlog organizes proposed system scope as `epic -> feature -> story`. Backlog items support planning and delivery; they do not approve a bounded context, use case, requirement, or design. Authoritative requirements remain in [Requirements](../requirements/README.md), and consequential governance choices remain in [Decision Records](../governance/decisions/README.md).
+The product backlog organizes proposed system scope as `epic -> feature -> story`. Backlog items support planning and delivery; they do not approve a subdomain, use case, requirement, or design. Authoritative requirements remain in [Requirements](../requirements/README.md), and consequential governance choices remain in [Decision Records](../governance/decisions/README.md).
 
 ## Hierarchy
 
 | Level | Planning purpose | Required requirements link | Sizing and completion rule |
 |---|---|---|---|
-| Epic | Groups outcomes that belong to one domain boundary | Exactly one candidate or accepted bounded context | May span several releases; complete when its planned features are complete or explicitly removed |
-| Feature | Represents one actor goal delivered within its epic | Exactly one use case in the epic's bounded context | Reviewable end-to-end capability; complete when its planned stories and feature-level acceptance evidence are complete |
+| Epic | Groups outcomes that belong to one domain boundary | Exactly one candidate or accepted subdomain | May span several releases; complete when its planned features are complete or explicitly removed |
+| Feature | Represents one actor goal delivered within its epic | Exactly one use case in the epic's subdomain | Reviewable end-to-end capability; complete when its planned stories and feature-level acceptance evidence are complete |
 | Story | Selects one independently reviewable use-case slice | Parent feature plus the relevant use-case flow, rules, and requirement IDs | Small enough to complete as one coherent increment; covers one happy, alternative, or exception path, or one cohesive rule set |
 
 The correspondence is deliberate but not identity: an epic is not the authoritative bounded-context definition, a feature is not the authoritative use-case specification, and a story is not itself a requirement. If discovery changes a boundary or use case, update and review the requirements artifact first, then reconcile the backlog links.

@@ -8,7 +8,7 @@ Prefer established, text-based notations that can be reviewed and versioned.
 
 | Concern | Preferred notation/reference | Use |
 |---|---|---|
-| Terminology | DDD ubiquitous language and bounded contexts | domain vocabulary and semantic boundaries |
+| Terminology | DDD ubiquitous language, domains, and subdomains | domain vocabulary and problem-space boundaries |
 | Actor goals | Cockburn-style use cases | structured interaction requirements |
 | Acceptance examples | Gherkin | executable or reviewable examples; not a substitute for domain rules |
 | Business processes | BPMN 2.0 | cross-role workflows, events, gateways, and compensation |

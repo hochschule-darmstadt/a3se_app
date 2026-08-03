@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture
-- Last reviewed: 2026-08-01
+- Last reviewed: 2026-08-03
 
 This workflow derives a technology-neutral modular software architecture from domain boundaries and behavioral requirements. It defines logical code and contract structure, not processes, containers, servers, infrastructure, or runtime placement. The outcome must leave room for a modular monolith, independently deployable services, and hybrid deployment.
 
@@ -10,8 +10,8 @@ This workflow derives a technology-neutral modular software architecture from do
 
 Use the following inputs in order:
 
-1. the bounded-context model and its layers;
-2. business objects and use cases assigned to those bounded contexts;
+1. the business domain/subdomain model;
+2. business objects and use cases assigned to those subdomains;
 3. cross-cutting functional and non-functional requirements, constraints, exclusions, glossary, and accepted decisions;
 4. existing architecture and validation evidence.
 
@@ -19,19 +19,20 @@ Record each input's status. Proposed or draft requirements may support explorato
 
 ## Procedure
 
-1. Treat each bounded context as an initial module candidate, preserving the enterprise and layer hierarchy. A bounded context is a semantic domain boundary; a module is a software encapsulation boundary. Do not silently equate the terms or preclude later splits and combinations.
+1. Treat each subdomain as an initial module candidate. A subdomain is a problem-space boundary; a module is a solution-space encapsulation boundary. Do not silently equate them or preclude later splits, combinations, or extracted resource modules.
 2. Iterate through every in-scope use case. Create one UML sequence diagram per use case with actors, module candidates, and required ports as lifelines. Give each operation a concise domain-oriented name and collect received operations as candidates for the receiving module's provided interface.
 3. Distinguish runtime calls from static source dependencies. For a normal module call, the caller depends on the receiver's provided interface. If that direction would violate the layer rule or couple business logic to an interaction mechanism, define a required port in the consuming business module and implement it with an adapter in the supplying module. The adapter statically depends on the consumer-owned port; a runtime invocation through the port does not reverse that dependency.
 4. Create a UML class diagram organized as enterprise, layers, and module packages. Show each module's provided interfaces, required ports, and adapters. Include operations while the diagram remains readable; move long operation lists to an adjacent authoritative catalog and link them rather than omitting the contracts.
 5. Derive package dependencies from direct module calls and adapter-to-port realizations. Dependencies may stay within a layer or point downward through the declared layer order; they must not point upward and must form an acyclic graph.
 6. If a cycle or upward dependency appears, first verify that the sequence and dependency derivation are correct. Then refactor responsibility, introduce a consumer-owned port, or revise a misplaced module boundary. Escalate to the architecture authority when alternatives change business ownership or bounded-context meaning.
 7. Keep the result independent of deployment topology. Do not infer services, containers, processes, databases, protocols, or infrastructure from module packages unless separately authorized by a recorded decision.
+8. Refine and optimize iteratively. Revisit candidate boundaries after the sequence interactions, shared information responsibilities, dependency graph, and concrete object usage are visible. Split, combine, rename, or extract modules when this improves cohesion, ownership, reuse, or dependency direction; then regenerate every affected sequence, interface catalog, model, and validation result. Preserve traceability to the originating subdomains and record consequential refinements rather than treating the first mapping as final.
 
 ## Required artifacts
 
 - one authoritative modular software architecture document;
 - a UML sequence-diagram source and generated image for every in-scope use case;
-- a UML module overview source and generated image;
+- a UML module overview source and generated image, using the repository's supported diagram tooling;
 - a catalog of module IDs, provided interfaces, required ports, adapters, operations, and use-case evidence;
 - explicit limitations, assumptions, and unresolved review findings;
 - automated validation where practical.

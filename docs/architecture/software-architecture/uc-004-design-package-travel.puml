@@ -3,16 +3,19 @@ title UC-004 Design Package Travel - Module Interaction
 autonumber
 actor "Seasonal Planner" as Planner
 participant "MOD-SI\nStaff Interaction" as SI
-participant "MOD-TPD\nTravel Product Design" as TPD
-participant "MOD-TPM\nTravel Product Management" as TPM
-participant "MOD-PROC\nProcurement" as PROC
+participant "MOD-TPD\nTouristic Product Design" as TPD
+participant "MOD-SP\nStrategic Planning" as SP
+participant "MOD-TPM\nTouristic Product Management" as TPM
+participant "MOD-INV\nInventory" as INV
 
-Planner -> SI: designPackageTravel(planningObjective)
-SI -> TPD: designPackageTravel(planningObjective)
-TPD -> TPM: findTravelServices(planningObjective)
-TPM --> TPD: candidateServices
-TPD -> PROC: getCapacityConstraints(candidateServices)
-PROC --> TPD: capacityConstraints
-TPD --> SI: packageDesign and dependencies
-SI --> Planner: reviewable package design
+Planner -> SI: designPackageTravel(seasonRef, designGoals)
+SI -> TPD: designPackageTravel(seasonRef, designGoals)
+TPD -> SP: getSeasonPlan(seasonRef)
+SP --> TPD: seasonPlan
+TPD -> TPM: getProductStructures(designGoals)
+TPM --> TPD: reusableStructures
+TPD -> INV: getCapacityOutlook(seasonRef, productRefs)
+INV --> TPD: capacityOutlook
+TPD --> SI: packageDesign
+SI --> Planner: reviewable package
 @enduml

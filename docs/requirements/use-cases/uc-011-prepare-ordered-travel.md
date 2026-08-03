@@ -3,7 +3,7 @@
 - Status: proposed
 - Owner: Requirements
 - Catalog ID: [UC-011](use-cases.md)
-- Owning bounded context: Travel Execution
+- Owning subdomain: Customer Care
 - Primary actor: [Travel Advisor](../actors.md)
 - Supporting actors: [Traveler](../actors.md); [Supplier](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
@@ -26,7 +26,7 @@ The Travel Advisor the order reaches preparation or a dependency changes.
 1. The Travel Advisor initiates the use case and identifies its subject.
 2. The system retrieves the relevant confirmed context and checks authorization.
 3. The system obtains and validates the information needed for the requested outcome.
-4. The system performs the responsibilities owned by Travel Execution and coordinates required participants.
+4. The system performs the responsibilities owned by Customer Care and coordinates required modules.
 5. The Travel Advisor reviews or confirms the resulting state.
 6. The system records the outcome, provenance, and unresolved next steps and communicates them to affected actors.
 

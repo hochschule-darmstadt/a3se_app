@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture/Implementation
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-08-03
 
 The toolchain implements [DR-0001](../decisions/0001-diagrams-as-code-toolchain.md). Sources are authoritative; SVGs are derived review artifacts.
 
@@ -54,7 +54,7 @@ The second path is optional and defaults to an SVG beside the source. For C4, us
 | Concern | Source | Tool |
 |---|---|---|
 | UML and STRIDE data-flow diagrams | `.puml` | PlantUML |
-| Conceptual/logical data views | `.puml` | PlantUML UML or Information Engineering notation |
+| Generated interaction and other UML views | `.puml` | PlantUML |
 | C4 model and views | `workspace.dsl` | Structurizr |
 | BPMN 2.0 processes | `.bpmn` | bpmnlint, bpmn-js-based SVG renderer, bpmn.io/Camunda-compatible editor |
 | Lightweight explanatory diagrams | `.mmd` | Mermaid CLI |
@@ -70,4 +70,4 @@ Upgrade one tool at a time. Update the exact version and checksum, regenerate th
 
 ## Agent rules
 
-An agent must edit the notation source rather than SVG output, use stable project identifiers in labels or metadata, validate before reporting completion, and visually inspect meaningful renders. A successful parser does not prove that a diagram expresses the intended business meaning.
+An agent must edit the notation source rather than SVG output, use stable project identifiers in labels or metadata, validate before reporting completion, and visually inspect meaningful renders. Preserve human-authored layout unless the task explicitly changes it. A successful parser does not prove that a diagram expresses the intended business meaning.

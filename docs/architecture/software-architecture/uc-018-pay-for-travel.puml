@@ -4,13 +4,12 @@ autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-OM\nOrder Management" as OM
-participant "MOD-ACC\nAccounting contract" as ACC
+participant "MOD-ACC\nAccounting" as ACC
 
-Customer -> CI: payForTravel(orderReference, paymentIntent)
-CI -> OM: applyPayment(orderReference, paymentIntent)
-OM -> ACC: postCustomerPayment(orderReference, amount, attemptReference)
-ACC --> OM: paymentPostingOutcome
-OM -> OM: applyConfirmedPaymentExactlyOnce()
-OM --> CI: balance and receiptReference
-CI --> Customer: payment outcome
+Customer -> CI: payForTravel(orderRef, paymentInstruction)
+CI -> OM: applyPayment(orderRef, paymentInstruction)
+OM -> ACC: postCustomerPayment(orderRef, paymentRecord)
+ACC --> OM: accountingReference
+OM --> CI: paymentOutcome and balance
+CI --> Customer: receipt or pending outcome
 @enduml

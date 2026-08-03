@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Management
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-03
 
 Use immutable, sequential files such as `0007-short-title.md`, copied from the [decision-record template](../templates/decision-record.md). Decision records cover consequential business, governance, architecture, technology, implementation, test, operational, and management choices.
 

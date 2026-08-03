@@ -22,7 +22,7 @@ Artifact authority, status transitions, and requirements slices are defined in [
 - No duplicate or orphaned stable IDs.
 - Relative links resolve.
 - Accepted requirements have acceptance evidence.
-- Business terms have one authoritative definition per bounded context.
+- Business terms have one authoritative definition in their applicable subdomain or module context.
 - Decision-record status, identity, index, and supersession links agree.
 - Changed behavior has corresponding specification and test changes, or a recorded rationale.
 

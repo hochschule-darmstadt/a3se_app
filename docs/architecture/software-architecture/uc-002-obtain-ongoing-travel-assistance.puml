@@ -3,13 +3,16 @@ title UC-002 Obtain Ongoing Travel Assistance - Module Interaction
 autonumber
 actor Traveler
 participant "MOD-CI\nCustomer Interaction" as CI
+participant "MOD-CARE\nCustomer Care" as CARE
 participant "MOD-OM\nOrder Management" as OM
-participant "MOD-EXEC\nTravel Execution" as EXEC
+participant "MOD-CM\nCustomer Management" as CM
 
-Traveler -> CI: obtainOngoingAssistance(orderReference, request)
-CI -> OM: getTravelContext(orderReference)
-OM --> CI: authorisedTravelContext
-CI -> EXEC: assistDuringOrAfterTravel(authorisedTravelContext, request)
-EXEC --> CI: assistanceOutcome
-CI --> Traveler: contextual help or handover
+Traveler -> CI: obtainOngoingAssistance(orderRef, request)
+CI -> CARE: assistTraveler(orderRef, request)
+CARE -> OM: getOrderContext(orderRef)
+OM --> CARE: orderContext
+CARE -> CM: getTravelerContext(travelerRef)
+CM --> CARE: travelerContext
+CARE --> CI: assistanceOutcome
+CI --> Traveler: continued assistance
 @enduml

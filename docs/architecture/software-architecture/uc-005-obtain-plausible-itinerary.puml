@@ -3,13 +3,16 @@ title UC-005 Obtain a Plausible Itinerary - Module Interaction
 autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
-participant "MOD-TPD\nTravel Product Design" as TPD
-participant "MOD-TPM\nTravel Product Management" as TPM
+participant "MOD-TPD\nTouristic Product Design" as TPD
+participant "MOD-TPM\nTouristic Product Management" as TPM
+participant "MOD-INV\nInventory" as INV
 
-Customer -> CI: checkItineraryPlausibility(itineraryVersion)
-CI -> TPD: checkItineraryPlausibility(itineraryVersion)
-TPD -> TPM: getServiceConstraints(serviceReferences)
-TPM --> TPD: serviceConstraints
+Customer -> CI: checkItineraryPlausibility(itineraryDraft)
+CI -> TPD: checkItineraryPlausibility(itineraryDraft)
+TPD -> TPM: getProductConstraints(productItemRefs)
+TPM --> TPD: productConstraints
+TPD -> INV: verifyStockCompatibility(stockItemRefs)
+INV --> TPD: stockCompatibility
 TPD --> CI: plausibilityResult
-CI --> Customer: confirmation or blocking conflicts
+CI --> Customer: result and unresolved gaps
 @enduml

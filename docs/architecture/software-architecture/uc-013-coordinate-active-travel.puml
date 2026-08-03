@@ -3,22 +3,19 @@ title UC-013 Coordinate Active Travel - Module Interaction
 autonumber
 actor Traveler
 participant "MOD-CI\nCustomer Interaction" as CI
-participant "MOD-EXEC\nTravel Execution" as EXEC
+participant "MOD-CARE\nCustomer Care" as CARE
 participant "MOD-OM\nOrder Management" as OM
-participant "ExecutionSupplierPort\n<<required interface>>" as PORT
-participant "MOD-SUPI\nSupplier Adapter" as SUPI
-actor Supplier
+participant "MOD-SM\nSupplier Management" as SM
+participant "MOD-CM\nCustomer Management" as CM
 
-Traveler -> CI: coordinateActiveTravel(orderReference, event)
-CI -> EXEC: coordinateActiveTravel(orderReference, event)
-EXEC -> OM: getTravelOrder(orderReference)
-OM --> EXEC: activeOrderContext
-EXEC -> PORT: coordinateExecutionChange(affectedServices, event)
-PORT -> SUPI: coordinateExecutionChange(affectedServices, event)
-SUPI -> Supplier: coordinate change
-Supplier --> SUPI: confirmedResolution
-SUPI --> PORT: confirmedResolution
-PORT --> EXEC: confirmedResolution
-EXEC --> CI: coordinatedOutcome
+Traveler -> CI: coordinateActiveTravel(orderRef, event)
+CI -> CARE: coordinateActiveTravel(orderRef, event)
+CARE -> OM: getActiveOrderContext(orderRef)
+OM --> CARE: activeOrderContext
+CARE -> SM: getSupplierContacts(affectedOrgRoleRefs)
+SM --> CARE: supplierContacts
+CARE -> CM: getTravelerContext(travelerRef)
+CM --> CARE: travelerContext
+CARE --> CI: coordinatedOutcome
 CI --> Traveler: actionable information
 @enduml

@@ -3,7 +3,7 @@
 - Status: proposed
 - Owner: Requirements
 - Catalog ID: [UC-010](use-cases.md)
-- Owning bounded context: Sales
+- Owning subdomain: Sales
 - Primary actor: [Customer](../actors.md)
 - Supporting actors: [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
@@ -26,7 +26,7 @@ The Customer chooses to accept the offer.
 1. The Customer initiates the use case and identifies its subject.
 2. The system retrieves the relevant confirmed context and checks authorization.
 3. The system obtains and validates the information needed for the requested outcome.
-4. The system performs the responsibilities owned by Sales and coordinates required participants.
+4. The system performs the responsibilities owned by Sales and coordinates required modules.
 5. The Customer reviews or confirms the resulting state.
 6. The system records the outcome, provenance, and unresolved next steps and communicates them to affected actors.
 

@@ -3,7 +3,7 @@
 - Status: proposed
 - Owner: Requirements
 - Catalog ID: [UC-004](use-cases.md)
-- Owning bounded context: Travel Product Design
+- Owning subdomain: Touristic Product Design
 - Primary actor: [Seasonal Planner](../actors.md)
 - Supporting actors: [Purchaser](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
@@ -26,7 +26,7 @@ The Seasonal Planner starts or revises a package design.
 1. The Seasonal Planner initiates the use case and identifies its subject.
 2. The system retrieves the relevant confirmed context and checks authorization.
 3. The system obtains and validates the information needed for the requested outcome.
-4. The system performs the responsibilities owned by Travel Product Design and coordinates required participants.
+4. The system performs the responsibilities owned by Touristic Product Design and coordinates required modules.
 5. The Seasonal Planner reviews or confirms the resulting state.
 6. The system records the outcome, provenance, and unresolved next steps and communicates them to affected actors.
 

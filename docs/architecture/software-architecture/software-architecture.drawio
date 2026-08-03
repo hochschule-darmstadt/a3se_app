@@ -1,0 +1,79 @@
+<mxfile host="Electron">
+  <diagram name="Seite-1" id="l9swvpI5E2eQOQMiUnZY">
+    <mxGraphModel dx="2396" dy="1193" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-1" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Enterprise&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Chri&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;stopher Columbus Travel&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="600" width="1240" x="-760" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-2" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Layer&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Interaction&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="894" x="-730" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-3" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Layer&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Core Business Processes&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="894" x="-730" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-4" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Layer&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Resources&lt;/div&gt;" vertex="1">
+          <mxGeometry height="180" width="894" x="-730" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-5" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Cross Cutting&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Supporting Business Processes&lt;/div&gt;" vertex="1">
+          <mxGeometry height="530" width="240" x="210" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-7" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Customer Interaction&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-465" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-9" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Staff Interaction&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-275" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-12" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Strategic&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Planning&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-710" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-13" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Procurement&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-540" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-14" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Touristic Product Design&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-370" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-15" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Sales&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-200" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-16" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Customer Care&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-30" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-17" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Supplier Management&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-540" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-18" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Touristic Product Management&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-370" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-19" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Customer Management&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-710" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-20" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Inventory&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-200" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-21" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Order Management&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="-30" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-22" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Accounting&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="250" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-23" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Reporting&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="250" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-24" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Module&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Human Resources&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="250" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="WbBYKnojl9ykRKrOT7pc-1" edge="1" parent="1" source="NTAZB--WmAy5JrvD6Zpf-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0.115;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;endArrow=open;endFill=0;" target="NTAZB--WmAy5JrvD6Zpf-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WbBYKnojl9ykRKrOT7pc-2" edge="1" parent="1" source="NTAZB--WmAy5JrvD6Zpf-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0.056;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" target="NTAZB--WmAy5JrvD6Zpf-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WbBYKnojl9ykRKrOT7pc-3" edge="1" parent="1" source="NTAZB--WmAy5JrvD6Zpf-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.008;entryY=0.452;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" target="NTAZB--WmAy5JrvD6Zpf-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

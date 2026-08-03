@@ -4,16 +4,16 @@
 - Owner: Requirements
 - Last reviewed: 2026-08-03
 
-Actors are stable human roles, external parties, or external systems that interact with the tour operator information system. Assignment identifies the bounded contexts in which an actor directly participates; it does not imply that the actor owns those contexts or their information.
+Actors are stable human roles, external parties, or external systems that interact with the tour operator information system. Assignment identifies the subdomains in which an actor participates; it does not imply software-module or information ownership.
 
-| ID | Actor | Type | Goals and responsibilities | Bounded contexts | Notes |
+| ID | Actor | Type | Goals and responsibilities | Subdomains | Notes |
 |---|---|---|---|---|---|
-| ACT-001 | Customer | External business actor | Explore travel, refine an individual composition, receive and accept a sales offer, place a travel order, pay, and obtain assistance before, during, and after travel | Customer Interaction; Sales; Customer Management; Order Management; Travel Execution | The customer may also be a traveler, but the roles can differ |
-| ACT-002 | Traveler | External business actor | Provide traveler-specific details, undertake the ordered travel, receive relevant documents and assistance, and communicate travel-related needs | Customer Interaction; Customer Management; Order Management; Travel Execution | A travel order may involve one or more travelers who are not the customer |
-| ACT-003 | Travel Advisor | Internal human role | Assist customers with travel exploration, composition, ordering, exceptions, and continuity across the travel lifecycle | Customer Interaction; Travel Product Design; Sales; Order Management; Travel Execution | An automated travel advisor is part of the system when it operates inside the system boundary; the human role remains an actor |
-| ACT-004 | Seasonal Planner | Internal human role | Plan seasonal offerings and the capacity needed to support them | Travel Product Management; Travel Product Design | Distinct from the purchaser who negotiates and obtains capacity |
-| ACT-005 | Purchaser | Internal human role | Negotiate procurement terms, obtain stock services, and maintain supplier relationships | Procurement; Travel Product Management | Uses product and service demand from planning without owning seasonal planning |
-| ACT-006 | Supplier | External business party or system | Provide travel services, expose or confirm availability, fulfill reservations, and participate in settlement | Procurement; Travel Product Management; Order Management; Travel Execution | Examples include hotels and airlines; interaction may be human or system-to-system |
+| ACT-001 | Customer | External business actor | Explore travel, refine an individual composition, receive and accept a sales offer, place a travel order, pay, and obtain assistance before, during, and after travel | Customer Interaction; Touristic Product Design; Sales; Customer Care | The customer may also be a traveler, but the roles can differ |
+| ACT-002 | Traveler | External business actor | Provide traveler-specific details, undertake the ordered travel, receive relevant documents and assistance, and communicate travel-related needs | Customer Interaction; Customer Care | A travel order may involve one or more travelers who are not the customer |
+| ACT-003 | Travel Advisor | Internal human role | Assist customers with travel exploration, composition, ordering, exceptions, and continuity across the travel lifecycle | Customer Interaction; Touristic Product Design; Sales; Customer Care | An automated travel advisor is part of the system when it operates inside the system boundary; the human role remains an actor |
+| ACT-004 | Seasonal Planner | Internal human role | Plan seasonal offerings and the capacity needed to support them | Season Planning; Touristic Product Design | Distinct from the purchaser who negotiates and obtains capacity |
+| ACT-005 | Purchaser | Internal human role | Negotiate procurement terms, obtain stock services, and maintain supplier relationships | Procurement; Season Planning | Uses demand from planning without owning seasonal planning |
+| ACT-006 | Supplier | External business party or system | Provide travel services, confirm procured capacity, fulfil ordered services, and participate in settlement | Procurement; Customer Care | Examples include hotels and airlines; interaction may be human or system-to-system |
 
 ## Retired actors
 

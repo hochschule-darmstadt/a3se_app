@@ -3,16 +3,16 @@ title UC-012 Receive Travel Documents - Module Interaction
 autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
-participant "MOD-EXEC\nTravel Execution" as EXEC
+participant "MOD-CARE\nCustomer Care" as CARE
 participant "MOD-OM\nOrder Management" as OM
 participant "MOD-CM\nCustomer Management" as CM
 
-Customer -> CI: receiveTravelDocuments(orderReference)
-CI -> EXEC: issueTravelDocuments(orderReference, recipientReference)
-EXEC -> OM: getTravelOrder(orderReference)
-OM --> EXEC: orderAndReleaseState
-EXEC -> CM: getAuthorisedRecipient(recipientReference)
-CM --> EXEC: recipientSnapshot
-EXEC --> CI: issuedDocumentReferences
-CI --> Customer: authorised document access
+Customer -> CI: receiveTravelDocuments(orderRef)
+CI -> CARE: issueTravelDocuments(orderRef, customerRef)
+CARE -> OM: getDocumentReleaseContext(orderRef)
+OM --> CARE: releaseContext
+CARE -> CM: getAuthorisedRecipients(customerRef, travelerRefs)
+CM --> CARE: authorisedRecipients
+CARE --> CI: releasedDocuments
+CI --> Customer: travel documents
 @enduml
