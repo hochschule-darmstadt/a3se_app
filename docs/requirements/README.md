@@ -2,7 +2,7 @@
 
 - Status: draft
 - Owner: Requirements
-- Last reviewed: 2026-08-01
+- Last reviewed: 2026-08-04
 
 This area is authoritative for the business problem, stakeholder intent, terminology, required behavior, constraints, quality needs, and UX expectations. Requirements describe what is needed without prematurely selecting implementation technology.
 
@@ -27,7 +27,7 @@ The [requirements sources](sources/) retain discovery evidence and provenance. T
 
 The following artifacts are present but not yet substantively filled. Add to them only when stakeholder evidence or delivery needs justify the additional detail:
 
-- [Constraints and Assumptions](constraints.md) currently records only that the technology stack is undecided; business, regulatory, organizational, technical, or temporal constraints may be added later.
+- [Constraints and Assumptions](constraints.md) is the authoritative catalog for future explicit constraints and assumptions; none are currently recorded.
 - [User Experience Requirements](ux/) currently contains no sitemap or wireframes. Add UX artifacts when accepted actor goals and use cases provide enough evidence for interaction design.
 
 Use the [requirements workflow](../governance/workflows/requirements-workflow.md) for a coherent requirements slice.

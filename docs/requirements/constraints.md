@@ -2,10 +2,6 @@
 
 - Status: draft
 - Owner: Requirements/Architecture
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-08-04
 
-| ID | Type | Statement | Source | Validation/expiry | Status |
-|---|---|---|---|---|---|
-| CON-001 | assumption | Technology stack is not yet selected | project brief | revisit after architecture drivers are accepted | draft |
-
-Types: business, regulatory, organizational, technical, temporal, or assumption. Assumptions must have a validation plan or review date.
+No project constraints or assumptions are currently recorded. Future entries shall distinguish business, regulatory, organisational, technical, and temporal constraints from assumptions; every assumption requires a validation plan or review date.

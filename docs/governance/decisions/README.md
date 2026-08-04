@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Management
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-04
 
 Use immutable, sequential files such as `0007-short-title.md`, copied from the [decision-record template](../templates/decision-record.md). Decision records cover consequential business, governance, architecture, technology, implementation, test, operational, and management choices.
 
@@ -21,3 +21,4 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0007](0007-govern-work-with-github-issues-and-project.md) | Govern work with GitHub Issues and a Project board | accepted | 2026-07-29 | none |
 | [DR-0008](0008-adopt-epic-feature-story-backlog-hierarchy.md) | Adopt an epic-feature-story backlog hierarchy | proposed | 2026-07-31 | DR-0007 in part |
 | [DR-0009](0009-preserve-authoritative-document-when-growing-topics.md) | Preserve the authoritative document when growing topics | accepted | 2026-08-01 | DR-0006 in part |
+| [DR-0010](0010-adopt-python-centered-modular-technology-stack.md) | Adopt a Python-centred modular technology stack | accepted | 2026-08-04 | none |

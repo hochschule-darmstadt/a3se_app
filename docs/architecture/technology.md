@@ -1,103 +1,130 @@
-# Technology Evaluation
+# Technology Profile and Evaluation
 
-- Status: proposed
+- Status: accepted
 - Owner: Architecture
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-04
 
-## Purpose and decision state
+## Purpose and decision authority
 
-This document evaluates the core implementation technologies for [task #4](https://github.com/hochschule-darmstadt/a3se_app/issues/4). It distinguishes stakeholder preferences from selections: the stack below is proposed, but no product is selected until an accepted decision record resolves the open evidence and trade-offs.
+This document explains the technology profile selected for [task #4](https://github.com/hochschule-darmstadt/a3se_app/issues/4), its architectural application, remaining product choices, and required validation. [DR-0010](../governance/decisions/0010-adopt-python-centered-modular-technology-stack.md) is authoritative for the decision and its revisit triggers.
 
-The accepted [modular software architecture](software-architecture/software-architecture.md) remains authoritative. Technology choices shall preserve module ownership and acyclic dependencies and shall not determine whether modules are deployed as a modular monolith, independent services, or a hybrid. Deployment topology and concrete hosting products belong to the later [deployment architecture](../operations/deployment-architecture.md).
+The accepted [modular software architecture](software-architecture/software-architecture.md) remains authoritative for logical modules, interfaces, layer direction, and acyclic dependencies. Selecting a Python modular monolith as the initial implementation does not permit modules to bypass those boundaries and does not prevent later extraction of deployable services.
+
+## Accepted technology profile
+
+| Concern | Selected direction | Decision boundary |
+|---|---|---|
+| Web UI | React with TypeScript | Applies to Customer, Staff, and Supplier Interaction. The concrete React framework, rendering mode, and build profile remain open. |
+| Backend language | Python | Applies to the modular business backend and initial product-agent orchestration. |
+| HTTP adapter | FastAPI | Exposes interaction and integration operations; domain and application logic remain independent of FastAPI. |
+| Contracts | Pydantic contract models and explicit domain types | Used at trust, transport, tool, and module boundaries. Runtime-defined property bags remain validated rather than becoming unrestricted dictionaries. |
+| Operational data | Neo4j Community Edition proof of concept, retained if no showstopper occurs | The proof of concept is a conditional validation of the selected database, not an invitation to choose a different product without the DR-0010 revisit evidence. |
+| Product-agent access | Controlled agent tools backed by provided module operations | No unrestricted database credentials or arbitrary write-query execution for a product agent. |
+| Initial application structure | Modular monolith | One initial backend runtime with enforceable logical modules; later extraction remains possible. |
+| Generated documents | Storage port with database metadata and opaque references | The filesystem or object-storage product remains undecided pending retention, durability, access, and recovery requirements. |
 
 ## Architecture drivers
 
-- [FR-001–FR-004](../requirements/functional-requirements.md): British English, language extensibility, web interfaces, and responsive Customer Interaction.
-- [NFR-001–NFR-003](../requirements/non-functional-requirements.md): accepted interactive and conversational response-time targets and zero-cost software-use constraint.
-- [SE-001](../requirements/scope-exclusions.md): only interfaces to Accounting, Reporting, and Human Resources are in implementation scope.
-- [Logical Data Model](data-model/data-model.md): connected business objects, recursive structures, flexible typed properties, semantic property contracts, and singular module ownership.
-- [Modular Software Architecture](software-architecture/software-architecture.md): logical module interfaces must remain independent of process and storage placement.
-- Stakeholder preference, 2026-08-03: prioritize implementation speed, maintainability, and strong AI-library integration; use a modern web UI; represent connected travel structures and flexible properties naturally; store generated documents outside the operational graph.
+- [FR-001–FR-004](../requirements/functional-requirements.md): British English, later language extension, web-only interaction, and responsive Customer Interaction.
+- [NFR-001–NFR-003](../requirements/non-functional-requirements.md): UI and conversational response-time targets and zero-cost software use.
+- [Logical Data Model](data-model/data-model.md): flexible typed properties, semantic validation, recursive structures, and heterogeneous multi-hop graph patterns demonstrated by the concrete object example.
+- [Modular Software Architecture](software-architecture/software-architecture.md): explicit module interfaces, acyclic dependencies, and freedom to extract deployment units later.
+- [Product-agent integration](automation.md): conversational travel advice, booking assistance, and fulfilment support shall reuse controlled business operations and current authorised data.
+- Order and Inventory Management require reliable concurrent state changes and rollback; a graph model does not weaken those transactional needs.
 
-The following evidence is still missing and prevents a final database or hosting decision: expected data volume and growth, peak concurrency, representative query shapes and traversal depths, consistency and transaction boundaries, availability and recovery targets, retention and immutability rules for business documents, and hosting constraints. Expected scale is also required to prove that every selected software edition remains free of charge under NFR-003.
+## React and TypeScript
 
-## Proposed technology profile
+React and TypeScript are selected for all web interaction surfaces. Shared visual components and contract types may be reused, but Customer, Staff, and Supplier Interaction retain separate module responsibilities and authorisation contexts.
 
-| Concern | Proposed direction | State | Rationale and boundary |
-|---|---|---|---|
-| Web UI | React with TypeScript, within a production React framework | proposed | Component reuse and a mature web ecosystem fit the three interaction surfaces. React is a UI library rather than the complete framework decision. React Router framework mode and Next.js remain candidates until routing, server rendering, public discoverability, and hosting needs are known. |
-| Server language | Python | proposed | Optimizes for development speed and access to AI, data-processing, and orchestration libraries. Performance shall be verified against NFR-001 and NFR-002 with representative workloads; CPU-bound or independently scalable AI work may be isolated behind a module interface without changing the language choice for the main backend. |
-| HTTP API | FastAPI with Pydantic models and OpenAPI contracts | proposed | Fits typed Python, asynchronous I/O, request/response validation, OpenAPI, JSON Schema, security schemes, and generated client possibilities. HTTP endpoints shall expose module capabilities, not persistence models. Internal calls in a modular monolith need not be HTTP calls. |
-| Operational business data | One graph-capable, schema-flexible database product, evaluated per module-owned data boundary | proposed | The logical model benefits from graph traversal and flexible key/value properties. “Schema-flexible” shall not mean unvalidated: owning modules enforce the semantic property contracts, and database constraints/indexes supplement rather than replace them. |
-| Generated documents | Blob/object-storage abstraction with database metadata and references | proposed | Itineraries, vouchers, tickets, and invoices are derived artifacts, not graph payloads. The database stores a stable document identifier, business-object reference, media type, version, integrity hash, lifecycle state, and opaque storage locator. A local filesystem implementation is suitable only where the deployment architecture establishes adequate durability, backup, access control, and shared access. |
+The selection does not yet choose React Router, Next.js, or another production framework profile. The React project recommends a framework for new applications and identifies client-only, static, and server-rendered paths. The project must first establish whether the public customer surface needs search-engine discovery or server-side rendering. A thin slice shall also prove responsive behaviour, accessibility, British-English presentation, localisation preparation, validation, error handling, and performance under NFR-001.
 
-## Web UI evaluation
+Angular and Vue remain rejected alternatives for the current decision. Angular offers more integrated conventions and Vue offers a more progressive framework, but the stakeholder selected React after reviewing those trade-offs. Reopen the UI selection only under the triggers in DR-0010.
 
-The React project recommends using a framework for new production applications and lists both Next.js and React Router as supported choices. The present requirements justify React and TypeScript, but do not yet justify server-side rendering or a Node.js UI server.
+## Python modular backend
 
-| Candidate | Strengths for this system | Costs and risks | Assessment |
-|---|---|---|---|
-| React Router framework mode | Standards-oriented routing and data loading; can support client rendering and preserve a clear FastAPI backend boundary | Smaller set of integrated full-stack conventions; the team must choose more supporting libraries | Preferred if the application is primarily an authenticated business SPA |
-| Next.js | Integrated routing, rendering, streaming, and server-rendering options; strong public-site capabilities | Adds a Node.js server/runtime model when dynamic server rendering is used and may duplicate backend responsibilities unless boundaries are disciplined | Preferred only if public discoverability, server rendering, or route-level rendering requirements justify it |
-| React assembled directly with a build tool | Maximum frontend/backend separation and a small runtime footprint | The team must assemble routing, data loading, error handling, and production conventions; official React guidance prefers a framework | Retain only if a framework proof of concept shows unnecessary complexity |
+Python is selected for the business modules and initial product-agent orchestration. This avoids an obligatory language and network boundary between pervasive agent logic and the operations used by ordinary web interactions.
 
-Proposed decision: select React with TypeScript now, but resolve React Router versus Next.js after documenting public-site and rendering requirements. Responsive behavior and accessibility remain acceptance concerns, not framework properties.
+The codebase shall be organised by the modules in the accepted software architecture rather than by horizontal framework folders. Each module shall expose a small application interface and keep its domain logic, persistence adapter, transport adapter, and internals private. Automated architecture checks shall reject:
 
-## Python and FastAPI evaluation
+- dependencies that oppose the accepted layer direction;
+- cycles between modules;
+- imports of another module's internal packages;
+- transport or persistence models exposed as domain interfaces;
+- direct access to another module's persistence adapter.
 
-Python is widely suitable for business APIs when its operational profile matches the workload; language-level performance alone is not a reason to reject it. FastAPI provides an asynchronous ASGI path for I/O-heavy APIs, but no framework removes database latency, inefficient graph queries, CPU-bound work, or external AI-provider latency.
+Strict static analysis and tests shall complement Python's runtime flexibility. Python does not remove the need for explicit types around money, time, identifiers, lifecycle states, commands, results, and errors.
 
-| Candidate | Strengths | Costs and risks | Assessment |
-|---|---|---|---|
-| Python + FastAPI | Strong AI ecosystem; concise typed APIs; Pydantic validation; OpenAPI and JSON Schema; asynchronous I/O | Dynamic-language errors require strict typing and tests; CPU-bound work needs measurement and possibly separate workers; synchronous drivers can block request execution | Recommended |
-| Python + Django | Mature integrated business framework, administration, authentication, and ORM ecosystem | Relational ORM focus is less aligned with the proposed graph/document persistence; more framework surface than the API-first architecture currently needs | Viable alternative if integrated administration becomes a major driver |
-| TypeScript + a Node.js API framework | One language across UI and server; mature asynchronous ecosystem | Weaker fit with the stated Python/AI preference and duplicates the reason for selecting Python | Rejected as the default, not prohibited for a separately justified component |
+## FastAPI and contracts
 
-Proposed decision: Python and FastAPI form the default backend/API stack. Module domain logic shall remain independent of FastAPI, Pydantic transport models, database drivers, and AI-provider SDKs through adapters at module boundaries.
+FastAPI is selected as an HTTP adapter because it uses Python type declarations and Pydantic validation and produces OpenAPI and JSON Schema contracts. HTTP endpoints shall expose use-case and module capabilities, not generic CRUD access to stored nodes.
 
-## Operational database evaluation
+Pydantic models shall validate external requests, responses, product-agent tool arguments, tool results, and exchanged module representations. Domain types shall express stable business semantics independently of Pydantic and FastAPI where that separation materially protects the model.
 
-The target is a property-rich graph with flexible JSON-like values, keyed lookup, transactions, indexes, constraints, a viable Python integration, and acceptable operations and licensing. A database being “schema-free” is not sufficient evidence: the system still requires versioned type catalogs, validators, vocabulary rules, migrations, indexes, and measurable query performance.
+Flexible property bags shall use controlled value types and versioned property definitions. Their validators shall enforce applicable entity or relationship types, mandatory and optional keys, data types, established vocabularies such as OTA, IATA, and ICAO, and cross-property constraints such as start before end. “Flexible” does not mean untyped or unvalidated.
 
-| Criterion | Weight | ArangoDB | Neo4j | Evidence needed before acceptance |
-|---|---:|---|---|---|
-| Fit to graph plus document/key-value model | 25 | Native document, key/value, and graph models under one query language | Native property graph with key/value properties, but not a general document database | Map representative entities and queries in a proof of concept |
-| Graph traversal and query expressiveness | 20 | AQL supports document queries, joins, and traversals | Cypher and native property-graph traversal are core strengths | Benchmark itinerary, composition, availability, and order traversals |
-| Validation and flexible properties | 10 | Flexible JSON documents with optional JSON Schema validation | Flexible node/relationship properties with indexes and constraints | Demonstrate the semantic property contracts and vocabulary versioning |
-| Python integration | 10 | Python clients exist; support status and async behavior require confirmation | Official Python driver, including async APIs | Exercise transactions, retries, pooling, observability, and failure handling |
-| Transactions and consistency | 10 | Candidate; exact cross-collection/module behavior must be tested | Candidate; graph transactions are a core capability | Define module transaction boundaries and concurrency scenarios |
-| Operations, backup, recovery, and scaling | 10 | Candidate; edition-dependent capabilities and limits require review | Candidate; several production capabilities are edition-dependent | Test backup/restore and document RTO/RPO and topology assumptions |
-| Security and privacy | 5 | Authentication, authorization, encryption, auditing, and masking need edition-specific review | Authentication and authorization capabilities vary by edition | Threat-model database access and prove least privilege per module |
-| Compliance with NFR-003 | 10 | Material risk: current Community terms restrict commercial use by aggregate dataset size and other conditions | Community is GPLv3; required production capabilities must be available without a paid edition | Obtain legal review and prove that intended use, scale, and required capabilities incur no software fees |
+## Product-agent integration
 
-Current recommendation: use ArangoDB as the leading proof-of-concept candidate because its native multi-model shape most closely matches the requested graph plus flexible document/key-value model. Keep Neo4j as the graph-specialist comparator. Do not accept either product until a representative proof of concept, operational review, and proof of NFR-003 compliance are complete. Any capability or scale that requires a paid edition disqualifies that candidate. The proof of concept shall use the existing logical model and exercise at least recursive product composition, date-qualified inventory lookup, traveler/order traversal, property validation, indexed identifier lookup, concurrent stock allocation, and backup/restore.
+Chatbots, booking assistants, and fulfilment assistants may initially run in the same Python application and invoke the same provided module operations as conventional interactions. The agent orchestrator receives purpose-specific tools such as product search, availability checks, draft-order creation, stock reservation, and fulfilment actions. The owning module remains responsible for authorisation, validation, transactions, audit, and business invariants.
 
-One database product does not imply one shared mutable model. Each Resources module owns its collections or graph partitions and its persistence adapter. Other modules use identifiers, projections, exchanged representations, or provided operations; they shall not issue queries against another module's owned data. Physical consolidation may be chosen later without weakening logical encapsulation.
+An agent shall not receive a general-purpose write query tool. Graph exploration, where justified, shall use a read-only query operation or projection that restricts permitted labels and relationship types, path depth, result size, execution time, actor scope, and returned data. Tool calls and consequential results shall be auditable.
+
+If later evidence justifies an independently scalable or isolated AI component, the controlled tool contracts become its integration boundary. The initial in-process design therefore avoids premature distributed-system cost without making extraction impossible.
+
+No agent framework, model, inference runtime, or external AI provider is selected by DR-0010. Those choices require separate evaluation of functional fit, data protection, latency, availability, evaluation quality, operational control, and cost constraints.
+
+## Neo4j Community Edition
+
+Neo4j Community Edition is selected for the persistence proof of concept because the concrete object example is a property graph rather than merely a set of relational hierarchies. It includes paths such as Order → Order Position → Stock Item → Touristic Product Item → composite Product Item → Supplier Role → Organisation, alongside order-to-traveller-to-person paths and recursive Order, Stock, and Product structures.
+
+Nodes and typed relationships naturally represent this structure; both may carry flexible properties, and Cypher supports heterogeneous and variable-length pattern matching. The database shape remains subordinate to module ownership:
+
+- each Resources module owns its mutations, invariants, labels or relationship types, and persistence adapter;
+- other modules use identifiers, representations, projections, or provided operations;
+- cross-module paths are exposed through authorised operations rather than unrestricted repositories;
+- the database driver and Cypher statements remain persistence-adapter details;
+- product agents use controlled tools, not raw database authority.
+
+The Community Edition is suitable only if the project can operate safely within its single-instance and edition-specific constraints. The authoritative showstopper criteria are in [DR-0010](../governance/decisions/0010-adopt-python-centered-modular-technology-stack.md). In particular, any required paid capability fails NFR-003 and reopens the database decision.
+
+The proof of concept shall map the existing logical model and realistic scenarios and shall demonstrate:
+
+1. flexible node and relationship properties with vocabulary and rule validation;
+2. recursive and heterogeneous paths from the concrete object example;
+3. indexed identifier and property searches;
+4. transactional order creation and concurrent stock allocation with rollback;
+5. module-owned writes and authorised cross-module reads;
+6. bounded read tools and command tools for product agents;
+7. backup, restore, upgrade, observability, and least-privilege operation available at EUR 0;
+8. NFR-001 and NFR-002 measurements under a defined representative load.
+
+PostgreSQL with Apache AGE is the first fallback comparator because it combines PostgreSQL transactions with an Apache-licensed graph extension and hybrid SQL/Cypher queries. Plain PostgreSQL remains a control candidate. ArangoDB Community Edition is not eligible under its current prohibition of commercial production use. Neo4j Enterprise Edition is not an acceptable fallback while it requires fees for mandatory capabilities.
+
+## Modular monolith and deployment freedom
+
+The initial backend is one modular monolith. Module calls are in-process and shall not be converted into HTTP merely to resemble possible future services. FastAPI serves external interaction and integration boundaries.
+
+This decision does not define containers, processes beyond the initial application boundary, servers, hosting, scaling topology, or recovery topology. Those belong to the later [deployment architecture](../operations/deployment-architecture.md). A module may be extracted only when deployment evidence justifies the additional network, consistency, observability, security, and operational costs.
 
 ## Generated-document storage
 
-Binary or rendered documents shall not be stored as large graph properties. A storage port owned by the module responsible for the document lifecycle shall support put, retrieve, version, integrity verification, retention, and deletion/hold behavior. Its implementation may target an object/blob service or a filesystem, but business code shall receive an opaque document reference rather than a provider-specific path or URL.
+Itineraries, vouchers, tickets, invoices, and other rendered artifacts shall not be stored as large graph properties. A storage port owned by the responsible module shall support put, retrieve, version, integrity verification, retention, and deletion or hold behaviour. Neo4j stores a stable document identifier, relevant business references, media type, version, integrity hash, lifecycle state, and opaque storage locator.
 
-Before selecting the implementation, requirements must define document classes, expected sizes and volume, retention periods, immutability and audit needs, confidentiality, encryption, backup/recovery, malware scanning for uploaded content, and whether multiple application instances require shared storage. Invoices may also be subject to legal retention and immutability obligations; those rules require stakeholder/legal evidence before architecture acceptance.
+The implementation may later target a filesystem or object/blob service. Selection requires requirements for volume, retention, immutability, confidentiality, encryption, malware scanning, backup, recovery, and shared access, followed by an NFR-003 review.
 
-## Required decision evidence
+## Remaining selection and validation work
 
-1. Confirm whether the customer-facing site needs search-engine discoverability or server-side rendering; then choose the React framework profile.
-2. Benchmark a thin Python/FastAPI vertical slice against NFR-001 and a streamed chatbot slice against NFR-002.
-3. Execute the ArangoDB-versus-Neo4j proof of concept with identical domain scenarios and record query plans and measurements.
-4. Review licences and production editions and prove that all required database, backup, recovery, security, development, testing, and operational capabilities satisfy NFR-003 at the intended scale.
-5. Define generated-document retention, immutability, access, and recovery requirements before selecting filesystem or object/blob storage.
-6. Record accepted selections and rejected alternatives in decision records; only then create technology-specific implementation guides.
+1. Select the React framework and rendering profile after confirming public-site discovery and rendering requirements.
+2. Select and enforce Python packaging, type-checking, dependency, migration, architecture-test, and supply-chain tooling under NFR-003.
+3. Complete the Neo4j proof of concept and record its evidence against every DR-0010 showstopper.
+4. Select authentication and authorisation mechanisms, an agent framework if needed, the AI model and inference/provider profile, and generated-document storage through separate evidence-backed decisions.
+5. Maintain a licence and edition inventory for every mandatory dependency and operational tool.
 
 ## Primary evidence
 
+- [DR-0010: Python-centred modular technology stack](../governance/decisions/0010-adopt-python-centered-modular-technology-stack.md)
 - [React: Creating a React App](https://react.dev/learn/creating-a-react-app)
 - [FastAPI features](https://fastapi.tiangolo.com/features/)
-- [ArangoDB Community Edition features](https://docs.arangodb.com/3.12/about-arangodb/features/community-edition/)
-- [ArangoDB Community Edition License Agreement](https://arangodb.com/wp-content/uploads/2024/05/ADB-Community-License_31OCT2023.pdf)
-- [Neo4j Operations Manual](https://neo4j.com/docs/operations-manual/current/introduction/)
-- [Neo4j Python Driver](https://neo4j.com/docs/api/python-driver/current/)
-
-## Decision status
-
-No technology is accepted yet. The recommendations above are ready for stakeholder review; unresolved evidence is explicit and no implementation guide has been created prematurely.
+- [Neo4j editions and capabilities](https://neo4j.com/docs/operations-manual/current/introduction/)
+- [Neo4j variable-length paths](https://neo4j.com/docs/cypher-manual/current/patterns/variable-length-paths/)
+- [Apache AGE overview](https://age.apache.org/overview/)
+- [ArangoDB features and licensing](https://docs.arango.ai/arangodb/stable/features/)
