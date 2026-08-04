@@ -6,7 +6,7 @@ participant "MOD-SI\nStaff Interaction" as SI
 participant "MOD-CARE\nCustomer Care" as CARE
 participant "MOD-OM\nOrder Management" as OM
 participant "MOD-INV\nInventory" as INV
-participant "MOD-SM\nSupplier Management" as SM
+participant "MOD-SM\nPartner Management" as SM
 
 Advisor -> SI: prepareOrderedTravel(orderRef)
 SI -> CARE: prepareOrderedTravel(orderRef)

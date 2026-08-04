@@ -5,7 +5,7 @@ actor Traveler
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-CARE\nCustomer Care" as CARE
 participant "MOD-OM\nOrder Management" as OM
-participant "MOD-CM\nCustomer Management" as CM
+participant "MOD-CM\nPerson Management" as CM
 
 Traveler -> CI: obtainOngoingAssistance(orderRef, request)
 CI -> CARE: assistTraveler(orderRef, request)

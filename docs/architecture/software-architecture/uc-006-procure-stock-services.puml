@@ -4,7 +4,7 @@ autonumber
 actor Purchaser
 participant "MOD-SI\nStaff Interaction" as SI
 participant "MOD-PROC\nProcurement" as PROC
-participant "MOD-SM\nSupplier Management" as SM
+participant "MOD-SM\nPartner Management" as SM
 participant "MOD-TPM\nTouristic Product Management" as TPM
 participant "MOD-INV\nInventory" as INV
 

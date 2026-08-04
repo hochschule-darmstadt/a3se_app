@@ -3,7 +3,7 @@ title UC-014 Maintain a Customer Record - Module Interaction
 autonumber
 actor Customer
 participant "MOD-CI\nCustomer Interaction" as CI
-participant "MOD-CM\nCustomer Management" as CM
+participant "MOD-CM\nPerson Management" as CM
 
 Customer -> CI: maintainCustomerRecord(changeRequest)
 CI -> CM: updatePersonAndRoles(customerRef, changeRequest)

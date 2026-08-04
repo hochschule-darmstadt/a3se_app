@@ -20,7 +20,7 @@ The following synthetic object diagram illustrates how the generic logical data 
 
 ![Concrete object example](objects.svg)
 
-John and Sarah are Persons playing customer/traveler roles. Supplier Organisations play airline and hotel roles. Recursive TouristicProductItems describe a flight with seats and a hotel room category with a room; corresponding StockItems make dated capacity sellable; OrderItems connect the customer and travelers to the allocated stock.
+John and Sarah are Persons playing `person/customer` and `person/traveller` roles. Partner Organisations play `partner/supplier/airline` and `partner/supplier/hotel` roles. Recursive TouristicProductItems use `product/...` types to describe a flight with seats and a hotel room category with a room; corresponding `stock/...` StockItems make dated capacity sellable; an `order/header` and its `order/position` OrderItems connect the customer and travelers to the allocated stock.
 
 ## Semantic property contracts
 
@@ -40,10 +40,10 @@ Owning modules shall validate properties at their boundaries before accepting st
 
 | Resource module | Entity | Meaning |
 |---|---|---|
-| Customer Management | `Person` | A natural person identified by person-specific properties such as name. |
-| Customer Management | `PersonRole` | A contextual role played by a Person, such as customer or traveler, with role-specific properties. |
-| Supplier Management | `Organisation` | An organization identified by organization-specific properties such as name. |
-| Supplier Management | `OrgaRole` | A contextual role played by an Organisation, such as supplier, airline, or hotel, with role-specific properties. |
+| Person Management | `Person` | A natural person identified by person-specific properties such as name. |
+| Person Management | `PersonRole` | A contextual role played by a Person, such as customer or traveler, with role-specific properties. |
+| Partner Management | `Organisation` | An organization identified by organization-specific properties such as name. |
+| Partner Management | `OrgaRole` | A contextual role played by an Organisation, such as partner, supplier, airline, or hotel, with role-specific properties. |
 | Touristic Product Management | `TouristicProductItem` | A typed reusable touristic product element. Recursive relationships allow composite structures such as a flight type with seats or a room category with rooms. |
 | Inventory | `StockItem` | A dated, priced, or otherwise qualified unit of pre-procured sellable stock. Recursive relationships allow stock groupings. |
 | Order Management | `OrderItem` | A typed order or ordered component. Recursive relationships allow an order to contain its components. |

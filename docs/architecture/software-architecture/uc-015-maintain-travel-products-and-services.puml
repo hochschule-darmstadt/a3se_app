@@ -4,7 +4,7 @@ autonumber
 actor "Seasonal Planner" as Planner
 participant "MOD-SI\nStaff Interaction" as SI
 participant "MOD-SP\nStrategic Planning" as SP
-participant "MOD-SM\nSupplier Management" as SM
+participant "MOD-SM\nPartner Management" as SM
 participant "MOD-TPM\nTouristic Product Management" as TPM
 
 Planner -> SI: maintainProductsAndServices(definitionChange)

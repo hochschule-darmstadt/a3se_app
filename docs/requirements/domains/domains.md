@@ -31,6 +31,6 @@ Under [SE-001](../scope-exclusions.md), only the interfaces to Accounting, Repor
 
 ## From subdomains to modules
 
-The accepted [modular software architecture](../../architecture/software-architecture/software-architecture.md) begins with these subdomains and then refines them. Customer Interaction, Staff Interaction, Strategic Planning, Procurement, Touristic Product Design, Sales, and Customer Care remain recognisable module candidates. Customer Management, Supplier Management, Touristic Product Management, Inventory, and Order Management are extracted as reusable Resources modules because several core processes need their information and lifecycle responsibilities.
+The accepted [modular software architecture](../../architecture/software-architecture/software-architecture.md) begins with these subdomains and then refines them. Customer Interaction, Staff Interaction, Strategic Planning, Procurement, Touristic Product Design, Sales, and Customer Care remain recognisable module candidates. Person Management, Partner Management, Touristic Product Management, Inventory, and Order Management are extracted as reusable Resources modules because several core processes need their information and lifecycle responsibilities.
 
 This refinement is intentional: the domain diagram remains authoritative for problem-space decomposition, while the software architecture is authoritative for solution-space module boundaries.

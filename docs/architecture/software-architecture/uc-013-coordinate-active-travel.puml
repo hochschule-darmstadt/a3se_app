@@ -5,8 +5,8 @@ actor Traveler
 participant "MOD-CI\nCustomer Interaction" as CI
 participant "MOD-CARE\nCustomer Care" as CARE
 participant "MOD-OM\nOrder Management" as OM
-participant "MOD-SM\nSupplier Management" as SM
-participant "MOD-CM\nCustomer Management" as CM
+participant "MOD-SM\nPartner Management" as SM
+participant "MOD-CM\nPerson Management" as CM
 
 Traveler -> CI: coordinateActiveTravel(orderRef, event)
 CI -> CARE: coordinateActiveTravel(orderRef, event)
