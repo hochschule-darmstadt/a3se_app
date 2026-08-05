@@ -14,7 +14,7 @@ The accepted [modular software architecture](software-architecture/software-arch
 
 | Concern | Selected direction | Decision boundary |
 |---|---|---|
-| Web UI | React with TypeScript | Applies to Customer, Staff, and Supplier Interaction. The concrete React framework, rendering mode, and build profile remain open. |
+| Web UI | React with TypeScript, React Router v7 Framework Mode, Vite, and Mantine; selected subject to PoC validation | Customer and Staff Interaction use the same technology platform and shared UI foundations. Both are client-rendered web applications; exact workspace and deployment packaging remain open. |
 | Backend language | Python | Applies to the modular business backend and initial product-agent orchestration. |
 | HTTP adapter | FastAPI | Exposes interaction and integration operations; domain and application logic remain independent of FastAPI. |
 | Contracts | Pydantic contract models and explicit domain types | Used at trust, transport, tool, and module boundaries. Runtime-defined property bags remain validated rather than becoming unrestricted dictionaries. |
@@ -34,11 +34,13 @@ The accepted [modular software architecture](software-architecture/software-arch
 
 ## React and TypeScript
 
-React and TypeScript are selected for all web interaction surfaces. Shared visual components and contract types may be reused, but Customer, Staff, and Supplier Interaction retain separate module responsibilities and authorisation contexts.
+React and TypeScript are selected for all web interaction surfaces. React Router v7 in Framework Mode provides the application framework and routing model, Vite provides the build foundation, and Mantine provides the shared component and theming foundation. This selection is subject to PoC validation rather than being treated as production-proven.
 
-The selection does not yet choose React Router, Next.js, or another production framework profile. The React project recommends a framework for new applications and identifies client-only, static, and server-rendered paths. The project must first establish whether the public customer surface needs search-engine discovery or server-side rendering. A thin slice shall also prove responsive behaviour, accessibility, British-English presentation, localisation preparation, validation, error handling, and performance under NFR-001.
+Customer Interaction shall provide a modern, branded, responsive travel-booking portal. Staff Interaction shall provide a dense, functional interface for a complex business information system. They shall use the same framework and component foundation but may apply different themes, density profiles, navigation structures, and interaction patterns. Shared visual components and contract types do not merge their separate module responsibilities or authorisation contexts.
 
-Angular and Vue remain rejected alternatives for the current decision. Angular offers more integrated conventions and Vue offers a more progressive framework, but the stakeholder selected React after reviewing those trade-offs. Reopen the UI selection only under the triggers in DR-0010.
+Dynamic travel offers and destination pages do not require public search-engine indexing. Customer and Staff Interaction are therefore selected as client-rendered applications without a mandatory React server runtime. Static pre-rendering may still be used for genuinely static public pages, but server-side rendering is not a current driver. Exact workspace and deployment packaging remain open.
+
+Next.js is not selected because its server-rendering and dynamic search-discovery strengths do not justify an additional JavaScript server layer for the current requirements. A hand-assembled React/Vite SPA without Framework Mode would leave more routing, loading, error-boundary, and code-splitting conventions to the project. Angular and Vue remain rejected alternatives to the stakeholder-selected React platform. Reopen the UI selection only under the triggers in DR-0010.
 
 ## Python modular backend
 
@@ -113,16 +115,21 @@ The implementation may later target a filesystem or object/blob service. Selecti
 
 ## Remaining selection and validation work
 
-1. Select the React framework and rendering profile after confirming public-site discovery and rendering requirements.
-2. Select and enforce Python packaging, type-checking, dependency, migration, architecture-test, and supply-chain tooling under NFR-003.
-3. Complete the Neo4j proof of concept and record its evidence against every DR-0010 showstopper.
-4. Select authentication and authorisation mechanisms, an agent framework if needed, the AI model and inference/provider profile, and generated-document storage through separate evidence-backed decisions.
-5. Maintain a licence and edition inventory for every mandatory dependency and operational tool.
+1. Validate React Router v7, Vite, and Mantine in the planned PoC and record the evidence against the DR-0010 revisit triggers.
+2. Select the workspace/package-manager profile, API-client generation, forms, data-grid, client-state, internationalisation, authentication, and frontend test tooling without bypassing NFR-003.
+3. Select and enforce Python packaging, type-checking, dependency, migration, architecture-test, and supply-chain tooling under NFR-003.
+4. Complete the Neo4j proof of concept and record its evidence against every DR-0010 showstopper.
+5. Select authentication and authorisation mechanisms, an agent framework if needed, the AI model and inference/provider profile, and generated-document storage through separate evidence-backed decisions.
+6. Maintain a licence and edition inventory for every mandatory dependency and operational tool.
 
 ## Primary evidence
 
 - [DR-0010: Python-centred modular technology stack](../governance/decisions/0010-adopt-python-centered-modular-technology-stack.md)
 - [React: Creating a React App](https://react.dev/learn/creating-a-react-app)
+- [React Router: Framework Mode](https://reactrouter.com/start/modes)
+- [React Router: Rendering Strategies](https://reactrouter.com/start/framework/rendering)
+- [Vite documentation](https://vite.dev/guide/)
+- [Mantine documentation and licensing](https://mantine.dev/getting-started/)
 - [FastAPI features](https://fastapi.tiangolo.com/features/)
 - [Neo4j editions and capabilities](https://neo4j.com/docs/operations-manual/current/introduction/)
 - [Neo4j variable-length paths](https://neo4j.com/docs/cypher-manual/current/patterns/variable-length-paths/)

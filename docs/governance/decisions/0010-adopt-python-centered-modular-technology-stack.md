@@ -11,6 +11,8 @@ The accepted software architecture defines bounded modules, acyclic dependencies
 
 The initial evaluation followed the stakeholder's named React, Python, FastAPI, and graph-database preferences too closely. An independent comparison then favoured Angular, Java with Spring Modulith, and PostgreSQL. Review against the concrete object graph and the intended breadth of agent functionality changed the balance: a split Java/Python backend would introduce a permanent integration boundary through the centre of the product, while plain relational persistence would make the demonstrated heterogeneous, multi-hop paths less natural to query.
 
+Subsequent UI evaluation established that dynamic travel offers and destination pages do not require public search-engine indexing. Customer Interaction needs a modern responsive booking portal, while Staff Interaction needs a dense functional business interface; both shall share one frontend technology platform without requiring identical presentation profiles.
+
 ## Decision drivers
 
 - one implementation language for business modules, agent orchestration, validation, and AI integration;
@@ -31,12 +33,15 @@ The initial evaluation followed the stakeholder's named React, Python, FastAPI, 
 - React, Python, FastAPI, and PostgreSQL with Apache AGE: combines relational and graph facilities under PostgreSQL and remains a fallback candidate, but adds an extension and hybrid query model when a native graph database can be evaluated directly.
 - React, Python, FastAPI, and Neo4j Community Edition: aligns the implementation language with agent development and the property-graph data model, but the free edition is single-instance and lacks several enterprise operational capabilities; these limitations must be tested against actual project needs.
 - ArangoDB Community Edition: technically aligns with graph and document needs, but its current terms prohibit commercial production use and therefore fail NFR-003.
+- React Router v7 Framework Mode with Vite and Mantine: provides one client-rendered React platform, routing and build conventions, and a shared themable component foundation without requiring an additional JavaScript server runtime; its suitability for both interaction profiles remains subject to PoC validation.
+- Next.js App Router: provides strong server rendering and dynamic search-discovery support, but those capabilities are not required for dynamic travel content and would introduce an additional server-side application layer beside FastAPI.
+- React and Vite assembled without Framework Mode: keeps the client small but leaves more routing, data-loading, error-boundary, and code-splitting conventions to the project.
 
 ## Decision
 
 Adopt this initial product technology profile:
 
-- React with TypeScript for all web interaction surfaces. The concrete React framework, rendering mode, and build profile remain to be selected from requirements and a thin-slice evaluation.
+- React with TypeScript, React Router v7 Framework Mode, Vite, and Mantine for Customer and Staff Interaction. Both use client-side rendering and the same technology platform, while their themes, density, navigation, and interaction patterns may differ. The selection is subject to PoC validation.
 - Python for the modular backend core.
 - FastAPI as the HTTP interaction adapter. Domain and application logic shall not depend on FastAPI request objects or routing concerns.
 - Pydantic contract models and explicit domain types at trust and module boundaries. Runtime-defined property bags remain subject to type definitions, vocabularies, mandatory/optional rules, and cross-property validation.
@@ -54,6 +59,7 @@ Generated business documents remain behind a storage port with opaque references
 
 - Agent logic and business logic can initially share Python contracts and in-process module interfaces without a mandatory Java/Python network boundary.
 - React clients can consume explicit OpenAPI/Pydantic contracts while remaining independent of backend persistence models.
+- Customer and Staff Interaction can share routing, build, component, theme, and contract foundations while retaining purpose-specific user experiences.
 - Neo4j directly represents nodes, typed relationships, flexible properties, recursive composition, and heterogeneous paths visible in the logical object example.
 - A modular monolith minimises initial operational complexity while retaining extraction seams.
 - Controlled tools keep validation, authorisation, transactions, and audit behaviour between an agent and business state.
@@ -66,7 +72,8 @@ Generated business documents remain behind a storage port with opaque references
 - Neo4j Community Edition is limited to a single-instance deployment. Online backup, clustering, failover, multiple standard databases, and several enterprise security capabilities are not available without a paid edition.
 - Neo4j property-value constraints may require value objects to be represented as nodes or encoded values rather than arbitrary nested documents.
 - A graph shared physically across modules can tempt direct cross-module access and must be governed through ownership and interface tests.
-- The React ecosystem requires additional choices for routing, forms, data access, localisation, testing, and rendering.
+- The selected React platform still requires choices for forms, data access, client state, localisation, authentication, testing, and complex staff grids.
+- Mantine is not a specialised enterprise data-grid product; required Staff Interaction grid behaviour may require an additional NFR-003-compliant component.
 
 ## Validation and revisit triggers
 
@@ -84,7 +91,9 @@ Any of the following is a database showstopper and reopens the selection:
 
 If a showstopper occurs, compare PostgreSQL with Apache AGE, plain PostgreSQL, and other NFR-003-compliant graph products against the same acceptance evidence. ArangoDB may return only if its applicable commercial-production terms change and pass a fresh licence review.
 
-The overall stack shall also be revisited if the React thin slice fails accessibility, localisation, responsive behaviour, or delivery needs; if Python cannot meet NFR-001/NFR-002 under representative load; or if module-dependency checks cannot reliably enforce the accepted architecture.
+React Router v7, Vite, and Mantine remain selected only if the PoC demonstrates a modern responsive Customer Interaction profile and a dense, efficient Staff Interaction profile on the same foundation. Revisit the selection if accessibility, localisation preparation, validation and error presentation, required staff grid behaviour, NFR-001 performance, or NFR-003 cost compliance fails, or if a mandatory React server runtime becomes necessary.
+
+The overall stack shall also be revisited if Python cannot meet NFR-001/NFR-002 under representative load or if module-dependency checks cannot reliably enforce the accepted architecture.
 
 ## Links
 
