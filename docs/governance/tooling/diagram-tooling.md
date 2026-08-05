@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture/Implementation
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-05
 
 The toolchain implements [DR-0001](../decisions/0001-diagrams-as-code-toolchain.md). Sources are authoritative; SVGs are derived review artifacts.
 
@@ -60,7 +60,7 @@ The second path is optional and defaults to an SVG beside the source. For C4, us
 | Lightweight explanatory diagrams | `.mmd` | Mermaid CLI |
 | Strategic DDD context maps | `.cml` | Context Mapper 6.12.0, opt-in |
 
-Low-fidelity wireframes may be stored as reviewable SVG/image artifacts during discovery; after UI technology selection, prefer accessible executable HTML/CSS prototypes. The current tools cover the project's formal business, architecture, data, process, interaction, deployment, and threat-model views. D2 is intentionally not part of the project toolchain because it would overlap these capabilities without adding a required notation.
+Low-fidelity wireframes may be stored as reviewable SVG/image artifacts during discovery; after UI technology selection, prefer accessible executable HTML/CSS prototypes. The current tools cover the project's formal business, architecture, data, process, interaction, deployment, and security views. D2 is intentionally not part of the project toolchain because it would overlap these capabilities without adding a required notation.
 
 Use the recommended VS Code extensions in `.vscode/extensions.json` for previews and interactive editing. Extensions are conveniences; repository validation is authoritative.
 

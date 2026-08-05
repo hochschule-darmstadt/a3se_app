@@ -4,7 +4,7 @@
 - Owner: Requirements
 - Last reviewed: 2026-08-05
 
-Business objects describe coarse concepts that carry meaning across the tour operator cycle. The [domain model](domains/domains.md) assigns their problem-space responsibility; the [logical data model](../architecture/data-model/data-model.md) refines them into generic, module-owned entities. Other modules may retain identifiers or representations without becoming co-owners.
+Business objects describe coarse concepts that carry meaning across the tour operator cycle. The [domain model](domains/domains.md) assigns their problem-space responsibility; the [logical entity model](../architecture/entity-model/entity-model.md) refines them into generic, module-owned entities. Other modules may retain identifiers or representations without becoming co-owners.
 
 This inventory does not define database tables, API schemas, implementation classes, or complete lifecycle rules.
 

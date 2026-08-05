@@ -135,4 +135,4 @@ Cross-module behavior uses provided operations irrespective of whether the event
 - Operation names are candidates derived from proposed detailed use cases; complete parameters, errors, events, and transaction semantics remain open.
 - Supplier-facing web interaction remains an accepted requirement, but the refined architecture has no dedicated Supplier Interaction module. Its UI placement must be resolved before implementation.
 - Reporting and Human Resources have no active use-case messages; operations were not invented without evidence.
-- The generic item/role data model requires concrete type catalogs, property schemas, vocabulary versions, validation rules, multiplicities, and snapshot policies before implementation.
+- The generic item/role entity model requires concrete type catalogs, property schemas, vocabulary versions, validation rules, multiplicities, and snapshot policies before implementation.

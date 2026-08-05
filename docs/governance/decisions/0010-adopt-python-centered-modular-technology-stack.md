@@ -7,7 +7,7 @@
 
 ## Context
 
-The accepted software architecture defines bounded modules, acyclic dependencies, and freedom to begin as a modular monolith and extract deployable services later. The logical data model uses flexible typed properties, rule-based semantic validation, recursive structures, and cross-entity graph patterns. Product AI is a central capability rather than an isolated add-on: conversational travel advice, booking assistance, and fulfilment support need controlled access to current business capabilities and data.
+The accepted software architecture defines bounded modules, acyclic dependencies, and freedom to begin as a modular monolith and extract deployable services later. The logical entity model uses flexible typed properties, rule-based semantic validation, recursive structures, and cross-entity graph patterns. Product AI is a central capability rather than an isolated add-on: conversational travel advice, booking assistance, and fulfilment support need controlled access to current business capabilities and data.
 
 The initial evaluation followed the stakeholder's named React, Python, FastAPI, and graph-database preferences too closely. An independent comparison then favoured Angular, Java with Spring Modulith, and PostgreSQL. Review against the concrete object graph and the intended breadth of agent functionality changed the balance: a split Java/Python backend would introduce a permanent integration boundary through the centre of the product, while plain relational persistence would make the demonstrated heterogeneous, multi-hop paths less natural to query.
 
@@ -90,6 +90,5 @@ The overall stack shall also be revisited if the React thin slice fails accessib
 
 - [Technology profile and evaluation](../../architecture/technology.md)
 - [Modular software architecture](../../architecture/software-architecture/software-architecture.md)
-- [Logical data model and object example](../../architecture/data-model/data-model.md)
-- [Conversational and agent automation](../../architecture/automation.md)
+- [Logical entity model and object example](../../architecture/entity-model/entity-model.md)
 - [Non-functional requirements](../../requirements/non-functional-requirements.md)

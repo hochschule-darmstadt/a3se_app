@@ -1,22 +1,22 @@
-# Logical Data Model
+# Logical Entity Model
 
 - Status: proposed
 - Owner: Architecture
 - Last reviewed: 2026-08-05
 
-This technology-neutral logical model defines generic entity structures owned by Resources modules in the accepted [software architecture](../software-architecture/software-architecture.md). It was produced by iteratively refining the accepted [business objects](../../requirements/business-objects.md): recurring party roles and item structures were generalized while concrete business meaning remains expressed through types, properties, and relationships.
+This technology-neutral logical entity model defines generic entity structures owned by Resources modules in the accepted [software architecture](../software-architecture/software-architecture.md). It was produced by iteratively refining the accepted [business objects](../../requirements/business-objects.md): recurring party roles and item structures were generalized while concrete business meaning remains expressed through types, properties, and relationships.
 
 It does not prescribe database tables, foreign keys, graph labels, collections, persistence annotations, or a database product.
 
 ## Overview
 
-![Logical data model](data-model.svg)
+![Logical entity model](entity-model.svg)
 
 Arrows show conceptual references across entity and module boundaries; they do not by themselves require object navigation or database foreign keys.
 
 ## Concrete object usage
 
-The following synthetic object diagram illustrates how the generic logical data model is used for one comprehensive travel example. It is explanatory architecture evidence, not a physical database design or additional requirements source.
+The following synthetic object diagram illustrates how the generic logical entity model is used for one comprehensive travel example. It is explanatory architecture evidence, not a physical database design or additional requirements source.
 
 ![Concrete object example](objects.svg)
 

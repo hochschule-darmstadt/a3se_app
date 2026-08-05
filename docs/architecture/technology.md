@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture
-- Last reviewed: 2026-08-04
+- Last reviewed: 2026-08-05
 
 ## Purpose and decision authority
 
@@ -27,9 +27,9 @@ The accepted [modular software architecture](software-architecture/software-arch
 
 - [FR-001–FR-004](../requirements/functional-requirements.md): British English, later language extension, web-only interaction, and responsive Customer Interaction.
 - [NFR-001–NFR-003](../requirements/non-functional-requirements.md): UI and conversational response-time targets and zero-cost software use.
-- [Logical Data Model](data-model/data-model.md): flexible typed properties, semantic validation, recursive structures, and heterogeneous multi-hop graph patterns demonstrated by the concrete object example.
+- [Logical Entity Model](entity-model/entity-model.md): flexible typed properties, semantic validation, recursive structures, and heterogeneous multi-hop graph patterns demonstrated by the concrete object example.
 - [Modular Software Architecture](software-architecture/software-architecture.md): explicit module interfaces, acyclic dependencies, and freedom to extract deployment units later.
-- [Product-agent integration](automation.md): conversational travel advice, booking assistance, and fulfilment support shall reuse controlled business operations and current authorised data.
+- Product-agent integration: conversational travel advice, booking assistance, and fulfilment support shall reuse the controlled business operations and authorised data access defined in this technology profile.
 - Order and Inventory Management require reliable concurrent state changes and rollback; a graph model does not weaken those transactional needs.
 
 ## React and TypeScript
