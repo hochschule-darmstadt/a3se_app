@@ -2,11 +2,10 @@
 
 - Status: draft
 - Owner: Management
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-05
 
 Management coordinates lifecycle scope, sequencing, stakeholder engagement, risk, evidence, and decisions without becoming the authority for business requirements or technical design.
 
-- [project-plan.md](project-plan.md)
-- [backlog-management.md](backlog-management.md)
+- [project-management/](project-management/README.md): logical project structure and mapping to GitHub Issues
 - [stakeholder-management.md](stakeholder-management.md)
 - [risk-management.md](risk-management.md)

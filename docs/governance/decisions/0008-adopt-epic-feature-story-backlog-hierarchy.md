@@ -28,7 +28,7 @@ Stakeholder direction proposes `epic -> feature -> story`: an epic roughly corre
 
 ## Decision
 
-Adopt the model defined in [Backlog and Scope Management](../../management/backlog-management.md):
+Manage product-scope refinement in GitHub Issues using this model:
 
 - an `epic` is associated with exactly one candidate or accepted domain;
 - a `feature` has exactly one epic parent and represents exactly one use case in that domain;
@@ -65,8 +65,7 @@ Validate canonical templates and Issue Forms together with `npm run harness:vali
 
 ## Links
 
-- [Backlog and Scope Management](../../management/backlog-management.md)
-- [Project Plan](../../management/project-plan.md)
+- [Project Management](../../management/project-management/project-management.md)
 - [Business Domains](../../requirements/domains/domains.md)
 - [Use Cases](../../requirements/use-cases/use-cases.md)
 - [DR-0007](0007-govern-work-with-github-issues-and-project.md)

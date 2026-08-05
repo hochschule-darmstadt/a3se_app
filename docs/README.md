@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Management
-- Last reviewed: 2026-08-01
+- Last reviewed: 2026-08-05
 
 This directory is the durable context harness for humans and AI agents. Start here, then load only the lifecycle information needed for the task. The folders organize authoritative information; they are not sequential phase gates or exclusive role boundaries.
 
@@ -36,7 +36,7 @@ Cross-cutting concerns such as security, privacy, accessibility, reliability, an
 | Implementation | [implementation/README.md](implementation/README.md) | accepted architecture and technology decision |
 | Test | [test/README.md](test/README.md) | requirements, acceptance examples, scenarios, and validation evidence |
 | Operations | [operations/README.md](operations/README.md) | architecture, deployment architecture, and operational risks |
-| Management | [management/README.md](management/README.md) | project plan, stakeholder management, and risk management |
+| Management | [management/README.md](management/README.md) | project management, stakeholder management, and risk management |
 | Agent responsibilities | [governance/agents/README.md](governance/agents/README.md) | relevant lifecycle agent charter |
 | Workflow | [governance/workflows/README.md](governance/workflows/README.md) | artifact lifecycle and definition of done |
 | Standards and notations | [governance/standards/README.md](governance/standards/README.md) | relevant notation and tooling guidance |

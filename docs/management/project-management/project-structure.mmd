@@ -1,0 +1,18 @@
+gantt
+  title Logical project structure — sequence only, not a schedule
+  dateFormat YYYY-MM-DD
+  axisFormat Step %j
+
+  section Basic concept
+  Coarse overall planning — #2              :plan, 2000-01-01, 1d
+  Essential requirements — #3               :requirements, after plan, 1d
+  Supporting architecture — #4, #7, #8, #9  :architecture, after requirements, 1d
+  Proof of concept — #10, #11, #12, #13      :poc, after architecture, 1d
+
+  section Iterative delivery
+  Iteration / Sprint 1 — future issues        :iteration1, after poc, 1d
+  Iterations / Sprints 2 through n — future issues :iterations, after iteration1, 2d
+
+  section End phase
+  Approval testing and approval — future issue :approval, after iterations, 1d
+  Roll-out and closing — future issue          :closing, after approval, 1d
