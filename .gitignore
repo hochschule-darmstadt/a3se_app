@@ -2,3 +2,4 @@ node_modules/
 .diagram-tools/
 tools/diagrams/.tmp/
 /debug.log
+**/.$*.drawio.bkp
