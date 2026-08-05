@@ -2,19 +2,19 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-05
 
 ## Overview
 
 ![Overview of the main use cases](overview.svg)
 
-The diagram groups the main actor goals by their owning subdomain and shows each use case's primary actor. The catalog below is authoritative and additionally identifies supporting actors.
+The diagram groups the main actor goals by their owning domain and shows each use case's primary actor. The catalog below is authoritative and additionally identifies supporting actors.
 
-Use cases describe actor goals and observable system responsibilities. The primary actor is the external role whose goal initiates the use case or receives its result; the primary actor does not necessarily perform the system's internal work. An automated travel advisor operating inside the system boundary is system behavior, while a human Travel Advisor is an actor. Each active use case is assigned to the subdomain that owns its business outcome. The software modules participating in that behavior are separately derived in the architecture sequence diagrams.
+Use cases describe actor goals and observable system responsibilities. The primary actor is the external role whose goal initiates the use case or receives its result; the primary actor does not necessarily perform the system's internal work. An automated travel advisor operating inside the system boundary is system behavior, while a human Travel Advisor is an actor. Each active use case is assigned to the domain that owns its business outcome. The software modules participating in that behaviour are separately derived in the architecture sequence diagrams.
 
-| ID | Use case and outcome | Primary actor | Supporting actors | Owning subdomain |
+| ID | Use case and outcome | Primary actor | Supporting actors | Owning domain |
 |---|---|---|---|---|
-| UC-001 | **Seek travel advice:** express travel goals and iteratively refine needs through seamless interaction | [ACT-001 Customer](../actors.md) | [ACT-002 Traveler](../actors.md); [ACT-003 Travel Advisor](../actors.md) | Customer Interaction |
+| UC-001 | **Seek travel advice:** express travel goals and iteratively refine needs through seamless interaction | [ACT-001 Customer](../actors.md) | [ACT-002 Traveler](../actors.md); [ACT-003 Travel Advisor](../actors.md) | Sales |
 | UC-002 | **Obtain ongoing travel assistance:** continue an existing interaction during travel or after travel without restarting the relationship | [ACT-002 Traveler](../actors.md) | [ACT-001 Customer](../actors.md); [ACT-003 Travel Advisor](../actors.md) | Customer Care |
 | UC-003 | **Compose individual travel:** assemble a coherent itinerary from selected travel services around individual needs | [ACT-001 Customer](../actors.md) | [ACT-002 Traveler](../actors.md); [ACT-003 Travel Advisor](../actors.md) | Touristic Product Design |
 | UC-004 | **Design package travel:** define a reusable package-travel composition for a seasonal offering | [ACT-004 Seasonal Planner](../actors.md) | [ACT-005 Purchaser](../actors.md) | Touristic Product Design |

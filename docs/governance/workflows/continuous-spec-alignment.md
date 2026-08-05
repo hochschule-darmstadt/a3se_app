@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Management
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-08-05
 
 Continuous Specification Alignment keeps stakeholder intent, requirements, architecture, decisions, acceptance examples, tests, implementation, and operations mutually consistent throughout delivery.
 
@@ -22,7 +22,7 @@ Artifact authority, status transitions, and requirements slices are defined in [
 - No duplicate or orphaned stable IDs.
 - Relative links resolve.
 - Accepted requirements have acceptance evidence.
-- Business terms have one authoritative definition in their applicable subdomain or module context.
+- Business terms have one authoritative definition in their applicable domain or module context.
 - Decision-record status, identity, index, and supersession links agree.
 - Changed behavior has corresponding specification and test changes, or a recorded rationale.
 

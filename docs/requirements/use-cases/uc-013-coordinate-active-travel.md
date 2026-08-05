@@ -3,11 +3,11 @@
 - Status: proposed
 - Owner: Requirements
 - Catalog ID: [UC-013](use-cases.md)
-- Owning subdomain: Customer Care
+- Owning domain: Customer Care
 - Primary actor: [Traveler](../actors.md)
 - Supporting actors: [Customer](../actors.md); [Travel Advisor](../actors.md); [Supplier](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-05
 
 ## Goal and scope
 

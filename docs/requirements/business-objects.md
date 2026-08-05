@@ -2,13 +2,13 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-05
 
 Business objects describe coarse concepts that carry meaning across the tour operator cycle. The [domain model](domains/domains.md) assigns their problem-space responsibility; the [logical data model](../architecture/data-model/data-model.md) refines them into generic, module-owned entities. Other modules may retain identifiers or representations without becoming co-owners.
 
 This inventory does not define database tables, API schemas, implementation classes, or complete lifecycle rules.
 
-| Business object | Definition | Primary subdomain responsibility | Core responsibilities | Key relationships |
+| Business object | Definition | Primary domain responsibility | Core responsibilities | Key relationships |
 |---|---|---|---|---|
 | Customer | Person or party that selects, orders, and pays for travel | Sales; Customer Care | Maintain the customer role and information needed across sales and care | May place Travel Orders and receive Sales Offers |
 | Traveler | Person who participates in ordered travel | Customer Care | Maintain the traveler role and travel-relevant information | Participates in Travel Orders and receives travel information |

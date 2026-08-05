@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-05
 
 The glossary defines the shared business vocabulary for the tour operator information system. Use each term according to its definition and context; do not assume that a term has the same meaning across contexts.
 
@@ -29,7 +29,7 @@ The glossary defines the shared business vocabulary for the tour operator inform
 | Plausibility check | Evaluation that a customer-assembled combination of components is operationally coherent and allowed | Touristic Product Design | Availability check |
 | Sale price | Amount charged to the customer for travel or a travel service | Sales | Purchase price |
 | Sales offer | Commercial proposal presented to a customer for an orderable travel composition at a sale price | Sales | Seasonal offering, travel order |
-| Travel advisor | Human staff member or automated conversational agent that assists a customer with travel selection, composition, or ordering | Customer Interaction | Travel agency, customer service agent |
+| Travel advisor | Human staff member or automated conversational agent that assists a customer with travel selection, composition, or ordering | Sales; Customer Care | Travel agency, customer service agent |
 | Availability check | Verification that each required travel service can still be committed from internal capacity or an external party | Sales | Plausibility check, reservation |
 | Reservation | Commitment or hold for one travel service required by a travel order | Order Management | Travel order |
 | Travel order | Central business record connecting ordered travel to its customer, travelers, reservations, payment, documents, execution, and settlement activities | Order Management | Booking, reservation |

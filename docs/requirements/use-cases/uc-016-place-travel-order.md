@@ -3,11 +3,11 @@
 - Status: proposed
 - Owner: Requirements
 - Catalog ID: [UC-016](use-cases.md)
-- Owning subdomain: Sales
+- Owning domain: Sales
 - Primary actor: [Customer](../actors.md)
 - Supporting actors: [Traveler](../actors.md); [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-07-31
+- Last reviewed: 2026-08-05
 
 ## Goal and scope
 

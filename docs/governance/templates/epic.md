@@ -1,6 +1,6 @@
 # Epic
 
-Use this template for proposed system scope associated with exactly one subdomain. An epic is a planning item, not the authoritative subdomain definition.
+Use this template for proposed system scope associated with exactly one domain. An epic is a planning item, not the authoritative domain definition.
 
 ## Outcome and rationale
 
@@ -8,7 +8,7 @@ Describe the stakeholder outcomes and why they belong together.
 
 ## Bounded-context evidence
 
-Link exactly one candidate or accepted subdomain and the evidence supporting the boundary. State its status and identify assumptions or unresolved boundary questions.
+Link exactly one candidate or accepted domain and the evidence supporting the boundary. State its status and identify assumptions or unresolved boundary questions.
 
 ## Scope
 

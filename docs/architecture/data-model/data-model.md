@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-05
 
 This technology-neutral logical model defines generic entity structures owned by Resources modules in the accepted [software architecture](../software-architecture/software-architecture.md). It was produced by iteratively refining the accepted [business objects](../../requirements/business-objects.md): recurring party roles and item structures were generalized while concrete business meaning remains expressed through types, properties, and relationships.
 
@@ -20,7 +20,7 @@ The following synthetic object diagram illustrates how the generic logical data 
 
 ![Concrete object example](objects.svg)
 
-John and Sarah are Persons playing `person/customer` and `person/traveller` roles. Partner Organisations play `partner/supplier/airline` and `partner/supplier/hotel` roles. Recursive TouristicProductItems use `product/...` types to describe a flight with seats and a hotel room category with a room; corresponding `stock/...` StockItems make dated capacity sellable; an `order/header` and its `order/position` OrderItems connect the customer and travelers to the allocated stock.
+John and Sarah are Persons playing `person/customer` and `person/traveller` roles. Partner Organisations play `partner/supplier/airline` and `partner/supplier/hotel` roles. Stable partner data, such as the hotel address, belongs to the Organisation, while contextual supplier data belongs to its role. Recursive TouristicProductItems use `product/...` types to describe a flight with seats and a hotel room category with a room; corresponding `stock/...` StockItems make dated capacity sellable and carry stock-specific commercial data such as the sale price. An `order/header` and its `order/position` OrderItems connect the customer and travelers to the allocated stock.
 
 ## Semantic property contracts
 

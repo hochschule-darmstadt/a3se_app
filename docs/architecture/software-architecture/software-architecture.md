@@ -2,13 +2,13 @@
 
 - Status: accepted
 - Owner: Architecture
-- Last reviewed: 2026-08-03
+- Last reviewed: 2026-08-05
 
 This specification defines technology-neutral software modules, their responsibilities, candidate operations, and permitted dependency direction. It does not select processes, containers, servers, databases, protocols, or infrastructure. The module boundaries remain compatible with a modular monolith, independently deployable services, or a hybrid deployment.
 
 ## Derivation and refinement
 
-The accepted [business domains and subdomains](../../requirements/domains/domains.md) are the problem-space starting point. Subdomains initially suggest modules, but they are not software boundaries by definition. Iterative refinement extracted reusable Resources modules—Person Management, Partner Management, Touristic Product Management, Inventory, and Order Management—from information and lifecycle responsibilities shared across several core processes.
+The accepted [business domains](../../requirements/domains/domains.md) are the problem-space starting point. Domains initially suggest modules, but they are not software boundaries by definition. Iterative refinement retained Customer Interaction and Staff Interaction as solution-space entry modules and extracted reusable Resources modules—Person Management, Partner Management, Touristic Product Management, Inventory, and Order Management—from information and lifecycle responsibilities shared across several domains.
 
 The resulting solution-space architecture is authoritative in the diagram below.
 
@@ -32,7 +32,7 @@ Operations are derived from received messages in the active use-case sequence di
 |---|---|---|
 | Interaction | MOD-CI / Customer Interaction | `seekTravelAdvice`, `obtainOngoingAssistance`, `composeIndividualTravel`, `checkItineraryPlausibility`, `requestSalesOffer`, `confirmAvailability`, `acceptSalesOffer`, `receiveTravelDocuments`, `coordinateActiveTravel`, `maintainCustomerRecord`, `placeTravelOrder`, `secureRequiredServices`, `payForTravel` |
 | Interaction | MOD-SI / Staff Interaction | `designPackageTravel`, `procureStockCapacity`, `prepareOrderedTravel`, `maintainProductsAndServices` |
-| Core Business Processes | MOD-SP / Strategic Planning | `getSeasonPlan`, `coordinateProductMaintenance` |
+| Core Business Processes | MOD-SP / Season Planning | `getSeasonPlan`, `coordinateProductMaintenance` |
 | Core Business Processes | MOD-PROC / Procurement | `procureStockCapacity` |
 | Core Business Processes | MOD-TPD / Touristic Product Design | `composeIndividualTravel`, `designPackageTravel`, `checkItineraryPlausibility`, `getCompositionSnapshot` |
 | Core Business Processes | MOD-SALES / Sales | `createSalesOffer`, `confirmAvailability`, `acceptSalesOffer`, `validateAcceptedOffer` |

@@ -4,7 +4,7 @@ autonumber
 actor "Seasonal Planner" as Planner
 participant "MOD-SI\nStaff Interaction" as SI
 participant "MOD-TPD\nTouristic Product Design" as TPD
-participant "MOD-SP\nStrategic Planning" as SP
+participant "MOD-SP\nSeason Planning" as SP
 participant "MOD-TPM\nTouristic Product Management" as TPM
 participant "MOD-INV\nInventory" as INV
 

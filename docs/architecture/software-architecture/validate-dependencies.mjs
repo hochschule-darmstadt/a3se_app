@@ -12,7 +12,7 @@ const overviewText = overview
 const modules = new Map([
   ['MOD-CI', { name: 'Customer Interaction', layer: 0 }],
   ['MOD-SI', { name: 'Staff Interaction', layer: 0 }],
-  ['MOD-SP', { name: 'Strategic Planning', layer: 1 }],
+  ['MOD-SP', { name: 'Season Planning', layer: 1 }],
   ['MOD-PROC', { name: 'Procurement', layer: 1 }],
   ['MOD-TPD', { name: 'Touristic Product Design', layer: 1 }],
   ['MOD-SALES', { name: 'Sales', layer: 1 }],

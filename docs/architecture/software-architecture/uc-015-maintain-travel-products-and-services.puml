@@ -3,7 +3,7 @@ title UC-015 Maintain Travel Products and Services - Module Interaction
 autonumber
 actor "Seasonal Planner" as Planner
 participant "MOD-SI\nStaff Interaction" as SI
-participant "MOD-SP\nStrategic Planning" as SP
+participant "MOD-SP\nSeason Planning" as SP
 participant "MOD-SM\nPartner Management" as SM
 participant "MOD-TPM\nTouristic Product Management" as TPM
 

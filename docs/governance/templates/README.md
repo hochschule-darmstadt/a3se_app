@@ -5,7 +5,7 @@
 - Last reviewed: 2026-07-31
 
 - [decision-record.md](decision-record.md): general consequential decision record
-- [epic.md](epic.md): scope associated with one subdomain
+- [epic.md](epic.md): scope associated with one domain
 - [feature.md](feature.md): one use case within an epic
 - [story.md](story.md): independently reviewable use-case slice
 - [task.md](task.md): concrete lifecycle or engineering work

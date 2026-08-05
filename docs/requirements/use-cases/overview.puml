@@ -1,5 +1,5 @@
 @startuml
-title Main Use Cases by Owning Subdomain
+title Main Use Cases by Owning Domain
 
 left to right direction
 skinparam shadowing false
@@ -13,21 +13,19 @@ actor "Seasonal Planner" as Planner
 actor Purchaser
 
 rectangle "Christopher Columbus Travel" {
-  package "Customer Interaction" <<subdomain>> {
-    usecase "UC-001\nSeek Travel Advice" as UC001
-  }
-  package "Season Planning" <<subdomain>> {
+  package "Season Planning" <<domain>> {
     usecase "UC-015\nMaintain Travel Products\nand Services" as UC015
   }
-  package "Procurement" <<subdomain>> {
+  package "Procurement" <<domain>> {
     usecase "UC-006\nProcure Stock Services" as UC006
   }
-  package "Touristic Product Design" <<subdomain>> {
+  package "Touristic Product Design" <<domain>> {
     usecase "UC-003\nCompose Individual Travel" as UC003
     usecase "UC-004\nDesign Package Travel" as UC004
     usecase "UC-005\nObtain Plausible Itinerary" as UC005
   }
-  package "Sales" <<subdomain>> {
+  package "Sales" <<domain>> {
+    usecase "UC-001\nSeek Travel Advice" as UC001
     usecase "UC-008\nReceive Sales Offer" as UC008
     usecase "UC-009\nConfirm Availability" as UC009
     usecase "UC-010\nAccept Sales Offer" as UC010
@@ -35,7 +33,7 @@ rectangle "Christopher Columbus Travel" {
     usecase "UC-017\nSecure Required Services" as UC017
     usecase "UC-018\nPay for Travel" as UC018
   }
-  package "Customer Care" <<subdomain>> {
+  package "Customer Care" <<domain>> {
     usecase "UC-002\nObtain Ongoing Assistance" as UC002
     usecase "UC-011\nPrepare Ordered Travel" as UC011
     usecase "UC-012\nReceive Travel Documents" as UC012
