@@ -44,6 +44,7 @@ Normative terms use the meanings defined in [requirements terminology](../requir
 ## Code documentation
 
 - Public APIs and module interfaces shall document purpose, inputs, outputs, errors, side effects, authorisation, transaction or concurrency semantics, and important invariants where applicable.
+- Every function and method shall be documented when its contract, behaviour, constraints, side effects, or rationale are not completely evident from its name, type signature, and implementation. Internal functions shall receive the same level of documentation whenever they contain knowledge needed for safe maintenance or correct reuse.
 - Non-obvious algorithms, business rules, workarounds, and performance choices shall explain *why* they exist and link to the authoritative requirement, decision, or issue.
 - Examples shall be provided for contracts whose correct use is not evident from their signature. Examples shall use synthetic data.
 - Comments shall not paraphrase obvious code or compensate for poor naming. Stale documentation is a defect and shall be changed with the code.

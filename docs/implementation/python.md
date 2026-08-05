@@ -21,7 +21,7 @@ This guide supplements [Clean Code](clean-code.md). Python is selected for the m
 - Multi-line docstrings shall consistently use the selected project convention with sections equivalent to `Args`, `Returns`, `Raises`, `Yields`, and `Examples` where applicable.
 - Docstrings shall document semantics, invariants, side effects, transactions, concurrency, and authorisation; they shall not repeat type annotations.
 - Functions and methods with non-obvious caller obligations or guaranteed outcomes shall additionally document their preconditions and postconditions explicitly. Preconditions shall state what must already be true before the call; postconditions shall state the guaranteed state or result after successful completion. These conditions shall link to the owning invariant or requirement where applicable and shall not merely repeat type annotations.
-- A private function requires a docstring when its rule, algorithm, or constraint is not evident from its name and code.
+- Internal functions and methods covered by the cross-technology documentation rule shall use the same PEP 257 docstring convention as public code.
 
 ## Verification
 
