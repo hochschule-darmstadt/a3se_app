@@ -8,13 +8,13 @@ This directory is the durable context harness for humans and AI agents. Start he
 
 ## Lifecycle areas
 
+- [governance/](governance/): agents, workflows, standards, templates, tooling policy, references, and decisions
 - [requirements/](requirements/): business context, stakeholder needs, terminology, behavior, rules, constraints, UX, and source evidence
 - [architecture/](architecture/): system structure, data architecture, technology decisions, and security architecture
 - [implementation/](implementation/): technology-specific implementation guidance after technology selection
 - [test/](test/): independent test design, scenarios, and verification evidence
 - [operations/](operations/): deployment and runtime operation
 - [management/](management/): planning, stakeholder engagement, risks, and lifecycle coordination
-- [governance/](governance/): agents, workflows, standards, templates, tooling policy, references, and decisions
 
 Cross-cutting concerns such as security, privacy, accessibility, reliability, and AI validation remain shared responsibilities defined by the operating model and definition of done.
 
