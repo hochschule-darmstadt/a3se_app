@@ -54,6 +54,8 @@ Use cases describe actor goals and observable system responsibilities. The prima
 
 Each proposed detail defines a main success scenario, extensions, guarantees, policies and information needs, applicable cross-cutting requirement identifiers, and an initial acceptance example. Use cases remain authoritative for actor-goal behavior. Cross-cutting statements belong in the [functional](../functional-requirements.md) or [non-functional](../non-functional-requirements.md) requirement catalog and are referenced rather than repeated. Policy gaps remain explicit until supported by stakeholder evidence.
 
+The proposed [activity-diagram standard](../../governance/standards/use-case-activity-diagrams.md) governs UML activity diagrams as synchronized use-case views and UX input. The documented [pilot](activity-diagram-pilot.md) covers UC-001, UC-016, and UC-018; rollout to other active use cases is gated on stakeholder UX review.
+
 ## Retired use cases
 
 | ID | Use case | Retirement reason | Status |

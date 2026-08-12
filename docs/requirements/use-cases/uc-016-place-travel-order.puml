@@ -1,0 +1,61 @@
+@startuml uc-016-place-travel-order
+title UC-016 Place a Travel Order — UX task flow
+
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #F7F7F7
+  BorderColor #333333
+  DiamondBackgroundColor #FFF4CC
+  DiamondBorderColor #8A6D1D
+}
+
+|ACT-001 Customer|
+start
+:MSS 1 — Submit accepted Sales Offer\nfor order placement;
+
+|System|
+:MSS 2 — Retrieve confirmed context\nand check authorization;
+:MSS 3 — Obtain and validate\nmandatory information;
+if (Context, authority, and\ninformation sufficient?) then (yes)
+else (no — EXT 2-3)
+  :Identify what is needed;
+  :Preserve the last confirmed state\nand acceptance evidence;
+  :Communicate the missing need\nwithout creating an order;
+  stop
+endif
+
+:MSS 4 — Perform Sales responsibilities\nfor order placement;
+if (Same accepted offer already\nproduced a Travel Order?) then (yes — acceptance example)
+  :Return the same identifiable Travel Order;
+else (no)
+  :Coordinate required responsibilities;
+  if (Responsibilities completed?) then (yes)
+    :Create exactly one identifiable Travel Order;
+  else (no — EXT 4)
+    :Record the partial or uncertain result;
+    :Avoid presenting success or\ncreating a duplicate order;
+    :Offer retry, revision, or\nhuman-assistance path;
+    stop
+  endif
+endif
+
+|ACT-001 Customer|
+:MSS 5 — Review or confirm\nthe resulting state;
+if (Result confirmed?) then (yes)
+else (no — EXT 5)
+  |System|
+  :Preserve the confirmed baseline\nand acceptance evidence;
+  :Return affected information\nfor revision;
+  stop
+endif
+
+|System|
+:MSS 6 — Record outcome, provenance,\nand unresolved next steps;
+:Communicate the Travel Order\nand next steps to affected actors;
+stop
+
+legend bottom
+Textual UC-016 is authoritative.
+MSS = main success scenario; EXT = extension.
+endlegend
+@enduml

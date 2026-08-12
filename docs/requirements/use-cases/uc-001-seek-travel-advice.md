@@ -13,6 +13,12 @@
 
 Enable the Customer to express and iteratively refine travel goals while preserving confirmed context.
 
+## UX task-flow view
+
+![UC-001 activity diagram](uc-001-seek-travel-advice.svg)
+
+This proposed synchronized view follows the [activity-diagram standard](../../governance/standards/use-case-activity-diagrams.md) and belongs to the documented [pilot](activity-diagram-pilot.md). The textual scenario below remains authoritative.
+
 ## Preconditions
 
 access to an interaction channel.

@@ -1,0 +1,58 @@
+@startuml uc-018-pay-for-travel
+title UC-018 Pay for Travel — UX task flow
+
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #F7F7F7
+  BorderColor #333333
+  DiamondBackgroundColor #FFF4CC
+  DiamondBorderColor #8A6D1D
+}
+
+|ACT-001 Customer|
+start
+:MSS 1 — Choose to pay and\nidentify the Travel Order;
+
+|System|
+:MSS 2 — Retrieve confirmed context\nand check authorization;
+:MSS 3 — Obtain and validate amount,\ncurrency, purpose, and payment information;
+if (Context, authority, and\ninformation sufficient?) then (yes)
+else (no — EXT 2-3)
+  :Identify what is needed;
+  :Preserve the last confirmed state;
+  :Communicate the missing need\nwithout confirming payment;
+  stop
+endif
+
+:MSS 4 — Perform Sales responsibilities\nand coordinate required responsibilities;
+if (Payment outcome confirmed?) then (yes)
+  :Apply the confirmed payment exactly once;
+  :Make its effect visible;
+else (no — EXT 4)
+  :Record failed, partial, pending,\nor otherwise uncertain result;
+  :Do not present payment as confirmed;
+  :Make duplicate attempts detectable;
+  :Offer retry, revision, or\nhuman-assistance path;
+  stop
+endif
+
+|ACT-001 Customer|
+:MSS 5 — Review or confirm the payment,\nbalance effect, and receipt information;
+if (Result confirmed?) then (yes)
+else (no — EXT 5)
+  |System|
+  :Preserve the confirmed baseline;
+  :Return affected information\nfor revision;
+  stop
+endif
+
+|System|
+:MSS 6 — Record outcome, provenance,\nand unresolved next steps;
+:Communicate what payment-dependent\nactivities may proceed;
+stop
+
+legend bottom
+Textual UC-018 is authoritative.
+MSS = main success scenario; EXT = extension.
+endlegend
+@enduml

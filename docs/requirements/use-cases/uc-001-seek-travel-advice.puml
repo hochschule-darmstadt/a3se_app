@@ -1,0 +1,61 @@
+@startuml uc-001-seek-travel-advice
+title UC-001 Seek Travel Advice — UX task flow
+
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #F7F7F7
+  BorderColor #333333
+  DiamondBackgroundColor #FFF4CC
+  DiamondBorderColor #8A6D1D
+}
+
+|ACT-001 Customer|
+start
+:MSS 1 — Ask for travel advice\nand identify its subject;
+
+|System|
+:MSS 2 — Retrieve confirmed context\nand check authorization;
+:MSS 3 — Obtain and validate\nneeded information;
+if (Context, authority, and\ninformation sufficient?) then (yes)
+else (no — EXT 2-3)
+  :Identify what is needed;
+  :Preserve the last confirmed state;
+  :Communicate the missing need\nwithout inferring it;
+  stop
+endif
+
+repeat
+  :MSS 4 — Perform Sales responsibilities\nand coordinate Customer Interaction;
+  if (Responsibilities completed?) then (yes)
+  else (no — EXT 4)
+    :Record the partial or uncertain result;
+    :Avoid presenting success;
+    :Offer retry, revision, or\nhuman-assistance path;
+    stop
+  endif
+
+  |ACT-001 Customer|
+  :MSS 5 — Review or confirm\nthe resulting state;
+  if (Result confirmed?) then (yes)
+    break
+  else (no — EXT 5)
+    |System|
+    :Preserve the confirmed baseline;
+    :Return affected information\nfor revision;
+    |ACT-001 Customer|
+    :Refine goals or constraints;
+    |System|
+    :MSS 3 — Validate revised information;
+  endif
+repeat while (Further refinement?) is (yes)
+
+|System|
+:MSS 6 — Record outcome, provenance,\nand unresolved next steps;
+:Communicate them to affected actors;
+stop
+
+legend bottom
+Textual UC-001 is authoritative.
+MSS = main success scenario; EXT = extension.
+endlegend
+@enduml

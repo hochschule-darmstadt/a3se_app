@@ -13,6 +13,12 @@
 
 Enable the Customer to create the central Travel Order from an accepted Sales Offer.
 
+## UX task-flow view
+
+![UC-016 activity diagram](uc-016-place-travel-order.svg)
+
+This proposed synchronized view follows the [activity-diagram standard](../../governance/standards/use-case-activity-diagrams.md) and belongs to the documented [pilot](activity-diagram-pilot.md). The textual scenario below remains authoritative.
+
 ## Preconditions
 
 a valid offer explicitly accepted by an authorized Customer.

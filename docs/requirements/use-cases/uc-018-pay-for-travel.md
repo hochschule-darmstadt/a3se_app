@@ -13,6 +13,12 @@
 
 Enable the Customer to make a payment or Deposit and learn what activities may proceed.
 
+## UX task-flow view
+
+![UC-018 activity diagram](uc-018-pay-for-travel.svg)
+
+This proposed synchronized view follows the [activity-diagram standard](../../governance/standards/use-case-activity-diagrams.md) and belongs to the documented [pilot](activity-diagram-pilot.md). The textual scenario below remains authoritative.
+
 ## Preconditions
 
 an order with an amount due and an authorized Customer.
