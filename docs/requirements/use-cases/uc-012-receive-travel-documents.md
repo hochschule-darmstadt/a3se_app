@@ -7,7 +7,7 @@
 - Primary actor: [Customer](../actors.md)
 - Supporting actors: [Traveler](../actors.md); [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-14
 
 ## Goal and scope
 
@@ -15,7 +15,7 @@ Enable the Customer to obtain Travel Documents needed to undertake or evidence o
 
 ## Preconditions
 
-an order with evaluable document release conditions.
+an order with evaluable document release conditions and an authenticated Customer account.
 
 ## Trigger
 
@@ -51,6 +51,10 @@ documents are not exposed or falsely reported delivered.
 Travel Order, document type, version, recipient, conditions, issuance, delivery outcome.
 
 Detailed policies and stated gaps require stakeholder confirmation.
+
+## Applicable cross-cutting requirements
+
+- [FR-006](../functional-requirements.md): authenticated access to Travel Documents
 
 ## Use-case-specific quality and compliance considerations
 

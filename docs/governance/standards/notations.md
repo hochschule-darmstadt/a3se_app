@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-08-14
 
 Prefer established, text-based notations that can be reviewed and versioned.
 
@@ -22,6 +22,7 @@ Prefer established, text-based notations that can be reviewed and versioned.
 | Threat modeling | STRIDE with data-flow diagrams | systematic threat discovery |
 | User research/UX | ISO 9241-210 human-centred design process | research-backed actor needs, tasks, contexts of use, and interaction requirements |
 | UI concepts | annotated low-fidelity wireframes, followed by accessible executable prototypes | information hierarchy, actions, states, and interaction hypotheses |
+| View navigation | constrained UML 2.x state machines in PlantUML | navigable views as states and event-labelled permitted traversal; see [View Navigation Maps](view-navigation-maps.md) |
 | Software supply chain and findings exchange | CycloneDX or SPDX for SBOMs; SARIF for static-analysis findings | machine-readable inventory and findings, not proof of runtime behavior |
 | Infrastructure | declarative platform-native IaC plus C4 deployment views | reproducible resources and deployment communication after platform selection |
 

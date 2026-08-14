@@ -7,11 +7,11 @@
 - Primary actor: [Customer](../actors.md)
 - Supporting actors: [Traveler](../actors.md); [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-14
 
 ## Goal and scope
 
-Enable the Customer to express and iteratively refine travel goals while preserving confirmed context.
+Enable the Customer to express and iteratively refine travel goals through structured search or conversation while preserving confirmed context.
 
 ## UX task-flow view
 
@@ -25,11 +25,11 @@ access to an interaction channel.
 
 ## Trigger
 
-The Customer asks for travel advice.
+The Customer enters travel criteria or asks for travel advice.
 
 ## Main success scenario
 
-1. The Customer initiates the use case and identifies its subject.
+1. The Customer initiates the use case through structured search or conversation and identifies its subject.
 2. The system retrieves the relevant confirmed context and checks authorization.
 3. The system obtains and validates the information needed for the requested outcome.
 4. The system performs the responsibilities owned by Sales and coordinates required modules, including Customer Interaction.
@@ -54,7 +54,7 @@ unconfirmed preferences are not treated as agreed.
 
 ## Policies and information
 
-travel goals, constraints, preferences, open questions, handover state.
+travel search criteria, matching Travel Products, travel goals, constraints, preferences, open questions, handover state.
 
 Detailed policies and stated gaps require stakeholder confirmation.
 
@@ -74,4 +74,9 @@ Scenario: Seek Travel Advice
   Given the Customer stated an initial travel idea
   When the Customer refines goals and constraints
   Then the Customer receives relevant options or an explanation that none fit
+
+Scenario: Refine structured travel search
+  Given the anonymous Customer has entered destination, dates, and traveler criteria
+  When matching travel products are shown and the Customer refines one criterion
+  Then the results reflect the revised criteria without requiring registration or sign-in
 ```

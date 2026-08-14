@@ -7,7 +7,7 @@
 - Primary actor: [Customer](../actors.md)
 - Supporting actors: [Traveler](../actors.md); [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-14
 
 ## Goal and scope
 
@@ -57,6 +57,10 @@ no duplicate order is created and acceptance evidence is preserved.
 Customer, Travelers, accepted offer, Itinerary, price, conditions, reference, status.
 
 Detailed policies and stated gaps require stakeholder confirmation.
+
+## Applicable cross-cutting requirements
+
+- [FR-006](../functional-requirements.md): authenticated access to customer-specific order information
 
 ## Use-case-specific quality and compliance considerations
 

@@ -28,6 +28,6 @@ The [requirements sources](sources/) retain discovery evidence and provenance. T
 The following artifacts are present but not yet substantively filled. Add to them only when stakeholder evidence or delivery needs justify the additional detail:
 
 - [Constraints and Assumptions](constraints.md) is the authoritative catalog for future explicit constraints and assumptions; none are currently recorded.
-- [User Experience Requirements](ux/) currently contains no sitemap or wireframes. Add UX artifacts when accepted actor goals and use cases provide enough evidence for interaction design.
+- [User Experience Requirements](ux/) contains proposed view navigation maps derived from accepted actor goals and use cases. Wireframes remain future work; add a sitemap only if a distinct hierarchy-only information-architecture need is evidenced.
 
 Use the [requirements workflow](../governance/workflows/requirements-workflow.md) for a coherent requirements slice.

@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-14
 
 The glossary defines the shared business vocabulary for the tour operator information system. Use each term according to its definition and context; do not assume that a term has the same meaning across contexts.
 
@@ -10,6 +10,7 @@ The glossary defines the shared business vocabulary for the tour operator inform
 |---|---|---|---|
 | Tour operator | Organization accountable to the customer for combining travel services into an offer and fulfilling the resulting travel, including when external parties provide components | Tour Operator enterprise | Travel agency, supplier |
 | Customer | Person or party that selects, orders, and pays for travel | Tour Operator enterprise | Traveler, when the buyer and traveler differ |
+| Customer account | Customer-controlled means of returning to customer-specific information and proving the identity required to access it | Customer Interaction | Customer record, login |
 | Traveler | Person who participates in the travel and whose details may affect its composition and execution | Tour Operator enterprise | Customer, passenger |
 | Tour operator cycle | Feedback loop from seasonal planning and purchasing through product design, sales, travel order management, payment, document issuance, settlement, and subsequent planning | Tour Operator enterprise | Booking process, trip lifecycle |
 | Seasonal planner | Staff member who plans seasonal offerings and the capacity needed to support them | Season Planning | Purchaser |
@@ -19,6 +20,7 @@ The glossary defines the shared business vocabulary for the tour operator inform
 | Supplier | External party that provides a travel service directly, such as a hotel or airline | Procurement | Intermediary, tour operator |
 | Intermediary | External party through which a tour operator may obtain on-demand travel services under a commercial agreement; this project excludes that capability under SE-002 | Procurement | Supplier, broker, aggregator |
 | Stock service | Travel service capacity purchased in advance and held for later sale | Procurement | Inventory item, on-demand sourced service |
+| Inventory | Managed view of pre-procured Travel Service capacity, its validity, availability, allocation, and provenance | Procurement; Sales | Product catalog, supplier list |
 | On-demand sourced service | Travel service obtained from an external party in response to a customer order rather than purchased as advance capacity; retained to define the capability excluded by SE-002 | Procurement | Stock service, brokered service, purchased-on-demand service |
 | Purchase price | Amount charged to the tour operator for a travel service | Procurement | Sale price |
 | Package travel | Prearranged combination of travel services offered at a package level, typically using capacity purchased before a customer order | Touristic Product Design | Package trip, package tour |

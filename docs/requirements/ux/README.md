@@ -2,7 +2,7 @@
 
 - Status: draft
 - Owner: Requirements
-- Last reviewed: 2026-07-29
+- Last reviewed: 2026-08-14
 
 This area holds user-experience requirements and supporting design artifacts. UX artifacts are hypotheses until supported by stakeholder evidence and validated against relevant use cases, accessibility needs, and quality requirements.
 
@@ -10,6 +10,6 @@ Use a human-centred progression: actor and context-of-use research; task flows a
 
 UX work consumes the [use-case activity-diagram pilot](../use-cases/activity-diagram-pilot.md) as upstream interaction evidence. The diagrams remain requirements views governed by the [activity-diagram standard](../../governance/standards/use-case-activity-diagrams.md), not UX outputs.
 
-- [sitemap.md](sitemap.md): information architecture and navigation
+- [View Navigation Maps](navigation-maps/): proposed customer-facing and staff-facing views, traversal, traceability, and open questions
 - [wireframes.md](wireframes.md): annotated interaction and state concepts
 - [design-system.md](design-system.md): reusable experience principles and constraints

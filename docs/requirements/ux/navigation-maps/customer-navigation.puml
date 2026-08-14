@@ -1,0 +1,62 @@
+@startuml
+title Customer-facing view navigation map (proposed)
+hide empty description
+skinparam shadowing false
+
+state "VIEW-C-001\nTravel portal home" as C001
+state "VIEW-C-009\nSearch results" as C009
+state "VIEW-C-010\nTravel detail" as C010
+state "VIEW-C-002\nTravel composition" as C002
+state "VIEW-C-011\nSign in" as C011 #E8F4FF
+state "VIEW-C-012\nRegistration" as C012 #E8F4FF
+state "VIEW-C-003\nSales offer" as C003
+state "VIEW-C-004\nTravel order" as C004
+state "VIEW-C-005\nPayment" as C005
+state "VIEW-C-006\nTravel documents" as C006
+state "VIEW-C-007\nTravel assistance" as C007
+state "VIEW-C-008\nCustomer account" as C008
+
+[*] --> C001 : enter customer interaction
+C001 --> C009 : search with criteria
+C009 --> C009 : refine criteria / no matching availability
+C009 --> C010 : select travel product
+C010 --> C009 : return to results
+C010 --> C002 : compose or customise travel
+C002 --> C010 : revise selection
+C002 --> C003 : request offer [authenticated Customer]
+C002 --> C011 : request offer [not authenticated]
+C011 --> C003 : sign-in succeeds [offer request pending]
+C011 --> C008 : sign-in succeeds [no interrupted destination]
+C011 --> C012 : register instead
+C011 --> C011 : sign-in rejected / retry or recover access
+C011 --> C002 : cancel [offer request pending]
+C011 --> C001 : cancel [no interrupted destination]
+C012 --> C003 : registration succeeds [offer request pending]
+C012 --> C008 : registration succeeds [no interrupted destination]
+C012 --> C011 : sign in instead
+C012 --> C012 : validation fails / correct registration
+C012 --> C002 : cancel [offer request pending]
+C012 --> C001 : cancel [no interrupted destination]
+C003 --> C002 : revise composition
+C003 --> C004 : accept offer
+C004 --> C005 : make payment
+C005 --> C005 : payment failed or pending / retry or return
+C005 --> C004 : return to order
+C004 --> C006 : obtain eligible documents
+C006 --> C006 : documents unavailable / review conditions
+C006 --> C004 : return to order
+C004 --> C007 : request assistance
+C007 --> C007 : continue assistance or unresolved handover
+C007 --> C004 : review related order
+C001 --> C007 : request ongoing help
+C001 --> C011 : sign in
+C001 --> C008 : open customer account [authenticated Customer]
+C008 --> C004 : review an order
+C008 --> C001 : return to discovery
+
+note bottom
+  Anonymous exploration is permitted through composition and availability.
+  A Sales Offer is presented only after successful authentication.
+  Failures remain within their originating view; confirmed context is preserved.
+end note
+@enduml

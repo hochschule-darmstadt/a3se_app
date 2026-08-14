@@ -1,0 +1,54 @@
+@startuml
+title Staff-facing view navigation map (proposed)
+hide empty description
+skinparam shadowing false
+
+state "VIEW-S-001\nStaff portal home" as S001
+state "VIEW-S-002\nCustomers and travelers" as S002
+state "VIEW-S-003\nTouristic product catalogue" as S003
+state "VIEW-S-004\nSuppliers" as S004
+state "VIEW-S-005\nTravel orders" as S005
+state "VIEW-S-006\nAdvice and assistance" as S006 #E8F4FF
+state "VIEW-S-007\nInventory" as S007
+
+[*] --> S001 : enter staff interaction
+S001 --> S002 : manage customers and travelers
+S001 --> S004 : manage suppliers
+S001 --> S003 : manage product catalogue
+S001 --> S007 : manage inventory
+S001 --> S005 : manage travel orders
+
+S002 --> S002 : search, create, review, edit, or correct
+S003 --> S003 : search, design, version, activate, or withdraw
+S004 --> S004 : search, establish, review, or edit
+S005 --> S005 : search, review, prepare, secure, or update
+S007 --> S007 : search, review, procure, allocate, or reconcile
+
+S002 --> S005 : review related orders
+S002 --> S006 : assist customer or traveler
+S003 --> S007 : review product capacity
+S003 --> S004 : review product supplier
+S004 --> S007 : procure or review supplier stock
+S004 --> S003 : review supplied products
+S007 --> S003 : review related product
+S007 --> S004 : review related supplier
+S007 --> S005 : review inventory allocation to order
+S005 --> S002 : review customer or traveler
+S005 --> S007 : review allocated inventory
+S005 --> S006 : assist on order
+S006 --> S002 : review person context
+S006 --> S005 : review order context
+S006 --> S006 : continue assistance or record handover
+
+S002 --> S001 : return to staff portal
+S003 --> S001 : return to staff portal
+S004 --> S001 : return to staff portal
+S005 --> S001 : return to staff portal
+S007 --> S001 : return to staff portal
+
+note bottom
+  Primary navigation is resource-oriented; list/detail/edit are within-view modes.
+  Procurement, catalogue activation, allocation, and order actions retain business semantics.
+  Role guards are absent because authorization policy is unresolved.
+end note
+@enduml

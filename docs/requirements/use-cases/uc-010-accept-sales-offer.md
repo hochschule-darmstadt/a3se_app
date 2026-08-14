@@ -7,7 +7,7 @@
 - Primary actor: [Customer](../actors.md)
 - Supporting actors: [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-14
 
 ## Goal and scope
 
@@ -15,7 +15,7 @@ Enable the Customer to explicitly accept one Sales Offer version as the basis fo
 
 ## Preconditions
 
-an identifiable valid offer available to an authorized Customer.
+an identifiable valid offer presented to an authenticated and authorized Customer.
 
 ## Trigger
 
@@ -51,6 +51,10 @@ no order is based on ambiguous, expired, or unconfirmed acceptance.
 Customer authorization, offer version, acceptance time, conditions, order-placement reference.
 
 Detailed policies and stated gaps require stakeholder confirmation.
+
+## Applicable cross-cutting requirements
+
+- [FR-006](../functional-requirements.md): authenticated access to the Sales Offer
 
 ## Use-case-specific quality and compliance considerations
 
