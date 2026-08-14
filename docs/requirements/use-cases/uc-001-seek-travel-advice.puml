@@ -1,5 +1,5 @@
 @startuml uc-001-seek-travel-advice
-title UC-001 Seek Travel Advice — UX task flow
+title UC-001 Seek Travel Advice - agentic chatbot task flow
 
 skinparam shadowing false
 skinparam activity {
@@ -11,13 +11,13 @@ skinparam activity {
 
 |ACT-001 Customer|
 start
-:MSS 1 — Ask for travel advice\nand identify its subject;
+:MSS 1 - Message the Automated Travel Advisor\nwith a question, goal, or action request;
 
 |System|
-:MSS 2 — Retrieve confirmed context\nand check authorization;
-:MSS 3 — Obtain and validate\nneeded information;
+:MSS 2 - Retrieve confirmed context\nand check available authority;
+:MSS 3 - Answer or identify information,\nauthorization, or decision needed;
 if (Context, authority, and\ninformation sufficient?) then (yes)
-else (no — EXT 2-3)
+else (no - EXT 2-4)
   :Identify what is needed;
   :Preserve the last confirmed state;
   :Communicate the missing need\nwithout inferring it;
@@ -25,9 +25,14 @@ else (no — EXT 2-3)
 endif
 
 repeat
-  :MSS 4 — Perform Sales responsibilities\nand coordinate Customer Interaction;
-  if (Responsibilities completed?) then (yes)
-  else (no — EXT 4)
+  if (Action requested?) then (yes)
+    :MSS 4 - Present intended action\nand invoke an authorized operation;
+  else (answer only)
+    :Present answer and relevant sources;
+  endif
+  :MSS 5 - Report proposed, awaiting input,\nin progress, confirmed, failed,\nor uncertain state;
+  if (Answer or action available?) then (yes)
+  else (no - EXT 4-5)
     :Record the partial or uncertain result;
     :Avoid presenting success;
     :Offer retry, revision, or\nhuman-assistance path;
@@ -35,22 +40,22 @@ repeat
   endif
 
   |ACT-001 Customer|
-  :MSS 5 — Review or confirm\nthe resulting state;
+  :MSS 6 - Review answer or\nresulting state;
   if (Result confirmed?) then (yes)
     break
-  else (no — EXT 5)
+  else (no - EXT 6)
     |System|
     :Preserve the confirmed baseline;
-    :Return affected information\nfor revision;
+    :Continue from affected information;
     |ACT-001 Customer|
-    :Refine goals or constraints;
+    :Refine goal or request another action;
     |System|
-    :MSS 3 — Validate revised information;
+    :MSS 3 - Validate revised information;
   endif
 repeat while (Further refinement?) is (yes)
 
 |System|
-:MSS 6 — Record outcome, provenance,\nand unresolved next steps;
+:MSS 7 - Record confirmed outcomes, provenance,\nand unresolved next steps;
 :Communicate them to affected actors;
 stop
 

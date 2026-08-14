@@ -11,5 +11,5 @@ Use a human-centred progression: actor and context-of-use research; task flows a
 UX work consumes the [use-case activity-diagram pilot](../use-cases/activity-diagram-pilot.md) as upstream interaction evidence. The diagrams remain requirements views governed by the [activity-diagram standard](../../governance/standards/use-case-activity-diagrams.md), not UX outputs.
 
 - [View Navigation Maps](navigation-maps/): proposed customer-facing and staff-facing views, traversal, traceability, and open questions
-- [wireframes.md](wireframes.md): annotated interaction and state concepts
+- [Wireframes](wireframes/): annotated customer and staff interaction and state concepts derived from the navigation maps
 - [design-system.md](design-system.md): reusable experience principles and constraints

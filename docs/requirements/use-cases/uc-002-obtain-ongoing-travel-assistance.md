@@ -7,11 +7,11 @@
 - Primary actor: [Traveler](../actors.md)
 - Supporting actors: [Customer](../actors.md); [Travel Advisor](../actors.md)
 - Source/evidence: [accepted use-case catalog](use-cases.md), [product vision](../vision.md), and [glossary](../glossary.md)
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-14
 
 ## Goal and scope
 
-Enable the Traveler to continue assistance during or after travel without restarting the relationship.
+Enable the Traveler to continue assistance through the Automated Travel Advisor during or after travel without restarting the relationship, with human handover when the AI chatbot cannot safely or successfully complete the need.
 
 ## Preconditions
 
@@ -19,16 +19,16 @@ an identifiable interaction or Travel Order and authorized access.
 
 ## Trigger
 
-The Traveler requests help during or after travel.
+The Traveler sends a help request to the Automated Travel Advisor during or after travel.
 
 ## Main success scenario
 
-1. The Traveler initiates the use case and identifies its subject.
-2. The system retrieves the relevant confirmed context and checks authorization.
-3. The system obtains and validates the information needed for the requested outcome.
-4. The system performs the responsibilities owned by Customer Care and coordinates required modules.
-5. The Traveler reviews or confirms the resulting state.
-6. The system records the outcome, provenance, and unresolved next steps and communicates them to affected actors.
+1. The Traveler describes the need to the Automated Travel Advisor and identifies its subject.
+2. The Automated Travel Advisor retrieves the relevant confirmed context and checks authorization.
+3. The Automated Travel Advisor answers or obtains and validates the information needed for a requested action.
+4. For a supported and authorized action, the Automated Travel Advisor invokes the responsible Customer Care capability and exposes its actual action state.
+5. The Traveler reviews or confirms the answer or resulting state.
+6. The system records the outcome, provenance, and unresolved next steps and communicates them to affected actors; when the chatbot cannot complete the need, it provides a context-preserving human handover.
 
 ## Extensions
 
@@ -55,11 +55,12 @@ Detailed policies and stated gaps require stakeholder confirmation.
 ## Applicable cross-cutting requirements
 
 - [FR-001 through FR-004](../functional-requirements.md): interaction language, language extensibility, web delivery, and responsive customer interaction
+- [FR-008 and FR-009](../functional-requirements.md): agentic AI-chat advice and explicit action states
 - [NFR-002](../non-functional-requirements.md): conversational response time
 
 ## Use-case-specific quality and compliance considerations
 
-acknowledge urgent needs promptly and never imply unconfirmed resolution.
+identify the AI chatbot, acknowledge urgent needs promptly, never imply unconfirmed resolution, and hand over when urgency or authority exceeds its supported operations.
 
 ## Acceptance example
 

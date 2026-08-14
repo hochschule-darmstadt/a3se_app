@@ -14,7 +14,7 @@ Use cases describe actor goals and observable system responsibilities. The prima
 
 | ID | Use case and outcome | Primary actor | Supporting actors | Owning domain |
 |---|---|---|---|---|
-| UC-001 | **Seek travel advice:** express travel goals and iteratively refine needs through seamless interaction | [ACT-001 Customer](../actors.md) | [ACT-002 Traveler](../actors.md); [ACT-003 Travel Advisor](../actors.md) | Sales |
+| UC-001 | **Seek travel advice:** converse with the Automated Travel Advisor to answer questions, refine travel goals, and perform supported customer actions | [ACT-001 Customer](../actors.md) | [ACT-002 Traveler](../actors.md); [ACT-003 Travel Advisor](../actors.md) for human handover | Sales |
 | UC-002 | **Obtain ongoing travel assistance:** continue an existing interaction during travel or after travel without restarting the relationship | [ACT-002 Traveler](../actors.md) | [ACT-001 Customer](../actors.md); [ACT-003 Travel Advisor](../actors.md) | Customer Care |
 | UC-003 | **Compose individual travel:** assemble a coherent itinerary from selected travel services around individual needs | [ACT-001 Customer](../actors.md) | [ACT-002 Traveler](../actors.md); [ACT-003 Travel Advisor](../actors.md) | Touristic Product Design |
 | UC-004 | **Design package travel:** define a reusable package-travel composition for a seasonal offering | [ACT-004 Seasonal Planner](../actors.md) | [ACT-005 Purchaser](../actors.md) | Touristic Product Design |

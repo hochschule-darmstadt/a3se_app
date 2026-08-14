@@ -18,7 +18,7 @@ The maps propose page/view boundaries; the use cases remain authoritative for be
 
 | View ID | Proposed view and purpose | Audience | Requirements evidence | Classification |
 |---|---|---|---|---|
-| VIEW-C-001 | Travel portal home: begin structured search or express and refine travel goals through advice | Customer | ACT-001; UC-001; FR-005; NFR-002 | Revised proposed boundary; evidenced outcome |
+| VIEW-C-001 | Travel portal home: begin structured search or converse with the Automated Travel Advisor, which can answer questions and perform supported customer actions | Customer | ACT-001; UC-001; FR-005, FR-008, FR-009; NFR-002 | Revised proposed boundary; evidenced outcome |
 | VIEW-C-002 | Travel composition: review and revise an individual itinerary | Customer | ACT-001; UC-003, UC-005 | Proposed view boundary; evidenced outcome |
 | VIEW-C-003 | Sales offer: review composition, price, validity, conditions, availability, and acceptance after authentication | Customer | ACT-001; UC-008, UC-009, UC-010; FR-006 | Proposed consolidation; evidenced information, actions, and guard |
 | VIEW-C-004 | Order: review the created Travel Order and required service outcome | Customer | ACT-001; UC-016, UC-017 | Proposed view boundary; evidenced outcome |
@@ -31,7 +31,7 @@ The maps propose page/view boundaries; the use cases remain authoritative for be
 | VIEW-C-011 | Sign in: authenticate an existing Customer account and resume the intended journey | Customer | ACT-001; UC-008; FR-006, FR-007 | New evidenced access view; mechanism unresolved |
 | VIEW-C-012 | Registration: establish a Customer account and resume the intended journey | Customer | ACT-001; UC-014; FR-006, FR-007 | New evidenced access view; required information unresolved |
 
-The primary path is now a recognisable funnel: discovery/advice → results → travel detail → composition → authenticated Sales Offer → Travel Order. Registration and sign-in are deferred until the Customer requests a Sales Offer, although the account remains directly reachable. Validation, empty results, unavailable inventory, pending payment, and authentication failure remain states of their originating views rather than separate pages; this removes the first map's speculative shared recovery destinations. Favourites, ratings, promotions, checkout add-ons, and content-heavy destination hierarchies observed on the comparison site were not added because project evidence does not require them.
+The primary path is now a recognisable funnel: discovery/advice → results → travel detail → composition → authenticated Sales Offer → Travel Order. Structured search is discovery, not a second advice mechanism: advice is exclusively an AI-chat conversation, and the Automated Travel Advisor may invoke the same supported transitions as a Customer action when its authorization and required customer decisions are satisfied. Registration and sign-in are deferred until the Customer requests a Sales Offer, although the account remains directly reachable. Validation, empty results, unavailable inventory, pending payment, and authentication failure remain states of their originating views rather than separate pages; this removes the first map's speculative shared recovery destinations. Favourites, ratings, promotions, checkout add-ons, and content-heavy destination hierarchies observed on the comparison site were not added because project evidence does not require them.
 
 ## Staff-facing map
 
@@ -70,6 +70,8 @@ The maps intentionally omit UC-007 because it is deprecated under SE-002. They a
 - FR-005 permits anonymous discovery through plausibility and availability outcomes.
 - FR-006 guards Sales Offer and customer-specific order, payment, and document information behind authenticated customer access.
 - FR-007 preserves confirmed journey context across registration or sign-in and returns the Customer to the intended destination.
+- FR-008 makes the AI chatbot the exclusive customer-advice interface and permits it to invoke supported customer-journey operations; it does not add destinations to the map.
+- FR-009 requires conversational action state to remain distinguishable and prevents an agent-invoked transition from implying a confirmed business outcome.
 - NFR-001 applies after navigation-triggering, non-conversational interactions; NFR-002 applies to conversational responses in VIEW-C-001 and VIEW-C-007.
 - After traversal, focus placement, page identification, visible current location, keyboard operation, and recovery require stakeholder/accessibility validation. No measurable accessibility requirement has yet been accepted.
 
@@ -95,6 +97,7 @@ Most proposed views can invoke candidate operations already assigned to MOD-CI o
 | NAV-Q-004 | What supplier-facing human navigation is required by FR-003? | Requirements | Supplier actor goals and interaction evidence are accepted or FR-003 applicability is revised |
 | NAV-Q-005 | What measurable accessibility outcomes govern navigation? | Requirements/UX/Test | Accessibility requirements and acceptance measures are accepted |
 | NAV-Q-006 | Which registration information, authentication factors, account-recovery paths, session rules, and assurance level are required? | Requirements/Security/Privacy | Accepted identity, privacy, and account-recovery policy |
+| NAV-Q-007 | Which Automated Travel Advisor actions require preview, explicit confirmation, re-authentication, or mandatory human handover? | Requirements/Security/Privacy/Business | Accepted action-authority policy by operation and risk class |
 
 ## AI-assisted validation record
 
