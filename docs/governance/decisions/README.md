@@ -22,3 +22,4 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0008](0008-adopt-epic-feature-story-backlog-hierarchy.md) | Adopt an epic-feature-story backlog hierarchy | proposed | 2026-07-31 | DR-0007 in part |
 | [DR-0009](0009-preserve-authoritative-document-when-growing-topics.md) | Preserve the authoritative document when growing topics | accepted | 2026-08-01 | DR-0006 in part |
 | [DR-0010](0010-adopt-python-centered-modular-technology-stack.md) | Adopt a Python-centred modular technology stack | accepted | 2026-08-04 | none |
+| [DR-0011](0011-use-docker-for-localhost-deployment.md) | Use Docker for the initial localhost deployment | accepted | 2026-08-14 | none |

@@ -14,7 +14,7 @@ The accepted [modular software architecture](software-architecture/software-arch
 
 | Concern | Selected direction | Decision boundary |
 |---|---|---|
-| Web UI | React with TypeScript, React Router v7 Framework Mode, Vite, and Mantine; selected subject to PoC validation | Customer and Staff Interaction use the same technology platform and shared UI foundations. Both are client-rendered web applications; exact workspace and deployment packaging remain open. |
+| Web UI | React with TypeScript, React Router v7 Framework Mode, Vite, and Mantine; selected subject to PoC validation | Customer and Staff Interaction use the same technology platform and shared UI foundations. Both are client-rendered web applications; exact workspace packaging remains open, while initial runtime packaging uses Docker under DR-0011. |
 | Backend language | Python | Applies to the modular business backend and initial product-agent orchestration. |
 | HTTP adapter | FastAPI | Exposes interaction and integration operations; domain and application logic remain independent of FastAPI. |
 | Contracts | Pydantic contract models and explicit domain types | Used at trust, transport, tool, and module boundaries. Runtime-defined property bags remain validated rather than becoming unrestricted dictionaries. |
@@ -105,7 +105,7 @@ PostgreSQL with Apache AGE is the first fallback comparator because it combines 
 
 The initial backend is one modular monolith. Module calls are in-process and shall not be converted into HTTP merely to resemble possible future services. FastAPI serves external interaction and integration boundaries.
 
-This decision does not define containers, processes beyond the initial application boundary, servers, hosting, scaling topology, or recovery topology. Those belong to the later [deployment architecture](../operations/deployment-architecture.md). A module may be extracted only when deployment evidence justifies the additional network, consistency, observability, security, and operational costs.
+DR-0010 does not define containers, processes beyond the initial application boundary, servers, hosting, scaling topology, or recovery topology. [DR-0011](../governance/decisions/0011-use-docker-for-localhost-deployment.md) subsequently selects Docker on localhost for the initial development/proof-of-concept boundary while leaving the deployment server and production topology open. A module may be extracted only when deployment evidence justifies the additional network, consistency, observability, security, and operational costs.
 
 ## Generated-document storage
 

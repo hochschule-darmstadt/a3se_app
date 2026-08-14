@@ -53,9 +53,9 @@ The second path is optional and defaults to an SVG beside the source. For C4, us
 
 | Concern | Source | Tool |
 |---|---|---|
-| UML and STRIDE data-flow diagrams | `.puml` | PlantUML |
+| UML, including deployment diagrams, and STRIDE data-flow diagrams | `.puml` | PlantUML |
 | Generated interaction and other UML views | `.puml` | PlantUML |
-| C4 model and views | `workspace.dsl` | Structurizr |
+| C4 system, software-container, and component views | `workspace.dsl` | Structurizr |
 | BPMN 2.0 processes | `.bpmn` | bpmnlint, bpmn-js-based SVG renderer, bpmn.io/Camunda-compatible editor |
 | Lightweight explanatory diagrams | `.mmd` | Mermaid CLI |
 | Strategic DDD context maps | `.cml` | Context Mapper 6.12.0, opt-in |

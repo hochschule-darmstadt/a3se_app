@@ -14,7 +14,8 @@ Prefer established, text-based notations that can be reviewed and versioned.
 | Business processes | BPMN 2.0 | cross-role workflows, events, gateways, and compensation |
 | Software structure/interaction | UML 2.x | class, state, sequence, and component semantics when precision is needed |
 | Data concepts and logical relationships | UML class diagrams; Information Engineering/Crow's Foot for relational views | meaning, cardinality, integrity, and ownership before physical schemas |
-| Architecture communication | C4 model | system context, containers, components, and deployment views |
+| Architecture communication | C4 model | system context, software containers, and components; C4 `Container` means a deployable/runnable unit and must not be confused with a Docker container |
+| Deployment topology | UML 2.x deployment diagrams in PlantUML | infrastructure nodes, execution environments, deployed artifacts, communication paths, and runtime placement |
 | Interfaces and events | OpenAPI, AsyncAPI, JSON Schema where applicable | machine-readable contracts after integration needs are understood |
 | Quality | ISO/IEC 25010 plus quality-attribute scenarios | quality vocabulary and measurable requirements |
 | Architecture documentation | arc42 concepts | architecture structure and concerns |
@@ -24,7 +25,7 @@ Prefer established, text-based notations that can be reviewed and versioned.
 | UI concepts | annotated low-fidelity wireframes, followed by accessible executable prototypes | information hierarchy, actions, states, and interaction hypotheses |
 | View navigation | constrained UML 2.x state machines in PlantUML | navigable views as states and event-labelled permitted traversal; see [View Navigation Maps](view-navigation-maps.md) |
 | Software supply chain and findings exchange | CycloneDX or SPDX for SBOMs; SARIF for static-analysis findings | machine-readable inventory and findings, not proof of runtime behavior |
-| Infrastructure | declarative platform-native IaC plus C4 deployment views | reproducible resources and deployment communication after platform selection |
+| Infrastructure | declarative platform-native IaC plus UML deployment diagrams | reproducible resources and deployment communication after platform selection |
 
 Diagram source belongs beside its owning specification. Generated images are derived artifacts. The notation-aware renderer and validation policy is defined in [Diagram Tooling](../tooling/diagram-tooling.md); renderer choice must not distort the standard semantics being expressed.
 
