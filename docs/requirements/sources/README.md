@@ -7,3 +7,4 @@
 This directory retains discovery sources and source-derived reports with provenance. Source statements are evidence, not accepted requirements; promote them through the [requirements workflow](../../governance/workflows/requirements-workflow.md).
 
 - [Ab in den Urlaub comparative UX review](ab-in-den-urlaub-ux-review.md): bounded observations used to challenge the proposed customer journey
+- [Design-system structure reference review](design-system-structure-review.md): bounded structural inspiration reduced to a simple project-appropriate system

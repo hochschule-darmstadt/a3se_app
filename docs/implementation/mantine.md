@@ -4,7 +4,7 @@
 - Owner: Implementation
 - Last reviewed: 2026-08-05
 
-This guide supplements [Clean Code](clean-code.md), [TypeScript](typescript.md), and [React](react.md). Mantine is the shared component and theming foundation selected subject to PoC validation.
+This guide supplements [Clean Code](clean-code.md), [TypeScript](typescript.md), and [React](react.md). Mantine is the shared component and theming foundation selected subject to PoC validation. Product design-system work follows the [Design System Workflow](../governance/workflows/design-system.md): Mantine supplies implementation primitives, while the authoritative design system owns product semantics, shared tokens, customer/staff profiles, supported states, and usage rules.
 
 ## Implementation rules
 

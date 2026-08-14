@@ -22,7 +22,7 @@ Prefer established, text-based notations that can be reviewed and versioned.
 | Decisions | MADR-style decision records | consequential choices and their trade-offs |
 | Threat modeling | STRIDE with data-flow diagrams | systematic threat discovery |
 | User research/UX | ISO 9241-210 human-centred design process | research-backed actor needs, tasks, contexts of use, and interaction requirements |
-| UI concepts | annotated low-fidelity wireframes, followed by accessible executable prototypes | information hierarchy, actions, states, and interaction hypotheses |
+| UI concepts | annotated low-fidelity wireframes, followed by accessible executable prototypes and a token-based design system | information hierarchy, actions, states, interaction hypotheses, reusable foundations, profiles, components, and patterns |
 | View navigation | constrained UML 2.x state machines in PlantUML | navigable views as states and event-labelled permitted traversal; see [View Navigation Maps](view-navigation-maps.md) |
 | Software supply chain and findings exchange | CycloneDX or SPDX for SBOMs; SARIF for static-analysis findings | machine-readable inventory and findings, not proof of runtime behavior |
 | Infrastructure | declarative platform-native IaC plus UML deployment diagrams | reproducible resources and deployment communication after platform selection |
