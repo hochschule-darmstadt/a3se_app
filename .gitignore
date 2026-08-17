@@ -1,4 +1,14 @@
 node_modules/
+frontend/apps/*/build/
+frontend/apps/*/.react-router/
+frontend/packages/*/dist/
+backend/build/
+backend/dist/
+backend/*.egg-info/
+backend/src/*.egg-info/
+__pycache__/
+*.py[cod]
+.venv/
 .diagram-tools/
 tools/diagrams/.tmp/
 /debug.log

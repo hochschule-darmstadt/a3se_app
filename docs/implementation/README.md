@@ -28,6 +28,10 @@ This area defines the normative implementation harness for the technologies sele
 | Runtime contracts | [Pydantic](pydantic.md) |
 | Graph persistence | [Neo4j](neo4j.md) |
 
+The concrete repository layout, module-to-directory mapping, and dependency
+boundaries are architecture concerns defined in the
+[project-structure view](../architecture/software-architecture/project-structure.md).
+
 Cross-cutting rules are authoritative only in `clean-code.md`. Technology guides link to those rules and define only idiomatic mechanisms, notation, and checks. A technology guide must not copy a general rule merely to make the file self-contained.
 
 The guides prescribe capabilities where a concrete supporting tool is not yet selected. Adding a mandatory formatter, linter, test framework, package manager, client generator, or similar dependency requires the applicable decision and the zero-cost licence check required by NFR-003.

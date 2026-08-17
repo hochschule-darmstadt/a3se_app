@@ -4,7 +4,7 @@ Christopher Columbus Travel is a fictitious but realistic tour operator used in 
 
 Educational context: [module description](docs/governance/references/MB%20Advanced%20AI-Assisted%20Software%20Engineering.pdf). The engineering harness under `docs/` is project-oriented and reusable independently of the educational context.
 
-Technology choices are intentionally deferred until the requirements, domain boundaries, and quality goals provide enough evidence for an informed decision.
+The accepted technology profile is documented in [DR-0010](docs/governance/decisions/0010-adopt-python-centered-modular-technology-stack.md). The initial application scaffold lives under [frontend/](frontend/README.md) and [backend/](backend/README.md); business behavior remains scoped by the active implementation issues.
 
 Start with:
 

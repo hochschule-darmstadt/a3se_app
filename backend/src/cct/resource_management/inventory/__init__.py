@@ -1,0 +1,1 @@
+"""MOD-INV Inventory module."""

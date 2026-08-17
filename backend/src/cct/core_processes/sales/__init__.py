@@ -1,0 +1,1 @@
+"""MOD-SALES Sales module."""

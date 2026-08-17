@@ -6,6 +6,10 @@
 
 This specification defines technology-neutral software modules, their responsibilities, candidate operations, and permitted dependency direction. It does not select processes, containers, servers, databases, protocols, or infrastructure. The module boundaries remain compatible with a modular monolith, independently deployable services, or a hybrid deployment.
 
+The accepted realization of these logical modules in repository directories,
+Python packages, frontend workspaces, and architecture tests is defined in the
+[project-structure view](project-structure.md).
+
 ## Derivation and refinement
 
 The accepted [business domains](../../requirements/domains/domains.md) are the problem-space starting point. Domains initially suggest modules, but they are not software boundaries by definition. Iterative refinement retained Customer Interaction and Staff Interaction as solution-space entry modules and extracted reusable Resources modules—Person Management, Partner Management, Touristic Product Management, Inventory, and Order Management—from information and lifecycle responsibilities shared across several domains.
