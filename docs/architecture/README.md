@@ -13,4 +13,4 @@ Architecture translates accepted requirements and constraints into consequential
 
 Consequential choices belong in [decision records](../governance/decisions/README.md).
 
-Software architecture describes logical modules and dependencies. [Deployment architecture](../operations/deployment-architecture.md) separately describes processes, containers, servers, infrastructure nodes, and runtime placement after the modular design and relevant technology decisions are accepted.
+Software architecture describes logical modules and dependencies. [Deployment architecture](../operations/deployment-architecture/deployment-architecture.md) separately describes processes, containers, infrastructure nodes, and runtime placement without selecting a production server.

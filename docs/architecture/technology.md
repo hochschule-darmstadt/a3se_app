@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-17
 
 ## Purpose and decision authority
 
@@ -106,6 +106,8 @@ PostgreSQL with Apache AGE is the first fallback comparator because it combines 
 The initial backend is one modular monolith. Module calls are in-process and shall not be converted into HTTP merely to resemble possible future services. FastAPI serves external interaction and integration boundaries.
 
 DR-0010 does not define containers, processes beyond the initial application boundary, servers, hosting, scaling topology, or recovery topology. [DR-0011](../governance/decisions/0011-use-docker-for-localhost-deployment.md) subsequently selects Docker on localhost for the initial development/proof-of-concept boundary while leaving the deployment server and production topology open. A module may be extracted only when deployment evidence justifies the additional network, consistency, observability, security, and operational costs.
+
+The proposed [localhost deployment architecture](../operations/deployment-architecture/deployment-architecture.md) maps the static React client, one FastAPI modular monolith, and Neo4j Community Edition to three runtime units. Dockerfiles and Compose remain gated on application source and accepted packaging; placeholders are not evidence.
 
 ## Generated-document storage
 

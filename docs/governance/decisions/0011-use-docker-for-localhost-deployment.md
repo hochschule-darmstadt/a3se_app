@@ -39,7 +39,7 @@ Issue #8 shall demonstrate that the selected application and database units star
 
 ## Links
 
-- [Deployment architecture](../../operations/deployment-architecture.md)
+- [Deployment architecture](../../operations/deployment-architecture/deployment-architecture.md)
 - [Technology profile](../../architecture/technology.md)
 - [Deployment Architecture Workflow](../workflows/deployment-architecture.md)
 - [Diagram tooling](../tooling/diagram-tooling.md)

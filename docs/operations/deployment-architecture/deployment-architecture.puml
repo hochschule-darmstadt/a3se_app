@@ -1,0 +1,47 @@
+@startuml
+title Initial localhost Docker deployment (proposed)
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+node "Developer workstation\n<<device>>" as host {
+  artifact "Web browser" as browser
+  node "Docker execution environment\n<<executionEnvironment>>\nprivate project network" as docker {
+    node "web container\n<<container>>" as web {
+      artifact "React/Vite static assets\nCustomer + Staff Interaction UI" as webapp
+    }
+    node "api container\n<<container>>" as api {
+      artifact "FastAPI modular monolith\nall accepted logical modules" as backend
+    }
+    node "neo4j container\n<<container>>" as neo4j_container {
+      database "Neo4j Community Edition\n<<database process>>" as neo4j
+    }
+    artifact "neo4j-data\n<<Docker named volume>>" as volume
+  }
+}
+cloud "Optional external systems\n<<not selected; disabled by default>>" as external
+
+browser --> web : HTTP\n127.0.0.1:8080
+browser --> api : HTTP API\n127.0.0.1:8000
+api --> neo4j : Bolt\nneo4j:7687\nprivate network
+neo4j --> volume : persistent graph data
+api ..> external : outbound HTTPS only after\nprovider and data-flow decision
+
+note right of browser
+  Trust boundary:
+  browser to loopback
+end note
+note bottom of docker
+  Docker isolation boundary.
+  No production security claim.
+  Database ports not host-published.
+end note
+note right of api
+  One runtime, many logical modules.
+  /health/live and /health/ready
+end note
+note right of neo4j
+  Internal 7474 and 7687
+  Authenticated readiness query
+  Synthetic data only
+end note
+@enduml

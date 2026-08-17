@@ -2,9 +2,11 @@
 
 - Status: accepted
 - Owner: Implementation
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-17
 
 This guide supplements [Clean Code](clean-code.md) and [TypeScript](typescript.md). React is the selected UI library for Customer and Staff Interaction.
+
+Shared UI implementations consume the contracts and profiles in the authoritative [Shared UI Design System](../requirements/ux/design-system/design-system.md). Product-specific compositions such as `AdvisorAction`, `AdvisorConversation`, and `OfferSummary` are justified there; other Mantine primitives should not receive pass-through wrappers.
 
 ## Implementation rules
 

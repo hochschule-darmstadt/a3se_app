@@ -1,0 +1,126 @@
+# Shared UI Design System
+
+- Status: proposed
+- Owner: Requirements/UX
+- Last reviewed: 2026-08-17
+
+## Purpose, authority, and limits
+
+This is the one authoritative design system for Customer Interaction and Staff Interaction. It defines shared semantic foundations and accessible interaction contracts with two presentation profiles. It is a requirements and proof-of-concept guide, not a published component package and not authority for new business behavior.
+
+It consumes the [navigation maps](../navigation-maps/navigation-maps.md), [wireframes](../wireframes/wireframes.md), accepted [functional requirements](../../functional-requirements.md), and [DR-0010](../../../governance/decisions/0010-adopt-python-centered-modular-technology-stack.md). Mantine is the implementation foundation; this specification owns product semantics rather than duplicating its catalogue. The bounded [structure review](../../sources/design-system-structure-review.md) informed organization only. The [comparison-portal review](../../sources/ab-in-den-urlaub-ux-review.md) informed customer hierarchy only; no third-party branding, assets, claims, taxonomy, exact values, or proprietary layouts are adopted.
+
+The static [review catalogue](catalogue.html) uses synthetic content and no production dependencies. It demonstrates review coverage, not stakeholder acceptance or automated accessibility conformance.
+
+## Foundations
+
+Tokens use the `--ds-{category}-{role}` convention. Components consume semantic roles, never palette positions or unexplained raw values. Values are original proposals pending visual and accessibility evaluation.
+
+### DS-FND-001 Colour
+
+| Token | Value | Meaning |
+|---|---:|---|
+| `surface-canvas` | `#f4f7fb` | application background |
+| `surface-panel` | `#ffffff` | principal content surface |
+| `surface-subtle` | `#eaf1f8` | grouped or selected-neutral surface |
+| `text-primary` / `text-muted` | `#17243d` / `#53627a` | principal and secondary text |
+| `border-default` | `#c5d0dd` | boundaries and dividers |
+| `action-primary` / `action-primary-hover` | `#d6531b` / `#ad3e0f` | high-priority action |
+| `action-secondary` | `#087ea4` | discovery, links, secondary action |
+| `navigation-strong` | `#132642` | persistent navigation |
+| `status-info/success/warning/danger` | `#087ea4/#1c7c54/#996300/#b42318` | shared state meanings |
+| `focus-ring` | `#ffbf47` | visible keyboard focus |
+| `disabled-surface/text` | `#e2e8f0/#667085` | unavailable control |
+
+Status always includes text, icon shape, or another non-colour cue. The exact contrast target remains unresolved under DS-Q-001.
+
+### DS-FND-002 Typography
+
+- `font-sans`: system UI stack. A hosted font is not required.
+- `text-xs/sm/md/lg/xl/2xl`: 0.75/0.875/1/1.125/1.5/2rem, with at least 1.4 line height for body text.
+- Headings use ordered semantic levels; visual size does not determine level.
+- Prices and dense figures may use tabular numerals. All-caps is limited to short badges and never carries meaning alone.
+- Customer presentation uses larger headings and relaxed measure. Staff labels may be compact without reducing body text below 0.875rem.
+
+### DS-FND-003 Space, size, border, and elevation
+
+- Space scale `1/2/3/4/6/8/12` maps to 0.25/0.5/0.75/1/1.5/2/3rem.
+- Customer interactive targets are at least 2.75rem. Staff controls may be 2.25rem where density is evidenced; accessible naming and keyboard focus remain equivalent.
+- Radius roles are `control` (0.5rem), `card` (0.75rem), and `pill` (999px); border roles are `default` (1px) and `emphasis` (2px).
+- `elevation-raised` is restrained and reserved for overlays and customer discovery cards. Staff surfaces prefer borders.
+
+### DS-FND-004 Focus, breakpoints, and motion
+
+- Every interactive element has a 3px focus ring with 2px offset. Focus is never removed without an equal replacement.
+- Customer review breakpoints align with wireframes: mobile below 700px, tablet 700–1099px, PC at least 1100px. They are exemplars, not new requirements beyond FR-004.
+- Layout starts mobile-first. The advisor is a right rail on tablet/PC and a persistent labelled launcher/drawer on mobile; conversation and confirmed context survive the change (WF-011).
+- Motion durations are `fast` 120ms and `standard` 200ms. Motion only clarifies state or spatial relation. Under `prefers-reduced-motion: reduce`, non-essential motion is effectively removed and progress remains textually expressed.
+
+## Profiles
+
+### DS-PRO-001 Customer
+
+Comfortable, expressive, responsive, and travel-oriented. It uses shared dark navigation, blue/cyan discovery emphasis, a warm primary action, generous synthetic imagery, white panels, offer cards, compact status badges, and prominent search and price hierarchy. Content is reassuring but avoids unsupported promotional claims. Default panel gap is `space-6`; cards may use elevation.
+
+### DS-PRO-002 Staff
+
+Compact, restrained, keyboard-efficient, and data-dense. It reuses colour meanings, typography, focus, controls, validation, and feedback. Default panel gap is `space-3`; tables, stable list/detail/edit regions, persistent filters, and domain-labelled operations take precedence. Promotional cards, decorative imagery, and customer sales hierarchy are excluded where they impede work.
+
+Profiles change presentation, never state meaning, accessible name, action semantics, or business outcome.
+
+## Components and patterns
+
+| ID | Contract and supported behavior | Mantine mapping | Evidence |
+|---|---|---|---|
+| DS-CMP-001 | **Page/app shell and navigation:** skip link; header/nav/main/aside landmarks; page identity and current location. Customer reserves advisor context; staff provides stable managed-area navigation. Mobile retains all customer destinations. | `AppShell`, `NavLink`, `Burger`, landmarks | WF-001/005/011; all views |
+| DS-CMP-002 | **Button and link:** primary, secondary, subtle, danger; default, hover, focus, disabled, loading. Links navigate; buttons act. Loading preserves an accessible label and prevents duplicates. | `Button`, `Anchor`, `Loader`; no wrapper by default | WF-002/007; all views |
+| DS-CMP-003 | **Form and validation:** visible label, help, required cue, control, associated message. Invalid submission focuses a linked summary. Disabled and read-only remain distinct. | form controls, `Fieldset`, `Alert`, `useForm` | WF-008; C-001/011/012, S-002–005/007 |
+| DS-CMP-004 | **Status and feedback:** loading, empty, unavailable, information, pending, success, error, uncertain. Live updates are polite unless urgent and never imply completion from submission alone. | `Alert`, `Notification`, `Badge`, `Loader`, `Skeleton` | WF-004, FR-009; customer and staff states |
+| DS-CMP-005 | **Card:** one destination, product, offer, order summary, or portal entry; heading, facts, status, actions. Customer may use imagery/elevation; staff cards are limited to entry or small summaries. | `Card`, `Image`, `Group`, `Stack`, `Badge` | C-001/009/010, S-001 |
+| DS-CMP-006 | **Data table:** caption, headers, row identity, selection distinct from activation, sort/filter/paging, loading/empty/error, horizontal overflow. Advanced grid keyboard behavior and virtualization remain PoC questions. | `Table`, `ScrollArea`, controls; no grid wrapper yet | WF-006/Q-005; S-002–005/007 |
+| DS-CMP-007 | **List/detail/edit:** stable regions; visible selection; preserved filters/paging; cancel returns to the last stable selection; validation preserves edits; business actions use domain terms. | composition of shell, table, panels and form primitives | WF-006/007; S-002–007 |
+| DS-CMP-008 | **Offer/order summary:** identifier, itinerary/services, party context, price/currency, validity/status, conditions, availability provenance, explicit next action. Pending data is labelled; acceptance is not preselected. | product `OfferSummary` composition | C-003/004/005; UC-008/010/016/018 |
+| DS-CMP-009 | **Advisor conversation:** labelled transcript, speakers, composer, send state, journey context. Mobile drawer manages focus and returns it to the launcher. | product `AdvisorConversation` composition | FR-008, NFR-002, WF-009/011; C-001/007 |
+| DS-CMP-010 | **Advisor action:** action label, affected context, proposed/awaiting input or authorization/in progress/confirmed/failed or uncertain state, explanation, next action. Only confirmed results change confirmed context. | product `AdvisorAction` composition | FR-009, WF-010; C-001/002/007 |
+
+### Shared content and accessibility rules
+
+- Use glossary terms and domain-labelled verbs, not generic “OK”, “process”, or “save” when the business action can be named.
+- Allow at least 30% text expansion to wrap without clipping or action loss.
+- Preserve native semantics. Repeated or icon-only controls need object-specific accessible names.
+- Manage focus after navigation, overlay opening/closing, validation failure, and confirmation. Escape closes a dismissible overlay and returns focus unless work would be lost.
+- Every loading, empty, error, unavailable, pending, success, or uncertain state names a next step where one exists.
+
+## Governance
+
+### DS-GOV-001 Ownership and change path
+
+Requirements/UX owns semantics and profiles; Implementation owns faithful Mantine realization; Test owns independent evidence. A proposal identifies the need, affected `DS-*` IDs, source view/requirement, both-profile impact, accessibility/localisation/responsive impact, Mantine reuse decision, and catalogue/test update. Material business or technology choices require a decision record.
+
+Review order is evidence and terminology; semantic fit; accessible behavior and states; profile mapping; feasibility; catalogue and test evidence. Wording changes preserve IDs; retired IDs are never reused.
+
+### DS-GOV-002 Admission, change, and deprecation
+
+Add an item only when repeated across views, expressing stable product semantics/policy, or preventing material accessibility/consistency risk. One-off compositions remain local. Prefer Mantine primitives/theme configuration; wrap only stable semantics such as `AdvisorAction` and `OfferSummary`.
+
+Deprecation records replacement, reason, consumers, and removal condition. Independent packaging, elaborate semantic versioning, dark mode, multiple brands, exhaustive icons/motion, and unevidenced components remain excluded.
+
+| Date | Change | Evidence and state |
+|---|---|---|
+| 2026-08-17 | Proposed foundations, two profiles, ten evidenced contracts, governance, and catalogue. | Issue #16; stakeholder, accessibility, Test, and PoC review remain |
+
+## Review and validation record
+
+The catalogue demonstrates both profiles; tokens; buttons/links; form validation; feedback; cards; data table/list-detail; offer/order and advisor states; responsive reflow; visible focus; semantic landmarks; text wrapping; and reduced-motion CSS. Intended render sizes are 1440×1000, 900×1000, and 390×844.
+
+This does not prove assistive-technology compatibility, WCAG conformance, production Mantine behavior, real localization, backend integrity, staff-grid feasibility, or usability. AI generated the initial specification and examples; critical review rejected two systems, copied branding/assets, speculative components, dark mode, an icon subsystem, blanket wrappers, invented authorization, and treating submission as confirmation.
+
+## Open questions and residual risks
+
+| ID | Question / risk | Owner and resolution |
+|---|---|---|
+| DS-Q-001 | What exact contrast target and accessibility conformance level apply? | Requirements/Test; accepted measurable requirement |
+| DS-Q-002 | What product name, logo, and owned imagery replace placeholders? | Stakeholder/UX; approved original identity and asset rights |
+| DS-Q-003 | Does the staff PoC need an NFR-003-compliant grid beyond Mantine Table? | Implementation/Test; representative scale and keyboard test |
+| DS-Q-004 | Which hypotheses need usability testing, and with whom? | Stakeholder Management/UX; accepted research plan |
+| DS-Q-005 | Which advisor actions require confirmation, re-authentication, or handover? | NAV-Q-007; accepted Security/Privacy/Business policy |
