@@ -26,10 +26,25 @@ Terms use British English and lower camel case for property keys. Type identifie
 | `person/traveller` | namespaced code | Person role for a participant in travel. | Person Management | none yet | Project identifier mapped to glossary Traveler and OTA traveller/passenger concepts |
 | `partner/supplier/airline` | namespaced code | Supplier role for an airline. | Partner Management | required `airlineDesignator` | Project identifier; IATA identifies the airline value |
 | `partner/supplier/hotel` | namespaced code | Supplier role for an accommodation provider. | Partner Management | none yet | Project identifier mapped to OTA hotel/accommodation concepts |
+| `partner/supplier/accommodation` | namespaced code | Supplier role for accommodation represented independently of a hotel classification. | Partner Management | none yet | Project identifier mapped to OpenTravel accommodation concepts |
+| `partner/supplier/mobility` | namespaced code | Supplier role for transfers, rail, coaches, or rental vehicles. | Partner Management | none yet | Project extension grouping ground-transport concepts |
+| `partner/supplier/water-transport` | namespaced code | Supplier role for cruises, ferries, or day boats. | Partner Management | none yet | Project extension mapped to OpenTravel cruise/activity concepts |
+| `partner/supplier/experience` | namespaced code | Supplier role for guided tours and activities. | Partner Management | none yet | Project extension mapped to OpenTravel package/activity concepts |
+| `partner/supplier/protection` | namespaced code | Supplier role for travel-protection products; it does not assert regulatory authorization. | Partner Management | none yet | Project extension mapped to OpenTravel insurance concepts |
 | `product/flight` | namespaced code | Reusable scheduled flight definition. | Touristic Product Management | flight properties in TERM-004 | Project identifier mapped to OTA air itinerary concepts |
 | `product/flight/seat` | namespaced code | Seat definition contained by a flight product. | Touristic Product Management | required `seatNumber` | Project identifier mapped to OTA seat concepts |
 | `product/hotel/room-category` | namespaced code | Reusable category of hotel room. | Touristic Product Management | required `roomTypeCode`; optional `smokingPreferenceCode` | Project identifier mapped to OTA room-stay concepts |
 | `product/hotel/room` | namespaced code | Individually identified hotel room within a category. | Touristic Product Management | required `roomNumber` | Project identifier mapped to OTA room concepts |
+| `product/accommodation/room-category` | namespaced code | Reusable room category without asserting that the property is a hotel. | Touristic Product Management | required `roomTypeCode` | Project identifier mapped to OpenTravel accommodation/room concepts |
+| `product/mobility/transfer` | namespaced code | Point-to-point ground transfer. | Touristic Product Management | none yet | Project extension mapped to OpenTravel ground-transport concepts |
+| `product/mobility/rail` | namespaced code | Passenger rail service. | Touristic Product Management | none yet | Project extension mapped to OpenTravel rail concepts |
+| `product/mobility/coach` | namespaced code | Scheduled or chartered coach service. | Touristic Product Management | none yet | Project extension mapped to OpenTravel ground-transport concepts |
+| `product/mobility/vehicle-rental` | namespaced code | Time-bounded rental-vehicle service. | Touristic Product Management | none yet | Project extension mapped to OpenTravel vehicle-rental concepts |
+| `product/water/day-boat` | namespaced code | Same-day passenger boat service or excursion. | Touristic Product Management | none yet | Project extension mapped to OpenTravel cruise/activity concepts |
+| `product/water/cruise` | namespaced code | Multi-day cruise product. | Touristic Product Management | none yet | Project extension mapped to OpenTravel cruise concepts |
+| `product/experience/guided-tour` | namespaced code | Guided visitor experience. | Touristic Product Management | none yet | Project extension mapped to OpenTravel package/activity concepts |
+| `product/experience/activity` | namespaced code | Bookable visitor activity that need not include a guide. | Touristic Product Management | none yet | Project extension mapped to OpenTravel package/activity concepts |
+| `product/protection/travel` | namespaced code | Travel-protection product definition; coverage and regulation remain unresolved. | Touristic Product Management | none yet | Project extension mapped to OpenTravel insurance concepts |
 | `stock/flight/seat` | namespaced code | Sellable dated inventory for one flight seat. | Inventory | common stock properties in TERM-005 | Project identifier |
 | `stock/hotel/room` | namespaced code | Sellable dated inventory for one hotel room/night. | Inventory | common stock properties in TERM-005 | Project identifier |
 | `order/header` | namespaced code | Root of one Travel Order. | Order Management | required `orderNumber`, `orderStatusCode` | Project identifier mapped to glossary Travel Order |
@@ -117,7 +132,7 @@ Primary source links: [OpenTravel downloads](https://opentravel.org/download-spe
 - Full current IATA and ICAO datasets have access restrictions. Tests must record individual-code verification dates, and production integration would require a licensing/access decision.
 - Address, payment, order lifecycle, room type, and smoking value sets need broader requirements before they can become exhaustive.
 - Personal-data classification, retention, transliteration, multiple names/addresses, and international postal structures remain Security/Privacy and Requirements work.
-- This catalog covers every key and coded value in the current object example. New scenario terms from issue #10 must extend this catalog before use.
+- This catalog covers every key and coded value in the current object example and the type identifiers used by the issue #10 test-data catalog. Detailed properties for the newly introduced product families remain deliberately unresolved until their business rules are specified.
 
 ## TERM-009 Reconciled object-example terms
 
