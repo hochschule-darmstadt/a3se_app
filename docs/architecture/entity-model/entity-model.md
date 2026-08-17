@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-08-17
 
 This technology-neutral logical entity model defines generic entity structures owned by Resources modules in the accepted [software architecture](../software-architecture/software-architecture.md). It was produced by iteratively refining the accepted [business objects](../../requirements/business-objects.md): recurring party roles and item structures were generalized while concrete business meaning remains expressed through types, properties, and relationships.
 
@@ -25,6 +25,8 @@ John and Sarah are Persons playing `person/customer` and `person/traveller` role
 ## Semantic property contracts
 
 Keys and coded values in generic `properties` collections shall use established touristic vocabularies and standards where suitable, for example OpenTravel Alliance (OTA), International Air Transport Association (IATA), and International Civil Aviation Organization (ICAO) specifications. Each adopted vocabulary, version, and any project-specific extension shall be identified explicitly; similar local terms shall not silently replace an applicable standard term or code.
+
+The authoritative [Flexible Entity-model Terminology](terminology.md) defines the current keys, type identifiers, datatypes, value sets, mappings, versions, extensions, and validation examples. New keys or coded values shall be added there before they appear in scenarios, diagrams, contracts, or seed data.
 
 The module that owns an entity shall also own an executable property validator or equivalent declarative rule set. Its rules shall define, at minimum:
 
@@ -65,7 +67,7 @@ The generic model deliberately avoids a separate physical entity class for every
 ## Limitations and open questions
 
 - Exact association multiplicities and delete/lifecycle semantics remain to be specified.
-- Concrete type catalogs, property schemas, and adopted vocabulary versions remain open; properties must not become uncontrolled free-form data in implementation.
+- The proposed terminology catalog now defines the types and properties used by the current object example; broader scenario catalogs and accepted vocabulary mappings remain open. Properties must not become uncontrolled free-form data in implementation.
 - Prices, dates, addresses, payment methods, identifiers, and personal data require explicit value types, classification, and validation.
 - Historical snapshots versus live references must be decided per cross-module relationship.
 - Customer-time on-demand sourcing remains excluded by [SE-002](../../requirements/scope-exclusions.md); `StockItem` represents capacity procured before sale.
