@@ -23,3 +23,4 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0009](0009-preserve-authoritative-document-when-growing-topics.md) | Preserve the authoritative document when growing topics | accepted | 2026-08-01 | DR-0006 in part |
 | [DR-0010](0010-adopt-python-centered-modular-technology-stack.md) | Adopt a Python-centred modular technology stack | accepted | 2026-08-04 | none |
 | [DR-0011](0011-use-docker-for-localhost-deployment.md) | Use Docker for the initial localhost deployment | accepted | 2026-08-14 | none |
+| [DR-0012](0012-use-validated-property-registry-and-direct-neo4j-properties.md) | Use a validated property registry and direct Neo4j properties | accepted | 2026-08-17 | none |

@@ -38,6 +38,10 @@ The module that owns an entity shall also own an executable property validator o
 
 Owning modules shall validate properties at their boundaries before accepting state changes. Interaction and Core Business Process modules shall consume the owning module's validation result rather than duplicate its semantic rules. Validation failures shall identify the violated rule sufficiently for the calling module to present or handle the error without exposing the Resource module's internal model.
 
+The accepted [flexible entity implementation](implementation.md) realizes these
+logical rules through strict module-owned Pydantic contracts and a direct,
+loss-aware Neo4j property mapping.
+
 ## Entities and module ownership
 
 | Resource module | Entity | Meaning |

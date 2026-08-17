@@ -48,6 +48,11 @@ kept separately under `backend/tests`.
 | MOD-OM / Order Management | `cct.resource_management.order_management` |
 | Neo4j adapters | `cct.infrastructure.neo4j` |
 
+Shared flexible-entity boundary types and the controlled registry live directly
+under `cct.resource_management`; each owning module defines its terminology
+contracts in its own `models.py`. This small shared kernel does not own module
+writes or business invariants.
+
 The descriptive names `core_processes` and `resource_management` make their
 architectural role explicit. In particular, `resource_management` avoids the
 common interpretation of a generic `resources` directory as static images,
@@ -120,12 +125,12 @@ requires one.
   establishes their semantic contract.
 - Runtime composition and agent-tool adapters are absent and should be added
   only for a concrete executable or integration requirement.
-- No formatter, linter, frontend test framework, FastAPI, Pydantic, or Neo4j
-  driver has yet been introduced by the structural scaffold.
+- No formatter, linter, frontend test framework, or FastAPI adapter has yet
+  been introduced. DR-0012 pins Pydantic and the Neo4j driver for the flexible
+  entity prototype.
 - React Router v8 migration flags remain outside the accepted v7 structure and
   require coordinated assessment before adoption.
 
 Build, installation, and validation commands belong in the root,
 `frontend`, and `backend` READMEs so this architecture view remains stable when
 tool commands change.
-

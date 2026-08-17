@@ -10,4 +10,8 @@ The installable Python distribution uses the `src` layout and the import package
 Runtime composition and any future agent-tool adapter will be introduced only
 when a concrete implementation issue requires them.
 
-No business behavior, FastAPI application, Neo4j query, schema, or seed implementation belongs to issue #19. Run `npm run backend:check` from the repository root for import compilation and architecture tests.
+Install the pinned project dependencies with `python -m pip install -e
+./backend`. Issue #20 adds only the flexible-entity contracts and narrow Neo4j
+mapping prototype; broader CRUD, the FastAPI application, and seed generation
+remain deferred. Run `npm run backend:check` from the repository root for
+compilation, architecture tests, and unit tests.

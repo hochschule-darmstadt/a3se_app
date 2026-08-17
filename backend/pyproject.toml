@@ -9,6 +9,10 @@ description = "Christopher Columbus Travel modular backend scaffold"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
+dependencies = [
+    "neo4j==6.2.0",
+    "pydantic==2.13.4",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
