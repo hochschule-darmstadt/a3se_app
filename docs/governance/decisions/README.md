@@ -27,3 +27,4 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0013](0013-shared-resource-crud-api-and-openapi-contract.md) | Shared resource CRUD API, aggregate boundaries, and generated TypeScript client | accepted | 2026-08-18 | none |
 | [DR-0014](0014-deterministic-seed-data-and-compose-seeding.md) | Deterministic seed data representation, generation, and Compose seeding | accepted | 2026-08-18 | none |
 | [DR-0015](0015-frontend-thin-slice-testing-i18n-and-catalog-listing.md) | Frontend thin-slice test stack, i18n demonstration, staff grid, and catalog listing | accepted | 2026-08-18 | none |
+| [DR-0016](0016-poc-technology-confirmation-with-residual-risk.md) | Confirm the DR-0010 technology profile with explicit residual risk | accepted | 2026-08-18 | none |
