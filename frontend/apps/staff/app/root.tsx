@@ -1,8 +1,11 @@
 import "@mantine/core/styles.css";
 
 import { StaffUiProvider } from "@cct/ui";
+import { QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+
+import { queryClient } from "./api";
 
 export function Layout({ children }: Readonly<{ children: ReactNode }>) {
   return (
@@ -26,7 +29,9 @@ export function Layout({ children }: Readonly<{ children: ReactNode }>) {
 export default function StaffApplication() {
   return (
     <StaffUiProvider>
-      <Outlet />
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+      </QueryClientProvider>
     </StaffUiProvider>
   );
 }

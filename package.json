@@ -11,6 +11,8 @@
   "scripts": {
     "frontend:build": "npm run build --workspaces --if-present",
     "frontend:typecheck": "npm run typecheck --workspaces --if-present",
+    "frontend:test": "npm run test --workspaces --if-present",
+    "frontend:test:e2e": "playwright test --config frontend/tests/playwright.config.ts",
     "backend:test": "python -m unittest discover -s backend/tests -p test_*.py",
     "backend:check": "python -m compileall -q backend/src backend/tests && npm run backend:test",
     "harness:validate": "node tools/harness/validate.mjs",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "11.16.0",
+    "@playwright/test": "1.56.1",
     "bpmn-js": "18.21.0",
     "bpmnlint": "11.12.1",
     "puppeteer": "25.3.0"

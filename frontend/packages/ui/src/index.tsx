@@ -1,29 +1,35 @@
-import { createTheme, MantineProvider } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import type { PropsWithChildren } from "react";
 
-const sharedTheme = createTheme({
-  primaryColor: "oceanBlue",
-  colors: {
-    oceanBlue: [
-      "#e8f7ff", "#d5edfa", "#aed8ef", "#83c3e5", "#62b1dc",
-      "#4da6d8", "#3d9fd7", "#2e8bc0", "#207cad", "#006d98"
-    ],
-  },
-  fontFamily: "Inter, system-ui, sans-serif",
-  headings: { fontFamily: "Inter, system-ui, sans-serif" },
-  radius: { md: "0.5rem" },
-});
+import { customerTheme, staffTheme } from "./theme.js";
 
-/** Provides the shared customer-facing design profile. */
+/** Provides the shared customer-facing design profile (DS-PRO-001). */
 export function CustomerUiProvider({ children }: PropsWithChildren) {
-  return <MantineProvider theme={sharedTheme}>{children}</MantineProvider>;
+  return <MantineProvider theme={customerTheme}>{children}</MantineProvider>;
 }
 
-/** Provides the compact staff-facing design profile over shared tokens. */
+/** Provides the compact staff-facing design profile (DS-PRO-002). */
 export function StaffUiProvider({ children }: PropsWithChildren) {
   return (
-    <MantineProvider defaultColorScheme="light" theme={sharedTheme}>
+    <MantineProvider defaultColorScheme="light" theme={staffTheme}>
       {children}
     </MantineProvider>
   );
 }
+
+export { designTokens, customerTheme, staffTheme } from "./theme.js";
+export { translate, SUPPORTED_LOCALES } from "./i18n.js";
+export type { Locale } from "./i18n.js";
+export { MockAuthProvider, useMockActor } from "./auth.js";
+export type { MockActor } from "./auth.js";
+export {
+  StatusBanner,
+  ApiErrorBanner,
+  FormErrorSummary,
+  DataTable,
+  CursorPager,
+  ResourceCard,
+  OfferSummary,
+  AppShellLayout,
+} from "./components.js";
+export type { DataTableColumn, ResourceCardProps, OfferSummaryProps, AppShellLayoutProps } from "./components.js";

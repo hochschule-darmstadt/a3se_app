@@ -2,7 +2,9 @@
   "name": "@cct/api-client",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "generate": "openapi-typescript generated/openapi.json -o src/generated/schema.ts"
@@ -10,8 +12,15 @@
   "dependencies": {
     "openapi-fetch": "0.17.0"
   },
+  "peerDependencies": {
+    "@tanstack/react-query": "5.90.5",
+    "react": "19.2.8"
+  },
   "devDependencies": {
+    "@tanstack/react-query": "5.90.5",
+    "@types/react": "19.2.14",
     "openapi-typescript": "7.13.0",
+    "react": "19.2.8",
     "typescript": "5.9.3",
     "vite": "7.3.6"
   }
