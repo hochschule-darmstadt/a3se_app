@@ -25,3 +25,17 @@ component reads, keyset pagination, and direction-sensitive delete-conflict
 protection (a role blocks its person's deletion; deleting the role first,
 then the person, succeeds). It deletes only nodes whose synthetic `entityId`
 begins with `I21-`.
+
+The issue #12 suite (`test_seed_data_integration.py`) loads the real,
+committed `backend/scripts/seed/sources/*.json` through
+`seed.orchestrator.run_seed` -- the same code path `python
+backend/scripts/seed_data.py` runs -- including the full ~23k-item 2027
+stock calendar, so it takes several minutes (opt-in only, per the gating
+above; it never runs as part of `npm run backend:check`). It proves exact
+per-kind creation counts, idempotent rerun, reset-and-reload, the full
+relationship-vocabulary chain (`HAS_ROLE`/`CONTAINS`/`SUPPLIED_BY`/
+`REPRESENTS_PRODUCT`/`ALLOCATES_STOCK`/`CUSTOMER`/`ASSIGNED_TRAVELLER`) for
+one order end to end, `FLT-01`'s recursive leg composition, that reserve
+catalog entries never receive stock, and that the same product has both a
+queryably zero-availability date and a queryably available date. It deletes
+only nodes whose `entityId` matches `orchestrator.SEED_ID_PREFIXES`.

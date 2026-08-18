@@ -25,3 +25,4 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0011](0011-use-docker-for-localhost-deployment.md) | Use Docker for the initial localhost deployment | accepted | 2026-08-14 | none |
 | [DR-0012](0012-use-validated-property-registry-and-direct-neo4j-properties.md) | Use a validated property registry and direct Neo4j properties | accepted | 2026-08-17 | none |
 | [DR-0013](0013-shared-resource-crud-api-and-openapi-contract.md) | Shared resource CRUD API, aggregate boundaries, and generated TypeScript client | accepted | 2026-08-18 | none |
+| [DR-0014](0014-deterministic-seed-data-and-compose-seeding.md) | Deterministic seed data representation, generation, and Compose seeding | accepted | 2026-08-18 | none |

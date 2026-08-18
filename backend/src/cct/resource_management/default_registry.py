@@ -25,6 +25,13 @@ def create_entity_registry() -> EntityTypeRegistry:
         "product/mobility/vehicle-rental", "product/water/day-boat", "product/water/cruise",
         "product/experience/guided-tour", "product/experience/activity", "product/protection/travel",
     )
+    additional_stock_types = (
+        "stock/accommodation/room-category",
+        "stock/mobility/transfer", "stock/mobility/rail", "stock/mobility/coach", "stock/mobility/vehicle-rental",
+        "stock/water/day-boat", "stock/water/cruise",
+        "stock/experience/guided-tour", "stock/experience/activity",
+        "stock/protection/travel",
+    )
     contracts = {
         (EntityKind.PERSON, None): PersonProperties,
         (EntityKind.PERSON_ROLE, "person/customer"): CustomerRoleProperties,
@@ -45,4 +52,6 @@ def create_entity_registry() -> EntityTypeRegistry:
         contracts[(EntityKind.ORGA_ROLE, value)] = EmptySupplierRoleProperties
     for value in empty_product_types:
         contracts[(EntityKind.TOURISTIC_PRODUCT_ITEM, value)] = EmptyProductProperties
+    for value in additional_stock_types:
+        contracts[(EntityKind.STOCK_ITEM, value)] = StockProperties
     return EntityTypeRegistry(contracts)

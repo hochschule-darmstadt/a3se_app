@@ -104,6 +104,34 @@ class StockItemServiceTest(unittest.TestCase):
         )
         self.assertEqual(Decimal("600.00"), updated.properties.unit_price_amount)
 
+    def test_create_stock_item_accepts_every_new_family_type(self) -> None:
+        # Issue #12: ten stock/* identifiers added for the mobility/water/
+        # experience/protection/accommodation families the scenarios allocate
+        # order positions against; all reuse the common StockProperties shape.
+        for stock_type in (
+            "stock/accommodation/room-category",
+            "stock/mobility/transfer",
+            "stock/mobility/rail",
+            "stock/mobility/coach",
+            "stock/mobility/vehicle-rental",
+            "stock/water/day-boat",
+            "stock/water/cruise",
+            "stock/experience/guided-tour",
+            "stock/experience/activity",
+            "stock/protection/travel",
+        ):
+            with self.subTest(stock_type=stock_type):
+                entity_id = f"I12-STOCK-{stock_type.split('/')[-1]}"
+                entity = service.create_stock_item(
+                    self.repository,
+                    entity_id=entity_id,
+                    type=stock_type,
+                    properties=stock_properties(),
+                    product_id="I21-FLIGHT",
+                    product_repository=self.product_repository,
+                )
+                self.assertEqual(stock_type, entity.type)
+
     def test_delete_stock_item_removes_entity(self) -> None:
         service.create_stock_item(
             self.repository,

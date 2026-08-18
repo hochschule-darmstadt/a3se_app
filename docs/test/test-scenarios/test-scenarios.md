@@ -58,7 +58,7 @@ Coverage includes Brazil, Argentina, Chile, Peru, Colombia, and Ecuador; urban, 
 
 - Create one `Person` per `PER-*`; assign `person/traveller` to every participant and `person/customer` only to the named customer. The customer owns the future `order/header`.
 - Create each `SUP-*` once as an `Organisation` with the applicable supplier `OrgaRole`. Create each referenced `*-nn` product once as a reusable `TouristicProductItem`, owned by its supplier role. Product composition is recursive: journeys contain legs/services; accommodation products may contain room categories.
-- Later work may instantiate dated `StockItem`s from products and `order/position`s from stock. This specification intentionally contains neither.
+- Later work may instantiate dated `StockItem`s from products and `order/position`s from stock. This specification intentionally contains neither. Issue #12's [seed data](../../../backend/scripts/seed/README.md) does this, sourced from this document and [catalogs.md](catalogs.md).
 - Validate referential integrity, traveller age on departure, occupancy/capacity, chronological continuity, airport codes, supplier ownership, and that every order position identifies its travellers.
 - Flexible keys and values are governed by the [terminology catalog](../../architecture/entity-model/terminology.md). Scenario prose such as style and constraints is test intent, not permission to invent entity properties.
 

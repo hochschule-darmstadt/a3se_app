@@ -1,0 +1,833 @@
+{
+  "schemaVersion": 1,
+  "organisations": [
+    {
+      "entityId": "SUP-AIR-01",
+      "properties": {
+        "name": "Condorleaf Air"
+      },
+      "role": {
+        "entityId": "SUP-AIR-01-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "0Q"
+        }
+      },
+      "reserve": false
+    },
+    {
+      "entityId": "SUP-AIR-02",
+      "properties": {
+        "name": "Blue Pampa Airways"
+      },
+      "role": {
+        "entityId": "SUP-AIR-02-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "1Q"
+        }
+      },
+      "reserve": false
+    },
+    {
+      "entityId": "SUP-ACC-01",
+      "properties": {
+        "name": "Southlight Stays"
+      },
+      "role": {
+        "entityId": "SUP-ACC-01-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": false
+    },
+    {
+      "entityId": "SUP-MOB-01",
+      "properties": {
+        "name": "Meridian Groundways"
+      },
+      "role": {
+        "entityId": "SUP-MOB-01-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": false
+    },
+    {
+      "entityId": "SUP-WTR-01",
+      "properties": {
+        "name": "Pelican Passage"
+      },
+      "role": {
+        "entityId": "SUP-WTR-01-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": false
+    },
+    {
+      "entityId": "SUP-EXP-01",
+      "properties": {
+        "name": "Andes & Atlantic Guides"
+      },
+      "role": {
+        "entityId": "SUP-EXP-01-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": false
+    },
+    {
+      "entityId": "SUP-OTH-01",
+      "properties": {
+        "name": "Safepath Travel Cover"
+      },
+      "role": {
+        "entityId": "SUP-OTH-01-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": false
+    },
+    {
+      "entityId": "SUP-AIR-11",
+      "properties": {
+        "name": "Alderwing Air"
+      },
+      "role": {
+        "entityId": "SUP-AIR-11-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "2Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-12",
+      "properties": {
+        "name": "Brisa Meridian"
+      },
+      "role": {
+        "entityId": "SUP-AIR-12-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "3Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-13",
+      "properties": {
+        "name": "Copper Kite"
+      },
+      "role": {
+        "entityId": "SUP-AIR-13-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "4Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-14",
+      "properties": {
+        "name": "Estuary Air"
+      },
+      "role": {
+        "entityId": "SUP-AIR-14-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "5Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-15",
+      "properties": {
+        "name": "Fjordleaf Aviation"
+      },
+      "role": {
+        "entityId": "SUP-AIR-15-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "6Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-16",
+      "properties": {
+        "name": "Golden Tern"
+      },
+      "role": {
+        "entityId": "SUP-AIR-16-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "7Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-17",
+      "properties": {
+        "name": "Horizon Quipu"
+      },
+      "role": {
+        "entityId": "SUP-AIR-17-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "8Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-18",
+      "properties": {
+        "name": "Indigo Pampas"
+      },
+      "role": {
+        "entityId": "SUP-AIR-18-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "9Q"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-19",
+      "properties": {
+        "name": "Juniper Condor"
+      },
+      "role": {
+        "entityId": "SUP-AIR-19-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "2X"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-AIR-20",
+      "properties": {
+        "name": "Kestrel Sur"
+      },
+      "role": {
+        "entityId": "SUP-AIR-20-ROLE",
+        "type": "partner/supplier/airline",
+        "properties": {
+          "airlineDesignator": "3X"
+        }
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-11",
+      "properties": {
+        "name": "Amber Courtyard"
+      },
+      "role": {
+        "entityId": "SUP-ACC-11-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-12",
+      "properties": {
+        "name": "Bramble House"
+      },
+      "role": {
+        "entityId": "SUP-ACC-12-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-13",
+      "properties": {
+        "name": "Cloudstep Lodges"
+      },
+      "role": {
+        "entityId": "SUP-ACC-13-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-14",
+      "properties": {
+        "name": "Dune Lantern"
+      },
+      "role": {
+        "entityId": "SUP-ACC-14-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-15",
+      "properties": {
+        "name": "Estrella Rooms"
+      },
+      "role": {
+        "entityId": "SUP-ACC-15-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-16",
+      "properties": {
+        "name": "Fern Plaza"
+      },
+      "role": {
+        "entityId": "SUP-ACC-16-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-17",
+      "properties": {
+        "name": "Granite Patio"
+      },
+      "role": {
+        "entityId": "SUP-ACC-17-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-18",
+      "properties": {
+        "name": "Harbour Loom"
+      },
+      "role": {
+        "entityId": "SUP-ACC-18-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-19",
+      "properties": {
+        "name": "Indigo Terrace"
+      },
+      "role": {
+        "entityId": "SUP-ACC-19-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-ACC-20",
+      "properties": {
+        "name": "Jacaranda Rest"
+      },
+      "role": {
+        "entityId": "SUP-ACC-20-ROLE",
+        "type": "partner/supplier/accommodation",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-11",
+      "properties": {
+        "name": "Atlas Shuttle"
+      },
+      "role": {
+        "entityId": "SUP-MOB-11-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-12",
+      "properties": {
+        "name": "Birch Roadways"
+      },
+      "role": {
+        "entityId": "SUP-MOB-12-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-13",
+      "properties": {
+        "name": "Cobalt Transit"
+      },
+      "role": {
+        "entityId": "SUP-MOB-13-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-14",
+      "properties": {
+        "name": "Delta Wheels"
+      },
+      "role": {
+        "entityId": "SUP-MOB-14-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-15",
+      "properties": {
+        "name": "Ember Rail"
+      },
+      "role": {
+        "entityId": "SUP-MOB-15-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-16",
+      "properties": {
+        "name": "Fieldstone Coaches"
+      },
+      "role": {
+        "entityId": "SUP-MOB-16-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-17",
+      "properties": {
+        "name": "Green Mile Hire"
+      },
+      "role": {
+        "entityId": "SUP-MOB-17-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-18",
+      "properties": {
+        "name": "Highplain Transfer"
+      },
+      "role": {
+        "entityId": "SUP-MOB-18-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-19",
+      "properties": {
+        "name": "Iris Mobility"
+      },
+      "role": {
+        "entityId": "SUP-MOB-19-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-MOB-20",
+      "properties": {
+        "name": "Juno Routes"
+      },
+      "role": {
+        "entityId": "SUP-MOB-20-ROLE",
+        "type": "partner/supplier/mobility",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-11",
+      "properties": {
+        "name": "Albatross Wake"
+      },
+      "role": {
+        "entityId": "SUP-WTR-11-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-12",
+      "properties": {
+        "name": "Bayleaf Voyages"
+      },
+      "role": {
+        "entityId": "SUP-WTR-12-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-13",
+      "properties": {
+        "name": "Current & Cove"
+      },
+      "role": {
+        "entityId": "SUP-WTR-13-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-14",
+      "properties": {
+        "name": "Dolphin Passage"
+      },
+      "role": {
+        "entityId": "SUP-WTR-14-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-15",
+      "properties": {
+        "name": "Estuary Sail"
+      },
+      "role": {
+        "entityId": "SUP-WTR-15-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-16",
+      "properties": {
+        "name": "Foamline Cruises"
+      },
+      "role": {
+        "entityId": "SUP-WTR-16-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-17",
+      "properties": {
+        "name": "Gullwater"
+      },
+      "role": {
+        "entityId": "SUP-WTR-17-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-18",
+      "properties": {
+        "name": "Harbour Finch"
+      },
+      "role": {
+        "entityId": "SUP-WTR-18-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-19",
+      "properties": {
+        "name": "Island Thread"
+      },
+      "role": {
+        "entityId": "SUP-WTR-19-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-WTR-20",
+      "properties": {
+        "name": "Juniper Wake"
+      },
+      "role": {
+        "entityId": "SUP-WTR-20-ROLE",
+        "type": "partner/supplier/water-transport",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-11",
+      "properties": {
+        "name": "Altitude Stories"
+      },
+      "role": {
+        "entityId": "SUP-EXP-11-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-12",
+      "properties": {
+        "name": "Barrio Walks"
+      },
+      "role": {
+        "entityId": "SUP-EXP-12-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-13",
+      "properties": {
+        "name": "Canopy Compass"
+      },
+      "role": {
+        "entityId": "SUP-EXP-13-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-14",
+      "properties": {
+        "name": "Desert Lantern"
+      },
+      "role": {
+        "entityId": "SUP-EXP-14-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-15",
+      "properties": {
+        "name": "Estuary Encounters"
+      },
+      "role": {
+        "entityId": "SUP-EXP-15-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-16",
+      "properties": {
+        "name": "Forest Notebook"
+      },
+      "role": {
+        "entityId": "SUP-EXP-16-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-17",
+      "properties": {
+        "name": "Glacier Steps"
+      },
+      "role": {
+        "entityId": "SUP-EXP-17-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-18",
+      "properties": {
+        "name": "Heritage Thread"
+      },
+      "role": {
+        "entityId": "SUP-EXP-18-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-19",
+      "properties": {
+        "name": "Island Lens"
+      },
+      "role": {
+        "entityId": "SUP-EXP-19-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-EXP-20",
+      "properties": {
+        "name": "Jungle Almanac"
+      },
+      "role": {
+        "entityId": "SUP-EXP-20-ROLE",
+        "type": "partner/supplier/experience",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-11",
+      "properties": {
+        "name": "Amber Shield"
+      },
+      "role": {
+        "entityId": "SUP-OTH-11-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-12",
+      "properties": {
+        "name": "Borderless Cover"
+      },
+      "role": {
+        "entityId": "SUP-OTH-12-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-13",
+      "properties": {
+        "name": "Compass Guard"
+      },
+      "role": {
+        "entityId": "SUP-OTH-13-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-14",
+      "properties": {
+        "name": "Departure Safe"
+      },
+      "role": {
+        "entityId": "SUP-OTH-14-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-15",
+      "properties": {
+        "name": "Evergreen Assist"
+      },
+      "role": {
+        "entityId": "SUP-OTH-15-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-16",
+      "properties": {
+        "name": "Farway Cover"
+      },
+      "role": {
+        "entityId": "SUP-OTH-16-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-17",
+      "properties": {
+        "name": "Globe Shelter"
+      },
+      "role": {
+        "entityId": "SUP-OTH-17-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-18",
+      "properties": {
+        "name": "Horizon Help"
+      },
+      "role": {
+        "entityId": "SUP-OTH-18-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-19",
+      "properties": {
+        "name": "Itinerary Guard"
+      },
+      "role": {
+        "entityId": "SUP-OTH-19-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    },
+    {
+      "entityId": "SUP-OTH-20",
+      "properties": {
+        "name": "Journey Safeguard"
+      },
+      "role": {
+        "entityId": "SUP-OTH-20-ROLE",
+        "type": "partner/supplier/protection",
+        "properties": {}
+      },
+      "reserve": true
+    }
+  ]
+}

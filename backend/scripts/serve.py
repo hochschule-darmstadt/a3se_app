@@ -3,7 +3,11 @@
 Usage: python backend/scripts/serve.py
 Reads CCT_NEO4J_URI / CCT_NEO4J_USER / CCT_NEO4J_PASSWORD / CCT_NEO4J_DATABASE
 (only the password is required; the rest default to the same localhost/
-Community values used elsewhere in this repository).
+Community values used elsewhere in this repository). CCT_API_HOST defaults
+to loopback-only (127.0.0.1, matching deployment-architecture.md's intended
+host-side exposure); the Docker Compose `api` service (DR-0014) overrides it
+to 0.0.0.0 so the process is reachable across the container network -- the
+host port mapping is still the only thing exposed to the host.
 
 This is the one place in the repository allowed to import both cct.api and
 cct.infrastructure -- see DR-0013 and this directory's README.
@@ -55,7 +59,8 @@ def main() -> None:
 
         app = create_app()
         app.state.dependencies = build_dependencies(driver, database)
-        uvicorn.run(app, host="127.0.0.1", port=8000)
+        host = os.environ.get("CCT_API_HOST", "127.0.0.1")
+        uvicorn.run(app, host=host, port=8000)
     finally:
         driver.close()
 

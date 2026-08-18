@@ -1,0 +1,75 @@
+# Localhost PoC topology (DR-0011, DR-0014). `api`/`neo4j` start with the
+# default profile; `seed`/`seed-reset` are profile-gated one-shot services so
+# ordinary `docker compose up` never mutates or duplicates retained data --
+# an operator opts in explicitly. Frontend containerization is intentionally
+# out of scope here (see backend/scripts/seed/README.md's recorded
+# limitations); this file covers only what issue #12 needed to prove the
+# seed entry point end to end.
+services:
+  neo4j:
+    image: neo4j:2025.06.0-community
+    environment:
+      NEO4J_AUTH: "neo4j/${CCT_NEO4J_PASSWORD:?set CCT_NEO4J_PASSWORD in the environment or a .env file}"
+    volumes:
+      - neo4j-data:/data
+    networks:
+      - cct
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  api:
+    build:
+      context: ./backend
+    environment:
+      CCT_NEO4J_URI: bolt://neo4j:7687
+      CCT_NEO4J_USER: neo4j
+      CCT_NEO4J_PASSWORD: "${CCT_NEO4J_PASSWORD:?set CCT_NEO4J_PASSWORD in the environment or a .env file}"
+      CCT_API_HOST: 0.0.0.0
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    networks:
+      - cct
+
+  seed:
+    build:
+      context: ./backend
+    command: ["python", "scripts/seed_data.py"]
+    environment:
+      CCT_NEO4J_URI: bolt://neo4j:7687
+      CCT_NEO4J_USER: neo4j
+      CCT_NEO4J_PASSWORD: "${CCT_NEO4J_PASSWORD:?set CCT_NEO4J_PASSWORD in the environment or a .env file}"
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    networks:
+      - cct
+    profiles:
+      - seed
+
+  seed-reset:
+    build:
+      context: ./backend
+    command: ["python", "scripts/seed_data.py", "--reset"]
+    environment:
+      CCT_NEO4J_URI: bolt://neo4j:7687
+      CCT_NEO4J_USER: neo4j
+      CCT_NEO4J_PASSWORD: "${CCT_NEO4J_PASSWORD:?set CCT_NEO4J_PASSWORD in the environment or a .env file}"
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    networks:
+      - cct
+    profiles:
+      - seed
+
+networks:
+  cct:
+
+volumes:
+  neo4j-data:

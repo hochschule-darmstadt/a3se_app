@@ -1,0 +1,640 @@
+{
+  "schemaVersion": 1,
+  "persons": [
+    {
+      "entityId": "PER-001",
+      "properties": {
+        "givenName": "Ada",
+        "familyName": "Kern",
+        "addressLocalityName": "Berlin"
+      },
+      "roles": [
+        {
+          "entityId": "PER-001-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-001-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-001"
+    },
+    {
+      "entityId": "PER-002",
+      "properties": {
+        "givenName": "Emil",
+        "familyName": "Brandt",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-002-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-002-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-002"
+    },
+    {
+      "entityId": "PER-003",
+      "properties": {
+        "givenName": "Noor",
+        "familyName": "Brandt",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-003-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-002"
+    },
+    {
+      "entityId": "PER-004",
+      "properties": {
+        "givenName": "Lin",
+        "familyName": "Vogel",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-004-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-004-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-003"
+    },
+    {
+      "entityId": "PER-005",
+      "properties": {
+        "givenName": "Mia",
+        "familyName": "Vogel",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-005-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-003"
+    },
+    {
+      "entityId": "PER-006",
+      "properties": {
+        "givenName": "Jan",
+        "familyName": "Vogel",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-006-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-003"
+    },
+    {
+      "entityId": "PER-007",
+      "properties": {
+        "givenName": "Liv",
+        "familyName": "Vogel",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-007-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-003"
+    },
+    {
+      "entityId": "PER-008",
+      "properties": {
+        "givenName": "Mara",
+        "familyName": "Winter",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-008-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-008-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-004"
+    },
+    {
+      "entityId": "PER-009",
+      "properties": {
+        "givenName": "Theo",
+        "familyName": "Winter",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-009-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-004"
+    },
+    {
+      "entityId": "PER-010",
+      "properties": {
+        "givenName": "Nils",
+        "familyName": "Urban",
+        "addressLocalityName": "Berlin"
+      },
+      "roles": [
+        {
+          "entityId": "PER-010-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-010-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-005"
+    },
+    {
+      "entityId": "PER-011",
+      "properties": {
+        "givenName": "Sara",
+        "familyName": "Roth",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-011-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-011-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-006"
+    },
+    {
+      "entityId": "PER-012",
+      "properties": {
+        "givenName": "Uwe",
+        "familyName": "Roth",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-012-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-006"
+    },
+    {
+      "entityId": "PER-013",
+      "properties": {
+        "givenName": "Lio",
+        "familyName": "Roth",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-013-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-006"
+    },
+    {
+      "entityId": "PER-014",
+      "properties": {
+        "givenName": "Cleo",
+        "familyName": "Seidel",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-014-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-014-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-007"
+    },
+    {
+      "entityId": "PER-015",
+      "properties": {
+        "givenName": "Ivo",
+        "familyName": "Seidel",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-015-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-007"
+    },
+    {
+      "entityId": "PER-016",
+      "properties": {
+        "givenName": "Jona",
+        "familyName": "Falk",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-016-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-016-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-008"
+    },
+    {
+      "entityId": "PER-017",
+      "properties": {
+        "givenName": "Pia",
+        "familyName": "Berg",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-017-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-017-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-009"
+    },
+    {
+      "entityId": "PER-018",
+      "properties": {
+        "givenName": "Tom",
+        "familyName": "Berg",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-018-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-009"
+    },
+    {
+      "entityId": "PER-019",
+      "properties": {
+        "givenName": "Zoe",
+        "familyName": "Berg",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-019-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-009"
+    },
+    {
+      "entityId": "PER-020",
+      "properties": {
+        "givenName": "Ole",
+        "familyName": "Berg",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-020-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-009"
+    },
+    {
+      "entityId": "PER-021",
+      "properties": {
+        "givenName": "Ravi",
+        "familyName": "Blum",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-021-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-021-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-010"
+    },
+    {
+      "entityId": "PER-022",
+      "properties": {
+        "givenName": "Anja",
+        "familyName": "Kraft",
+        "addressLocalityName": "Berlin"
+      },
+      "roles": [
+        {
+          "entityId": "PER-022-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-022-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-011"
+    },
+    {
+      "entityId": "PER-023",
+      "properties": {
+        "givenName": "Luis",
+        "familyName": "Kraft",
+        "addressLocalityName": "Berlin"
+      },
+      "roles": [
+        {
+          "entityId": "PER-023-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-011"
+    },
+    {
+      "entityId": "PER-024",
+      "properties": {
+        "givenName": "Esra",
+        "familyName": "Haas",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-024-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-024-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-012"
+    },
+    {
+      "entityId": "PER-025",
+      "properties": {
+        "givenName": "Finn",
+        "familyName": "Haas",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-025-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-012"
+    },
+    {
+      "entityId": "PER-026",
+      "properties": {
+        "givenName": "Kim",
+        "familyName": "Wolf",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-026-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-026-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-013"
+    },
+    {
+      "entityId": "PER-027",
+      "properties": {
+        "givenName": "Sam",
+        "familyName": "Wolf",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-027-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-013"
+    },
+    {
+      "entityId": "PER-028",
+      "properties": {
+        "givenName": "Ava",
+        "familyName": "Wolf",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-028-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-013"
+    },
+    {
+      "entityId": "PER-029",
+      "properties": {
+        "givenName": "Ben",
+        "familyName": "Wolf",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-029-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-013"
+    },
+    {
+      "entityId": "PER-030",
+      "properties": {
+        "givenName": "Evi",
+        "familyName": "Wolf",
+        "addressLocalityName": "Munich"
+      },
+      "roles": [
+        {
+          "entityId": "PER-030-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-013"
+    },
+    {
+      "entityId": "PER-031",
+      "properties": {
+        "givenName": "Oda",
+        "familyName": "Link",
+        "addressLocalityName": "Berlin"
+      },
+      "roles": [
+        {
+          "entityId": "PER-031-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-031-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-014"
+    },
+    {
+      "entityId": "PER-032",
+      "properties": {
+        "givenName": "Vera",
+        "familyName": "Koch",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-032-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        },
+        {
+          "entityId": "PER-032-CUSTOMER",
+          "type": "person/customer",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-015"
+    },
+    {
+      "entityId": "PER-033",
+      "properties": {
+        "givenName": "Yan",
+        "familyName": "Koch",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-033-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-015"
+    },
+    {
+      "entityId": "PER-034",
+      "properties": {
+        "givenName": "Max",
+        "familyName": "Koch",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-034-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-015"
+    },
+    {
+      "entityId": "PER-035",
+      "properties": {
+        "givenName": "Ida",
+        "familyName": "Koch",
+        "addressLocalityName": "Frankfurt am Main"
+      },
+      "roles": [
+        {
+          "entityId": "PER-035-TRAVELLER",
+          "type": "person/traveller",
+          "properties": {}
+        }
+      ],
+      "sourceScenario": "TS-015"
+    }
+  ]
+}

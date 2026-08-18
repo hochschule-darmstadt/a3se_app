@@ -23,7 +23,20 @@ from .schemas import ErrorResponse, Page, PageParams, transport_properties_model
 
 router = APIRouter(prefix="/stock-items", tags=["stock-items"])
 
-STOCK_ITEM_TYPES = ("stock/flight/seat", "stock/hotel/room")
+STOCK_ITEM_TYPES = (
+    "stock/flight/seat",
+    "stock/hotel/room",
+    "stock/accommodation/room-category",
+    "stock/mobility/transfer",
+    "stock/mobility/rail",
+    "stock/mobility/coach",
+    "stock/mobility/vehicle-rental",
+    "stock/water/day-boat",
+    "stock/water/cruise",
+    "stock/experience/guided-tour",
+    "stock/experience/activity",
+    "stock/protection/travel",
+)
 
 # StockProperties has date/Decimal fields; strict=True domain contracts
 # (DR-0012) can never accept the ISO-8601/decimal-as-string JSON wire

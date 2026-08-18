@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "images": [
+    {
+      "productId": "ACC-01",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Room_in_Hotel.jpg",
+      "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Room_in_Hotel.jpg",
+      "imageCreatorCredit": "Віктор Пінчук (Viktor Pinchuk)",
+      "imageLicenceCode": "CC-BY-SA-4.0",
+      "imageLicenceVersion": "4.0",
+      "imageAttributionText": "Віктор Пінчук, CC BY-SA 4.0, via Wikimedia Commons",
+      "imageAltText": "A furnished hotel room with a made bed, bedside lamps, and a window with drawn curtains.",
+      "imageVerifiedDate": "2026-08-18"
+    },
+    {
+      "productId": "FLT-01",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Interior_of_Air_France_A380_lower_deck_economy_cabin.jpg",
+      "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Interior_of_Air_France_A380_lower_deck_economy_cabin.jpg",
+      "imageCreatorCredit": "Beyond My Ken",
+      "imageLicenceCode": "CC-BY-SA-4.0",
+      "imageLicenceVersion": "4.0",
+      "imageAttributionText": "Beyond My Ken, CC BY-SA 4.0, via Wikimedia Commons",
+      "imageAltText": "Rows of economy-class aircraft seats in the lower deck cabin of a wide-body airliner.",
+      "imageVerifiedDate": "2026-08-18"
+    },
+    {
+      "productId": "EXP-06",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Free_Walking_Tour_Medellin.jpg",
+      "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Free_Walking_Tour_Medellin.jpg",
+      "imageCreatorCredit": "Free Walking Tours Medellin",
+      "imageLicenceCode": "CC-BY-SA-4.0",
+      "imageLicenceVersion": "4.0",
+      "imageAttributionText": "Free Walking Tours Medellin, CC BY-SA 4.0, via Wikimedia Commons",
+      "imageAltText": "A guide leads a group of visitors on a walking tour through a city street.",
+      "imageVerifiedDate": "2026-08-18"
+    },
+    {
+      "productId": "WTR-02",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/MS_Grand_Rose_R02.jpg",
+      "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:MS_Grand_Rose_R02.jpg",
+      "imageCreatorCredit": "Marc Ryckaert (MJJR)",
+      "imageLicenceCode": "CC-BY-SA-4.0",
+      "imageLicenceVersion": "4.0",
+      "imageAttributionText": "Marc Ryckaert (MJJR), CC BY-SA 4.0, via Wikimedia Commons",
+      "imageAltText": "A multi-deck river cruise ship moored on a riverbank.",
+      "imageVerifiedDate": "2026-08-18"
+    },
+    {
+      "productId": "MOB-01",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Fox_shuttle_bus,_MIA_Rental_Car_Center.jpg",
+      "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Fox_shuttle_bus,_MIA_Rental_Car_Center.jpg",
+      "imageCreatorCredit": "Xnatedawgx",
+      "imageLicenceCode": "CC-BY-SA-4.0",
+      "imageLicenceVersion": "4.0",
+      "imageAttributionText": "Xnatedawgx, CC BY-SA 4.0, via Wikimedia Commons",
+      "imageAltText": "A passenger shuttle bus used for airport ground transfers, parked at a terminal.",
+      "imageVerifiedDate": "2026-08-18"
+    },
+    {
+      "productId": "MOB-10",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rental_car_from_Rent-A-Wreck.JPG",
+      "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Rental_car_from_Rent-A-Wreck.JPG",
+      "imageCreatorCredit": "DerSvenson",
+      "imageLicenceCode": "CC-BY-SA-3.0",
+      "imageLicenceVersion": "3.0",
+      "imageAttributionText": "DerSvenson, CC BY-SA 3.0, via Wikimedia Commons",
+      "imageAltText": "A compact rental car parked outdoors on a paved lot.",
+      "imageVerifiedDate": "2026-08-18"
+    },
+    {
+      "productId": "OTH-01",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Passport_documents_desk_(Unsplash).jpg",
+      "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Passport_documents_desk_(Unsplash).jpg",
+      "imageCreatorCredit": "Alex Robert",
+      "imageLicenceCode": "CC0-1.0",
+      "imageLicenceVersion": "1.0",
+      "imageAttributionText": "Alex Robert, CC0 1.0 (public domain dedication), via Wikimedia Commons",
+      "imageAltText": "A passport and travel documents laid out on a desk beside a phone and headphones.",
+      "imageVerifiedDate": "2026-08-18"
+    }
+  ]
+}

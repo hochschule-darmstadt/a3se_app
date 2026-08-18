@@ -1,0 +1,1263 @@
+{
+  "schemaVersion": 1,
+  "products": [
+    {
+      "entityId": "FLT-01",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "501",
+        "departureLocationCode": "BER",
+        "arrivalLocationCode": "LIM",
+        "scheduledDepartureLocalTime": "08:15:00",
+        "scheduledArrivalLocalTime": "18:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-02",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "502",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "GIG",
+        "scheduledDepartureLocalTime": "09:15:00",
+        "scheduledArrivalLocalTime": "19:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-03",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "503",
+        "departureLocationCode": "MUC",
+        "arrivalLocationCode": "GRU",
+        "scheduledDepartureLocalTime": "10:15:00",
+        "scheduledArrivalLocalTime": "20:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-04",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "504",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "SCL",
+        "scheduledDepartureLocalTime": "11:15:00",
+        "scheduledArrivalLocalTime": "21:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-05",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "505",
+        "departureLocationCode": "BER",
+        "arrivalLocationCode": "EZE",
+        "scheduledDepartureLocalTime": "07:15:00",
+        "scheduledArrivalLocalTime": "17:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-06",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "506",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "BOG",
+        "scheduledDepartureLocalTime": "08:15:00",
+        "scheduledArrivalLocalTime": "18:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-07",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "507",
+        "departureLocationCode": "MUC",
+        "arrivalLocationCode": "UIO",
+        "scheduledDepartureLocalTime": "09:15:00",
+        "scheduledArrivalLocalTime": "19:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-08",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "508",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "LIM",
+        "scheduledDepartureLocalTime": "10:15:00",
+        "scheduledArrivalLocalTime": "20:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-09",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "509",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "GIG",
+        "scheduledDepartureLocalTime": "11:15:00",
+        "scheduledArrivalLocalTime": "21:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-10",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "510",
+        "departureLocationCode": "MUC",
+        "arrivalLocationCode": "SCL",
+        "scheduledDepartureLocalTime": "07:15:00",
+        "scheduledArrivalLocalTime": "17:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-11",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "511",
+        "departureLocationCode": "BER",
+        "arrivalLocationCode": "GRU",
+        "scheduledDepartureLocalTime": "08:15:00",
+        "scheduledArrivalLocalTime": "18:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-12",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "512",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "BOG",
+        "scheduledDepartureLocalTime": "09:15:00",
+        "scheduledArrivalLocalTime": "19:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-13",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "513",
+        "departureLocationCode": "MUC",
+        "arrivalLocationCode": "LIM",
+        "scheduledDepartureLocalTime": "10:15:00",
+        "scheduledArrivalLocalTime": "20:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-14",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "514",
+        "departureLocationCode": "BER",
+        "arrivalLocationCode": "EZE",
+        "scheduledDepartureLocalTime": "11:15:00",
+        "scheduledArrivalLocalTime": "21:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-15",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "515",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "UIO",
+        "scheduledDepartureLocalTime": "07:15:00",
+        "scheduledArrivalLocalTime": "17:40:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-01-L2",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "600",
+        "departureLocationCode": "LIM",
+        "arrivalLocationCode": "CUZ",
+        "scheduledDepartureLocalTime": "07:20:00",
+        "scheduledArrivalLocalTime": "08:55:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": "FLT-01",
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-01-L3",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "601",
+        "departureLocationCode": "CUZ",
+        "arrivalLocationCode": "LIM",
+        "scheduledDepartureLocalTime": "17:10:00",
+        "scheduledArrivalLocalTime": "18:45:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": "FLT-01",
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-01-L4",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "602",
+        "departureLocationCode": "LIM",
+        "arrivalLocationCode": "BER",
+        "scheduledDepartureLocalTime": "21:30:00",
+        "scheduledArrivalLocalTime": "16:05:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": "FLT-01",
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-01",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/single"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-02",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-03",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/adjoining"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-04",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-05",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/single"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-06",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/triple"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-07",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-08",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/single"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-09",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-10",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/single"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-11",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-12",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-13",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/family"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-14",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/single"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "ACC-15",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/family"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-01",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-02",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-03",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-04",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-05",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-06",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-07",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-08",
+      "type": "product/mobility/rail",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-09",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-10",
+      "type": "product/mobility/vehicle-rental",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-11",
+      "type": "product/mobility/coach",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-12",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-13",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-14",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "MOB-15",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "WTR-01",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "WTR-02",
+      "type": "product/water/cruise",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "WTR-03",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-01",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-02",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-03",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-04",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-05",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-06",
+      "type": "product/experience/guided-tour",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-07",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-08",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-09",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-10",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-11",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-12",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-13",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-14",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "EXP-15",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "OTH-01",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "OTH-02",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "OTH-03",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "OTH-04",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": false
+    },
+    {
+      "entityId": "FLT-21",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "921",
+        "departureLocationCode": "BER",
+        "arrivalLocationCode": "GIG",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-22",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "922",
+        "departureLocationCode": "FRA",
+        "arrivalLocationCode": "EZE",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-23",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "923",
+        "departureLocationCode": "MUC",
+        "arrivalLocationCode": "SCL",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-24",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "924",
+        "departureLocationCode": "LIM",
+        "arrivalLocationCode": "PUQ",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-25",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "925",
+        "departureLocationCode": "CUZ",
+        "arrivalLocationCode": "BOG",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-26",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "926",
+        "departureLocationCode": "GRU",
+        "arrivalLocationCode": "UIO",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-27",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "927",
+        "departureLocationCode": "GIG",
+        "arrivalLocationCode": "BER",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-28",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "928",
+        "departureLocationCode": "EZE",
+        "arrivalLocationCode": "FRA",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-29",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "929",
+        "departureLocationCode": "SCL",
+        "arrivalLocationCode": "MUC",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "FLT-30",
+      "type": "product/flight",
+      "properties": {
+        "flightNumber": "930",
+        "departureLocationCode": "PUQ",
+        "arrivalLocationCode": "LIM",
+        "scheduledDepartureLocalTime": "10:00:00",
+        "scheduledArrivalLocalTime": "20:00:00"
+      },
+      "supplierRoleId": "SUP-AIR-02-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-21",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-22",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/family"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-23",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/twin"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-24",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/triple"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-25",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/single"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-26",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/suite"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-27",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/family"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-28",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/double"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-29",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/cabin"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "ACC-30",
+      "type": "product/accommodation/room-category",
+      "properties": {
+        "roomTypeCode": "room/twin"
+      },
+      "supplierRoleId": "SUP-ACC-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-21",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-22",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-23",
+      "type": "product/mobility/rail",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-24",
+      "type": "product/mobility/coach",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-25",
+      "type": "product/mobility/vehicle-rental",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-26",
+      "type": "product/mobility/vehicle-rental",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-27",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-28",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-29",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "MOB-30",
+      "type": "product/mobility/transfer",
+      "properties": {},
+      "supplierRoleId": "SUP-MOB-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-21",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-22",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-23",
+      "type": "product/water/cruise",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-24",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-25",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-26",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-27",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-28",
+      "type": "product/water/cruise",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-29",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "WTR-30",
+      "type": "product/water/day-boat",
+      "properties": {},
+      "supplierRoleId": "SUP-WTR-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-21",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-22",
+      "type": "product/experience/guided-tour",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-23",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-24",
+      "type": "product/experience/guided-tour",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-25",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-26",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-27",
+      "type": "product/experience/guided-tour",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-28",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-29",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "EXP-30",
+      "type": "product/experience/activity",
+      "properties": {},
+      "supplierRoleId": "SUP-EXP-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-21",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-22",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-23",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-24",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-25",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-26",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-27",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-28",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-29",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    },
+    {
+      "entityId": "OTH-30",
+      "type": "product/protection/travel",
+      "properties": {},
+      "supplierRoleId": "SUP-OTH-01-ROLE",
+      "parentProductId": null,
+      "reserve": true
+    }
+  ]
+}

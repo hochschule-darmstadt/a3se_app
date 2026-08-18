@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import time
+from datetime import date, time
 import unittest
 
+import pydantic
 from support.fake_entity_repository import FakeEntityRepository
 
 from cct.resource_management.contracts import EntityKind
@@ -136,6 +137,62 @@ class ProductServiceTest(unittest.TestCase):
             (EntityKind.TOURISTIC_PRODUCT_ITEM, "I21-FLIGHT", RelationshipType.SUPPLIED_BY, EntityKind.ORGA_ROLE, "I21-SUPPLIER-ROLE"),
             self.repository.relationship_calls,
         )
+
+    def test_create_product_accepts_complete_image_metadata(self) -> None:
+        # TERM-010 (issue #12): every image field required once imageUrl is set.
+        entity = service.create_product(
+            self.repository,
+            entity_id="I12-FLIGHT-IMG",
+            type="product/flight",
+            properties=flight_properties(
+                imageUrl="https://commons.wikimedia.org/example.jpg",
+                imageSourcePageUrl="https://commons.wikimedia.org/wiki/File:Example.jpg",
+                imageCreatorCredit="Example Creator",
+                imageLicenceCode="CC-BY-SA-4.0",
+                imageLicenceVersion="4.0",
+                imageAttributionText="Example Creator, CC BY-SA 4.0, via Wikimedia Commons",
+                imageAltText="A widebody aircraft on the tarmac.",
+                imageVerifiedDate=date(2026, 8, 18),
+            ),
+        )
+        self.assertEqual("CC-BY-SA-4.0", entity.properties.image_licence_code)
+
+    def test_create_product_rejects_partial_image_metadata(self) -> None:
+        with self.assertRaises(pydantic.ValidationError):
+            service.create_product(
+                self.repository,
+                entity_id="I12-FLIGHT-BADIMG",
+                type="product/flight",
+                properties=flight_properties(imageUrl="https://commons.wikimedia.org/example.jpg"),
+            )
+
+    def test_create_product_rejects_non_https_image_url(self) -> None:
+        with self.assertRaises(pydantic.ValidationError):
+            service.create_product(
+                self.repository,
+                entity_id="I12-FLIGHT-INSECUREIMG",
+                type="product/flight",
+                properties=flight_properties(
+                    imageUrl="http://example.com/example.jpg",
+                    imageSourcePageUrl="https://example.com/source",
+                    imageLicenceCode="CC0-1.0",
+                    imageLicenceVersion="1.0",
+                    imageAttributionText="Public domain",
+                    imageAltText="An aircraft.",
+                    imageVerifiedDate=date(2026, 8, 18),
+                ),
+            )
+
+    def test_create_product_accepts_widened_room_type_codes(self) -> None:
+        for room_type in ("room/single", "room/family", "room/adjoining", "room/cabin"):
+            with self.subTest(room_type=room_type):
+                entity = service.create_product(
+                    self.repository,
+                    entity_id=f"I12-ROOM-{room_type.split('/')[1]}",
+                    type="product/accommodation/room-category",
+                    properties={"roomTypeCode": room_type},
+                )
+                self.assertEqual(room_type, entity.properties.room_type_code)
 
 
 if __name__ == "__main__":

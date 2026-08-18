@@ -54,3 +54,5 @@ Catalog IDs are stable synthetic identifiers. Supplier categories are `airline`,
 | protection | OTH-21 Basic Cancellation; 22 Premium Cancellation; 23 Family Medical; 24 Adventure Medical; 25 Baggage Delay; 26 Connection Protection; 27 Cruise Protection; 28 Rental Excess; 29 Multi-city Cover; 30 Long-stay Cover |
 
 Reserve entries are discovery fixtures, not sellable inventory. A future seed specification must materialize them as organisations/products only unless separate stock rules authorize more.
+
+Issue #12's [seed data](../../../backend/scripts/seed/README.md) materializes every ID in this document -- reserve entries as `Organisation`/`TouristicProductItem` only, exactly as required above.

@@ -16,3 +16,10 @@ at all, and `cct.resource_management` modules depend only on
   `frontend/packages/api-client/generated/openapi.json` with no live
   database (`create_app()` takes no required arguments; OpenAPI generation
   never executes a route or a dependency). Run via `npm run api-client:generate`.
+- `seed_data.py` (issue #12): loads the deterministic `docs/test/test-scenarios`
+  seed data through the same module `service.py` functions the API uses,
+  never a raw Neo4j write. Requires `CCT_NEO4J_PASSWORD`; `--reset` deletes
+  only known seed-ID-prefixed entities first. Composition logic lives in the
+  `seed/` package next to this file (its own README has the full layout);
+  this script is only the CLI entry point, kept alongside `serve.py` for the
+  same reason -- outside `cct`, free to import `cct.infrastructure` directly.

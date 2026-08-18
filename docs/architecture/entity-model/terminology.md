@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture/Requirements
-- Last reviewed: 2026-08-17
+- Last reviewed: 2026-08-18
 
 ## Purpose and authority
 
@@ -47,6 +47,16 @@ Terms use British English and lower camel case for property keys. Type identifie
 | `product/protection/travel` | namespaced code | Travel-protection product definition; coverage and regulation remain unresolved. | Touristic Product Management | none yet | Project extension mapped to OpenTravel insurance concepts |
 | `stock/flight/seat` | namespaced code | Sellable dated inventory for one flight seat. | Inventory | common stock properties in TERM-005 | Project identifier |
 | `stock/hotel/room` | namespaced code | Sellable dated inventory for one hotel room/night. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/accommodation/room-category` | namespaced code | Sellable dated inventory for one accommodation room-category night, independent of hotel classification. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/mobility/transfer` | namespaced code | Sellable dated capacity for one ground-transfer service date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/mobility/rail` | namespaced code | Sellable dated capacity for one passenger-rail service date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/mobility/coach` | namespaced code | Sellable dated capacity for one coach service date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/mobility/vehicle-rental` | namespaced code | Sellable dated capacity for one rental-vehicle service date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/water/day-boat` | namespaced code | Sellable dated capacity for one day-boat service date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/water/cruise` | namespaced code | Sellable dated capacity for one cruise departure date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/experience/guided-tour` | namespaced code | Sellable dated capacity for one guided-tour service date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/experience/activity` | namespaced code | Sellable dated capacity for one bookable-activity service date. | Inventory | common stock properties in TERM-005 | Project identifier |
+| `stock/protection/travel` | namespaced code | Sellable dated capacity for one travel-protection service date. | Inventory | common stock properties in TERM-005 | Project identifier |
 | `order/header` | namespaced code | Root of one Travel Order. | Order Management | required `orderNumber`, `orderStatusCode` | Project identifier mapped to glossary Travel Order |
 | `order/position` | namespaced code | Ordered component contained by an order header. | Order Management | none yet; relationship identifies stock and traveller | Project identifier |
 
@@ -72,8 +82,15 @@ Terms use British English and lower camel case for property keys. Type identifie
 | `scheduledArrivalLocalTime` | local time string, `hh:mm:ss` | Scheduled local arrival time; replaces unexplained `STA`. | Touristic Product Management; `product/flight` | required; ISO 8601-1 local time; itinerary supplies date rollover | ISO 8601-1:2019; OTA schedule concept |
 | `aircraftTypeDesignator` | string, 2–4 alphanumeric characters | Aircraft type used for an operated flight; replaces generic `aircraft`. | Touristic Product Management; `product/flight` | optional; value must exist in current ICAO Doc 8643 data | ICAO Doc 8643, 54th edition (2026), with current AIRAC data preferred |
 | `seatNumber` | string, 1–4 uppercase alphanumeric characters | Carrier-facing seat designation such as `5A`. | Touristic Product Management; `product/flight/seat` | required; `^[1-9][0-9]{0,2}[A-Z]$` for current PoC | OTA seat concept; project restricted format |
-| `roomTypeCode` | namespaced code | Project room-category value because no freely accessible, version-pinned OTA code list has yet been adopted. | Touristic Product Management; room category | required; current value `room/double` | Project extension mapped to OTA room-type concept |
-| `room/double` | namespaced code | Room category intended for two occupants; does not guarantee bed configuration. | Touristic Product Management; `roomTypeCode` | permitted current example | Project extension; exact OTA mapping unresolved |
+| `roomTypeCode` | namespaced code | Project room-category value because no freely accessible, version-pinned OTA code list has yet been adopted. | Touristic Product Management; room category | required; one of `room/single`, `room/double`, `room/twin`, `room/triple`, `room/family`, `room/adjoining`, `room/suite`, `room/cabin` | Project extension mapped to OTA room-type concept |
+| `room/double` | namespaced code | Room category intended for two occupants; does not guarantee bed configuration. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
+| `room/single` | namespaced code | Room category intended for one occupant. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
+| `room/twin` | namespaced code | Room category with two separate beds. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
+| `room/triple` | namespaced code | Room category intended for three occupants. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
+| `room/family` | namespaced code | Room category intended for a family group, larger than triple occupancy. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
+| `room/adjoining` | namespaced code | Two connected room categories bookable together for a family or group. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
+| `room/suite` | namespaced code | Room category with a separate living area in addition to sleeping space. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
+| `room/cabin` | namespaced code | Sleeping accommodation aboard a `product/water/cruise`, modelled with the same room-category properties. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
 | `smokingPreferenceCode` | enum string | Smoking policy/preference for a room category. | Touristic Product Management; room category | optional; `nonSmoking`, `smoking`, or `unspecified` | Project value set mapped to OTA smoking-preference concept |
 | `roomNumber` | string, 1–20 characters | Property-assigned room identifier; kept as string to preserve leading zeros and suffixes. | Touristic Product Management; `product/hotel/room` | required in current example | OTA room-number concept; project logical key |
 
@@ -103,8 +120,11 @@ Terms use British English and lower camel case for property keys. Type identifie
 | ISO 3166-1:2020 plus Maintenance Agency list | maintained external code list | Adopt alpha-2 country codes when country properties are introduced. Not currently used by the object example. ISO permits free use of the codes. |
 | ISO 639:2023 maintained code sets | maintained external code lists | Adopt Set 1 two-letter language identifiers when language properties are introduced. Not currently used by the object example. ISO permits free use of the codes. |
 | ISO 80000-1:2022 | international standard | Governs quantity/unit notation when measured properties are introduced. No measured quantity is currently present. |
+| SPDX License List | maintained external identifier list | Authoritative for the machine-readable `imageLicenceCode` identifiers (TERM-010); free to use, no licence fee. |
+| Creative Commons licence deeds | maintained external licence texts | Authoritative for the meaning and version of each `imageLicenceCode`/`imageLicenceVersion` pair; deeds and legal code are freely publishable. |
+| WCAG 2.2 | international guideline (W3C) | Governs `imageAltText`'s non-text-content requirement; publicly available without licence fee. |
 
-Primary source links: [OpenTravel downloads](https://opentravel.org/download-specs/), [IATA codes](https://www.iata.org/en/services/codes/), [IATA coding databases](https://www.iata.org/acd), [ICAO designators](https://www.icao.int/operational-safety/Designators-and-indicators), [ICAO Doc 8643](https://www.icao.int/operational-safety/doc-8643-aircraft-type-designators), [ISO 8601-1](https://www.iso.org/standard/70907.html), [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html), [ISO 3166](https://www.iso.org/iso-3166-country-codes.html), [ISO 639](https://www.iso.org/iso-639-language-code), and [ISO 80000-1](https://www.iso.org/standard/76921.html).
+Primary source links: [OpenTravel downloads](https://opentravel.org/download-specs/), [IATA codes](https://www.iata.org/en/services/codes/), [IATA coding databases](https://www.iata.org/acd), [ICAO designators](https://www.icao.int/operational-safety/Designators-and-indicators), [ICAO Doc 8643](https://www.icao.int/operational-safety/doc-8643-aircraft-type-designators), [ISO 8601-1](https://www.iso.org/standard/70907.html), [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html), [ISO 3166](https://www.iso.org/iso-3166-country-codes.html), [ISO 639](https://www.iso.org/iso-639-language-code), [ISO 80000-1](https://www.iso.org/standard/76921.html), [SPDX License List](https://spdx.org/licenses/), [Creative Commons licences](https://creativecommons.org/licenses/), and [WCAG 2.2](https://www.w3.org/TR/WCAG22/).
 
 ## TERM-007 Naming, versions, extensions, and deprecation
 
@@ -136,6 +156,8 @@ Primary source links: [OpenTravel downloads](https://opentravel.org/download-spe
 - Address, payment, order lifecycle, room type, and smoking value sets need broader requirements before they can become exhaustive.
 - Personal-data classification, retention, transliteration, multiple names/addresses, and international postal structures remain Security/Privacy and Requirements work.
 - This catalog covers every key and coded value in the current object example and the type identifiers used by the issue #10 test-data catalog. Detailed properties for the newly introduced product families remain deliberately unresolved until their business rules are specified.
+- TERM-010's `imageLicenceCode` value set (`CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`, `PDM-1.0`) covers only the licences issue #12's representative image research actually used; it is not a claim that other Creative Commons or public-domain licence variants are unsuitable, only that they are unneeded until a seeded image uses one.
+- `stock/*` type identifiers now exist for every product family the accepted scenarios allocate order positions against, but their properties remain exactly the common set in TERM-005; family-specific stock properties (e.g. seat class, vehicle category, cabin deck) remain future requirements work.
 
 ## TERM-009 Reconciled object-example terms
 
@@ -158,6 +180,23 @@ Primary source links: [OpenTravel downloads](https://opentravel.org/download-spe
 | `price` → `unitPriceAmount` plus `currencyCode` | deprecated key mapping | Makes amount scope and currency explicit. |
 | `status = paid` → `orderStatusCode = order/paid` | deprecated key/value mapping | Uses the controlled Order Management namespace. |
 
+## TERM-010 Image metadata properties
+
+Added for issue #12 to cover the licensed portal images that seed data attaches to representative touristic resources. Applicable only where `imageUrl` is present; a product with no image simply omits every key in this row set (optional at the entity level, but internally consistent once used).
+
+| Term | Datatype | Description / usage | Owner and applicability | Requirement and validation | Source |
+|---|---|---|---|---|---|
+| `imageUrl` | string, absolute HTTPS URL | Portal-displayable image location for a touristic resource. | Touristic Product Management; any `product/*` type | optional; scheme must be `https://`; other schemes rejected | Project extension; no suitable freely adopted OTA/ISO term confirmed |
+| `imageSourcePageUrl` | string, absolute HTTPS URL | Page documenting the image's origin and licence, kept distinct from the image file itself so the licence can be re-verified. | Touristic Product Management; `imageUrl` present | required whenever `imageUrl` is present | Project extension |
+| `imageCreatorCredit` | string, 0–200 Unicode characters | Creator/photographer credit, when supplied by the source. | Touristic Product Management; `imageUrl` present | optional; empty when the source supplies no credit | Project extension |
+| `imageLicenceCode` | enum string | Machine-readable licence identifier. | Touristic Product Management; `imageUrl` present | required whenever `imageUrl` is present; one of `CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`, `CC-BY-SA-3.0`, `PDM-1.0` | SPDX License List identifiers; Creative Commons licence deeds |
+| `imageLicenceVersion` | string, 1–10 characters | Licence version component, kept distinct from `imageLicenceCode` so a licence-family upgrade stays traceable. | Touristic Product Management; `imageUrl` present | required whenever `imageUrl` is present; e.g. `4.0`, `1.0` | Creative Commons/Public Domain versioning |
+| `imageAttributionText` | string, 1–300 Unicode characters | Ready-to-display attribution line combining creator, source, and licence. | Touristic Product Management; `imageUrl` present | required whenever `imageUrl` is present | Project extension; Creative Commons attribution practice |
+| `imageAltText` | string, 1–200 Unicode characters | Accessible description of the image content and portal context. Must describe the depicted subject, not be derived only from the image filename. | Touristic Product Management; `imageUrl` present | required whenever `imageUrl` is present | WCAG 2.2 non-text-content guidance |
+| `imageVerifiedDate` | calendar date string, `YYYY-MM-DD` | Date the licence and source page were last confirmed current. | Touristic Product Management; `imageUrl` present | required whenever `imageUrl` is present; valid ISO calendar date | ISO 8601-1:2019 |
+
 ## AI-assisted validation record
 
 AI inventoried the diagrams and proposed mappings. Critical review replaced ambiguous `code`, `date`, `price`, `status`, `STD`, and `STA`; rejected treating project type paths as external standard codes; corrected incomplete price semantics by requiring currency; and rejected copying restricted code lists. Stakeholder and independent Requirements/Architecture/Test/Security review remain required before acceptance.
+
+Issue #12 (2026-08-18): AI inventoried every entity/property/coded value the accepted `test-scenarios.md`/`catalogs.md` catalogs require and found two gaps: (1) no `stock/*` type identifier existed for the mobility, water, experience, protection, or non-hotel-accommodation product families the scenarios' orders need to allocate against, so ten identifiers were added (TERM-002), each reusing the existing common stock properties in TERM-005 rather than inventing new ones, since no business rule yet justifies family-specific stock properties; (2) `roomTypeCode` had only one permitted value (`room/double`) while the scenarios and catalog reserve entries reference single/twin/triple/family/adjoining/suite/cabin rooms, so the value set was widened (TERM-004). No existing term was reinterpreted or deprecated. TERM-010 (image metadata) is a wholly new addition, not a reconciliation of prior content; its licence-code value set was deliberately kept to the four Creative Commons/public-domain identifiers issue #12's image research actually used, not a speculative exhaustive list. Rejected during this pass: treating a cruise cabin as a distinct product type (`product/water/cabin`) — modelling it as a `product/accommodation/room-category` nested under the cruise product via `CONTAINS`, with `roomTypeCode = room/cabin`, reuses the existing recursive-composition and room-category machinery instead of adding a parallel one; and giving licence codes a project-controlled `licence/` namespace — reusing external SPDX/Creative Commons identifiers directly avoids both a redundant project vocabulary and a TERM-007 namespace-list edit for values an external authority already defines. See DR-0014 for the full rationale and the seed-generation decisions built on these terms.
