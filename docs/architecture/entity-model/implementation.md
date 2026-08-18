@@ -77,7 +77,7 @@ Edition cannot enforce property existence or types.
 
 | Boundary | Required behavior |
 |---|---|
-| API | Validate transport shape; do not expose database labels or queries |
+| API | Validate transport shape; do not expose database labels or queries. See [API architecture](../api.md) and DR-0013 for the realized contract, aggregate boundaries, and error mapping. |
 | Resource Management module | Select contract and enforce all terminology and cross-property rules |
 | Repository | Accept only a validated entity or validate immediately before a managed transaction |
 | Neo4j | Enforce available uniqueness constraints and indexes; never act as the semantic validator |

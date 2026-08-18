@@ -8,6 +8,7 @@ Architecture translates accepted requirements and constraints into consequential
 
 - [software-architecture/](software-architecture/README.md): reading path for the modular software architecture, interfaces, and use-case interactions
 - [entity-model/](entity-model/README.md): reading path for the generic logical entity model, module ownership, cross-module relationship semantics, and concrete object example
+- [api.md](api.md): HTTP contract realization -- operation catalogue, error contract, pagination, bounded relationship reads, and generated TypeScript client
 - [technology.md](technology.md): accepted technology profile, evaluation, open selections, and validation evidence
 - [security.md](security.md): security and privacy architecture
 

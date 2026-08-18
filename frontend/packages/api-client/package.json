@@ -3,8 +3,15 @@
   "private": true,
   "type": "module",
   "exports": { ".": "./src/index.ts" },
-  "scripts": { "typecheck": "tsc --noEmit" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "generate": "openapi-typescript generated/openapi.json -o src/generated/schema.ts"
+  },
+  "dependencies": {
+    "openapi-fetch": "0.17.0"
+  },
   "devDependencies": {
+    "openapi-typescript": "7.13.0",
     "typescript": "5.9.3",
     "vite": "7.3.6"
   }

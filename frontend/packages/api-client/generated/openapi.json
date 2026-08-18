@@ -1,0 +1,4289 @@
+{
+  "components": {
+    "schemas": {
+      "AirlineRoleProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "airlineDesignator": {
+            "pattern": "^[A-Z0-9]{2}$",
+            "title": "Airlinedesignator",
+            "type": "string"
+          }
+        },
+        "required": [
+          "airlineDesignator"
+        ],
+        "title": "AirlineRoleProperties",
+        "type": "object"
+      },
+      "AirlineRoleRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/AirlineRoleProperties"
+          },
+          "type": {
+            "const": "partner/supplier/airline",
+            "default": "partner/supplier/airline",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "AirlineRoleRequest",
+        "type": "object"
+      },
+      "AllocateStockRequest": {
+        "properties": {
+          "stockItemId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Stockitemid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stockItemId"
+        ],
+        "title": "AllocateStockRequest",
+        "type": "object"
+      },
+      "AssignCustomerRequest": {
+        "properties": {
+          "customerRoleId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Customerroleid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerRoleId"
+        ],
+        "title": "AssignCustomerRequest",
+        "type": "object"
+      },
+      "AssignTravellerRequest": {
+        "properties": {
+          "travellerRoleId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Travellerroleid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "travellerRoleId"
+        ],
+        "title": "AssignTravellerRequest",
+        "type": "object"
+      },
+      "CustomerRoleProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "paymentMethodCode": {
+            "anyOf": [
+              {
+                "const": "payment/paypal",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentmethodcode"
+          }
+        },
+        "title": "CustomerRoleProperties",
+        "type": "object"
+      },
+      "CustomerRoleRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/CustomerRoleProperties"
+          },
+          "type": {
+            "const": "person/customer",
+            "default": "person/customer",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "CustomerRoleRequest",
+        "type": "object"
+      },
+      "EmptyProductProperties": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "EmptyProductProperties",
+        "type": "object"
+      },
+      "EmptyProductRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/EmptyProductProperties",
+            "default": {}
+          },
+          "type": {
+            "enum": [
+              "product/mobility/transfer",
+              "product/mobility/rail",
+              "product/mobility/coach",
+              "product/mobility/vehicle-rental",
+              "product/water/day-boat",
+              "product/water/cruise",
+              "product/experience/guided-tour",
+              "product/experience/activity",
+              "product/protection/travel"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "EmptyProductRequest",
+        "type": "object"
+      },
+      "EmptySupplierRoleProperties": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "EmptySupplierRoleProperties",
+        "type": "object"
+      },
+      "EmptySupplierRoleRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/EmptySupplierRoleProperties",
+            "default": {}
+          },
+          "type": {
+            "enum": [
+              "partner/supplier/hotel",
+              "partner/supplier/accommodation",
+              "partner/supplier/mobility",
+              "partner/supplier/water-transport",
+              "partner/supplier/experience",
+              "partner/supplier/protection"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "EmptySupplierRoleRequest",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "description": "Consistent error contract distinguishing validation/business/conflict/infrastructure outcomes.",
+        "properties": {
+          "detail": {
+            "description": "Specific explanation for this occurrence.",
+            "title": "Detail",
+            "type": "string"
+          },
+          "title": {
+            "description": "Short human-readable summary.",
+            "title": "Title",
+            "type": "string"
+          },
+          "type": {
+            "description": "Stable machine-readable error category, e.g. 'not_found'.",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "detail"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "FlightProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "aircraftTypeDesignator": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Z0-9]{2,4}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aircrafttypedesignator"
+          },
+          "arrivalLocationCode": {
+            "pattern": "^[A-Z]{3}$",
+            "title": "Arrivallocationcode",
+            "type": "string"
+          },
+          "departureLocationCode": {
+            "pattern": "^[A-Z]{3}$",
+            "title": "Departurelocationcode",
+            "type": "string"
+          },
+          "flightNumber": {
+            "pattern": "^[0-9]{1,4}$",
+            "title": "Flightnumber",
+            "type": "string"
+          },
+          "scheduledArrivalLocalTime": {
+            "format": "time",
+            "title": "Scheduledarrivallocaltime",
+            "type": "string"
+          },
+          "scheduledDepartureLocalTime": {
+            "format": "time",
+            "title": "Scheduleddeparturelocaltime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "flightNumber",
+          "departureLocationCode",
+          "arrivalLocationCode",
+          "scheduledDepartureLocalTime",
+          "scheduledArrivalLocalTime"
+        ],
+        "title": "FlightProperties",
+        "type": "object"
+      },
+      "FlightPropertiesTransport": {
+        "additionalProperties": false,
+        "properties": {
+          "aircraftTypeDesignator": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Z0-9]{2,4}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aircrafttypedesignator"
+          },
+          "arrivalLocationCode": {
+            "pattern": "^[A-Z]{3}$",
+            "title": "Arrivallocationcode",
+            "type": "string"
+          },
+          "departureLocationCode": {
+            "pattern": "^[A-Z]{3}$",
+            "title": "Departurelocationcode",
+            "type": "string"
+          },
+          "flightNumber": {
+            "pattern": "^[0-9]{1,4}$",
+            "title": "Flightnumber",
+            "type": "string"
+          },
+          "scheduledArrivalLocalTime": {
+            "format": "time",
+            "title": "Scheduledarrivallocaltime",
+            "type": "string"
+          },
+          "scheduledDepartureLocalTime": {
+            "format": "time",
+            "title": "Scheduleddeparturelocaltime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "flightNumber",
+          "departureLocationCode",
+          "arrivalLocationCode",
+          "scheduledDepartureLocalTime",
+          "scheduledArrivalLocalTime"
+        ],
+        "title": "FlightPropertiesTransport",
+        "type": "object"
+      },
+      "FlightRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/FlightPropertiesTransport"
+          },
+          "type": {
+            "const": "product/flight",
+            "default": "product/flight",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "FlightRequest",
+        "type": "object"
+      },
+      "OrderCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/OrderHeaderProperties"
+          }
+        },
+        "required": [
+          "entityId",
+          "properties"
+        ],
+        "title": "OrderCreateRequest",
+        "type": "object"
+      },
+      "OrderDetailResponse": {
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/OrderResponse"
+          },
+          "positions": {
+            "items": {
+              "$ref": "#/components/schemas/OrderPositionDetail"
+            },
+            "title": "Positions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "order",
+          "positions"
+        ],
+        "title": "OrderDetailResponse",
+        "type": "object"
+      },
+      "OrderHeaderProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "orderNumber": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Ordernumber",
+            "type": "string"
+          },
+          "orderStatusCode": {
+            "enum": [
+              "order/reserved",
+              "order/paid",
+              "order/fulfilled",
+              "order/cancelled"
+            ],
+            "title": "Orderstatuscode",
+            "type": "string"
+          }
+        },
+        "required": [
+          "orderNumber",
+          "orderStatusCode"
+        ],
+        "title": "OrderHeaderProperties",
+        "type": "object"
+      },
+      "OrderPositionCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId"
+        ],
+        "title": "OrderPositionCreateRequest",
+        "type": "object"
+      },
+      "OrderPositionDetail": {
+        "properties": {
+          "positionId": {
+            "title": "Positionid",
+            "type": "string"
+          },
+          "productId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Productid"
+          },
+          "stockItemId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stockitemid"
+          },
+          "supplierOrganisationId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supplierorganisationid"
+          },
+          "travellerPersonId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Travellerpersonid"
+          }
+        },
+        "required": [
+          "positionId",
+          "stockItemId",
+          "productId",
+          "supplierOrganisationId",
+          "travellerPersonId"
+        ],
+        "title": "OrderPositionDetail",
+        "type": "object"
+      },
+      "OrderPositionProperties": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "OrderPositionProperties",
+        "type": "object"
+      },
+      "OrderPositionResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "OrderItem",
+            "default": "OrderItem",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/OrderPositionProperties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "const": "order/position",
+            "default": "order/position",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "OrderPositionResponse",
+        "type": "object"
+      },
+      "OrderResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "OrderItem",
+            "default": "OrderItem",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/OrderHeaderProperties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "const": "order/header",
+            "default": "order/header",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "OrderResponse",
+        "type": "object"
+      },
+      "OrderUpdateRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/OrderHeaderProperties"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "OrderUpdateRequest",
+        "type": "object"
+      },
+      "OrgaRoleCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          },
+          "role": {
+            "discriminator": {
+              "mapping": {
+                "partner/supplier/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/airline": "#/components/schemas/AirlineRoleRequest",
+                "partner/supplier/experience": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/hotel": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/mobility": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/protection": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AirlineRoleRequest"
+              },
+              {
+                "$ref": "#/components/schemas/EmptySupplierRoleRequest"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "required": [
+          "entityId",
+          "role"
+        ],
+        "title": "OrgaRoleCreateRequest",
+        "type": "object"
+      },
+      "OrgaRoleResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "OrgaRole",
+            "default": "OrgaRole",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AirlineRoleProperties"
+              },
+              {
+                "$ref": "#/components/schemas/EmptySupplierRoleProperties"
+              }
+            ],
+            "title": "Properties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "type",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "OrgaRoleResponse",
+        "type": "object"
+      },
+      "OrgaRoleUpdateRequest": {
+        "properties": {
+          "role": {
+            "discriminator": {
+              "mapping": {
+                "partner/supplier/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/airline": "#/components/schemas/AirlineRoleRequest",
+                "partner/supplier/experience": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/hotel": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/mobility": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/protection": "#/components/schemas/EmptySupplierRoleRequest",
+                "partner/supplier/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AirlineRoleRequest"
+              },
+              {
+                "$ref": "#/components/schemas/EmptySupplierRoleRequest"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "OrgaRoleUpdateRequest",
+        "type": "object"
+      },
+      "OrganisationCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/OrganisationProperties"
+          }
+        },
+        "required": [
+          "entityId",
+          "properties"
+        ],
+        "title": "OrganisationCreateRequest",
+        "type": "object"
+      },
+      "OrganisationProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "addressLocalityName": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresslocalityname"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "OrganisationProperties",
+        "type": "object"
+      },
+      "OrganisationResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "Organisation",
+            "default": "Organisation",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/OrganisationProperties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entityId",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "OrganisationResponse",
+        "type": "object"
+      },
+      "OrganisationUpdateRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/OrganisationProperties"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "OrganisationUpdateRequest",
+        "type": "object"
+      },
+      "Page_OrderResponse_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextcursor"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Page[OrderResponse]",
+        "type": "object"
+      },
+      "Page_OrganisationResponse_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrganisationResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextcursor"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Page[OrganisationResponse]",
+        "type": "object"
+      },
+      "Page_PersonResponse_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PersonResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextcursor"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Page[PersonResponse]",
+        "type": "object"
+      },
+      "Page_ProductResponse_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProductResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextcursor"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Page[ProductResponse]",
+        "type": "object"
+      },
+      "Page_StockItemResponse_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/StockItemResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextcursor"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Page[StockItemResponse]",
+        "type": "object"
+      },
+      "PersonCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/PersonProperties"
+          }
+        },
+        "required": [
+          "entityId",
+          "properties"
+        ],
+        "title": "PersonCreateRequest",
+        "type": "object"
+      },
+      "PersonProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "addressLocalityName": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresslocalityname"
+          },
+          "familyName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Familyname",
+            "type": "string"
+          },
+          "givenName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Givenname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "givenName",
+          "familyName"
+        ],
+        "title": "PersonProperties",
+        "type": "object"
+      },
+      "PersonResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "Person",
+            "default": "Person",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/PersonProperties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entityId",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "PersonResponse",
+        "type": "object"
+      },
+      "PersonRoleCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          },
+          "role": {
+            "discriminator": {
+              "mapping": {
+                "person/customer": "#/components/schemas/CustomerRoleRequest",
+                "person/traveller": "#/components/schemas/TravellerRoleRequest"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CustomerRoleRequest"
+              },
+              {
+                "$ref": "#/components/schemas/TravellerRoleRequest"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "required": [
+          "entityId",
+          "role"
+        ],
+        "title": "PersonRoleCreateRequest",
+        "type": "object"
+      },
+      "PersonRoleResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "PersonRole",
+            "default": "PersonRole",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CustomerRoleProperties"
+              },
+              {
+                "$ref": "#/components/schemas/TravellerRoleProperties"
+              }
+            ],
+            "title": "Properties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "type",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "PersonRoleResponse",
+        "type": "object"
+      },
+      "PersonRoleUpdateRequest": {
+        "properties": {
+          "role": {
+            "discriminator": {
+              "mapping": {
+                "person/customer": "#/components/schemas/CustomerRoleRequest",
+                "person/traveller": "#/components/schemas/TravellerRoleRequest"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CustomerRoleRequest"
+              },
+              {
+                "$ref": "#/components/schemas/TravellerRoleRequest"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "PersonRoleUpdateRequest",
+        "type": "object"
+      },
+      "PersonUpdateRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/PersonProperties"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "PersonUpdateRequest",
+        "type": "object"
+      },
+      "ProductComponentResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "TouristicProductItem",
+            "default": "TouristicProductItem",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "parentProductId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parentproductid"
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FlightProperties"
+              },
+              {
+                "$ref": "#/components/schemas/SeatProperties"
+              },
+              {
+                "$ref": "#/components/schemas/RoomCategoryProperties"
+              },
+              {
+                "$ref": "#/components/schemas/RoomProperties"
+              },
+              {
+                "$ref": "#/components/schemas/EmptyProductProperties"
+              }
+            ],
+            "title": "Properties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "type",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "ProductComponentResponse",
+        "type": "object"
+      },
+      "ProductCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          },
+          "parentProductId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parentproductid"
+          },
+          "product": {
+            "discriminator": {
+              "mapping": {
+                "product/accommodation/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/experience/activity": "#/components/schemas/EmptyProductRequest",
+                "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
+                "product/flight": "#/components/schemas/FlightRequest",
+                "product/flight/seat": "#/components/schemas/SeatRequest",
+                "product/hotel/room": "#/components/schemas/RoomRequest",
+                "product/hotel/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
+                "product/mobility/rail": "#/components/schemas/EmptyProductRequest",
+                "product/mobility/transfer": "#/components/schemas/EmptyProductRequest",
+                "product/mobility/vehicle-rental": "#/components/schemas/EmptyProductRequest",
+                "product/protection/travel": "#/components/schemas/EmptyProductRequest",
+                "product/water/cruise": "#/components/schemas/EmptyProductRequest",
+                "product/water/day-boat": "#/components/schemas/EmptyProductRequest"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FlightRequest"
+              },
+              {
+                "$ref": "#/components/schemas/SeatRequest"
+              },
+              {
+                "$ref": "#/components/schemas/RoomCategoryRequest"
+              },
+              {
+                "$ref": "#/components/schemas/RoomRequest"
+              },
+              {
+                "$ref": "#/components/schemas/EmptyProductRequest"
+              }
+            ],
+            "title": "Product"
+          }
+        },
+        "required": [
+          "entityId",
+          "product"
+        ],
+        "title": "ProductCreateRequest",
+        "type": "object"
+      },
+      "ProductResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "TouristicProductItem",
+            "default": "TouristicProductItem",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FlightProperties"
+              },
+              {
+                "$ref": "#/components/schemas/SeatProperties"
+              },
+              {
+                "$ref": "#/components/schemas/RoomCategoryProperties"
+              },
+              {
+                "$ref": "#/components/schemas/RoomProperties"
+              },
+              {
+                "$ref": "#/components/schemas/EmptyProductProperties"
+              }
+            ],
+            "title": "Properties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "type",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "ProductResponse",
+        "type": "object"
+      },
+      "ProductUpdateRequest": {
+        "properties": {
+          "product": {
+            "discriminator": {
+              "mapping": {
+                "product/accommodation/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/experience/activity": "#/components/schemas/EmptyProductRequest",
+                "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
+                "product/flight": "#/components/schemas/FlightRequest",
+                "product/flight/seat": "#/components/schemas/SeatRequest",
+                "product/hotel/room": "#/components/schemas/RoomRequest",
+                "product/hotel/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
+                "product/mobility/rail": "#/components/schemas/EmptyProductRequest",
+                "product/mobility/transfer": "#/components/schemas/EmptyProductRequest",
+                "product/mobility/vehicle-rental": "#/components/schemas/EmptyProductRequest",
+                "product/protection/travel": "#/components/schemas/EmptyProductRequest",
+                "product/water/cruise": "#/components/schemas/EmptyProductRequest",
+                "product/water/day-boat": "#/components/schemas/EmptyProductRequest"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FlightRequest"
+              },
+              {
+                "$ref": "#/components/schemas/SeatRequest"
+              },
+              {
+                "$ref": "#/components/schemas/RoomCategoryRequest"
+              },
+              {
+                "$ref": "#/components/schemas/RoomRequest"
+              },
+              {
+                "$ref": "#/components/schemas/EmptyProductRequest"
+              }
+            ],
+            "title": "Product"
+          }
+        },
+        "required": [
+          "product"
+        ],
+        "title": "ProductUpdateRequest",
+        "type": "object"
+      },
+      "RoomCategoryProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "roomTypeCode": {
+            "const": "room/double",
+            "title": "Roomtypecode",
+            "type": "string"
+          },
+          "smokingPreferenceCode": {
+            "anyOf": [
+              {
+                "enum": [
+                  "nonSmoking",
+                  "smoking",
+                  "unspecified"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Smokingpreferencecode"
+          }
+        },
+        "required": [
+          "roomTypeCode"
+        ],
+        "title": "RoomCategoryProperties",
+        "type": "object"
+      },
+      "RoomCategoryRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/RoomCategoryProperties"
+          },
+          "type": {
+            "enum": [
+              "product/hotel/room-category",
+              "product/accommodation/room-category"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "properties"
+        ],
+        "title": "RoomCategoryRequest",
+        "type": "object"
+      },
+      "RoomProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "roomNumber": {
+            "maxLength": 20,
+            "minLength": 1,
+            "title": "Roomnumber",
+            "type": "string"
+          }
+        },
+        "required": [
+          "roomNumber"
+        ],
+        "title": "RoomProperties",
+        "type": "object"
+      },
+      "RoomRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/RoomProperties"
+          },
+          "type": {
+            "const": "product/hotel/room",
+            "default": "product/hotel/room",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "RoomRequest",
+        "type": "object"
+      },
+      "SeatProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "seatNumber": {
+            "pattern": "^[1-9][0-9]{0,2}[A-Z]$",
+            "title": "Seatnumber",
+            "type": "string"
+          }
+        },
+        "required": [
+          "seatNumber"
+        ],
+        "title": "SeatProperties",
+        "type": "object"
+      },
+      "SeatRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/SeatProperties"
+          },
+          "type": {
+            "const": "product/flight/seat",
+            "default": "product/flight/seat",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "SeatRequest",
+        "type": "object"
+      },
+      "SetSupplierRequest": {
+        "properties": {
+          "supplierRoleId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Supplierroleid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "supplierRoleId"
+        ],
+        "title": "SetSupplierRequest",
+        "type": "object"
+      },
+      "StockItemCreateRequest": {
+        "properties": {
+          "entityId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entityid",
+            "type": "string"
+          },
+          "productId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Productid",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/StockPropertiesTransport"
+          },
+          "type": {
+            "enum": [
+              "stock/flight/seat",
+              "stock/hotel/room"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "productId",
+          "type",
+          "properties"
+        ],
+        "title": "StockItemCreateRequest",
+        "type": "object"
+      },
+      "StockItemResponse": {
+        "properties": {
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "StockItem",
+            "default": "StockItem",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/StockProperties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "type",
+          "schemaVersion",
+          "properties"
+        ],
+        "title": "StockItemResponse",
+        "type": "object"
+      },
+      "StockItemUpdateRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/StockPropertiesTransport"
+          },
+          "type": {
+            "enum": [
+              "stock/flight/seat",
+              "stock/hotel/room"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "properties"
+        ],
+        "title": "StockItemUpdateRequest",
+        "type": "object"
+      },
+      "StockProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "currencyCode": {
+            "const": "EUR",
+            "title": "Currencycode",
+            "type": "string"
+          },
+          "serviceDate": {
+            "format": "date",
+            "title": "Servicedate",
+            "type": "string"
+          },
+          "unitPriceAmount": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Unitpriceamount",
+            "type": "string"
+          }
+        },
+        "required": [
+          "serviceDate",
+          "unitPriceAmount",
+          "currencyCode"
+        ],
+        "title": "StockProperties",
+        "type": "object"
+      },
+      "StockPropertiesTransport": {
+        "additionalProperties": false,
+        "properties": {
+          "currencyCode": {
+            "const": "EUR",
+            "title": "Currencycode",
+            "type": "string"
+          },
+          "serviceDate": {
+            "format": "date",
+            "title": "Servicedate",
+            "type": "string"
+          },
+          "unitPriceAmount": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "title": "Unitpriceamount"
+          }
+        },
+        "required": [
+          "serviceDate",
+          "unitPriceAmount",
+          "currencyCode"
+        ],
+        "title": "StockPropertiesTransport",
+        "type": "object"
+      },
+      "TravellerRoleProperties": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "TravellerRoleProperties",
+        "type": "object"
+      },
+      "TravellerRoleRequest": {
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/TravellerRoleProperties"
+          },
+          "type": {
+            "const": "person/traveller",
+            "default": "person/traveller",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "properties"
+        ],
+        "title": "TravellerRoleRequest",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Shared capability-oriented API reused by Customer and Staff Interaction.",
+    "title": "Christopher Columbus Travel API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/orders": {
+      "get": {
+        "operationId": "listOrders",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque cursor from a previous page's nextCursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque cursor from a previous page's nextCursor.",
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_OrderResponse_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Orders",
+        "tags": [
+          "orders"
+        ]
+      },
+      "post": {
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Order",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}": {
+      "delete": {
+        "operationId": "deleteOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Order",
+        "tags": [
+          "orders"
+        ]
+      },
+      "get": {
+        "operationId": "getOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Order",
+        "tags": [
+          "orders"
+        ]
+      },
+      "put": {
+        "operationId": "updateOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Update Order",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}/customer": {
+      "put": {
+        "operationId": "assignOrderCustomer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignCustomerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Assign Customer",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}/detail": {
+      "get": {
+        "operationId": "getOrderDetail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Order Detail",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}/positions": {
+      "get": {
+        "operationId": "listOrderPositions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OrderPositionResponse"
+                  },
+                  "title": "Response Listorderpositions",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Order Positions",
+        "tags": [
+          "orders"
+        ]
+      },
+      "post": {
+        "operationId": "createOrderPosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderPositionCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderPositionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Order Position",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}/positions/{position_id}": {
+      "delete": {
+        "operationId": "deleteOrderPosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "position_id",
+            "required": true,
+            "schema": {
+              "title": "Position Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Order Position",
+        "tags": [
+          "orders"
+        ]
+      },
+      "get": {
+        "operationId": "getOrderPosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "position_id",
+            "required": true,
+            "schema": {
+              "title": "Position Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderPositionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Order Position",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}/positions/{position_id}/stock": {
+      "put": {
+        "operationId": "allocateOrderPositionStock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "position_id",
+            "required": true,
+            "schema": {
+              "title": "Position Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AllocateStockRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Allocate Stock",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}/positions/{position_id}/traveller": {
+      "put": {
+        "operationId": "assignOrderPositionTraveller",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "position_id",
+            "required": true,
+            "schema": {
+              "title": "Position Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignTravellerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Assign Traveller",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/organisations": {
+      "get": {
+        "operationId": "listOrganisations",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque cursor from a previous page's nextCursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque cursor from a previous page's nextCursor.",
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_OrganisationResponse_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Organisations",
+        "tags": [
+          "organisations"
+        ]
+      },
+      "post": {
+        "operationId": "createOrganisation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Organisation",
+        "tags": [
+          "organisations"
+        ]
+      }
+    },
+    "/organisations/{organisation_id}": {
+      "delete": {
+        "operationId": "deleteOrganisation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Organisation",
+        "tags": [
+          "organisations"
+        ]
+      },
+      "get": {
+        "operationId": "getOrganisation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Organisation",
+        "tags": [
+          "organisations"
+        ]
+      },
+      "put": {
+        "operationId": "updateOrganisation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Update Organisation",
+        "tags": [
+          "organisations"
+        ]
+      }
+    },
+    "/organisations/{organisation_id}/roles": {
+      "get": {
+        "operationId": "listOrgaRoles",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OrgaRoleResponse"
+                  },
+                  "title": "Response Listorgaroles",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Orga Roles",
+        "tags": [
+          "organisations"
+        ]
+      },
+      "post": {
+        "operationId": "createOrgaRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgaRoleCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgaRoleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Orga Role",
+        "tags": [
+          "organisations"
+        ]
+      }
+    },
+    "/organisations/{organisation_id}/roles/{role_id}": {
+      "delete": {
+        "operationId": "deleteOrgaRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "title": "Role Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Orga Role",
+        "tags": [
+          "organisations"
+        ]
+      },
+      "get": {
+        "operationId": "getOrgaRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "title": "Role Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgaRoleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Orga Role",
+        "tags": [
+          "organisations"
+        ]
+      },
+      "put": {
+        "operationId": "updateOrgaRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "organisation_id",
+            "required": true,
+            "schema": {
+              "title": "Organisation Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "title": "Role Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgaRoleUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgaRoleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Update Orga Role",
+        "tags": [
+          "organisations"
+        ]
+      }
+    },
+    "/persons": {
+      "get": {
+        "operationId": "listPersons",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque cursor from a previous page's nextCursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque cursor from a previous page's nextCursor.",
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_PersonResponse_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Persons",
+        "tags": [
+          "persons"
+        ]
+      },
+      "post": {
+        "operationId": "createPerson",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Person",
+        "tags": [
+          "persons"
+        ]
+      }
+    },
+    "/persons/{person_id}": {
+      "delete": {
+        "operationId": "deletePerson",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Person",
+        "tags": [
+          "persons"
+        ]
+      },
+      "get": {
+        "operationId": "getPerson",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Person",
+        "tags": [
+          "persons"
+        ]
+      },
+      "put": {
+        "operationId": "updatePerson",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Update Person",
+        "tags": [
+          "persons"
+        ]
+      }
+    },
+    "/persons/{person_id}/roles": {
+      "get": {
+        "operationId": "listPersonRoles",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PersonRoleResponse"
+                  },
+                  "title": "Response Listpersonroles",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Person Roles",
+        "tags": [
+          "persons"
+        ]
+      },
+      "post": {
+        "operationId": "createPersonRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonRoleCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonRoleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Person Role",
+        "tags": [
+          "persons"
+        ]
+      }
+    },
+    "/persons/{person_id}/roles/{role_id}": {
+      "delete": {
+        "operationId": "deletePersonRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "title": "Role Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Person Role",
+        "tags": [
+          "persons"
+        ]
+      },
+      "get": {
+        "operationId": "getPersonRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "title": "Role Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonRoleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Person Role",
+        "tags": [
+          "persons"
+        ]
+      },
+      "put": {
+        "operationId": "updatePersonRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "person_id",
+            "required": true,
+            "schema": {
+              "title": "Person Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "title": "Role Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonRoleUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonRoleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Update Person Role",
+        "tags": [
+          "persons"
+        ]
+      }
+    },
+    "/products": {
+      "get": {
+        "operationId": "listProducts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque cursor from a previous page's nextCursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque cursor from a previous page's nextCursor.",
+              "title": "Cursor"
+            }
+          },
+          {
+            "description": "Filter by exact terminology type, e.g. product/flight",
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by exact terminology type, e.g. product/flight",
+              "title": "Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_ProductResponse_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Products",
+        "tags": [
+          "products"
+        ]
+      },
+      "post": {
+        "operationId": "createProduct",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Product",
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/products/{product_id}": {
+      "delete": {
+        "operationId": "deleteProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "title": "Product Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Product",
+        "tags": [
+          "products"
+        ]
+      },
+      "get": {
+        "operationId": "getProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "title": "Product Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Product",
+        "tags": [
+          "products"
+        ]
+      },
+      "put": {
+        "operationId": "updateProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "title": "Product Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Update Product",
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/products/{product_id}/components": {
+      "get": {
+        "operationId": "getProductComponentTree",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "title": "Product Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProductComponentResponse"
+                  },
+                  "title": "Response Getproductcomponenttree",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Product Components",
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/products/{product_id}/supplier": {
+      "put": {
+        "operationId": "setProductSupplier",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "title": "Product Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetSupplierRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Set Product Supplier",
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/stock-items": {
+      "get": {
+        "operationId": "listStockItems",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque cursor from a previous page's nextCursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque cursor from a previous page's nextCursor.",
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_StockItemResponse_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "List Stock Items",
+        "tags": [
+          "stock-items"
+        ]
+      },
+      "post": {
+        "operationId": "createStockItem",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockItemCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockItemResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Create Stock Item",
+        "tags": [
+          "stock-items"
+        ]
+      }
+    },
+    "/stock-items/{stock_item_id}": {
+      "delete": {
+        "operationId": "deleteStockItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stock_item_id",
+            "required": true,
+            "schema": {
+              "title": "Stock Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Delete Stock Item",
+        "tags": [
+          "stock-items"
+        ]
+      },
+      "get": {
+        "operationId": "getStockItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stock_item_id",
+            "required": true,
+            "schema": {
+              "title": "Stock Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockItemResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Stock Item",
+        "tags": [
+          "stock-items"
+        ]
+      },
+      "put": {
+        "operationId": "updateStockItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stock_item_id",
+            "required": true,
+            "schema": {
+              "title": "Stock Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockItemUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockItemResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Update Stock Item",
+        "tags": [
+          "stock-items"
+        ]
+      }
+    }
+  }
+}

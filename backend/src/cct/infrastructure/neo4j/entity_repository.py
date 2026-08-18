@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Protocol
+from typing import Final, Protocol
 
-from cct.resource_management.contracts import FlexibleEntity, ValidatedEntity
+from cct.resource_management.contracts import EntityKind, FlexibleEntity, ValidatedEntity
+from cct.resource_management.errors import DependentEntityExistsError, EntityNotFoundError
+from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.registry import EntityTypeRegistry
+from cct.resource_management.relationship_types import OWNERSHIP_RELATIONSHIP_TYPES, RelationshipType
 
-from .entity_mapping import Neo4jEntityMapper, NodeRecord
+from .entity_mapping import LABELS, Neo4jEntityMapper, NodeRecord
 
 
 class Transaction(Protocol):
@@ -18,10 +21,15 @@ class Session(Protocol):
     def __enter__(self) -> "Session": ...
     def __exit__(self, *args: object) -> None: ...
     def execute_write(self, callback, *args: object): ...
+    def execute_read(self, callback, *args: object): ...
 
 
 class Driver(Protocol):
     def session(self, *, database: str) -> Session: ...
+
+
+PRODUCT_COMPONENT_MAX_DEPTH: Final = 10
+"""Defensive cap on recursive CONTAINS reads, not a claimed business limit on nesting."""
 
 
 class Neo4jEntityRepository:
@@ -40,11 +48,204 @@ class Neo4jEntityRepository:
             session.execute_write(self._write_node, node)
         return entity
 
+    def get(self, entity_kind: EntityKind, entity_id: str) -> ValidatedEntity | None:
+        with self._driver.session(database=self._database) as session:
+            record = session.execute_read(self._read_one, entity_kind, entity_id)
+        if record is None:
+            return None
+        return self._mapper.from_node(NodeRecord(LABELS[entity_kind], dict(record["entity"])))
+
+    def list(
+        self, entity_kind: EntityKind, *, type_filter: str | None = None, page: PageRequest = PageRequest()
+    ) -> PageResult[ValidatedEntity]:
+        with self._driver.session(database=self._database) as session:
+            records = session.execute_read(self._read_page, entity_kind, type_filter, page)
+        entities = [
+            self._mapper.from_node(NodeRecord(LABELS[entity_kind], dict(record["entity"])))
+            for record in records
+        ]
+        has_more = len(entities) > page.limit
+        if has_more:
+            entities = entities[: page.limit]
+        next_cursor = entities[-1].entity_id if has_more and entities else None
+        return PageResult(items=tuple(entities), next_cursor=next_cursor)
+
+    def delete(self, entity_kind: EntityKind, entity_id: str) -> None:
+        with self._driver.session(database=self._database) as session:
+            session.execute_write(self._delete_node, entity_kind, entity_id)
+
+    def create_relationship(
+        self,
+        *,
+        from_kind: EntityKind,
+        from_id: str,
+        relationship: RelationshipType,
+        to_kind: EntityKind,
+        to_id: str,
+    ) -> None:
+        with self._driver.session(database=self._database) as session:
+            session.execute_write(self._create_relationship, from_kind, from_id, relationship, to_kind, to_id)
+
+    def list_related(
+        self,
+        *,
+        from_kind: EntityKind,
+        from_id: str,
+        relationship: RelationshipType,
+        to_kind: EntityKind,
+    ) -> tuple[ValidatedEntity, ...]:
+        with self._driver.session(database=self._database) as session:
+            records = session.execute_read(self._read_related, from_kind, from_id, relationship, to_kind)
+        return tuple(
+            self._mapper.from_node(NodeRecord(LABELS[to_kind], dict(record["related"])))
+            for record in records
+        )
+
+    def get_component_tree(self, product_id: str) -> tuple[tuple[ValidatedEntity, str | None], ...]:
+        """Return the recursive CONTAINS subtree as (node, parentId) pairs; parentId is None for the root."""
+        with self._driver.session(database=self._database) as session:
+            rows = session.execute_read(self._read_component_tree, product_id)
+        if not rows:
+            raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+        label = LABELS[EntityKind.TOURISTIC_PRODUCT_ITEM]
+        return tuple(
+            (self._mapper.from_node(NodeRecord(label, dict(row["node"]))), row["parentId"]) for row in rows
+        )
+
+    def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]:
+        """Return each position's resolved bounded summary (ids only, never raw nodes)."""
+        with self._driver.session(database=self._database) as session:
+            rows = session.execute_read(self._read_order_detail, order_id)
+        if rows is None:
+            raise EntityNotFoundError(EntityKind.ORDER_ITEM, order_id)
+        return tuple(
+            {
+                "positionId": row["positionId"],
+                "stockItemId": row["stockItemId"],
+                "productId": row["productId"],
+                "supplierOrganisationId": row["supplierOrganisationId"],
+                "travellerPersonId": row["travellerPersonId"],
+            }
+            for row in rows
+            if row["positionId"] is not None
+        )
+
     @staticmethod
     def _write_node(tx: Transaction, node: NodeRecord) -> None:
         # The label comes from the EntityKind allow-list, never caller input.
         query = f"MERGE (entity:{node.label} {{entityId: $entityId}}) SET entity = $properties"
         tx.run(query, entityId=node.properties["entityId"], properties=node.properties)
+
+    @staticmethod
+    def _read_one(tx: Transaction, entity_kind: EntityKind, entity_id: str):
+        query = f"MATCH (entity:{LABELS[entity_kind]} {{entityId: $entityId}}) RETURN entity"
+        return tx.run(query, entityId=entity_id).single(strict=False)
+
+    @staticmethod
+    def _read_page(tx: Transaction, entity_kind: EntityKind, type_filter: str | None, page: PageRequest):
+        query = (
+            f"MATCH (entity:{LABELS[entity_kind]}) "
+            "WHERE ($type IS NULL OR entity.type = $type) "
+            "AND ($after IS NULL OR entity.entityId > $after) "
+            "RETURN entity ORDER BY entity.entityId LIMIT $limit"
+        )
+        return list(tx.run(query, type=type_filter, after=page.after, limit=page.limit + 1))
+
+    @staticmethod
+    def _delete_node(tx: Transaction, entity_kind: EntityKind, entity_id: str) -> None:
+        label = LABELS[entity_kind]
+        exists = tx.run(
+            f"MATCH (entity:{label} {{entityId: $entityId}}) RETURN entity.entityId AS id", entityId=entity_id
+        ).single(strict=False)
+        if exists is None:
+            raise EntityNotFoundError(entity_kind, entity_id)
+
+        # Outgoing ownership edges (this node still owns children) block deletion;
+        # incoming ownership edges (this node's own parent link) do not — deleting
+        # a nested item is exactly how that edge goes away. Reference edges are the
+        # mirror image: only an incoming one (something else points at this node)
+        # blocks deletion, never an outgoing one. See relationship_types.py.
+        outgoing_rows = list(
+            tx.run(
+                f"MATCH (entity:{label} {{entityId: $entityId}})-[relationship]->() "
+                "RETURN type(relationship) AS relationshipType, count(relationship) AS count",
+                entityId=entity_id,
+            )
+        )
+        incoming_rows = list(
+            tx.run(
+                f"MATCH (entity:{label} {{entityId: $entityId}})<-[relationship]-() "
+                "RETURN type(relationship) AS relationshipType, count(relationship) AS count",
+                entityId=entity_id,
+            )
+        )
+        dependents = tuple(
+            (RelationshipType(row["relationshipType"]), row["count"])
+            for row in outgoing_rows
+            if RelationshipType(row["relationshipType"]) in OWNERSHIP_RELATIONSHIP_TYPES
+        ) + tuple(
+            (RelationshipType(row["relationshipType"]), row["count"])
+            for row in incoming_rows
+            if RelationshipType(row["relationshipType"]) not in OWNERSHIP_RELATIONSHIP_TYPES
+        )
+        if dependents:
+            raise DependentEntityExistsError(entity_id, dependents)
+        # DETACH DELETE: a permitted incoming ownership edge from this node's
+        # parent may still exist and must be removed along with the node.
+        tx.run(f"MATCH (entity:{label} {{entityId: $entityId}}) DETACH DELETE entity", entityId=entity_id)
+
+    @staticmethod
+    def _create_relationship(
+        tx: Transaction,
+        from_kind: EntityKind,
+        from_id: str,
+        relationship: RelationshipType,
+        to_kind: EntityKind,
+        to_id: str,
+    ) -> None:
+        # Labels and the relationship type come from allow-lists, never caller input.
+        query = (
+            f"MATCH (source:{LABELS[from_kind]} {{entityId: $fromId}}) "
+            f"MATCH (target:{LABELS[to_kind]} {{entityId: $toId}}) "
+            f"MERGE (source)-[:{relationship.value}]->(target) "
+            "RETURN source.entityId AS fromId, target.entityId AS toId"
+        )
+        record = tx.run(query, fromId=from_id, toId=to_id).single(strict=False)
+        if record is None:
+            raise EntityNotFoundError(from_kind, from_id)
+
+    @staticmethod
+    def _read_related(
+        tx: Transaction, from_kind: EntityKind, from_id: str, relationship: RelationshipType, to_kind: EntityKind
+    ):
+        query = (
+            f"MATCH (source:{LABELS[from_kind]} {{entityId: $fromId}})"
+            f"-[:{relationship.value}]->(related:{LABELS[to_kind]}) "
+            "RETURN related"
+        )
+        return list(tx.run(query, fromId=from_id))
+
+    @staticmethod
+    def _read_component_tree(tx: Transaction, product_id: str):
+        query = (
+            "MATCH (root:TouristicProductItem {entityId: $productId}) "
+            "OPTIONAL MATCH (root)-[:CONTAINS*1.."
+            f"{PRODUCT_COMPONENT_MAX_DEPTH}]->(descendant:TouristicProductItem) "
+            "WITH root, collect(DISTINCT descendant) AS descendants "
+            "UNWIND ([root] + descendants) AS node "
+            "OPTIONAL MATCH (parent:TouristicProductItem)-[:CONTAINS]->(node) "
+            "RETURN DISTINCT node, parent.entityId AS parentId"
+        )
+        return list(tx.run(query, productId=product_id))
+
+    @staticmethod
+    def _read_order_detail(tx: Transaction, order_id: str):
+        header = tx.run(
+            "MATCH (header:OrderItem {entityId: $orderId}) RETURN header.entityId AS id", orderId=order_id
+        ).single(strict=False)
+        if header is None:
+            return None
+        return list(tx.run(ORDER_DETAIL_TRAVERSAL, orderId=order_id))
 
 
 COMMUNITY_SCHEMA = (
@@ -60,13 +261,14 @@ COMMUNITY_SCHEMA = (
     "CREATE INDEX order_number IF NOT EXISTS FOR (n:OrderItem) ON (n.orderNumber)",
 )
 
-ORDER_FULFILMENT_TRAVERSAL = """
-MATCH (order:OrderItem {entityId: $orderId})-[:CONTAINS]->(position:OrderItem)
-MATCH (position)-[:ALLOCATES_STOCK]->(stock:StockItem)
-MATCH (stock)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)
-MATCH (product)-[:SUPPLIED_BY]->(supplierRole:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
-MATCH (position)-[:ASSIGNED_TRAVELLER]->(travellerRole:PersonRole)<-[:HAS_ROLE]-(traveller:Person)
-RETURN order, position, stock, product, supplierRole, supplier, travellerRole, traveller
-LIMIT $limit
+ORDER_DETAIL_TRAVERSAL = """
+MATCH (header:OrderItem {entityId: $orderId})
+OPTIONAL MATCH (header)-[:CONTAINS]->(position:OrderItem)
+OPTIONAL MATCH (position)-[:ALLOCATES_STOCK]->(stock:StockItem)
+OPTIONAL MATCH (stock)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)
+OPTIONAL MATCH (product)-[:SUPPLIED_BY]->(:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
+OPTIONAL MATCH (position)-[:ASSIGNED_TRAVELLER]->(:PersonRole)<-[:HAS_ROLE]-(traveller:Person)
+RETURN position.entityId AS positionId, stock.entityId AS stockItemId,
+       product.entityId AS productId, supplier.entityId AS supplierOrganisationId,
+       traveller.entityId AS travellerPersonId
 """.strip()
-

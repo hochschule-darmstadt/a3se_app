@@ -99,8 +99,10 @@ by this structure.
 ## Structural tooling and licence evidence
 
 The npm workspace reuses the repository's existing package manager and
-lockfile. Versions were verified against the public npm registry on 2026-08-17.
-All selected structural dependencies are available without licence fees,
+lockfile. Frontend/build dependency versions were verified against the public
+npm registry on 2026-08-17; the FastAPI/uvicorn/httpx/openapi-typescript/
+openapi-fetch rows below were verified against PyPI/npm on 2026-08-18. All
+selected structural dependencies are available without licence fees,
 satisfying NFR-003.
 
 | Dependency | Version | Licence | Purpose |
@@ -113,6 +115,11 @@ satisfying NFR-003.
 | TypeScript | 5.9.3 | Apache-2.0 | Static frontend checks |
 | React type packages | 19.2.14 / 19.2.3 | MIT | React TypeScript declarations |
 | setuptools | 77 or newer | MIT | Python package build backend |
+| FastAPI | 0.141.1 | MIT | HTTP adapter (`cct.api`); issue #21, DR-0013 |
+| uvicorn | 0.52.3 | BSD-3-Clause | ASGI server for `backend/scripts/serve.py` |
+| httpx | 0.28.1 | BSD-3-Clause | Test-only, required by `fastapi.testclient.TestClient` |
+| openapi-typescript | 7.13.0 | MIT | Generates `frontend/packages/api-client`'s transport types from the FastAPI OpenAPI document |
+| openapi-fetch | 0.17.0 | MIT | Minimal typed fetch client the api-client facade wires the generated types into; DR-0013 |
 
 The authoritative Python package metadata is `backend/pyproject.toml`; a
 manually maintained `requirements.txt` is not part of the structure. A pinned
@@ -121,13 +128,18 @@ requires one.
 
 ## Open structural decisions
 
-- Concrete cross-module ports remain unnamed until a consuming use case
-  establishes their semantic contract.
-- Runtime composition and agent-tool adapters are absent and should be added
-  only for a concrete executable or integration requirement.
-- No formatter, linter, frontend test framework, or FastAPI adapter has yet
-  been introduced. DR-0012 pins Pydantic and the Neo4j driver for the flexible
-  entity prototype.
+- Concrete cross-module ports are now named where issue #21 established a
+  consuming use case: a consuming module's `service.py` calls the owning
+  module's own `service.py` function directly (e.g.
+  `order_management.service` calling `inventory.service.get_stock_item`) --
+  see [DR-0013](../../governance/decisions/0013-shared-resource-crud-api-and-openapi-contract.md).
+  Ports for use cases issue #21 did not touch remain unnamed until they arise.
+- Runtime composition now exists for the API: `backend/scripts/serve.py` is
+  the one file allowed to import both `cct.api` and `cct.infrastructure`,
+  deliberately kept outside the `cct` import namespace. Agent-tool adapters
+  remain absent, added only when a concrete integration requires them.
+- FastAPI is introduced (issue #21, DR-0013); no formatter, linter, or
+  frontend test framework has yet been introduced.
 - React Router v8 migration flags remain outside the accepted v7 structure and
   require coordinated assessment before adoption.
 

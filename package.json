@@ -15,6 +15,8 @@
     "backend:check": "python -m compileall -q backend/src backend/tests && npm run backend:test",
     "harness:validate": "node tools/harness/validate.mjs",
     "architecture:validate": "node docs/architecture/software-architecture/validate-dependencies.mjs",
+    "api-client:generate": "python backend/scripts/export_openapi.py && npm run generate -w frontend/packages/api-client",
+    "api-client:validate": "npm run api-client:generate && git diff --exit-code -- frontend/packages/api-client/generated/openapi.json frontend/packages/api-client/src/generated/schema.ts",
     "diagrams:doctor": "node tools/diagrams/doctor.mjs",
     "diagrams:render": "node tools/diagrams/render.mjs",
     "diagrams:validate": "node tools/diagrams/validate.mjs"

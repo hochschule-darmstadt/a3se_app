@@ -11,7 +11,7 @@ from pydantic import ValidationError
 from cct.infrastructure.neo4j.entity_mapping import Neo4jEntityMapper, NodeRecord, UnsupportedNeo4jProperty
 from cct.infrastructure.neo4j.entity_repository import (
     COMMUNITY_SCHEMA,
-    ORDER_FULFILMENT_TRAVERSAL,
+    ORDER_DETAIL_TRAVERSAL,
     Neo4jEntityRepository,
 )
 from cct.resource_management.default_registry import create_entity_registry
@@ -124,9 +124,9 @@ class Neo4jMappingTest(unittest.TestCase):
         self.assertEqual("5766", parameters["properties"]["orderNumber"])
 
     def test_recursive_structure_and_bounded_heterogeneous_path_are_explicit(self) -> None:
-        self.assertIn("(order:OrderItem", ORDER_FULFILMENT_TRAVERSAL)
-        self.assertIn("[:CONTAINS]", ORDER_FULFILMENT_TRAVERSAL)
-        self.assertIn("[:REPRESENTS_PRODUCT]", ORDER_FULFILMENT_TRAVERSAL)
-        self.assertIn("[:SUPPLIED_BY]", ORDER_FULFILMENT_TRAVERSAL)
-        self.assertIn("[:ASSIGNED_TRAVELLER]", ORDER_FULFILMENT_TRAVERSAL)
-        self.assertIn("LIMIT $limit", ORDER_FULFILMENT_TRAVERSAL)
+        self.assertIn("(header:OrderItem", ORDER_DETAIL_TRAVERSAL)
+        self.assertIn("[:CONTAINS]", ORDER_DETAIL_TRAVERSAL)
+        self.assertIn("[:REPRESENTS_PRODUCT]", ORDER_DETAIL_TRAVERSAL)
+        self.assertIn("[:SUPPLIED_BY]", ORDER_DETAIL_TRAVERSAL)
+        self.assertIn("[:ASSIGNED_TRAVELLER]", ORDER_DETAIL_TRAVERSAL)
+        self.assertIn("OPTIONAL MATCH", ORDER_DETAIL_TRAVERSAL)

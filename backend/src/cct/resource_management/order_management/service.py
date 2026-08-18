@@ -1,0 +1,157 @@
+"""Order Management public application operations.
+
+The only entry point other layers use to read or write OrderItem entities
+(both `order/header` and `order/position`). `repository` must already be
+scoped to this module's EntityKinds (a ScopedEntityRepository built once by
+the composition script).
+
+Allocating stock, assigning a customer, or assigning a traveller each
+validate the cross-module reference via the owning module's own `service.py`
+function -- Inventory's `get_stock_item` or Person Management's
+`get_person_role` -- a plain cross-module call, not a bespoke Protocol.
+"""
+
+from __future__ import annotations
+
+from cct.resource_management.contracts import EntityKind, ValidatedEntity
+from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError
+from cct.resource_management.inventory import service as inventory_service
+from cct.resource_management.pagination import PageRequest, PageResult
+from cct.resource_management.person_management import service as person_service
+from cct.resource_management.relationship_types import RelationshipType
+from cct.resource_management.repository_ports import EntityRepositoryPort
+
+ORDER_HEADER_TYPE = "order/header"
+ORDER_POSITION_TYPE = "order/position"
+
+
+def create_order(repository: EntityRepositoryPort, *, entity_id: str, properties: dict[str, object]) -> ValidatedEntity:
+    if repository.get(EntityKind.ORDER_ITEM, entity_id) is not None:
+        raise DuplicateEntityError(EntityKind.ORDER_ITEM, entity_id)
+    return repository.save(
+        {"entityId": entity_id, "entityKind": "OrderItem", "type": ORDER_HEADER_TYPE, "properties": properties}
+    )
+
+
+def get_order(repository: EntityRepositoryPort, entity_id: str) -> ValidatedEntity:
+    entity = repository.get(EntityKind.ORDER_ITEM, entity_id)
+    if entity is None or entity.type != ORDER_HEADER_TYPE:
+        raise EntityNotFoundError(EntityKind.ORDER_ITEM, entity_id)
+    return entity
+
+
+def list_orders(
+    repository: EntityRepositoryPort, *, page: PageRequest = PageRequest()
+) -> PageResult[ValidatedEntity]:
+    return repository.list(EntityKind.ORDER_ITEM, type_filter=ORDER_HEADER_TYPE, page=page)
+
+
+def update_order(
+    repository: EntityRepositoryPort, entity_id: str, *, properties: dict[str, object]
+) -> ValidatedEntity:
+    get_order(repository, entity_id)
+    return repository.save(
+        {"entityId": entity_id, "entityKind": "OrderItem", "type": ORDER_HEADER_TYPE, "properties": properties}
+    )
+
+
+def delete_order(repository: EntityRepositoryPort, entity_id: str) -> None:
+    repository.delete(EntityKind.ORDER_ITEM, entity_id)
+
+
+def create_order_position(
+    repository: EntityRepositoryPort, *, entity_id: str, order_id: str
+) -> ValidatedEntity:
+    get_order(repository, order_id)
+    if repository.get(EntityKind.ORDER_ITEM, entity_id) is not None:
+        raise DuplicateEntityError(EntityKind.ORDER_ITEM, entity_id)
+    position = repository.save(
+        {"entityId": entity_id, "entityKind": "OrderItem", "type": ORDER_POSITION_TYPE, "properties": {}}
+    )
+    repository.create_relationship(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=order_id,
+        relationship=RelationshipType.CONTAINS,
+        to_kind=EntityKind.ORDER_ITEM,
+        to_id=entity_id,
+    )
+    return position
+
+
+def get_order_position(repository: EntityRepositoryPort, entity_id: str) -> ValidatedEntity:
+    entity = repository.get(EntityKind.ORDER_ITEM, entity_id)
+    if entity is None or entity.type != ORDER_POSITION_TYPE:
+        raise EntityNotFoundError(EntityKind.ORDER_ITEM, entity_id)
+    return entity
+
+
+def list_order_positions(repository: EntityRepositoryPort, order_id: str) -> tuple[ValidatedEntity, ...]:
+    get_order(repository, order_id)
+    return repository.list_related(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=order_id,
+        relationship=RelationshipType.CONTAINS,
+        to_kind=EntityKind.ORDER_ITEM,
+    )
+
+
+def delete_order_position(repository: EntityRepositoryPort, entity_id: str) -> None:
+    repository.delete(EntityKind.ORDER_ITEM, entity_id)
+
+
+def allocate_stock(
+    repository: EntityRepositoryPort,
+    position_id: str,
+    *,
+    stock_item_id: str,
+    stock_repository: EntityRepositoryPort,
+) -> None:
+    get_order_position(repository, position_id)
+    inventory_service.get_stock_item(stock_repository, stock_item_id)  # raises EntityNotFoundError if missing
+    repository.create_relationship(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=position_id,
+        relationship=RelationshipType.ALLOCATES_STOCK,
+        to_kind=EntityKind.STOCK_ITEM,
+        to_id=stock_item_id,
+    )
+
+
+def assign_traveller(
+    repository: EntityRepositoryPort,
+    position_id: str,
+    *,
+    traveller_role_id: str,
+    person_repository: EntityRepositoryPort,
+) -> None:
+    get_order_position(repository, position_id)
+    person_service.get_person_role(person_repository, traveller_role_id)
+    repository.create_relationship(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=position_id,
+        relationship=RelationshipType.ASSIGNED_TRAVELLER,
+        to_kind=EntityKind.PERSON_ROLE,
+        to_id=traveller_role_id,
+    )
+
+
+def assign_customer(
+    repository: EntityRepositoryPort,
+    order_id: str,
+    *,
+    customer_role_id: str,
+    person_repository: EntityRepositoryPort,
+) -> None:
+    get_order(repository, order_id)
+    person_service.get_person_role(person_repository, customer_role_id)
+    repository.create_relationship(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=order_id,
+        relationship=RelationshipType.CUSTOMER,
+        to_kind=EntityKind.PERSON_ROLE,
+        to_id=customer_role_id,
+    )
+
+
+def get_order_detail(repository: EntityRepositoryPort, order_id: str) -> tuple[dict[str, str | None], ...]:
+    return repository.get_order_detail(order_id)
