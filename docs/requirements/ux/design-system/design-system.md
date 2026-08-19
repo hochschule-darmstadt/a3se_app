@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Requirements/UX
-- Last reviewed: 2026-08-17
+- Last reviewed: 2026-08-19
 
 ## Purpose, authority, and limits
 
@@ -72,7 +72,7 @@ Profiles change presentation, never state meaning, accessible name, action seman
 
 | ID | Contract and supported behavior | Mantine mapping | Evidence |
 |---|---|---|---|
-| DS-CMP-001 | **Page/app shell and navigation:** skip link; header/nav/main/aside landmarks; page identity and current location. Customer reserves advisor context; staff provides stable managed-area navigation. Mobile retains all customer destinations. | `AppShell`, `NavLink`, `Burger`, landmarks | WF-001/005/011; all views |
+| DS-CMP-001 | **Page/app shell and navigation:** skip link; header (logo, page identity, user-icon menu) with nav/main landmarks, plus breadcrumb trail on deeper views. Staff additionally provides a persistent sidebar landmark for managed-area navigation and no footer; customer additionally provides a footer landmark (imprint/legal) and reserves the advisor context (`aside`), with no sidebar. Mobile retains all customer destinations. | `AppShell`, `NavLink`, `Burger`, landmarks | WF-001/005/011/012; all views |
 | DS-CMP-002 | **Button and link:** primary, secondary, subtle, danger; default, hover, focus, disabled, loading. Links navigate; buttons act. Loading preserves an accessible label and prevents duplicates. | `Button`, `Anchor`, `Loader`; no wrapper by default | WF-002/007; all views |
 | DS-CMP-003 | **Form and validation:** visible label, help, required cue, control, associated message. Invalid submission focuses a linked summary. Disabled and read-only remain distinct. | form controls, `Fieldset`, `Alert`, `useForm` | WF-008; C-001/011/012, S-002–005/007 |
 | DS-CMP-004 | **Status and feedback:** loading, empty, unavailable, information, pending, success, error, uncertain. Live updates are polite unless urgent and never imply completion from submission alone. | `Alert`, `Notification`, `Badge`, `Loader`, `Skeleton` | WF-004, FR-009; customer and staff states |
@@ -108,6 +108,7 @@ Deprecation records replacement, reason, consumers, and removal condition. Indep
 | Date | Change | Evidence and state |
 |---|---|---|
 | 2026-08-17 | Proposed foundations, two profiles, ten evidenced contracts, governance, and catalogue. | Issue #16; stakeholder, accessibility, Test, and PoC review remain |
+| 2026-08-19 | Refined DS-CMP-001's contract wording (ID unchanged) to name breadcrumbs and the customer footer landmark explicitly, reflecting the phase 1 shell wireframe refinement. | Issue #27 phase 1 (WF-012); pending the issue's phase 1 human review checkpoint |
 
 ## Review and validation record
 

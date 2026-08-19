@@ -8,9 +8,15 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to wireframes</a>
-<header><strong>Tour operator · customer prototype</strong><nav aria-label="Prototype views"><a href="#view-c-001">Travel portal</a><a href="#view-c-002">Trip</a><a href="#view-c-003">Offer</a><a href="#view-c-004">Order</a><a href="#view-c-008">Account</a></nav></header>
+<div class="app-shell customer-app-shell">
+<header class="shell-header">
+  <div class="shell-header-left" style="display:flex;gap:1rem;align-items:center;"><span class="shell-logo" aria-hidden="true">CCT</span><p class="shell-title">Tour operator · customer prototype</p></div>
+  <div class="shell-header-right"><button class="user-menu" type="button" aria-haspopup="true" aria-expanded="false">Guest · Sign in &#9662;</button></div>
+</header>
 <main id="main">
-  <section class="intro"><h1>Customer wireframes</h1><p>Low-fidelity review sheet. Records, prices and messages are synthetic; links scroll to destination frames rather than performing transactions.</p><p class="annotation">Review path: C-001 → C-009 → C-010 → C-002 → C-011/C-012 → C-003 → C-004. Resize the browser to review PC, tablet and mobile reflow.</p></section>
+  <section class="intro"><h1>Customer wireframes</h1><p>Low-fidelity review sheet. Records, prices and messages are synthetic; links scroll to destination frames rather than performing transactions.</p><p class="annotation">Review path: C-001 → C-009 → C-010 → C-002 → C-011/C-012 → C-003 → C-004. Resize the browser to review PC, tablet and mobile reflow. The header user control is a placeholder: it reads "Guest · Sign in" here and would show the signed-in customer's name after authentication (VIEW-C-011/C-012); no session mechanism is implied.</p>
+  <nav aria-label="Prototype view jump list" class="review-jump"><span class="review-jump-label">Jump to:</span><a href="#view-c-001">Travel portal</a><a href="#view-c-002">Trip</a><a href="#view-c-003">Offer</a><a href="#view-c-004">Order</a><a href="#view-c-008">Account</a></nav>
+  </section>
 
   <div class="customer-shell">
   <div class="journey-frames">
@@ -24,42 +30,52 @@
   </section>
 
   <section class="frame" id="view-c-010"><span class="id">VIEW-C-010</span><h2>Touristic product detail</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-009">Search results</a> / <span aria-current="page">Madeira walking week</span></nav>
     <div class="grid"><div class="span-7"><div class="placeholder" aria-label="Image placeholder">Product image / map placeholder</div><h3>Madeira walking week</h3><p>Eight-day package with flights, accommodation, transfers and five guided walks.</p><h4>Included services</h4><ul><li>Return economy flight from selected region</li><li>Seven nights with breakfast</li><li>Airport transfers and guided walks</li></ul><h4>Outline itinerary</h4><ol><li>Arrival and transfer</li><li>Five walking days with one free day</li><li>Return transfer and flight</li></ol></div><aside class="span-5 panel"><h3>Choose an option</h3><label>Departure<select><option>12–19 May · availability to confirm</option></select></label><label>Room<select><option>Double room</option></select></label><p><strong>Price indication:</strong> €3,380 for 2 travellers</p><p class="meta">Final services, availability and price are confirmed only in a Sales Offer.</p><div class="actions"><a class="button primary" href="#view-c-002">Compose this trip → C-002</a><a class="button" href="#view-c-007">Ask for help → C-007</a></div></aside></div>
   </section>
 
   <section class="frame" id="view-c-002"><span class="id">VIEW-C-002</span><h2>Trip composition</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-009">Search results</a> / <a href="#view-c-010">Madeira walking week</a> / <span aria-current="page">Trip composition</span></nav>
     <div class="grid"><div class="span-8 stack"><article class="panel"><h3>1. Transport</h3><p>Return flight · Frankfurt–Funchal · times to be confirmed</p><div class="actions"><button>Change transport</button><button>Remove</button></div></article><article class="panel"><h3>2. Accommodation</h3><p>Example Garden Hotel · 7 nights · double room · breakfast</p><div class="actions"><button>Change room</button><button>Remove</button></div></article><article class="panel"><h3>3. Activities and transfers</h3><p>Airport transfers · five guided walks</p><div class="actions"><button>Add or change services</button></div></article><div class="status warning">One unresolved item: return-flight time is not yet confirmed. You can still request a Sales Offer.</div></div><aside class="span-4 panel"><h3>Your current trip</h3><dl><dt>Travellers</dt><dd>2 adults</dd><dt>Dates</dt><dd>12–19 May</dd><dt>Price indication</dt><dd>€3,380 total</dd></dl><div class="actions"><a class="button primary" href="#view-c-011">Request Sales Offer → C-011</a><a class="button" href="#view-c-009">Revise search → C-009</a></div></aside></div>
   </section>
 
   <section class="frame" id="view-c-011"><span class="id">VIEW-C-011</span><h2>Sign in</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-002">Trip composition</a> / <span aria-current="page">Sign in</span></nav>
     <div class="grid"><div class="span-7 panel"><h3>Continue your Sales Offer request</h3><div class="preserved"><strong>Your trip is preserved</strong><p>Madeira walking week · 12–19 May · 2 adults · indicated total €3,380.</p></div><label>Email address<input type="email" autocomplete="email"></label><label>Password<input type="password" autocomplete="current-password" aria-describedby="signin-error"></label><p id="signin-error" class="error-text">Example error: email address or password was not recognised. Your trip is still preserved.</p><div class="actions"><a class="button primary" href="#view-c-003">Sign in and request offer → C-003</a><button>Recover access</button></div></div><aside class="span-5 panel"><h3>New customer?</h3><p>Create an account to identify the requesting customer before a Sales Offer is issued.</p><a class="button" href="#view-c-012">Register → C-012</a><p class="meta">Open question: authentication factors, recovery and session rules are not yet specified.</p></aside></div>
   </section>
 
   <section class="frame" id="view-c-012"><span class="id">VIEW-C-012</span><h2>Customer registration</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-002">Trip composition</a> / <span aria-current="page">Registration</span></nav>
     <div class="grid"><form class="span-7 panel"><h3>Create customer account</h3><div class="status error" role="alert"><strong>Check 2 fields.</strong> Focus should move to this summary after submission.</div><label>Given name<input autocomplete="given-name"></label><label>Family name<input autocomplete="family-name"></label><label>Email address<input type="email" value="not-an-email" aria-invalid="true" aria-describedby="email-error"></label><span id="email-error" class="error-text">Enter an email address in the expected format.</span><label>Password<input type="password" aria-invalid="true" aria-describedby="password-error"></label><span id="password-error" class="error-text">Password rules require stakeholder and security definition.</span><label><input type="checkbox"> I acknowledge the privacy information (content pending review).</label><div class="actions"><a class="button primary" href="#view-c-003">Create account and request offer → C-003</a><a class="button" href="#view-c-011">Already registered → C-011</a></div></form><aside class="span-5 preserved"><h3>Preserved trip</h3><p>Madeira walking week · 12–19 May · 2 adults</p><p>Transport, accommodation, transfers and five guided walks.</p><p><strong>Price indication:</strong> €3,380 total</p></aside></div>
   </section>
 
   <section class="frame" id="view-c-003"><span class="id">VIEW-C-003</span><h2>Sales Offer</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-002">Trip composition</a> / <span aria-current="page">Sales Offer</span></nav>
     <div class="status success" role="status">Offer SO-1007 is available for review. This is not yet an order.</div><div class="grid"><div class="span-8 panel"><h3>Confirmed package</h3><table><caption>Services and confirmed prices</caption><tbody><tr><th scope="row">Flights</th><td>Frankfurt–Funchal return</td><td>€1,100</td></tr><tr><th scope="row">Hotel</th><td>7 nights, double room, breakfast</td><td>€1,680</td></tr><tr><th scope="row">Transfers and walks</th><td>As described</td><td>€600</td></tr><tr><th scope="row">Total</th><td>2 travellers</td><td><strong>€3,380</strong></td></tr></tbody></table><h3>Conditions</h3><p>Validity, cancellation, payment and required legal wording await business/legal evidence.</p><label><input type="checkbox"> I confirm that I have reviewed the offer and applicable conditions.</label></div><aside class="span-4 panel"><h3>Offer status</h3><p><strong>Valid until:</strong> synthetic example date</p><p><strong>Availability:</strong> confirmed for this offer</p><div class="actions"><a class="button primary" href="#view-c-004">Accept offer and continue → C-004</a><a class="button" href="#view-c-002">Request a change → C-002</a></div></aside></div>
   </section>
 
   <section class="frame" id="view-c-004"><span class="id">VIEW-C-004</span><h2>Order</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-008">Customer account</a> / <span aria-current="page">Order TO-2048</span></nav>
     <div class="status success" role="status"><strong>Order TO-2048 created.</strong> Confirmation is shown only after the system records acceptance.</div><div class="grid"><div class="span-8 panel"><h3>Order summary</h3><dl><dt>Trip</dt><dd>Madeira walking week</dd><dt>Travellers</dt><dd>2 adults</dd><dt>Dates</dt><dd>12–19 May</dd><dt>Total</dt><dd>€3,380</dd><dt>Status</dt><dd>Preparing services</dd></dl></div><aside class="span-4 panel"><h3>Next steps</h3><ol><li>Complete payment when requested.</li><li>Provide missing traveller details.</li><li>Download released documents.</li></ol><div class="actions"><a class="button primary" href="#view-c-005">Payment → C-005</a><a class="button" href="#view-c-006">Documents → C-006</a><a class="button" href="#view-c-008">Customer account → C-008</a></div></aside></div>
   </section>
 
   <section class="frame" id="view-c-005"><span class="id">VIEW-C-005</span><h2>Payment</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-004">Order TO-2048</a> / <span aria-current="page">Payment</span></nav>
     <div class="grid"><div class="span-7 panel"><h3>Amount requested</h3><p><strong>Deposit:</strong> €680 · due date shown when confirmed</p><label>Payment method<select><option>Select a method</option></select></label><button class="primary">Continue to payment provider</button><p class="meta">Sensitive payment details are not collected in this wireframe.</p></div><aside class="span-5 stack"><div class="status warning"><strong>Pending example:</strong> awaiting confirmation; do not retry yet.</div><div class="status error"><strong>Error example:</strong> payment not confirmed. Retry or choose another method.</div><div class="status success"><strong>Success example:</strong> receipt available after confirmation.</div></aside></div>
   </section>
 
   <section class="frame" id="view-c-006"><span class="id">VIEW-C-006</span><h2>Travel documents</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-004">Order TO-2048</a> / <span aria-current="page">Documents</span></nav>
     <div class="status warning">Some documents remain unavailable until service preparation and required payment are complete.</div><div class="table-wrap"><table><caption>Documents for order TO-2048</caption><thead><tr><th>Document</th><th>Status</th><th>Action</th></tr></thead><tbody><tr><td>Order confirmation</td><td>Released</td><td><button>Download accessible PDF</button></td></tr><tr><td>Flight documents</td><td>Preparing</td><td>Not yet available</td></tr><tr><td>Travel itinerary</td><td>Preparing</td><td>Not yet available</td></tr></tbody></table></div><a class="button" href="#view-c-007">Ask about documents → C-007</a>
   </section>
 
   <section class="frame" id="view-c-007"><span class="id">VIEW-C-007</span><h2>Travel assistance</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <a href="#view-c-004">Order TO-2048</a> / <span aria-current="page">Assistance</span></nav>
     <div class="grid"><div class="span-7 panel"><h3>Assistance context</h3><dl><dt>Related order</dt><dd>TO-2048 · Madeira walking week</dd><dt>Current issue</dt><dd>Flight-document timing</dd><dt>Confirmed state</dt><dd>One document released; two preparing</dd></dl><p>Continue in the AI travel advisor at the right. It receives this confirmed context.</p></div><aside class="span-5 panel"><h3>Urgent situation?</h3><p>The chatbot must hand over needs outside its supported authority. Emergency and opening-hour content requires operational evidence; the wireframe does not invent a 24-hour promise.</p><h3>Handover context</h3><p>Conversation, order, traveller, attempted actions and unresolved issue are passed to staff so the customer need not repeat confirmed information.</p></aside></div>
   </section>
 
   <section class="frame" id="view-c-008"><span class="id">VIEW-C-008</span><h2>Customer account</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="#view-c-001">Travel portal</a> / <span aria-current="page">Customer account</span></nav>
     <div class="grid"><nav class="span-3 panel" aria-label="Account areas"><div class="stack"><a href="#view-c-004">Orders</a><a href="#view-c-006">Documents</a><a href="#view-c-007">Assistance</a><button>Profile details</button><button>Sign out</button></div></nav><div class="span-9 panel"><h3>Your orders</h3><article class="card"><h4>TO-2048 · Madeira walking week</h4><p>12–19 May · status: preparing services · next action: deposit payment</p><div class="actions"><a class="button primary" href="#view-c-004">Open order → C-004</a><a class="button" href="#view-c-005">Pay deposit → C-005</a></div></article><div class="status warning">Empty-state example: no saved trips or orders. Return to the Travel portal to search.</div></div></div>
   </section>
   </div>
@@ -74,5 +90,14 @@
   <button class="advisor-launcher primary" aria-label="Open AI travel advisor">AI travel advisor · open chat</button>
   <p class="mode-note">Prototype only · responsive breakpoint review: PC ≥1100px, tablet 700–1099px, mobile &lt;700px.</p>
 </main>
+<footer class="shell-footer">
+  <nav aria-label="Legal">
+    <a href="#">Imprint (placeholder)</a>
+    <a href="#">Privacy notice (placeholder)</a>
+    <a href="#">Terms and conditions (placeholder)</a>
+  </nav>
+  <p class="meta">CCT is a fictitious company created for this project. Imprint and legal-notice content shown here is a synthetic placeholder pending stakeholder/legal review, not real legal text (see open question in <a href="wireframes.md">wireframes.md</a>).</p>
+</footer>
+</div>
 </body>
 </html>

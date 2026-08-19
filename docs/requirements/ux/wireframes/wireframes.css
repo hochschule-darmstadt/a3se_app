@@ -42,5 +42,31 @@ tr[aria-selected="true"] { background:var(--accent); font-weight:700; }
 .customer-shell { display:grid; grid-template-columns:minmax(0,2fr) minmax(300px,1fr); gap:1rem; align-items:start; }
 .advisor-rail { position:sticky; top:1rem; max-height:calc(100vh - 2rem); overflow:auto; }
 .advisor-launcher { display:none; }
-@media (max-width:1099px) { .span-3,.span-4 { grid-column:span 6; } .span-5,.span-7,.span-8,.span-9 { grid-column:span 12; } header { align-items:flex-start; } .customer-shell { grid-template-columns:minmax(0,3fr) minmax(280px,2fr); } }
-@media (max-width:699px) { header { padding:1rem; display:block; } header nav { margin-top:.75rem; } main { padding:.5rem; padding-bottom:4.5rem; } .frame { padding:.75rem; } .span-3,.span-4,.span-5,.span-6,.span-7,.span-8,.span-9 { grid-column:1/-1; } .actions { display:grid; } .actions > * { width:100%; text-align:center; } .customer-shell { display:block; } .advisor-rail { display:none; } .advisor-launcher { display:block; position:fixed; left:.75rem; right:.75rem; bottom:.75rem; width:auto; z-index:4; text-align:center; box-shadow:0 0 0 3px var(--paper); } .mode-note { position:static; } }
+
+/* Shared shell chrome (DS-CMP-001 / WF-012): logo, breadcrumb, user menu, and profile-specific structure (staff sidebar; customer footer). */
+.app-shell { min-height:100vh; display:flex; flex-direction:column; }
+.shell-header { background:var(--paper); border-bottom:2px solid var(--ink); padding:.75rem 1.5rem; display:flex; gap:1rem; align-items:center; justify-content:space-between; }
+.shell-logo { font:700 .85rem monospace; border:1px solid var(--ink); padding:.35rem .6rem; background:var(--accent); }
+.shell-title { font-weight:700; margin:0; }
+.shell-header-right { display:flex; gap:.75rem; align-items:center; }
+.user-menu { border-radius:999px; }
+.breadcrumb { font-size:.9rem; margin:0 0 1rem; }
+.breadcrumb a { color:#164f78; }
+.breadcrumb [aria-current="page"] { font-weight:700; color:var(--ink); }
+.review-jump { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:.5rem; }
+.review-jump-label { font-weight:700; margin-right:.25rem; }
+
+/* Staff shell: persistent sidebar + main, no footer. */
+.staff-shell .shell-body { display:flex; flex:1; align-items:stretch; }
+.shell-sidebar { flex:0 0 220px; background:var(--paper); border-right:2px solid var(--ink); padding:1rem .75rem; display:flex; flex-direction:column; gap:.4rem; }
+.shell-sidebar a { padding:.5rem .6rem; text-decoration:none; color:var(--ink); border:1px solid transparent; }
+.shell-sidebar a:hover, .shell-sidebar a:focus { border-color:var(--line); }
+.shell-main { flex:1; min-width:0; max-width:1440px; margin:0 auto; padding:1.25rem; width:100%; }
+
+/* Customer shell: header + footer, no sidebar. */
+.customer-app-shell > main { max-width:1440px; margin:auto; padding:1.25rem; flex:1; width:100%; }
+.shell-footer { background:var(--paper); border-top:2px solid var(--ink); padding:1rem 1.5rem; margin-top:auto; }
+.shell-footer nav { display:flex; flex-wrap:wrap; gap:1rem; margin-bottom:.5rem; }
+
+@media (max-width:1099px) { .span-3,.span-4 { grid-column:span 6; } .span-5,.span-7,.span-8,.span-9 { grid-column:span 12; } header { align-items:flex-start; } .customer-shell { grid-template-columns:minmax(0,3fr) minmax(280px,2fr); } .staff-shell .shell-body { flex-direction:column; } .shell-sidebar { flex:0 0 auto; flex-direction:row; flex-wrap:wrap; border-right:0; border-bottom:2px solid var(--ink); } }
+@media (max-width:699px) { header { padding:1rem; display:block; } header nav { margin-top:.75rem; } main { padding:.5rem; padding-bottom:4.5rem; } .frame { padding:.75rem; } .span-3,.span-4,.span-5,.span-6,.span-7,.span-8,.span-9 { grid-column:1/-1; } .actions { display:grid; } .actions > * { width:100%; text-align:center; } .customer-shell { display:block; } .advisor-rail { display:none; } .advisor-launcher { display:block; position:fixed; left:.75rem; right:.75rem; bottom:.75rem; width:auto; z-index:4; text-align:center; box-shadow:0 0 0 3px var(--paper); } .mode-note { position:static; } .shell-header { flex-wrap:wrap; padding:.75rem; } .shell-main { padding:.75rem; } .shell-footer nav { flex-direction:column; gap:.4rem; } }
