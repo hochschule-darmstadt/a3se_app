@@ -4,6 +4,10 @@
 - Owner: Requirements
 - Last reviewed: 2026-08-19
 
+## MVP scope note (issue #29 phase 1)
+
+VIEW-S-002's frame now shows Person (shared identity) and PersonRole (contextual customer/traveller role) as distinct entities per the [entity model](../../architecture/entity-model/entity-model.md), reflecting UC-014. In scope: person search/list/detail; role-type and role-status filters; create a Person with an initial role; add a further role to an existing Person; edit Person's shared fields separately from a selected role's role-specific fields; deactivate a role (status change) rather than delete. Deferred: opening a live VIEW-S-006 advice workspace (shown only as a disabled placeholder entry point, since its conversational backing does not yet exist in the build sequence) and the UC-001/UC-002 conversational use cases themselves, which belong to the advisor issues later in the sequence, not staff CRUD.
+
 ## Purpose and authority
 
 These wireframes consume the stable views, traversal, classifications, and open questions in [navigation-maps.md](../navigation-maps/navigation-maps.md). They are reviewable interaction hypotheses, not accepted production design or new business requirements. The textual use cases remain authoritative for behaviour.
@@ -46,7 +50,7 @@ The customer prototype includes a viewport selector for review and uses real CSS
 | View | Representative coverage |
 |---|---|
 | VIEW-S-001 | Portal entry and five managed-data areas |
-| VIEW-S-002 | Customer/traveler list, filters, selection, detail/edit, validation, loading, empty, error, paging, keyboard note |
+| VIEW-S-002 | Person/PersonRole list with role-type/role-status filters, selection, Person detail with per-role sub-panels, separate Person/role edit, role deactivation, combined person+initial-role creation, validation, loading, empty, error, paging, keyboard note |
 | VIEW-S-003 | Catalogue list/detail, version and activation actions |
 | VIEW-S-004 | Supplier list/detail and procurement link |
 | VIEW-S-005 | Order list/detail and preparation, allocation, payment, document, and assistance actions |
@@ -92,9 +96,12 @@ The annotated thin slice is `VIEW-C-001 → C-009 → C-010 → C-002 → C-011 
 | WF-Q-007 | Which actions require preview, explicit confirmation, re-authentication, or mandatory human handover is unresolved; the frame demonstrates states without deciding the policy. | NAV-Q-007; Requirements/Security/Privacy/Business |
 | WF-Q-008 | Exact customer footer imprint/legal-notice wording for the fictitious CCT: placeholder text or intentionally empty pending stakeholder confirmation. | Issue #27; Requirements/Legal stakeholder |
 | WF-Q-009 | Whether staff breadcrumbs are needed given the sidebar already conveys location, or whether they add value for deep drill-downs (e.g., order → advice/handover); this refinement includes them as a hypothesis, not a decision. | Issue #27; Requirements/UX |
+| WF-Q-010 | VIEW-S-002's "deactivate a role" action assumes a `roleStatusCode`-style property on PersonRole (active/inactive), analogous to `orderStatusCode`; no such property is yet defined in the [entity-model terminology](../../architecture/entity-model/terminology.md) or implemented by the Person Management backend, which currently only supports a hard `DELETE /persons/{id}/roles/{id}`. Phase 2 must add this property (or an equivalent decision) before the wireframe's deactivate action can be implemented as specified. | Issue #29 phase 1; Architecture/Requirements |
 
 ## AI-assisted validation record
 
 AI generated the initial HTML/CSS frames from the navigation baseline and use cases. Stakeholder review replaced the initial advice text area with an exclusively AI-chat-based, agentic interaction and required the chatbot to both answer and act. Subsequent critical review added visible operation states and retained action authority and confirmation policy as unresolved rather than granting unrestricted capability. Review also rejected final branding, realistic personal data, framework-specific components, invented permissions, a separate error page for every failure, and generic CRUD labels for business actions. Synthetic records are used throughout. The frames require stakeholder, Test, accessibility, privacy, security, and implementation review before acceptance.
 
 AI refined the frames again on 2026-08-19 for issue #27 phase 1, introducing a shared shell chrome, profile-specific sidebar/footer, and breadcrumbs (WF-012) without changing any accepted view boundary, transition, or business behaviour. This refinement is likewise unreviewed by stakeholders and is the input to the issue's phase 1 human review checkpoint, not an accepted shell.
+
+AI refined VIEW-S-002 again on 2026-08-19 for issue #29 phase 1, replacing the flattened "customer" record with separate Person and PersonRole regions per UC-014 and the entity model, adding role-type/role-status filters, per-role edit/deactivate actions, and a combined person-plus-initial-role creation example, while deferring VIEW-S-006 to a disabled placeholder and leaving UC-001/UC-002's conversational scope to later advisor issues. This surfaced a requirements gap (WF-Q-010: no role-status property exists yet) rather than resolving it silently. The refinement is unreviewed by stakeholders and is the input to the issue's phase 1 human review checkpoint, not an accepted wireframe.
