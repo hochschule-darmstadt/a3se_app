@@ -34,7 +34,7 @@ export default function ProductDetailRoute() {
 
   if (!productId) {
     return (
-      <StaffShell breadcrumbs={[{ label: "Products", to: "/products" }, { label: "Product detail" }]}>
+      <StaffShell breadcrumbs={[{ label: "Touristic product catalogue", to: "/products" }, { label: "Product detail" }]}>
         <StatusBanner kind="error" title="No product specified" />
       </StaffShell>
     );
@@ -42,7 +42,7 @@ export default function ProductDetailRoute() {
 
   if (productQuery.status === "pending" || componentsQuery.status === "pending") {
     return (
-      <StaffShell breadcrumbs={[{ label: "Products", to: "/products" }, { label: "Product detail" }]}>
+      <StaffShell breadcrumbs={[{ label: "Touristic product catalogue", to: "/products" }, { label: "Product detail" }]}>
         <StatusBanner kind="loading" title="Loading product…" />
       </StaffShell>
     );
@@ -50,7 +50,7 @@ export default function ProductDetailRoute() {
 
   if (productQuery.status === "error") {
     return (
-      <StaffShell breadcrumbs={[{ label: "Products", to: "/products" }, { label: "Product detail" }]}>
+      <StaffShell breadcrumbs={[{ label: "Touristic product catalogue", to: "/products" }, { label: "Product detail" }]}>
         <ApiErrorBanner error={productQuery.error} onRetry={() => productQuery.refetch()} />
       </StaffShell>
     );
@@ -58,7 +58,7 @@ export default function ProductDetailRoute() {
 
   if (componentsQuery.status === "error") {
     return (
-      <StaffShell breadcrumbs={[{ label: "Products", to: "/products" }, { label: "Product detail" }]}>
+      <StaffShell breadcrumbs={[{ label: "Touristic product catalogue", to: "/products" }, { label: "Product detail" }]}>
         <ApiErrorBanner error={componentsQuery.error} onRetry={() => componentsQuery.refetch()} />
       </StaffShell>
     );
@@ -67,7 +67,7 @@ export default function ProductDetailRoute() {
   const product = productQuery.data;
 
   return (
-    <StaffShell breadcrumbs={[{ label: "Products", to: "/products" }, { label: product.entityId }]}>
+    <StaffShell breadcrumbs={[{ label: "Touristic product catalogue", to: "/products" }, { label: product.entityId }]}>
       <Stack gap="md">
         <Title order={1}>{product.entityId}</Title>
         <Text size="xs" c="dimmed" fw={700} tt="uppercase">

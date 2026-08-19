@@ -15,7 +15,7 @@ export default function StaffHome() {
         <Title order={1}>CCT Staff</Title>
         <Text>Staff Interaction — orders, persons, organisations, products and stock items.</Text>
         <List>
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.filter((link) => link.to !== "/").map((link) => (
             <ListItem key={link.to}>
               <Link to={link.to}>{link.label}</Link>
             </ListItem>

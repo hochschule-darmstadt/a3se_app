@@ -1,5 +1,5 @@
-<svg viewBox="0 0 160 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CCT">
+<svg viewBox="0 0 190 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CCT">
   <circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" pathLength="100" stroke-dasharray="82 18" transform="rotate(54 32 32)"/>
   <circle cx="48.5" cy="43.5" r="6" fill="var(--logo-accent, currentColor)"/>
-  <text x="76" y="32" dominant-baseline="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="28" letter-spacing="1" fill="currentColor">CCT</text>
+  <text x="76" y="32" dominant-baseline="middle" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="38" letter-spacing="1" fill="currentColor">CCT</text>
 </svg>

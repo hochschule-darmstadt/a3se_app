@@ -26,7 +26,7 @@ export default function StockItemDetailRoute() {
 
   if (!stockItemId) {
     return (
-      <StaffShell breadcrumbs={[{ label: "Stock items", to: "/stock-items" }, { label: "Stock item detail" }]}>
+      <StaffShell breadcrumbs={[{ label: "Inventory", to: "/stock-items" }, { label: "Stock item detail" }]}>
         <StatusBanner kind="error" title="No stock item specified" />
       </StaffShell>
     );
@@ -34,7 +34,7 @@ export default function StockItemDetailRoute() {
 
   if (stockItemQuery.status === "pending") {
     return (
-      <StaffShell breadcrumbs={[{ label: "Stock items", to: "/stock-items" }, { label: "Stock item detail" }]}>
+      <StaffShell breadcrumbs={[{ label: "Inventory", to: "/stock-items" }, { label: "Stock item detail" }]}>
         <StatusBanner kind="loading" title="Loading stock item…" />
       </StaffShell>
     );
@@ -42,7 +42,7 @@ export default function StockItemDetailRoute() {
 
   if (stockItemQuery.status === "error") {
     return (
-      <StaffShell breadcrumbs={[{ label: "Stock items", to: "/stock-items" }, { label: "Stock item detail" }]}>
+      <StaffShell breadcrumbs={[{ label: "Inventory", to: "/stock-items" }, { label: "Stock item detail" }]}>
         <ApiErrorBanner error={stockItemQuery.error} onRetry={() => stockItemQuery.refetch()} />
       </StaffShell>
     );
@@ -51,7 +51,7 @@ export default function StockItemDetailRoute() {
   const stockItem = stockItemQuery.data;
 
   return (
-    <StaffShell breadcrumbs={[{ label: "Stock items", to: "/stock-items" }, { label: stockItem.entityId }]}>
+    <StaffShell breadcrumbs={[{ label: "Inventory", to: "/stock-items" }, { label: stockItem.entityId }]}>
       <Stack gap="md">
         <Title order={1}>{stockItem.entityId}</Title>
         <Text size="xs" c="dimmed" fw={700} tt="uppercase">

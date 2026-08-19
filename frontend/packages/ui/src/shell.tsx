@@ -1,6 +1,12 @@
-import { AppShell, Badge, Breadcrumbs, Burger, Button, Group, Menu, Stack, Text } from "@mantine/core";
+import { AppShell, Burger, Button, Group, Menu, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { type ReactNode, useState } from "react";
+import { type ComponentType, type ReactNode, useState } from "react";
+
+import cctWordmarkDark from "./assets/cct-wordmark-dark.svg";
+import { CctIcon } from "./icons.js";
+import { designTokens } from "./theme.js";
+
+type IconComponent = ComponentType<{ size?: number | string; "aria-hidden"?: boolean }>;
 
 /**
  * DS-CMP-001 / WF-012 shared shell chrome: two profile shells (`CustomerShell`,
@@ -31,6 +37,7 @@ export interface ShellUserMenuProps {
 }
 
 const MAIN_CONTENT_ID = "shell-main-content";
+const NAV_BACKGROUND = designTokens.colour.navigationStrong;
 
 /** Visible-on-focus skip link (DS-FND-004): off-screen until it receives keyboard focus. */
 function SkipLink() {
@@ -51,46 +58,50 @@ function SkipLink() {
   );
 }
 
-/** Text-only placeholder mark: the final CCT logo asset (issue #24) is integrated in a later, separate change. */
-function ShellLogo() {
-  return (
-    <Badge variant="outline" size="lg" radius="sm" aria-hidden="true">
-      CCT
-    </Badge>
-  );
-}
-
 function ShellBreadcrumbs({ items, linkComponent: Link }: { items: readonly BreadcrumbItem[]; linkComponent: ShellLinkComponent }) {
   if (items.length === 0) return null;
   return (
-    <Breadcrumbs component="nav" aria-label="Breadcrumb" mb="md">
-      {items.map((item, index) => {
-        const isLast = index === items.length - 1;
-        if (isLast || !item.to) {
+    <nav aria-label="Breadcrumb" style={{ marginBottom: "var(--mantine-spacing-md)" }}>
+      <Group gap={4}>
+        {items.map((item, index) => {
+          const isLast = index === items.length - 1;
           return (
-            <Text key={item.label} fw={isLast ? 700 : undefined} aria-current={isLast ? "page" : undefined}>
-              {item.label}
-            </Text>
+            <Group key={item.label} gap={4} wrap="nowrap">
+              {index > 0 ? (
+                <Text c="dimmed" aria-hidden="true">
+                  /
+                </Text>
+              ) : null}
+              {isLast || !item.to ? (
+                <Text fw={isLast ? 700 : undefined} aria-current={isLast ? "page" : undefined}>
+                  {item.label}
+                </Text>
+              ) : (
+                Link({ to: item.to, children: item.label })
+              )}
+            </Group>
           );
-        }
-        return <span key={item.label}>{Link({ to: item.to, children: item.label })}</span>;
-      })}
-    </Breadcrumbs>
+        })}
+      </Group>
+    </nav>
   );
 }
 
 function ShellUserMenu({ label, items }: ShellUserMenuProps) {
   if (!items || items.length === 0) {
     return (
-      <Text size="sm" fw={500}>
-        {label}
-      </Text>
+      <Group gap={6} wrap="nowrap">
+        <CctIcon.person size={18} color="white" aria-hidden />
+        <Text size="sm" fw={500} c="white">
+          {label}
+        </Text>
+      </Group>
     );
   }
   return (
     <Menu position="bottom-end" withArrow>
       <Menu.Target>
-        <Button variant="subtle" size="compact-sm">
+        <Button variant="white" size="compact-sm" leftSection={<CctIcon.person size={16} aria-hidden />}>
           {label}
         </Button>
       </Menu.Target>
@@ -118,18 +129,16 @@ export interface CustomerShellProps {
 export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, advisorRail, children }: CustomerShellProps) {
   return (
     <AppShell
-      header={{ height: 64 }}
+      header={{ height: 72 }}
       footer={{ height: "auto" }}
       aside={advisorRail ? { width: 340, breakpoint: "md" } : undefined}
       padding="md"
+      styles={{ main: { backgroundColor: designTokens.colour.surfaceCanvas } }}
     >
       <SkipLink />
-      <AppShell.Header>
+      <AppShell.Header style={{ backgroundColor: NAV_BACKGROUND, border: 0 }}>
         <Group h="100%" px="md" justify="space-between">
-          <Group gap="sm">
-            <ShellLogo />
-            <Text fw={700}>Christopher Columbus Travel</Text>
-          </Group>
+          <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />
           <ShellUserMenu {...userMenu} />
         </Group>
       </AppShell.Header>
@@ -162,6 +171,7 @@ export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, advis
 export interface StaffShellNavLink {
   readonly label: string;
   readonly to: string;
+  readonly icon?: IconComponent;
 }
 
 export interface StaffShellProps {
@@ -172,14 +182,47 @@ export interface StaffShellProps {
   readonly children: ReactNode;
 }
 
+/**
+ * `.cct-shell-navlink` styling mirrors the reviewed staff wireframe's sidebar
+ * (`docs/requirements/ux/wireframes/wireframes.css` `.shell-sidebar a`):
+ * padded targets, a visible hover/focus treatment, and a distinct
+ * current-page state driven by the `aria-current="page"` the caller's router
+ * `NavLink` sets -- not by colour alone (weight changes too, DS-FND-001).
+ */
+const NAV_LINK_STYLES = `
+  .cct-shell-navlink a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--mantine-radius-md);
+    color: #fff;
+    text-decoration: none;
+  }
+  .cct-shell-navlink a:hover,
+  .cct-shell-navlink a:focus-visible {
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .cct-shell-navlink a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.22);
+    font-weight: 700;
+  }
+`;
+
 /** DS-CMP-001 staff profile: header + persistent sidebar, no footer. */
 export function StaffShell({ navLinks, breadcrumbs = [], linkComponent, userMenu, children }: StaffShellProps) {
   const [opened, { toggle }] = useDisclosure();
 
   return (
-    <AppShell header={{ height: 64 }} navbar={{ width: 220, breakpoint: "sm", collapsed: { mobile: !opened } }} padding="md">
+    <AppShell
+      header={{ height: 72 }}
+      navbar={{ width: 220, breakpoint: "sm", collapsed: { mobile: !opened } }}
+      padding="md"
+      styles={{ main: { backgroundColor: designTokens.colour.surfaceCanvas } }}
+    >
+      <style>{NAV_LINK_STYLES}</style>
       <SkipLink />
-      <AppShell.Header>
+      <AppShell.Header style={{ backgroundColor: NAV_BACKGROUND, border: 0 }}>
         <Group h="100%" px="md" justify="space-between">
           <Group gap="sm">
             <Burger
@@ -187,20 +230,36 @@ export function StaffShell({ navLinks, breadcrumbs = [], linkComponent, userMenu
               onClick={toggle}
               hiddenFrom="sm"
               size="sm"
+              color="white"
               aria-label="Toggle staff areas navigation"
               aria-expanded={opened}
             />
-            <ShellLogo />
-            <Text fw={700}>CCT Staff</Text>
+            <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />
+            <Text fw={700} c="white">
+              Staff
+            </Text>
           </Group>
           <ShellUserMenu {...userMenu} />
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="sm" aria-label="Staff areas">
-        <Stack gap={4}>
-          {navLinks.map((link) => (
-            <div key={link.to}>{linkComponent({ to: link.to, children: link.label })}</div>
-          ))}
+      <AppShell.Navbar p="sm" aria-label="Staff areas" style={{ backgroundColor: NAV_BACKGROUND, border: 0 }}>
+        <Stack gap={4} className="cct-shell-navlink">
+          {navLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <div key={link.to}>
+                {linkComponent({
+                  to: link.to,
+                  children: (
+                    <>
+                      {Icon ? <Icon size={18} aria-hidden /> : null}
+                      <span>{link.label}</span>
+                    </>
+                  ),
+                })}
+              </div>
+            );
+          })}
         </Stack>
       </AppShell.Navbar>
       <AppShell.Main id={MAIN_CONTENT_ID}>

@@ -42,3 +42,5 @@ export type {
   StaffShellNavLink,
   StaffShellProps,
 } from "./shell.js";
+export { CctIcon } from "./icons.js";
+export type { CctIconName } from "./icons.js";

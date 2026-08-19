@@ -5,7 +5,8 @@
   "exports": { ".": "./src/index.tsx" },
   "scripts": { "typecheck": "tsc --noEmit" },
   "dependencies": {
-    "@cct/api-client": "*"
+    "@cct/api-client": "*",
+    "@tabler/icons-react": "3.46.0"
   },
   "peerDependencies": {
     "@mantine/core": "8.3.18",

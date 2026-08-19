@@ -22,7 +22,7 @@ export default function OrganisationsRoute() {
   );
 
   return (
-    <StaffShell breadcrumbs={[{ label: "Organisations" }]}>
+    <StaffShell breadcrumbs={[{ label: "Suppliers and partners" }]}>
       <Stack gap="sm">
         <Title order={1}>Organisations</Title>
 

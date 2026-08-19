@@ -22,7 +22,7 @@ export default function ProductsRoute() {
   );
 
   return (
-    <StaffShell breadcrumbs={[{ label: "Products" }]}>
+    <StaffShell breadcrumbs={[{ label: "Touristic product catalogue" }]}>
       <Stack gap="sm">
         <Title order={1}>Products</Title>
 
