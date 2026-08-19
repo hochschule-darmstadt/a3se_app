@@ -65,7 +65,7 @@ export default function OrderDetailRoute() {
 
   if (!orderId) {
     return (
-      <StaffShell title="Order detail">
+      <StaffShell breadcrumbs={[{ label: "Orders", to: "/orders" }, { label: "Order detail" }]}>
         <StatusBanner kind="error" title="No order specified" />
       </StaffShell>
     );
@@ -73,7 +73,7 @@ export default function OrderDetailRoute() {
 
   if (orderQuery.status === "pending" || detailQuery.status === "pending") {
     return (
-      <StaffShell title="Order detail">
+      <StaffShell breadcrumbs={[{ label: "Orders", to: "/orders" }, { label: "Order detail" }]}>
         <StatusBanner kind="loading" title="Loading order…" />
       </StaffShell>
     );
@@ -81,7 +81,7 @@ export default function OrderDetailRoute() {
 
   if (orderQuery.status === "error") {
     return (
-      <StaffShell title="Order detail">
+      <StaffShell breadcrumbs={[{ label: "Orders", to: "/orders" }, { label: "Order detail" }]}>
         <ApiErrorBanner error={orderQuery.error} onRetry={() => orderQuery.refetch()} />
       </StaffShell>
     );
@@ -89,7 +89,7 @@ export default function OrderDetailRoute() {
 
   if (detailQuery.status === "error") {
     return (
-      <StaffShell title="Order detail">
+      <StaffShell breadcrumbs={[{ label: "Orders", to: "/orders" }, { label: "Order detail" }]}>
         <ApiErrorBanner error={detailQuery.error} onRetry={() => detailQuery.refetch()} />
       </StaffShell>
     );
@@ -109,7 +109,7 @@ export default function OrderDetailRoute() {
   }
 
   return (
-    <StaffShell title={`Order ${order.properties.orderNumber}`}>
+    <StaffShell breadcrumbs={[{ label: "Orders", to: "/orders" }, { label: `Order ${order.properties.orderNumber}` }]}>
       <Stack gap="md">
         <Group justify="space-between" align="center">
           <Title order={1}>Order {order.properties.orderNumber}</Title>

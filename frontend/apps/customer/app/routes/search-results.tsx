@@ -7,6 +7,7 @@ import { Link, useSearchParams } from "react-router";
 import { apiClient } from "../api";
 import { useT } from "../i18n";
 import { productBadge, productTitle } from "../lib/product-display";
+import { CustomerShell } from "../lib/shell";
 
 export function meta() {
   return [{ title: "Search results – Christopher Columbus Travel" }];
@@ -55,59 +56,61 @@ export default function SearchResults() {
   }
 
   return (
-    <Container component="main" py="xl" size="lg">
-      <Stack gap="lg">
-        <Title order={1}>{t("results.heading")}</Title>
+    <CustomerShell>
+      <Container py="xl" size="lg">
+        <Stack gap="lg">
+          <Title order={1}>{t("results.heading")}</Title>
 
-        <Stack gap="xs" component="section" aria-label={t("results.criteria.heading")}>
-          <Title order={2}>{t("results.criteria.heading")}</Title>
-          <Text size="sm">
-            {t("results.criteria.origin")}: {origin || "–"} · {t("results.criteria.destination")}:{" "}
-            {destination || "–"} · {t("results.criteria.date")}: {date || "–"} ·{" "}
-            {t("results.criteria.travellers")}: {travellers || "–"}
-          </Text>
-          <Text size="sm" c="dimmed">
-            {t("results.criteria.note")}
-          </Text>
+          <Stack gap="xs" component="section" aria-label={t("results.criteria.heading")}>
+            <Title order={2}>{t("results.criteria.heading")}</Title>
+            <Text size="sm">
+              {t("results.criteria.origin")}: {origin || "–"} · {t("results.criteria.destination")}:{" "}
+              {destination || "–"} · {t("results.criteria.date")}: {date || "–"} ·{" "}
+              {t("results.criteria.travellers")}: {travellers || "–"}
+            </Text>
+            <Text size="sm" c="dimmed">
+              {t("results.criteria.note")}
+            </Text>
+          </Stack>
+
+          {query.isPending ? <StatusBanner kind="loading" title={t("results.loading")} /> : null}
+
+          {query.isError ? (
+            <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} />
+          ) : null}
+
+          {query.isSuccess ? (
+            query.data.items.length === 0 ? (
+              <StatusBanner kind="empty" title={t("results.empty")} />
+            ) : (
+              <>
+                <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
+                  {query.data.items.map((product) => (
+                    <ResourceCard
+                      key={product.entityId}
+                      title={productTitle(product)}
+                      subtitle={product.entityId}
+                      badge={productBadge(product)}
+                      action={
+                        <Link to={detailHref(product.entityId)}>{t("results.viewDetail")}</Link>
+                      }
+                    />
+                  ))}
+                </SimpleGrid>
+                <CursorPager
+                  hasPrevious={cursorStack.length > 0}
+                  hasNext={Boolean(query.data.nextCursor)}
+                  onPrevious={goPrevious}
+                  onNext={goNext}
+                  loading={query.isFetching}
+                />
+              </>
+            )
+          ) : null}
+
+          <Link to="/">{t("results.revise")}</Link>
         </Stack>
-
-        {query.isPending ? <StatusBanner kind="loading" title={t("results.loading")} /> : null}
-
-        {query.isError ? (
-          <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} />
-        ) : null}
-
-        {query.isSuccess ? (
-          query.data.items.length === 0 ? (
-            <StatusBanner kind="empty" title={t("results.empty")} />
-          ) : (
-            <>
-              <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-                {query.data.items.map((product) => (
-                  <ResourceCard
-                    key={product.entityId}
-                    title={productTitle(product)}
-                    subtitle={product.entityId}
-                    badge={productBadge(product)}
-                    action={
-                      <Link to={detailHref(product.entityId)}>{t("results.viewDetail")}</Link>
-                    }
-                  />
-                ))}
-              </SimpleGrid>
-              <CursorPager
-                hasPrevious={cursorStack.length > 0}
-                hasNext={Boolean(query.data.nextCursor)}
-                onPrevious={goPrevious}
-                onNext={goNext}
-                loading={query.isFetching}
-              />
-            </>
-          )
-        ) : null}
-
-        <Link to="/">{t("results.revise")}</Link>
-      </Stack>
-    </Container>
+      </Container>
+    </CustomerShell>
   );
 }

@@ -8,6 +8,7 @@ import { apiClient } from "../api";
 import { useT } from "../i18n";
 import { checkAvailability, type AvailabilityResult } from "../lib/availability";
 import { productTitle } from "../lib/product-display";
+import { CustomerShell } from "../lib/shell";
 
 export function meta() {
   return [{ title: "Travel product – Christopher Columbus Travel" }];
@@ -58,56 +59,64 @@ export default function ProductDetail() {
   }
 
   return (
-    <Container component="main" py="xl" size="md">
-      <Stack gap="lg">
-        <Title order={1}>{t("detail.heading")}</Title>
+    <CustomerShell
+      breadcrumbs={[
+        { label: "Travel portal", to: "/" },
+        { label: "Search results", to: "/search" },
+        { label: productQuery.isSuccess ? productTitle(productQuery.data) : t("detail.heading") },
+      ]}
+    >
+      <Container py="xl" size="md">
+        <Stack gap="lg">
+          <Title order={1}>{t("detail.heading")}</Title>
 
-        {productQuery.isPending ? <StatusBanner kind="loading" title={t("detail.loading")} /> : null}
-        {productQuery.isError ? (
-          <ApiErrorBanner error={productQuery.error} onRetry={() => productQuery.refetch()} />
-        ) : null}
+          {productQuery.isPending ? <StatusBanner kind="loading" title={t("detail.loading")} /> : null}
+          {productQuery.isError ? (
+            <ApiErrorBanner error={productQuery.error} onRetry={() => productQuery.refetch()} />
+          ) : null}
 
-        {productQuery.isSuccess ? (
-          <Stack gap="md">
-            <Title order={2}>{productTitle(productQuery.data)}</Title>
-            <Text c="dimmed">{productQuery.data.entityId}</Text>
-            <Text size="sm">
-              {t("detail.requestedDate")}: {requestedDate || "–"}
-            </Text>
+          {productQuery.isSuccess ? (
+            <Stack gap="md">
+              <Title order={2}>{productTitle(productQuery.data)}</Title>
+              <Text c="dimmed">{productQuery.data.entityId}</Text>
+              <Text size="sm">
+                {t("detail.requestedDate")}: {requestedDate || "–"}
+              </Text>
 
-            {componentsQuery.isSuccess && componentsQuery.data.length > 0 ? (
-              <Stack gap="xs">
-                <Title order={3}>{t("detail.components.heading")}</Title>
-                <List>
-                  {componentsQuery.data.map((component) => (
-                    <List.Item key={component.entityId}>{productTitle(component)}</List.Item>
-                  ))}
-                </List>
-              </Stack>
-            ) : null}
+              {componentsQuery.isSuccess && componentsQuery.data.length > 0 ? (
+                <Stack gap="xs">
+                  <Title order={3}>{t("detail.components.heading")}</Title>
+                  <List>
+                    {componentsQuery.data.map((component) => (
+                      <List.Item key={component.entityId}>{productTitle(component)}</List.Item>
+                    ))}
+                  </List>
+                </Stack>
+              ) : null}
 
-            {requestedDate ? (
-              <Stack gap="sm">
-                {availabilityQuery.isPending ? (
-                  <StatusBanner
-                    kind="loading"
-                    title={t("detail.checkingAvailability", { date: requestedDate })}
-                  />
-                ) : null}
+              {requestedDate ? (
+                <Stack gap="sm">
+                  {availabilityQuery.isPending ? (
+                    <StatusBanner
+                      kind="loading"
+                      title={t("detail.checkingAvailability", { date: requestedDate })}
+                    />
+                  ) : null}
 
-                {availabilityQuery.isError ? (
-                  <ApiErrorBanner error={availabilityQuery.error} onRetry={() => availabilityQuery.refetch()} />
-                ) : null}
+                  {availabilityQuery.isError ? (
+                    <ApiErrorBanner error={availabilityQuery.error} onRetry={() => availabilityQuery.refetch()} />
+                  ) : null}
 
-                {availabilityQuery.isSuccess ? renderAvailability(availabilityQuery.data) : null}
-              </Stack>
-            ) : null}
+                  {availabilityQuery.isSuccess ? renderAvailability(availabilityQuery.data) : null}
+                </Stack>
+              ) : null}
 
-            <Link to="/search">{t("detail.back")}</Link>
-          </Stack>
-        ) : null}
-      </Stack>
-    </Container>
+              <Link to="/search">{t("detail.back")}</Link>
+            </Stack>
+          ) : null}
+        </Stack>
+      </Container>
+    </CustomerShell>
   );
 
   function renderAvailability(result: AvailabilityResult) {

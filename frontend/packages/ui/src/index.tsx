@@ -30,6 +30,15 @@ export {
   CursorPager,
   ResourceCard,
   OfferSummary,
-  AppShellLayout,
 } from "./components.js";
-export type { DataTableColumn, ResourceCardProps, OfferSummaryProps, AppShellLayoutProps } from "./components.js";
+export type { DataTableColumn, ResourceCardProps, OfferSummaryProps } from "./components.js";
+export { CustomerShell, StaffShell } from "./shell.js";
+export type {
+  BreadcrumbItem,
+  ShellLinkComponent,
+  ShellUserMenuItem,
+  ShellUserMenuProps,
+  CustomerShellProps,
+  StaffShellNavLink,
+  StaffShellProps,
+} from "./shell.js";

@@ -8,6 +8,7 @@ import { apiClient } from "../api";
 import { useT } from "../i18n";
 import { stockItemId } from "../lib/availability";
 import { productTitle } from "../lib/product-display";
+import { CustomerShell } from "../lib/shell";
 
 export function meta() {
   return [{ title: "Your offer – Christopher Columbus Travel" }];
@@ -62,42 +63,50 @@ export default function Offer() {
   }
 
   return (
-    <Container component="main" py="xl" size="md">
-      <Stack gap="lg">
-        <Title order={1}>{t("offer.heading")}</Title>
+    <CustomerShell
+      breadcrumbs={[
+        { label: "Travel portal", to: "/" },
+        { label: "Trip composition", to: "/compose" },
+        { label: "Sales Offer" },
+      ]}
+    >
+      <Container py="xl" size="md">
+        <Stack gap="lg">
+          <Title order={1}>{t("offer.heading")}</Title>
 
-        {productQuery.isPending || stockQuery.isPending ? (
-          <StatusBanner kind="loading" title={t("detail.loading")} />
-        ) : null}
-        {productQuery.isError ? (
-          <ApiErrorBanner error={productQuery.error} onRetry={() => productQuery.refetch()} />
-        ) : null}
-        {stockQuery.isError ? (
-          <ApiErrorBanner error={stockQuery.error} onRetry={() => stockQuery.refetch()} />
-        ) : null}
+          {productQuery.isPending || stockQuery.isPending ? (
+            <StatusBanner kind="loading" title={t("detail.loading")} />
+          ) : null}
+          {productQuery.isError ? (
+            <ApiErrorBanner error={productQuery.error} onRetry={() => productQuery.refetch()} />
+          ) : null}
+          {stockQuery.isError ? (
+            <ApiErrorBanner error={stockQuery.error} onRetry={() => stockQuery.refetch()} />
+          ) : null}
 
-        {productQuery.isSuccess && stockQuery.isSuccess ? (
-          <Stack gap="md">
-            <OfferSummary
-              orderNumber={t("offer.status.draft")}
-              statusLabel={t("offer.status.draft")}
-              positions={[
-                {
-                  label: productTitle(productQuery.data),
-                  detail: `${date} · ${travellers}`,
-                  amount: stockQuery.data.properties.unitPriceAmount,
-                },
-              ]}
-              totalAmount={stockQuery.data.properties.unitPriceAmount}
-              currencyCode={stockQuery.data.properties.currencyCode}
-              pendingNote={t("offer.pendingNote")}
-            />
-            <Button color="orange" disabled={submitting} onClick={handleSubmit}>
-              {submitting ? t("offer.submitting") : t("offer.submit")}
-            </Button>
-          </Stack>
-        ) : null}
-      </Stack>
-    </Container>
+          {productQuery.isSuccess && stockQuery.isSuccess ? (
+            <Stack gap="md">
+              <OfferSummary
+                orderNumber={t("offer.status.draft")}
+                statusLabel={t("offer.status.draft")}
+                positions={[
+                  {
+                    label: productTitle(productQuery.data),
+                    detail: `${date} · ${travellers}`,
+                    amount: stockQuery.data.properties.unitPriceAmount,
+                  },
+                ]}
+                totalAmount={stockQuery.data.properties.unitPriceAmount}
+                currencyCode={stockQuery.data.properties.currencyCode}
+                pendingNote={t("offer.pendingNote")}
+              />
+              <Button color="orange" disabled={submitting} onClick={handleSubmit}>
+                {submitting ? t("offer.submitting") : t("offer.submit")}
+              </Button>
+            </Stack>
+          ) : null}
+        </Stack>
+      </Container>
+    </CustomerShell>
   );
 }

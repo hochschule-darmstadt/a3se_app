@@ -14,6 +14,7 @@ import {
   type ResolvedRoles,
   type SubmissionStepId,
 } from "../lib/order-submission";
+import { CustomerShell } from "../lib/shell";
 
 export function meta() {
   return [{ title: "Order – Christopher Columbus Travel" }];
@@ -101,36 +102,38 @@ export default function Order() {
   }
 
   return (
-    <Container component="main" py="xl" size="md">
-      <Stack gap="lg">
-        <Title order={1}>{t("order.heading")}</Title>
+    <CustomerShell breadcrumbs={[{ label: "Travel portal", to: "/" }, { label: "Order" }]}>
+      <Container py="xl" size="md">
+        <Stack gap="lg">
+          <Title order={1}>{t("order.heading")}</Title>
 
-        {status === "running" ? <StatusBanner kind="loading" title={t("order.submitting")} /> : null}
+          {status === "running" ? <StatusBanner kind="loading" title={t("order.submitting")} /> : null}
 
-        {status === "error" && error ? renderError(error) : null}
+          {status === "error" && error ? renderError(error) : null}
 
-        {status === "success" ? (
-          <Stack gap="md">
-            <StatusBanner kind="success" title={t("order.success.title")} description={t("order.success.description")} />
-            <Group>
-              <Text fw={700}>{t("order.success.id.label")}:</Text>
-              <Text>{orderId}</Text>
-              <CopyButton value={orderId}>
-                {({ copied, copy }) => (
-                  <Button size="compact-sm" variant="light" onClick={copy}>
-                    {copied ? "Copied" : "Copy"}
-                  </Button>
-                )}
-              </CopyButton>
-            </Group>
-            <Text>
-              {t("order.success.number.label")}: {orderId}
-            </Text>
-            <Link to="/">{t("nav.home")}</Link>
-          </Stack>
-        ) : null}
-      </Stack>
-    </Container>
+          {status === "success" ? (
+            <Stack gap="md">
+              <StatusBanner kind="success" title={t("order.success.title")} description={t("order.success.description")} />
+              <Group>
+                <Text fw={700}>{t("order.success.id.label")}:</Text>
+                <Text>{orderId}</Text>
+                <CopyButton value={orderId}>
+                  {({ copied, copy }) => (
+                    <Button size="compact-sm" variant="light" onClick={copy}>
+                      {copied ? "Copied" : "Copy"}
+                    </Button>
+                  )}
+                </CopyButton>
+              </Group>
+              <Text>
+                {t("order.success.number.label")}: {orderId}
+              </Text>
+              <Link to="/">{t("nav.home")}</Link>
+            </Stack>
+          ) : null}
+        </Stack>
+      </Container>
+    </CustomerShell>
   );
 
   function renderError(currentError: ApiError) {

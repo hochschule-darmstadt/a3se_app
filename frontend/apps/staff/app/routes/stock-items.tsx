@@ -27,7 +27,7 @@ export default function StockItemsRoute() {
   );
 
   return (
-    <StaffShell title="Stock items">
+    <StaffShell breadcrumbs={[{ label: "Stock items" }]}>
       <Stack gap="sm">
         <Title order={1}>Stock items</Title>
         <Text size="sm" c="dimmed">

@@ -108,7 +108,8 @@ Deprecation records replacement, reason, consumers, and removal condition. Indep
 | Date | Change | Evidence and state |
 |---|---|---|
 | 2026-08-17 | Proposed foundations, two profiles, ten evidenced contracts, governance, and catalogue. | Issue #16; stakeholder, accessibility, Test, and PoC review remain |
-| 2026-08-19 | Refined DS-CMP-001's contract wording (ID unchanged) to name breadcrumbs and the customer footer landmark explicitly, reflecting the phase 1 shell wireframe refinement. | Issue #27 phase 1 (WF-012); pending the issue's phase 1 human review checkpoint |
+| 2026-08-19 | Refined DS-CMP-001's contract wording (ID unchanged) to name breadcrumbs and the customer footer landmark explicitly, reflecting the phase 1 shell wireframe refinement. | Issue #27 phase 1 (WF-012); reviewed and accepted by stakeholder direction, 2026-08-19 |
+| 2026-08-19 | Implemented DS-CMP-001 as `CustomerShell`/`StaffShell` (`frontend/packages/ui/src/shell.tsx`), composed from shared logo/breadcrumb/user-menu primitives; every Customer and Staff route now plugs into its profile shell instead of owning header/footer/nav markup. | Issue #27 phase 2; frontend unit tests (`app/lib/shell.test.tsx` in both apps), typecheck, and build all pass; pending the issue's phase 2 human review checkpoint |
 
 ## Review and validation record
 

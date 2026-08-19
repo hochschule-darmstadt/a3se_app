@@ -4,6 +4,7 @@ import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { useT } from "../i18n";
+import { CustomerShell } from "../lib/shell";
 
 export function meta() {
   return [{ title: "Christopher Columbus Travel" }];
@@ -47,42 +48,44 @@ export default function CustomerHome() {
   }
 
   return (
-    <Container component="main" py="xl" size="md">
-      <Stack gap="lg">
-        <Title order={1}>{t("home.heading")}</Title>
-        <form onSubmit={handleSubmit} noValidate>
-          <Stack gap="md">
-            <FormErrorSummary errors={errors} />
-            <TextInput
-              label={t("home.origin.label")}
-              placeholder={t("home.origin.placeholder")}
-              value={origin}
-              onChange={(event) => setOrigin(event.currentTarget.value)}
-            />
-            <TextInput
-              label={t("home.destination.label")}
-              placeholder={t("home.destination.placeholder")}
-              value={destination}
-              onChange={(event) => setDestination(event.currentTarget.value)}
-            />
-            <TextInput
-              type="date"
-              label={t("home.date.label")}
-              value={date}
-              onChange={(event) => setDate(event.currentTarget.value)}
-            />
-            <NumberInput
-              label={t("home.travellers.label")}
-              min={1}
-              value={travellers}
-              onChange={setTravellers}
-            />
-            <Button type="submit" color="orange">
-              {t("home.submit")}
-            </Button>
-          </Stack>
-        </form>
-      </Stack>
-    </Container>
+    <CustomerShell>
+      <Container py="xl" size="md">
+        <Stack gap="lg">
+          <Title order={1}>{t("home.heading")}</Title>
+          <form onSubmit={handleSubmit} noValidate>
+            <Stack gap="md">
+              <FormErrorSummary errors={errors} />
+              <TextInput
+                label={t("home.origin.label")}
+                placeholder={t("home.origin.placeholder")}
+                value={origin}
+                onChange={(event) => setOrigin(event.currentTarget.value)}
+              />
+              <TextInput
+                label={t("home.destination.label")}
+                placeholder={t("home.destination.placeholder")}
+                value={destination}
+                onChange={(event) => setDestination(event.currentTarget.value)}
+              />
+              <TextInput
+                type="date"
+                label={t("home.date.label")}
+                value={date}
+                onChange={(event) => setDate(event.currentTarget.value)}
+              />
+              <NumberInput
+                label={t("home.travellers.label")}
+                min={1}
+                value={travellers}
+                onChange={setTravellers}
+              />
+              <Button type="submit" color="orange">
+                {t("home.submit")}
+              </Button>
+            </Stack>
+          </form>
+        </Stack>
+      </Container>
+    </CustomerShell>
   );
 }

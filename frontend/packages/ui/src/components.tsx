@@ -1,7 +1,5 @@
 import {
-  AppShell,
   Alert,
-  Anchor,
   Badge,
   Button,
   Card,
@@ -297,37 +295,5 @@ export function OfferSummary({ orderNumber, statusLabel, positions, totalAmount,
         ) : null}
       </Stack>
     </Card>
-  );
-}
-
-export interface AppShellLayoutProps {
-  readonly title: string;
-  readonly navLinks: readonly { label: string; to: string }[];
-  readonly linkComponent: (props: { to: string; children: ReactNode }) => ReactNode;
-  readonly headerRight?: ReactNode;
-  readonly children: ReactNode;
-}
-
-/** DS-CMP-001 shell: persistent labelled navigation landmark + main content region. */
-export function AppShellLayout({ title, navLinks, linkComponent: Link, headerRight, children }: AppShellLayoutProps) {
-  return (
-    <AppShell header={{ height: 60 }} padding="md">
-      <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
-          <Group>
-            <Title order={4}>{title}</Title>
-            <Group component="nav" aria-label="Primary" gap="xs">
-              {navLinks.map((link) => (
-                <Anchor key={link.to} component="div">
-                  {Link({ to: link.to, children: link.label })}
-                </Anchor>
-              ))}
-            </Group>
-          </Group>
-          {headerRight}
-        </Group>
-      </AppShell.Header>
-      <AppShell.Main>{children}</AppShell.Main>
-    </AppShell>
   );
 }

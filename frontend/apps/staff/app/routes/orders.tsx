@@ -58,7 +58,7 @@ export default function OrdersRoute() {
   }
 
   return (
-    <StaffShell title="Orders">
+    <StaffShell breadcrumbs={[{ label: "Orders" }]}>
       <Stack gap="sm">
         <Title order={1}>Orders</Title>
         <Select

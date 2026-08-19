@@ -37,7 +37,7 @@ export default function OrganisationDetailRoute() {
 
   if (!organisationId) {
     return (
-      <StaffShell title="Organisation detail">
+      <StaffShell breadcrumbs={[{ label: "Organisations", to: "/organisations" }, { label: "Organisation detail" }]}>
         <StatusBanner kind="error" title="No organisation specified" />
       </StaffShell>
     );
@@ -45,7 +45,7 @@ export default function OrganisationDetailRoute() {
 
   if (organisationQuery.status === "pending" || rolesQuery.status === "pending") {
     return (
-      <StaffShell title="Organisation detail">
+      <StaffShell breadcrumbs={[{ label: "Organisations", to: "/organisations" }, { label: "Organisation detail" }]}>
         <StatusBanner kind="loading" title="Loading organisation…" />
       </StaffShell>
     );
@@ -53,7 +53,7 @@ export default function OrganisationDetailRoute() {
 
   if (organisationQuery.status === "error") {
     return (
-      <StaffShell title="Organisation detail">
+      <StaffShell breadcrumbs={[{ label: "Organisations", to: "/organisations" }, { label: "Organisation detail" }]}>
         <ApiErrorBanner error={organisationQuery.error} onRetry={() => organisationQuery.refetch()} />
       </StaffShell>
     );
@@ -61,7 +61,7 @@ export default function OrganisationDetailRoute() {
 
   if (rolesQuery.status === "error") {
     return (
-      <StaffShell title="Organisation detail">
+      <StaffShell breadcrumbs={[{ label: "Organisations", to: "/organisations" }, { label: "Organisation detail" }]}>
         <ApiErrorBanner error={rolesQuery.error} onRetry={() => rolesQuery.refetch()} />
       </StaffShell>
     );
@@ -70,7 +70,7 @@ export default function OrganisationDetailRoute() {
   const organisation = organisationQuery.data;
 
   return (
-    <StaffShell title={organisation.properties.name}>
+    <StaffShell breadcrumbs={[{ label: "Organisations", to: "/organisations" }, { label: organisation.properties.name }]}>
       <Stack gap="md">
         <Title order={1}>{organisation.properties.name}</Title>
         <Text size="xs" c="dimmed" fw={700} tt="uppercase">

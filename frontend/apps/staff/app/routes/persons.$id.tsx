@@ -31,7 +31,7 @@ export default function PersonDetailRoute() {
 
   if (!personId) {
     return (
-      <StaffShell title="Person detail">
+      <StaffShell breadcrumbs={[{ label: "Persons", to: "/persons" }, { label: "Person detail" }]}>
         <StatusBanner kind="error" title="No person specified" />
       </StaffShell>
     );
@@ -39,7 +39,7 @@ export default function PersonDetailRoute() {
 
   if (personQuery.status === "pending" || rolesQuery.status === "pending") {
     return (
-      <StaffShell title="Person detail">
+      <StaffShell breadcrumbs={[{ label: "Persons", to: "/persons" }, { label: "Person detail" }]}>
         <StatusBanner kind="loading" title="Loading person…" />
       </StaffShell>
     );
@@ -47,7 +47,7 @@ export default function PersonDetailRoute() {
 
   if (personQuery.status === "error") {
     return (
-      <StaffShell title="Person detail">
+      <StaffShell breadcrumbs={[{ label: "Persons", to: "/persons" }, { label: "Person detail" }]}>
         <ApiErrorBanner error={personQuery.error} onRetry={() => personQuery.refetch()} />
       </StaffShell>
     );
@@ -55,7 +55,7 @@ export default function PersonDetailRoute() {
 
   if (rolesQuery.status === "error") {
     return (
-      <StaffShell title="Person detail">
+      <StaffShell breadcrumbs={[{ label: "Persons", to: "/persons" }, { label: "Person detail" }]}>
         <ApiErrorBanner error={rolesQuery.error} onRetry={() => rolesQuery.refetch()} />
       </StaffShell>
     );
@@ -64,7 +64,7 @@ export default function PersonDetailRoute() {
   const person = personQuery.data;
 
   return (
-    <StaffShell title={`${person.properties.givenName} ${person.properties.familyName}`}>
+    <StaffShell breadcrumbs={[{ label: "Persons", to: "/persons" }, { label: `${person.properties.givenName} ${person.properties.familyName}` }]}>
       <Stack gap="md">
         <Title order={1}>
           {person.properties.givenName} {person.properties.familyName}

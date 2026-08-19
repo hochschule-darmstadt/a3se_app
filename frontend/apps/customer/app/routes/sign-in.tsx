@@ -4,6 +4,7 @@ import { type FormEvent, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
 import { useT } from "../i18n";
+import { CustomerShell } from "../lib/shell";
 
 export function meta() {
   return [{ title: "Sign in – Christopher Columbus Travel" }];
@@ -47,33 +48,41 @@ export default function SignIn() {
   }
 
   return (
-    <Container component="main" py="xl" size="sm">
-      <Stack gap="lg">
-        <Title order={1}>{t("signIn.heading")}</Title>
-        <StatusBanner kind="info" title={t("signIn.notice")} />
-        {productId ? <p>{t("signIn.context", { product: productId, date })}</p> : null}
+    <CustomerShell
+      breadcrumbs={[
+        { label: "Travel portal", to: "/" },
+        { label: "Trip composition", to: "/compose" },
+        { label: "Sign in" },
+      ]}
+    >
+      <Container py="xl" size="sm">
+        <Stack gap="lg">
+          <Title order={1}>{t("signIn.heading")}</Title>
+          <StatusBanner kind="info" title={t("signIn.notice")} />
+          {productId ? <p>{t("signIn.context", { product: productId, date })}</p> : null}
 
-        <form onSubmit={handleSubmit} noValidate>
-          <Stack gap="md">
-            <FormErrorSummary errors={errors} />
-            <TextInput
-              label={t("signIn.displayName.label")}
-              value={displayName}
-              onChange={(event) => setDisplayName(event.currentTarget.value)}
-            />
-            <Button type="submit" color="orange">
-              {mode === "sign-in" ? t("signIn.submit") : t("signIn.register.submit")}
-            </Button>
-            <Anchor
-              component="button"
-              type="button"
-              onClick={() => setMode(mode === "sign-in" ? "register" : "sign-in")}
-            >
-              {mode === "sign-in" ? t("signIn.toggle.toRegister") : t("signIn.toggle.toSignIn")}
-            </Anchor>
-          </Stack>
-        </form>
-      </Stack>
-    </Container>
+          <form onSubmit={handleSubmit} noValidate>
+            <Stack gap="md">
+              <FormErrorSummary errors={errors} />
+              <TextInput
+                label={t("signIn.displayName.label")}
+                value={displayName}
+                onChange={(event) => setDisplayName(event.currentTarget.value)}
+              />
+              <Button type="submit" color="orange">
+                {mode === "sign-in" ? t("signIn.submit") : t("signIn.register.submit")}
+              </Button>
+              <Anchor
+                component="button"
+                type="button"
+                onClick={() => setMode(mode === "sign-in" ? "register" : "sign-in")}
+              >
+                {mode === "sign-in" ? t("signIn.toggle.toRegister") : t("signIn.toggle.toSignIn")}
+              </Anchor>
+            </Stack>
+          </form>
+        </Stack>
+      </Container>
+    </CustomerShell>
   );
 }

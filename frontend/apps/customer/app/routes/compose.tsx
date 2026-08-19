@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { apiClient } from "../api";
 import { useT } from "../i18n";
 import { productTitle } from "../lib/product-display";
+import { CustomerShell } from "../lib/shell";
 
 export function meta() {
   return [{ title: "Compose your travel – Christopher Columbus Travel" }];
@@ -48,38 +49,46 @@ export default function Compose() {
   }
 
   return (
-    <Container component="main" py="xl" size="md">
-      <Stack gap="lg">
-        <Title order={1}>{t("compose.heading")}</Title>
+    <CustomerShell
+      breadcrumbs={[
+        { label: "Travel portal", to: "/" },
+        { label: "Search results", to: "/search" },
+        { label: "Trip composition" },
+      ]}
+    >
+      <Container py="xl" size="md">
+        <Stack gap="lg">
+          <Title order={1}>{t("compose.heading")}</Title>
 
-        {productQuery.isPending ? <StatusBanner kind="loading" title={t("detail.loading")} /> : null}
-        {productQuery.isError ? (
-          <ApiErrorBanner error={productQuery.error} onRetry={() => productQuery.refetch()} />
-        ) : null}
+          {productQuery.isPending ? <StatusBanner kind="loading" title={t("detail.loading")} /> : null}
+          {productQuery.isError ? (
+            <ApiErrorBanner error={productQuery.error} onRetry={() => productQuery.refetch()} />
+          ) : null}
 
-        {productQuery.isSuccess ? (
-          <Stack gap="md">
-            <Text>
-              {t("compose.summary.product")}: {productTitle(productQuery.data)}
-            </Text>
-            <Text>
-              {t("compose.summary.date")}: {date}
-            </Text>
-            <NumberInput
-              label={t("compose.travellers.label")}
-              min={1}
-              value={travellers}
-              onChange={setTravellers}
-            />
-            <Text size="sm" c="dimmed">
-              {t("compose.travellers.note")}
-            </Text>
-            <Button color="orange" onClick={handleContinue}>
-              {t("compose.continue")}
-            </Button>
-          </Stack>
-        ) : null}
-      </Stack>
-    </Container>
+          {productQuery.isSuccess ? (
+            <Stack gap="md">
+              <Text>
+                {t("compose.summary.product")}: {productTitle(productQuery.data)}
+              </Text>
+              <Text>
+                {t("compose.summary.date")}: {date}
+              </Text>
+              <NumberInput
+                label={t("compose.travellers.label")}
+                min={1}
+                value={travellers}
+                onChange={setTravellers}
+              />
+              <Text size="sm" c="dimmed">
+                {t("compose.travellers.note")}
+              </Text>
+              <Button color="orange" onClick={handleContinue}>
+                {t("compose.continue")}
+              </Button>
+            </Stack>
+          ) : null}
+        </Stack>
+      </Container>
+    </CustomerShell>
   );
 }

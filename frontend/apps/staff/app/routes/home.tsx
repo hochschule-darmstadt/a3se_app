@@ -10,7 +10,7 @@ export function meta() {
 /** VIEW-S-001: staff navigation shell linking to every implemented staff area. */
 export default function StaffHome() {
   return (
-    <StaffShell title="CCT Staff">
+    <StaffShell>
       <Stack gap="sm">
         <Title order={1}>CCT Staff</Title>
         <Text>Staff Interaction — orders, persons, organisations, products and stock items.</Text>
