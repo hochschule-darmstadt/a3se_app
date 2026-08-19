@@ -12,3 +12,7 @@
 6. Commit one coherent intent with a descriptive imperative message.
 
 Do not mix unrelated cleanup with behavior changes. Do not claim tests or reviews that did not run. Technology-specific branching, formatting, linting, testing, and commit-message rules will be added only after the stack and delivery platform are selected.
+
+## Checkpoints
+
+Where an issue names a "Checkpoint" (e.g. human acceptance of a wireframe, human review of an implementation), that checkpoint is a stop, not a step: present the work and wait for the human's explicit authorization before committing it. "Checkpoint, then commit" describes the required order of events, not a single action for the agent to complete unattended. This applies whether or not the individual issue spells it out again.

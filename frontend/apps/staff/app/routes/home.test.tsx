@@ -27,7 +27,15 @@ afterEach(() => {
 });
 
 describe("StaffHome (VIEW-S-001, issue #28 phase 2)", () => {
-  it("shows one tile per managed-data area, with a heading and a Manage link to its route", () => {
+  it("shows the portal headline and a Staff Portal Home breadcrumb", () => {
+    renderHome();
+
+    expect(screen.getByRole("heading", { level: 1, name: "CCT Staff Portal" })).toBeInTheDocument();
+    const breadcrumb = screen.getByRole("navigation", { name: "Breadcrumb" });
+    expect(within(breadcrumb).getByText("Staff Portal Home")).toHaveAttribute("aria-current", "page");
+  });
+
+  it("shows one tile per managed-data area, each with an icon, a heading and a Manage link to its route", () => {
     renderHome();
 
     const main = screen.getByRole("main");
@@ -37,15 +45,18 @@ describe("StaffHome (VIEW-S-001, issue #28 phase 2)", () => {
       expect(within(main).getByRole("heading", { name: link.label })).toBeInTheDocument();
     }
 
+    expect(main.querySelectorAll("svg[aria-hidden]").length).toBeGreaterThanOrEqual(areaLinks.length);
+
     const manageLinks = within(main).getAllByRole("link", { name: "Manage" });
     expect(manageLinks.map((link) => link.getAttribute("href")).sort()).toEqual(
       areaLinks.map((link) => link.to).sort(),
     );
   });
 
-  it("does not show a work queue or other dashboard content (deferred, issue #28 phase 1)", () => {
+  it("does not show the deleted intro text, a work queue, or other dashboard content (issue #28 phase 1)", () => {
     renderHome();
 
+    expect(screen.queryByText("Choose a managed-data area to continue.")).not.toBeInTheDocument();
     expect(screen.queryByText(/work queue/i)).not.toBeInTheDocument();
   });
 });

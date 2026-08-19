@@ -6,14 +6,16 @@
 <div class="app-shell staff-shell">
 <header class="shell-header">
   <div class="shell-header-left" style="display:flex;gap:1rem;align-items:center;"><span class="shell-logo" aria-hidden="true">CCT</span><p class="shell-title">Tour operator · staff prototype</p></div>
-  <div class="shell-header-right"><button class="user-menu" type="button" aria-haspopup="true" aria-expanded="false">Staff user (mocked) &#9662;</button></div>
+  <div class="shell-header-right"><button class="user-menu" type="button" aria-haspopup="true" aria-expanded="false">User &#9662;</button></div>
 </header>
 <div class="shell-body">
 <nav class="shell-sidebar" aria-label="Staff areas"><a href="#view-s-001">Home</a><a href="#view-s-002">Customers and travellers</a><a href="#view-s-003">Touristic product catalogue</a><a href="#view-s-004">Suppliers and partners</a><a href="#view-s-007">Inventory</a><a href="#view-s-005">Orders</a></nav>
 <main id="main" class="shell-main">
   <section class="intro"><h1>Staff wireframes</h1><p>Low-fidelity resource-management patterns. All records are synthetic. List, detail and edit states are shown together for review; permissions remain an open requirement.</p><p class="annotation">The five managed-data areas are customers/travellers, touristic product catalogue, suppliers/partners, inventory and orders. Advice is contextual work, not a sixth master-data silo. The staff user icon in the header is explicitly mocked: no staff login exists yet, and this must not imply a real session (see Phase 1 notes in <a href="wireframes.md">wireframes.md</a>).</p></section>
 
-  <section class="frame" id="view-s-001"><span class="id">VIEW-S-001</span><h2>Staff portal home</h2><div class="grid">
+  <section class="frame" id="view-s-001"><span class="id">VIEW-S-001</span><h2>Staff portal home</h2>
+    <nav aria-label="Breadcrumb" class="breadcrumb"><span aria-current="page">Staff Portal Home</span></nav>
+    <div class="grid">
     <article class="card span-4"><h3>Customers and travellers</h3><p>Find customer accounts and traveller records.</p><a href="#view-s-002">Manage → S-002</a></article>
     <article class="card span-4"><h3>Touristic product catalogue</h3><p>Maintain bookable product definitions and versions.</p><a href="#view-s-003">Manage → S-003</a></article>
     <article class="card span-4"><h3>Suppliers and partners</h3><p>Maintain fulfilment parties and relationships.</p><a href="#view-s-004">Manage → S-004</a></article>

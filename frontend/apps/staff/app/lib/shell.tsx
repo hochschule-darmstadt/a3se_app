@@ -42,7 +42,7 @@ export function StaffShell({ breadcrumbs, children }: { readonly breadcrumbs?: r
       navLinks={NAV_LINKS}
       breadcrumbs={breadcrumbs}
       linkComponent={renderNavLink}
-      userMenu={{ label: "Staff user (mocked)" }}
+      userMenu={{ label: "User" }}
     >
       {children}
     </UiStaffShell>

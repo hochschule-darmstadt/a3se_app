@@ -1,4 +1,4 @@
-import { Button, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { Button, SimpleGrid, Stack, Title } from "@mantine/core";
 import { Link } from "react-router";
 
 import { ResourceCard } from "@cct/ui";
@@ -32,23 +32,26 @@ export default function StaffHome() {
   const areaLinks = NAV_LINKS.filter((link) => link.to !== "/");
 
   return (
-    <StaffShell>
+    <StaffShell breadcrumbs={[{ label: "Staff Portal Home" }]}>
       <Stack gap="lg">
-        <Title order={1}>CCT Staff</Title>
-        <Text>Choose a managed-data area to continue.</Text>
+        <Title order={1}>CCT Staff Portal</Title>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-          {areaLinks.map((link) => (
-            <ResourceCard
-              key={link.to}
-              title={link.label}
-              subtitle={AREA_DESCRIPTIONS[link.to]}
-              action={
-                <Button component={Link} to={link.to} variant="light">
-                  Manage
-                </Button>
-              }
-            />
-          ))}
+          {areaLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <ResourceCard
+                key={link.to}
+                title={link.label}
+                subtitle={AREA_DESCRIPTIONS[link.to]}
+                icon={Icon ? <Icon size={24} aria-hidden /> : null}
+                action={
+                  <Button component={Link} to={link.to} variant="light">
+                    Manage
+                  </Button>
+                }
+              />
+            );
+          })}
         </SimpleGrid>
       </Stack>
     </StaffShell>

@@ -44,11 +44,11 @@ describe("StaffShell (DS-CMP-001 staff profile, issue #27 phase 2)", () => {
     }
   });
 
-  it("shows the staff user icon as a non-interactive mocked placeholder (no staff login exists yet)", () => {
+  it("shows the user icon as a non-interactive placeholder (no staff login exists yet)", () => {
     renderShell();
 
-    expect(screen.getByText("Staff user (mocked)")).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Staff user (mocked)" })).not.toBeInTheDocument();
+    expect(screen.getByText("User")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "User" })).not.toBeInTheDocument();
   });
 
   it("omits the breadcrumb trail when none is given", () => {

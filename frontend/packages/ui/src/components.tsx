@@ -215,20 +215,25 @@ export interface ResourceCardProps {
   readonly title: string;
   readonly subtitle?: string;
   readonly badge?: string;
+  /** Rendered before the title, e.g. a `CctIcon` (DS-CMP-011); must be `aria-hidden` by the caller. */
+  readonly icon?: ReactNode;
   readonly details?: readonly { label: string; value: string }[];
   readonly action?: ReactNode;
 }
 
-/** DS-CMP-005 card: a titled, badge-labelled summary with optional detail rows and one action. */
-export function ResourceCard({ title, subtitle, badge, details, action }: ResourceCardProps) {
+/** DS-CMP-005 card: a titled, badge-labelled summary with optional icon, detail rows and one action. */
+export function ResourceCard({ title, subtitle, badge, icon, details, action }: ResourceCardProps) {
   return (
     <Card withBorder padding="lg" radius="lg">
       <Stack gap="xs">
         <Group justify="space-between" align="flex-start">
-          <div>
-            <Title order={3}>{title}</Title>
-            {subtitle ? <Text c="dimmed">{subtitle}</Text> : null}
-          </div>
+          <Group gap="xs" align="flex-start" wrap="nowrap">
+            {icon}
+            <div>
+              <Title order={3}>{title}</Title>
+              {subtitle ? <Text c="dimmed">{subtitle}</Text> : null}
+            </div>
+          </Group>
           {badge ? <Badge>{badge}</Badge> : null}
         </Group>
         {details?.length ? (
