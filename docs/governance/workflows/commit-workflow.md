@@ -1,8 +1,8 @@
 # Change and Commit Workflow
 
-- Status: proposed
+- Status: accepted
 - Owner: Management/Implementation
-- Last reviewed: 2026-07-27
+- Last reviewed: 2026-08-19
 
 1. Start from an identified requirement, risk, defect, or decision.
 2. Declare scope and affected stable IDs using the [artifact authority and lifecycle](artifact-lifecycle.md).

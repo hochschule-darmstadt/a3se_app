@@ -1,8 +1,8 @@
 # Definition of Done
 
-- Status: proposed
+- Status: accepted
 - Owner: Management/Test
-- Last reviewed: 2026-07-21
+- Last reviewed: 2026-08-19
 
 - The intended outcome and affected requirement IDs are clear.
 - Acceptance evidence covers normal, alternative, error, and boundary behavior as relevant.

@@ -1,7 +1,7 @@
 # DR-0008: Adopt an epic-feature-story backlog hierarchy
 
-- Status: proposed
-- Date: 2026-07-31
+- Status: accepted
+- Date: 2026-08-19
 - Deciders: project owner and management
 - Supersedes: DR-0007 in part
 

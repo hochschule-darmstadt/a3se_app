@@ -69,3 +69,5 @@ Do not create a directory merely to hold one short document. Existing multi-docu
 ## Context hygiene
 
 Every directory has a `README.md`. Every substantive document begins with status, owner, and last-reviewed metadata. Prefer stable IDs and relative links. Link to one authoritative definition rather than copying it.
+
+A grown topic's routing `README.md` is exempt from the status/owner/last-reviewed triad: it is a pointer to the same-named authoritative topic document, which carries that metadata instead.

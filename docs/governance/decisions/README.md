@@ -8,6 +8,8 @@ Use immutable, sequential files such as `0007-short-title.md`, copied from the [
 
 All records use `DR-NNNN`. Accepted records are not rewritten to hide changed thinking; supersede them with a new record and reciprocal links. Numbers are never reused.
 
+Decision records intentionally use the `Status/Date/Deciders/Supersedes` metadata from the [decision-record template](../templates/decision-record.md) instead of the general status/owner/last-reviewed triad: a DR is an immutable point-in-time record, not a living document, so "last reviewed" would be misleading.
+
 ## Index
 
 | Record | Decision | Status | Date | Supersedes |
@@ -19,7 +21,7 @@ All records use `DR-NNNN`. Accepted records are not rewritten to hide changed th
 | [DR-0005](0005-operationalize-product-definition-harness.md) | Operationalize the product-definition harness | accepted | 2026-07-27 | none |
 | [DR-0006](0006-align-harness-with-lifecycle-terminology.md) | Align the harness with software engineering lifecycle terminology | accepted | 2026-07-29 | DR-0002, DR-0003, DR-0005 in part |
 | [DR-0007](0007-govern-work-with-github-issues-and-project.md) | Govern work with GitHub Issues and a Project board | accepted | 2026-07-29 | none |
-| [DR-0008](0008-adopt-epic-feature-story-backlog-hierarchy.md) | Adopt an epic-feature-story backlog hierarchy | proposed | 2026-07-31 | DR-0007 in part |
+| [DR-0008](0008-adopt-epic-feature-story-backlog-hierarchy.md) | Adopt an epic-feature-story backlog hierarchy | accepted | 2026-08-19 | DR-0007 in part |
 | [DR-0009](0009-preserve-authoritative-document-when-growing-topics.md) | Preserve the authoritative document when growing topics | accepted | 2026-08-01 | DR-0006 in part |
 | [DR-0010](0010-adopt-python-centered-modular-technology-stack.md) | Adopt a Python-centred modular technology stack | accepted | 2026-08-04 | none |
 | [DR-0011](0011-use-docker-for-localhost-deployment.md) | Use Docker for the initial localhost deployment | accepted | 2026-08-14 | none |
