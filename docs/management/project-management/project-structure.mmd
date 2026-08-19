@@ -1,21 +1,20 @@
 gantt
   title Logical project structure - sequence only, not a schedule
   dateFormat YYYY-MM-DD
-  axisFormat Step %j
+  axisFormat  
 
   section Basic concept
-  Coarse overall planning - #2                       :plan, 2000-01-01, 1d
-  Essential requirements - #3                        :requirements, after plan, 1d
-  Supporting architecture - #4, #7, #8, #9, #18     :architecture, after requirements, 1d
-  UX foundations - #11, #14, #15, #16                :ux, after architecture, 1d
-  Test-data specification - #10                       :testdata, after ux, 1d
-  Proof of concept - #13 (#19, #20, #21, #12, #22)   :poc, after testdata, 1d
-  Phase-gate validation - #17                         :gate, after poc, 1d
+  Coarse overall planning - #2                             :plan, 2000-01-01, 3d
+  Essential requirements - #3                               :requirements, 2000-01-02, 3d
+  Supporting architecture - #4, #7, #8, #9, #18             :architecture, 2000-01-03, 3d
+  UX foundations - #11, #14, #15, #16                        :ux, 2000-01-04, 3d
+  Proof of concept - #13 (#10, #19, #20, #21, #12, #22)     :poc, 2000-01-05, 3d
+  Phase-gate validation - #17                                :gate, 2000-01-07, 2d
 
   section Iterative delivery
-  Iteration / Sprint 1 MVP - #23 (#24, #25)           :iteration1, after gate, 1d
-  Iterations / Sprints 2 through n - future issues    :iterations, after iteration1, 2d
+  Iteration / Sprint 1 MVP - #23 (#24, #25)                  :iteration1, after gate, 1d
+  Iterations / Sprints 2 through n - future issues            :iterations, after iteration1, 2d
 
   section End phase
-  Approval testing and approval - future issue        :approval, after iterations, 1d
-  Roll-out and closing - future issue                 :closing, after approval, 1d
+  Approval testing and approval - future issue                :approval, 2000-03-01, 3d
+  Roll-out and closing - future issue                          :closing, 2000-03-02, 3d
