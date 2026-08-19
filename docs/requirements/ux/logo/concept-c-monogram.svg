@@ -1,0 +1,6 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Concept C: interlocked C and T monogram with a destination dot">
+  <circle cx="28" cy="32" r="18" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" pathLength="100" stroke-dasharray="78 22" transform="rotate(200 28 32)"/>
+  <line x1="40" y1="14" x2="40" y2="46" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+  <line x1="30" y1="14" x2="50" y2="14" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="40" cy="46" r="5" fill="var(--logo-accent, currentColor)"/>
+</svg>
