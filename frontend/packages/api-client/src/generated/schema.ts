@@ -409,6 +409,12 @@ export interface components {
         AirlineRoleProperties: {
             /** Airlinedesignator */
             airlineDesignator: string;
+            /**
+             * Rolestatuscode
+             * @default role/active
+             * @enum {string}
+             */
+            roleStatusCode: "role/active" | "role/inactive";
         };
         /** AirlineRoleRequest */
         AirlineRoleRequest: {
@@ -484,10 +490,21 @@ export interface components {
             type: "product/experience/activity" | "product/experience/guided-tour" | "product/mobility/coach" | "product/mobility/rail" | "product/mobility/transfer" | "product/mobility/vehicle-rental" | "product/protection/travel" | "product/water/cruise" | "product/water/day-boat";
         };
         /** EmptySupplierRoleProperties */
-        EmptySupplierRoleProperties: Record<string, never>;
+        EmptySupplierRoleProperties: {
+            /**
+             * Rolestatuscode
+             * @default role/active
+             * @enum {string}
+             */
+            roleStatusCode: "role/active" | "role/inactive";
+        };
         /** EmptySupplierRoleRequest */
         EmptySupplierRoleRequest: {
-            /** @default {} */
+            /**
+             * @default {
+             *       "roleStatusCode": "role/active"
+             *     }
+             */
             properties: components["schemas"]["EmptySupplierRoleProperties"];
             /**
              * @description discriminator enum property added by openapi-typescript

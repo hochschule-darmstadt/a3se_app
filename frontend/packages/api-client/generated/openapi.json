@@ -8,6 +8,15 @@
             "pattern": "^[A-Z0-9]{2}$",
             "title": "Airlinedesignator",
             "type": "string"
+          },
+          "roleStatusCode": {
+            "default": "role/active",
+            "enum": [
+              "role/active",
+              "role/inactive"
+            ],
+            "title": "Rolestatuscode",
+            "type": "string"
           }
         },
         "required": [
@@ -273,7 +282,17 @@
       },
       "EmptySupplierRoleProperties": {
         "additionalProperties": false,
-        "properties": {},
+        "properties": {
+          "roleStatusCode": {
+            "default": "role/active",
+            "enum": [
+              "role/active",
+              "role/inactive"
+            ],
+            "title": "Rolestatuscode",
+            "type": "string"
+          }
+        },
         "title": "EmptySupplierRoleProperties",
         "type": "object"
       },
@@ -281,7 +300,9 @@
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/EmptySupplierRoleProperties",
-            "default": {}
+            "default": {
+              "roleStatusCode": "role/active"
+            }
           },
           "type": {
             "enum": [

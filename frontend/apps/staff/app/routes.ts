@@ -8,6 +8,7 @@ export default [
   route("persons/new", "routes/persons.new.tsx"),
   route("persons/:personId", "routes/persons.$id.tsx"),
   route("organisations", "routes/organisations.tsx"),
+  route("organisations/new", "routes/organisations.new.tsx"),
   route("organisations/:organisationId", "routes/organisations.$id.tsx"),
   route("products", "routes/products.tsx"),
   route("products/:productId", "routes/products.$id.tsx"),
