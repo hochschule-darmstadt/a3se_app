@@ -14,11 +14,11 @@ import { CctIcon, StaffShell as UiStaffShell, type BreadcrumbItem } from "@cct/u
  */
 export const NAV_LINKS = [
   { label: "Home", to: "/", icon: CctIcon.home },
-  { label: "Customers and travellers", to: "/persons", icon: CctIcon.person },
-  { label: "Touristic product catalogue", to: "/products", icon: CctIcon.catalogue },
   { label: "Suppliers and partners", to: "/organisations", icon: CctIcon.supplier },
-  { label: "Inventory", to: "/stock-items", icon: CctIcon.inventory },
+  { label: "Touristic product catalogue", to: "/products", icon: CctIcon.catalogue },
+  { label: "Customers and travellers", to: "/persons", icon: CctIcon.person },
   { label: "Orders", to: "/orders", icon: CctIcon.order },
+  { label: "Inventory", to: "/stock-items", icon: CctIcon.inventory },
 ] as const;
 
 function renderNavLink({ to, children }: { to: string; children: ReactNode }) {
