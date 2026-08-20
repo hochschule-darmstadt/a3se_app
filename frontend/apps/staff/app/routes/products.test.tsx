@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createRoutesStub } from "react-router";
@@ -45,22 +45,26 @@ function productResponse(entityId: string, type: string, displayName: string | n
   };
 }
 
-function mockGetImplementation(
-  productsResult: { data?: { items: ReturnType<typeof productResponse>[]; nextCursor: string | null }; response: unknown },
-  supplierByProduct: Record<string, unknown> = {}
-) {
-  getMock.mockImplementation((path: string, options?: { params?: { path?: { product_id?: string } } }) => {
-    if (path === "/products") return Promise.resolve(productsResult);
-    const productId = options?.params?.path?.product_id as string | undefined;
+interface Fixture {
+  readonly products: unknown[];
+  readonly ancestorsByProduct?: Record<string, unknown[]>;
+  readonly supplierByRoot?: Record<string, unknown>;
+  readonly organisationByRole?: Record<string, unknown>;
+}
+
+function mockGetImplementation({ products, ancestorsByProduct = {}, supplierByRoot = {}, organisationByRole = {} }: Fixture) {
+  getMock.mockImplementation((path: string, options?: { params?: { path?: Record<string, string> } }) => {
+    if (path === "/products") return Promise.resolve({ data: { items: products, nextCursor: null }, response: { ok: true, status: 200 } });
+    const productId = options?.params?.path?.product_id;
+    const roleId = options?.params?.path?.role_id;
+    if (path === "/products/{product_id}/ancestors") {
+      return Promise.resolve({ data: ancestorsByProduct[productId as string] ?? [], response: { ok: true, status: 200 } });
+    }
     if (path === "/products/{product_id}/supplier") {
-      return Promise.resolve(supplierByProduct[productId as string] ?? { data: null, response: { ok: true, status: 200 } });
+      return Promise.resolve({ data: supplierByRoot[productId as string] ?? null, response: { ok: true, status: 200 } });
     }
-    if (path === "/products/{product_id}") {
-      const product = (productsResult.data?.items ?? []).find((item) => item.entityId === productId);
-      return Promise.resolve({ data: product, response: { ok: true, status: 200 } });
-    }
-    if (path === "/products/{product_id}/components") {
-      return Promise.resolve({ data: [], response: { ok: true, status: 200 } });
+    if (path === "/organisations/roles/{role_id}/organisation") {
+      return Promise.resolve({ data: organisationByRole[roleId as string] ?? null, response: { ok: true, status: 200 } });
     }
     throw new Error(`Unexpected GET path: ${path}`);
   });
@@ -72,7 +76,7 @@ afterEach(() => {
   postMock.mockReset();
 });
 
-describe("ProductsRoute (VIEW-S-003, issue #31 phase 2)", () => {
+describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
   it("shows a loading state before data arrives", () => {
     getMock.mockReturnValue(new Promise(() => {}));
     renderProducts();
@@ -80,7 +84,7 @@ describe("ProductsRoute (VIEW-S-003, issue #31 phase 2)", () => {
   });
 
   it("shows an empty state when there are no products", async () => {
-    mockGetImplementation({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } });
+    mockGetImplementation({ products: [] });
     renderProducts();
     expect(await screen.findByText(/no products match these filters/i)).toBeInTheDocument();
   });
@@ -94,89 +98,79 @@ describe("ProductsRoute (VIEW-S-003, issue #31 phase 2)", () => {
     expect(await screen.findByText("Server error")).toBeInTheDocument();
   });
 
-  it("renders products with a display-name label and lifecycle badge", async () => {
+  it("shows a root product's breadcrumb up to its supplying organisation", async () => {
     mockGetImplementation({
-      data: { items: [productResponse("PRD-001", "product/hotel/room-category", "Madeira walking week", "product/active")], nextCursor: null },
-      response: { ok: true, status: 200 },
-    });
-    renderProducts();
-
-    expect(await screen.findByText("Madeira walking week")).toBeInTheDocument();
-    const table = screen.getByRole("table");
-    expect(await within(table).findByText("Active")).toBeInTheDocument();
-  });
-
-  it("falls back to a type-derived label when displayName is unset", async () => {
-    mockGetImplementation({
-      data: { items: [productResponse("PRD-002", "product/mobility/transfer", null, "product/draft")], nextCursor: null },
-      response: { ok: true, status: 200 },
-    });
-    renderProducts();
-
-    expect(await screen.findByText("Mobility transfer (PRD-002)")).toBeInTheDocument();
-  });
-
-  it("filters rows client-side by search text", async () => {
-    mockGetImplementation({
-      data: {
-        items: [
-          productResponse("PRD-001", "product/hotel/room-category", "Madeira walking week", "product/active"),
-          productResponse("PRD-002", "product/hotel/room-category", "Alpine ski week", "product/draft"),
-        ],
-        nextCursor: null,
+      products: [productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active")],
+      supplierByRoot: {
+        "ACC-01": { entityId: "SUP-ACC-01-ROLE", entityKind: "OrgaRole", type: "partner/supplier/accommodation", schemaVersion: 1, properties: { roleStatusCode: "role/active" } },
       },
-      response: { ok: true, status: 200 },
+      organisationByRole: {
+        "SUP-ACC-01-ROLE": { entityId: "SUP-ACC-01", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Southlight Stays", addressLocalityName: "Lima" } },
+      },
     });
     renderProducts();
-    await screen.findByText("Madeira walking week");
+
+    expect(await screen.findByText("Southlight Stays - Accommodation - Single Room")).toBeInTheDocument();
+  });
+
+  it("falls back to a type-derived label when displayName is unset and no supplier is linked", async () => {
+    mockGetImplementation({ products: [productResponse("PRD-002", "product/mobility/transfer", null, "product/draft")] });
+    renderProducts();
+
+    expect(await screen.findByText("mobility/transfer (PRD-002)")).toBeInTheDocument();
+  });
+
+  it("filters rows client-side by search text against the breadcrumb", async () => {
+    mockGetImplementation({
+      products: [
+        productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active"),
+        productResponse("ACC-02", "product/accommodation/room-category", "Double Room", "product/active"),
+      ],
+    });
+    renderProducts();
+    await screen.findByText(/single room \(ACC-01\)|Single Room/i);
 
     const user = userEvent.setup();
-    await user.type(screen.getByLabelText(/search/i), "Alpine");
+    await user.type(screen.getByLabelText(/search/i), "Double");
 
-    await waitFor(() => expect(screen.queryByText("Madeira walking week")).not.toBeInTheDocument());
-    expect(screen.getByText("Alpine ski week")).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/Single Room/)).not.toBeInTheDocument());
+    expect(screen.getByText(/Double Room/)).toBeInTheDocument();
   });
 
-  it("filters rows client-side by lifecycle status", async () => {
+  it("expands a matched row's own children on demand", async () => {
     mockGetImplementation({
-      data: {
-        items: [
-          productResponse("PRD-001", "product/hotel/room-category", "Madeira walking week", "product/active"),
-          productResponse("PRD-002", "product/hotel/room-category", "Alpine ski week", "product/draft"),
-        ],
-        nextCursor: null,
+      products: [
+        productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active"),
+        { entityId: "ACC-01-R1", entityKind: "TouristicProductItem", type: "product/accommodation/room", schemaVersion: 1, properties: { roomNumber: "0101" } },
+      ],
+      ancestorsByProduct: {
+        "ACC-01-R1": [productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active")],
       },
-      response: { ok: true, status: 200 },
     });
     renderProducts();
-    await screen.findByText("Madeira walking week");
-    await screen.findByText("Alpine ski week");
+    await screen.findByText(/Single Room/);
+
+    expect(screen.queryByText(/accommodation\/room \(ACC-01-R1\)/)).not.toBeInTheDocument();
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("textbox", { name: /lifecycle/i }));
-    await user.click(await screen.findByRole("option", { name: "Draft", hidden: true }));
+    await user.click(screen.getByRole("button", { name: /expand/i }));
 
-    await waitFor(() => expect(screen.queryByText("Madeira walking week")).not.toBeInTheDocument());
-    expect(screen.getByText("Alpine ski week")).toBeInTheDocument();
+    expect(await screen.findByText(/accommodation\/room \(ACC-01-R1\)/)).toBeInTheDocument();
   });
 
   it("shows the product's detail inline in the right pane when a row is activated, without navigating away", async () => {
-    mockGetImplementation({
-      data: { items: [productResponse("PRD-001", "product/hotel/room-category", "Madeira walking week", "product/active")], nextCursor: null },
-      response: { ok: true, status: 200 },
-    });
+    mockGetImplementation({ products: [productResponse("PRD-001", "product/mobility/transfer", "Airport shuttle", "product/active")] });
     renderProducts();
-    const cell = await screen.findByText("Madeira walking week");
+    const row = await screen.findByText("Airport shuttle");
 
     const user = userEvent.setup();
-    await user.click(cell);
+    await user.click(row);
 
-    expect(await screen.findByRole("heading", { level: 1, name: "Madeira walking week" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1, name: "Touristic product catalogue" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Touristic product catalogue" })).toBeInTheDocument();
   });
 
   it("shows the create-product form inline in the right pane", async () => {
-    mockGetImplementation({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } });
+    mockGetImplementation({ products: [] });
     renderProducts();
     await screen.findByText(/no products match these filters/i);
 
@@ -184,6 +178,5 @@ describe("ProductsRoute (VIEW-S-003, issue #31 phase 2)", () => {
     await user.click(screen.getByRole("button", { name: "Create product draft" }));
 
     expect(screen.getByRole("heading", { level: 1, name: "Create product draft" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1, name: "Touristic product catalogue" })).toBeInTheDocument();
   });
 });

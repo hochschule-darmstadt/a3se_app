@@ -62,14 +62,14 @@ class DailyQuantityTest(unittest.TestCase):
 class GenerateStockSpecsTest(unittest.TestCase):
     def test_respects_date_boundaries(self) -> None:
         specs = inventory.generate_stock_specs(
-            {"product/flight": ["FLT-01"]}, set(), start=date(2027, 1, 1), end=date(2027, 1, 3)
+            {"product/airline/flight": ["FLT-01"]}, set(), start=date(2027, 1, 1), end=date(2027, 1, 3)
         )
         dates = {spec.service_date for spec in specs}
         self.assertTrue(dates.issubset({date(2027, 1, 1), date(2027, 1, 2), date(2027, 1, 3)}))
 
     def test_generates_distinct_unit_ids_per_date(self) -> None:
         specs = inventory.generate_stock_specs(
-            {"product/flight": ["FLT-01"]},
+            {"product/airline/flight": ["FLT-01"]},
             {("FLT-01", date(2027, 1, 1))},
             start=date(2027, 1, 1),
             end=date(2027, 1, 1),
@@ -80,7 +80,7 @@ class GenerateStockSpecsTest(unittest.TestCase):
 
     def test_stock_type_matches_product_family(self) -> None:
         specs = inventory.generate_stock_specs(
-            {"product/flight": ["FLT-01"], "product/accommodation/room-category": ["ACC-01"]},
+            {"product/airline/flight": ["FLT-01"], "product/accommodation/room-category": ["ACC-01"]},
             {("FLT-01", date(2027, 1, 1)), ("ACC-01", date(2027, 1, 1))},
             start=date(2027, 1, 1),
             end=date(2027, 1, 1),
@@ -91,7 +91,7 @@ class GenerateStockSpecsTest(unittest.TestCase):
 
     def test_price_has_two_decimal_places(self) -> None:
         specs = inventory.generate_stock_specs(
-            {"product/flight": ["FLT-01"]},
+            {"product/airline/flight": ["FLT-01"]},
             {("FLT-01", date(2027, 1, 1))},
             start=date(2027, 1, 1),
             end=date(2027, 1, 1),

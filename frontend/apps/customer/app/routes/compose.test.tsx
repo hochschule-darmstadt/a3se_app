@@ -32,7 +32,7 @@ describe("Compose (VIEW-C-002 traveller composition)", () => {
       data: {
         entityId: "FLT-01",
         entityKind: "TouristicProductItem",
-        type: "product/flight",
+        type: "product/airline/flight",
         schemaVersion: 1,
         properties: {
           flightNumber: "501",

@@ -49,20 +49,21 @@ EMPTY_PRODUCT_TYPES = (
     "product/experience/activity",
     "product/protection/travel",
 )
-ROOM_CATEGORY_TYPES = ("product/hotel/room-category", "product/accommodation/room-category")
+ROOM_CATEGORY_TYPES = ("product/accommodation/room-category",)
+ROOM_TYPES = ("product/accommodation/room",)
 
 
 class FlightRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    type: Literal["product/flight"] = "product/flight"
+    type: Literal["product/airline/flight"] = "product/airline/flight"
     properties: FlightPropertiesTransport
 
 
 class SeatRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    type: Literal["product/flight/seat"] = "product/flight/seat"
+    type: Literal["product/airline/seat"] = "product/airline/seat"
     properties: SeatProperties
 
 
@@ -76,7 +77,7 @@ class RoomCategoryRequest(BaseModel):
 class RoomRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    type: Literal["product/hotel/room"] = "product/hotel/room"
+    type: Literal[ROOM_TYPES]
     properties: RoomProperties
 
 
@@ -189,7 +190,7 @@ class ProductPageParams(PageParams):
     model itself sidesteps that.
     """
 
-    type: str | None = Field(default=None, description="Filter by exact terminology type, e.g. product/flight")
+    type: str | None = Field(default=None, description="Filter by exact terminology type, e.g. product/airline/flight")
 
 
 @router.get(
@@ -242,6 +243,18 @@ def delete_product(product_id: str, repository: RepositoryDependency, actor: Act
 def get_product_components(product_id: str, repository: RepositoryDependency) -> list[ProductComponentResponse]:
     tree = service.get_component_tree(repository, product_id)
     return [ProductComponentResponse.from_component(entity, parent_id) for entity, parent_id in tree]
+
+
+@router.get(
+    "/{product_id}/ancestors",
+    response_model=list[ProductResponse],
+    operation_id="getProductAncestors",
+    responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+)
+def get_product_ancestors(product_id: str, repository: RepositoryDependency) -> list[ProductResponse]:
+    """Root-first CONTAINS parent chain, excluding `product_id` itself; empty when it is already a root."""
+    ancestors = service.get_ancestors(repository, product_id)
+    return [ProductResponse.from_domain(entity) for entity in ancestors]
 
 
 @router.put(

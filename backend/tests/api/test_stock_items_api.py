@@ -15,7 +15,7 @@ def flight_payload(entity_id: str = "I21-FLIGHT") -> dict[str, object]:
     return {
         "entityId": entity_id,
         "product": {
-            "type": "product/flight",
+            "type": "product/airline/flight",
             "properties": {
                 "flightNumber": "500",
                 "departureLocationCode": "FRA",

@@ -15,7 +15,7 @@ const getMock = vi.mocked(apiClient.GET);
 const FLIGHT_PRODUCT = {
   entityId: "FLT-01",
   entityKind: "TouristicProductItem",
-  type: "product/flight",
+  type: "product/airline/flight",
   schemaVersion: 1,
   properties: {
     flightNumber: "501",

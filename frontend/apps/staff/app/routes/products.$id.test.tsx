@@ -23,7 +23,7 @@ const { default: ProductDetailRoute } = await import("./products.$id");
 const flightProduct = {
   entityId: "PRD-001",
   entityKind: "TouristicProductItem",
-  type: "product/flight",
+  type: "product/airline/flight",
   schemaVersion: 1,
   properties: {
     displayName: "Return flight",
@@ -38,10 +38,14 @@ const flightProduct = {
 };
 
 function mockGetImplementation(productResult: unknown, componentsResult: unknown, supplierResult: unknown) {
+  const emptyOk = { data: [], response: { ok: true, status: 200 } };
+  const nullOk = { data: null, response: { ok: true, status: 200 } };
   getMock.mockImplementation((path: string) => {
     if (path === "/products/{product_id}") return Promise.resolve(productResult);
     if (path === "/products/{product_id}/components") return Promise.resolve(componentsResult);
     if (path === "/products/{product_id}/supplier") return Promise.resolve(supplierResult);
+    if (path === "/products/{product_id}/ancestors") return Promise.resolve(emptyOk);
+    if (path === "/organisations/roles/{role_id}/organisation") return Promise.resolve(nullOk);
     throw new Error(`Unexpected GET path: ${path}`);
   });
 }
@@ -84,7 +88,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     renderDetail();
 
     expect(await screen.findByRole("heading", { level: 1, name: "Return flight" })).toBeInTheDocument();
-    expect(screen.getByText("Flight")).toBeInTheDocument();
+    expect(screen.getByText("airline/flight")).toBeInTheDocument();
     expect(screen.getByText("Draft")).toBeInTheDocument();
     expect(screen.getByText(/no supplier set/i)).toBeInTheDocument();
   });
@@ -111,7 +115,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
         params: { path: { product_id: "PRD-001" } },
         body: {
           product: {
-            type: "product/flight",
+            type: "product/airline/flight",
             properties: expect.objectContaining({ lifecycleStatusCode: "product/active", flightNumber: "500" }),
           },
         },
@@ -133,7 +137,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     expect(await screen.findByText(/partner\/supplier\/airline · SUP-AIR-01-ROLE/)).toBeInTheDocument();
   });
 
-  it("sets a supplier by entity ID", async () => {
+  it("sets a supplier by ID", async () => {
     mockGetImplementation(
       { data: flightProduct, response: { ok: true, status: 200 } },
       { data: [flightProduct], response: { ok: true, status: 200 } },
@@ -144,7 +148,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     await screen.findByRole("heading", { level: 1, name: "Return flight" });
 
     const user = userEvent.setup();
-    await user.type(screen.getByLabelText(/supplier role entity id/i), "SUP-AIR-01-ROLE");
+    await user.type(screen.getByLabelText(/supplier role id/i), "SUP-AIR-01-ROLE");
     await user.click(screen.getByRole("button", { name: "Set supplier" }));
 
     expect(putMock).toHaveBeenCalledWith(

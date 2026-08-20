@@ -125,7 +125,7 @@ export default function OrderDetailRoute() {
             <Text>{order.properties.orderNumber}</Text>
           </Group>
           <Group>
-            <Text fw={500}>Entity ID</Text>
+            <Text fw={500}>ID</Text>
             <Text>{order.entityId}</Text>
           </Group>
         </Stack>

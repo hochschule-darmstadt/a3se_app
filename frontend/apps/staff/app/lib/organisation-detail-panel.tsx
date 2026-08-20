@@ -133,7 +133,7 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
       ) : (
         <Stack gap={4}>
           <Group>
-            <Text fw={500}>Entity ID</Text>
+            <Text fw={500}>ID</Text>
             <Text>{organisation.entityId}</Text>
           </Group>
           <Group>

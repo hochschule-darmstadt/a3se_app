@@ -103,3 +103,12 @@ def update_orga_role(
 
 def delete_orga_role(repository: EntityRepositoryPort, entity_id: str) -> None:
     repository.delete(EntityKind.ORGA_ROLE, entity_id)
+
+
+def get_organisation_for_role(repository: EntityRepositoryPort, role_id: str) -> ValidatedEntity:
+    if repository.get(EntityKind.ORGA_ROLE, role_id) is None:
+        raise EntityNotFoundError(EntityKind.ORGA_ROLE, role_id)
+    organisation = repository.get_organisation_for_role(role_id)
+    if organisation is None:
+        raise EntityNotFoundError(EntityKind.ORGANISATION, role_id)
+    return organisation

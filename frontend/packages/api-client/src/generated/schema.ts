@@ -163,6 +163,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/organisations/roles/{role_id}/organisation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Organisation For Role
+         * @description Reverse HAS_ROLE lookup: the Organisation that owns `role_id` (issue #31 follow-up: catalogue breadcrumbs need this to show the supplying organisation, not just its role).
+         */
+        get: operations["getOrganisationForRole"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/organisations/{organisation_id}": {
         parameters: {
             query?: never;
@@ -325,6 +345,26 @@ export interface paths {
         post?: never;
         /** Delete Product */
         delete: operations["deleteProduct"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/products/{product_id}/ancestors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Product Ancestors
+         * @description Root-first CONTAINS parent chain, excluding `product_id` itself; empty when it is already a root.
+         */
+        get: operations["getProductAncestors"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -523,7 +563,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "partner/supplier/accommodation" | "partner/supplier/experience" | "partner/supplier/hotel" | "partner/supplier/mobility" | "partner/supplier/protection" | "partner/supplier/water-transport";
+            type: "partner/supplier/accommodation" | "partner/supplier/experience" | "partner/supplier/mobility" | "partner/supplier/protection" | "partner/supplier/water-transport";
         };
         /**
          * ErrorResponse
@@ -643,7 +683,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/flight";
+            type: "product/airline/flight";
         };
         /** OrderCreateRequest */
         OrderCreateRequest: {
@@ -979,7 +1019,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/accommodation/room-category" | "product/hotel/room-category";
+            type: "product/accommodation/room-category";
         };
         /** RoomProperties */
         RoomProperties: {
@@ -993,7 +1033,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/hotel/room";
+            type: "product/accommodation/room";
         };
         /** SeatProperties */
         SeatProperties: {
@@ -1007,7 +1047,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/flight/seat";
+            type: "product/airline/seat";
         };
         /** SetSupplierRequest */
         SetSupplierRequest: {
@@ -1025,7 +1065,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/flight/seat" | "stock/hotel/room" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
+            type: "stock/flight/seat" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockItemResponse */
         StockItemResponse: {
@@ -1050,7 +1090,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/flight/seat" | "stock/hotel/room" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
+            type: "stock/flight/seat" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockProperties */
         StockProperties: {
@@ -1722,6 +1762,46 @@ export interface operations {
             };
             /** @description Conflict */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getOrganisationForRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                role_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrganisationResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2537,7 +2617,7 @@ export interface operations {
                 limit?: number;
                 /** @description Opaque cursor from a previous page's nextCursor. */
                 cursor?: string | null;
-                /** @description Filter by exact terminology type, e.g. product/flight */
+                /** @description Filter by exact terminology type, e.g. product/airline/flight */
                 type?: string | null;
             };
             header?: never;
@@ -2730,6 +2810,46 @@ export interface operations {
             };
             /** @description Conflict */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getProductAncestors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                product_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponse"][];
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

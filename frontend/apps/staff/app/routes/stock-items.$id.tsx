@@ -62,7 +62,7 @@ export default function StockItemDetailRoute() {
           subtitle={stockItem.type}
           badge={stockItem.type}
           details={[
-            { label: "Entity ID", value: stockItem.entityId },
+            { label: "ID", value: stockItem.entityId },
             { label: "Type", value: stockItem.type },
             { label: "Service date", value: stockItem.properties.serviceDate },
             {

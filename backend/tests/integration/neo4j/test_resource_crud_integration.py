@@ -95,7 +95,7 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
                 json={
                     "entityId": "I21-FLIGHT",
                     "product": {
-                        "type": "product/flight",
+                        "type": "product/airline/flight",
                         "properties": {
                             "flightNumber": "500",
                             "departureLocationCode": "FRA",
@@ -150,7 +150,7 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
                 json={
                     "entityId": "I21-SEAT",
                     "parentProductId": "I21-FLIGHT",
-                    "product": {"type": "product/flight/seat", "properties": {"seatNumber": "5A"}},
+                    "product": {"type": "product/airline/seat", "properties": {"seatNumber": "5A"}},
                 },
             ).status_code,
         )

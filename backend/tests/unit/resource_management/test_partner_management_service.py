@@ -72,7 +72,7 @@ class PartnerServiceTest(unittest.TestCase):
                 self.repository,
                 entity_id="I21-ROLE-01",
                 organisation_id="MISSING",
-                type="partner/supplier/hotel",
+                type="partner/supplier/accommodation",
                 properties={},
             )
 
@@ -82,7 +82,7 @@ class PartnerServiceTest(unittest.TestCase):
             self.repository,
             entity_id="I21-ROLE-01",
             organisation_id="I21-ORG-01",
-            type="partner/supplier/hotel",
+            type="partner/supplier/accommodation",
             properties={},
         )
         with self.assertRaises(DuplicateEntityError):
@@ -90,7 +90,7 @@ class PartnerServiceTest(unittest.TestCase):
                 self.repository,
                 entity_id="I21-ROLE-01",
                 organisation_id="I21-ORG-01",
-                type="partner/supplier/hotel",
+                type="partner/supplier/accommodation",
                 properties={},
             )
 
@@ -100,7 +100,7 @@ class PartnerServiceTest(unittest.TestCase):
             self.repository,
             entity_id="I21-ROLE-01",
             organisation_id="I21-ORG-01",
-            type="partner/supplier/hotel",
+            type="partner/supplier/accommodation",
             properties={},
         )
         roles = service.list_orga_roles(self.repository, "I21-ORG-01")
@@ -116,7 +116,7 @@ class PartnerServiceTest(unittest.TestCase):
 
     def test_update_orga_role_requires_existing(self) -> None:
         with self.assertRaises(EntityNotFoundError):
-            service.update_orga_role(self.repository, "MISSING", type="partner/supplier/hotel", properties={})
+            service.update_orga_role(self.repository, "MISSING", type="partner/supplier/accommodation", properties={})
 
     def test_update_orga_role_replaces_properties(self) -> None:
         service.create_organisation(self.repository, entity_id="I21-ORG-01", properties=organisation_properties())
@@ -138,7 +138,7 @@ class PartnerServiceTest(unittest.TestCase):
             self.repository,
             entity_id="I21-ROLE-01",
             organisation_id="I21-ORG-01",
-            type="partner/supplier/hotel",
+            type="partner/supplier/accommodation",
             properties={},
         )
         service.delete_orga_role(self.repository, "I21-ROLE-01")
@@ -151,7 +151,7 @@ class PartnerServiceTest(unittest.TestCase):
             self.repository,
             entity_id="I21-ROLE-01",
             organisation_id="I21-ORG-01",
-            type="partner/supplier/hotel",
+            type="partner/supplier/accommodation",
             properties={},
         )
         self.assertEqual("role/active", role.properties.role_status_code)
@@ -162,13 +162,29 @@ class PartnerServiceTest(unittest.TestCase):
             self.repository,
             entity_id="I21-ROLE-01",
             organisation_id="I21-ORG-01",
-            type="partner/supplier/hotel",
+            type="partner/supplier/accommodation",
             properties={},
         )
         deactivated = service.update_orga_role(
-            self.repository, "I21-ROLE-01", type="partner/supplier/hotel", properties={"roleStatusCode": "role/inactive"}
+            self.repository, "I21-ROLE-01", type="partner/supplier/accommodation", properties={"roleStatusCode": "role/inactive"}
         )
         self.assertEqual("role/inactive", deactivated.properties.role_status_code)
+
+    def test_get_organisation_for_role_returns_owner(self) -> None:
+        service.create_organisation(self.repository, entity_id="I31-ORG-01", properties=organisation_properties())
+        service.create_orga_role(
+            self.repository,
+            entity_id="I31-ROLE-01",
+            organisation_id="I31-ORG-01",
+            type="partner/supplier/accommodation",
+            properties={},
+        )
+        organisation = service.get_organisation_for_role(self.repository, "I31-ROLE-01")
+        self.assertEqual("I31-ORG-01", organisation.entity_id)
+
+    def test_get_organisation_for_role_requires_existing_role(self) -> None:
+        with self.assertRaises(EntityNotFoundError):
+            service.get_organisation_for_role(self.repository, "MISSING")
 
     def test_delete_organisation_blocked_while_role_dependent_exists(self) -> None:
         service.create_organisation(self.repository, entity_id="I21-ORG-01", properties=organisation_properties())
@@ -176,7 +192,7 @@ class PartnerServiceTest(unittest.TestCase):
             self.repository,
             entity_id="I21-ROLE-01",
             organisation_id="I21-ORG-01",
-            type="partner/supplier/hotel",
+            type="partner/supplier/accommodation",
             properties={},
         )
         with self.assertRaises(DependentEntityExistsError):

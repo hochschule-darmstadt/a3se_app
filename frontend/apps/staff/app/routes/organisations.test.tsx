@@ -109,7 +109,7 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
       },
       {
         "ORG-001": {
-          data: [roleResponse("ROLE-1", "partner/supplier/hotel", "role/active")],
+          data: [roleResponse("ROLE-1", "partner/supplier/accommodation", "role/active")],
           response: { ok: true, status: 200 },
         },
       }
@@ -118,7 +118,7 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
 
     expect(await screen.findByText("Example Garden Hotel")).toBeInTheDocument();
     const table = screen.getByRole("table");
-    expect(await within(table).findByText("Hotel")).toBeInTheDocument();
+    expect(await within(table).findByText("Accommodation")).toBeInTheDocument();
   });
 
   it("filters rows client-side by search text", async () => {
@@ -155,7 +155,7 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
         response: { ok: true, status: 200 },
       },
       {
-        "ORG-001": { data: [roleResponse("ROLE-1", "partner/supplier/hotel", "role/active")], response: { ok: true, status: 200 } },
+        "ORG-001": { data: [roleResponse("ROLE-1", "partner/supplier/accommodation", "role/active")], response: { ok: true, status: 200 } },
         "ORG-002": { data: [roleResponse("ROLE-2", "partner/supplier/mobility", "role/active")], response: { ok: true, status: 200 } },
       }
     );

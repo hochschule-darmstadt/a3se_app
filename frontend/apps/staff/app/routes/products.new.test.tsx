@@ -64,7 +64,7 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
     const user = userEvent.setup();
 
     await user.click(screen.getByRole("textbox", { name: /^type/i }));
-    await user.click(await screen.findByRole("option", { name: "Flight", hidden: true }));
+    await user.click(await screen.findByRole("option", { name: "airline/flight", hidden: true }));
     await user.click(screen.getByRole("button", { name: /create draft/i }));
 
     expect(await screen.findByText(/enter a flight number/i)).toBeInTheDocument();
@@ -74,14 +74,14 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
 
   it("creates a flight with its type-specific fields", async () => {
     postMock.mockResolvedValue({
-      data: { entityId: "PRD-flight", entityKind: "TouristicProductItem", type: "product/flight", schemaVersion: 1, properties: {} },
+      data: { entityId: "PRD-flight", entityKind: "TouristicProductItem", type: "product/airline/flight", schemaVersion: 1, properties: {} },
       response: { ok: true, status: 201 },
     });
     renderCreate();
     const user = userEvent.setup();
 
     await user.click(screen.getByRole("textbox", { name: /^type/i }));
-    await user.click(await screen.findByRole("option", { name: "Flight", hidden: true }));
+    await user.click(await screen.findByRole("option", { name: "airline/flight", hidden: true }));
 
     await user.type(screen.getByLabelText(/flight number/i), "500");
     await user.type(screen.getByLabelText(/departure location code/i), "fra");
@@ -97,7 +97,7 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
       expect.objectContaining({
         body: expect.objectContaining({
           product: {
-            type: "product/flight",
+            type: "product/airline/flight",
             properties: expect.objectContaining({
               flightNumber: "500",
               departureLocationCode: "FRA",

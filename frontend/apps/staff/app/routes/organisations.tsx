@@ -101,7 +101,7 @@ export default function OrganisationsRoute() {
           <Button onClick={() => setRightPane({ mode: "create" })}>Create organisation</Button>
         </Group>
 
-        <Grid>
+        <Grid gutter="xl">
           <Grid.Col span={{ base: 12, md: 7 }}>
             <Stack gap="sm">
               <Group align="flex-end">
@@ -170,7 +170,7 @@ export default function OrganisationsRoute() {
             </Stack>
           </Grid.Col>
 
-          <Grid.Col span={{ base: 12, md: 5 }}>
+          <Grid.Col span={{ base: 12, md: 5 }} style={{ position: "sticky", top: 88, alignSelf: "flex-start", maxHeight: "calc(100vh - 104px)", overflowY: "auto" }}>
             {rightPane.mode === "detail" ? (
               <OrganisationDetailPanel organisationId={rightPane.organisationId} />
             ) : rightPane.mode === "create" ? (

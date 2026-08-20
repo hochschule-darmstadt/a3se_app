@@ -3,15 +3,19 @@ import type { components } from "@cct/api-client";
 type ProductResponse = components["schemas"]["ProductResponse"];
 
 /**
- * `ProductResponse` carries no free-text name/title field (the entity model
- * has none, see `docs/architecture/entity-model/terminology.md`); this
- * derives a readable label from the type-specific properties instead of
- * inventing a "name" the backend does not provide.
+ * Catalogue-root types carry an optional `displayName` (WF-Q-013,
+ * entity-model terminology TERM-004) set by staff in VIEW-S-003; prefer it
+ * so the customer portal and staff catalogue never show different titles
+ * for the same product. Falls back to a type-specific derivation for
+ * products without one, or for structural children (seats, rooms) that
+ * have no `displayName` field at all.
  */
 export function productTitle(product: ProductResponse): string {
   const properties = product.properties as Record<string, unknown>;
+  const displayName = properties.displayName as string | null | undefined;
+  if (displayName) return displayName;
   switch (product.type) {
-    case "product/flight": {
+    case "product/airline/flight": {
       const flightNumber = properties.flightNumber as string | undefined;
       const departure = properties.departureLocationCode as string | undefined;
       const arrival = properties.arrivalLocationCode as string | undefined;

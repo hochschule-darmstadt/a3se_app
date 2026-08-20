@@ -52,7 +52,7 @@ def _minimal_files() -> dict[str, dict[str, object]]:
             "products": [
                 {
                     "entityId": "FLT-01",
-                    "type": "product/flight",
+                    "type": "product/airline/flight",
                     "properties": {
                         "flightNumber": "501",
                         "departureLocationCode": "BER",

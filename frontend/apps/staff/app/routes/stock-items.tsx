@@ -45,7 +45,7 @@ export default function StockItemsRoute() {
               emptyMessage="No stock items to display."
               onRowActivate={(row) => navigate(`/stock-items/${row.entityId}`)}
               columns={[
-                { key: "entityId", header: "Entity ID", render: (row) => row.entityId },
+                { key: "entityId", header: "ID", render: (row) => row.entityId },
                 { key: "type", header: "Type", render: (row) => row.type },
                 { key: "serviceDate", header: "Service date", render: (row) => row.properties.serviceDate },
                 {

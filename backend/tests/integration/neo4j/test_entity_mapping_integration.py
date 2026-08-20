@@ -38,7 +38,7 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
     def test_round_trip_and_indexed_lookup(self) -> None:
         repository = Neo4jEntityRepository(self.driver, "neo4j", self.registry)
         entity = repository.save(
-            {"entityId": "I20-FLIGHT", "entityKind": "TouristicProductItem", "type": "product/flight",
+            {"entityId": "I20-FLIGHT", "entityKind": "TouristicProductItem", "type": "product/airline/flight",
              "properties": {"flightNumber": "500", "departureLocationCode": "FRA",
                             "arrivalLocationCode": "GIG", "scheduledDepartureLocalTime": time(10, 30),
                             "scheduledArrivalLocalTime": time(18, 45)}}
@@ -58,7 +58,7 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
     def test_recursive_composition_and_heterogeneous_fulfilment_path(self) -> None:
         repository = Neo4jEntityRepository(self.driver, "neo4j", self.registry)
         fixtures = (
-            {"entityId": "I20-FLIGHT", "entityKind": "TouristicProductItem", "type": "product/flight",
+            {"entityId": "I20-FLIGHT", "entityKind": "TouristicProductItem", "type": "product/airline/flight",
              "properties": {"flightNumber": "500", "departureLocationCode": "FRA",
                             "arrivalLocationCode": "GIG", "scheduledDepartureLocalTime": time(10, 30),
                             "scheduledArrivalLocalTime": time(18, 45)}},
@@ -68,7 +68,7 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
             {"entityId": "I20-STOCK", "entityKind": "StockItem", "type": "stock/flight/seat",
              "properties": {"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"),
                             "currencyCode": "EUR"}},
-            {"entityId": "I20-SEAT", "entityKind": "TouristicProductItem", "type": "product/flight/seat",
+            {"entityId": "I20-SEAT", "entityKind": "TouristicProductItem", "type": "product/airline/seat",
              "properties": {"seatNumber": "5A"}},
             {"entityId": "I20-SUPPLIER", "entityKind": "Organisation", "properties": {"name": "Condorleaf Air"}},
             {"entityId": "I20-SUPPLIER-ROLE", "entityKind": "OrgaRole", "type": "partner/supplier/airline",

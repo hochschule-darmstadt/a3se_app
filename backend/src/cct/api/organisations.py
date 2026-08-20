@@ -24,7 +24,6 @@ from .schemas import ErrorResponse, Page, PageParams
 router = APIRouter(prefix="/organisations", tags=["organisations"])
 
 EMPTY_SUPPLIER_ROLE_TYPES = (
-    "partner/supplier/hotel",
     "partner/supplier/accommodation",
     "partner/supplier/mobility",
     "partner/supplier/water-transport",
@@ -245,3 +244,14 @@ def update_orga_role(
 )
 def delete_orga_role(organisation_id: str, role_id: str, repository: RepositoryDependency, actor: ActorDependency) -> None:
     service.delete_orga_role(repository, role_id)
+
+
+@router.get(
+    "/roles/{role_id}/organisation",
+    response_model=OrganisationResponse,
+    operation_id="getOrganisationForRole",
+    responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+)
+def get_organisation_for_role(role_id: str, repository: RepositoryDependency) -> OrganisationResponse:
+    """Reverse HAS_ROLE lookup: the Organisation that owns `role_id` (issue #31 follow-up: catalogue breadcrumbs need this to show the supplying organisation, not just its role)."""
+    return OrganisationResponse.from_domain(service.get_organisation_for_role(repository, role_id))

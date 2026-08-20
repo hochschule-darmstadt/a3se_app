@@ -25,7 +25,7 @@ def flight(**overrides: object) -> dict[str, object]:
     return {
         "entityId": "FLT-02",
         "entityKind": "TouristicProductItem",
-        "type": "product/flight",
+        "type": "product/airline/flight",
         "schemaVersion": 1,
         "properties": properties,
     }

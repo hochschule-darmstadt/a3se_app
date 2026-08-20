@@ -64,7 +64,7 @@ describe("SearchResults (VIEW-C-009 catalogue listing)", () => {
           {
             entityId: "FLT-01",
             entityKind: "TouristicProductItem",
-            type: "product/flight",
+            type: "product/airline/flight",
             schemaVersion: 1,
             properties: {
               flightNumber: "501",

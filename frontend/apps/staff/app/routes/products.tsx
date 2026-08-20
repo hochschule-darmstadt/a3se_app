@@ -1,32 +1,25 @@
-import { Badge, Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
-import { useEffect, useMemo, useState } from "react";
+import { Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
+import { useMemo, useState } from "react";
 import { useQueries } from "@tanstack/react-query";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, CursorPager, DataTable, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { useAllPages } from "../lib/use-cursor-page";
 import { ProductCreatePanel } from "../lib/product-create-panel";
 import { ProductDetailPanel } from "../lib/product-detail-panel";
-import {
-  CATALOGUE_ROOT_TYPE_LABEL,
-  CATALOGUE_ROOT_TYPE_OPTIONS,
-  LIFECYCLE_STATUS_LABEL,
-  LIFECYCLE_STATUS_OPTIONS,
-  catalogueProperties,
-  productDisplayLabel,
-} from "../lib/catalogue-product-types";
+import { breadcrumbLabel, buildChildrenIndex, matchesSearchTerm, rootOf, type ProductTreeEntry } from "../lib/catalogue-tree";
+import { ProductTreeList } from "../lib/product-tree-list";
+import { LIFECYCLE_STATUS_OPTIONS, catalogueProperties, groupTypeOptions, typeLabel } from "../lib/catalogue-product-types";
 import { StaffShell } from "../lib/shell";
 
 type RightPane = { readonly mode: "none" } | { readonly mode: "detail"; readonly productId: string } | { readonly mode: "create" };
 
 type ProductResponse = components["schemas"]["ProductResponse"];
 type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
+type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 
-const PAGE_SIZE = 20;
-
-const TYPE_OPTIONS = [{ value: "all", label: "All" }, ...CATALOGUE_ROOT_TYPE_OPTIONS];
 const LIFECYCLE_OPTIONS = [{ value: "all", label: "All" }, ...LIFECYCLE_STATUS_OPTIONS];
 
 export function meta() {
@@ -34,59 +27,114 @@ export function meta() {
 }
 
 /**
- * S-003 (issue #31): fetches every product up front (see `useAllPages`) so
- * name/type/lifecycle/supplier filters apply across the whole collection,
- * matching PersonsRoute (#29) and OrganisationsRoute (#30). Selecting a row
- * shows its detail in the right pane inline instead of navigating away.
+ * S-003 tree view (VIEW-S-003 follow-up, stakeholder direction after
+ * reviewing the flat #31 catalogue): fetches every product plus, per
+ * product, its ancestor chain (GET .../ancestors), so a search can match
+ * anything from the supplying organisation down to a leaf component, and
+ * every matched row can show the breadcrumb "up to the supplier" as its
+ * title. Only the roots of that chain carry a supplier (stakeholder
+ * decision), resolved via GET .../supplier and, from there, GET
+ * organisations/roles/{roleId}/organisation. Matches become top-level tree
+ * rows; each expands ("+") to its own children, lazily, to any depth.
  */
 export default function ProductsRoute() {
   const allProducts = useAllPages<ProductResponse>(["products"], (cursor) =>
     apiClient.GET("/products", { params: { query: { cursor, limit: 50 } } })
   );
 
-  const [search, setSearch] = useState("");
-  const [type, setType] = useState<string>("all");
-  const [lifecycle, setLifecycle] = useState<string>("all");
-  const [supplierSearch, setSupplierSearch] = useState("");
-  const [pageIndex, setPageIndex] = useState(0);
-  const [rightPane, setRightPane] = useState<RightPane>({ mode: "none" });
-
-  const supplierQueries = useQueries({
+  const ancestorQueries = useQueries({
     queries: allProducts.items.map((product) => ({
-      queryKey: ["products", product.entityId, "supplier"],
+      queryKey: ["products", product.entityId, "ancestors"],
       queryFn: async () => {
-        const { data } = await apiClient.GET("/products/{product_id}/supplier", {
+        const { data } = await apiClient.GET("/products/{product_id}/ancestors", {
           params: { path: { product_id: product.entityId } },
         });
-        return (data ?? null) as OrgaRoleResponse | null;
+        return (data ?? []) as ProductResponse[];
       },
     })),
   });
 
-  const rows = useMemo(() => {
+  const entries: ProductTreeEntry[] = useMemo(
+    () => allProducts.items.map((product, index) => ({ product, ancestors: ancestorQueries[index]?.data ?? [] })),
+    [allProducts.items, ancestorQueries]
+  );
+  const ancestorsLoaded = ancestorQueries.every((query) => query.status !== "pending");
+
+  const rootIds = useMemo(() => Array.from(new Set(entries.map((entry) => rootOf(entry).entityId))), [entries]);
+
+  const supplierQueries = useQueries({
+    queries: rootIds.map((rootId) => ({
+      queryKey: ["products", rootId, "supplier"],
+      queryFn: async () => {
+        const { data } = await apiClient.GET("/products/{product_id}/supplier", { params: { path: { product_id: rootId } } });
+        return (data ?? null) as OrgaRoleResponse | null;
+      },
+      enabled: ancestorsLoaded,
+    })),
+  });
+  const supplierByRootId = useMemo(() => {
+    const map = new Map<string, OrgaRoleResponse | null>();
+    rootIds.forEach((rootId, index) => map.set(rootId, supplierQueries[index]?.data ?? null));
+    return map;
+  }, [rootIds, supplierQueries]);
+  const suppliersLoaded = supplierQueries.every((query) => query.status !== "pending");
+
+  const roleIds = useMemo(
+    () => Array.from(new Set(Array.from(supplierByRootId.values()).flatMap((role) => (role ? [role.entityId] : [])))),
+    [supplierByRootId]
+  );
+
+  const organisationQueries = useQueries({
+    queries: roleIds.map((roleId) => ({
+      queryKey: ["organisations", "roles", roleId, "organisation"],
+      queryFn: async () => {
+        const { data } = await apiClient.GET("/organisations/roles/{role_id}/organisation", { params: { path: { role_id: roleId } } });
+        return (data ?? null) as OrganisationResponse | null;
+      },
+      enabled: suppliersLoaded,
+    })),
+  });
+  const organisationByRoleId = useMemo(() => {
+    const map = new Map<string, OrganisationResponse | null>();
+    roleIds.forEach((roleId, index) => map.set(roleId, organisationQueries[index]?.data ?? null));
+    return map;
+  }, [roleIds, organisationQueries]);
+
+  const childrenByParentId = useMemo(() => buildChildrenIndex(entries), [entries]);
+
+  // Every type actually present in the DB, not a hardcoded list -- so a
+  // newly seeded/created type is never silently missing from the filter.
+  const typeOptions = useMemo(() => {
+    const types = Array.from(new Set(allProducts.items.map((product) => product.type))).sort();
+    return groupTypeOptions(types.map((value) => ({ value, label: typeLabel(value) })));
+  }, [allProducts.items]);
+
+  const [search, setSearch] = useState("");
+  const [type, setType] = useState<string>("all");
+  const [lifecycle, setLifecycle] = useState<string>("all");
+  const [rightPane, setRightPane] = useState<RightPane>({ mode: "none" });
+
+  const matches = useMemo(() => {
     const term = search.trim().toLowerCase();
-    const supplierTerm = supplierSearch.trim().toLowerCase();
-    return allProducts.items
-      .map((product, index) => ({ product, supplier: supplierQueries[index]?.data ?? null }))
-      .filter(({ product, supplier }) => {
-        if (term) {
-          const label = productDisplayLabel(product.entityId, product.type, catalogueProperties(product.properties).displayName);
-          if (!label.toLowerCase().includes(term) && !product.entityId.toLowerCase().includes(term)) return false;
-        }
-        if (type !== "all" && product.type !== type) return false;
-        if (lifecycle !== "all" && catalogueProperties(product.properties).lifecycleStatusCode !== lifecycle) return false;
-        if (supplierTerm && !(supplier?.entityId.toLowerCase().includes(supplierTerm))) return false;
+    const isFiltered = term.length > 0 || type !== "all" || lifecycle !== "all";
+    return entries
+      .filter((entry) => {
+        // Unfiltered: show only tree roots (children reached via "+"), so the
+        // default view is a real tree, not every product flattened. Filtered
+        // (search/type/lifecycle): surface a match at any depth as its own
+        // top-level row, per stakeholder direction -- selecting a child-level
+        // type (e.g. accommodation/room) should jump straight to it.
+        if (!isFiltered) return entry.ancestors.length === 0;
+        if (type !== "all" && entry.product.type !== type) return false;
+        if (lifecycle !== "all" && catalogueProperties(entry.product.properties).lifecycleStatusCode !== lifecycle) return false;
         return true;
-      });
-  }, [allProducts.items, supplierQueries, search, type, lifecycle, supplierSearch]);
+      })
+      .map((entry) => ({ entry, breadcrumb: breadcrumbLabel(entry, supplierByRootId, organisationByRoleId) }))
+      .filter(({ entry, breadcrumb }) => !term || matchesSearchTerm(entry, term, breadcrumb))
+      .map(({ entry, breadcrumb }) => ({ product: entry.product, breadcrumb }));
+  }, [entries, search, type, lifecycle, supplierByRootId, organisationByRoleId]);
 
-  useEffect(() => {
-    setPageIndex(0);
-  }, [search, type, lifecycle, supplierSearch]);
-
-  const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const clampedPageIndex = Math.min(pageIndex, pageCount - 1);
-  const pageRows = rows.slice(clampedPageIndex * PAGE_SIZE, clampedPageIndex * PAGE_SIZE + PAGE_SIZE);
+  const loading = allProducts.status === "pending" || !ancestorsLoaded;
 
   return (
     <StaffShell breadcrumbs={[{ label: "Touristic product catalogue" }]}>
@@ -96,17 +144,24 @@ export default function ProductsRoute() {
           <Button onClick={() => setRightPane({ mode: "create" })}>Create product draft</Button>
         </Group>
 
-        <Grid>
+        <Grid gutter="xl">
           <Grid.Col span={{ base: 12, md: 7 }}>
             <Stack gap="sm">
               <Group align="flex-end">
                 <TextInput
                   label="Search"
-                  placeholder="Name or entity ID"
+                  placeholder="Anything: supplier, product name, or ID"
                   value={search}
                   onChange={(event) => setSearch(event.currentTarget.value)}
+                  style={{ flex: 1 }}
                 />
-                <Select label="Type" data={TYPE_OPTIONS} value={type} onChange={(value) => setType(value ?? "all")} allowDeselect={false} />
+                <Select
+                  label="Type"
+                  data={[{ group: "All", items: [{ value: "all", label: "All" }] }, ...typeOptions]}
+                  value={type}
+                  onChange={(value) => setType(value ?? "all")}
+                  allowDeselect={false}
+                />
                 <Select
                   label="Lifecycle"
                   data={LIFECYCLE_OPTIONS}
@@ -114,58 +169,26 @@ export default function ProductsRoute() {
                   onChange={(value) => setLifecycle(value ?? "all")}
                   allowDeselect={false}
                 />
-                <TextInput
-                  label="Supplier"
-                  placeholder="Supplier role entity ID"
-                  value={supplierSearch}
-                  onChange={(event) => setSupplierSearch(event.currentTarget.value)}
-                />
               </Group>
 
               {allProducts.status === "pending" ? <StatusBanner kind="loading" title="Loading products…" /> : null}
               {allProducts.status === "error" && allProducts.error ? (
                 <ApiErrorBanner error={allProducts.error} onRetry={allProducts.refetch} />
               ) : null}
-              {allProducts.status === "success" ? (
-                <>
-                  <DataTable<{ product: ProductResponse; supplier: OrgaRoleResponse | null }>
-                    caption={`Product definitions · ${rows.length === 0 ? 0 : clampedPageIndex * PAGE_SIZE + 1}–${Math.min(rows.length, (clampedPageIndex + 1) * PAGE_SIZE)} of ${rows.length}`}
-                    rowKey={(row) => row.product.entityId}
-                    rows={pageRows}
-                    emptyMessage="No products match these filters."
-                    onRowActivate={(row) => setRightPane({ mode: "detail", productId: row.product.entityId })}
-                    isRowSelected={(row) => rightPane.mode === "detail" && row.product.entityId === rightPane.productId}
-                    columns={[
-                      {
-                        key: "product",
-                        header: "Product",
-                        render: (row) => productDisplayLabel(row.product.entityId, row.product.type, catalogueProperties(row.product.properties).displayName),
-                      },
-                      { key: "type", header: "Type", render: (row) => CATALOGUE_ROOT_TYPE_LABEL[row.product.type] ?? row.product.type },
-                      {
-                        key: "lifecycle",
-                        header: "Lifecycle",
-                        render: (row) => {
-                          const code = catalogueProperties(row.product.properties).lifecycleStatusCode;
-                          const active = code === "product/active";
-                          const retired = code === "product/retired";
-                          return <Badge color={active ? "green" : retired ? "gray" : undefined}>{(code && LIFECYCLE_STATUS_LABEL[code]) ?? code ?? "—"}</Badge>;
-                        },
-                      },
-                    ]}
-                  />
-                  <CursorPager
-                    hasPrevious={clampedPageIndex > 0}
-                    hasNext={clampedPageIndex < pageCount - 1}
-                    onPrevious={() => setPageIndex((index) => Math.max(0, index - 1))}
-                    onNext={() => setPageIndex((index) => Math.min(pageCount - 1, index + 1))}
-                  />
-                </>
+              {loading && allProducts.status === "success" ? <StatusBanner kind="loading" title="Loading catalogue hierarchy…" /> : null}
+              {!loading && allProducts.status === "success" ? (
+                <ProductTreeList
+                  matches={matches}
+                  childrenByParentId={childrenByParentId}
+                  selectedId={rightPane.mode === "detail" ? rightPane.productId : null}
+                  onSelect={(productId) => setRightPane({ mode: "detail", productId })}
+                  emptyMessage="No products match these filters."
+                />
               ) : null}
             </Stack>
           </Grid.Col>
 
-          <Grid.Col span={{ base: 12, md: 5 }}>
+          <Grid.Col span={{ base: 12, md: 5 }} style={{ position: "sticky", top: 88, alignSelf: "flex-start", maxHeight: "calc(100vh - 104px)", overflowY: "auto" }}>
             {rightPane.mode === "detail" ? (
               <ProductDetailPanel productId={rightPane.productId} />
             ) : rightPane.mode === "create" ? (

@@ -186,13 +186,18 @@ def _load_products(repos: SeedRepositories, data: SeedData, summary: SeedSummary
                 summary.record("TouristicProductItem", created=False)
             # create_relationship (SUPPLIED_BY here) is a Cypher MERGE, so it
             # is already idempotent on rerun and never raises
-            # DuplicateEntityError -- no try/except needed.
-            product_service.set_supplier(
-                repos.product,
-                product.entity_id,
-                supplier_role_id=product.supplier_role_id,
-                partner_repository=repos.partner,
-            )
+            # DuplicateEntityError -- no try/except needed. Supplier attaches
+            # at the root of a catalogue tree only (stakeholder decision,
+            # VIEW-S-003 tree-view follow-up); nested components (rooms,
+            # seats, ...) inherit it via their ancestor chain instead of
+            # each carrying their own supplierRoleId.
+            if product.supplier_role_id is not None:
+                product_service.set_supplier(
+                    repos.product,
+                    product.entity_id,
+                    supplier_role_id=product.supplier_role_id,
+                    partner_repository=repos.partner,
+                )
             created_ids.add(product.entity_id)
             progress = True
         remaining = next_remaining

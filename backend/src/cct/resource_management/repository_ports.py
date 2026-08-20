@@ -43,7 +43,11 @@ class EntityRepositoryPort(Protocol):
 
     def get_component_tree(self, product_id: str) -> tuple[tuple[ValidatedEntity, str | None], ...]: ...
 
+    def get_ancestors(self, product_id: str) -> tuple[ValidatedEntity, ...]: ...
+
     def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]: ...
+
+    def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None: ...
 
 
 class ScopedEntityRepository:
@@ -108,9 +112,17 @@ class ScopedEntityRepository:
         self._require_allowed(EntityKind.TOURISTIC_PRODUCT_ITEM)
         return self._repository.get_component_tree(product_id)
 
+    def get_ancestors(self, product_id: str) -> tuple[ValidatedEntity, ...]:
+        self._require_allowed(EntityKind.TOURISTIC_PRODUCT_ITEM)
+        return self._repository.get_ancestors(product_id)
+
     def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]:
         self._require_allowed(EntityKind.ORDER_ITEM)
         return self._repository.get_order_detail(order_id)
+
+    def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None:
+        self._require_allowed(EntityKind.ORGA_ROLE)
+        return self._repository.get_organisation_for_role(role_id)
 
     def _require_allowed(self, entity_kind: EntityKind) -> None:
         if entity_kind not in self._allowed_kinds:

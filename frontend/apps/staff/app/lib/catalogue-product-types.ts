@@ -1,7 +1,6 @@
-/** Catalogue-root TouristicProductItem types (entity-model TERM-002). Excludes product/flight/seat and product/hotel/room, which are structural children shown only under their parent's component tree, not created directly from the catalogue list. */
+/** Catalogue-root TouristicProductItem types (entity-model TERM-002). Excludes product/airline/seat and product/accommodation/room, which are structural children shown only under their parent's component tree, not created directly from the catalogue list. */
 export type CatalogueRootType =
-  | "product/flight"
-  | "product/hotel/room-category"
+  | "product/airline/flight"
   | "product/accommodation/room-category"
   | "product/mobility/transfer"
   | "product/mobility/rail"
@@ -13,36 +12,56 @@ export type CatalogueRootType =
   | "product/experience/activity"
   | "product/protection/travel";
 
+/** Strips the "product/" prefix so a type identifier reads as its own namespaced-path label (e.g. "airline/flight", "accommodation/room"), matching every family/subtype consistently -- no "hotel" vs "accommodation" or "flight" vs "airline/flight" mismatch. Works for any type, including structural children (product/airline/seat, product/accommodation/room) not in the catalogue-root list below. */
+export function typeLabel(type: string): string {
+  return type.startsWith("product/") ? type.slice("product/".length) : type;
+}
+
+/** The family (first path segment) a type belongs to, e.g. "airline" for "product/airline/flight". */
+export function typeFamily(type: string): string {
+  return typeLabel(type).split("/")[0] ?? type;
+}
+
 export const CATALOGUE_ROOT_TYPE_OPTIONS: { value: CatalogueRootType; label: string }[] = [
-  { value: "product/flight", label: "Flight" },
-  { value: "product/hotel/room-category", label: "Hotel room category" },
-  { value: "product/accommodation/room-category", label: "Accommodation room category" },
-  { value: "product/mobility/transfer", label: "Mobility transfer" },
-  { value: "product/mobility/rail", label: "Mobility rail" },
-  { value: "product/mobility/coach", label: "Mobility coach" },
-  { value: "product/mobility/vehicle-rental", label: "Vehicle rental" },
-  { value: "product/water/day-boat", label: "Water day-boat" },
-  { value: "product/water/cruise", label: "Water cruise" },
-  { value: "product/experience/guided-tour", label: "Guided tour" },
-  { value: "product/experience/activity", label: "Activity" },
-  { value: "product/protection/travel", label: "Travel protection" },
-];
+  "product/airline/flight",
+  "product/accommodation/room-category",
+  "product/mobility/transfer",
+  "product/mobility/rail",
+  "product/mobility/coach",
+  "product/mobility/vehicle-rental",
+  "product/water/day-boat",
+  "product/water/cruise",
+  "product/experience/guided-tour",
+  "product/experience/activity",
+  "product/protection/travel",
+].map((value) => ({ value: value as CatalogueRootType, label: typeLabel(value) }));
 
 export const CATALOGUE_ROOT_TYPE_LABEL: Record<string, string> = Object.fromEntries(
   CATALOGUE_ROOT_TYPE_OPTIONS.map((option) => [option.value, option.label])
 );
 
-export const ROOM_CATEGORY_TYPES: readonly CatalogueRootType[] = [
-  "product/hotel/room-category",
-  "product/accommodation/room-category",
-];
+/** The same options grouped by family, for a Select that reads as a hierarchy rather than a flat list. */
+export function groupTypeOptions<T extends { value: string; label: string }>(options: T[]): { group: string; items: T[] }[] {
+  const groups = new Map<string, T[]>();
+  for (const option of options) {
+    const group = typeFamily(option.value);
+    const items = groups.get(group) ?? [];
+    items.push(option);
+    groups.set(group, items);
+  }
+  return Array.from(groups.entries()).map(([group, items]) => ({ group, items }));
+}
 
-export function isFlightType(type: string): type is "product/flight" {
-  return type === "product/flight";
+export const CATALOGUE_ROOT_TYPE_GROUPED_OPTIONS = groupTypeOptions(CATALOGUE_ROOT_TYPE_OPTIONS);
+
+export const ROOM_CATEGORY_TYPE: CatalogueRootType = "product/accommodation/room-category";
+
+export function isAirlineFlightType(type: string): type is "product/airline/flight" {
+  return type === "product/airline/flight";
 }
 
 export function isRoomCategoryType(type: string): boolean {
-  return (ROOM_CATEGORY_TYPES as readonly string[]).includes(type);
+  return type === ROOM_CATEGORY_TYPE;
 }
 
 export type RoomTypeCode =
@@ -87,8 +106,8 @@ export function catalogueProperties(properties: unknown): { displayName?: string
   return properties as { displayName?: string | null; lifecycleStatusCode?: LifecycleStatusCode };
 }
 
-/** Best-effort catalogue label: displayName (WF-Q-013) if set, else a type-derived fallback plus the entityId. */
+/** Best-effort catalogue label: displayName (WF-Q-013) if set, else the type's own namespaced-path label plus the entityId. */
 export function productDisplayLabel(entityId: string, type: string, displayName?: string | null): string {
   if (displayName) return displayName;
-  return `${CATALOGUE_ROOT_TYPE_LABEL[type] ?? type} (${entityId})`;
+  return `${typeLabel(type)} (${entityId})`;
 }

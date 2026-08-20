@@ -72,10 +72,10 @@ class OrganisationsApiTest(unittest.TestCase):
         self.client.post("/organisations", json=organisation_payload())
         response = self.client.post(
             "/organisations/I21-ORG-01/roles",
-            json={"entityId": "I21-ROLE-02", "role": {"type": "partner/supplier/hotel", "properties": {}}},
+            json={"entityId": "I21-ROLE-02", "role": {"type": "partner/supplier/accommodation", "properties": {}}},
         )
         self.assertEqual(201, response.status_code)
-        self.assertEqual("partner/supplier/hotel", response.json()["type"])
+        self.assertEqual("partner/supplier/accommodation", response.json()["type"])
 
     def test_create_role_missing_organisation_returns_404(self) -> None:
         response = self.client.post(
@@ -94,6 +94,20 @@ class OrganisationsApiTest(unittest.TestCase):
             json={"entityId": "I21-ROLE-01", "role": {"type": "partner/supplier/unknown", "properties": {}}},
         )
         self.assertEqual(422, response.status_code)
+
+    def test_get_organisation_for_role_returns_owner(self) -> None:
+        self.client.post("/organisations", json=organisation_payload())
+        self.client.post(
+            "/organisations/I21-ORG-01/roles",
+            json={"entityId": "I21-ROLE-01", "role": {"type": "partner/supplier/accommodation", "properties": {}}},
+        )
+        response = self.client.get("/organisations/roles/I21-ROLE-01/organisation")
+        self.assertEqual(200, response.status_code)
+        self.assertEqual("I21-ORG-01", response.json()["entityId"])
+
+    def test_get_organisation_for_role_returns_404_for_missing_role(self) -> None:
+        response = self.client.get("/organisations/roles/MISSING/organisation")
+        self.assertEqual(404, response.status_code)
 
     def test_delete_organisation_blocked_while_role_exists_returns_409(self) -> None:
         self.client.post("/organisations", json=organisation_payload())

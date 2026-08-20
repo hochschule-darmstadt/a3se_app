@@ -35,7 +35,7 @@ export interface OrganisationCreatePanelProps {
 export function OrganisationCreatePanel({ onCreated, onCancel }: OrganisationCreatePanelProps) {
   const [name, setName] = useState("");
   const [locality, setLocality] = useState("");
-  const [roleType, setRoleType] = useState<SupplierRoleType>("partner/supplier/hotel");
+  const [roleType, setRoleType] = useState<SupplierRoleType>("partner/supplier/accommodation");
   const [airlineDesignator, setAirlineDesignator] = useState("");
   const [validationErrors, setValidationErrors] = useState<readonly string[]>([]);
   const [createdOrganisationId, setCreatedOrganisationId] = useState<string | null>(null);
@@ -104,7 +104,7 @@ export function OrganisationCreatePanel({ onCreated, onCancel }: OrganisationCre
             label="Initial role"
             data={SUPPLIER_ROLE_TYPE_OPTIONS}
             value={roleType}
-            onChange={(value) => setRoleType((value as SupplierRoleType) ?? "partner/supplier/hotel")}
+            onChange={(value) => setRoleType((value as SupplierRoleType) ?? "partner/supplier/accommodation")}
             allowDeselect={false}
           />
           {isAirline(roleType) ? (

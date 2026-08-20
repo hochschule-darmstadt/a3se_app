@@ -331,7 +331,6 @@
           },
           "type": {
             "enum": [
-              "partner/supplier/hotel",
               "partner/supplier/accommodation",
               "partner/supplier/mobility",
               "partner/supplier/water-transport",
@@ -739,8 +738,8 @@
             "$ref": "#/components/schemas/FlightPropertiesTransport"
           },
           "type": {
-            "const": "product/flight",
-            "default": "product/flight",
+            "const": "product/airline/flight",
+            "default": "product/airline/flight",
             "title": "Type",
             "type": "string"
           }
@@ -993,7 +992,6 @@
                 "partner/supplier/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/airline": "#/components/schemas/AirlineRoleRequest",
                 "partner/supplier/experience": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/hotel": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/mobility": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/protection": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
@@ -1067,7 +1065,6 @@
                 "partner/supplier/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/airline": "#/components/schemas/AirlineRoleRequest",
                 "partner/supplier/experience": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/hotel": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/mobility": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/protection": "#/components/schemas/EmptySupplierRoleRequest",
                 "partner/supplier/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
@@ -1594,13 +1591,12 @@
           "product": {
             "discriminator": {
               "mapping": {
+                "product/accommodation/room": "#/components/schemas/RoomRequest",
                 "product/accommodation/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/airline/flight": "#/components/schemas/FlightRequest",
+                "product/airline/seat": "#/components/schemas/SeatRequest",
                 "product/experience/activity": "#/components/schemas/EmptyProductRequest",
                 "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
-                "product/flight": "#/components/schemas/FlightRequest",
-                "product/flight/seat": "#/components/schemas/SeatRequest",
-                "product/hotel/room": "#/components/schemas/RoomRequest",
-                "product/hotel/room-category": "#/components/schemas/RoomCategoryRequest",
                 "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/rail": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/transfer": "#/components/schemas/EmptyProductRequest",
@@ -1693,13 +1689,12 @@
           "product": {
             "discriminator": {
               "mapping": {
+                "product/accommodation/room": "#/components/schemas/RoomRequest",
                 "product/accommodation/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/airline/flight": "#/components/schemas/FlightRequest",
+                "product/airline/seat": "#/components/schemas/SeatRequest",
                 "product/experience/activity": "#/components/schemas/EmptyProductRequest",
                 "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
-                "product/flight": "#/components/schemas/FlightRequest",
-                "product/flight/seat": "#/components/schemas/SeatRequest",
-                "product/hotel/room": "#/components/schemas/RoomRequest",
-                "product/hotel/room-category": "#/components/schemas/RoomCategoryRequest",
                 "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/rail": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/transfer": "#/components/schemas/EmptyProductRequest",
@@ -1910,10 +1905,7 @@
             "$ref": "#/components/schemas/RoomCategoryProperties"
           },
           "type": {
-            "enum": [
-              "product/hotel/room-category",
-              "product/accommodation/room-category"
-            ],
+            "const": "product/accommodation/room-category",
             "title": "Type",
             "type": "string"
           }
@@ -1947,13 +1939,13 @@
             "$ref": "#/components/schemas/RoomProperties"
           },
           "type": {
-            "const": "product/hotel/room",
-            "default": "product/hotel/room",
+            "const": "product/accommodation/room",
             "title": "Type",
             "type": "string"
           }
         },
         "required": [
+          "type",
           "properties"
         ],
         "title": "RoomRequest",
@@ -1980,8 +1972,8 @@
             "$ref": "#/components/schemas/SeatProperties"
           },
           "type": {
-            "const": "product/flight/seat",
-            "default": "product/flight/seat",
+            "const": "product/airline/seat",
+            "default": "product/airline/seat",
             "title": "Type",
             "type": "string"
           }
@@ -2027,7 +2019,6 @@
           "type": {
             "enum": [
               "stock/flight/seat",
-              "stock/hotel/room",
               "stock/accommodation/room-category",
               "stock/mobility/transfer",
               "stock/mobility/rail",
@@ -2093,7 +2084,6 @@
           "type": {
             "enum": [
               "stock/flight/seat",
-              "stock/hotel/room",
               "stock/accommodation/room-category",
               "stock/mobility/transfer",
               "stock/mobility/rail",
@@ -3089,6 +3079,59 @@
           }
         },
         "summary": "Create Organisation",
+        "tags": [
+          "organisations"
+        ]
+      }
+    },
+    "/organisations/roles/{role_id}/organisation": {
+      "get": {
+        "description": "Reverse HAS_ROLE lookup: the Organisation that owns `role_id` (issue #31 follow-up: catalogue breadcrumbs need this to show the supplying organisation, not just its role).",
+        "operationId": "getOrganisationForRole",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "role_id",
+            "required": true,
+            "schema": {
+              "title": "Role Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganisationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Organisation For Role",
         "tags": [
           "organisations"
         ]
@@ -4207,7 +4250,7 @@
             }
           },
           {
-            "description": "Filter by exact terminology type, e.g. product/flight",
+            "description": "Filter by exact terminology type, e.g. product/airline/flight",
             "in": "query",
             "name": "type",
             "required": false,
@@ -4220,7 +4263,7 @@
                   "type": "null"
                 }
               ],
-              "description": "Filter by exact terminology type, e.g. product/flight",
+              "description": "Filter by exact terminology type, e.g. product/airline/flight",
               "title": "Type"
             }
           }
@@ -4472,6 +4515,63 @@
           }
         },
         "summary": "Update Product",
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/products/{product_id}/ancestors": {
+      "get": {
+        "description": "Root-first CONTAINS parent chain, excluding `product_id` itself; empty when it is already a root.",
+        "operationId": "getProductAncestors",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "title": "Product Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProductResponse"
+                  },
+                  "title": "Response Getproductancestors",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Product Ancestors",
         "tags": [
           "products"
         ]

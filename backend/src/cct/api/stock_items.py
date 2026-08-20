@@ -25,7 +25,6 @@ router = APIRouter(prefix="/stock-items", tags=["stock-items"])
 
 STOCK_ITEM_TYPES = (
     "stock/flight/seat",
-    "stock/hotel/room",
     "stock/accommodation/room-category",
     "stock/mobility/transfer",
     "stock/mobility/rail",

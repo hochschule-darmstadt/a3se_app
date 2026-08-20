@@ -28,7 +28,7 @@ class StockItemServiceTest(unittest.TestCase):
         product_service.create_product(
             self.product_repository,
             entity_id="I21-FLIGHT",
-            type="product/flight",
+            type="product/airline/flight",
             properties={
                 "flightNumber": "500",
                 "departureLocationCode": "FRA",

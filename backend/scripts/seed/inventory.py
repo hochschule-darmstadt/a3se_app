@@ -35,7 +35,7 @@ START_2027 = date(2027, 1, 1)
 END_2027 = date(2027, 12, 31)
 
 ROOM_CATEGORY_TYPE = "product/accommodation/room-category"
-FLIGHT_TYPE = "product/flight"
+FLIGHT_TYPE = "product/airline/flight"
 
 FLIGHT_STOCK_TYPE = "stock/flight/seat"
 ROOM_CATEGORY_STOCK_TYPE = "stock/accommodation/room-category"

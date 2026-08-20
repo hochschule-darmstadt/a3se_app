@@ -62,7 +62,7 @@ class ProductSeed(SeedModel):
     entity_id: str = Field(alias="entityId", min_length=1)
     type: str = Field(min_length=1)
     properties: dict[str, object]
-    supplier_role_id: str = Field(alias="supplierRoleId", min_length=1)
+    supplier_role_id: str | None = Field(default=None, alias="supplierRoleId", min_length=1)
     parent_product_id: str | None = Field(default=None, alias="parentProductId")
     reserve: bool
 

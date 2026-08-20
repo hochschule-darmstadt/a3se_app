@@ -92,7 +92,9 @@ def load_seed_data() -> SeedData:
     known_person_role_ids = set(person_role_ids)
 
     _require_known(
-        {p.supplier_role_id for p in products_file.products}, known_orga_role_ids, description="products.supplierRoleId"
+        {p.supplier_role_id for p in products_file.products if p.supplier_role_id is not None},
+        known_orga_role_ids,
+        description="products.supplierRoleId",
     )
     _require_known(
         {p.parent_product_id for p in products_file.products if p.parent_product_id is not None},

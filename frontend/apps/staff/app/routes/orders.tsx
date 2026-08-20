@@ -88,7 +88,7 @@ export default function OrdersRoute() {
               columns={[
                 { key: "orderNumber", header: "Order number", sortable: true, render: (row) => row.properties.orderNumber },
                 { key: "orderStatusCode", header: "Status", sortable: true, render: (row) => row.properties.orderStatusCode },
-                { key: "entityId", header: "Entity ID", render: (row) => row.entityId },
+                { key: "entityId", header: "ID", render: (row) => row.entityId },
               ]}
             />
             <CursorPager

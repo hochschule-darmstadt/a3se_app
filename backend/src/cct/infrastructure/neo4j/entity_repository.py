@@ -112,6 +112,23 @@ class Neo4jEntityRepository:
             (self._mapper.from_node(NodeRecord(label, dict(row["node"]))), row["parentId"]) for row in rows
         )
 
+    def get_ancestors(self, product_id: str) -> tuple[ValidatedEntity, ...]:
+        """Return the CONTAINS parent chain root-first, excluding `product_id` itself; empty if it is already a root."""
+        with self._driver.session(database=self._database) as session:
+            exists = session.execute_read(self._read_one, EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+            if exists is None:
+                raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+            rows = session.execute_read(self._read_ancestors, product_id)
+        label = LABELS[EntityKind.TOURISTIC_PRODUCT_ITEM]
+        return tuple(self._mapper.from_node(NodeRecord(label, dict(row["ancestor"]))) for row in rows)
+
+    def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None:
+        with self._driver.session(database=self._database) as session:
+            record = session.execute_read(self._read_organisation_for_role, role_id)
+        if record is None:
+            return None
+        return self._mapper.from_node(NodeRecord(LABELS[EntityKind.ORGANISATION], dict(record["organisation"])))
+
     def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]:
         """Return each position's resolved bounded summary (ids only, never raw nodes)."""
         with self._driver.session(database=self._database) as session:
@@ -237,6 +254,25 @@ class Neo4jEntityRepository:
             "RETURN DISTINCT node, parent.entityId AS parentId"
         )
         return list(tx.run(query, productId=product_id))
+
+    @staticmethod
+    def _read_ancestors(tx: Transaction, product_id: str):
+        query = (
+            "MATCH (node:TouristicProductItem {entityId: $productId}) "
+            "OPTIONAL MATCH path = (ancestor:TouristicProductItem)-[:CONTAINS*1.."
+            f"{PRODUCT_COMPONENT_MAX_DEPTH}]->(node) "
+            "WITH ancestor, length(path) AS depth WHERE ancestor IS NOT NULL "
+            "RETURN ancestor ORDER BY depth DESC"
+        )
+        return list(tx.run(query, productId=product_id))
+
+    @staticmethod
+    def _read_organisation_for_role(tx: Transaction, role_id: str):
+        query = (
+            "MATCH (organisation:Organisation)-[:HAS_ROLE]->(role:OrgaRole {entityId: $roleId}) "
+            "RETURN organisation LIMIT 1"
+        )
+        return tx.run(query, roleId=role_id).single(strict=False)
 
     @staticmethod
     def _read_order_detail(tx: Transaction, order_id: str):

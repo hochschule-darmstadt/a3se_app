@@ -8,14 +8,15 @@ import { useApiMutation, useApiQuery } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
 import {
-  CATALOGUE_ROOT_TYPE_LABEL,
   CATALOGUE_ROOT_TYPE_OPTIONS,
   LIFECYCLE_STATUS_LABEL,
   catalogueProperties,
+  typeLabel,
   type CatalogueRootType,
   type LifecycleStatusCode,
   productDisplayLabel,
 } from "./catalogue-product-types";
+import { breadcrumbLabel, type ProductTreeEntry } from "./catalogue-tree";
 import {
   EMPTY_PRODUCT_TYPE_FIELD_VALUES,
   ProductTypeFields,
@@ -58,6 +59,23 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
     ["products", productId, "supplier"],
     () => apiClient.GET("/products/{product_id}/supplier", { params: { path: { product_id: productId } } }),
     { enabled: Boolean(productId) }
+  );
+  const ancestorsQuery = useApiQuery(
+    ["products", productId, "ancestors"],
+    () => apiClient.GET("/products/{product_id}/ancestors", { params: { path: { product_id: productId } } }),
+    { enabled: Boolean(productId) }
+  );
+  const rootId = ancestorsQuery.data && ancestorsQuery.data.length > 0 ? ancestorsQuery.data[0]!.entityId : productId;
+  const rootSupplierQuery = useApiQuery(
+    ["products", rootId, "supplier"],
+    () => apiClient.GET("/products/{product_id}/supplier", { params: { path: { product_id: rootId } } }),
+    { enabled: Boolean(ancestorsQuery.data) }
+  );
+  const rootSupplierRoleId = rootSupplierQuery.data?.entityId;
+  const organisationQuery = useApiQuery(
+    ["organisations", "roles", rootSupplierRoleId, "organisation"],
+    () => apiClient.GET("/organisations/roles/{role_id}/organisation", { params: { path: { role_id: rootSupplierRoleId as string } } }),
+    { enabled: Boolean(rootSupplierRoleId) }
   );
 
   const [editing, setEditing] = useState(false);
@@ -138,7 +156,14 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
   const lifecycleStatusCode = catalogueProperties(product.properties).lifecycleStatusCode as LifecycleStatusCode;
   const isActive = lifecycleStatusCode === "product/active";
   const isRetired = lifecycleStatusCode === "product/retired";
-  const label = productDisplayLabel(product.entityId, product.type, catalogueProperties(product.properties).displayName);
+  const ownLabel = productDisplayLabel(product.entityId, product.type, catalogueProperties(product.properties).displayName);
+  const label = ancestorsQuery.data
+    ? breadcrumbLabel(
+        { product, ancestors: ancestorsQuery.data } as ProductTreeEntry,
+        new Map([[rootId, rootSupplierQuery.data ?? null]]),
+        new Map(rootSupplierRoleId ? [[rootSupplierRoleId, organisationQuery.data ?? null]] : [])
+      )
+    : ownLabel;
   const components = componentsQuery.data.filter((component) => component.entityId !== product.entityId);
   const supplier = supplierQuery.data as OrgaRoleResponse | null;
 
@@ -174,12 +199,12 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
       ) : (
         <Stack gap={4}>
           <Group>
-            <Text fw={500}>Entity ID</Text>
+            <Text fw={500}>ID</Text>
             <Text>{product.entityId}</Text>
           </Group>
           <Group>
             <Text fw={500}>Type</Text>
-            <Text>{CATALOGUE_ROOT_TYPE_LABEL[product.type] ?? product.type}</Text>
+            <Text>{typeLabel(product.type)}</Text>
           </Group>
           <Group mt="xs">
             <Button onClick={() => setEditing(true)}>Edit draft</Button>
@@ -208,7 +233,7 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
         <form onSubmit={handleSupplierSubmit} aria-label="Set supplier" style={{ marginTop: "var(--mantine-spacing-xs)" }}>
           <Group align="flex-end">
             <TextInput
-              label="Supplier role entity ID"
+              label="Supplier role ID"
               placeholder="e.g. SUP-AIR-01-ROLE"
               value={supplierRoleId}
               onChange={(event) => setSupplierRoleId(event.currentTarget.value)}
@@ -240,7 +265,7 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
               header: "Component",
               render: (row) => <Link to={`/products/${row.entityId}`}>{productDisplayLabel(row.entityId, row.type, catalogueProperties(row.properties).displayName)}</Link>,
             },
-            { key: "type", header: "Type", render: (row) => CATALOGUE_ROOT_TYPE_LABEL[row.type] ?? row.type },
+            { key: "type", header: "Type", render: (row) => typeLabel(row.type) },
           ]}
         />
         {addingComponent ? (

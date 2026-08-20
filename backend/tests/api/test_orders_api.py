@@ -96,7 +96,7 @@ class OrdersApiTest(unittest.TestCase):
             json={
                 "entityId": "I21-FLIGHT",
                 "product": {
-                    "type": "product/flight",
+                    "type": "product/airline/flight",
                     "properties": {
                         "flightNumber": "500",
                         "departureLocationCode": "FRA",

@@ -136,7 +136,7 @@ export function PersonDetailPanel({ personId }: { readonly personId: string }) {
       ) : (
         <Stack gap={4}>
           <Group>
-            <Text fw={500}>Entity ID</Text>
+            <Text fw={500}>ID</Text>
             <Text>{person.entityId}</Text>
           </Group>
           <Group>

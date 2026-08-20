@@ -37,17 +37,17 @@ class ProductServiceTest(unittest.TestCase):
 
     def test_create_product_succeeds(self) -> None:
         entity = service.create_product(
-            self.repository, entity_id="I21-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I21-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         self.assertEqual("500", entity.properties.flight_number)
 
     def test_create_product_rejects_duplicate(self) -> None:
         service.create_product(
-            self.repository, entity_id="I21-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I21-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         with self.assertRaises(DuplicateEntityError):
             service.create_product(
-                self.repository, entity_id="I21-FLIGHT", type="product/flight", properties=flight_properties()
+                self.repository, entity_id="I21-FLIGHT", type="product/airline/flight", properties=flight_properties()
             )
 
     def test_create_product_with_missing_parent_raises_not_found(self) -> None:
@@ -55,7 +55,7 @@ class ProductServiceTest(unittest.TestCase):
             service.create_product(
                 self.repository,
                 entity_id="I21-SEAT",
-                type="product/flight/seat",
+                type="product/airline/seat",
                 properties={"seatNumber": "5A"},
                 parent_product_id="MISSING",
             )
@@ -67,12 +67,12 @@ class ProductServiceTest(unittest.TestCase):
     def test_update_product_requires_existing(self) -> None:
         with self.assertRaises(EntityNotFoundError):
             service.update_product(
-                self.repository, "MISSING", type="product/flight", properties=flight_properties()
+                self.repository, "MISSING", type="product/airline/flight", properties=flight_properties()
             )
 
     def test_delete_product_removes_entity(self) -> None:
         service.create_product(
-            self.repository, entity_id="I21-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I21-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         service.delete_product(self.repository, "I21-FLIGHT")
         with self.assertRaises(EntityNotFoundError):
@@ -87,14 +87,14 @@ class ProductServiceTest(unittest.TestCase):
         service.create_product(
             self.repository,
             entity_id="I21-FLIGHT",
-            type="product/flight",
+            type="product/airline/flight",
             properties=flight_properties(),
             parent_product_id="I21-PKG",
         )
         service.create_product(
             self.repository,
             entity_id="I21-SEAT",
-            type="product/flight/seat",
+            type="product/airline/seat",
             properties={"seatNumber": "5A"},
             parent_product_id="I21-FLIGHT",
         )
@@ -106,7 +106,7 @@ class ProductServiceTest(unittest.TestCase):
 
     def test_set_supplier_validates_reference_via_partner_service(self) -> None:
         service.create_product(
-            self.repository, entity_id="I21-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I21-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         with self.assertRaises(EntityNotFoundError):
             service.set_supplier(
@@ -115,7 +115,7 @@ class ProductServiceTest(unittest.TestCase):
 
     def test_set_supplier_writes_supplied_by_relationship(self) -> None:
         service.create_product(
-            self.repository, entity_id="I21-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I21-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         partner_service.create_organisation(
             self.partner_repository, entity_id="I21-SUPPLIER", properties={"name": "Condorleaf Air"}
@@ -138,9 +138,40 @@ class ProductServiceTest(unittest.TestCase):
             self.repository.relationship_calls,
         )
 
+    def test_get_ancestors_returns_empty_tuple_for_a_root(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I31-PKG", type="product/mobility/transfer", properties={}
+        )
+        self.assertEqual((), service.get_ancestors(self.repository, "I31-PKG"))
+
+    def test_get_ancestors_returns_root_first_chain(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I31-PKG", type="product/mobility/transfer", properties={}
+        )
+        service.create_product(
+            self.repository,
+            entity_id="I31-CAT",
+            type="product/accommodation/room-category",
+            properties={"roomTypeCode": "room/double"},
+            parent_product_id="I31-PKG",
+        )
+        service.create_product(
+            self.repository,
+            entity_id="I31-ROOM",
+            type="product/accommodation/room",
+            properties={"roomNumber": "204"},
+            parent_product_id="I31-CAT",
+        )
+        ancestors = service.get_ancestors(self.repository, "I31-ROOM")
+        self.assertEqual(("I31-PKG", "I31-CAT"), tuple(entity.entity_id for entity in ancestors))
+
+    def test_get_ancestors_requires_existing_product(self) -> None:
+        with self.assertRaises(EntityNotFoundError):
+            service.get_ancestors(self.repository, "MISSING")
+
     def test_get_supplier_returns_none_when_unset(self) -> None:
         service.create_product(
-            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I31-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         self.assertIsNone(service.get_supplier(self.repository, "I31-FLIGHT"))
 
@@ -150,7 +181,7 @@ class ProductServiceTest(unittest.TestCase):
 
     def test_get_supplier_returns_the_supplying_orga_role(self) -> None:
         service.create_product(
-            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I31-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         partner_service.create_organisation(
             self.partner_repository, entity_id="I31-SUPPLIER", properties={"name": "Condorleaf Air"}
@@ -174,7 +205,7 @@ class ProductServiceTest(unittest.TestCase):
         entity = service.create_product(
             self.repository,
             entity_id="I12-FLIGHT-IMG",
-            type="product/flight",
+            type="product/airline/flight",
             properties=flight_properties(
                 imageUrl="https://commons.wikimedia.org/example.jpg",
                 imageSourcePageUrl="https://commons.wikimedia.org/wiki/File:Example.jpg",
@@ -193,7 +224,7 @@ class ProductServiceTest(unittest.TestCase):
             service.create_product(
                 self.repository,
                 entity_id="I12-FLIGHT-BADIMG",
-                type="product/flight",
+                type="product/airline/flight",
                 properties=flight_properties(imageUrl="https://commons.wikimedia.org/example.jpg"),
             )
 
@@ -202,7 +233,7 @@ class ProductServiceTest(unittest.TestCase):
             service.create_product(
                 self.repository,
                 entity_id="I12-FLIGHT-INSECUREIMG",
-                type="product/flight",
+                type="product/airline/flight",
                 properties=flight_properties(
                     imageUrl="http://example.com/example.jpg",
                     imageSourcePageUrl="https://example.com/source",
@@ -216,30 +247,30 @@ class ProductServiceTest(unittest.TestCase):
 
     def test_create_product_defaults_to_draft_lifecycle_status(self) -> None:
         entity = service.create_product(
-            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I31-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         self.assertEqual("product/draft", entity.properties.lifecycle_status_code)
 
     def test_update_product_activates_via_status_change(self) -> None:
         service.create_product(
-            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I31-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         activated = service.update_product(
             self.repository,
             "I31-FLIGHT",
-            type="product/flight",
+            type="product/airline/flight",
             properties=flight_properties(lifecycleStatusCode="product/active"),
         )
         self.assertEqual("product/active", activated.properties.lifecycle_status_code)
 
     def test_update_product_retires_via_status_change(self) -> None:
         service.create_product(
-            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+            self.repository, entity_id="I31-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
         retired = service.update_product(
             self.repository,
             "I31-FLIGHT",
-            type="product/flight",
+            type="product/airline/flight",
             properties=flight_properties(lifecycleStatusCode="product/retired"),
         )
         self.assertEqual("product/retired", retired.properties.lifecycle_status_code)

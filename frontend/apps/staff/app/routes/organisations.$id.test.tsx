@@ -138,7 +138,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
     );
   });
 
-  it("offers to add a hotel role when the organisation does not already have one", async () => {
+  it("offers to add an accommodation role when the organisation does not already have one", async () => {
     mockGetImplementation(
       { data: organisationData, response: { ok: true, status: 200 } },
       { data: [airlineRole], response: { ok: true, status: 200 } }
@@ -150,14 +150,14 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
     expect(screen.queryByRole("button", { name: /add airline role/i })).not.toBeInTheDocument();
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: /add hotel role/i }));
+    await user.click(screen.getByRole("button", { name: /add accommodation role/i }));
     await user.click(screen.getByRole("button", { name: "Add role" }));
 
     expect(postMock).toHaveBeenCalledWith(
       "/organisations/{organisation_id}/roles",
       expect.objectContaining({
         params: { path: { organisation_id: "ORG-001" } },
-        body: expect.objectContaining({ role: { type: "partner/supplier/hotel", properties: { roleStatusCode: "role/active" } } }),
+        body: expect.objectContaining({ role: { type: "partner/supplier/accommodation", properties: { roleStatusCode: "role/active" } } }),
       })
     );
   });

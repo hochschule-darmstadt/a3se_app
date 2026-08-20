@@ -1,6 +1,6 @@
 import { Select, TextInput } from "@mantine/core";
 
-import { ROOM_TYPE_OPTIONS, isFlightType, isRoomCategoryType } from "./catalogue-product-types";
+import { ROOM_TYPE_OPTIONS, isAirlineFlightType, isRoomCategoryType } from "./catalogue-product-types";
 
 export interface ProductTypeFieldValues {
   displayName: string;
@@ -43,7 +43,7 @@ export function ProductTypeFields({
   return (
     <>
       <TextInput label="Display name" value={values.displayName} onChange={(event) => set("displayName", event.currentTarget.value)} />
-      {isFlightType(type) ? (
+      {isAirlineFlightType(type) ? (
         <>
           <TextInput label="Flight number" required value={values.flightNumber} onChange={(event) => set("flightNumber", event.currentTarget.value)} />
           <TextInput
@@ -117,7 +117,7 @@ export function productTypeProperties(
   lifecycleStatusCode: "product/draft" | "product/active" | "product/retired"
 ): Record<string, unknown> {
   const base = { displayName: values.displayName.trim() || null, lifecycleStatusCode };
-  if (isFlightType(type)) {
+  if (isAirlineFlightType(type)) {
     return {
       ...base,
       flightNumber: values.flightNumber.trim(),
@@ -140,7 +140,7 @@ export function productTypeProperties(
 
 export function productTypeValidationErrors(type: string, values: ProductTypeFieldValues): string[] {
   const errors: string[] = [];
-  if (isFlightType(type)) {
+  if (isAirlineFlightType(type)) {
     if (!values.flightNumber.trim()) errors.push("Enter a flight number.");
     if (!values.departureLocationCode.trim()) errors.push("Enter a departure location code.");
     if (!values.arrivalLocationCode.trim()) errors.push("Enter an arrival location code.");

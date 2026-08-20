@@ -97,6 +97,11 @@ def get_component_tree(repository: EntityRepositoryPort, product_id: str) -> tup
     return repository.get_component_tree(product_id)
 
 
+def get_ancestors(repository: EntityRepositoryPort, product_id: str) -> tuple[ValidatedEntity, ...]:
+    """Root-first CONTAINS parent chain, excluding `product_id` itself; empty if it is already a root."""
+    return repository.get_ancestors(product_id)
+
+
 def get_supplier(repository: EntityRepositoryPort, product_id: str) -> ValidatedEntity | None:
     if repository.get(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id) is None:
         raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)

@@ -45,7 +45,7 @@ describe("Offer (VIEW-C-003 draft offer review)", () => {
           data: {
             entityId: "FLT-01",
             entityKind: "TouristicProductItem",
-            type: "product/flight",
+            type: "product/airline/flight",
             schemaVersion: 1,
             properties: {
               flightNumber: "501",

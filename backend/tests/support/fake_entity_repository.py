@@ -99,6 +99,40 @@ class FakeEntityRepository:
             tree.append((self._entities[(EntityKind.TOURISTIC_PRODUCT_ITEM, child_id)], parent_by_child[child_id]))
         return tuple(tree)
 
+    def get_ancestors(self, product_id):
+        if (EntityKind.TOURISTIC_PRODUCT_ITEM, product_id) not in self._entities:
+            raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+        parent_by_child = {
+            to_id: from_id
+            for (from_kind, from_id, relationship, to_kind, to_id) in self.relationship_calls
+            if from_kind == EntityKind.TOURISTIC_PRODUCT_ITEM
+            and to_kind == EntityKind.TOURISTIC_PRODUCT_ITEM
+            and relationship == RelationshipType.CONTAINS
+        }
+        chain: list[str] = []
+        current = product_id
+        while current in parent_by_child:
+            current = parent_by_child[current]
+            chain.append(current)
+        chain.reverse()
+        return tuple(self._entities[(EntityKind.TOURISTIC_PRODUCT_ITEM, ancestor_id)] for ancestor_id in chain)
+
+    def get_organisation_for_role(self, role_id):
+        organisation_id = next(
+            (
+                from_id
+                for (from_kind, from_id, relationship, to_kind, to_id) in self.relationship_calls
+                if from_kind == EntityKind.ORGANISATION
+                and relationship == RelationshipType.HAS_ROLE
+                and to_kind == EntityKind.ORGA_ROLE
+                and to_id == role_id
+            ),
+            None,
+        )
+        if organisation_id is None:
+            return None
+        return self._entities.get((EntityKind.ORGANISATION, organisation_id))
+
     def get_order_detail(self, order_id):
         if (EntityKind.ORDER_ITEM, order_id) not in self._entities:
             raise EntityNotFoundError(EntityKind.ORDER_ITEM, order_id)
