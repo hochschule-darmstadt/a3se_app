@@ -55,7 +55,25 @@ class ImageProperties(StrictProperties):
         return self
 
 
-class FlightProperties(ImageProperties):
+class CatalogueItemProperties(ImageProperties):
+    """Shared fields for catalogue-root product types (not their structural children).
+
+    `displayName` closes WF-Q-013: no product type carried a generic
+    name/title before this, only type-specific fields (e.g.
+    `flightNumber`, `roomTypeCode`), and several types had no descriptive
+    property at all. `lifecycleStatusCode` closes WF-Q-014 and follows the
+    `roleStatusCode` pattern (TERM-003): "activate"/"retire" in VIEW-S-003
+    transition this status on the same record; there is no separate
+    version-number/version-history mechanism in MVP.
+    """
+
+    display_name: str | None = Field(default=None, alias="displayName", min_length=1, max_length=200)
+    lifecycle_status_code: Literal["product/draft", "product/active", "product/retired"] = Field(
+        default="product/draft", alias="lifecycleStatusCode"
+    )
+
+
+class FlightProperties(CatalogueItemProperties):
     flight_number: str = Field(alias="flightNumber", pattern=r"^[0-9]{1,4}$")
     departure_location_code: str = Field(alias="departureLocationCode", pattern=r"^[A-Z]{3}$")
     arrival_location_code: str = Field(alias="arrivalLocationCode", pattern=r"^[A-Z]{3}$")
@@ -76,7 +94,7 @@ class SeatProperties(StrictProperties):
     seat_number: str = Field(alias="seatNumber", pattern=r"^[1-9][0-9]{0,2}[A-Z]$")
 
 
-class RoomCategoryProperties(ImageProperties):
+class RoomCategoryProperties(CatalogueItemProperties):
     room_type_code: RoomTypeCode = Field(alias="roomTypeCode")
     smoking_preference_code: Literal["nonSmoking", "smoking", "unspecified"] | None = Field(
         default=None, alias="smokingPreferenceCode"
@@ -87,6 +105,6 @@ class RoomProperties(StrictProperties):
     room_number: str = Field(alias="roomNumber", min_length=1, max_length=20)
 
 
-class EmptyProductProperties(ImageProperties):
+class EmptyProductProperties(CatalogueItemProperties):
     pass
 

@@ -28,6 +28,7 @@ from cct.resource_management.touristic_product_management.models import (
 )
 
 from .dependencies import Actor, get_current_actor, get_partner_repository, get_product_repository
+from .organisations import OrgaRoleResponse
 from .schemas import ErrorResponse, Page, PageParams, transport_properties_model
 
 router = APIRouter(prefix="/products", tags=["products"])
@@ -259,3 +260,14 @@ def set_product_supplier(
     service.set_supplier(
         repository, product_id, supplier_role_id=request.supplier_role_id, partner_repository=partner_repository
     )
+
+
+@router.get(
+    "/{product_id}/supplier",
+    response_model=OrgaRoleResponse | None,
+    operation_id="getProductSupplier",
+    responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+)
+def get_product_supplier(product_id: str, repository: RepositoryDependency) -> OrgaRoleResponse | None:
+    role = service.get_supplier(repository, product_id)
+    return OrgaRoleResponse.from_domain(role) if role is not None else None

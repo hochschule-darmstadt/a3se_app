@@ -354,7 +354,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get Product Supplier */
+        get: operations["getProductSupplier"];
         /** Set Product Supplier */
         put: operations["setProductSupplier"];
         post?: never;
@@ -462,6 +463,8 @@ export interface components {
         };
         /** EmptyProductProperties */
         EmptyProductProperties: {
+            /** Displayname */
+            displayName?: string | null;
             /** Imagealttext */
             imageAltText?: string | null;
             /** Imageattributiontext */
@@ -478,10 +481,20 @@ export interface components {
             imageUrl?: string | null;
             /** Imageverifieddate */
             imageVerifiedDate?: string | null;
+            /**
+             * Lifecyclestatuscode
+             * @default product/draft
+             * @enum {string}
+             */
+            lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
         };
         /** EmptyProductRequest */
         EmptyProductRequest: {
-            /** @default {} */
+            /**
+             * @default {
+             *       "lifecycleStatusCode": "product/draft"
+             *     }
+             */
             properties: components["schemas"]["EmptyProductProperties"];
             /**
              * @description discriminator enum property added by openapi-typescript
@@ -541,6 +554,8 @@ export interface components {
             arrivalLocationCode: string;
             /** Departurelocationcode */
             departureLocationCode: string;
+            /** Displayname */
+            displayName?: string | null;
             /** Flightnumber */
             flightNumber: string;
             /** Imagealttext */
@@ -559,6 +574,12 @@ export interface components {
             imageUrl?: string | null;
             /** Imageverifieddate */
             imageVerifiedDate?: string | null;
+            /**
+             * Lifecyclestatuscode
+             * @default product/draft
+             * @enum {string}
+             */
+            lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
             /**
              * Scheduledarrivallocaltime
              * Format: time
@@ -578,6 +599,8 @@ export interface components {
             arrivalLocationCode: string;
             /** Departurelocationcode */
             departureLocationCode: string;
+            /** Displayname */
+            displayName?: string | null;
             /** Flightnumber */
             flightNumber: string;
             /** Imagealttext */
@@ -596,6 +619,12 @@ export interface components {
             imageUrl?: string | null;
             /** Imageverifieddate */
             imageVerifiedDate?: string | null;
+            /**
+             * Lifecyclestatuscode
+             * @default product/draft
+             * @enum {string}
+             */
+            lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
             /**
              * Scheduledarrivallocaltime
              * Format: time
@@ -911,6 +940,8 @@ export interface components {
         };
         /** RoomCategoryProperties */
         RoomCategoryProperties: {
+            /** Displayname */
+            displayName?: string | null;
             /** Imagealttext */
             imageAltText?: string | null;
             /** Imageattributiontext */
@@ -927,6 +958,12 @@ export interface components {
             imageUrl?: string | null;
             /** Imageverifieddate */
             imageVerifiedDate?: string | null;
+            /**
+             * Lifecyclestatuscode
+             * @default product/draft
+             * @enum {string}
+             */
+            lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
             /**
              * Roomtypecode
              * @enum {string}
@@ -2729,6 +2766,46 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProductComponentResponse"][];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getProductSupplier: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                product_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrgaRoleResponse"] | null;
                 };
             };
             /** @description Not Found */

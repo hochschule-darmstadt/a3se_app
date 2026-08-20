@@ -112,6 +112,34 @@ class ProductsApiTest(unittest.TestCase):
         response = self.client.put("/products/I21-FLIGHT/supplier", json={"supplierRoleId": "MISSING"})
         self.assertEqual(404, response.status_code)
 
+    def test_get_supplier_returns_null_when_unset(self) -> None:
+        self.client.post("/products", json=flight_payload())
+        response = self.client.get("/products/I21-FLIGHT/supplier")
+        self.assertEqual(200, response.status_code)
+        self.assertIsNone(response.json())
+
+    def test_get_supplier_returns_404_for_missing_product(self) -> None:
+        response = self.client.get("/products/MISSING/supplier")
+        self.assertEqual(404, response.status_code)
+
+    def test_get_supplier_returns_the_supplying_role_after_set(self) -> None:
+        self.client.post("/products", json=flight_payload())
+        self.repository.save(
+            {"entityId": "I21-SUPPLIER", "entityKind": "Organisation", "properties": {"name": "Condorleaf Air"}}
+        )
+        self.repository.save(
+            {
+                "entityId": "I21-SUPPLIER-ROLE",
+                "entityKind": "OrgaRole",
+                "type": "partner/supplier/airline",
+                "properties": {"airlineDesignator": "0Q"},
+            }
+        )
+        self.client.put("/products/I21-FLIGHT/supplier", json={"supplierRoleId": "I21-SUPPLIER-ROLE"})
+        response = self.client.get("/products/I21-FLIGHT/supplier")
+        self.assertEqual(200, response.status_code)
+        self.assertEqual("I21-SUPPLIER-ROLE", response.json()["entityId"])
+
     def test_set_supplier_succeeds_with_existing_role(self) -> None:
         self.client.post("/products", json=flight_payload())
         self.repository.save(

@@ -11,6 +11,7 @@ export default [
   route("organisations/new", "routes/organisations.new.tsx"),
   route("organisations/:organisationId", "routes/organisations.$id.tsx"),
   route("products", "routes/products.tsx"),
+  route("products/new", "routes/products.new.tsx"),
   route("products/:productId", "routes/products.$id.tsx"),
   route("stock-items", "routes/stock-items.tsx"),
   route("stock-items/:stockItemId", "routes/stock-items.$id.tsx"),

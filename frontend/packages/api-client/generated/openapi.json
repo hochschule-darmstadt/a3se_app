@@ -143,6 +143,19 @@
       "EmptyProductProperties": {
         "additionalProperties": false,
         "properties": {
+          "displayName": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Displayname"
+          },
           "imageAltText": {
             "anyOf": [
               {
@@ -247,6 +260,16 @@
               }
             ],
             "title": "Imageverifieddate"
+          },
+          "lifecycleStatusCode": {
+            "default": "product/draft",
+            "enum": [
+              "product/draft",
+              "product/active",
+              "product/retired"
+            ],
+            "title": "Lifecyclestatuscode",
+            "type": "string"
           }
         },
         "title": "EmptyProductProperties",
@@ -256,7 +279,9 @@
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/EmptyProductProperties",
-            "default": {}
+            "default": {
+              "lifecycleStatusCode": "product/draft"
+            }
           },
           "type": {
             "enum": [
@@ -375,6 +400,19 @@
             "title": "Departurelocationcode",
             "type": "string"
           },
+          "displayName": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Displayname"
+          },
           "flightNumber": {
             "pattern": "^[0-9]{1,4}$",
             "title": "Flightnumber",
@@ -484,6 +522,16 @@
               }
             ],
             "title": "Imageverifieddate"
+          },
+          "lifecycleStatusCode": {
+            "default": "product/draft",
+            "enum": [
+              "product/draft",
+              "product/active",
+              "product/retired"
+            ],
+            "title": "Lifecyclestatuscode",
+            "type": "string"
           },
           "scheduledArrivalLocalTime": {
             "format": "time",
@@ -531,6 +579,19 @@
             "title": "Departurelocationcode",
             "type": "string"
           },
+          "displayName": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Displayname"
+          },
           "flightNumber": {
             "pattern": "^[0-9]{1,4}$",
             "title": "Flightnumber",
@@ -640,6 +701,16 @@
               }
             ],
             "title": "Imageverifieddate"
+          },
+          "lifecycleStatusCode": {
+            "default": "product/draft",
+            "enum": [
+              "product/draft",
+              "product/active",
+              "product/retired"
+            ],
+            "title": "Lifecyclestatuscode",
+            "type": "string"
           },
           "scheduledArrivalLocalTime": {
             "format": "time",
@@ -1668,6 +1739,19 @@
       "RoomCategoryProperties": {
         "additionalProperties": false,
         "properties": {
+          "displayName": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Displayname"
+          },
           "imageAltText": {
             "anyOf": [
               {
@@ -1772,6 +1856,16 @@
               }
             ],
             "title": "Imageverifieddate"
+          },
+          "lifecycleStatusCode": {
+            "default": "product/draft",
+            "enum": [
+              "product/draft",
+              "product/active",
+              "product/retired"
+            ],
+            "title": "Lifecyclestatuscode",
+            "type": "string"
           },
           "roomTypeCode": {
             "enum": [
@@ -4440,6 +4534,64 @@
       }
     },
     "/products/{product_id}/supplier": {
+      "get": {
+        "operationId": "getProductSupplier",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "schema": {
+              "title": "Product Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/OrgaRoleResponse"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Getproductsupplier"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Product Supplier",
+        "tags": [
+          "products"
+        ]
+      },
       "put": {
         "operationId": "setProductSupplier",
         "parameters": [

@@ -95,3 +95,15 @@ def set_supplier(
 
 def get_component_tree(repository: EntityRepositoryPort, product_id: str) -> tuple[tuple[ValidatedEntity, str | None], ...]:
     return repository.get_component_tree(product_id)
+
+
+def get_supplier(repository: EntityRepositoryPort, product_id: str) -> ValidatedEntity | None:
+    if repository.get(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id) is None:
+        raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+    roles = repository.list_related(
+        from_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+        from_id=product_id,
+        relationship=RelationshipType.SUPPLIED_BY,
+        to_kind=EntityKind.ORGA_ROLE,
+    )
+    return roles[0] if roles else None

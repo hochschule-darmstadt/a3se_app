@@ -138,6 +138,37 @@ class ProductServiceTest(unittest.TestCase):
             self.repository.relationship_calls,
         )
 
+    def test_get_supplier_returns_none_when_unset(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+        )
+        self.assertIsNone(service.get_supplier(self.repository, "I31-FLIGHT"))
+
+    def test_get_supplier_requires_existing_product(self) -> None:
+        with self.assertRaises(EntityNotFoundError):
+            service.get_supplier(self.repository, "MISSING")
+
+    def test_get_supplier_returns_the_supplying_orga_role(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+        )
+        partner_service.create_organisation(
+            self.partner_repository, entity_id="I31-SUPPLIER", properties={"name": "Condorleaf Air"}
+        )
+        partner_service.create_orga_role(
+            self.partner_repository,
+            entity_id="I31-SUPPLIER-ROLE",
+            organisation_id="I31-SUPPLIER",
+            type="partner/supplier/airline",
+            properties={"airlineDesignator": "0Q"},
+        )
+        service.set_supplier(
+            self.repository, "I31-FLIGHT", supplier_role_id="I31-SUPPLIER-ROLE", partner_repository=self.partner_repository
+        )
+        supplier = service.get_supplier(self.repository, "I31-FLIGHT")
+        assert supplier is not None
+        self.assertEqual("I31-SUPPLIER-ROLE", supplier.entity_id)
+
     def test_create_product_accepts_complete_image_metadata(self) -> None:
         # TERM-010 (issue #12): every image field required once imageUrl is set.
         entity = service.create_product(
@@ -182,6 +213,51 @@ class ProductServiceTest(unittest.TestCase):
                     imageVerifiedDate=date(2026, 8, 18),
                 ),
             )
+
+    def test_create_product_defaults_to_draft_lifecycle_status(self) -> None:
+        entity = service.create_product(
+            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+        )
+        self.assertEqual("product/draft", entity.properties.lifecycle_status_code)
+
+    def test_update_product_activates_via_status_change(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+        )
+        activated = service.update_product(
+            self.repository,
+            "I31-FLIGHT",
+            type="product/flight",
+            properties=flight_properties(lifecycleStatusCode="product/active"),
+        )
+        self.assertEqual("product/active", activated.properties.lifecycle_status_code)
+
+    def test_update_product_retires_via_status_change(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I31-FLIGHT", type="product/flight", properties=flight_properties()
+        )
+        retired = service.update_product(
+            self.repository,
+            "I31-FLIGHT",
+            type="product/flight",
+            properties=flight_properties(lifecycleStatusCode="product/retired"),
+        )
+        self.assertEqual("product/retired", retired.properties.lifecycle_status_code)
+
+    def test_create_product_accepts_display_name(self) -> None:
+        entity = service.create_product(
+            self.repository,
+            entity_id="I31-ROOM",
+            type="product/accommodation/room-category",
+            properties={"roomTypeCode": "room/double", "displayName": "Madeira walking week"},
+        )
+        self.assertEqual("Madeira walking week", entity.properties.display_name)
+
+    def test_create_product_display_name_is_optional(self) -> None:
+        entity = service.create_product(
+            self.repository, entity_id="I31-TRANSFER", type="product/mobility/transfer", properties={}
+        )
+        self.assertIsNone(entity.properties.display_name)
 
     def test_create_product_accepts_widened_room_type_codes(self) -> None:
         for room_type in ("room/single", "room/family", "room/adjoining", "room/cabin"):
