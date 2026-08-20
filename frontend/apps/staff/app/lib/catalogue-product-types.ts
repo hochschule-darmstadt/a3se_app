@@ -1,3 +1,5 @@
+import { propertyDisplayEntries, type PropertyDisplayEntry } from "./property-display";
+
 /** Catalogue-root TouristicProductItem types (entity-model TERM-002). Excludes product/airline/flight/seat and product/accommodation/room-type/room, which are structural children shown only under their parent's component tree, not created directly from the catalogue list. */
 export type CatalogueRootType =
   | "product/airline/flight"
@@ -110,4 +112,12 @@ export function catalogueProperties(properties: unknown): { displayName?: string
 export function productDisplayLabel(entityId: string, type: string, displayName?: string | null): string {
   if (displayName) return displayName;
   return `${typeLabel(type)} (${entityId})`;
+}
+
+/** Every property on a product beyond the ones the detail view already shows as its title/badge (`displayName`, `lifecycleStatusCode`); see `propertyDisplayEntries`. */
+export function productPropertyEntries(properties: unknown): PropertyDisplayEntry[] {
+  return propertyDisplayEntries(properties, {
+    skipKeys: ["displayName", "lifecycleStatusCode"],
+    valueLabels: { roomTypeCode: ROOM_TYPE_LABEL },
+  });
 }

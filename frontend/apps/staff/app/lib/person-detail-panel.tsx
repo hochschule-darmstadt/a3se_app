@@ -7,6 +7,7 @@ import { useApiMutation, useApiQuery } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
 import { PAYMENT_METHOD_LABEL, PAYMENT_METHOD_OPTIONS, type PaymentMethodCode } from "./payment-methods";
+import { propertyDisplayEntries } from "./property-display";
 
 type PersonResponse = components["schemas"]["PersonResponse"];
 type PersonRoleResponse = components["schemas"]["PersonRoleResponse"];
@@ -134,15 +135,17 @@ export function PersonDetailPanel({ personId }: { readonly personId: string }) {
           </Stack>
         </form>
       ) : (
-        <Stack gap={4}>
+        <Stack gap={6}>
           <Group>
-            <Text fw={500}>ID</Text>
-            <Text>{person.entityId}</Text>
+            <Text fw={500} size="sm" w={160}>ID</Text>
+            <Text size="sm">{person.entityId}</Text>
           </Group>
-          <Group>
-            <Text fw={500}>Locality</Text>
-            <Text>{person.properties.addressLocalityName ?? "—"}</Text>
-          </Group>
+          {propertyDisplayEntries(person.properties, { skipKeys: ["givenName", "familyName"] }).map(({ key, label, value }) => (
+            <Group key={key}>
+              <Text fw={500} size="sm" w={160}>{label}</Text>
+              <Text size="sm">{value}</Text>
+            </Group>
+          ))}
           <Group mt="xs">
             <Button onClick={() => setEditingPerson(true)}>Edit person</Button>
           </Group>
@@ -271,14 +274,13 @@ function RoleCard({ personId, role }: { readonly personId: string; readonly role
         </form>
       ) : (
         <>
-          {role.type === "person/customer" ? (
-            <Text size="sm">
-              Payment method:{" "}
-              {(role.properties as { paymentMethodCode?: string | null }).paymentMethodCode
-                ? PAYMENT_METHOD_LABEL[(role.properties as { paymentMethodCode?: string | null }).paymentMethodCode as string]
-                : "—"}
-            </Text>
-          ) : null}
+          {propertyDisplayEntries(role.properties, { skipKeys: ["roleStatusCode"], valueLabels: { paymentMethodCode: PAYMENT_METHOD_LABEL } }).map(
+            ({ key, label: propertyLabel, value }) => (
+              <Text size="sm" key={key}>
+                {propertyLabel}: {value}
+              </Text>
+            )
+          )}
           <Group>
             <Button size="compact-sm" onClick={() => setEditing(true)}>
               Edit {ROLE_TYPE_LABEL[role.type]?.toLowerCase() ?? "role"}

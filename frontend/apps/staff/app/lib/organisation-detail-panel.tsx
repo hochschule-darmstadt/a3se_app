@@ -7,6 +7,7 @@ import { useApiMutation, useApiQuery } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
 import { SUPPLIER_ROLE_TYPE_LABEL, SUPPLIER_ROLE_TYPE_OPTIONS, type SupplierRoleType } from "./supplier-roles";
+import { propertyDisplayEntries } from "./property-display";
 
 type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
@@ -131,15 +132,17 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
           </Stack>
         </form>
       ) : (
-        <Stack gap={4}>
+        <Stack gap={6}>
           <Group>
-            <Text fw={500}>ID</Text>
-            <Text>{organisation.entityId}</Text>
+            <Text fw={500} size="sm" w={160}>ID</Text>
+            <Text size="sm">{organisation.entityId}</Text>
           </Group>
-          <Group>
-            <Text fw={500}>Locality</Text>
-            <Text>{organisation.properties.addressLocalityName ?? "—"}</Text>
-          </Group>
+          {propertyDisplayEntries(organisation.properties, { skipKeys: ["name"] }).map(({ key, label, value }) => (
+            <Group key={key}>
+              <Text fw={500} size="sm" w={160}>{label}</Text>
+              <Text size="sm">{value}</Text>
+            </Group>
+          ))}
           <Group mt="xs">
             <Button onClick={() => setEditingOrganisation(true)}>Edit organisation</Button>
           </Group>
@@ -253,9 +256,11 @@ function RoleCard({ organisationId, role }: { readonly organisationId: string; r
         </form>
       ) : (
         <>
-          {isAirline(role.type) ? (
-            <Text size="sm">Airline designator: {(role.properties as { airlineDesignator?: string }).airlineDesignator ?? "—"}</Text>
-          ) : null}
+          {propertyDisplayEntries(role.properties, { skipKeys: ["roleStatusCode"] }).map(({ key, label: propertyLabel, value }) => (
+            <Text size="sm" key={key}>
+              {propertyLabel}: {value}
+            </Text>
+          ))}
           <Group>
             <Button size="compact-sm" onClick={() => setEditing(true)}>
               Edit {label.toLowerCase()}

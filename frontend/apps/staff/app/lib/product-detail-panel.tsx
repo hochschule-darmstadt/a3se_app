@@ -1,5 +1,5 @@
-import { Badge, Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
-import { type FormEvent, useEffect, useState } from "react";
+import { Anchor, Badge, Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
+import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router";
 
 import type { components } from "@cct/api-client";
@@ -11,12 +11,14 @@ import {
   CATALOGUE_ROOT_TYPE_OPTIONS,
   LIFECYCLE_STATUS_LABEL,
   catalogueProperties,
+  productPropertyEntries,
   typeLabel,
   type CatalogueRootType,
   type LifecycleStatusCode,
   productDisplayLabel,
 } from "./catalogue-product-types";
 import { breadcrumbLabel, type ProductTreeEntry } from "./catalogue-tree";
+import { SUPPLIER_ROLE_TYPE_LABEL } from "./supplier-roles";
 import {
   EMPTY_PRODUCT_TYPE_FIELD_VALUES,
   ProductTypeFields,
@@ -37,14 +39,58 @@ function invalidateProduct(productId: string) {
 }
 
 /**
+ * A cross-link to another product: updates the master-detail right pane in
+ * place when `onSelectProduct` is supplied, otherwise falls back to a real
+ * route `Link` (the standalone `/products/:id` route has no pane to update).
+ * Rendered via Mantine's `Anchor` either way so it looks like every other
+ * design-system control, not a bare unstyled `<a>`.
+ */
+function ProductCrossLink({
+  to,
+  productId,
+  onSelectProduct,
+  children,
+}: {
+  readonly to: string;
+  readonly productId: string;
+  readonly onSelectProduct?: (productId: string) => void;
+  readonly children: ReactNode;
+}) {
+  if (onSelectProduct) {
+    return (
+      <Anchor component="button" type="button" onClick={() => onSelectProduct(productId)}>
+        {children}
+      </Anchor>
+    );
+  }
+  return (
+    <Anchor component={Link} to={to}>
+      {children}
+    </Anchor>
+  );
+}
+
+/**
  * S-003 detail (issue #31): a TouristicProductItem's type-specific fields,
  * lifecycle status (activate/retire -- WF-Q-014, no version history), its
  * recursive component tree, and its supplying OrgaRole. Used both as the
  * master-detail right pane on the products list and as the standalone
  * `/products/:id` route's content, mirroring `PersonDetailPanel` (#29) and
  * `OrganisationDetailPanel` (#30).
+ *
+ * `onSelectProduct`, when supplied, is called instead of a real navigation
+ * for the parent/component cross-links below: the products list passes its
+ * own right-pane setter so those links update the split view in place; the
+ * standalone route passes nothing, so the same links fall back to an
+ * ordinary `Link` (there is no split view there to update).
  */
-export function ProductDetailPanel({ productId }: { readonly productId: string }) {
+export function ProductDetailPanel({
+  productId,
+  onSelectProduct,
+}: {
+  readonly productId: string;
+  readonly onSelectProduct?: (productId: string) => void;
+}) {
   const productQuery = useApiQuery(
     ["products", productId],
     () => apiClient.GET("/products/{product_id}", { params: { path: { product_id: productId } } }),
@@ -166,6 +212,15 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
     : ownLabel;
   const components = componentsQuery.data.filter((component) => component.entityId !== product.entityId);
   const supplier = supplierQuery.data as OrgaRoleResponse | null;
+  const isRoot = product.entityId === rootId;
+  // Only the root of a component tree carries a supplier (stakeholder decision, see catalogue-tree.ts);
+  // a nested item shows the same supplier, inherited from its root, rather than "No supplier set."
+  const displaySupplier = supplier ?? (rootSupplierQuery.data as OrgaRoleResponse | null) ?? null;
+  const displayOrganisation = organisationQuery.data ?? null;
+  const rootAncestor = ancestorsQuery.data && ancestorsQuery.data.length > 0 ? ancestorsQuery.data[0]! : null;
+  const rootLabel = rootAncestor
+    ? productDisplayLabel(rootAncestor.entityId, rootAncestor.type, catalogueProperties(rootAncestor.properties).displayName)
+    : ownLabel;
 
   return (
     <Stack gap="md">
@@ -197,15 +252,21 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
           </Stack>
         </form>
       ) : (
-        <Stack gap={4}>
+        <Stack gap={6}>
           <Group>
-            <Text fw={500}>ID</Text>
-            <Text>{product.entityId}</Text>
+            <Text fw={500} size="sm" w={200}>ID</Text>
+            <Text size="sm">{product.entityId}</Text>
           </Group>
           <Group>
-            <Text fw={500}>Type</Text>
-            <Text>{typeLabel(product.type)}</Text>
+            <Text fw={500} size="sm" w={200}>Type</Text>
+            <Text size="sm">{typeLabel(product.type)}</Text>
           </Group>
+          {productPropertyEntries(product.properties).map(({ key, label, value }) => (
+            <Group key={key}>
+              <Text fw={500} size="sm" w={200}>{label}</Text>
+              <Text size="sm">{value}</Text>
+            </Group>
+          ))}
           <Group mt="xs">
             <Button onClick={() => setEditing(true)}>Edit draft</Button>
             <Button className="primary" disabled={isActive} loading={updateMutation.isPending} onClick={() => handleLifecycleChange("product/active")}>
@@ -215,7 +276,7 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
               Retire from future sale
             </Button>
           </Group>
-          <Text size="xs" c="dimmed" mt="xs">
+          <Text size="sm" c="dimmed" mt="xs">
             Activation and retirement change this record's lifecycle status; deletion is not assumed.
           </Text>
         </Stack>
@@ -223,27 +284,40 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
 
       <div>
         <Title order={2}>Supplier</Title>
-        {supplier ? (
+        {displaySupplier ? (
           <Text size="sm">
-            {supplier.type} · {supplier.entityId}
+            {[displayOrganisation?.properties.name, SUPPLIER_ROLE_TYPE_LABEL[displaySupplier.type] ?? displaySupplier.type, displaySupplier.entityId]
+              .filter(Boolean)
+              .join(" · ")}
           </Text>
         ) : (
           <StatusBanner kind="empty" title="No supplier set." />
         )}
-        <form onSubmit={handleSupplierSubmit} aria-label="Set supplier" style={{ marginTop: "var(--mantine-spacing-xs)" }}>
-          <Group align="flex-end">
-            <TextInput
-              label="Supplier role ID"
-              placeholder="e.g. SUP-AIR-01-ROLE"
-              value={supplierRoleId}
-              onChange={(event) => setSupplierRoleId(event.currentTarget.value)}
-            />
-            <Button type="submit" size="compact-sm" loading={supplierMutation.isPending}>
-              Set supplier
-            </Button>
-          </Group>
-          {supplierMutation.isError ? <ApiErrorBanner error={supplierMutation.error} /> : null}
-        </form>
+        {!isRoot && displaySupplier ? (
+          <Text size="sm" c="dimmed" mt={2}>
+            Set on the root product{" "}
+            <ProductCrossLink to={`/products/${rootId}`} productId={rootId} onSelectProduct={onSelectProduct}>
+              {rootLabel}
+            </ProductCrossLink>
+            ; it supplies every component beneath it.
+          </Text>
+        ) : null}
+        {isRoot ? (
+          <form onSubmit={handleSupplierSubmit} aria-label="Set supplier" style={{ marginTop: "var(--mantine-spacing-xs)" }}>
+            <Group align="flex-end">
+              <TextInput
+                label="Supplier role ID"
+                placeholder="e.g. SUP-AIR-01-ROLE"
+                value={supplierRoleId}
+                onChange={(event) => setSupplierRoleId(event.currentTarget.value)}
+              />
+              <Button type="submit" size="compact-sm" loading={supplierMutation.isPending}>
+                Set supplier
+              </Button>
+            </Group>
+            {supplierMutation.isError ? <ApiErrorBanner error={supplierMutation.error} /> : null}
+          </form>
+        ) : null}
       </div>
 
       <div>
@@ -253,7 +327,6 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
             {addingComponent ? "Cancel" : "Add component"}
           </Button>
         </Group>
-        {components.length === 0 ? <StatusBanner kind="empty" title="This product has no components." /> : null}
         <DataTable<ProductComponentResponse>
           caption={`Components of ${label}`}
           rowKey={(row) => row.entityId}
@@ -263,7 +336,11 @@ export function ProductDetailPanel({ productId }: { readonly productId: string }
             {
               key: "entityId",
               header: "Component",
-              render: (row) => <Link to={`/products/${row.entityId}`}>{productDisplayLabel(row.entityId, row.type, catalogueProperties(row.properties).displayName)}</Link>,
+              render: (row) => (
+                <ProductCrossLink to={`/products/${row.entityId}`} productId={row.entityId} onSelectProduct={onSelectProduct}>
+                  {productDisplayLabel(row.entityId, row.type, catalogueProperties(row.properties).displayName)}
+                </ProductCrossLink>
+              ),
             },
             { key: "type", header: "Type", render: (row) => typeLabel(row.type) },
           ]}

@@ -1,9 +1,9 @@
 import { Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQueries } from "@tanstack/react-query";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CursorPager, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { useAllPages } from "../lib/use-cursor-page";
@@ -136,17 +136,36 @@ export default function ProductsRoute() {
 
   const loading = allProducts.status === "pending" || !ancestorsLoaded;
 
+  // Client-side pagination over the already-fetched top-level matches: the
+  // tree needs every product's full ancestor chain in memory anyway to
+  // compute search/filter matches and the children index, so there is no
+  // cheaper server page to fetch here -- this instead caps how many rows
+  // render at once, which is what actually removes the need to scroll.
+  const PAGE_SIZE = 20;
+  const [page, setPage] = useState(0);
+  useEffect(() => setPage(0), [search, type, lifecycle]);
+  const pagedMatches = useMemo(() => matches.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE), [matches, page]);
+  const listCaption = `Products · ${matches.length === 0 ? 0 : page * PAGE_SIZE + 1}–${Math.min(matches.length, (page + 1) * PAGE_SIZE)} of ${matches.length}`;
+
   return (
     <StaffShell breadcrumbs={[{ label: "Touristic product catalogue" }]}>
-      <Stack gap="sm">
+      <Stack gap="sm" style={{ height: "calc(100vh - 104px)" }}>
         <Group justify="space-between" align="center">
           <Title order={1}>Touristic product catalogue</Title>
           <Button onClick={() => setRightPane({ mode: "create" })}>Create product draft</Button>
         </Group>
 
-        <Grid gutter="xl">
-          <Grid.Col span={{ base: 12, md: 7 }}>
-            <Stack gap="sm">
+        {/*
+          Each column scrolls independently (its own scrollbar next to its own
+          content), rather than the whole page scrolling with the browser's
+          scrollbar far off to the right and the detail pane faked into place
+          via `position: sticky`. The list's search/filter bar and the tree's
+          table header both stay outside/pinned within the list's own scroll
+          area, matching the fixed left-nav/header chrome elsewhere in the app.
+        */}
+        <Grid gutter="xl" style={{ flex: 1, minHeight: 0 }}>
+          <Grid.Col span={{ base: 12, md: 7 }} style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}>
+            <Stack gap="sm" style={{ flex: "0 0 auto" }}>
               <Group align="flex-end">
                 <TextInput
                   label="Search"
@@ -176,21 +195,35 @@ export default function ProductsRoute() {
                 <ApiErrorBanner error={allProducts.error} onRetry={allProducts.refetch} />
               ) : null}
               {loading && allProducts.status === "success" ? <StatusBanner kind="loading" title="Loading catalogue hierarchy…" /> : null}
-              {!loading && allProducts.status === "success" ? (
+            </Stack>
+
+            {!loading && allProducts.status === "success" ? (
+              <div style={{ flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}>
                 <ProductTreeList
-                  matches={matches}
+                  matches={pagedMatches}
                   childrenByParentId={childrenByParentId}
                   selectedId={rightPane.mode === "detail" ? rightPane.productId : null}
                   onSelect={(productId) => setRightPane({ mode: "detail", productId })}
                   emptyMessage="No products match these filters."
+                  caption={listCaption}
                 />
-              ) : null}
-            </Stack>
+              </div>
+            ) : null}
+            {!loading && allProducts.status === "success" && matches.length > PAGE_SIZE ? (
+              <div style={{ flex: "0 0 auto" }}>
+                <CursorPager
+                  hasPrevious={page > 0}
+                  hasNext={(page + 1) * PAGE_SIZE < matches.length}
+                  onPrevious={() => setPage((current) => current - 1)}
+                  onNext={() => setPage((current) => current + 1)}
+                />
+              </div>
+            ) : null}
           </Grid.Col>
 
-          <Grid.Col span={{ base: 12, md: 5 }} style={{ position: "sticky", top: 88, alignSelf: "flex-start", maxHeight: "calc(100vh - 104px)", overflowY: "auto" }}>
+          <Grid.Col span={{ base: 12, md: 5 }} style={{ height: "100%", overflowY: "auto" }}>
             {rightPane.mode === "detail" ? (
-              <ProductDetailPanel productId={rightPane.productId} />
+              <ProductDetailPanel productId={rightPane.productId} onSelectProduct={(productId) => setRightPane({ mode: "detail", productId })} />
             ) : rightPane.mode === "create" ? (
               <ProductCreatePanel
                 onCreated={(productId) => setRightPane({ mode: "detail", productId })}

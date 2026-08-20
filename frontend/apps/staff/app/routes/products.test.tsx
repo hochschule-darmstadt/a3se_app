@@ -169,6 +169,28 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Touristic product catalogue" })).toBeInTheDocument();
   });
 
+  it("paginates the list instead of rendering every match at once", async () => {
+    const products = Array.from({ length: 25 }, (_, index) =>
+      productResponse(`PRD-${String(index + 1).padStart(3, "0")}`, "product/mobility/transfer", `Transfer ${index + 1}`, "product/active")
+    );
+    mockGetImplementation({ products });
+    renderProducts();
+    await screen.findByText("Transfer 1");
+
+    expect(screen.getByText("Products · 1–20 of 25")).toBeInTheDocument();
+    expect(screen.getByText("Transfer 20")).toBeInTheDocument();
+    expect(screen.queryByText("Transfer 21")).not.toBeInTheDocument();
+    const nextButton = screen.getByRole("button", { name: /next page/i });
+    expect(screen.getByRole("button", { name: /previous page/i })).toBeDisabled();
+
+    const user = userEvent.setup();
+    await user.click(nextButton);
+
+    expect(await screen.findByText("Transfer 21")).toBeInTheDocument();
+    expect(screen.queryByText("Transfer 1")).not.toBeInTheDocument();
+    expect(nextButton).toBeDisabled();
+  });
+
   it("shows the create-product form inline in the right pane", async () => {
     mockGetImplementation({ products: [] });
     renderProducts();
