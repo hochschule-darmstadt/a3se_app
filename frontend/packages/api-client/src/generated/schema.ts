@@ -437,7 +437,13 @@ export interface components {
         /** CustomerRoleProperties */
         CustomerRoleProperties: {
             /** Paymentmethodcode */
-            paymentMethodCode?: "payment/paypal" | null;
+            paymentMethodCode?: ("payment/paypal" | "payment/credit-card" | "payment/sepa-direct-debit" | "payment/bank-transfer" | "payment/invoice") | null;
+            /**
+             * Rolestatuscode
+             * @default role/active
+             * @enum {string}
+             */
+            roleStatusCode: "role/active" | "role/inactive";
         };
         /** CustomerRoleRequest */
         CustomerRoleRequest: {
@@ -449,7 +455,24 @@ export interface components {
             type: "person/customer";
         };
         /** EmptyProductProperties */
-        EmptyProductProperties: Record<string, never>;
+        EmptyProductProperties: {
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
+        };
         /** EmptyProductRequest */
         EmptyProductRequest: {
             /** @default {} */
@@ -503,6 +526,22 @@ export interface components {
             departureLocationCode: string;
             /** Flightnumber */
             flightNumber: string;
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
             /**
              * Scheduledarrivallocaltime
              * Format: time
@@ -524,6 +563,22 @@ export interface components {
             departureLocationCode: string;
             /** Flightnumber */
             flightNumber: string;
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
             /**
              * Scheduledarrivallocaltime
              * Format: time
@@ -839,11 +894,27 @@ export interface components {
         };
         /** RoomCategoryProperties */
         RoomCategoryProperties: {
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
             /**
              * Roomtypecode
-             * @constant
+             * @enum {string}
              */
-            roomTypeCode: "room/double";
+            roomTypeCode: "room/single" | "room/double" | "room/twin" | "room/triple" | "room/family" | "room/adjoining" | "room/suite" | "room/cabin";
             /** Smokingpreferencecode */
             smokingPreferenceCode?: ("nonSmoking" | "smoking" | "unspecified") | null;
         };
@@ -900,7 +971,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/flight/seat" | "stock/hotel/room";
+            type: "stock/flight/seat" | "stock/hotel/room" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockItemResponse */
         StockItemResponse: {
@@ -925,7 +996,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/flight/seat" | "stock/hotel/room";
+            type: "stock/flight/seat" | "stock/hotel/room" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockProperties */
         StockProperties: {
@@ -958,7 +1029,14 @@ export interface components {
             unitPriceAmount: number | string;
         };
         /** TravellerRoleProperties */
-        TravellerRoleProperties: Record<string, never>;
+        TravellerRoleProperties: {
+            /**
+             * Rolestatuscode
+             * @default role/active
+             * @enum {string}
+             */
+            roleStatusCode: "role/active" | "role/inactive";
+        };
         /** TravellerRoleRequest */
         TravellerRoleRequest: {
             properties: components["schemas"]["TravellerRoleProperties"];

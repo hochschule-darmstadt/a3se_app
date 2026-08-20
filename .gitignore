@@ -13,3 +13,5 @@ __pycache__/
 tools/diagrams/.tmp/
 /debug.log
 **/.$*.drawio.bkp
+/.env
+/.env.*

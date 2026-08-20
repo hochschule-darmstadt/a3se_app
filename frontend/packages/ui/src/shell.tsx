@@ -236,7 +236,7 @@ export function StaffShell({ navLinks, breadcrumbs = [], linkComponent, userMenu
             />
             <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />
             <Text fw={700} c="white">
-              Staff
+              Staff Portal
             </Text>
           </Group>
           <ShellUserMenu {...userMenu} />

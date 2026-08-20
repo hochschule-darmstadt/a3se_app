@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import { useApiQuery, type ApiError } from "@cct/api-client";
+import { toApiError, useApiQuery, type ApiError } from "@cct/api-client";
 
 interface PageResult<T> {
   readonly items: T[];
@@ -47,6 +48,51 @@ export function useCursorPage<T>(
     onNext: () => {
       if (nextCursor) setCursorStack((stack) => [...stack, nextCursor]);
     },
+    refetch: () => void query.refetch(),
+  };
+}
+
+export interface AllItemsState<T> {
+  readonly items: readonly T[];
+  readonly status: "pending" | "error" | "success";
+  readonly error: ApiError | null;
+  readonly refetch: () => void;
+}
+
+/**
+ * Fetches every page of a cursor-paginated list endpoint up front. Needed
+ * whenever filtering/search must apply across the whole collection: these
+ * list endpoints have no server-side search, so filtering only the
+ * currently-fetched page silently hides matches sitting on other pages.
+ * Bounded to 50 pages -- fine for this project's small synthetic datasets,
+ * not a general-purpose solution for large collections.
+ */
+export function useAllPages<T>(
+  queryKeyBase: readonly unknown[],
+  fetchPage: (cursor: string | undefined) => Promise<{ data?: PageResult<T>; error?: unknown; response: Response }>
+): AllItemsState<T> {
+  const query = useQuery<T[], ApiError>({
+    queryKey: [...queryKeyBase, "all"],
+    queryFn: async () => {
+      const items: T[] = [];
+      let cursor: string | undefined = undefined;
+      for (let page = 0; page < 50; page += 1) {
+        const { data, error, response } = await fetchPage(cursor);
+        if (error !== undefined || !response.ok) {
+          throw toApiError(error as Parameters<typeof toApiError>[0], response);
+        }
+        items.push(...(data?.items ?? []));
+        if (!data?.nextCursor) break;
+        cursor = data.nextCursor;
+      }
+      return items;
+    },
+  });
+
+  return {
+    items: query.data ?? [],
+    status: query.status,
+    error: query.error ?? null,
     refetch: () => void query.refetch(),
   };
 }

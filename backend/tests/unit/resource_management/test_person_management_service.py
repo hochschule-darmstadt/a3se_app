@@ -123,6 +123,17 @@ class PersonServiceTest(unittest.TestCase):
         )
         self.assertEqual("payment/paypal", updated.properties.payment_method_code)
 
+    def test_update_person_role_accepts_each_permitted_payment_method(self) -> None:
+        service.create_person(self.repository, entity_id="I21-PER-01", properties=person_properties())
+        service.create_person_role(
+            self.repository, entity_id="I21-ROLE-01", person_id="I21-PER-01", type="person/customer", properties={}
+        )
+        for code in ("payment/credit-card", "payment/sepa-direct-debit", "payment/bank-transfer", "payment/invoice"):
+            updated = service.update_person_role(
+                self.repository, "I21-ROLE-01", type="person/customer", properties={"paymentMethodCode": code}
+            )
+            self.assertEqual(code, updated.properties.payment_method_code)
+
     def test_delete_person_role_removes_entity(self) -> None:
         service.create_person(self.repository, entity_id="I21-PER-01", properties=person_properties())
         service.create_person_role(
@@ -131,6 +142,23 @@ class PersonServiceTest(unittest.TestCase):
         service.delete_person_role(self.repository, "I21-ROLE-01")
         with self.assertRaises(EntityNotFoundError):
             service.get_person_role(self.repository, "I21-ROLE-01")
+
+    def test_create_person_role_defaults_to_active_status(self) -> None:
+        service.create_person(self.repository, entity_id="I21-PER-01", properties=person_properties())
+        role = service.create_person_role(
+            self.repository, entity_id="I21-ROLE-01", person_id="I21-PER-01", type="person/traveller", properties={}
+        )
+        self.assertEqual("role/active", role.properties.role_status_code)
+
+    def test_update_person_role_deactivates_via_status_change(self) -> None:
+        service.create_person(self.repository, entity_id="I21-PER-01", properties=person_properties())
+        service.create_person_role(
+            self.repository, entity_id="I21-ROLE-01", person_id="I21-PER-01", type="person/traveller", properties={}
+        )
+        deactivated = service.update_person_role(
+            self.repository, "I21-ROLE-01", type="person/traveller", properties={"roleStatusCode": "role/inactive"}
+        )
+        self.assertEqual("role/inactive", deactivated.properties.role_status_code)
 
     def test_delete_person_blocked_while_role_dependent_exists(self) -> None:
         service.create_person(self.repository, entity_id="I21-PER-01", properties=person_properties())

@@ -5,6 +5,7 @@ export default [
   route("orders", "routes/orders.tsx"),
   route("orders/:orderId", "routes/order-detail.tsx"),
   route("persons", "routes/persons.tsx"),
+  route("persons/new", "routes/persons.new.tsx"),
   route("persons/:personId", "routes/persons.$id.tsx"),
   route("organisations", "routes/organisations.tsx"),
   route("organisations/:organisationId", "routes/organisations.$id.tsx"),

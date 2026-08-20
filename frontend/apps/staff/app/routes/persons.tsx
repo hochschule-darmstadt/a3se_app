@@ -1,57 +1,193 @@
-import { Stack, Title } from "@mantine/core";
-import { useNavigate } from "react-router";
+import { Badge, Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
+import { useEffect, useMemo, useState } from "react";
+import { useQueries } from "@tanstack/react-query";
 
 import type { components } from "@cct/api-client";
 import { ApiErrorBanner, CursorPager, DataTable, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
-import { useCursorPage } from "../lib/use-cursor-page";
+import { useAllPages } from "../lib/use-cursor-page";
+import { PersonCreatePanel } from "../lib/person-create-panel";
+import { PersonDetailPanel } from "../lib/person-detail-panel";
 import { StaffShell } from "../lib/shell";
 
+type RightPane = { readonly mode: "none" } | { readonly mode: "detail"; readonly personId: string } | { readonly mode: "create" };
+
 type PersonResponse = components["schemas"]["PersonResponse"];
+type PersonRoleResponse = components["schemas"]["PersonRoleResponse"];
+
+const PAGE_SIZE = 20;
+
+const ROLE_TYPE_OPTIONS = [
+  { value: "all", label: "All" },
+  { value: "person/customer", label: "Customer" },
+  { value: "person/traveller", label: "Traveller" },
+];
+
+const ROLE_STATUS_OPTIONS = [
+  { value: "all", label: "All" },
+  { value: "role/active", label: "Active" },
+  { value: "role/inactive", label: "Inactive" },
+];
+
+const ROLE_TYPE_LABEL: Record<string, string> = { "person/customer": "Customer", "person/traveller": "Traveller" };
 
 export function meta() {
   return [{ title: "Persons — CCT Staff" }];
 }
 
-/** S-002: read-only, server-paginated persons list. Editing persons is out of scope for this pass. */
+/**
+ * S-002: fetches every person up front (see `useAllPages`) so name and
+ * role-type/role-status filters apply across the whole collection, not just
+ * one server page (stakeholder review, 2026-08-20, of an earlier
+ * current-page-only version). Selecting a row shows its detail in the right
+ * pane inline, matching the reviewed wireframe's list/detail split, instead
+ * of navigating to a separate page.
+ */
 export default function PersonsRoute() {
-  const navigate = useNavigate();
-  const page = useCursorPage<PersonResponse>(["persons"], (cursor) =>
-    apiClient.GET("/persons", { params: { query: { cursor, limit: 20 } } })
+  const allPersons = useAllPages<PersonResponse>(["persons"], (cursor) =>
+    apiClient.GET("/persons", { params: { query: { cursor, limit: 50 } } })
   );
+
+  const [search, setSearch] = useState("");
+  const [roleType, setRoleType] = useState<string>("all");
+  const [roleStatus, setRoleStatus] = useState<string>("all");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [rightPane, setRightPane] = useState<RightPane>({ mode: "none" });
+
+  const roleQueries = useQueries({
+    queries: allPersons.items.map((person) => ({
+      queryKey: ["persons", person.entityId, "roles"],
+      queryFn: async () => {
+        const { data } = await apiClient.GET("/persons/{person_id}/roles", {
+          params: { path: { person_id: person.entityId } },
+        });
+        return (data ?? []) as PersonRoleResponse[];
+      },
+    })),
+  });
+
+  const rows = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    return allPersons.items
+      .map((person, index) => ({ person, roles: roleQueries[index]?.data ?? [] }))
+      .filter(({ person, roles }) => {
+        if (term) {
+          const haystack = `${person.properties.givenName} ${person.properties.familyName} ${person.properties.addressLocalityName ?? ""}`.toLowerCase();
+          if (!haystack.includes(term)) return false;
+        }
+        if (roleType !== "all" || roleStatus !== "all") {
+          const matches = roles.some(
+            (role) => (roleType === "all" || role.type === roleType) && (roleStatus === "all" || role.properties.roleStatusCode === roleStatus)
+          );
+          if (!matches) return false;
+        }
+        return true;
+      });
+  }, [allPersons.items, roleQueries, search, roleType, roleStatus]);
+
+  useEffect(() => {
+    setPageIndex(0);
+  }, [search, roleType, roleStatus]);
+
+  const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const clampedPageIndex = Math.min(pageIndex, pageCount - 1);
+  const pageRows = rows.slice(clampedPageIndex * PAGE_SIZE, clampedPageIndex * PAGE_SIZE + PAGE_SIZE);
 
   return (
     <StaffShell breadcrumbs={[{ label: "Customers and travellers" }]}>
       <Stack gap="sm">
-        <Title order={1}>Persons</Title>
+        <Group justify="space-between" align="center">
+          <Title order={1}>Customers and travellers</Title>
+          <Button onClick={() => setRightPane({ mode: "create" })}>Create person</Button>
+        </Group>
 
-        {page.status === "pending" ? <StatusBanner kind="loading" title="Loading persons…" /> : null}
-        {page.status === "error" && page.error ? <ApiErrorBanner error={page.error} onRetry={page.refetch} /> : null}
-        {page.status === "success" ? (
-          <>
-            <DataTable<PersonResponse>
-              caption="Persons"
-              rowKey={(row) => row.entityId}
-              rows={page.items}
-              emptyMessage="No persons to display."
-              onRowActivate={(row) => navigate(`/persons/${row.entityId}`)}
-              columns={[
-                { key: "entityId", header: "Entity ID", render: (row) => row.entityId },
-                { key: "givenName", header: "Given name", render: (row) => row.properties.givenName },
-                { key: "familyName", header: "Family name", render: (row) => row.properties.familyName },
-                { key: "locality", header: "Locality", render: (row) => row.properties.addressLocalityName ?? "—" },
-              ]}
-            />
-            <CursorPager
-              hasPrevious={page.hasPrevious}
-              hasNext={page.hasNext}
-              onPrevious={page.onPrevious}
-              onNext={page.onNext}
-              loading={page.isFetching}
-            />
-          </>
-        ) : null}
+        <Grid>
+          <Grid.Col span={{ base: 12, md: 7 }}>
+            <Stack gap="sm">
+              <Group align="flex-end">
+                <TextInput
+                  label="Search"
+                  placeholder="Given name, family name or locality"
+                  value={search}
+                  onChange={(event) => setSearch(event.currentTarget.value)}
+                />
+                <Select label="Role type" data={ROLE_TYPE_OPTIONS} value={roleType} onChange={(value) => setRoleType(value ?? "all")} allowDeselect={false} />
+                <Select
+                  label="Role status"
+                  data={ROLE_STATUS_OPTIONS}
+                  value={roleStatus}
+                  onChange={(value) => setRoleStatus(value ?? "all")}
+                  allowDeselect={false}
+                />
+              </Group>
+
+              {allPersons.status === "pending" ? <StatusBanner kind="loading" title="Loading persons…" /> : null}
+              {allPersons.status === "error" && allPersons.error ? (
+                <ApiErrorBanner error={allPersons.error} onRetry={allPersons.refetch} />
+              ) : null}
+              {allPersons.status === "success" ? (
+                <>
+                  <DataTable<{ person: PersonResponse; roles: readonly PersonRoleResponse[] }>
+                    caption={`Persons · ${rows.length === 0 ? 0 : clampedPageIndex * PAGE_SIZE + 1}–${Math.min(rows.length, (clampedPageIndex + 1) * PAGE_SIZE)} of ${rows.length}`}
+                    rowKey={(row) => row.person.entityId}
+                    rows={pageRows}
+                    emptyMessage="No persons match these filters."
+                    onRowActivate={(row) => setRightPane({ mode: "detail", personId: row.person.entityId })}
+                    isRowSelected={(row) => rightPane.mode === "detail" && row.person.entityId === rightPane.personId}
+                    columns={[
+                      {
+                        key: "name",
+                        header: "Person",
+                        render: (row) => `${row.person.properties.givenName} ${row.person.properties.familyName}`,
+                      },
+                      {
+                        key: "roles",
+                        header: "Roles",
+                        render: (row) =>
+                          row.roles.length === 0 ? (
+                            "—"
+                          ) : (
+                            <Group gap={4}>
+                              {row.roles.map((role) => {
+                                const active = role.properties.roleStatusCode === "role/active";
+                                return (
+                                  <Badge key={role.entityId} color={active ? "green" : "gray"}>
+                                    {ROLE_TYPE_LABEL[role.type] ?? role.type}
+                                    {active ? "" : " · inactive"}
+                                  </Badge>
+                                );
+                              })}
+                            </Group>
+                          ),
+                      },
+                      { key: "locality", header: "Locality", render: (row) => row.person.properties.addressLocalityName ?? "—" },
+                    ]}
+                  />
+                  <CursorPager
+                    hasPrevious={clampedPageIndex > 0}
+                    hasNext={clampedPageIndex < pageCount - 1}
+                    onPrevious={() => setPageIndex((index) => Math.max(0, index - 1))}
+                    onNext={() => setPageIndex((index) => Math.min(pageCount - 1, index + 1))}
+                  />
+                </>
+              ) : null}
+            </Stack>
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, md: 5 }}>
+            {rightPane.mode === "detail" ? (
+              <PersonDetailPanel personId={rightPane.personId} />
+            ) : rightPane.mode === "create" ? (
+              <PersonCreatePanel
+                onCreated={(personId) => setRightPane({ mode: "detail", personId })}
+                onCancel={() => setRightPane({ mode: "none" })}
+              />
+            ) : (
+              <StatusBanner kind="info" title="No person selected" description="Select a person from the list to view their details, or create one." />
+            )}
+          </Grid.Col>
+        </Grid>
       </Stack>
     </StaffShell>
   );

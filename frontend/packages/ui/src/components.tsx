@@ -113,6 +113,8 @@ export interface DataTableProps<T> {
   readonly onSortChange?: (key: string) => void;
   readonly onRowActivate?: (row: T) => void;
   readonly emptyMessage?: string;
+  /** Marks a row as the current selection (`aria-selected`, distinct from activation per DS-CMP-006). */
+  readonly isRowSelected?: (row: T) => boolean;
 }
 
 /**
@@ -132,6 +134,7 @@ export function DataTable<T>({
   onSortChange,
   onRowActivate,
   emptyMessage = "No records to display.",
+  isRowSelected,
 }: DataTableProps<T>) {
   if (rows.length === 0) {
     return <StatusBanner kind="empty" title={emptyMessage} />;
@@ -158,28 +161,33 @@ export function DataTable<T>({
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {rows.map((row) => (
-            <Table.Tr
-              key={rowKey(row)}
-              onClick={onRowActivate ? () => onRowActivate(row) : undefined}
-              style={onRowActivate ? { cursor: "pointer" } : undefined}
-              tabIndex={onRowActivate ? 0 : undefined}
-              onKeyDown={
-                onRowActivate
-                  ? (event) => {
-                      if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        onRowActivate(row);
+          {rows.map((row) => {
+            const selected = isRowSelected?.(row) ?? false;
+            return (
+              <Table.Tr
+                key={rowKey(row)}
+                aria-selected={isRowSelected ? selected : undefined}
+                bg={selected ? "var(--mantine-color-blue-0)" : undefined}
+                onClick={onRowActivate ? () => onRowActivate(row) : undefined}
+                style={onRowActivate ? { cursor: "pointer" } : undefined}
+                tabIndex={onRowActivate ? 0 : undefined}
+                onKeyDown={
+                  onRowActivate
+                    ? (event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          onRowActivate(row);
+                        }
                       }
-                    }
-                  : undefined
-              }
-            >
-              {columns.map((column) => (
-                <Table.Td key={column.key}>{column.render(row)}</Table.Td>
-              ))}
-            </Table.Tr>
-          ))}
+                    : undefined
+                }
+              >
+                {columns.map((column) => (
+                  <Table.Td key={column.key}>{column.render(row)}</Table.Td>
+                ))}
+              </Table.Tr>
+            );
+          })}
         </Table.Tbody>
       </Table>
     </ScrollArea>
