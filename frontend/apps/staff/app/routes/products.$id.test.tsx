@@ -128,13 +128,13 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       { data: flightProduct, response: { ok: true, status: 200 } },
       { data: [flightProduct], response: { ok: true, status: 200 } },
       {
-        data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "partner/supplier/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" } },
+        data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "organisation/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" } },
         response: { ok: true, status: 200 },
       }
     );
     renderDetail();
 
-    expect(await screen.findByText(/partner\/supplier\/airline · SUP-AIR-01-ROLE/)).toBeInTheDocument();
+    expect(await screen.findByText(/organisation\/airline · SUP-AIR-01-ROLE/)).toBeInTheDocument();
   });
 
   it("sets a supplier by ID", async () => {

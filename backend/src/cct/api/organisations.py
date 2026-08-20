@@ -24,11 +24,11 @@ from .schemas import ErrorResponse, Page, PageParams
 router = APIRouter(prefix="/organisations", tags=["organisations"])
 
 EMPTY_SUPPLIER_ROLE_TYPES = (
-    "partner/supplier/accommodation",
-    "partner/supplier/mobility",
-    "partner/supplier/water-transport",
-    "partner/supplier/experience",
-    "partner/supplier/protection",
+    "organisation/accommodation",
+    "organisation/mobility",
+    "organisation/water-transport",
+    "organisation/experience",
+    "organisation/protection",
 )
 
 
@@ -61,7 +61,7 @@ class OrganisationResponse(BaseModel):
 class AirlineRoleRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    type: Literal["partner/supplier/airline"] = "partner/supplier/airline"
+    type: Literal["organisation/airline"] = "organisation/airline"
     properties: AirlineRoleProperties
 
 

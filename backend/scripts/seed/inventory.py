@@ -34,7 +34,7 @@ from decimal import Decimal
 START_2027 = date(2027, 1, 1)
 END_2027 = date(2027, 12, 31)
 
-ROOM_CATEGORY_TYPE = "product/accommodation/room-category"
+ROOM_CATEGORY_TYPE = "product/accommodation/room-type"
 FLIGHT_TYPE = "product/airline/flight"
 
 FLIGHT_STOCK_TYPE = "stock/flight/seat"
@@ -55,8 +55,8 @@ PRODUCT_TYPE_TO_STOCK_TYPE = {
     "product/mobility/rail": "stock/mobility/rail",
     "product/mobility/coach": "stock/mobility/coach",
     "product/mobility/vehicle-rental": "stock/mobility/vehicle-rental",
-    "product/water/day-boat": "stock/water/day-boat",
-    "product/water/cruise": "stock/water/cruise",
+    "product/water-transport/day-boat": "stock/water/day-boat",
+    "product/water-transport/cruise": "stock/water/cruise",
     "product/experience/guided-tour": "stock/experience/guided-tour",
     "product/experience/activity": "stock/experience/activity",
     "product/protection/travel": "stock/protection/travel",

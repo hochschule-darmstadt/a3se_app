@@ -12,22 +12,22 @@ Catalog IDs are stable synthetic identifiers. Supplier categories are `airline`,
 
 | ID | Organisation name | OrgaRole type | Notes |
 |---|---|---|---|
-| SUP-AIR-01 | Condorleaf Air | `partner/supplier/airline` | Fictional, non-operational; synthetic designator `0Q` |
-| SUP-AIR-02 | Blue Pampa Airways | `partner/supplier/airline` | Fictional, non-operational; synthetic designator `1Q` |
-| SUP-ACC-01 | Southlight Stays | `partner/supplier/accommodation` | Fictional accommodation group |
-| SUP-MOB-01 | Meridian Groundways | `partner/supplier/mobility` | Fictional transfer, coach, rail, and rental supplier |
-| SUP-WTR-01 | Pelican Passage | `partner/supplier/water-transport` | Fictional boat and cruise supplier |
-| SUP-EXP-01 | Andes & Atlantic Guides | `partner/supplier/experience` | Fictional guided-tour/activity supplier |
-| SUP-OTH-01 | Safepath Travel Cover | `partner/supplier/protection` | Fictional protection supplier; no real policy |
+| SUP-AIR-01 | Condorleaf Air | `organisation/airline` | Fictional, non-operational; synthetic designator `0Q` |
+| SUP-AIR-02 | Blue Pampa Airways | `organisation/airline` | Fictional, non-operational; synthetic designator `1Q` |
+| SUP-ACC-01 | Southlight Stays | `organisation/accommodation` | Fictional accommodation group |
+| SUP-MOB-01 | Meridian Groundways | `organisation/mobility` | Fictional transfer, coach, rail, and rental supplier |
+| SUP-WTR-01 | Pelican Passage | `organisation/water-transport` | Fictional boat and cruise supplier |
+| SUP-EXP-01 | Andes & Atlantic Guides | `organisation/experience` | Fictional guided-tour/activity supplier |
+| SUP-OTH-01 | Safepath Travel Cover | `organisation/protection` | Fictional protection supplier; no real policy |
 
 ## Scenario-used products
 
 | IDs | Supplier | Type | Definition |
 |---|---|---|---|
 | FLT-01…FLT-15 | SUP-AIR-01/02 | `product/flight` | The flight sequences written in the corresponding `TS-nnn`; each leg has departure/arrival IATA code, local times, numeric flight number, and supplier designator. |
-| ACC-01…ACC-15 | SUP-ACC-01 | `product/accommodation/room-category` | Corresponding destination stay; capacity and room count follow its scenario constraints. |
+| ACC-01…ACC-15 | SUP-ACC-01 | `product/accommodation/room-type` | Corresponding destination stay; capacity and room count follow its scenario constraints. |
 | MOB-01…MOB-15 | SUP-MOB-01 | `product/mobility/transfer`, `/rail`, `/coach`, or `/vehicle-rental` | Ground component described in the corresponding scenario. MOB-08 is rail, MOB-10 rental, MOB-11 coach; others are transfers. |
-| WTR-01…WTR-03 | SUP-WTR-01 | `product/water/day-boat` or `product/water/cruise` | WTR-01 and WTR-03 are day boats; WTR-02 is the Rio–Buenos Aires cruise. |
+| WTR-01…WTR-03 | SUP-WTR-01 | `product/water-transport/day-boat` or `product/water-transport/cruise` | WTR-01 and WTR-03 are day boats; WTR-02 is the Rio–Buenos Aires cruise. |
 | EXP-01…EXP-15 | SUP-EXP-01 | `product/experience/guided-tour` or `product/experience/activity` | Guided or activity component and capacity constraint in the corresponding scenario. |
 | OTH-01…OTH-04 | SUP-OTH-01 | `product/protection/travel` | Synthetic travel-protection variants for the referenced traveller group. |
 

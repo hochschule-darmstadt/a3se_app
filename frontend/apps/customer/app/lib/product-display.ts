@@ -24,7 +24,7 @@ export function productTitle(product: ProductResponse): string {
       }
       return `Flight ${product.entityId}`;
     }
-    case "product/accommodation/room-category": {
+    case "product/accommodation/room-type": {
       const roomTypeCode = properties.roomTypeCode as string | undefined;
       const roomType = roomTypeCode?.replace("room/", "") ?? "room";
       return `${capitalize(roomType)} room`;

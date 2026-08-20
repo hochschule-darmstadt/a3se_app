@@ -84,7 +84,7 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
                 "/organisations/I21-SUPPLIER/roles",
                 json={
                     "entityId": "I21-SUPPLIER-ROLE",
-                    "role": {"type": "partner/supplier/airline", "properties": {"airlineDesignator": "0Q"}},
+                    "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "0Q"}},
                 },
             ).status_code,
         )
@@ -150,7 +150,7 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
                 json={
                     "entityId": "I21-SEAT",
                     "parentProductId": "I21-FLIGHT",
-                    "product": {"type": "product/airline/seat", "properties": {"seatNumber": "5A"}},
+                    "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "5A"}},
                 },
             ).status_code,
         )

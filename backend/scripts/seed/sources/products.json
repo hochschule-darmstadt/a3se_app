@@ -291,7 +291,7 @@
     },
     {
       "entityId": "ACC-01",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
@@ -303,7 +303,7 @@
     },
     {
       "entityId": "ACC-02",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -315,7 +315,7 @@
     },
     {
       "entityId": "ACC-03",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/adjoining",
         "lifecycleStatusCode": "product/active",
@@ -327,7 +327,7 @@
     },
     {
       "entityId": "ACC-04",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -339,7 +339,7 @@
     },
     {
       "entityId": "ACC-05",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
@@ -351,7 +351,7 @@
     },
     {
       "entityId": "ACC-06",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/triple",
         "lifecycleStatusCode": "product/active",
@@ -363,7 +363,7 @@
     },
     {
       "entityId": "ACC-07",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -375,7 +375,7 @@
     },
     {
       "entityId": "ACC-08",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
@@ -387,7 +387,7 @@
     },
     {
       "entityId": "ACC-09",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -399,7 +399,7 @@
     },
     {
       "entityId": "ACC-10",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
@@ -411,7 +411,7 @@
     },
     {
       "entityId": "ACC-11",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -423,7 +423,7 @@
     },
     {
       "entityId": "ACC-12",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -435,7 +435,7 @@
     },
     {
       "entityId": "ACC-13",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
@@ -447,7 +447,7 @@
     },
     {
       "entityId": "ACC-14",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
@@ -459,7 +459,7 @@
     },
     {
       "entityId": "ACC-15",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
@@ -636,7 +636,7 @@
     },
     {
       "entityId": "WTR-01",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Coastal Day Boat Excursion"
@@ -647,7 +647,7 @@
     },
     {
       "entityId": "WTR-02",
-      "type": "product/water/cruise",
+      "type": "product/water-transport/cruise",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Multi-Day Coastal Cruise"
@@ -658,7 +658,7 @@
     },
     {
       "entityId": "WTR-03",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Snorkeling Day Boat Trip"
@@ -1038,7 +1038,7 @@
     },
     {
       "entityId": "ACC-21",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -1050,7 +1050,7 @@
     },
     {
       "entityId": "ACC-22",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
@@ -1062,7 +1062,7 @@
     },
     {
       "entityId": "ACC-23",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/twin",
         "lifecycleStatusCode": "product/active",
@@ -1074,7 +1074,7 @@
     },
     {
       "entityId": "ACC-24",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/triple",
         "lifecycleStatusCode": "product/active",
@@ -1086,7 +1086,7 @@
     },
     {
       "entityId": "ACC-25",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
@@ -1098,7 +1098,7 @@
     },
     {
       "entityId": "ACC-26",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/suite",
         "lifecycleStatusCode": "product/active",
@@ -1110,7 +1110,7 @@
     },
     {
       "entityId": "ACC-27",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
@@ -1122,7 +1122,7 @@
     },
     {
       "entityId": "ACC-28",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
@@ -1134,7 +1134,7 @@
     },
     {
       "entityId": "ACC-29",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/cabin",
         "lifecycleStatusCode": "product/active",
@@ -1146,7 +1146,7 @@
     },
     {
       "entityId": "ACC-30",
-      "type": "product/accommodation/room-category",
+      "type": "product/accommodation/room-type",
       "properties": {
         "roomTypeCode": "room/twin",
         "lifecycleStatusCode": "product/active",
@@ -1268,7 +1268,7 @@
     },
     {
       "entityId": "WTR-21",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Sunset Day Boat Cruise"
@@ -1279,7 +1279,7 @@
     },
     {
       "entityId": "WTR-22",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Island-Hopping Day Boat"
@@ -1290,7 +1290,7 @@
     },
     {
       "entityId": "WTR-23",
-      "type": "product/water/cruise",
+      "type": "product/water-transport/cruise",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "River Cruise"
@@ -1301,7 +1301,7 @@
     },
     {
       "entityId": "WTR-24",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Coastal Day Boat Excursion"
@@ -1312,7 +1312,7 @@
     },
     {
       "entityId": "WTR-25",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Snorkeling Day Boat Trip"
@@ -1323,7 +1323,7 @@
     },
     {
       "entityId": "WTR-26",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Sunset Day Boat Cruise"
@@ -1334,7 +1334,7 @@
     },
     {
       "entityId": "WTR-27",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Island-Hopping Day Boat"
@@ -1345,7 +1345,7 @@
     },
     {
       "entityId": "WTR-28",
-      "type": "product/water/cruise",
+      "type": "product/water-transport/cruise",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Archipelago Cruise"
@@ -1356,7 +1356,7 @@
     },
     {
       "entityId": "WTR-29",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Coastal Day Boat Excursion"
@@ -1367,7 +1367,7 @@
     },
     {
       "entityId": "WTR-30",
-      "type": "product/water/day-boat",
+      "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
         "displayName": "Snorkeling Day Boat Trip"
@@ -1598,7 +1598,7 @@
     },
     {
       "entityId": "ACC-01-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0101"
       },
@@ -1608,7 +1608,7 @@
     },
     {
       "entityId": "ACC-01-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0102"
       },
@@ -1618,7 +1618,7 @@
     },
     {
       "entityId": "ACC-02-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0201"
       },
@@ -1628,7 +1628,7 @@
     },
     {
       "entityId": "ACC-02-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0202"
       },
@@ -1638,7 +1638,7 @@
     },
     {
       "entityId": "ACC-03-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0301"
       },
@@ -1648,7 +1648,7 @@
     },
     {
       "entityId": "ACC-03-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0302"
       },
@@ -1658,7 +1658,7 @@
     },
     {
       "entityId": "ACC-04-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0401"
       },
@@ -1668,7 +1668,7 @@
     },
     {
       "entityId": "ACC-04-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0402"
       },
@@ -1678,7 +1678,7 @@
     },
     {
       "entityId": "ACC-05-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0501"
       },
@@ -1688,7 +1688,7 @@
     },
     {
       "entityId": "ACC-05-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0502"
       },
@@ -1698,7 +1698,7 @@
     },
     {
       "entityId": "ACC-06-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0601"
       },
@@ -1708,7 +1708,7 @@
     },
     {
       "entityId": "ACC-06-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0602"
       },
@@ -1718,7 +1718,7 @@
     },
     {
       "entityId": "ACC-07-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0701"
       },
@@ -1728,7 +1728,7 @@
     },
     {
       "entityId": "ACC-07-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0702"
       },
@@ -1738,7 +1738,7 @@
     },
     {
       "entityId": "ACC-08-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0801"
       },
@@ -1748,7 +1748,7 @@
     },
     {
       "entityId": "ACC-08-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0802"
       },
@@ -1758,7 +1758,7 @@
     },
     {
       "entityId": "ACC-09-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0901"
       },
@@ -1768,7 +1768,7 @@
     },
     {
       "entityId": "ACC-09-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "0902"
       },
@@ -1778,7 +1778,7 @@
     },
     {
       "entityId": "ACC-10-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1001"
       },
@@ -1788,7 +1788,7 @@
     },
     {
       "entityId": "ACC-10-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1002"
       },
@@ -1798,7 +1798,7 @@
     },
     {
       "entityId": "ACC-11-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1101"
       },
@@ -1808,7 +1808,7 @@
     },
     {
       "entityId": "ACC-11-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1102"
       },
@@ -1818,7 +1818,7 @@
     },
     {
       "entityId": "ACC-12-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1201"
       },
@@ -1828,7 +1828,7 @@
     },
     {
       "entityId": "ACC-12-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1202"
       },
@@ -1838,7 +1838,7 @@
     },
     {
       "entityId": "ACC-13-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1301"
       },
@@ -1848,7 +1848,7 @@
     },
     {
       "entityId": "ACC-13-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1302"
       },
@@ -1858,7 +1858,7 @@
     },
     {
       "entityId": "ACC-14-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1401"
       },
@@ -1868,7 +1868,7 @@
     },
     {
       "entityId": "ACC-14-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1402"
       },
@@ -1878,7 +1878,7 @@
     },
     {
       "entityId": "ACC-15-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1501"
       },
@@ -1888,7 +1888,7 @@
     },
     {
       "entityId": "ACC-15-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "1502"
       },
@@ -1898,7 +1898,7 @@
     },
     {
       "entityId": "ACC-21-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2101"
       },
@@ -1908,7 +1908,7 @@
     },
     {
       "entityId": "ACC-21-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2102"
       },
@@ -1918,7 +1918,7 @@
     },
     {
       "entityId": "ACC-22-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2201"
       },
@@ -1928,7 +1928,7 @@
     },
     {
       "entityId": "ACC-22-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2202"
       },
@@ -1938,7 +1938,7 @@
     },
     {
       "entityId": "ACC-23-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2301"
       },
@@ -1948,7 +1948,7 @@
     },
     {
       "entityId": "ACC-23-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2302"
       },
@@ -1958,7 +1958,7 @@
     },
     {
       "entityId": "ACC-24-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2401"
       },
@@ -1968,7 +1968,7 @@
     },
     {
       "entityId": "ACC-24-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2402"
       },
@@ -1978,7 +1978,7 @@
     },
     {
       "entityId": "ACC-25-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2501"
       },
@@ -1988,7 +1988,7 @@
     },
     {
       "entityId": "ACC-25-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2502"
       },
@@ -1998,7 +1998,7 @@
     },
     {
       "entityId": "ACC-26-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2601"
       },
@@ -2008,7 +2008,7 @@
     },
     {
       "entityId": "ACC-26-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2602"
       },
@@ -2018,7 +2018,7 @@
     },
     {
       "entityId": "ACC-27-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2701"
       },
@@ -2028,7 +2028,7 @@
     },
     {
       "entityId": "ACC-27-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2702"
       },
@@ -2038,7 +2038,7 @@
     },
     {
       "entityId": "ACC-28-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2801"
       },
@@ -2048,7 +2048,7 @@
     },
     {
       "entityId": "ACC-28-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2802"
       },
@@ -2058,7 +2058,7 @@
     },
     {
       "entityId": "ACC-29-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2901"
       },
@@ -2068,7 +2068,7 @@
     },
     {
       "entityId": "ACC-29-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "2902"
       },
@@ -2078,7 +2078,7 @@
     },
     {
       "entityId": "ACC-30-R1",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "3001"
       },
@@ -2088,7 +2088,7 @@
     },
     {
       "entityId": "ACC-30-R2",
-      "type": "product/accommodation/room",
+      "type": "product/accommodation/room-type/room",
       "properties": {
         "roomNumber": "3002"
       },
@@ -2098,7 +2098,7 @@
     },
     {
       "entityId": "FLT-01-L2-SEAT-1",
-      "type": "product/airline/seat",
+      "type": "product/airline/flight/seat",
       "properties": {
         "seatNumber": "12A"
       },
@@ -2108,7 +2108,7 @@
     },
     {
       "entityId": "FLT-01-L2-SEAT-2",
-      "type": "product/airline/seat",
+      "type": "product/airline/flight/seat",
       "properties": {
         "seatNumber": "12B"
       },

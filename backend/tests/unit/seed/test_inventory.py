@@ -80,7 +80,7 @@ class GenerateStockSpecsTest(unittest.TestCase):
 
     def test_stock_type_matches_product_family(self) -> None:
         specs = inventory.generate_stock_specs(
-            {"product/airline/flight": ["FLT-01"], "product/accommodation/room-category": ["ACC-01"]},
+            {"product/airline/flight": ["FLT-01"], "product/accommodation/room-type": ["ACC-01"]},
             {("FLT-01", date(2027, 1, 1)), ("ACC-01", date(2027, 1, 1))},
             start=date(2027, 1, 1),
             end=date(2027, 1, 1),

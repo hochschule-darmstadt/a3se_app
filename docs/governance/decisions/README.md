@@ -30,3 +30,4 @@ Decision records intentionally use the `Status/Date/Deciders/Supersedes` metadat
 | [DR-0014](0014-deterministic-seed-data-and-compose-seeding.md) | Deterministic seed data representation, generation, and Compose seeding | accepted | 2026-08-18 | none |
 | [DR-0015](0015-frontend-thin-slice-testing-i18n-and-catalog-listing.md) | Frontend thin-slice test stack, i18n demonstration, staff grid, and catalog listing | accepted | 2026-08-18 | none |
 | [DR-0016](0016-poc-technology-confirmation-with-residual-risk.md) | Confirm the DR-0010 technology profile with explicit residual risk | accepted | 2026-08-18 | none |
+| [DR-0017](0017-align-orgarole-and-touristicproductitem-type-families.md) | Align OrgaRole and TouristicProductItem type-identifier families | accepted | 2026-08-20 | none |

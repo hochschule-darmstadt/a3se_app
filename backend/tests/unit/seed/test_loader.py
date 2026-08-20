@@ -40,7 +40,7 @@ def _minimal_files() -> dict[str, dict[str, object]]:
                     "properties": {"name": "Condorleaf Air"},
                     "role": {
                         "entityId": "SUP-AIR-01-ROLE",
-                        "type": "partner/supplier/airline",
+                        "type": "organisation/airline",
                         "properties": {"airlineDesignator": "0Q"},
                     },
                     "reserve": False,

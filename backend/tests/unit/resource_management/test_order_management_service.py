@@ -116,7 +116,7 @@ class OrderServiceTest(unittest.TestCase):
             self.repository,
             entity_id="I21-SUPPLIER-ROLE",
             organisation_id="I21-SUPPLIER",
-            type="partner/supplier/airline",
+            type="organisation/airline",
             properties={"airlineDesignator": "0Q"},
         )
         product_service.create_product(

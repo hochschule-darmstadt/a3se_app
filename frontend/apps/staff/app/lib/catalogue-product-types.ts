@@ -1,18 +1,18 @@
-/** Catalogue-root TouristicProductItem types (entity-model TERM-002). Excludes product/airline/seat and product/accommodation/room, which are structural children shown only under their parent's component tree, not created directly from the catalogue list. */
+/** Catalogue-root TouristicProductItem types (entity-model TERM-002). Excludes product/airline/flight/seat and product/accommodation/room-type/room, which are structural children shown only under their parent's component tree, not created directly from the catalogue list. */
 export type CatalogueRootType =
   | "product/airline/flight"
-  | "product/accommodation/room-category"
+  | "product/accommodation/room-type"
   | "product/mobility/transfer"
   | "product/mobility/rail"
   | "product/mobility/coach"
   | "product/mobility/vehicle-rental"
-  | "product/water/day-boat"
-  | "product/water/cruise"
+  | "product/water-transport/day-boat"
+  | "product/water-transport/cruise"
   | "product/experience/guided-tour"
   | "product/experience/activity"
   | "product/protection/travel";
 
-/** Strips the "product/" prefix so a type identifier reads as its own namespaced-path label (e.g. "airline/flight", "accommodation/room"), matching every family/subtype consistently -- no "hotel" vs "accommodation" or "flight" vs "airline/flight" mismatch. Works for any type, including structural children (product/airline/seat, product/accommodation/room) not in the catalogue-root list below. */
+/** Strips the "product/" prefix so a type identifier reads as its own namespaced-path label (e.g. "airline/flight", "accommodation/room"), matching every family/subtype consistently -- no "hotel" vs "accommodation" or "flight" vs "airline/flight" mismatch. Works for any type, including structural children (product/airline/flight/seat, product/accommodation/room-type/room) not in the catalogue-root list below. */
 export function typeLabel(type: string): string {
   return type.startsWith("product/") ? type.slice("product/".length) : type;
 }
@@ -24,13 +24,13 @@ export function typeFamily(type: string): string {
 
 export const CATALOGUE_ROOT_TYPE_OPTIONS: { value: CatalogueRootType; label: string }[] = [
   "product/airline/flight",
-  "product/accommodation/room-category",
+  "product/accommodation/room-type",
   "product/mobility/transfer",
   "product/mobility/rail",
   "product/mobility/coach",
   "product/mobility/vehicle-rental",
-  "product/water/day-boat",
-  "product/water/cruise",
+  "product/water-transport/day-boat",
+  "product/water-transport/cruise",
   "product/experience/guided-tour",
   "product/experience/activity",
   "product/protection/travel",
@@ -54,7 +54,7 @@ export function groupTypeOptions<T extends { value: string; label: string }>(opt
 
 export const CATALOGUE_ROOT_TYPE_GROUPED_OPTIONS = groupTypeOptions(CATALOGUE_ROOT_TYPE_OPTIONS);
 
-export const ROOM_CATEGORY_TYPE: CatalogueRootType = "product/accommodation/room-category";
+export const ROOM_CATEGORY_TYPE: CatalogueRootType = "product/accommodation/room-type";
 
 export function isAirlineFlightType(type: string): type is "product/airline/flight" {
   return type === "product/airline/flight";

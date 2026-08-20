@@ -17,12 +17,12 @@ from .touristic_product_management.models import (
 
 def create_entity_registry() -> EntityTypeRegistry:
     empty_supplier_types = (
-        "partner/supplier/accommodation", "partner/supplier/mobility",
-        "partner/supplier/water-transport", "partner/supplier/experience", "partner/supplier/protection",
+        "organisation/accommodation", "organisation/mobility",
+        "organisation/water-transport", "organisation/experience", "organisation/protection",
     )
     empty_product_types = (
         "product/mobility/transfer", "product/mobility/rail", "product/mobility/coach",
-        "product/mobility/vehicle-rental", "product/water/day-boat", "product/water/cruise",
+        "product/mobility/vehicle-rental", "product/water-transport/day-boat", "product/water-transport/cruise",
         "product/experience/guided-tour", "product/experience/activity", "product/protection/travel",
     )
     additional_stock_types = (
@@ -37,11 +37,11 @@ def create_entity_registry() -> EntityTypeRegistry:
         (EntityKind.PERSON_ROLE, "person/customer"): CustomerRoleProperties,
         (EntityKind.PERSON_ROLE, "person/traveller"): TravellerRoleProperties,
         (EntityKind.ORGANISATION, None): OrganisationProperties,
-        (EntityKind.ORGA_ROLE, "partner/supplier/airline"): AirlineRoleProperties,
+        (EntityKind.ORGA_ROLE, "organisation/airline"): AirlineRoleProperties,
         (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/airline/flight"): FlightProperties,
-        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/airline/seat"): SeatProperties,
-        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room-category"): RoomCategoryProperties,
-        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room"): RoomProperties,
+        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/airline/flight/seat"): SeatProperties,
+        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room-type"): RoomCategoryProperties,
+        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room-type/room"): RoomProperties,
         (EntityKind.STOCK_ITEM, "stock/flight/seat"): StockProperties,
         (EntityKind.ORDER_ITEM, "order/header"): OrderHeaderProperties,
         (EntityKind.ORDER_ITEM, "order/position"): OrderPositionProperties,

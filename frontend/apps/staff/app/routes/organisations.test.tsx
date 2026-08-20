@@ -109,7 +109,7 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
       },
       {
         "ORG-001": {
-          data: [roleResponse("ROLE-1", "partner/supplier/accommodation", "role/active")],
+          data: [roleResponse("ROLE-1", "organisation/accommodation", "role/active")],
           response: { ok: true, status: 200 },
         },
       }
@@ -155,8 +155,8 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
         response: { ok: true, status: 200 },
       },
       {
-        "ORG-001": { data: [roleResponse("ROLE-1", "partner/supplier/accommodation", "role/active")], response: { ok: true, status: 200 } },
-        "ORG-002": { data: [roleResponse("ROLE-2", "partner/supplier/mobility", "role/active")], response: { ok: true, status: 200 } },
+        "ORG-001": { data: [roleResponse("ROLE-1", "organisation/accommodation", "role/active")], response: { ok: true, status: 200 } },
+        "ORG-002": { data: [roleResponse("ROLE-2", "organisation/mobility", "role/active")], response: { ok: true, status: 200 } },
       }
     );
     renderOrganisations();

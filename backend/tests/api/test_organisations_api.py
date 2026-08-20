@@ -62,7 +62,7 @@ class OrganisationsApiTest(unittest.TestCase):
             "/organisations/I21-ORG-01/roles",
             json={
                 "entityId": "I21-ROLE-01",
-                "role": {"type": "partner/supplier/airline", "properties": {"airlineDesignator": "0Q"}},
+                "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "0Q"}},
             },
         )
         self.assertEqual(201, response.status_code)
@@ -72,17 +72,17 @@ class OrganisationsApiTest(unittest.TestCase):
         self.client.post("/organisations", json=organisation_payload())
         response = self.client.post(
             "/organisations/I21-ORG-01/roles",
-            json={"entityId": "I21-ROLE-02", "role": {"type": "partner/supplier/accommodation", "properties": {}}},
+            json={"entityId": "I21-ROLE-02", "role": {"type": "organisation/accommodation", "properties": {}}},
         )
         self.assertEqual(201, response.status_code)
-        self.assertEqual("partner/supplier/accommodation", response.json()["type"])
+        self.assertEqual("organisation/accommodation", response.json()["type"])
 
     def test_create_role_missing_organisation_returns_404(self) -> None:
         response = self.client.post(
             "/organisations/MISSING/roles",
             json={
                 "entityId": "I21-ROLE-01",
-                "role": {"type": "partner/supplier/airline", "properties": {"airlineDesignator": "0Q"}},
+                "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "0Q"}},
             },
         )
         self.assertEqual(404, response.status_code)
@@ -91,7 +91,7 @@ class OrganisationsApiTest(unittest.TestCase):
         self.client.post("/organisations", json=organisation_payload())
         response = self.client.post(
             "/organisations/I21-ORG-01/roles",
-            json={"entityId": "I21-ROLE-01", "role": {"type": "partner/supplier/unknown", "properties": {}}},
+            json={"entityId": "I21-ROLE-01", "role": {"type": "organisation/unknown", "properties": {}}},
         )
         self.assertEqual(422, response.status_code)
 
@@ -99,7 +99,7 @@ class OrganisationsApiTest(unittest.TestCase):
         self.client.post("/organisations", json=organisation_payload())
         self.client.post(
             "/organisations/I21-ORG-01/roles",
-            json={"entityId": "I21-ROLE-01", "role": {"type": "partner/supplier/accommodation", "properties": {}}},
+            json={"entityId": "I21-ROLE-01", "role": {"type": "organisation/accommodation", "properties": {}}},
         )
         response = self.client.get("/organisations/roles/I21-ROLE-01/organisation")
         self.assertEqual(200, response.status_code)
@@ -115,7 +115,7 @@ class OrganisationsApiTest(unittest.TestCase):
             "/organisations/I21-ORG-01/roles",
             json={
                 "entityId": "I21-ROLE-01",
-                "role": {"type": "partner/supplier/airline", "properties": {"airlineDesignator": "0Q"}},
+                "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "0Q"}},
             },
         )
         response = self.client.delete("/organisations/I21-ORG-01")

@@ -48,7 +48,7 @@ class ProductsApiTest(unittest.TestCase):
             json={
                 "entityId": "I21-SEAT",
                 "parentProductId": "MISSING",
-                "product": {"type": "product/airline/seat", "properties": {"seatNumber": "5A"}},
+                "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "5A"}},
             },
         )
         self.assertEqual(404, response.status_code)
@@ -63,7 +63,7 @@ class ProductsApiTest(unittest.TestCase):
             "/products",
             json={
                 "entityId": "I21-ROOM",
-                "product": {"type": "product/accommodation/room-category", "properties": {"roomTypeCode": "room/double"}},
+                "product": {"type": "product/accommodation/room-type", "properties": {"roomTypeCode": "room/double"}},
             },
         )
         response = self.client.get("/products", params={"type": "product/airline/flight"})
@@ -99,7 +99,7 @@ class ProductsApiTest(unittest.TestCase):
             json={
                 "entityId": "I21-SEAT-1",
                 "parentProductId": "I21-FLIGHT-2",
-                "product": {"type": "product/airline/seat", "properties": {"seatNumber": "5A"}},
+                "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "5A"}},
             },
         )
         response = self.client.get("/products/I21-PKG/components")
@@ -119,7 +119,7 @@ class ProductsApiTest(unittest.TestCase):
             json={
                 "entityId": "I21-CAT",
                 "parentProductId": "I21-PKG",
-                "product": {"type": "product/accommodation/room-category", "properties": {"roomTypeCode": "room/double"}},
+                "product": {"type": "product/accommodation/room-type", "properties": {"roomTypeCode": "room/double"}},
             },
         )
         response = self.client.get("/products/I21-CAT/ancestors")
@@ -155,7 +155,7 @@ class ProductsApiTest(unittest.TestCase):
             {
                 "entityId": "I21-SUPPLIER-ROLE",
                 "entityKind": "OrgaRole",
-                "type": "partner/supplier/airline",
+                "type": "organisation/airline",
                 "properties": {"airlineDesignator": "0Q"},
             }
         )
@@ -173,7 +173,7 @@ class ProductsApiTest(unittest.TestCase):
             {
                 "entityId": "I21-SUPPLIER-ROLE",
                 "entityKind": "OrgaRole",
-                "type": "partner/supplier/airline",
+                "type": "organisation/airline",
                 "properties": {"airlineDesignator": "0Q"},
             }
         )

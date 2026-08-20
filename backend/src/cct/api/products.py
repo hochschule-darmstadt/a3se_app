@@ -43,14 +43,14 @@ EMPTY_PRODUCT_TYPES = (
     "product/mobility/rail",
     "product/mobility/coach",
     "product/mobility/vehicle-rental",
-    "product/water/day-boat",
-    "product/water/cruise",
+    "product/water-transport/day-boat",
+    "product/water-transport/cruise",
     "product/experience/guided-tour",
     "product/experience/activity",
     "product/protection/travel",
 )
-ROOM_CATEGORY_TYPES = ("product/accommodation/room-category",)
-ROOM_TYPES = ("product/accommodation/room",)
+ROOM_CATEGORY_TYPES = ("product/accommodation/room-type",)
+ROOM_TYPES = ("product/accommodation/room-type/room",)
 
 
 class FlightRequest(BaseModel):
@@ -63,7 +63,7 @@ class FlightRequest(BaseModel):
 class SeatRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    type: Literal["product/airline/seat"] = "product/airline/seat"
+    type: Literal["product/airline/flight/seat"] = "product/airline/flight/seat"
     properties: SeatProperties
 
 

@@ -20,7 +20,7 @@ The following synthetic object diagram illustrates how the generic logical entit
 
 ![Concrete object example](objects.svg)
 
-John and Sarah are Persons playing `person/customer` and `person/traveller` roles. Partner Organisations play `partner/supplier/airline` and `partner/supplier/hotel` roles. Stable partner data, such as the hotel address, belongs to the Organisation, while contextual supplier data belongs to its role. Recursive TouristicProductItems use `product/...` types to describe a flight with seats and a hotel room category with a room; corresponding `stock/...` StockItems make dated capacity sellable and carry stock-specific commercial data such as the sale price. An `order/header` and its `order/position` OrderItems connect the customer and travelers to the allocated stock.
+John and Sarah are Persons playing `person/customer` and `person/traveller` roles. Partner Organisations play `organisation/airline` and `organisation/accommodation` roles. Stable partner data, such as the accommodation's address, belongs to the Organisation, while contextual supplier data belongs to its role. Recursive TouristicProductItems use `product/...` types to describe a flight with seats (`product/airline/flight` and its nested `product/airline/flight/seat`) and an accommodation room type with a room (`product/accommodation/room-type` and its nested `product/accommodation/room-type/room`); corresponding `stock/...` StockItems make dated capacity sellable and carry stock-specific commercial data such as the sale price. An `order/header` and its `order/position` OrderItems connect the customer and travelers to the allocated stock.
 
 ## Semantic property contracts
 

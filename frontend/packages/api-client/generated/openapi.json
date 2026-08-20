@@ -31,8 +31,8 @@
             "$ref": "#/components/schemas/AirlineRoleProperties"
           },
           "type": {
-            "const": "partner/supplier/airline",
-            "default": "partner/supplier/airline",
+            "const": "organisation/airline",
+            "default": "organisation/airline",
             "title": "Type",
             "type": "string"
           }
@@ -289,8 +289,8 @@
               "product/mobility/rail",
               "product/mobility/coach",
               "product/mobility/vehicle-rental",
-              "product/water/day-boat",
-              "product/water/cruise",
+              "product/water-transport/day-boat",
+              "product/water-transport/cruise",
               "product/experience/guided-tour",
               "product/experience/activity",
               "product/protection/travel"
@@ -331,11 +331,11 @@
           },
           "type": {
             "enum": [
-              "partner/supplier/accommodation",
-              "partner/supplier/mobility",
-              "partner/supplier/water-transport",
-              "partner/supplier/experience",
-              "partner/supplier/protection"
+              "organisation/accommodation",
+              "organisation/mobility",
+              "organisation/water-transport",
+              "organisation/experience",
+              "organisation/protection"
             ],
             "title": "Type",
             "type": "string"
@@ -989,12 +989,12 @@
           "role": {
             "discriminator": {
               "mapping": {
-                "partner/supplier/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/airline": "#/components/schemas/AirlineRoleRequest",
-                "partner/supplier/experience": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/mobility": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/protection": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
+                "organisation/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/airline": "#/components/schemas/AirlineRoleRequest",
+                "organisation/experience": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/mobility": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/protection": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
               },
               "propertyName": "type"
             },
@@ -1062,12 +1062,12 @@
           "role": {
             "discriminator": {
               "mapping": {
-                "partner/supplier/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/airline": "#/components/schemas/AirlineRoleRequest",
-                "partner/supplier/experience": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/mobility": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/protection": "#/components/schemas/EmptySupplierRoleRequest",
-                "partner/supplier/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
+                "organisation/accommodation": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/airline": "#/components/schemas/AirlineRoleRequest",
+                "organisation/experience": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/mobility": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/protection": "#/components/schemas/EmptySupplierRoleRequest",
+                "organisation/water-transport": "#/components/schemas/EmptySupplierRoleRequest"
               },
               "propertyName": "type"
             },
@@ -1591,10 +1591,10 @@
           "product": {
             "discriminator": {
               "mapping": {
-                "product/accommodation/room": "#/components/schemas/RoomRequest",
-                "product/accommodation/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/accommodation/room-type": "#/components/schemas/RoomCategoryRequest",
+                "product/accommodation/room-type/room": "#/components/schemas/RoomRequest",
                 "product/airline/flight": "#/components/schemas/FlightRequest",
-                "product/airline/seat": "#/components/schemas/SeatRequest",
+                "product/airline/flight/seat": "#/components/schemas/SeatRequest",
                 "product/experience/activity": "#/components/schemas/EmptyProductRequest",
                 "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
@@ -1602,8 +1602,8 @@
                 "product/mobility/transfer": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/vehicle-rental": "#/components/schemas/EmptyProductRequest",
                 "product/protection/travel": "#/components/schemas/EmptyProductRequest",
-                "product/water/cruise": "#/components/schemas/EmptyProductRequest",
-                "product/water/day-boat": "#/components/schemas/EmptyProductRequest"
+                "product/water-transport/cruise": "#/components/schemas/EmptyProductRequest",
+                "product/water-transport/day-boat": "#/components/schemas/EmptyProductRequest"
               },
               "propertyName": "type"
             },
@@ -1689,10 +1689,10 @@
           "product": {
             "discriminator": {
               "mapping": {
-                "product/accommodation/room": "#/components/schemas/RoomRequest",
-                "product/accommodation/room-category": "#/components/schemas/RoomCategoryRequest",
+                "product/accommodation/room-type": "#/components/schemas/RoomCategoryRequest",
+                "product/accommodation/room-type/room": "#/components/schemas/RoomRequest",
                 "product/airline/flight": "#/components/schemas/FlightRequest",
-                "product/airline/seat": "#/components/schemas/SeatRequest",
+                "product/airline/flight/seat": "#/components/schemas/SeatRequest",
                 "product/experience/activity": "#/components/schemas/EmptyProductRequest",
                 "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
@@ -1700,8 +1700,8 @@
                 "product/mobility/transfer": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/vehicle-rental": "#/components/schemas/EmptyProductRequest",
                 "product/protection/travel": "#/components/schemas/EmptyProductRequest",
-                "product/water/cruise": "#/components/schemas/EmptyProductRequest",
-                "product/water/day-boat": "#/components/schemas/EmptyProductRequest"
+                "product/water-transport/cruise": "#/components/schemas/EmptyProductRequest",
+                "product/water-transport/day-boat": "#/components/schemas/EmptyProductRequest"
               },
               "propertyName": "type"
             },
@@ -1905,7 +1905,7 @@
             "$ref": "#/components/schemas/RoomCategoryProperties"
           },
           "type": {
-            "const": "product/accommodation/room-category",
+            "const": "product/accommodation/room-type",
             "title": "Type",
             "type": "string"
           }
@@ -1939,7 +1939,7 @@
             "$ref": "#/components/schemas/RoomProperties"
           },
           "type": {
-            "const": "product/accommodation/room",
+            "const": "product/accommodation/room-type/room",
             "title": "Type",
             "type": "string"
           }
@@ -1972,8 +1972,8 @@
             "$ref": "#/components/schemas/SeatProperties"
           },
           "type": {
-            "const": "product/airline/seat",
-            "default": "product/airline/seat",
+            "const": "product/airline/flight/seat",
+            "default": "product/airline/flight/seat",
             "title": "Type",
             "type": "string"
           }

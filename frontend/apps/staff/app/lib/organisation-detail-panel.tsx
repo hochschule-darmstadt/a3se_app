@@ -15,8 +15,8 @@ function generateEntityId(prefix: string): string {
   return `${prefix}-${crypto.randomUUID()}`;
 }
 
-function isAirline(type: string): type is "partner/supplier/airline" {
-  return type === "partner/supplier/airline";
+function isAirline(type: string): type is "organisation/airline" {
+  return type === "organisation/airline";
 }
 
 function roleRequestBody(type: SupplierRoleType, properties: { airlineDesignator?: string; roleStatusCode: "role/active" | "role/inactive" }) {

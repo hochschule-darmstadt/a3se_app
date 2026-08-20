@@ -30,7 +30,7 @@ const organisationData = {
 const airlineRole = {
   entityId: "ROLE-1",
   entityKind: "OrgaRole",
-  type: "partner/supplier/airline",
+  type: "organisation/airline",
   schemaVersion: 1,
   properties: { roleStatusCode: "role/active", airlineDesignator: "0Q" },
 };
@@ -133,7 +133,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
       "/organisations/{organisation_id}/roles/{role_id}",
       expect.objectContaining({
         params: { path: { organisation_id: "ORG-001", role_id: "ROLE-1" } },
-        body: { role: { type: "partner/supplier/airline", properties: { airlineDesignator: "0Q", roleStatusCode: "role/inactive" } } },
+        body: { role: { type: "organisation/airline", properties: { airlineDesignator: "0Q", roleStatusCode: "role/inactive" } } },
       })
     );
   });
@@ -157,7 +157,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
       "/organisations/{organisation_id}/roles",
       expect.objectContaining({
         params: { path: { organisation_id: "ORG-001" } },
-        body: expect.objectContaining({ role: { type: "partner/supplier/accommodation", properties: { roleStatusCode: "role/active" } } }),
+        body: expect.objectContaining({ role: { type: "organisation/accommodation", properties: { roleStatusCode: "role/active" } } }),
       })
     );
   });

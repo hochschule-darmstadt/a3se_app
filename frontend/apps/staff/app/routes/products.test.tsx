@@ -100,9 +100,9 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
 
   it("shows a root product's breadcrumb up to its supplying organisation", async () => {
     mockGetImplementation({
-      products: [productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active")],
+      products: [productResponse("ACC-01", "product/accommodation/room-type", "Single Room", "product/active")],
       supplierByRoot: {
-        "ACC-01": { entityId: "SUP-ACC-01-ROLE", entityKind: "OrgaRole", type: "partner/supplier/accommodation", schemaVersion: 1, properties: { roleStatusCode: "role/active" } },
+        "ACC-01": { entityId: "SUP-ACC-01-ROLE", entityKind: "OrgaRole", type: "organisation/accommodation", schemaVersion: 1, properties: { roleStatusCode: "role/active" } },
       },
       organisationByRole: {
         "SUP-ACC-01-ROLE": { entityId: "SUP-ACC-01", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Southlight Stays", addressLocalityName: "Lima" } },
@@ -123,8 +123,8 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
   it("filters rows client-side by search text against the breadcrumb", async () => {
     mockGetImplementation({
       products: [
-        productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active"),
-        productResponse("ACC-02", "product/accommodation/room-category", "Double Room", "product/active"),
+        productResponse("ACC-01", "product/accommodation/room-type", "Single Room", "product/active"),
+        productResponse("ACC-02", "product/accommodation/room-type", "Double Room", "product/active"),
       ],
     });
     renderProducts();
@@ -140,22 +140,22 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
   it("expands a matched row's own children on demand", async () => {
     mockGetImplementation({
       products: [
-        productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active"),
-        { entityId: "ACC-01-R1", entityKind: "TouristicProductItem", type: "product/accommodation/room", schemaVersion: 1, properties: { roomNumber: "0101" } },
+        productResponse("ACC-01", "product/accommodation/room-type", "Single Room", "product/active"),
+        { entityId: "ACC-01-R1", entityKind: "TouristicProductItem", type: "product/accommodation/room-type/room", schemaVersion: 1, properties: { roomNumber: "0101" } },
       ],
       ancestorsByProduct: {
-        "ACC-01-R1": [productResponse("ACC-01", "product/accommodation/room-category", "Single Room", "product/active")],
+        "ACC-01-R1": [productResponse("ACC-01", "product/accommodation/room-type", "Single Room", "product/active")],
       },
     });
     renderProducts();
     await screen.findByText(/Single Room/);
 
-    expect(screen.queryByText(/accommodation\/room \(ACC-01-R1\)/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/accommodation\/room-type\/room \(ACC-01-R1\)/)).not.toBeInTheDocument();
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: /expand/i }));
 
-    expect(await screen.findByText(/accommodation\/room \(ACC-01-R1\)/)).toBeInTheDocument();
+    expect(await screen.findByText(/accommodation\/room-type\/room \(ACC-01-R1\)/)).toBeInTheDocument();
   });
 
   it("shows the product's detail inline in the right pane when a row is activated, without navigating away", async () => {

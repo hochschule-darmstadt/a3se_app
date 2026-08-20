@@ -42,7 +42,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
 
     def test_flight_properties_are_rejected_for_room_category(self) -> None:
         candidate = flight()
-        candidate["type"] = "product/accommodation/room-category"
+        candidate["type"] = "product/accommodation/room-type"
         with self.assertRaises(ValidationError):
             self.registry.validate(candidate)
 
@@ -51,7 +51,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
             {
                 "entityId": "ACC-02",
                 "entityKind": "TouristicProductItem",
-                "type": "product/accommodation/room-category",
+                "type": "product/accommodation/room-type",
                 "properties": {"roomTypeCode": "room/double", "smokingPreferenceCode": "nonSmoking"},
             }
         )
@@ -73,7 +73,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
                 {
                     "entityId": "ACC-02",
                     "entityKind": "TouristicProductItem",
-                    "type": "product/accommodation/room-category",
+                    "type": "product/accommodation/room-type",
                     "properties": {"roomTypeCode": "DBL"},
                 }
             )

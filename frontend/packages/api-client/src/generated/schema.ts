@@ -464,7 +464,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "partner/supplier/airline";
+            type: "organisation/airline";
         };
         /** AllocateStockRequest */
         AllocateStockRequest: {
@@ -540,7 +540,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/experience/activity" | "product/experience/guided-tour" | "product/mobility/coach" | "product/mobility/rail" | "product/mobility/transfer" | "product/mobility/vehicle-rental" | "product/protection/travel" | "product/water/cruise" | "product/water/day-boat";
+            type: "product/experience/activity" | "product/experience/guided-tour" | "product/mobility/coach" | "product/mobility/rail" | "product/mobility/transfer" | "product/mobility/vehicle-rental" | "product/protection/travel" | "product/water-transport/cruise" | "product/water-transport/day-boat";
         };
         /** EmptySupplierRoleProperties */
         EmptySupplierRoleProperties: {
@@ -563,7 +563,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "partner/supplier/accommodation" | "partner/supplier/experience" | "partner/supplier/mobility" | "partner/supplier/protection" | "partner/supplier/water-transport";
+            type: "organisation/accommodation" | "organisation/experience" | "organisation/mobility" | "organisation/protection" | "organisation/water-transport";
         };
         /**
          * ErrorResponse
@@ -1019,7 +1019,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/accommodation/room-category";
+            type: "product/accommodation/room-type";
         };
         /** RoomProperties */
         RoomProperties: {
@@ -1033,7 +1033,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/accommodation/room";
+            type: "product/accommodation/room-type/room";
         };
         /** SeatProperties */
         SeatProperties: {
@@ -1047,7 +1047,7 @@ export interface components {
              * @description discriminator enum property added by openapi-typescript
              * @enum {string}
              */
-            type: "product/airline/seat";
+            type: "product/airline/flight/seat";
         };
         /** SetSupplierRequest */
         SetSupplierRequest: {

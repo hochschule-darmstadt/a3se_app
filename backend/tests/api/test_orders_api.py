@@ -87,7 +87,7 @@ class OrdersApiTest(unittest.TestCase):
             "/organisations/I21-SUPPLIER/roles",
             json={
                 "entityId": "I21-SUPPLIER-ROLE",
-                "role": {"type": "partner/supplier/airline", "properties": {"airlineDesignator": "0Q"}},
+                "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "0Q"}},
             },
         )
         # Product + supplier link

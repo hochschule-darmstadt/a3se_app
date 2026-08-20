@@ -55,7 +55,7 @@ class ProductServiceTest(unittest.TestCase):
             service.create_product(
                 self.repository,
                 entity_id="I21-SEAT",
-                type="product/airline/seat",
+                type="product/airline/flight/seat",
                 properties={"seatNumber": "5A"},
                 parent_product_id="MISSING",
             )
@@ -94,7 +94,7 @@ class ProductServiceTest(unittest.TestCase):
         service.create_product(
             self.repository,
             entity_id="I21-SEAT",
-            type="product/airline/seat",
+            type="product/airline/flight/seat",
             properties={"seatNumber": "5A"},
             parent_product_id="I21-FLIGHT",
         )
@@ -124,7 +124,7 @@ class ProductServiceTest(unittest.TestCase):
             self.partner_repository,
             entity_id="I21-SUPPLIER-ROLE",
             organisation_id="I21-SUPPLIER",
-            type="partner/supplier/airline",
+            type="organisation/airline",
             properties={"airlineDesignator": "0Q"},
         )
         service.set_supplier(
@@ -151,14 +151,14 @@ class ProductServiceTest(unittest.TestCase):
         service.create_product(
             self.repository,
             entity_id="I31-CAT",
-            type="product/accommodation/room-category",
+            type="product/accommodation/room-type",
             properties={"roomTypeCode": "room/double"},
             parent_product_id="I31-PKG",
         )
         service.create_product(
             self.repository,
             entity_id="I31-ROOM",
-            type="product/accommodation/room",
+            type="product/accommodation/room-type/room",
             properties={"roomNumber": "204"},
             parent_product_id="I31-CAT",
         )
@@ -190,7 +190,7 @@ class ProductServiceTest(unittest.TestCase):
             self.partner_repository,
             entity_id="I31-SUPPLIER-ROLE",
             organisation_id="I31-SUPPLIER",
-            type="partner/supplier/airline",
+            type="organisation/airline",
             properties={"airlineDesignator": "0Q"},
         )
         service.set_supplier(
@@ -279,7 +279,7 @@ class ProductServiceTest(unittest.TestCase):
         entity = service.create_product(
             self.repository,
             entity_id="I31-ROOM",
-            type="product/accommodation/room-category",
+            type="product/accommodation/room-type",
             properties={"roomTypeCode": "room/double", "displayName": "Madeira walking week"},
         )
         self.assertEqual("Madeira walking week", entity.properties.display_name)
@@ -296,7 +296,7 @@ class ProductServiceTest(unittest.TestCase):
                 entity = service.create_product(
                     self.repository,
                     entity_id=f"I12-ROOM-{room_type.split('/')[1]}",
-                    type="product/accommodation/room-category",
+                    type="product/accommodation/room-type",
                     properties={"roomTypeCode": room_type},
                 )
                 self.assertEqual(room_type, entity.properties.room_type_code)
