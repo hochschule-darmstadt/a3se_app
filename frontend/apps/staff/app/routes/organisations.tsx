@@ -27,7 +27,7 @@ const ROLE_TYPE_OPTIONS = [{ value: "all", label: "All" }, ...SUPPLIER_ROLE_TYPE
 const RELATIONSHIP_STATUS_OPTIONS = [
   { value: "all", label: "All" },
   { value: "role/active", label: "Active" },
-  { value: "role/inactive", label: "Under review" },
+  { value: "role/inactive", label: "Inactive" },
 ];
 
 export function meta() {
@@ -149,7 +149,7 @@ export default function OrganisationsRoute() {
                                 return (
                                   <Badge key={role.entityId} color={active ? "green" : "gray"}>
                                     {SUPPLIER_ROLE_TYPE_LABEL[role.type] ?? role.type}
-                                    {active ? "" : " · under review"}
+                                    {active ? "" : " · inactive"}
                                   </Badge>
                                 );
                               })}

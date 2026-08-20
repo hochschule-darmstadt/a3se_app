@@ -4,7 +4,8 @@
     {
       "entityId": "SUP-AIR-01",
       "properties": {
-        "name": "Condorleaf Air"
+        "name": "Condorleaf Air",
+        "addressLocalityName": "Berlin"
       },
       "role": {
         "entityId": "SUP-AIR-01-ROLE",
@@ -18,7 +19,8 @@
     {
       "entityId": "SUP-AIR-02",
       "properties": {
-        "name": "Blue Pampa Airways"
+        "name": "Blue Pampa Airways",
+        "addressLocalityName": "Frankfurt am Main"
       },
       "role": {
         "entityId": "SUP-AIR-02-ROLE",
@@ -32,7 +34,8 @@
     {
       "entityId": "SUP-ACC-01",
       "properties": {
-        "name": "Southlight Stays"
+        "name": "Southlight Stays",
+        "addressLocalityName": "Lima"
       },
       "role": {
         "entityId": "SUP-ACC-01-ROLE",
@@ -44,7 +47,8 @@
     {
       "entityId": "SUP-MOB-01",
       "properties": {
-        "name": "Meridian Groundways"
+        "name": "Meridian Groundways",
+        "addressLocalityName": "Lima"
       },
       "role": {
         "entityId": "SUP-MOB-01-ROLE",
@@ -56,7 +60,8 @@
     {
       "entityId": "SUP-WTR-01",
       "properties": {
-        "name": "Pelican Passage"
+        "name": "Pelican Passage",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-WTR-01-ROLE",
@@ -68,7 +73,8 @@
     {
       "entityId": "SUP-EXP-01",
       "properties": {
-        "name": "Andes & Atlantic Guides"
+        "name": "Andes & Atlantic Guides",
+        "addressLocalityName": "Lima"
       },
       "role": {
         "entityId": "SUP-EXP-01-ROLE",
@@ -80,7 +86,8 @@
     {
       "entityId": "SUP-OTH-01",
       "properties": {
-        "name": "Safepath Travel Cover"
+        "name": "Safepath Travel Cover",
+        "addressLocalityName": "Berlin"
       },
       "role": {
         "entityId": "SUP-OTH-01-ROLE",
@@ -92,7 +99,8 @@
     {
       "entityId": "SUP-AIR-11",
       "properties": {
-        "name": "Alderwing Air"
+        "name": "Alderwing Air",
+        "addressLocalityName": "Munich"
       },
       "role": {
         "entityId": "SUP-AIR-11-ROLE",
@@ -106,7 +114,8 @@
     {
       "entityId": "SUP-AIR-12",
       "properties": {
-        "name": "Brisa Meridian"
+        "name": "Brisa Meridian",
+        "addressLocalityName": "Hamburg"
       },
       "role": {
         "entityId": "SUP-AIR-12-ROLE",
@@ -120,7 +129,8 @@
     {
       "entityId": "SUP-AIR-13",
       "properties": {
-        "name": "Copper Kite"
+        "name": "Copper Kite",
+        "addressLocalityName": "Cologne"
       },
       "role": {
         "entityId": "SUP-AIR-13-ROLE",
@@ -134,7 +144,8 @@
     {
       "entityId": "SUP-AIR-14",
       "properties": {
-        "name": "Estuary Air"
+        "name": "Estuary Air",
+        "addressLocalityName": "Lima"
       },
       "role": {
         "entityId": "SUP-AIR-14-ROLE",
@@ -148,7 +159,8 @@
     {
       "entityId": "SUP-AIR-15",
       "properties": {
-        "name": "Fjordleaf Aviation"
+        "name": "Fjordleaf Aviation",
+        "addressLocalityName": "Cusco"
       },
       "role": {
         "entityId": "SUP-AIR-15-ROLE",
@@ -162,7 +174,8 @@
     {
       "entityId": "SUP-AIR-16",
       "properties": {
-        "name": "Golden Tern"
+        "name": "Golden Tern",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-AIR-16-ROLE",
@@ -176,7 +189,8 @@
     {
       "entityId": "SUP-AIR-17",
       "properties": {
-        "name": "Horizon Quipu"
+        "name": "Horizon Quipu",
+        "addressLocalityName": "Sao Paulo"
       },
       "role": {
         "entityId": "SUP-AIR-17-ROLE",
@@ -190,7 +204,8 @@
     {
       "entityId": "SUP-AIR-18",
       "properties": {
-        "name": "Indigo Pampas"
+        "name": "Indigo Pampas",
+        "addressLocalityName": "Santiago"
       },
       "role": {
         "entityId": "SUP-AIR-18-ROLE",
@@ -204,7 +219,8 @@
     {
       "entityId": "SUP-AIR-19",
       "properties": {
-        "name": "Juniper Condor"
+        "name": "Juniper Condor",
+        "addressLocalityName": "Buenos Aires"
       },
       "role": {
         "entityId": "SUP-AIR-19-ROLE",
@@ -218,7 +234,8 @@
     {
       "entityId": "SUP-AIR-20",
       "properties": {
-        "name": "Kestrel Sur"
+        "name": "Kestrel Sur",
+        "addressLocalityName": "Bogota"
       },
       "role": {
         "entityId": "SUP-AIR-20-ROLE",
@@ -232,7 +249,8 @@
     {
       "entityId": "SUP-ACC-11",
       "properties": {
-        "name": "Amber Courtyard"
+        "name": "Amber Courtyard",
+        "addressLocalityName": "Cusco"
       },
       "role": {
         "entityId": "SUP-ACC-11-ROLE",
@@ -244,7 +262,8 @@
     {
       "entityId": "SUP-ACC-12",
       "properties": {
-        "name": "Bramble House"
+        "name": "Bramble House",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-ACC-12-ROLE",
@@ -256,7 +275,8 @@
     {
       "entityId": "SUP-ACC-13",
       "properties": {
-        "name": "Cloudstep Lodges"
+        "name": "Cloudstep Lodges",
+        "addressLocalityName": "Sao Paulo"
       },
       "role": {
         "entityId": "SUP-ACC-13-ROLE",
@@ -268,7 +288,8 @@
     {
       "entityId": "SUP-ACC-14",
       "properties": {
-        "name": "Dune Lantern"
+        "name": "Dune Lantern",
+        "addressLocalityName": "Santiago"
       },
       "role": {
         "entityId": "SUP-ACC-14-ROLE",
@@ -280,7 +301,8 @@
     {
       "entityId": "SUP-ACC-15",
       "properties": {
-        "name": "Estrella Rooms"
+        "name": "Estrella Rooms",
+        "addressLocalityName": "Buenos Aires"
       },
       "role": {
         "entityId": "SUP-ACC-15-ROLE",
@@ -292,7 +314,8 @@
     {
       "entityId": "SUP-ACC-16",
       "properties": {
-        "name": "Fern Plaza"
+        "name": "Fern Plaza",
+        "addressLocalityName": "Bogota"
       },
       "role": {
         "entityId": "SUP-ACC-16-ROLE",
@@ -304,7 +327,8 @@
     {
       "entityId": "SUP-ACC-17",
       "properties": {
-        "name": "Granite Patio"
+        "name": "Granite Patio",
+        "addressLocalityName": "Quito"
       },
       "role": {
         "entityId": "SUP-ACC-17-ROLE",
@@ -316,7 +340,8 @@
     {
       "entityId": "SUP-ACC-18",
       "properties": {
-        "name": "Harbour Loom"
+        "name": "Harbour Loom",
+        "addressLocalityName": "Lima"
       },
       "role": {
         "entityId": "SUP-ACC-18-ROLE",
@@ -328,7 +353,8 @@
     {
       "entityId": "SUP-ACC-19",
       "properties": {
-        "name": "Indigo Terrace"
+        "name": "Indigo Terrace",
+        "addressLocalityName": "Cusco"
       },
       "role": {
         "entityId": "SUP-ACC-19-ROLE",
@@ -340,7 +366,8 @@
     {
       "entityId": "SUP-ACC-20",
       "properties": {
-        "name": "Jacaranda Rest"
+        "name": "Jacaranda Rest",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-ACC-20-ROLE",
@@ -352,7 +379,8 @@
     {
       "entityId": "SUP-MOB-11",
       "properties": {
-        "name": "Atlas Shuttle"
+        "name": "Atlas Shuttle",
+        "addressLocalityName": "Cusco"
       },
       "role": {
         "entityId": "SUP-MOB-11-ROLE",
@@ -364,7 +392,8 @@
     {
       "entityId": "SUP-MOB-12",
       "properties": {
-        "name": "Birch Roadways"
+        "name": "Birch Roadways",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-MOB-12-ROLE",
@@ -376,7 +405,8 @@
     {
       "entityId": "SUP-MOB-13",
       "properties": {
-        "name": "Cobalt Transit"
+        "name": "Cobalt Transit",
+        "addressLocalityName": "Sao Paulo"
       },
       "role": {
         "entityId": "SUP-MOB-13-ROLE",
@@ -388,7 +418,8 @@
     {
       "entityId": "SUP-MOB-14",
       "properties": {
-        "name": "Delta Wheels"
+        "name": "Delta Wheels",
+        "addressLocalityName": "Santiago"
       },
       "role": {
         "entityId": "SUP-MOB-14-ROLE",
@@ -400,7 +431,8 @@
     {
       "entityId": "SUP-MOB-15",
       "properties": {
-        "name": "Ember Rail"
+        "name": "Ember Rail",
+        "addressLocalityName": "Buenos Aires"
       },
       "role": {
         "entityId": "SUP-MOB-15-ROLE",
@@ -412,7 +444,8 @@
     {
       "entityId": "SUP-MOB-16",
       "properties": {
-        "name": "Fieldstone Coaches"
+        "name": "Fieldstone Coaches",
+        "addressLocalityName": "Bogota"
       },
       "role": {
         "entityId": "SUP-MOB-16-ROLE",
@@ -424,7 +457,8 @@
     {
       "entityId": "SUP-MOB-17",
       "properties": {
-        "name": "Green Mile Hire"
+        "name": "Green Mile Hire",
+        "addressLocalityName": "Quito"
       },
       "role": {
         "entityId": "SUP-MOB-17-ROLE",
@@ -436,7 +470,8 @@
     {
       "entityId": "SUP-MOB-18",
       "properties": {
-        "name": "Highplain Transfer"
+        "name": "Highplain Transfer",
+        "addressLocalityName": "Lima"
       },
       "role": {
         "entityId": "SUP-MOB-18-ROLE",
@@ -448,7 +483,8 @@
     {
       "entityId": "SUP-MOB-19",
       "properties": {
-        "name": "Iris Mobility"
+        "name": "Iris Mobility",
+        "addressLocalityName": "Cusco"
       },
       "role": {
         "entityId": "SUP-MOB-19-ROLE",
@@ -460,7 +496,8 @@
     {
       "entityId": "SUP-MOB-20",
       "properties": {
-        "name": "Juno Routes"
+        "name": "Juno Routes",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-MOB-20-ROLE",
@@ -472,7 +509,8 @@
     {
       "entityId": "SUP-WTR-11",
       "properties": {
-        "name": "Albatross Wake"
+        "name": "Albatross Wake",
+        "addressLocalityName": "Buenos Aires"
       },
       "role": {
         "entityId": "SUP-WTR-11-ROLE",
@@ -484,7 +522,8 @@
     {
       "entityId": "SUP-WTR-12",
       "properties": {
-        "name": "Bayleaf Voyages"
+        "name": "Bayleaf Voyages",
+        "addressLocalityName": "Valparaiso"
       },
       "role": {
         "entityId": "SUP-WTR-12-ROLE",
@@ -496,7 +535,8 @@
     {
       "entityId": "SUP-WTR-13",
       "properties": {
-        "name": "Current & Cove"
+        "name": "Current & Cove",
+        "addressLocalityName": "Guayaquil"
       },
       "role": {
         "entityId": "SUP-WTR-13-ROLE",
@@ -508,7 +548,8 @@
     {
       "entityId": "SUP-WTR-14",
       "properties": {
-        "name": "Dolphin Passage"
+        "name": "Dolphin Passage",
+        "addressLocalityName": "Santa Marta"
       },
       "role": {
         "entityId": "SUP-WTR-14-ROLE",
@@ -520,7 +561,8 @@
     {
       "entityId": "SUP-WTR-15",
       "properties": {
-        "name": "Estuary Sail"
+        "name": "Estuary Sail",
+        "addressLocalityName": "Salvador"
       },
       "role": {
         "entityId": "SUP-WTR-15-ROLE",
@@ -532,7 +574,8 @@
     {
       "entityId": "SUP-WTR-16",
       "properties": {
-        "name": "Foamline Cruises"
+        "name": "Foamline Cruises",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-WTR-16-ROLE",
@@ -544,7 +587,8 @@
     {
       "entityId": "SUP-WTR-17",
       "properties": {
-        "name": "Gullwater"
+        "name": "Gullwater",
+        "addressLocalityName": "Buenos Aires"
       },
       "role": {
         "entityId": "SUP-WTR-17-ROLE",
@@ -556,7 +600,8 @@
     {
       "entityId": "SUP-WTR-18",
       "properties": {
-        "name": "Harbour Finch"
+        "name": "Harbour Finch",
+        "addressLocalityName": "Valparaiso"
       },
       "role": {
         "entityId": "SUP-WTR-18-ROLE",
@@ -568,7 +613,8 @@
     {
       "entityId": "SUP-WTR-19",
       "properties": {
-        "name": "Island Thread"
+        "name": "Island Thread",
+        "addressLocalityName": "Guayaquil"
       },
       "role": {
         "entityId": "SUP-WTR-19-ROLE",
@@ -580,7 +626,8 @@
     {
       "entityId": "SUP-WTR-20",
       "properties": {
-        "name": "Juniper Wake"
+        "name": "Juniper Wake",
+        "addressLocalityName": "Santa Marta"
       },
       "role": {
         "entityId": "SUP-WTR-20-ROLE",
@@ -592,7 +639,8 @@
     {
       "entityId": "SUP-EXP-11",
       "properties": {
-        "name": "Altitude Stories"
+        "name": "Altitude Stories",
+        "addressLocalityName": "Cusco"
       },
       "role": {
         "entityId": "SUP-EXP-11-ROLE",
@@ -604,7 +652,8 @@
     {
       "entityId": "SUP-EXP-12",
       "properties": {
-        "name": "Barrio Walks"
+        "name": "Barrio Walks",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-EXP-12-ROLE",
@@ -616,7 +665,8 @@
     {
       "entityId": "SUP-EXP-13",
       "properties": {
-        "name": "Canopy Compass"
+        "name": "Canopy Compass",
+        "addressLocalityName": "Sao Paulo"
       },
       "role": {
         "entityId": "SUP-EXP-13-ROLE",
@@ -628,7 +678,8 @@
     {
       "entityId": "SUP-EXP-14",
       "properties": {
-        "name": "Desert Lantern"
+        "name": "Desert Lantern",
+        "addressLocalityName": "Santiago"
       },
       "role": {
         "entityId": "SUP-EXP-14-ROLE",
@@ -640,7 +691,8 @@
     {
       "entityId": "SUP-EXP-15",
       "properties": {
-        "name": "Estuary Encounters"
+        "name": "Estuary Encounters",
+        "addressLocalityName": "Buenos Aires"
       },
       "role": {
         "entityId": "SUP-EXP-15-ROLE",
@@ -652,7 +704,8 @@
     {
       "entityId": "SUP-EXP-16",
       "properties": {
-        "name": "Forest Notebook"
+        "name": "Forest Notebook",
+        "addressLocalityName": "Bogota"
       },
       "role": {
         "entityId": "SUP-EXP-16-ROLE",
@@ -664,7 +717,8 @@
     {
       "entityId": "SUP-EXP-17",
       "properties": {
-        "name": "Glacier Steps"
+        "name": "Glacier Steps",
+        "addressLocalityName": "Quito"
       },
       "role": {
         "entityId": "SUP-EXP-17-ROLE",
@@ -676,7 +730,8 @@
     {
       "entityId": "SUP-EXP-18",
       "properties": {
-        "name": "Heritage Thread"
+        "name": "Heritage Thread",
+        "addressLocalityName": "Lima"
       },
       "role": {
         "entityId": "SUP-EXP-18-ROLE",
@@ -688,7 +743,8 @@
     {
       "entityId": "SUP-EXP-19",
       "properties": {
-        "name": "Island Lens"
+        "name": "Island Lens",
+        "addressLocalityName": "Cusco"
       },
       "role": {
         "entityId": "SUP-EXP-19-ROLE",
@@ -700,7 +756,8 @@
     {
       "entityId": "SUP-EXP-20",
       "properties": {
-        "name": "Jungle Almanac"
+        "name": "Jungle Almanac",
+        "addressLocalityName": "Rio de Janeiro"
       },
       "role": {
         "entityId": "SUP-EXP-20-ROLE",
@@ -712,7 +769,8 @@
     {
       "entityId": "SUP-OTH-11",
       "properties": {
-        "name": "Amber Shield"
+        "name": "Amber Shield",
+        "addressLocalityName": "Frankfurt am Main"
       },
       "role": {
         "entityId": "SUP-OTH-11-ROLE",
@@ -724,7 +782,8 @@
     {
       "entityId": "SUP-OTH-12",
       "properties": {
-        "name": "Borderless Cover"
+        "name": "Borderless Cover",
+        "addressLocalityName": "Munich"
       },
       "role": {
         "entityId": "SUP-OTH-12-ROLE",
@@ -736,7 +795,8 @@
     {
       "entityId": "SUP-OTH-13",
       "properties": {
-        "name": "Compass Guard"
+        "name": "Compass Guard",
+        "addressLocalityName": "Hamburg"
       },
       "role": {
         "entityId": "SUP-OTH-13-ROLE",
@@ -748,7 +808,8 @@
     {
       "entityId": "SUP-OTH-14",
       "properties": {
-        "name": "Departure Safe"
+        "name": "Departure Safe",
+        "addressLocalityName": "Cologne"
       },
       "role": {
         "entityId": "SUP-OTH-14-ROLE",
@@ -760,7 +821,8 @@
     {
       "entityId": "SUP-OTH-15",
       "properties": {
-        "name": "Evergreen Assist"
+        "name": "Evergreen Assist",
+        "addressLocalityName": "Berlin"
       },
       "role": {
         "entityId": "SUP-OTH-15-ROLE",
@@ -772,7 +834,8 @@
     {
       "entityId": "SUP-OTH-16",
       "properties": {
-        "name": "Farway Cover"
+        "name": "Farway Cover",
+        "addressLocalityName": "Frankfurt am Main"
       },
       "role": {
         "entityId": "SUP-OTH-16-ROLE",
@@ -784,7 +847,8 @@
     {
       "entityId": "SUP-OTH-17",
       "properties": {
-        "name": "Globe Shelter"
+        "name": "Globe Shelter",
+        "addressLocalityName": "Munich"
       },
       "role": {
         "entityId": "SUP-OTH-17-ROLE",
@@ -796,7 +860,8 @@
     {
       "entityId": "SUP-OTH-18",
       "properties": {
-        "name": "Horizon Help"
+        "name": "Horizon Help",
+        "addressLocalityName": "Hamburg"
       },
       "role": {
         "entityId": "SUP-OTH-18-ROLE",
@@ -808,7 +873,8 @@
     {
       "entityId": "SUP-OTH-19",
       "properties": {
-        "name": "Itinerary Guard"
+        "name": "Itinerary Guard",
+        "addressLocalityName": "Cologne"
       },
       "role": {
         "entityId": "SUP-OTH-19-ROLE",
@@ -820,7 +886,8 @@
     {
       "entityId": "SUP-OTH-20",
       "properties": {
-        "name": "Journey Safeguard"
+        "name": "Journey Safeguard",
+        "addressLocalityName": "Berlin"
       },
       "role": {
         "entityId": "SUP-OTH-20-ROLE",
