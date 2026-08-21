@@ -9,7 +9,7 @@ import { apiClient } from "../api";
 import { useAllPages } from "../lib/use-cursor-page";
 import { ProductCreatePanel } from "../lib/product-create-panel";
 import { ProductDetailPanel } from "../lib/product-detail-panel";
-import { breadcrumbLabel, buildChildrenIndex, matchesSearchTerm, rootOf, type ProductTreeEntry } from "../lib/catalogue-tree";
+import { breadcrumbLabel, buildChildrenIndex, matchesSearchTerm, type ProductTreeEntry } from "../lib/catalogue-tree";
 import { ProductTreeList } from "../lib/product-tree-list";
 import { LIFECYCLE_STATUS_OPTIONS, catalogueProperties, sortTypeOptionsAlphabetically, typeLabel } from "../lib/catalogue-product-types";
 import { StaffShell } from "../lib/shell";
@@ -17,8 +17,6 @@ import { StaffShell } from "../lib/shell";
 type RightPane = { readonly mode: "none" } | { readonly mode: "detail"; readonly productId: string } | { readonly mode: "create" };
 
 type ProductResponse = components["schemas"]["ProductResponse"];
-type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
-type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 
 const LIFECYCLE_OPTIONS = [{ value: "all", label: "All" }, ...LIFECYCLE_STATUS_OPTIONS];
 
@@ -60,46 +58,6 @@ export default function ProductsRoute() {
   );
   const ancestorsLoaded = ancestorQueries.every((query) => query.status !== "pending");
 
-  const rootIds = useMemo(() => Array.from(new Set(entries.map((entry) => rootOf(entry).entityId))), [entries]);
-
-  const supplierQueries = useQueries({
-    queries: rootIds.map((rootId) => ({
-      queryKey: ["products", rootId, "supplier"],
-      queryFn: async () => {
-        const { data } = await apiClient.GET("/products/{product_id}/supplier", { params: { path: { product_id: rootId } } });
-        return (data ?? null) as OrgaRoleResponse | null;
-      },
-      enabled: ancestorsLoaded,
-    })),
-  });
-  const supplierByRootId = useMemo(() => {
-    const map = new Map<string, OrgaRoleResponse | null>();
-    rootIds.forEach((rootId, index) => map.set(rootId, supplierQueries[index]?.data ?? null));
-    return map;
-  }, [rootIds, supplierQueries]);
-  const suppliersLoaded = supplierQueries.every((query) => query.status !== "pending");
-
-  const roleIds = useMemo(
-    () => Array.from(new Set(Array.from(supplierByRootId.values()).flatMap((role) => (role ? [role.entityId] : [])))),
-    [supplierByRootId]
-  );
-
-  const organisationQueries = useQueries({
-    queries: roleIds.map((roleId) => ({
-      queryKey: ["organisations", "roles", roleId, "organisation"],
-      queryFn: async () => {
-        const { data } = await apiClient.GET("/organisations/roles/{role_id}/organisation", { params: { path: { role_id: roleId } } });
-        return (data ?? null) as OrganisationResponse | null;
-      },
-      enabled: suppliersLoaded,
-    })),
-  });
-  const organisationByRoleId = useMemo(() => {
-    const map = new Map<string, OrganisationResponse | null>();
-    roleIds.forEach((roleId, index) => map.set(roleId, organisationQueries[index]?.data ?? null));
-    return map;
-  }, [roleIds, organisationQueries]);
-
   const childrenByParentId = useMemo(() => buildChildrenIndex(entries), [entries]);
 
   // Every type actually present in the DB, not a hardcoded list -- so a
@@ -129,10 +87,10 @@ export default function ProductsRoute() {
         if (lifecycle !== "all" && catalogueProperties(entry.product.properties).lifecycleStatusCode !== lifecycle) return false;
         return true;
       })
-      .map((entry) => ({ entry, breadcrumb: breadcrumbLabel(entry, supplierByRootId, organisationByRoleId) }))
+      .map((entry) => ({ entry, breadcrumb: breadcrumbLabel(entry) }))
       .filter(({ entry, breadcrumb }) => !term || matchesSearchTerm(entry, term, breadcrumb))
       .map(({ entry, breadcrumb }) => ({ product: entry.product, breadcrumb }));
-  }, [entries, search, type, lifecycle, supplierByRootId, organisationByRoleId]);
+  }, [entries, search, type, lifecycle]);
 
   const loading = allProducts.status === "pending" || !ancestorsLoaded;
 

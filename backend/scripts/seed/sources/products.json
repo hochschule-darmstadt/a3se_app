@@ -11,7 +11,7 @@
         "scheduledDepartureLocalTime": "08:15:00",
         "scheduledArrivalLocalTime": "18:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 501: BER–LIM"
+        "name": "Flight 501: BER–LIM"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -27,7 +27,7 @@
         "scheduledDepartureLocalTime": "09:15:00",
         "scheduledArrivalLocalTime": "19:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 502: FRA–GIG"
+        "name": "Flight 502: FRA–GIG"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -43,7 +43,7 @@
         "scheduledDepartureLocalTime": "10:15:00",
         "scheduledArrivalLocalTime": "20:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 503: MUC–GRU"
+        "name": "Flight 503: MUC–GRU"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -59,7 +59,7 @@
         "scheduledDepartureLocalTime": "11:15:00",
         "scheduledArrivalLocalTime": "21:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 504: FRA–SCL"
+        "name": "Flight 504: FRA–SCL"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -75,7 +75,7 @@
         "scheduledDepartureLocalTime": "07:15:00",
         "scheduledArrivalLocalTime": "17:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 505: BER–EZE"
+        "name": "Flight 505: BER–EZE"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -91,7 +91,7 @@
         "scheduledDepartureLocalTime": "08:15:00",
         "scheduledArrivalLocalTime": "18:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 506: FRA–BOG"
+        "name": "Flight 506: FRA–BOG"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -107,7 +107,7 @@
         "scheduledDepartureLocalTime": "09:15:00",
         "scheduledArrivalLocalTime": "19:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 507: MUC–UIO"
+        "name": "Flight 507: MUC–UIO"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -123,7 +123,7 @@
         "scheduledDepartureLocalTime": "10:15:00",
         "scheduledArrivalLocalTime": "20:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 508: FRA–LIM"
+        "name": "Flight 508: FRA–LIM"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -139,7 +139,7 @@
         "scheduledDepartureLocalTime": "11:15:00",
         "scheduledArrivalLocalTime": "21:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 509: FRA–GIG"
+        "name": "Flight 509: FRA–GIG"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -155,7 +155,7 @@
         "scheduledDepartureLocalTime": "07:15:00",
         "scheduledArrivalLocalTime": "17:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 510: MUC–SCL"
+        "name": "Flight 510: MUC–SCL"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -171,7 +171,7 @@
         "scheduledDepartureLocalTime": "08:15:00",
         "scheduledArrivalLocalTime": "18:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 511: BER–GRU"
+        "name": "Flight 511: BER–GRU"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -187,7 +187,7 @@
         "scheduledDepartureLocalTime": "09:15:00",
         "scheduledArrivalLocalTime": "19:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 512: FRA–BOG"
+        "name": "Flight 512: FRA–BOG"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -203,7 +203,7 @@
         "scheduledDepartureLocalTime": "10:15:00",
         "scheduledArrivalLocalTime": "20:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 513: MUC–LIM"
+        "name": "Flight 513: MUC–LIM"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -219,7 +219,7 @@
         "scheduledDepartureLocalTime": "11:15:00",
         "scheduledArrivalLocalTime": "21:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 514: BER–EZE"
+        "name": "Flight 514: BER–EZE"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -235,7 +235,7 @@
         "scheduledDepartureLocalTime": "07:15:00",
         "scheduledArrivalLocalTime": "17:40:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 515: FRA–UIO"
+        "name": "Flight 515: FRA–UIO"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -251,7 +251,7 @@
         "scheduledDepartureLocalTime": "07:20:00",
         "scheduledArrivalLocalTime": "08:55:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 600: LIM–CUZ"
+        "name": "Flight 600: LIM–CUZ"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": "FLT-01",
@@ -267,7 +267,7 @@
         "scheduledDepartureLocalTime": "17:10:00",
         "scheduledArrivalLocalTime": "18:45:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 601: CUZ–LIM"
+        "name": "Flight 601: CUZ–LIM"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": "FLT-01",
@@ -283,7 +283,7 @@
         "scheduledDepartureLocalTime": "21:30:00",
         "scheduledArrivalLocalTime": "16:05:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 602: LIM–BER"
+        "name": "Flight 602: LIM–BER"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": "FLT-01",
@@ -295,7 +295,7 @@
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Single Room"
+        "name": "Single Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -307,7 +307,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -319,7 +319,7 @@
       "properties": {
         "roomTypeCode": "room/adjoining",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Adjoining Rooms"
+        "name": "Adjoining Rooms"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -331,7 +331,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -343,7 +343,7 @@
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Single Room"
+        "name": "Single Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -355,7 +355,7 @@
       "properties": {
         "roomTypeCode": "room/triple",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Triple Room"
+        "name": "Triple Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -367,7 +367,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -379,7 +379,7 @@
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Single Room"
+        "name": "Single Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -391,7 +391,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -403,7 +403,7 @@
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Single Room"
+        "name": "Single Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -415,7 +415,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -427,7 +427,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -439,7 +439,7 @@
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Family Room"
+        "name": "Family Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -451,7 +451,7 @@
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Single Room"
+        "name": "Single Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -463,7 +463,7 @@
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Family Room"
+        "name": "Family Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -474,7 +474,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Airport Transfer"
+        "name": "Airport Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -485,7 +485,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hotel Shuttle"
+        "name": "Hotel Shuttle"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -496,7 +496,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "City Center Transfer"
+        "name": "City Center Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -507,7 +507,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Private Transfer"
+        "name": "Private Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -518,7 +518,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Shared Shuttle"
+        "name": "Shared Shuttle"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -529,7 +529,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Airport Transfer"
+        "name": "Airport Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -540,7 +540,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hotel Shuttle"
+        "name": "Hotel Shuttle"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -551,7 +551,7 @@
       "type": "product/mobility/rail",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Regional Rail Connection"
+        "name": "Regional Rail Connection"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -562,7 +562,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "City Center Transfer"
+        "name": "City Center Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -573,7 +573,7 @@
       "type": "product/mobility/vehicle-rental",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Compact Car Rental"
+        "name": "Compact Car Rental"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -584,7 +584,7 @@
       "type": "product/mobility/coach",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Scheduled Coach Service"
+        "name": "Scheduled Coach Service"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -595,7 +595,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Private Transfer"
+        "name": "Private Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -606,7 +606,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Shared Shuttle"
+        "name": "Shared Shuttle"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -617,7 +617,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Airport Transfer"
+        "name": "Airport Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -628,7 +628,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hotel Shuttle"
+        "name": "Hotel Shuttle"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -639,7 +639,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Coastal Day Boat Excursion"
+        "name": "Coastal Day Boat Excursion"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -650,7 +650,7 @@
       "type": "product/water-transport/cruise",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Multi-Day Coastal Cruise"
+        "name": "Multi-Day Coastal Cruise"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -661,7 +661,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Snorkeling Day Boat Trip"
+        "name": "Snorkeling Day Boat Trip"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -672,7 +672,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cooking Class"
+        "name": "Cooking Class"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -683,7 +683,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Snorkeling Activity"
+        "name": "Snorkeling Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -694,7 +694,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hiking Activity"
+        "name": "Hiking Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -705,7 +705,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cultural Workshop"
+        "name": "Cultural Workshop"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -716,7 +716,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Wildlife Watching"
+        "name": "Wildlife Watching"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -727,7 +727,7 @@
       "type": "product/experience/guided-tour",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "City Walking Tour"
+        "name": "City Walking Tour"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -738,7 +738,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Local Market Visit"
+        "name": "Local Market Visit"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -749,7 +749,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cooking Class"
+        "name": "Cooking Class"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -760,7 +760,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Snorkeling Activity"
+        "name": "Snorkeling Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -771,7 +771,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hiking Activity"
+        "name": "Hiking Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -782,7 +782,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cultural Workshop"
+        "name": "Cultural Workshop"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -793,7 +793,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Wildlife Watching"
+        "name": "Wildlife Watching"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -804,7 +804,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Local Market Visit"
+        "name": "Local Market Visit"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -815,7 +815,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cooking Class"
+        "name": "Cooking Class"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -826,7 +826,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Snorkeling Activity"
+        "name": "Snorkeling Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -837,7 +837,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Standard Travel Protection Plan"
+        "name": "Standard Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -848,7 +848,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Comprehensive Travel Protection Plan"
+        "name": "Comprehensive Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -859,7 +859,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Trip Cancellation Cover"
+        "name": "Trip Cancellation Cover"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -870,7 +870,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Medical Travel Cover"
+        "name": "Medical Travel Cover"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -886,7 +886,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 921: BER–GIG"
+        "name": "Flight 921: BER–GIG"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -902,7 +902,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 922: FRA–EZE"
+        "name": "Flight 922: FRA–EZE"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -918,7 +918,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 923: MUC–SCL"
+        "name": "Flight 923: MUC–SCL"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -934,7 +934,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 924: LIM–PUQ"
+        "name": "Flight 924: LIM–PUQ"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -950,7 +950,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 925: CUZ–BOG"
+        "name": "Flight 925: CUZ–BOG"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -966,7 +966,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 926: GRU–UIO"
+        "name": "Flight 926: GRU–UIO"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -982,7 +982,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 927: GIG–BER"
+        "name": "Flight 927: GIG–BER"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -998,7 +998,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 928: EZE–FRA"
+        "name": "Flight 928: EZE–FRA"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -1014,7 +1014,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 929: SCL–MUC"
+        "name": "Flight 929: SCL–MUC"
       },
       "supplierRoleId": "SUP-AIR-01-ROLE",
       "parentProductId": null,
@@ -1030,7 +1030,7 @@
         "scheduledDepartureLocalTime": "10:00:00",
         "scheduledArrivalLocalTime": "20:00:00",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Flight 930: PUQ–LIM"
+        "name": "Flight 930: PUQ–LIM"
       },
       "supplierRoleId": "SUP-AIR-02-ROLE",
       "parentProductId": null,
@@ -1042,7 +1042,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1054,7 +1054,7 @@
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Family Room"
+        "name": "Family Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1066,7 +1066,7 @@
       "properties": {
         "roomTypeCode": "room/twin",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Twin Room"
+        "name": "Twin Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1078,7 +1078,7 @@
       "properties": {
         "roomTypeCode": "room/triple",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Triple Room"
+        "name": "Triple Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1090,7 +1090,7 @@
       "properties": {
         "roomTypeCode": "room/single",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Single Room"
+        "name": "Single Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1102,7 +1102,7 @@
       "properties": {
         "roomTypeCode": "room/suite",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Suite"
+        "name": "Suite"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1114,7 +1114,7 @@
       "properties": {
         "roomTypeCode": "room/family",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Family Room"
+        "name": "Family Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1126,7 +1126,7 @@
       "properties": {
         "roomTypeCode": "room/double",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Double Room"
+        "name": "Double Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1138,7 +1138,7 @@
       "properties": {
         "roomTypeCode": "room/cabin",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cabin"
+        "name": "Cabin"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1150,7 +1150,7 @@
       "properties": {
         "roomTypeCode": "room/twin",
         "lifecycleStatusCode": "product/active",
-        "displayName": "Twin Room"
+        "name": "Twin Room"
       },
       "supplierRoleId": "SUP-ACC-01-ROLE",
       "parentProductId": null,
@@ -1161,7 +1161,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "City Center Transfer"
+        "name": "City Center Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1172,7 +1172,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Private Transfer"
+        "name": "Private Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1183,7 +1183,7 @@
       "type": "product/mobility/rail",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Express Rail Connection"
+        "name": "Express Rail Connection"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1194,7 +1194,7 @@
       "type": "product/mobility/coach",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Chartered Coach Service"
+        "name": "Chartered Coach Service"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1205,7 +1205,7 @@
       "type": "product/mobility/vehicle-rental",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "SUV Rental"
+        "name": "SUV Rental"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1216,7 +1216,7 @@
       "type": "product/mobility/vehicle-rental",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Economy Car Rental"
+        "name": "Economy Car Rental"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1227,7 +1227,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Shared Shuttle"
+        "name": "Shared Shuttle"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1238,7 +1238,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Airport Transfer"
+        "name": "Airport Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1249,7 +1249,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hotel Shuttle"
+        "name": "Hotel Shuttle"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1260,7 +1260,7 @@
       "type": "product/mobility/transfer",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "City Center Transfer"
+        "name": "City Center Transfer"
       },
       "supplierRoleId": "SUP-MOB-01-ROLE",
       "parentProductId": null,
@@ -1271,7 +1271,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Sunset Day Boat Cruise"
+        "name": "Sunset Day Boat Cruise"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1282,7 +1282,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Island-Hopping Day Boat"
+        "name": "Island-Hopping Day Boat"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1293,7 +1293,7 @@
       "type": "product/water-transport/cruise",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "River Cruise"
+        "name": "River Cruise"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1304,7 +1304,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Coastal Day Boat Excursion"
+        "name": "Coastal Day Boat Excursion"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1315,7 +1315,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Snorkeling Day Boat Trip"
+        "name": "Snorkeling Day Boat Trip"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1326,7 +1326,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Sunset Day Boat Cruise"
+        "name": "Sunset Day Boat Cruise"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1337,7 +1337,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Island-Hopping Day Boat"
+        "name": "Island-Hopping Day Boat"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1348,7 +1348,7 @@
       "type": "product/water-transport/cruise",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Archipelago Cruise"
+        "name": "Archipelago Cruise"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1359,7 +1359,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Coastal Day Boat Excursion"
+        "name": "Coastal Day Boat Excursion"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1370,7 +1370,7 @@
       "type": "product/water-transport/day-boat",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Snorkeling Day Boat Trip"
+        "name": "Snorkeling Day Boat Trip"
       },
       "supplierRoleId": "SUP-WTR-01-ROLE",
       "parentProductId": null,
@@ -1381,7 +1381,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hiking Activity"
+        "name": "Hiking Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1392,7 +1392,7 @@
       "type": "product/experience/guided-tour",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Guided Heritage Tour"
+        "name": "Guided Heritage Tour"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1403,7 +1403,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cultural Workshop"
+        "name": "Cultural Workshop"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1414,7 +1414,7 @@
       "type": "product/experience/guided-tour",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Guided Nature Trek"
+        "name": "Guided Nature Trek"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1425,7 +1425,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Wildlife Watching"
+        "name": "Wildlife Watching"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1436,7 +1436,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Local Market Visit"
+        "name": "Local Market Visit"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1447,7 +1447,7 @@
       "type": "product/experience/guided-tour",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Local Culture Tour"
+        "name": "Local Culture Tour"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1458,7 +1458,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Cooking Class"
+        "name": "Cooking Class"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1469,7 +1469,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Snorkeling Activity"
+        "name": "Snorkeling Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1480,7 +1480,7 @@
       "type": "product/experience/activity",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Hiking Activity"
+        "name": "Hiking Activity"
       },
       "supplierRoleId": "SUP-EXP-01-ROLE",
       "parentProductId": null,
@@ -1491,7 +1491,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Standard Travel Protection Plan"
+        "name": "Standard Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1502,7 +1502,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Comprehensive Travel Protection Plan"
+        "name": "Comprehensive Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1513,7 +1513,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Trip Cancellation Cover"
+        "name": "Trip Cancellation Cover"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1524,7 +1524,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Medical Travel Cover"
+        "name": "Medical Travel Cover"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1535,7 +1535,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Standard Travel Protection Plan"
+        "name": "Standard Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1546,7 +1546,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Comprehensive Travel Protection Plan"
+        "name": "Comprehensive Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1557,7 +1557,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Trip Cancellation Cover"
+        "name": "Trip Cancellation Cover"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1568,7 +1568,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Medical Travel Cover"
+        "name": "Medical Travel Cover"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1579,7 +1579,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Standard Travel Protection Plan"
+        "name": "Standard Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,
@@ -1590,7 +1590,7 @@
       "type": "product/protection/travel",
       "properties": {
         "lifecycleStatusCode": "product/active",
-        "displayName": "Comprehensive Travel Protection Plan"
+        "name": "Comprehensive Travel Protection Plan"
       },
       "supplierRoleId": "SUP-OTH-01-ROLE",
       "parentProductId": null,

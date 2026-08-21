@@ -36,6 +36,8 @@ class PersonsApiTest(unittest.TestCase):
         body = response.json()
         self.assertEqual("I21-PER-01", body["entityId"])
         self.assertEqual("Emil", body["properties"]["givenName"])
+        self.assertEqual("Emil Brandt", body["displayName"])
+        self.assertEqual(["Emil Brandt"], body["displayNameChain"])
 
     def test_create_person_duplicate_returns_409(self) -> None:
         self.client.post("/persons", json=person_payload())
@@ -114,6 +116,8 @@ class PersonsApiTest(unittest.TestCase):
         self.assertEqual(201, response.status_code)
         body = response.json()
         self.assertEqual("person/customer", body["type"])
+        self.assertEqual("Customer", body["displayName"])
+        self.assertEqual(["Emil Brandt", "Customer"], body["displayNameChain"])
 
     def test_create_person_role_missing_person_returns_404(self) -> None:
         response = self.client.post(

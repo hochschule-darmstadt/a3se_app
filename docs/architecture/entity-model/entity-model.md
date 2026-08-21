@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture
-- Last reviewed: 2026-08-17
+- Last reviewed: 2026-08-21
 
 This technology-neutral logical entity model defines generic entity structures owned by Resources modules in the accepted [software architecture](../software-architecture/software-architecture.md). It was produced by iteratively refining the accepted [business objects](../../requirements/business-objects.md): recurring party roles and item structures were generalized while concrete business meaning remains expressed through types, properties, and relationships.
 
@@ -63,6 +63,14 @@ loss-aware Neo4j property mapping.
 - An `OrderItem` may contain other `OrderItem` instances, refers to the allocated `StockItem`, and links relevant customer/traveler `PersonRole` instances.
 
 Every entity has exactly one owning module. Cross-module associations remain visible because they explain the business graph, but implementation must preserve module encapsulation through identifiers, representations, or module interfaces.
+
+## Computed presentation identity
+
+Issue #50 proposes a read-only presentation projection for the party, role, and product entities covered by [FR-010–FR-014](../../requirements/functional-requirements.md#display-name-and-chain-rules-fr-010fr-014). `displayName` is computed from validated source properties and type/context rules. `displayNameChain` is the ordered root-to-entity sequence of those labels across canonical ownership and product-supplier/composition links. Neither is a flexible property or persisted state, and neither replaces the stable entity identifier.
+
+The owning Resource modules compute their own entity labels. A shared read-model composition service may call those public module services to assemble cross-module product context, consistent with DR-0013's module-boundary rule; Interaction modules shall not reproduce the rules. API responses expose `displayName` and the semantic chain as an ordered array, while the UI chooses the documented ` · ` rendering. Collection and detail projections use the same computation so they cannot drift.
+
+Canonical ownership is singular and product composition is acyclic. Missing data required by a type-specific label, multiple owners or parents, cycles, and conflicting supplier contexts are integrity failures, not occasions to invent an identifier-based label. Supplier context is optional for product types whose own display rule is complete without it; a flight requires an airline supplier because its display name includes that role's `airlineDesignator`.
 
 ## Modeling consequences
 

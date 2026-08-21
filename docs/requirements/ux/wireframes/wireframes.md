@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Requirements
-- Last reviewed: 2026-08-20
+- Last reviewed: 2026-08-21
 
 ## MVP scope note (issue #29 phase 1)
 
@@ -25,6 +25,12 @@ This also prompted a naming-consistency cleanup: the `product/hotel/*` family wa
 Seed data was updated to match: every catalogue-root product now has a `displayName`, every root-level product has a `supplierRoleId` (already true before this pass), and `lifecycleStatusCode` defaults to `product/active` for the existing catalogue so the tree view has representative data — plus new `product/accommodation/room-type/room` and `product/airline/flight/seat` child instances under a sample of categories/flights to demonstrate expand-to-any-depth (including a 3-level chain).
 
 **Known gap**: `staff-wireframes.html`'s VIEW-S-003 frame was not redrawn as a tree-view mockup for this follow-up (only the #31 phase-1 flat-table refinement is reflected there); the implementation above is the current source of truth for the interaction pattern until a diagramming pass catches the wireframe up (tracked by issue #48, continuous spec alignment).
+
+## Display-name-chain proposal (issue #50 phase 1)
+
+Issue #50 replaces #31's interim, stored product `displayName` and client-composed catalogue breadcrumb with the computed contract in [FR-010–FR-014](../../functional-requirements.md#display-name-and-chain-rules-fr-010fr-014). VIEW-S-003 renders the backend-provided ordered `displayNameChain` with ` · ` as both each result/tree-row title and the selected detail view's primary heading. Search continues to match organisation, role, product-ancestor, and selected-product text in that chain; filtering still surfaces a matching descendant as a top-level result, and unfiltered expansion retains the recursive tree behavior.
+
+The Phase 1 audit found 182 products in `backend/scripts/seed/sources/products.json`: 130 carried `displayName`, none carried `name`, and none carried both. The corrected seed source renames those 130 values to `name` without loss. During Phase 2 review, the stakeholder confirmed that prototype databases are disposable, so adoption uses the existing reset-and-reseed workflow rather than an in-place migration script. The explicit Person/Partner/Product scope boundary remains accepted, and Phase 2 still has its separate review checkpoint.
 
 ## MVP scope note (product create/edit consistency pass, 2026-08-21)
 

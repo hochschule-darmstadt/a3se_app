@@ -503,8 +503,6 @@ export interface components {
         };
         /** EmptyProductProperties */
         EmptyProductProperties: {
-            /** Displayname */
-            displayName?: string | null;
             /** Imageurl */
             imageUrl?: string | null;
             /**
@@ -513,14 +511,11 @@ export interface components {
              * @enum {string}
              */
             lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
+            /** Name */
+            name: string;
         };
         /** EmptyProductRequest */
         EmptyProductRequest: {
-            /**
-             * @default {
-             *       "lifecycleStatusCode": "product/draft"
-             *     }
-             */
             properties: components["schemas"]["EmptyProductProperties"];
             /**
              * @description discriminator enum property added by openapi-typescript
@@ -580,8 +575,6 @@ export interface components {
             arrivalLocationCode: string;
             /** Departurelocationcode */
             departureLocationCode: string;
-            /** Displayname */
-            displayName?: string | null;
             /** Flightnumber */
             flightNumber: string;
             /** Imageurl */
@@ -592,6 +585,8 @@ export interface components {
              * @enum {string}
              */
             lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
+            /** Name */
+            name?: string | null;
             /**
              * Scheduledarrivallocaltime
              * Format: time
@@ -611,8 +606,6 @@ export interface components {
             arrivalLocationCode: string;
             /** Departurelocationcode */
             departureLocationCode: string;
-            /** Displayname */
-            displayName?: string | null;
             /** Flightnumber */
             flightNumber: string;
             /** Imageurl */
@@ -623,6 +616,8 @@ export interface components {
              * @enum {string}
              */
             lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
+            /** Name */
+            name?: string | null;
             /**
              * Scheduledarrivallocaltime
              * Format: time
@@ -738,6 +733,10 @@ export interface components {
         };
         /** OrgaRoleResponse */
         OrgaRoleResponse: {
+            /** Displayname */
+            displayName: string;
+            /** Displaynamechain */
+            displayNameChain: string[];
             /** Entityid */
             entityId: string;
             /**
@@ -773,6 +772,10 @@ export interface components {
         };
         /** OrganisationResponse */
         OrganisationResponse: {
+            /** Displayname */
+            displayName: string;
+            /** Displaynamechain */
+            displayNameChain: string[];
             /** Entityid */
             entityId: string;
             /**
@@ -841,6 +844,10 @@ export interface components {
         };
         /** PersonResponse */
         PersonResponse: {
+            /** Displayname */
+            displayName: string;
+            /** Displaynamechain */
+            displayNameChain: string[];
             /** Entityid */
             entityId: string;
             /**
@@ -862,6 +869,10 @@ export interface components {
         };
         /** PersonRoleResponse */
         PersonRoleResponse: {
+            /** Displayname */
+            displayName: string;
+            /** Displaynamechain */
+            displayNameChain: string[];
             /** Entityid */
             entityId: string;
             /**
@@ -888,6 +899,10 @@ export interface components {
         };
         /** ProductComponentResponse */
         ProductComponentResponse: {
+            /** Displayname */
+            displayName: string;
+            /** Displaynamechain */
+            displayNameChain: string[];
             /** Entityid */
             entityId: string;
             /**
@@ -914,8 +929,29 @@ export interface components {
             /** Product */
             product: components["schemas"]["FlightRequest"] | components["schemas"]["SeatRequest"] | components["schemas"]["RoomCategoryRequest"] | components["schemas"]["RoomRequest"] | components["schemas"]["EmptyProductRequest"];
         };
+        /** ProductMutationResponse */
+        ProductMutationResponse: {
+            /** Entityid */
+            entityId: string;
+            /**
+             * Entitykind
+             * @default TouristicProductItem
+             * @constant
+             */
+            entityKind: "TouristicProductItem";
+            /** Properties */
+            properties: components["schemas"]["FlightProperties"] | components["schemas"]["SeatProperties"] | components["schemas"]["RoomCategoryProperties"] | components["schemas"]["RoomProperties"] | components["schemas"]["EmptyProductProperties"];
+            /** Schemaversion */
+            schemaVersion: number;
+            /** Type */
+            type: string;
+        };
         /** ProductResponse */
         ProductResponse: {
+            /** Displayname */
+            displayName: string;
+            /** Displaynamechain */
+            displayNameChain: string[];
             /** Entityid */
             entityId: string;
             /**
@@ -938,8 +974,6 @@ export interface components {
         };
         /** RoomCategoryProperties */
         RoomCategoryProperties: {
-            /** Displayname */
-            displayName?: string | null;
             /** Imageurl */
             imageUrl?: string | null;
             /**
@@ -948,6 +982,8 @@ export interface components {
              * @enum {string}
              */
             lifecycleStatusCode: "product/draft" | "product/active" | "product/retired";
+            /** Name */
+            name?: string | null;
             /**
              * Roomtypecode
              * @enum {string}
@@ -967,6 +1003,10 @@ export interface components {
         };
         /** RoomProperties */
         RoomProperties: {
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Name */
+            name?: string | null;
             /** Roomnumber */
             roomNumber: string;
         };
@@ -981,6 +1021,10 @@ export interface components {
         };
         /** SeatProperties */
         SeatProperties: {
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Name */
+            name?: string | null;
             /** Seatnumber */
             seatNumber: string;
         };
@@ -2609,7 +2653,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ProductResponse"];
+                    "application/json": components["schemas"]["ProductMutationResponse"];
                 };
             };
             /** @description Not Found */
@@ -2702,7 +2746,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ProductResponse"];
+                    "application/json": components["schemas"]["ProductMutationResponse"];
                 };
             };
             /** @description Not Found */

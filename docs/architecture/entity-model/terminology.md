@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture/Requirements
-- Last reviewed: 2026-08-20 (renamed `partner/supplier/*` and `product/water/*`/`product/airline/seat`/`product/accommodation/room-category`/`product/accommodation/room` identifiers per DR-0017)
+- Last reviewed: 2026-08-21 (proposed computed display names and display-name chains for issue #50)
 
 ## Purpose and authority
 
@@ -14,7 +14,7 @@ Terms use British English and lower camel case for property keys. Type identifie
 
 | Term | Datatype | Description / usage | Owner and applicability | Requirement and validation | Source |
 |---|---|---|---|---|---|
-| `name` | string, 1–200 Unicode characters | Display name of an `Organisation`. It is not an identifier or airline designator. | Partner Management; `Organisation` | required; trim surrounding whitespace | OTA organisation/name concept; project logical key |
+| `name` | string, 1–200 Unicode characters | Human-authored name of an `Organisation` or product whose type has no more-specific naming rule. It is source data for a computed display name, not itself a derived field or identifier. | Partner Management; `Organisation`; Touristic Product Management; `TouristicProductItem` | required for `Organisation` and the product types identified by FR-010; optional but preserved for product types with a specific computed rule; trim surrounding whitespace | OTA organisation/name concept; project logical key; issue #50 |
 | `type` | namespaced code string | Selects the semantic contract for a role, product, stock, or order item. | Owning Resources module; `PersonRole`, `OrgaRole`, `TouristicProductItem`, `StockItem`, `OrderItem` | required; exactly one value from TERM-002 | Project extension needed by the accepted generic model |
 | `properties` | map<string, typed value> | Holds only properties permitted by the selected `type`. It is a logical collection, not an unrestricted dictionary. | Owning Resources module; typed entities | required but may be empty; unique keys; reject unknown keys unless their versioned extension namespace is accepted | Project extension needed by the accepted generic model |
 
@@ -97,7 +97,6 @@ Terms use British English and lower camel case for property keys. Type identifie
 | `room/cabin` | namespaced code | Sleeping accommodation aboard a `product/water-transport/cruise`, modelled with the same room-type properties. | Touristic Product Management; `roomTypeCode` | permitted value | Project extension; exact OTA mapping unresolved |
 | `smokingPreferenceCode` | enum string | Smoking policy/preference for a room category. | Touristic Product Management; room category | optional; `nonSmoking`, `smoking`, or `unspecified` | Project value set mapped to OTA smoking-preference concept |
 | `roomNumber` | string, 1–20 characters | Property-assigned room identifier; kept as string to preserve leading zeros and suffixes. | Touristic Product Management; `product/accommodation/room-type/room` | required in current example | OTA room-number concept; project logical key |
-| `displayName` | string, 1–200 Unicode characters | Human-readable catalogue label. Closes WF-Q-013: no `TouristicProductItem` type previously carried a generic name/title, only type-specific fields (`flightNumber`, `roomTypeCode`) or none at all (`product/mobility/*`, `product/water-transport/*`, `product/experience/*`, `product/protection/travel`). | Touristic Product Management; every catalogue-root type (not `product/airline/flight/seat` or `product/accommodation/room-type/room`, which are structural children identified by their parent) | optional | Project extension; issue #31 |
 | `lifecycleStatusCode` | namespaced code | Current catalogue-root product's lifecycle status; follows the `roleStatusCode` pattern (TERM-003). "Activate"/"retire" (VIEW-S-003) transition this status on the same record; there is no separate version-number/version-history mechanism (WF-Q-014). | Touristic Product Management; every catalogue-root type (not `product/airline/flight/seat` or `product/accommodation/room-type/room`) | required; defaults to `product/draft` when omitted; the CRUD API's `PUT` is the only current transition mechanism | Project value set; no external lifecycle adopted; issue #31 |
 | `product/draft` | namespaced code | The product definition is being prepared and is not offered for sale. | Touristic Product Management; `lifecycleStatusCode` | permitted; default | Project extension |
 | `product/active` | namespaced code | The product definition is offered for sale. | Touristic Product Management; `lifecycleStatusCode` | permitted | Project extension |
@@ -206,6 +205,17 @@ Added for issue #12 to cover the portal images that seed data attaches to repres
 | Term | Datatype | Description / usage | Owner and applicability | Requirement and validation | Source |
 |---|---|---|---|---|---|
 | `imageUrl` | string, absolute HTTPS URL | Portal-displayable image location for a touristic resource. | Touristic Product Management; any `product/*` type | optional; scheme must be `https://`; other schemes rejected | Project extension; no suitable freely adopted OTA/ISO term confirmed |
+
+## TERM-011 Derived presentation terms
+
+These response terms are not flexible property keys. They are computed projections governed by [FR-010–FR-014](../../requirements/functional-requirements.md#display-name-and-chain-rules-fr-010fr-014), must not appear as Neo4j properties, and are prohibited in resource write requests.
+
+| Term | Datatype | Description / usage | Owner and applicability | Requirement and validation | Source |
+|---|---|---|---|---|---|
+| `displayName` | string, 1–200 Unicode characters | Current human-readable label computed from the entity's validated properties, type, and required context; non-unique and never an identifier. | Person, Partner, and Touristic Product Management entities in FR-010 scope | required on successful reads; exact per-type computation in FR-010; never persisted or writable | Stakeholder direction, issue #50 |
+| `displayNameChain` | ordered array of `displayName` strings | Canonical root-to-entity presentation context. Component boundaries remain semantic in the API; Interaction renders VIEW-S-003 components with ` · `. | Person, Partner, and Touristic Product Management entities in FR-010 scope | required on successful reads; non-empty; selected entity's display name is the final component; never persisted or writable | Stakeholder direction, issue #50 |
+
+The former product flexible property `displayName` is deprecated in favour of stored `name` plus the derived TERM-011 response field. The seed source renames rather than discards all existing values. Existing prototype databases are reset and reseeded instead of migrated in place.
 
 ## AI-assisted validation record
 

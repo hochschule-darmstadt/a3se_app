@@ -22,6 +22,7 @@ def transfer_product_node(entity_id: str) -> dict[str, object]:
         "entityKind": "TouristicProductItem",
         "type": "product/mobility/transfer",
         "schemaVersion": 1,
+        "name": "Package",
     }
 
 

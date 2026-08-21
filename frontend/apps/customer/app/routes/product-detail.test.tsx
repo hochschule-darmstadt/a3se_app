@@ -17,6 +17,8 @@ const FLIGHT_PRODUCT = {
   entityKind: "TouristicProductItem",
   type: "product/airline/flight",
   schemaVersion: 1,
+  displayName: "0Q501 BER–LIM",
+  displayNameChain: ["Nordwind Airways", "Airline", "0Q501 BER–LIM"],
   properties: {
     flightNumber: "501",
     departureLocationCode: "BER",

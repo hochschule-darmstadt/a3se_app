@@ -14,7 +14,7 @@ relationship.
 from __future__ import annotations
 
 from cct.resource_management.contracts import EntityKind, ValidatedEntity
-from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError
+from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError, InvalidEntityGraphError
 from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.partner_management import service as partner_service
 from cct.resource_management.relationship_types import RelationshipType
@@ -129,4 +129,6 @@ def get_supplier(repository: EntityRepositoryPort, product_id: str) -> Validated
         relationship=RelationshipType.SUPPLIED_BY,
         to_kind=EntityKind.ORGA_ROLE,
     )
+    if len(roles) > 1:
+        raise InvalidEntityGraphError(product_id, "product has multiple suppliers")
     return roles[0] if roles else None

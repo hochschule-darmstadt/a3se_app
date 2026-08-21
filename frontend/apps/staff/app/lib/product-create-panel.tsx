@@ -24,7 +24,7 @@ import {
   type ProductTypeFieldValues,
 } from "./product-type-fields";
 
-type ProductResponse = components["schemas"]["ProductResponse"];
+type ProductMutationResponse = components["schemas"]["ProductMutationResponse"];
 
 function generateEntityId(prefix: string): string {
   return `${prefix}-${crypto.randomUUID()}`;
@@ -67,7 +67,7 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
 
   const structuralChildParentType = isStructuralChildType(type) ? STRUCTURAL_CHILD_PARENT_TYPE[type] : null;
 
-  const createMutation = useApiMutation<ProductResponse, void>(() => {
+  const createMutation = useApiMutation<ProductMutationResponse, void>(() => {
     const entityId = generateEntityId("PRD");
     const effectiveParentId = isAddComponent ? parentProductId : structuralChildParentType ? linkedParentId.trim() : null;
     return apiClient.POST("/products", {

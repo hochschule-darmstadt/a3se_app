@@ -45,6 +45,8 @@ class EntityRepositoryPort(Protocol):
 
     def get_ancestors(self, product_id: str) -> tuple[ValidatedEntity, ...]: ...
 
+    def get_product_parents(self, product_id: str) -> tuple[ValidatedEntity, ...]: ...
+
     def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]: ...
 
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None: ...
@@ -115,6 +117,10 @@ class ScopedEntityRepository:
     def get_ancestors(self, product_id: str) -> tuple[ValidatedEntity, ...]:
         self._require_allowed(EntityKind.TOURISTIC_PRODUCT_ITEM)
         return self._repository.get_ancestors(product_id)
+
+    def get_product_parents(self, product_id: str) -> tuple[ValidatedEntity, ...]:
+        self._require_allowed(EntityKind.TOURISTIC_PRODUCT_ITEM)
+        return self._repository.get_product_parents(product_id)
 
     def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]:
         self._require_allowed(EntityKind.ORDER_ITEM)

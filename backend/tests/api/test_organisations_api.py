@@ -29,6 +29,8 @@ class OrganisationsApiTest(unittest.TestCase):
         response = self.client.post("/organisations", json=organisation_payload())
         self.assertEqual(201, response.status_code)
         self.assertEqual("Condorleaf Air", response.json()["properties"]["name"])
+        self.assertEqual("Condorleaf Air", response.json()["displayName"])
+        self.assertEqual(["Condorleaf Air"], response.json()["displayNameChain"])
 
     def test_create_organisation_duplicate_returns_409(self) -> None:
         self.client.post("/organisations", json=organisation_payload())
@@ -67,6 +69,7 @@ class OrganisationsApiTest(unittest.TestCase):
         )
         self.assertEqual(201, response.status_code)
         self.assertEqual("0Q", response.json()["properties"]["airlineDesignator"])
+        self.assertEqual(["Condorleaf Air", "Airline"], response.json()["displayNameChain"])
 
     def test_create_empty_supplier_role_variant_succeeds(self) -> None:
         self.client.post("/organisations", json=organisation_payload())

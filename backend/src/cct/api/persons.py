@@ -22,20 +22,21 @@ from cct.resource_management.person_management.models import (
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
 from .dependencies import Actor, get_current_actor, get_person_repository
+from . import display_names
 from .schemas import ErrorResponse, Page, PageParams
 
 router = APIRouter(prefix="/persons", tags=["persons"])
 
 
 class PersonCreateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
     properties: PersonProperties
 
 
 class PersonUpdateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     properties: PersonProperties
 
@@ -47,25 +48,30 @@ class PersonResponse(BaseModel):
     entity_kind: Literal["Person"] = Field(alias="entityKind", default="Person")
     schema_version: int = Field(alias="schemaVersion")
     properties: PersonProperties
+    display_name: str = Field(alias="displayName")
+    display_name_chain: list[str] = Field(alias="displayNameChain")
 
     @classmethod
     def from_domain(cls, entity: ValidatedEntity) -> "PersonResponse":
+        projection = display_names.person(entity)
         return cls(
             entityId=entity.entity_id,
             schemaVersion=entity.schema_version,
             properties=entity.properties,
+            displayName=projection.display_name,
+            displayNameChain=list(projection.display_name_chain),
         )
 
 
 class CustomerRoleRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal["person/customer"] = "person/customer"
     properties: CustomerRoleProperties
 
 
 class TravellerRoleRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal["person/traveller"] = "person/traveller"
     properties: TravellerRoleProperties
@@ -75,14 +81,14 @@ PersonRoleVariant = Annotated[Union[CustomerRoleRequest, TravellerRoleRequest], 
 
 
 class PersonRoleCreateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
     role: PersonRoleVariant
 
 
 class PersonRoleUpdateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     role: PersonRoleVariant
 
@@ -95,14 +101,19 @@ class PersonRoleResponse(BaseModel):
     type: str
     schema_version: int = Field(alias="schemaVersion")
     properties: CustomerRoleProperties | TravellerRoleProperties
+    display_name: str = Field(alias="displayName")
+    display_name_chain: list[str] = Field(alias="displayNameChain")
 
     @classmethod
-    def from_domain(cls, entity: ValidatedEntity) -> "PersonRoleResponse":
+    def from_domain(cls, entity: ValidatedEntity, owner: ValidatedEntity) -> "PersonRoleResponse":
+        projection = display_names.person_role(entity, owner)
         return cls(
             entityId=entity.entity_id,
             type=entity.type,
             schemaVersion=entity.schema_version,
             properties=entity.properties,
+            displayName=projection.display_name,
+            displayNameChain=list(projection.display_name_chain),
         )
 
 
@@ -186,7 +197,8 @@ def create_person_role(
         type=request.role.type,
         properties=request.role.properties.model_dump(by_alias=True),
     )
-    return PersonRoleResponse.from_domain(entity)
+    owner = service.get_person(repository, person_id)
+    return PersonRoleResponse.from_domain(entity, owner)
 
 
 @router.get(
@@ -197,7 +209,8 @@ def create_person_role(
 )
 def list_person_roles(person_id: str, repository: RepositoryDependency) -> list[PersonRoleResponse]:
     roles = service.list_person_roles(repository, person_id)
-    return [PersonRoleResponse.from_domain(role) for role in roles]
+    owner = service.get_person(repository, person_id)
+    return [PersonRoleResponse.from_domain(role, owner) for role in roles]
 
 
 @router.get(
@@ -207,7 +220,14 @@ def list_person_roles(person_id: str, repository: RepositoryDependency) -> list[
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
 def get_person_role(person_id: str, role_id: str, repository: RepositoryDependency) -> PersonRoleResponse:
-    return PersonRoleResponse.from_domain(service.get_person_role(repository, role_id))
+    owner = service.get_person(repository, person_id)
+    roles = service.list_person_roles(repository, person_id)
+    role = next((candidate for candidate in roles if candidate.entity_id == role_id), None)
+    if role is None:
+        from cct.resource_management.errors import InvalidEntityGraphError
+
+        raise InvalidEntityGraphError(role_id, f"role is not owned by Person {person_id}")
+    return PersonRoleResponse.from_domain(role, owner)
 
 
 @router.put(
@@ -226,7 +246,8 @@ def update_person_role(
     entity = service.update_person_role(
         repository, role_id, type=request.role.type, properties=request.role.properties.model_dump(by_alias=True)
     )
-    return PersonRoleResponse.from_domain(entity)
+    owner = service.get_person(repository, person_id)
+    return PersonRoleResponse.from_domain(entity, owner)
 
 
 @router.delete(

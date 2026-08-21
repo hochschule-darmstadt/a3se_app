@@ -117,21 +117,35 @@ class FakeEntityRepository:
         chain.reverse()
         return tuple(self._entities[(EntityKind.TOURISTIC_PRODUCT_ITEM, ancestor_id)] for ancestor_id in chain)
 
+    def get_product_parents(self, product_id):
+        if (EntityKind.TOURISTIC_PRODUCT_ITEM, product_id) not in self._entities:
+            raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+        parent_ids = [
+            from_id
+            for (from_kind, from_id, relationship, to_kind, to_id) in self.relationship_calls
+            if from_kind == EntityKind.TOURISTIC_PRODUCT_ITEM
+            and to_kind == EntityKind.TOURISTIC_PRODUCT_ITEM
+            and relationship == RelationshipType.CONTAINS
+            and to_id == product_id
+        ]
+        return tuple(self._entities[(EntityKind.TOURISTIC_PRODUCT_ITEM, parent_id)] for parent_id in parent_ids)
+
     def get_organisation_for_role(self, role_id):
-        organisation_id = next(
-            (
-                from_id
-                for (from_kind, from_id, relationship, to_kind, to_id) in self.relationship_calls
-                if from_kind == EntityKind.ORGANISATION
-                and relationship == RelationshipType.HAS_ROLE
-                and to_kind == EntityKind.ORGA_ROLE
-                and to_id == role_id
-            ),
-            None,
-        )
-        if organisation_id is None:
+        organisation_ids = [
+            from_id
+            for (from_kind, from_id, relationship, to_kind, to_id) in self.relationship_calls
+            if from_kind == EntityKind.ORGANISATION
+            and relationship == RelationshipType.HAS_ROLE
+            and to_kind == EntityKind.ORGA_ROLE
+            and to_id == role_id
+        ]
+        if not organisation_ids:
             return None
-        return self._entities.get((EntityKind.ORGANISATION, organisation_id))
+        if len(organisation_ids) > 1:
+            from cct.resource_management.errors import InvalidEntityGraphError
+
+            raise InvalidEntityGraphError(role_id, "organisation role has multiple owners")
+        return self._entities.get((EntityKind.ORGANISATION, organisation_ids[0]))
 
     def get_order_detail(self, order_id):
         if (EntityKind.ORDER_ITEM, order_id) not in self._entities:

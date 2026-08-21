@@ -82,7 +82,7 @@ class ProductServiceTest(unittest.TestCase):
         # Package -> flight -> seat: a real, multi-level recursive composition,
         # not just the single-hop flight-with-seats case.
         service.create_product(
-            self.repository, entity_id="I21-PKG", type="product/mobility/transfer", properties={}
+            self.repository, entity_id="I21-PKG", type="product/mobility/transfer", properties={"name": "Package"}
         )
         service.create_product(
             self.repository,
@@ -140,13 +140,13 @@ class ProductServiceTest(unittest.TestCase):
 
     def test_get_ancestors_returns_empty_tuple_for_a_root(self) -> None:
         service.create_product(
-            self.repository, entity_id="I31-PKG", type="product/mobility/transfer", properties={}
+            self.repository, entity_id="I31-PKG", type="product/mobility/transfer", properties={"name": "Package"}
         )
         self.assertEqual((), service.get_ancestors(self.repository, "I31-PKG"))
 
     def test_get_ancestors_returns_root_first_chain(self) -> None:
         service.create_product(
-            self.repository, entity_id="I31-PKG", type="product/mobility/transfer", properties={}
+            self.repository, entity_id="I31-PKG", type="product/mobility/transfer", properties={"name": "Package"}
         )
         service.create_product(
             self.repository,
@@ -319,20 +319,23 @@ class ProductServiceTest(unittest.TestCase):
         )
         self.assertEqual("product/retired", retired.properties.lifecycle_status_code)
 
-    def test_create_product_accepts_display_name(self) -> None:
+    def test_create_product_accepts_name_source_property(self) -> None:
         entity = service.create_product(
             self.repository,
             entity_id="I31-ROOM",
             type="product/accommodation/room-type",
-            properties={"roomTypeCode": "room/double", "displayName": "Madeira walking week"},
+        properties={"roomTypeCode": "room/double", "name": "Madeira walking week"},
         )
-        self.assertEqual("Madeira walking week", entity.properties.display_name)
+        self.assertEqual("Madeira walking week", entity.properties.name)
 
-    def test_create_product_display_name_is_optional(self) -> None:
+    def test_create_other_product_requires_name(self) -> None:
         entity = service.create_product(
-            self.repository, entity_id="I31-TRANSFER", type="product/mobility/transfer", properties={}
+        self.repository,
+        entity_id="I31-TRANSFER",
+        type="product/mobility/transfer",
+        properties={"name": "Airport transfer"},
         )
-        self.assertIsNone(entity.properties.display_name)
+        self.assertEqual("Airport transfer", entity.properties.name)
 
     def test_create_product_accepts_widened_room_type_codes(self) -> None:
         for room_type in ("room/single", "room/family", "room/adjoining", "room/cabin"):

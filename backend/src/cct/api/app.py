@@ -24,7 +24,10 @@ from .errors import register_exception_handlers
 # (cookies/auth headers) are sent (DR-0013's Actor is a placeholder), so a
 # fixed local dev-origin allow-list is sufficient; it does not need to widen
 # to a wildcard or reflect arbitrary origins.
-DEFAULT_ALLOWED_ORIGINS = "http://127.0.0.1:4300,http://localhost:4300,http://127.0.0.1:4301,http://localhost:4301"
+DEFAULT_ALLOWED_ORIGINS = (
+    "http://127.0.0.1:4300,http://localhost:4300,http://127.0.0.1:4301,http://localhost:4301,"
+    "http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:5174,http://localhost:5174"
+)
 
 
 def create_app() -> FastAPI:

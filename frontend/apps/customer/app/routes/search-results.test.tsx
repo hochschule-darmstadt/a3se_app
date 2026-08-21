@@ -66,6 +66,8 @@ describe("SearchResults (VIEW-C-009 catalogue listing)", () => {
             entityKind: "TouristicProductItem",
             type: "product/airline/flight",
             schemaVersion: 1,
+            displayName: "0Q501 BER–LIM",
+            displayNameChain: ["Nordwind Airways", "Airline", "0Q501 BER–LIM"],
             properties: {
               flightNumber: "501",
               departureLocationCode: "BER",
@@ -81,7 +83,7 @@ describe("SearchResults (VIEW-C-009 catalogue listing)", () => {
     } as never);
     renderResults();
 
-    expect(await screen.findByText("Flight 501: BER → LIM")).toBeInTheDocument();
+    expect(await screen.findByText("0Q501 BER–LIM")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View details" })).toBeInTheDocument();
   });
 });

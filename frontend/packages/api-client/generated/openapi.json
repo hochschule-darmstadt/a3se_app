@@ -26,6 +26,7 @@
         "type": "object"
       },
       "AirlineRoleRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/AirlineRoleProperties"
@@ -123,6 +124,7 @@
         "type": "object"
       },
       "CustomerRoleRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/CustomerRoleProperties"
@@ -143,19 +145,6 @@
       "EmptyProductProperties": {
         "additionalProperties": false,
         "properties": {
-          "displayName": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Displayname"
-          },
           "imageUrl": {
             "anyOf": [
               {
@@ -177,18 +166,25 @@
             ],
             "title": "Lifecyclestatuscode",
             "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
           }
         },
+        "required": [
+          "name"
+        ],
         "title": "EmptyProductProperties",
         "type": "object"
       },
       "EmptyProductRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
-            "$ref": "#/components/schemas/EmptyProductProperties",
-            "default": {
-              "lifecycleStatusCode": "product/draft"
-            }
+            "$ref": "#/components/schemas/EmptyProductProperties"
           },
           "type": {
             "enum": [
@@ -207,7 +203,8 @@
           }
         },
         "required": [
-          "type"
+          "type",
+          "properties"
         ],
         "title": "EmptyProductRequest",
         "type": "object"
@@ -229,6 +226,7 @@
         "type": "object"
       },
       "EmptySupplierRoleRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/EmptySupplierRoleProperties",
@@ -306,19 +304,6 @@
             "title": "Departurelocationcode",
             "type": "string"
           },
-          "displayName": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Displayname"
-          },
           "flightNumber": {
             "pattern": "^[0-9]{1,4}$",
             "title": "Flightnumber",
@@ -345,6 +330,19 @@
             ],
             "title": "Lifecyclestatuscode",
             "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
           },
           "scheduledArrivalLocalTime": {
             "format": "time",
@@ -392,19 +390,6 @@
             "title": "Departurelocationcode",
             "type": "string"
           },
-          "displayName": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Displayname"
-          },
           "flightNumber": {
             "pattern": "^[0-9]{1,4}$",
             "title": "Flightnumber",
@@ -432,6 +417,19 @@
             "title": "Lifecyclestatuscode",
             "type": "string"
           },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
           "scheduledArrivalLocalTime": {
             "format": "time",
             "title": "Scheduledarrivallocaltime",
@@ -454,6 +452,7 @@
         "type": "object"
       },
       "FlightRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/FlightPropertiesTransport"
@@ -700,6 +699,7 @@
         "type": "object"
       },
       "OrgaRoleCreateRequest": {
+        "additionalProperties": false,
         "properties": {
           "entityId": {
             "maxLength": 100,
@@ -739,6 +739,17 @@
       },
       "OrgaRoleResponse": {
         "properties": {
+          "displayName": {
+            "title": "Displayname",
+            "type": "string"
+          },
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
           "entityId": {
             "title": "Entityid",
             "type": "string"
@@ -773,12 +784,15 @@
           "entityId",
           "type",
           "schemaVersion",
-          "properties"
+          "properties",
+          "displayName",
+          "displayNameChain"
         ],
         "title": "OrgaRoleResponse",
         "type": "object"
       },
       "OrgaRoleUpdateRequest": {
+        "additionalProperties": false,
         "properties": {
           "role": {
             "discriminator": {
@@ -810,6 +824,7 @@
         "type": "object"
       },
       "OrganisationCreateRequest": {
+        "additionalProperties": false,
         "properties": {
           "entityId": {
             "maxLength": 100,
@@ -859,6 +874,17 @@
       },
       "OrganisationResponse": {
         "properties": {
+          "displayName": {
+            "title": "Displayname",
+            "type": "string"
+          },
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
           "entityId": {
             "title": "Entityid",
             "type": "string"
@@ -880,12 +906,15 @@
         "required": [
           "entityId",
           "schemaVersion",
-          "properties"
+          "properties",
+          "displayName",
+          "displayNameChain"
         ],
         "title": "OrganisationResponse",
         "type": "object"
       },
       "OrganisationUpdateRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/OrganisationProperties"
@@ -1033,6 +1062,7 @@
         "type": "object"
       },
       "PersonCreateRequest": {
+        "additionalProperties": false,
         "properties": {
           "entityId": {
             "maxLength": 100,
@@ -1089,6 +1119,17 @@
       },
       "PersonResponse": {
         "properties": {
+          "displayName": {
+            "title": "Displayname",
+            "type": "string"
+          },
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
           "entityId": {
             "title": "Entityid",
             "type": "string"
@@ -1110,12 +1151,15 @@
         "required": [
           "entityId",
           "schemaVersion",
-          "properties"
+          "properties",
+          "displayName",
+          "displayNameChain"
         ],
         "title": "PersonResponse",
         "type": "object"
       },
       "PersonRoleCreateRequest": {
+        "additionalProperties": false,
         "properties": {
           "entityId": {
             "maxLength": 100,
@@ -1151,6 +1195,17 @@
       },
       "PersonRoleResponse": {
         "properties": {
+          "displayName": {
+            "title": "Displayname",
+            "type": "string"
+          },
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
           "entityId": {
             "title": "Entityid",
             "type": "string"
@@ -1185,12 +1240,15 @@
           "entityId",
           "type",
           "schemaVersion",
-          "properties"
+          "properties",
+          "displayName",
+          "displayNameChain"
         ],
         "title": "PersonRoleResponse",
         "type": "object"
       },
       "PersonRoleUpdateRequest": {
+        "additionalProperties": false,
         "properties": {
           "role": {
             "discriminator": {
@@ -1218,6 +1276,7 @@
         "type": "object"
       },
       "PersonUpdateRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/PersonProperties"
@@ -1231,6 +1290,17 @@
       },
       "ProductComponentResponse": {
         "properties": {
+          "displayName": {
+            "title": "Displayname",
+            "type": "string"
+          },
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
           "entityId": {
             "title": "Entityid",
             "type": "string"
@@ -1285,12 +1355,15 @@
           "entityId",
           "type",
           "schemaVersion",
-          "properties"
+          "properties",
+          "displayName",
+          "displayNameChain"
         ],
         "title": "ProductComponentResponse",
         "type": "object"
       },
       "ProductCreateRequest": {
+        "additionalProperties": false,
         "properties": {
           "entityId": {
             "maxLength": 100,
@@ -1355,7 +1428,7 @@
         "title": "ProductCreateRequest",
         "type": "object"
       },
-      "ProductResponse": {
+      "ProductMutationResponse": {
         "properties": {
           "entityId": {
             "title": "Entityid",
@@ -1402,10 +1475,74 @@
           "schemaVersion",
           "properties"
         ],
+        "title": "ProductMutationResponse",
+        "type": "object"
+      },
+      "ProductResponse": {
+        "properties": {
+          "displayName": {
+            "title": "Displayname",
+            "type": "string"
+          },
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "TouristicProductItem",
+            "default": "TouristicProductItem",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FlightProperties"
+              },
+              {
+                "$ref": "#/components/schemas/SeatProperties"
+              },
+              {
+                "$ref": "#/components/schemas/RoomCategoryProperties"
+              },
+              {
+                "$ref": "#/components/schemas/RoomProperties"
+              },
+              {
+                "$ref": "#/components/schemas/EmptyProductProperties"
+              }
+            ],
+            "title": "Properties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "type",
+          "schemaVersion",
+          "properties",
+          "displayName",
+          "displayNameChain"
+        ],
         "title": "ProductResponse",
         "type": "object"
       },
       "ProductUpdateRequest": {
+        "additionalProperties": false,
         "properties": {
           "product": {
             "discriminator": {
@@ -1455,19 +1592,6 @@
       "RoomCategoryProperties": {
         "additionalProperties": false,
         "properties": {
-          "displayName": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Displayname"
-          },
           "imageUrl": {
             "anyOf": [
               {
@@ -1489,6 +1613,19 @@
             ],
             "title": "Lifecyclestatuscode",
             "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
           },
           "roomTypeCode": {
             "enum": [
@@ -1528,6 +1665,7 @@
         "type": "object"
       },
       "RoomCategoryRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/RoomCategoryProperties"
@@ -1548,6 +1686,31 @@
       "RoomProperties": {
         "additionalProperties": false,
         "properties": {
+          "imageUrl": {
+            "anyOf": [
+              {
+                "pattern": "^https://",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Imageurl"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
           "roomNumber": {
             "maxLength": 20,
             "minLength": 1,
@@ -1562,6 +1725,7 @@
         "type": "object"
       },
       "RoomRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/RoomProperties"
@@ -1582,6 +1746,31 @@
       "SeatProperties": {
         "additionalProperties": false,
         "properties": {
+          "imageUrl": {
+            "anyOf": [
+              {
+                "pattern": "^https://",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Imageurl"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
           "seatNumber": {
             "pattern": "^[1-9][0-9]{0,2}[A-Z]$",
             "title": "Seatnumber",
@@ -1595,6 +1784,7 @@
         "type": "object"
       },
       "SeatRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/SeatProperties"
@@ -1813,6 +2003,7 @@
         "type": "object"
       },
       "TravellerRoleRequest": {
+        "additionalProperties": false,
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/TravellerRoleProperties"
@@ -3940,7 +4131,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductResponse"
+                  "$ref": "#/components/schemas/ProductMutationResponse"
                 }
               }
             },
@@ -4115,7 +4306,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductResponse"
+                  "$ref": "#/components/schemas/ProductMutationResponse"
                 }
               }
             },

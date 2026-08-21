@@ -15,10 +15,7 @@ import {
   productPropertyEntries,
   typeLabel,
   type LifecycleStatusCode,
-  productDisplayLabel,
 } from "./catalogue-product-types";
-import { breadcrumbLabel, type ProductTreeEntry } from "./catalogue-tree";
-import { SUPPLIER_ROLE_TYPE_LABEL } from "./supplier-roles";
 import {
   EMPTY_PRODUCT_TYPE_FIELD_VALUES,
   ProductTypeFields,
@@ -30,6 +27,7 @@ import {
 import { ProductCreatePanel } from "./product-create-panel";
 
 type ProductResponse = components["schemas"]["ProductResponse"];
+type ProductMutationResponse = components["schemas"]["ProductMutationResponse"];
 type ProductComponentResponse = components["schemas"]["ProductComponentResponse"];
 type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
 
@@ -117,12 +115,6 @@ export function ProductDetailPanel({
     () => apiClient.GET("/products/{product_id}/supplier", { params: { path: { product_id: rootId } } }),
     { enabled: Boolean(ancestorsQuery.data) }
   );
-  const rootSupplierRoleId = rootSupplierQuery.data?.entityId;
-  const organisationQuery = useApiQuery(
-    ["organisations", "roles", rootSupplierRoleId, "organisation"],
-    () => apiClient.GET("/organisations/roles/{role_id}/organisation", { params: { path: { role_id: rootSupplierRoleId as string } } }),
-    { enabled: Boolean(rootSupplierRoleId) }
-  );
 
   const [editing, setEditing] = useState(false);
   const [values, setValues] = useState<ProductTypeFieldValues>(EMPTY_PRODUCT_TYPE_FIELD_VALUES);
@@ -144,7 +136,7 @@ export function ProductDetailPanel({
     }
   }, [productQuery.data]);
 
-  const updateMutation = useApiMutation<ProductResponse, { type: string; properties: Record<string, unknown> }>(
+  const updateMutation = useApiMutation<ProductMutationResponse, { type: string; properties: Record<string, unknown> }>(
     ({ type, properties }) =>
       apiClient.PUT("/products/{product_id}", { params: { path: { product_id: productId } }, body: { product: { type, properties } as never } })
   );
@@ -197,24 +189,17 @@ export function ProductDetailPanel({
   const hasLifecycleStatus = Boolean(lifecycleStatusCode);
   const isActive = lifecycleStatusCode === "product/active";
   const isRetired = lifecycleStatusCode === "product/retired";
-  const ownLabel = productDisplayLabel(product.entityId, product.type, catalogueProperties(product.properties).displayName);
-  const label = ancestorsQuery.data
-    ? breadcrumbLabel(
-        { product, ancestors: ancestorsQuery.data } as ProductTreeEntry,
-        new Map([[rootId, rootSupplierQuery.data ?? null]]),
-        new Map(rootSupplierRoleId ? [[rootSupplierRoleId, organisationQuery.data ?? null]] : [])
-      )
-    : ownLabel;
+  const ownLabel = product.displayName;
+  const label = product.displayNameChain.join(" · ");
   const components = componentsQuery.data.filter((component) => component.entityId !== product.entityId);
   const supplier = supplierQuery.data as OrgaRoleResponse | null;
   const isRoot = product.entityId === rootId;
   // Only the root of a component tree carries a supplier (stakeholder decision, see catalogue-tree.ts);
   // a nested item shows the same supplier, inherited from its root, rather than "No supplier set."
   const displaySupplier = supplier ?? (rootSupplierQuery.data as OrgaRoleResponse | null) ?? null;
-  const displayOrganisation = organisationQuery.data ?? null;
   const rootAncestor = ancestorsQuery.data && ancestorsQuery.data.length > 0 ? ancestorsQuery.data[0]! : null;
   const rootLabel = rootAncestor
-    ? productDisplayLabel(rootAncestor.entityId, rootAncestor.type, catalogueProperties(rootAncestor.properties).displayName)
+    ? rootAncestor.displayName
     : ownLabel;
 
   return (
@@ -290,7 +275,7 @@ export function ProductDetailPanel({
         <Title order={2}>Supplier</Title>
         {displaySupplier ? (
           <Text size="sm">
-            {[displayOrganisation?.properties.name, SUPPLIER_ROLE_TYPE_LABEL[displaySupplier.type] ?? displaySupplier.type, displaySupplier.entityId]
+            {[...displaySupplier.displayNameChain, displaySupplier.entityId]
               .filter(Boolean)
               .join(" · ")}
           </Text>
@@ -342,7 +327,7 @@ export function ProductDetailPanel({
               header: "Component",
               render: (row) => (
                 <ProductCrossLink to={`/products/${row.entityId}`} productId={row.entityId} onSelectProduct={onSelectProduct}>
-                  {productDisplayLabel(row.entityId, row.type, catalogueProperties(row.properties).displayName)}
+                  {row.displayName}
                 </ProductCrossLink>
               ),
             },

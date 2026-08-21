@@ -35,13 +35,15 @@ function renderProducts() {
   return render(<Stub initialEntries={["/products"]} />);
 }
 
-function productResponse(entityId: string, type: string, displayName: string | null, lifecycleStatusCode: string) {
+function productResponse(entityId: string, type: string, displayName: string, lifecycleStatusCode: string, displayNameChain = [displayName]) {
   return {
     entityId,
     entityKind: "TouristicProductItem",
     type,
     schemaVersion: 1,
-    properties: { displayName, lifecycleStatusCode },
+    properties: { name: displayName, lifecycleStatusCode },
+    displayName,
+    displayNameChain,
   };
 }
 
@@ -100,7 +102,15 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
 
   it("shows a root product's breadcrumb up to its supplying organisation", async () => {
     mockGetImplementation({
-      products: [productResponse("ACC-01", "product/accommodation/room-type", "Single Room", "product/active")],
+      products: [
+        productResponse(
+          "ACC-01",
+          "product/accommodation/room-type",
+          "Single room",
+          "product/active",
+          ["Southlight Stays", "Accommodation", "Single room"]
+        ),
+      ],
       supplierByRoot: {
         "ACC-01": { entityId: "SUP-ACC-01-ROLE", entityKind: "OrgaRole", type: "organisation/accommodation", schemaVersion: 1, properties: { roleStatusCode: "role/active" } },
       },
@@ -110,14 +120,14 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     });
     renderProducts();
 
-    expect(await screen.findByText("Southlight Stays - Accommodation - Single Room")).toBeInTheDocument();
+    expect(await screen.findByText("Southlight Stays · Accommodation · Single room")).toBeInTheDocument();
   });
 
-  it("falls back to a type-derived label when displayName is unset and no supplier is linked", async () => {
-    mockGetImplementation({ products: [productResponse("PRD-002", "product/mobility/transfer", null, "product/draft")] });
+  it("uses the backend-computed label without an entity-ID fallback", async () => {
+    mockGetImplementation({ products: [productResponse("PRD-002", "product/mobility/transfer", "Airport transfer", "product/draft")] });
     renderProducts();
 
-    expect(await screen.findByText("mobility/transfer (PRD-002)")).toBeInTheDocument();
+    expect(await screen.findByText("Airport transfer")).toBeInTheDocument();
   });
 
   it("filters rows client-side by search text against the breadcrumb", async () => {
@@ -141,7 +151,15 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     mockGetImplementation({
       products: [
         productResponse("ACC-01", "product/accommodation/room-type", "Single Room", "product/active"),
-        { entityId: "ACC-01-R1", entityKind: "TouristicProductItem", type: "product/accommodation/room-type/room", schemaVersion: 1, properties: { roomNumber: "0101" } },
+        {
+          entityId: "ACC-01-R1",
+          entityKind: "TouristicProductItem",
+          type: "product/accommodation/room-type/room",
+          schemaVersion: 1,
+          properties: { roomNumber: "0101" },
+          displayName: "0101",
+          displayNameChain: ["Single Room", "0101"],
+        },
       ],
       ancestorsByProduct: {
         "ACC-01-R1": [productResponse("ACC-01", "product/accommodation/room-type", "Single Room", "product/active")],
@@ -150,12 +168,12 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     renderProducts();
     await screen.findByText(/Single Room/);
 
-    expect(screen.queryByText(/accommodation\/room-type\/room \(ACC-01-R1\)/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Single Room · 0101")).not.toBeInTheDocument();
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: /expand/i }));
 
-    expect(await screen.findByText(/accommodation\/room-type\/room \(ACC-01-R1\)/)).toBeInTheDocument();
+    expect(await screen.findByText("Single Room · 0101")).toBeInTheDocument();
   });
 
   it("shows the product's detail inline in the right pane when a row is activated, without navigating away", async () => {

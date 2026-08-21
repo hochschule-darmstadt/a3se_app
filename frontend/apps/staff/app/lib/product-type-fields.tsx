@@ -3,7 +3,7 @@ import { Select, TextInput } from "@mantine/core";
 import { ROOM_TYPE_OPTIONS, isAirlineFlightType, isRoomCategoryType, isStructuralChildType } from "./catalogue-product-types";
 
 export interface ProductTypeFieldValues {
-  displayName: string;
+  name: string;
   flightNumber: string;
   departureLocationCode: string;
   arrivalLocationCode: string;
@@ -17,7 +17,7 @@ export interface ProductTypeFieldValues {
 }
 
 export const EMPTY_PRODUCT_TYPE_FIELD_VALUES: ProductTypeFieldValues = {
-  displayName: "",
+  name: "",
   flightNumber: "",
   departureLocationCode: "",
   arrivalLocationCode: "",
@@ -38,7 +38,7 @@ function isRoomType(type: string): boolean {
   return type === "product/accommodation/room-type/room";
 }
 
-/** Type-driven field inputs shared by the create and edit forms: flight, room-category, and "no extra fields" shapes cover all 11 catalogue-root types, plus the seat/room structural-child shapes (entity-model TERM-002/TERM-004). Structural children omit displayName -- their StrictProperties contract has no such field. */
+/** Type-driven fields. `name` is source data; TERM-011 display values are read-only response fields. */
 export function ProductTypeFields({
   type,
   values,
@@ -55,7 +55,12 @@ export function ProductTypeFields({
   return (
     <>
       {!isStructuralChildType(type) ? (
-        <TextInput label="Display name" value={values.displayName} onChange={(event) => set("displayName", event.currentTarget.value)} />
+        <TextInput
+          label="Name"
+          required={!isAirlineFlightType(type) && !isRoomCategoryType(type)}
+          value={values.name}
+          onChange={(event) => set("name", event.currentTarget.value)}
+        />
       ) : null}
       {isSeatType(type) ? (
         <TextInput
@@ -142,20 +147,20 @@ export function ProductTypeFields({
   );
 }
 
-/** Builds the type-specific properties payload (plus displayName/lifecycleStatusCode) the API expects for `type`. */
+/** Builds writable source properties; computed display fields are deliberately absent. */
 export function productTypeProperties(
   type: string,
   values: ProductTypeFieldValues,
   lifecycleStatusCode: "product/draft" | "product/active" | "product/retired"
 ): Record<string, unknown> {
-  // Structural children (seat, room) are bare StrictProperties with extra="forbid": no displayName/lifecycleStatusCode.
+  // Structural children derive their labels from seat/room number.
   if (isSeatType(type)) {
     return { seatNumber: values.seatNumber.trim() };
   }
   if (isRoomType(type)) {
     return { roomNumber: values.roomNumber.trim() };
   }
-  const base = { displayName: values.displayName.trim() || null, lifecycleStatusCode };
+  const base = { name: values.name.trim() || null, lifecycleStatusCode };
   if (isAirlineFlightType(type)) {
     return {
       ...base,
@@ -179,6 +184,9 @@ export function productTypeProperties(
 
 export function productTypeValidationErrors(type: string, values: ProductTypeFieldValues): string[] {
   const errors: string[] = [];
+  if (!isStructuralChildType(type) && !isAirlineFlightType(type) && !isRoomCategoryType(type) && !values.name.trim()) {
+    errors.push("Enter a name.");
+  }
   if (isAirlineFlightType(type)) {
     if (!values.flightNumber.trim()) errors.push("Enter a flight number.");
     if (!values.departureLocationCode.trim()) errors.push("Enter a departure location code.");
@@ -196,7 +204,7 @@ export function productTypeValidationErrors(type: string, values: ProductTypeFie
 export function fieldValuesFromProperties(type: string, properties: Record<string, unknown>): ProductTypeFieldValues {
   return {
     ...EMPTY_PRODUCT_TYPE_FIELD_VALUES,
-    displayName: (properties.displayName as string | null) ?? "",
+    name: (properties.name as string | null) ?? "",
     flightNumber: (properties.flightNumber as string | undefined) ?? "",
     departureLocationCode: (properties.departureLocationCode as string | undefined) ?? "",
     arrivalLocationCode: (properties.arrivalLocationCode as string | undefined) ?? "",

@@ -52,6 +52,7 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
 
     await user.click(screen.getByRole("textbox", { name: /^type/i }));
     await user.click(await screen.findByRole("option", { name: "mobility/transfer", hidden: true }));
+    await user.type(screen.getByLabelText(/^name/i), "Airport transfer");
     await user.click(screen.getByRole("button", { name: /create product/i }));
 
     expect(await screen.findByText("Product detail page")).toBeInTheDocument();
@@ -60,7 +61,7 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
       expect.objectContaining({
         body: expect.objectContaining({
           parentProductId: null,
-          product: { type: "product/mobility/transfer", properties: { displayName: null, lifecycleStatusCode: "product/draft" } },
+          product: { type: "product/mobility/transfer", properties: { name: "Airport transfer", lifecycleStatusCode: "product/draft" } },
         }),
       })
     );
@@ -126,6 +127,9 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
     renderCreate();
     const user = userEvent.setup();
 
+    await user.click(screen.getByRole("textbox", { name: /^type/i }));
+    await user.click(await screen.findByRole("option", { name: "mobility/transfer", hidden: true }));
+    await user.type(screen.getByLabelText(/^name/i), "Airport transfer");
     await user.type(screen.getByLabelText(/supplier role id/i), "SUP-MOB-01-ROLE");
     await user.click(screen.getByRole("button", { name: /create product/i }));
 
@@ -151,6 +155,9 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
     renderCreate();
     const user = userEvent.setup();
 
+    await user.click(screen.getByRole("textbox", { name: /^type/i }));
+    await user.click(await screen.findByRole("option", { name: "mobility/transfer", hidden: true }));
+    await user.type(screen.getByLabelText(/^name/i), "Airport transfer");
     await user.type(screen.getByLabelText(/supplier role id/i), "MISSING-ROLE");
     await user.click(screen.getByRole("button", { name: /create product/i }));
 
@@ -198,6 +205,9 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
     renderCreate();
     const user = userEvent.setup();
 
+    await user.click(screen.getByRole("textbox", { name: /^type/i }));
+    await user.click(await screen.findByRole("option", { name: "mobility/transfer", hidden: true }));
+    await user.type(screen.getByLabelText(/^name/i), "Airport transfer");
     await user.click(screen.getByRole("button", { name: /create product/i }));
 
     expect(await screen.findByText("Invalid product")).toBeInTheDocument();

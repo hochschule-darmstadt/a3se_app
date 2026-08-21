@@ -18,6 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from cct.resource_management.contracts import ValidatedEntity
 from cct.resource_management.pagination import PageRequest, decode_cursor, encode_cursor
 from cct.resource_management.repository_ports import EntityRepositoryPort
+from cct.resource_management.partner_management import service as partner_service
 from cct.resource_management.touristic_product_management import service
 from cct.resource_management.touristic_product_management.models import (
     EmptyProductProperties,
@@ -30,6 +31,7 @@ from cct.resource_management.touristic_product_management.models import (
 from .dependencies import Actor, get_current_actor, get_partner_repository, get_product_repository
 from .organisations import OrgaRoleResponse
 from .schemas import ErrorResponse, Page, PageParams, transport_properties_model
+from . import display_names
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -54,38 +56,38 @@ ROOM_TYPES = ("product/accommodation/room-type/room",)
 
 
 class FlightRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal["product/airline/flight"] = "product/airline/flight"
     properties: FlightPropertiesTransport
 
 
 class SeatRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal["product/airline/flight/seat"] = "product/airline/flight/seat"
     properties: SeatProperties
 
 
 class RoomCategoryRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal[ROOM_CATEGORY_TYPES]
     properties: RoomCategoryProperties
 
 
 class RoomRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal[ROOM_TYPES]
     properties: RoomProperties
 
 
 class EmptyProductRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal[EMPTY_PRODUCT_TYPES]
-    properties: EmptyProductProperties = EmptyProductProperties()
+    properties: EmptyProductProperties
 
 
 ProductVariant = Annotated[
@@ -98,7 +100,7 @@ ProductPropertiesUnion = (
 
 
 class ProductCreateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
     parent_product_id: str | None = Field(default=None, alias="parentProductId")
@@ -106,12 +108,12 @@ class ProductCreateRequest(BaseModel):
 
 
 class ProductUpdateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     product: ProductVariant
 
 
-class ProductResponse(BaseModel):
+class ProductMutationResponse(BaseModel):
     model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
 
     entity_id: str = Field(alias="entityId")
@@ -121,9 +123,31 @@ class ProductResponse(BaseModel):
     properties: ProductPropertiesUnion
 
     @classmethod
-    def from_domain(cls, entity: ValidatedEntity) -> "ProductResponse":
+    def from_domain(cls, entity: ValidatedEntity) -> "ProductMutationResponse":
         return cls(
             entityId=entity.entity_id, type=entity.type, schemaVersion=entity.schema_version, properties=entity.properties
+        )
+
+
+class ProductResponse(ProductMutationResponse):
+    display_name: str = Field(alias="displayName")
+    display_name_chain: list[str] = Field(alias="displayNameChain")
+
+    @classmethod
+    def from_domain(
+        cls,
+        entity: ValidatedEntity,
+        product_repository: EntityRepositoryPort,
+        partner_repository: EntityRepositoryPort,
+    ) -> "ProductResponse":
+        projection = display_names.product(entity, product_repository, partner_repository)
+        return cls(
+            entityId=entity.entity_id,
+            type=entity.type,
+            schemaVersion=entity.schema_version,
+            properties=entity.properties,
+            displayName=projection.display_name,
+            displayNameChain=list(projection.display_name_chain),
         )
 
 
@@ -131,13 +155,22 @@ class ProductComponentResponse(ProductResponse):
     parent_product_id: str | None = Field(default=None, alias="parentProductId")
 
     @classmethod
-    def from_component(cls, entity: ValidatedEntity, parent_product_id: str | None) -> "ProductComponentResponse":
+    def from_component(
+        cls,
+        entity: ValidatedEntity,
+        parent_product_id: str | None,
+        product_repository: EntityRepositoryPort,
+        partner_repository: EntityRepositoryPort,
+    ) -> "ProductComponentResponse":
+        projection = display_names.product(entity, product_repository, partner_repository)
         return cls(
             entityId=entity.entity_id,
             type=entity.type,
             schemaVersion=entity.schema_version,
             properties=entity.properties,
             parentProductId=parent_product_id,
+            displayName=projection.display_name,
+            displayNameChain=list(projection.display_name_chain),
         )
 
 
@@ -154,12 +187,14 @@ ActorDependency = Annotated[Actor, Depends(get_current_actor)]
 
 @router.post(
     "",
-    response_model=ProductResponse,
+    response_model=ProductMutationResponse,
     status_code=status.HTTP_201_CREATED,
     operation_id="createProduct",
     responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
-def create_product(request: ProductCreateRequest, repository: RepositoryDependency, actor: ActorDependency) -> ProductResponse:
+def create_product(
+    request: ProductCreateRequest, repository: RepositoryDependency, actor: ActorDependency
+) -> ProductMutationResponse:
     entity = service.create_product(
         repository,
         entity_id=request.entity_id,
@@ -167,7 +202,7 @@ def create_product(request: ProductCreateRequest, repository: RepositoryDependen
         properties=request.product.properties.model_dump(by_alias=True),
         parent_product_id=request.parent_product_id,
     )
-    return ProductResponse.from_domain(entity)
+    return ProductMutationResponse.from_domain(entity)
 
 
 @router.get(
@@ -176,8 +211,12 @@ def create_product(request: ProductCreateRequest, repository: RepositoryDependen
     operation_id="getProduct",
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
-def get_product(product_id: str, repository: RepositoryDependency) -> ProductResponse:
-    return ProductResponse.from_domain(service.get_product(repository, product_id))
+def get_product(
+    product_id: str,
+    repository: RepositoryDependency,
+    partner_repository: PartnerRepositoryDependency,
+) -> ProductResponse:
+    return ProductResponse.from_domain(service.get_product(repository, product_id), repository, partner_repository)
 
 
 class ProductPageParams(PageParams):
@@ -197,7 +236,9 @@ class ProductPageParams(PageParams):
     "", response_model=Page[ProductResponse], operation_id="listProducts", responses={422: {"model": ErrorResponse}}
 )
 def list_products(
-    repository: RepositoryDependency, params: Annotated[ProductPageParams, Query()]
+    repository: RepositoryDependency,
+    partner_repository: PartnerRepositoryDependency,
+    params: Annotated[ProductPageParams, Query()],
 ) -> Page[ProductResponse]:
     after = decode_cursor(params.cursor) if params.cursor else None
     result = service.list_products(
@@ -205,23 +246,24 @@ def list_products(
     )
     next_cursor = encode_cursor(result.next_cursor) if result.next_cursor else None
     return Page[ProductResponse](
-        items=[ProductResponse.from_domain(entity) for entity in result.items], next_cursor=next_cursor
+        items=[ProductResponse.from_domain(entity, repository, partner_repository) for entity in result.items],
+        next_cursor=next_cursor,
     )
 
 
 @router.put(
     "/{product_id}",
-    response_model=ProductResponse,
+    response_model=ProductMutationResponse,
     operation_id="updateProduct",
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
 def update_product(
     product_id: str, request: ProductUpdateRequest, repository: RepositoryDependency, actor: ActorDependency
-) -> ProductResponse:
+) -> ProductMutationResponse:
     entity = service.update_product(
         repository, product_id, type=request.product.type, properties=request.product.properties.model_dump(by_alias=True)
     )
-    return ProductResponse.from_domain(entity)
+    return ProductMutationResponse.from_domain(entity)
 
 
 @router.delete(
@@ -240,9 +282,16 @@ def delete_product(product_id: str, repository: RepositoryDependency, actor: Act
     operation_id="getProductComponentTree",
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
-def get_product_components(product_id: str, repository: RepositoryDependency) -> list[ProductComponentResponse]:
+def get_product_components(
+    product_id: str,
+    repository: RepositoryDependency,
+    partner_repository: PartnerRepositoryDependency,
+) -> list[ProductComponentResponse]:
     tree = service.get_component_tree(repository, product_id)
-    return [ProductComponentResponse.from_component(entity, parent_id) for entity, parent_id in tree]
+    return [
+        ProductComponentResponse.from_component(entity, parent_id, repository, partner_repository)
+        for entity, parent_id in tree
+    ]
 
 
 @router.get(
@@ -251,10 +300,14 @@ def get_product_components(product_id: str, repository: RepositoryDependency) ->
     operation_id="getProductAncestors",
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
-def get_product_ancestors(product_id: str, repository: RepositoryDependency) -> list[ProductResponse]:
+def get_product_ancestors(
+    product_id: str,
+    repository: RepositoryDependency,
+    partner_repository: PartnerRepositoryDependency,
+) -> list[ProductResponse]:
     """Root-first CONTAINS parent chain, excluding `product_id` itself; empty when it is already a root."""
     ancestors = service.get_ancestors(repository, product_id)
-    return [ProductResponse.from_domain(entity) for entity in ancestors]
+    return [ProductResponse.from_domain(entity, repository, partner_repository) for entity in ancestors]
 
 
 @router.put(
@@ -281,6 +334,13 @@ def set_product_supplier(
     operation_id="getProductSupplier",
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
-def get_product_supplier(product_id: str, repository: RepositoryDependency) -> OrgaRoleResponse | None:
+def get_product_supplier(
+    product_id: str,
+    repository: RepositoryDependency,
+    partner_repository: PartnerRepositoryDependency,
+) -> OrgaRoleResponse | None:
     role = service.get_supplier(repository, product_id)
-    return OrgaRoleResponse.from_domain(role) if role is not None else None
+    if role is None:
+        return None
+    owner = partner_service.get_organisation_for_role(partner_repository, role.entity_id)
+    return OrgaRoleResponse.from_domain(role, owner)

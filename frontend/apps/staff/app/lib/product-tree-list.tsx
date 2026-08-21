@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { components } from "@cct/api-client";
 import { StatusBanner } from "@cct/ui";
 
-import { catalogueProperties, productDisplayLabel, typeLabel } from "./catalogue-product-types";
+import { catalogueProperties, typeLabel } from "./catalogue-product-types";
 import { LIFECYCLE_STATUS_LABEL } from "./catalogue-product-types";
 
 type ProductResponse = components["schemas"]["ProductResponse"];
@@ -150,7 +150,7 @@ function ProductTreeRow({
             <ProductTreeRow
               key={child.entityId}
               product={child}
-              label={productDisplayLabel(child.entityId, child.type, catalogueProperties(child.properties).displayName)}
+              label={child.displayNameChain.join(" · ")}
               depth={depth + 1}
               childrenByParentId={childrenByParentId}
               selectedId={selectedId}

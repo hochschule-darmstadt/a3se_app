@@ -34,6 +34,8 @@ describe("Compose (VIEW-C-002 traveller composition)", () => {
         entityKind: "TouristicProductItem",
         type: "product/airline/flight",
         schemaVersion: 1,
+        displayName: "0Q501 BER–LIM",
+        displayNameChain: ["Nordwind Airways", "Airline", "0Q501 BER–LIM"],
         properties: {
           flightNumber: "501",
           departureLocationCode: "BER",
@@ -50,7 +52,7 @@ describe("Compose (VIEW-C-002 traveller composition)", () => {
     const user = userEvent.setup();
     renderCompose();
 
-    expect(await screen.findByText(/Flight 501: BER → LIM/)).toBeInTheDocument();
+    expect(await screen.findByText(/0Q501 BER–LIM/)).toBeInTheDocument();
     expect(screen.getByText(/2027-04-06/)).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Continue to sign in" }));

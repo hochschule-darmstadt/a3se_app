@@ -1,11 +1,6 @@
 import type { components } from "@cct/api-client";
 
-import { SUPPLIER_ROLE_TYPE_LABEL } from "./supplier-roles";
-import { catalogueProperties, productDisplayLabel } from "./catalogue-product-types";
-
 type ProductResponse = components["schemas"]["ProductResponse"];
-type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
-type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 
 export interface ProductTreeEntry {
   readonly product: ProductResponse;
@@ -40,32 +35,12 @@ export function buildChildrenIndex(entries: readonly ProductTreeEntry[]): Map<st
  * [organisation name, supplier role type, ...intermediate ancestor labels, this product's own label].
  * Falls back gracefully when a root has no supplier set yet.
  */
-export function breadcrumbSegments(
-  entry: ProductTreeEntry,
-  supplierByRootId: ReadonlyMap<string, OrgaRoleResponse | null>,
-  organisationByRoleId: ReadonlyMap<string, OrganisationResponse | null>
-): string[] {
-  const segments: string[] = [];
-  const root = rootOf(entry);
-  const supplier = supplierByRootId.get(root.entityId);
-  if (supplier) {
-    const organisation = organisationByRoleId.get(supplier.entityId);
-    if (organisation) segments.push(organisation.properties.name);
-    segments.push(SUPPLIER_ROLE_TYPE_LABEL[supplier.type] ?? supplier.type);
-  }
-  for (const ancestor of entry.ancestors) {
-    segments.push(productDisplayLabel(ancestor.entityId, ancestor.type, catalogueProperties(ancestor.properties).displayName));
-  }
-  segments.push(productDisplayLabel(entry.product.entityId, entry.product.type, catalogueProperties(entry.product.properties).displayName));
-  return segments;
+export function breadcrumbSegments(entry: ProductTreeEntry): string[] {
+  return entry.product.displayNameChain;
 }
 
-export function breadcrumbLabel(
-  entry: ProductTreeEntry,
-  supplierByRootId: ReadonlyMap<string, OrgaRoleResponse | null>,
-  organisationByRoleId: ReadonlyMap<string, OrganisationResponse | null>
-): string {
-  return breadcrumbSegments(entry, supplierByRootId, organisationByRoleId).join(" - ");
+export function breadcrumbLabel(entry: ProductTreeEntry): string {
+  return breadcrumbSegments(entry).join(" · ");
 }
 
 /** Whether `term` (already lowercased, trimmed) appears anywhere in the breadcrumb text or any segment's entityId. */

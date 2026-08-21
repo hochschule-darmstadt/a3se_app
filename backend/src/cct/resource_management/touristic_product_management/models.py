@@ -28,16 +28,15 @@ class ImageProperties(StrictProperties):
 class CatalogueItemProperties(ImageProperties):
     """Shared fields for catalogue-root product types (not their structural children).
 
-    `displayName` closes WF-Q-013: no product type carried a generic
-    name/title before this, only type-specific fields (e.g.
-    `flightNumber`, `roomTypeCode`), and several types had no descriptive
-    property at all. `lifecycleStatusCode` closes WF-Q-014 and follows the
+    `name` is human-authored source data for TERM-011's computed display
+    projection. It is optional where a type-specific rule supplies the
+    display label. `lifecycleStatusCode` closes WF-Q-014 and follows the
     `roleStatusCode` pattern (TERM-003): "activate"/"retire" in VIEW-S-003
     transition this status on the same record; there is no separate
     version-number/version-history mechanism in MVP.
     """
 
-    display_name: str | None = Field(default=None, alias="displayName", min_length=1, max_length=200)
+    name: str | None = Field(default=None, min_length=1, max_length=200)
     lifecycle_status_code: Literal["product/draft", "product/active", "product/retired"] = Field(
         default="product/draft", alias="lifecycleStatusCode"
     )
@@ -60,7 +59,8 @@ class FlightProperties(CatalogueItemProperties):
         return self
 
 
-class SeatProperties(StrictProperties):
+class SeatProperties(ImageProperties):
+    name: str | None = Field(default=None, min_length=1, max_length=200)
     seat_number: str = Field(alias="seatNumber", pattern=r"^[1-9][0-9]{0,2}[A-Z]$")
 
 
@@ -71,10 +71,11 @@ class RoomCategoryProperties(CatalogueItemProperties):
     )
 
 
-class RoomProperties(StrictProperties):
+class RoomProperties(ImageProperties):
+    name: str | None = Field(default=None, min_length=1, max_length=200)
     room_number: str = Field(alias="roomNumber", min_length=1, max_length=20)
 
 
 class EmptyProductProperties(CatalogueItemProperties):
-    pass
+    name: str = Field(min_length=1, max_length=200)
 

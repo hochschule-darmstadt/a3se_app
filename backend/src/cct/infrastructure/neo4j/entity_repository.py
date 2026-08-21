@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Final, Protocol
 
 from cct.resource_management.contracts import EntityKind, FlexibleEntity, ValidatedEntity
-from cct.resource_management.errors import DependentEntityExistsError, EntityNotFoundError
+from cct.resource_management.errors import DependentEntityExistsError, EntityNotFoundError, InvalidEntityGraphError
 from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.registry import EntityTypeRegistry
 from cct.resource_management.relationship_types import OWNERSHIP_RELATIONSHIP_TYPES, RelationshipType
@@ -122,12 +122,23 @@ class Neo4jEntityRepository:
         label = LABELS[EntityKind.TOURISTIC_PRODUCT_ITEM]
         return tuple(self._mapper.from_node(NodeRecord(label, dict(row["ancestor"]))) for row in rows)
 
+    def get_product_parents(self, product_id: str) -> tuple[ValidatedEntity, ...]:
+        with self._driver.session(database=self._database) as session:
+            exists = session.execute_read(self._read_one, EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+            if exists is None:
+                raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, product_id)
+            rows = session.execute_read(self._read_product_parents, product_id)
+        label = LABELS[EntityKind.TOURISTIC_PRODUCT_ITEM]
+        return tuple(self._mapper.from_node(NodeRecord(label, dict(row["parent"]))) for row in rows)
+
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None:
         with self._driver.session(database=self._database) as session:
-            record = session.execute_read(self._read_organisation_for_role, role_id)
-        if record is None:
+            records = session.execute_read(self._read_organisation_for_role, role_id)
+        if not records:
             return None
-        return self._mapper.from_node(NodeRecord(LABELS[EntityKind.ORGANISATION], dict(record["organisation"])))
+        if len(records) > 1:
+            raise InvalidEntityGraphError(role_id, "organisation role has multiple owners")
+        return self._mapper.from_node(NodeRecord(LABELS[EntityKind.ORGANISATION], dict(records[0]["organisation"])))
 
     def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]:
         """Return each position's resolved bounded summary (ids only, never raw nodes)."""
@@ -267,12 +278,21 @@ class Neo4jEntityRepository:
         return list(tx.run(query, productId=product_id))
 
     @staticmethod
+    def _read_product_parents(tx: Transaction, product_id: str):
+        query = (
+            "MATCH (node:TouristicProductItem {entityId: $productId}) "
+            "MATCH (parent:TouristicProductItem)-[:CONTAINS]->(node) "
+            "RETURN parent ORDER BY parent.entityId"
+        )
+        return list(tx.run(query, productId=product_id))
+
+    @staticmethod
     def _read_organisation_for_role(tx: Transaction, role_id: str):
         query = (
             "MATCH (organisation:Organisation)-[:HAS_ROLE]->(role:OrgaRole {entityId: $roleId}) "
-            "RETURN organisation LIMIT 1"
+            "RETURN organisation ORDER BY organisation.entityId"
         )
-        return tx.run(query, roleId=role_id).single(strict=False)
+        return list(tx.run(query, roleId=role_id))
 
     @staticmethod
     def _read_order_detail(tx: Transaction, order_id: str):

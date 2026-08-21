@@ -21,5 +21,7 @@ at all, and `cct.resource_management` modules depend only on
   never a raw Neo4j write. Requires `CCT_NEO4J_PASSWORD`; `--reset` deletes
   only known seed-ID-prefixed entities first. Composition logic lives in the
   `seed/` package next to this file (its own README has the full layout);
-  this script is only the CLI entry point, kept alongside `serve.py` for the
-  same reason -- outside `cct`, free to import `cct.infrastructure` directly.
+
+Issue #50 changes seeded product properties from `displayName` to `name`.
+Existing prototype databases are disposable: reset and rerun `seed_data.py`
+from the corrected JSON rather than applying an in-place data migration.

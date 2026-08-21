@@ -26,7 +26,7 @@ const flightProduct = {
   type: "product/airline/flight",
   schemaVersion: 1,
   properties: {
-    displayName: "Return flight",
+    name: "Return flight",
     lifecycleStatusCode: "product/draft",
     flightNumber: "500",
     departureLocationCode: "FRA",
@@ -35,6 +35,8 @@ const flightProduct = {
     scheduledArrivalLocalTime: "18:45:00",
     aircraftTypeDesignator: null,
   },
+  displayName: "0Q500 FRA–GIG",
+  displayNameChain: ["Nordwind Airways", "Airline", "0Q500 FRA–GIG"],
 };
 
 function mockGetImplementation(productResult: unknown, componentsResult: unknown, supplierResult: unknown) {
@@ -87,7 +89,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     );
     renderDetail();
 
-    expect(await screen.findByRole("heading", { level: 1, name: "Return flight" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Nordwind Airways · Airline · 0Q500 FRA–GIG" })).toBeInTheDocument();
     expect(screen.getByText("airline/flight")).toBeInTheDocument();
     expect(screen.getByText("Draft")).toBeInTheDocument();
     expect(screen.getByText(/no supplier set/i)).toBeInTheDocument();
@@ -104,7 +106,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       response: { ok: true, status: 200 },
     });
     renderDetail();
-    await screen.findByRole("heading", { level: 1, name: "Return flight" });
+    await screen.findByRole("heading", { level: 1, name: "Nordwind Airways · Airline · 0Q500 FRA–GIG" });
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "Edit product" }));
@@ -133,7 +135,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       { data: null, response: { ok: true, status: 200 } }
     );
     renderDetail();
-    await screen.findByRole("heading", { level: 1, name: "Return flight" });
+    await screen.findByRole("heading", { level: 1, name: "Nordwind Airways · Airline · 0Q500 FRA–GIG" });
 
     expect(screen.getByText("Flight number")).toBeInTheDocument();
     expect(screen.getByText("500")).toBeInTheDocument();
@@ -149,7 +151,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       { data: flightProduct, response: { ok: true, status: 200 } },
       { data: [flightProduct], response: { ok: true, status: 200 } },
       {
-        data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "organisation/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" } },
+        data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "organisation/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" }, displayName: "Airline", displayNameChain: ["Nordwind Airways", "Airline"] },
         response: { ok: true, status: 200 },
       }
     );
@@ -165,7 +167,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       if (path === "/products/{product_id}/ancestors") return Promise.resolve({ data: [], response: { ok: true, status: 200 } });
       if (path === "/products/{product_id}/supplier") {
         return Promise.resolve({
-          data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "organisation/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" } },
+          data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "organisation/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" }, displayName: "Airline", displayNameChain: ["Nordwind Airways", "Airline"] },
           response: { ok: true, status: 200 },
         });
       }
@@ -190,6 +192,8 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       type: "product/airline/flight/seat",
       schemaVersion: 1,
       properties: { seatNumber: "5A" },
+      displayName: "5A",
+      displayNameChain: ["Nordwind Airways", "Airline", "0Q500 FRA–GIG", "5A"],
     };
     getMock.mockImplementation((path: string, options?: { params?: { path?: { product_id?: string } } }) => {
       const productId = options?.params?.path?.product_id;
@@ -199,7 +203,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       if (path === "/products/{product_id}/supplier") {
         if (productId === "PRD-001") return Promise.resolve({ data: null, response: { ok: true, status: 200 } });
         return Promise.resolve({
-          data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "organisation/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" } },
+          data: { entityId: "SUP-AIR-01-ROLE", entityKind: "OrgaRole", type: "organisation/airline", schemaVersion: 1, properties: { airlineDesignator: "0Q", roleStatusCode: "role/active" }, displayName: "Airline", displayNameChain: ["Nordwind Airways", "Airline"] },
           response: { ok: true, status: 200 },
         });
       }
@@ -226,7 +230,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     );
     putMock.mockResolvedValue({ response: { ok: true, status: 204 } });
     renderDetail();
-    await screen.findByRole("heading", { level: 1, name: "Return flight" });
+    await screen.findByRole("heading", { level: 1, name: "Nordwind Airways · Airline · 0Q500 FRA–GIG" });
 
     const user = userEvent.setup();
     await user.type(screen.getByLabelText(/supplier role id/i), "SUP-AIR-01-ROLE");
@@ -252,7 +256,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       response: { ok: true, status: 201 },
     });
     renderDetail();
-    await screen.findByRole("heading", { level: 1, name: "Return flight" });
+    await screen.findByRole("heading", { level: 1, name: "Nordwind Airways · Airline · 0Q500 FRA–GIG" });
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "Add component" }));

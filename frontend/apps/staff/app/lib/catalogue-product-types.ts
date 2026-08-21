@@ -134,21 +134,15 @@ export const LIFECYCLE_STATUS_LABEL: Record<string, string> = Object.fromEntries
   LIFECYCLE_STATUS_OPTIONS.map((option) => [option.value, option.label])
 );
 
-/** Narrows the properties union (which includes structural-child shapes without displayName/lifecycleStatusCode) for catalogue-root display. */
-export function catalogueProperties(properties: unknown): { displayName?: string | null; lifecycleStatusCode?: LifecycleStatusCode } {
-  return properties as { displayName?: string | null; lifecycleStatusCode?: LifecycleStatusCode };
+/** Narrows the properties union for catalogue lifecycle display. */
+export function catalogueProperties(properties: unknown): { name?: string | null; lifecycleStatusCode?: LifecycleStatusCode } {
+  return properties as { name?: string | null; lifecycleStatusCode?: LifecycleStatusCode };
 }
 
-/** Best-effort catalogue label: displayName (WF-Q-013) if set, else the type's own namespaced-path label plus the entityId. */
-export function productDisplayLabel(entityId: string, type: string, displayName?: string | null): string {
-  if (displayName) return displayName;
-  return `${typeLabel(type)} (${entityId})`;
-}
-
-/** Every property on a product beyond the ones the detail view already shows as its title/badge (`displayName`, `lifecycleStatusCode`); see `propertyDisplayEntries`. */
+/** Every property beyond source name and lifecycle, which have dedicated controls/presentation. */
 export function productPropertyEntries(properties: unknown): PropertyDisplayEntry[] {
   return propertyDisplayEntries(properties, {
-    skipKeys: ["displayName", "lifecycleStatusCode"],
+    skipKeys: ["name", "lifecycleStatusCode"],
     valueLabels: { roomTypeCode: ROOM_TYPE_LABEL },
   });
 }

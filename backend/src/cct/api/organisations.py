@@ -19,6 +19,7 @@ from cct.resource_management.partner_management.models import AirlineRolePropert
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
 from .dependencies import Actor, get_current_actor, get_partner_repository
+from . import display_names
 from .schemas import ErrorResponse, Page, PageParams
 
 router = APIRouter(prefix="/organisations", tags=["organisations"])
@@ -33,14 +34,14 @@ EMPTY_SUPPLIER_ROLE_TYPES = (
 
 
 class OrganisationCreateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
     properties: OrganisationProperties
 
 
 class OrganisationUpdateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     properties: OrganisationProperties
 
@@ -52,21 +53,30 @@ class OrganisationResponse(BaseModel):
     entity_kind: Literal["Organisation"] = Field(alias="entityKind", default="Organisation")
     schema_version: int = Field(alias="schemaVersion")
     properties: OrganisationProperties
+    display_name: str = Field(alias="displayName")
+    display_name_chain: list[str] = Field(alias="displayNameChain")
 
     @classmethod
     def from_domain(cls, entity: ValidatedEntity) -> "OrganisationResponse":
-        return cls(entityId=entity.entity_id, schemaVersion=entity.schema_version, properties=entity.properties)
+        projection = display_names.organisation(entity)
+        return cls(
+            entityId=entity.entity_id,
+            schemaVersion=entity.schema_version,
+            properties=entity.properties,
+            displayName=projection.display_name,
+            displayNameChain=list(projection.display_name_chain),
+        )
 
 
 class AirlineRoleRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal["organisation/airline"] = "organisation/airline"
     properties: AirlineRoleProperties
 
 
 class EmptySupplierRoleRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal[EMPTY_SUPPLIER_ROLE_TYPES]
     properties: EmptySupplierRoleProperties = EmptySupplierRoleProperties()
@@ -76,14 +86,14 @@ OrgaRoleVariant = Annotated[Union[AirlineRoleRequest, EmptySupplierRoleRequest],
 
 
 class OrgaRoleCreateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
     role: OrgaRoleVariant
 
 
 class OrgaRoleUpdateRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     role: OrgaRoleVariant
 
@@ -96,11 +106,19 @@ class OrgaRoleResponse(BaseModel):
     type: str
     schema_version: int = Field(alias="schemaVersion")
     properties: AirlineRoleProperties | EmptySupplierRoleProperties
+    display_name: str = Field(alias="displayName")
+    display_name_chain: list[str] = Field(alias="displayNameChain")
 
     @classmethod
-    def from_domain(cls, entity: ValidatedEntity) -> "OrgaRoleResponse":
+    def from_domain(cls, entity: ValidatedEntity, owner: ValidatedEntity) -> "OrgaRoleResponse":
+        projection = display_names.orga_role(entity, owner)
         return cls(
-            entityId=entity.entity_id, type=entity.type, schemaVersion=entity.schema_version, properties=entity.properties
+            entityId=entity.entity_id,
+            type=entity.type,
+            schemaVersion=entity.schema_version,
+            properties=entity.properties,
+            displayName=projection.display_name,
+            displayNameChain=list(projection.display_name_chain),
         )
 
 
@@ -193,7 +211,8 @@ def create_orga_role(
         type=request.role.type,
         properties=request.role.properties.model_dump(by_alias=True),
     )
-    return OrgaRoleResponse.from_domain(entity)
+    owner = service.get_organisation(repository, organisation_id)
+    return OrgaRoleResponse.from_domain(entity, owner)
 
 
 @router.get(
@@ -204,7 +223,8 @@ def create_orga_role(
 )
 def list_orga_roles(organisation_id: str, repository: RepositoryDependency) -> list[OrgaRoleResponse]:
     roles = service.list_orga_roles(repository, organisation_id)
-    return [OrgaRoleResponse.from_domain(role) for role in roles]
+    owner = service.get_organisation(repository, organisation_id)
+    return [OrgaRoleResponse.from_domain(role, owner) for role in roles]
 
 
 @router.get(
@@ -214,7 +234,14 @@ def list_orga_roles(organisation_id: str, repository: RepositoryDependency) -> l
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
 def get_orga_role(organisation_id: str, role_id: str, repository: RepositoryDependency) -> OrgaRoleResponse:
-    return OrgaRoleResponse.from_domain(service.get_orga_role(repository, role_id))
+    from cct.resource_management.errors import InvalidEntityGraphError
+
+    owner = service.get_organisation(repository, organisation_id)
+    roles = service.list_orga_roles(repository, organisation_id)
+    role = next((candidate for candidate in roles if candidate.entity_id == role_id), None)
+    if role is None:
+        raise InvalidEntityGraphError(role_id, f"role is not owned by Organisation {organisation_id}")
+    return OrgaRoleResponse.from_domain(role, owner)
 
 
 @router.put(
@@ -233,7 +260,8 @@ def update_orga_role(
     entity = service.update_orga_role(
         repository, role_id, type=request.role.type, properties=request.role.properties.model_dump(by_alias=True)
     )
-    return OrgaRoleResponse.from_domain(entity)
+    owner = service.get_organisation(repository, organisation_id)
+    return OrgaRoleResponse.from_domain(entity, owner)
 
 
 @router.delete(

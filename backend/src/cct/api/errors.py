@@ -15,6 +15,7 @@ from cct.resource_management.errors import (
     DependentEntityExistsError,
     DuplicateEntityError,
     EntityNotFoundError,
+    InvalidEntityGraphError,
     InvalidReferenceError,
 )
 
@@ -42,6 +43,10 @@ def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(InvalidReferenceError)
     async def handle_invalid_reference(request: Request, exc: InvalidReferenceError) -> JSONResponse:
         return _respond(422, "invalid_reference", "Invalid reference", str(exc))
+
+    @app.exception_handler(InvalidEntityGraphError)
+    async def handle_invalid_entity_graph(request: Request, exc: InvalidEntityGraphError) -> JSONResponse:
+        return _respond(409, "invalid_entity_graph", "Invalid entity graph", str(exc))
 
     @app.exception_handler(RequestValidationError)
     async def handle_request_validation(request: Request, exc: RequestValidationError) -> JSONResponse:

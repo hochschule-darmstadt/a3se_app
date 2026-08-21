@@ -36,6 +36,15 @@ class InvalidReferenceError(ValueError):
         self.expected_kind = expected_kind
 
 
+class InvalidEntityGraphError(ValueError):
+    """Raised when persisted relationships cannot produce a canonical read projection."""
+
+    def __init__(self, entity_id: str, detail: str) -> None:
+        super().__init__(f"invalid graph for {entity_id}: {detail}")
+        self.entity_id = entity_id
+        self.detail = detail
+
+
 class DependentEntityExistsError(ValueError):
     """Raised when delete is blocked by an existing dependent relationship."""
 

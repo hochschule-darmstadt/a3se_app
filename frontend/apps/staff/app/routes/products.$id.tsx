@@ -4,7 +4,6 @@ import { useApiQuery } from "@cct/api-client";
 import { StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
-import { catalogueProperties, productDisplayLabel } from "../lib/catalogue-product-types";
 import { ProductDetailPanel } from "../lib/product-detail-panel";
 import { StaffShell } from "../lib/shell";
 
@@ -36,7 +35,7 @@ export default function ProductDetailRoute() {
   }
 
   const label = productQuery.data
-    ? productDisplayLabel(productQuery.data.entityId, productQuery.data.type, catalogueProperties(productQuery.data.properties).displayName)
+    ? productQuery.data.displayNameChain.join(" · ")
     : "Product detail";
 
   return (
