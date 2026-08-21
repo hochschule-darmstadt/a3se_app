@@ -60,7 +60,7 @@ describe("ProductDetail (VIEW-C-010 availability check)", () => {
             data: {
               entityId: stockItemId,
               entityKind: "StockItem",
-              type: "stock/flight/seat",
+              type: "stock/airline/flight/seat",
               schemaVersion: 1,
               properties: { serviceDate: "2027-04-07", unitPriceAmount: "199.00", currencyCode: "EUR" },
             },

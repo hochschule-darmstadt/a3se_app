@@ -65,7 +65,7 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
             {"entityId": "I20-ORDER", "entityKind": "OrderItem", "type": "order/header",
              "properties": {"orderNumber": "I20-5766", "orderStatusCode": "order/paid"}},
             {"entityId": "I20-POSITION", "entityKind": "OrderItem", "type": "order/position", "properties": {}},
-            {"entityId": "I20-STOCK", "entityKind": "StockItem", "type": "stock/flight/seat",
+            {"entityId": "I20-STOCK", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
              "properties": {"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"),
                             "currencyCode": "EUR"}},
             {"entityId": "I20-SEAT", "entityKind": "TouristicProductItem", "type": "product/airline/flight/seat",

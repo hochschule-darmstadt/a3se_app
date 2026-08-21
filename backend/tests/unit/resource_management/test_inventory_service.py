@@ -48,7 +48,7 @@ class StockItemServiceTest(unittest.TestCase):
     def test_create_stock_item_rejects_non_leaf_product(self) -> None:
         with self.assertRaises(InvalidEntityGraphError):
             service.create_stock_item(
-                self.repository, entity_id="I21-STOCK-PARENT", type="stock/flight/seat",
+                self.repository, entity_id="I21-STOCK-PARENT", type="stock/airline/flight/seat",
                 properties=stock_properties(), product_id="I21-FLIGHT", product_repository=self.product_repository,
             )
 
@@ -57,7 +57,7 @@ class StockItemServiceTest(unittest.TestCase):
             service.create_stock_item(
                 self.repository,
                 entity_id="I21-STOCK-01",
-                type="stock/flight/seat",
+                type="stock/airline/flight/seat",
                 properties=stock_properties(),
                 product_id="MISSING",
                 product_repository=self.product_repository,
@@ -67,7 +67,7 @@ class StockItemServiceTest(unittest.TestCase):
         entity = service.create_stock_item(
             self.repository,
             entity_id="I21-STOCK-01",
-            type="stock/flight/seat",
+            type="stock/airline/flight/seat",
             properties=stock_properties(),
             product_id="I21-SEAT",
             product_repository=self.product_repository,
@@ -82,7 +82,7 @@ class StockItemServiceTest(unittest.TestCase):
         service.create_stock_item(
             self.repository,
             entity_id="I21-STOCK-01",
-            type="stock/flight/seat",
+            type="stock/airline/flight/seat",
             properties=stock_properties(),
             product_id="I21-SEAT",
             product_repository=self.product_repository,
@@ -91,7 +91,7 @@ class StockItemServiceTest(unittest.TestCase):
             service.create_stock_item(
                 self.repository,
                 entity_id="I21-STOCK-01",
-                type="stock/flight/seat",
+                type="stock/airline/flight/seat",
                 properties=stock_properties(),
             product_id="I21-SEAT",
                 product_repository=self.product_repository,
@@ -105,7 +105,7 @@ class StockItemServiceTest(unittest.TestCase):
         service.create_stock_item(
             self.repository,
             entity_id="I21-STOCK-01",
-            type="stock/flight/seat",
+            type="stock/airline/flight/seat",
             properties=stock_properties(),
             product_id="I21-SEAT",
             product_repository=self.product_repository,
@@ -113,44 +113,27 @@ class StockItemServiceTest(unittest.TestCase):
         updated = service.update_stock_item(
             self.repository,
             "I21-STOCK-01",
-            type="stock/flight/seat",
+            type="stock/airline/flight/seat",
             properties=stock_properties(unitPriceAmount=Decimal("600.00")),
         )
         self.assertEqual(Decimal("600.00"), updated.properties.unit_price_amount)
 
-    def test_create_stock_item_accepts_every_new_family_type(self) -> None:
-        # Issue #12: ten stock/* identifiers added for the mobility/water/
-        # experience/protection/accommodation families the scenarios allocate
-        # order positions against; all reuse the common StockProperties shape.
-        for stock_type in (
-            "stock/accommodation/room-category",
-            "stock/mobility/transfer",
-            "stock/mobility/rail",
-            "stock/mobility/coach",
-            "stock/mobility/vehicle-rental",
-            "stock/water/day-boat",
-            "stock/water/cruise",
-            "stock/experience/guided-tour",
-            "stock/experience/activity",
-            "stock/protection/travel",
-        ):
-            with self.subTest(stock_type=stock_type):
-                entity_id = f"I12-STOCK-{stock_type.split('/')[-1]}"
-                entity = service.create_stock_item(
-                    self.repository,
-                    entity_id=entity_id,
-                    type=stock_type,
-                    properties=stock_properties(),
-            product_id="I21-SEAT",
-                    product_repository=self.product_repository,
-                )
-                self.assertEqual(stock_type, entity.type)
+    def test_create_stock_item_rejects_type_that_does_not_match_product(self) -> None:
+        with self.assertRaises(InvalidEntityGraphError):
+            service.create_stock_item(
+                self.repository,
+                entity_id="I21-STOCK-WRONG-TYPE",
+                type="stock/mobility/transfer",
+                properties=stock_properties(),
+                product_id="I21-SEAT",
+                product_repository=self.product_repository,
+            )
 
     def test_delete_stock_item_removes_entity(self) -> None:
         service.create_stock_item(
             self.repository,
             entity_id="I21-STOCK-01",
-            type="stock/flight/seat",
+            type="stock/airline/flight/seat",
             properties=stock_properties(),
             product_id="I21-SEAT",
             product_repository=self.product_repository,

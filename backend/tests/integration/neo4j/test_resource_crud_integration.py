@@ -117,7 +117,7 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
                 json={
                     "entityId": "I21-STOCK",
                     "productId": "I21-FLIGHT",
-                    "type": "stock/flight/seat",
+                    "type": "stock/airline/flight/seat",
                     "properties": {"serviceDate": "2027-01-08", "unitPriceAmount": "500.00", "currencyCode": "EUR"},
                 },
             ).status_code,

@@ -54,7 +54,7 @@ class Neo4jMappingTest(unittest.TestCase):
 
     def test_valid_entity_round_trips_without_semantic_loss(self) -> None:
         entity = self.registry.validate(
-            {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/flight/seat",
+            {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
              "properties": {"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"),
                             "currencyCode": "EUR"}}
         )
@@ -95,7 +95,7 @@ class Neo4jMappingTest(unittest.TestCase):
     def test_corrupt_decimal_marker_fails_round_trip(self) -> None:
         with self.assertRaisesRegex(ValueError, "encoded decimal"):
             self.mapper.from_node(NodeRecord("StockItem", {
-                "entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/flight/seat",
+                "entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
                 "schemaVersion": 1, "serviceDate": date(2027, 1, 8), "unitPriceAmount": 500.0,
                 "currencyCode": "EUR", "decimalPropertyKeys": ["unitPriceAmount"],
             }))

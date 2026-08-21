@@ -26,9 +26,9 @@ def create_entity_registry() -> EntityTypeRegistry:
         "product/experience/guided-tour", "product/experience/activity", "product/protection/travel",
     )
     additional_stock_types = (
-        "stock/accommodation/room-category",
+        "stock/accommodation/room-type/room",
         "stock/mobility/transfer", "stock/mobility/rail", "stock/mobility/coach", "stock/mobility/vehicle-rental",
-        "stock/water/day-boat", "stock/water/cruise",
+        "stock/water-transport/day-boat", "stock/water-transport/cruise",
         "stock/experience/guided-tour", "stock/experience/activity",
         "stock/protection/travel",
     )
@@ -42,7 +42,7 @@ def create_entity_registry() -> EntityTypeRegistry:
         (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/airline/flight/seat"): SeatProperties,
         (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room-type"): RoomCategoryProperties,
         (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room-type/room"): RoomProperties,
-        (EntityKind.STOCK_ITEM, "stock/flight/seat"): StockProperties,
+        (EntityKind.STOCK_ITEM, "stock/airline/flight/seat"): StockProperties,
         (EntityKind.ORDER_ITEM, "order/header"): OrderHeaderProperties,
         (EntityKind.ORDER_ITEM, "order/position"): OrderPositionProperties,
     }

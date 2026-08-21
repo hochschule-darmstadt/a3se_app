@@ -86,8 +86,8 @@ class GenerateStockSpecsTest(unittest.TestCase):
             end=date(2027, 1, 1),
         )
         types_by_product = {spec.product_id: spec.type for spec in specs}
-        self.assertEqual("stock/flight/seat", types_by_product["FLT-01-SEAT-1"])
-        self.assertEqual("stock/accommodation/room-category", types_by_product["ACC-01-R1"])
+        self.assertEqual("stock/airline/flight/seat", types_by_product["FLT-01-SEAT-1"])
+        self.assertEqual("stock/accommodation/room-type/room", types_by_product["ACC-01-R1"])
 
     def test_price_has_two_decimal_places(self) -> None:
         specs = inventory.generate_stock_specs(

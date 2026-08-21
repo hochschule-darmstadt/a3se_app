@@ -141,7 +141,7 @@ class OrderServiceTest(unittest.TestCase):
         inventory_service.create_stock_item(
             self.repository,
             entity_id="I21-STOCK",
-            type="stock/flight/seat",
+            type="stock/airline/flight/seat",
             properties={"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"), "currencyCode": "EUR"},
             product_id="I21-SEAT",
             product_repository=self.repository,

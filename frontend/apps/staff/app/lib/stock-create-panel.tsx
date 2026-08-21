@@ -8,8 +8,8 @@ import { ApiErrorBanner, FormErrorSummary } from "@cct/ui";
 import { apiClient, queryClient } from "../api";
 
 type StockItem = components["schemas"]["StockItemResponse"];
-export const STOCK_TYPES = ["stock/accommodation/room-category", "stock/experience/activity", "stock/experience/guided-tour", "stock/flight/seat", "stock/mobility/coach", "stock/mobility/rail", "stock/mobility/transfer", "stock/mobility/vehicle-rental", "stock/protection/travel", "stock/water/cruise", "stock/water/day-boat"] as const;
-export const STOCK_TYPE_OPTIONS = STOCK_TYPES.map((value) => ({ value, label: value.replace("stock/", "").replaceAll("/", " · ") }));
+export const STOCK_TYPES = ["stock/accommodation/room-type/room", "stock/experience/activity", "stock/experience/guided-tour", "stock/airline/flight/seat", "stock/mobility/coach", "stock/mobility/rail", "stock/mobility/transfer", "stock/mobility/vehicle-rental", "stock/protection/travel", "stock/water-transport/cruise", "stock/water-transport/day-boat"] as const;
+export const STOCK_TYPE_OPTIONS = STOCK_TYPES.map((value) => ({ value, label: value.replace("stock/", "") }));
 
 export function StockCreatePanel({ onCancel, onCreated }: { readonly onCancel: () => void; readonly onCreated: (id: string) => void }) {
   const [productId, setProductId] = useState(""); const [type, setType] = useState<(typeof STOCK_TYPES)[number]>(STOCK_TYPES[0]);

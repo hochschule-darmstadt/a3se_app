@@ -1857,14 +1857,14 @@
           },
           "type": {
             "enum": [
-              "stock/flight/seat",
-              "stock/accommodation/room-category",
+              "stock/airline/flight/seat",
+              "stock/accommodation/room-type/room",
               "stock/mobility/transfer",
               "stock/mobility/rail",
               "stock/mobility/coach",
               "stock/mobility/vehicle-rental",
-              "stock/water/day-boat",
-              "stock/water/cruise",
+              "stock/water-transport/day-boat",
+              "stock/water-transport/cruise",
               "stock/experience/guided-tour",
               "stock/experience/activity",
               "stock/protection/travel"
@@ -2006,14 +2006,14 @@
           },
           "type": {
             "enum": [
-              "stock/flight/seat",
-              "stock/accommodation/room-category",
+              "stock/airline/flight/seat",
+              "stock/accommodation/room-type/room",
               "stock/mobility/transfer",
               "stock/mobility/rail",
               "stock/mobility/coach",
               "stock/mobility/vehicle-rental",
-              "stock/water/day-boat",
-              "stock/water/cruise",
+              "stock/water-transport/day-boat",
+              "stock/water-transport/cruise",
               "stock/experience/guided-tour",
               "stock/experience/activity",
               "stock/protection/travel"

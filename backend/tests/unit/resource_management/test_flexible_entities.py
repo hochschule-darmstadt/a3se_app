@@ -99,7 +99,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
              "properties": {"paymentMethodCode": "payment/paypal"}}
         )
         stock = self.registry.validate(
-            {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/flight/seat",
+            {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
              "properties": {"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"),
                             "currencyCode": "EUR"}}
         )
@@ -116,7 +116,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
             date(2027, 2, 29)
         with self.assertRaises(ValidationError):
             self.registry.validate(
-                {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/flight/seat",
+                {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
                  "properties": {"serviceDate": date(2027, 2, 28), "unitPriceAmount": Decimal("-0.01"),
                                 "currencyCode": "EUR"}}
             )

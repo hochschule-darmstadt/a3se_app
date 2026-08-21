@@ -38,8 +38,8 @@ END_2027 = date(2027, 12, 31)
 ROOM_CATEGORY_TYPE = "product/accommodation/room-type/room"
 FLIGHT_TYPE = "product/airline/flight/seat"
 
-FLIGHT_STOCK_TYPE = "stock/flight/seat"
-ROOM_CATEGORY_STOCK_TYPE = "stock/accommodation/room-category"
+FLIGHT_STOCK_TYPE = "stock/airline/flight/seat"
+ROOM_CATEGORY_STOCK_TYPE = "stock/accommodation/room-type/room"
 
 FLIGHT_BASE_PRICE = 250
 ROOM_BASE_PRICE = 90
@@ -56,8 +56,8 @@ PRODUCT_TYPE_TO_STOCK_TYPE = {
     "product/mobility/rail": "stock/mobility/rail",
     "product/mobility/coach": "stock/mobility/coach",
     "product/mobility/vehicle-rental": "stock/mobility/vehicle-rental",
-    "product/water-transport/day-boat": "stock/water/day-boat",
-    "product/water-transport/cruise": "stock/water/cruise",
+    "product/water-transport/day-boat": "stock/water-transport/day-boat",
+    "product/water-transport/cruise": "stock/water-transport/cruise",
     "product/experience/guided-tour": "stock/experience/guided-tour",
     "product/experience/activity": "stock/experience/activity",
     "product/protection/travel": "stock/protection/travel",

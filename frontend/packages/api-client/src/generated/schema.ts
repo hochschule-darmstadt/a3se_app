@@ -1077,7 +1077,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/flight/seat" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
+            type: "stock/airline/flight/seat" | "stock/accommodation/room-type/room" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water-transport/day-boat" | "stock/water-transport/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockItemResponse */
         StockItemResponse: {
@@ -1124,7 +1124,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/flight/seat" | "stock/accommodation/room-category" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water/day-boat" | "stock/water/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
+            type: "stock/airline/flight/seat" | "stock/accommodation/room-type/room" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water-transport/day-boat" | "stock/water-transport/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockProperties */
         StockProperties: {

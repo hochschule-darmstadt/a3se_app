@@ -31,6 +31,11 @@ def create_stock_item(
     product_repository: EntityRepositoryPort,
 ) -> ValidatedEntity:
     product = product_service.get_product(product_repository, product_id)  # raises EntityNotFoundError if missing
+    expected_stock_type = f"stock/{(product.type or '').removeprefix('product/')}"
+    if type != expected_stock_type:
+        raise InvalidEntityGraphError(
+            product_id, f"stock type {type} must match represented product type {product.type}"
+        )
     children = product_repository.list_related(
         from_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
         from_id=product_id,

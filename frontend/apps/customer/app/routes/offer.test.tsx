@@ -65,7 +65,7 @@ describe("Offer (VIEW-C-003 draft offer review)", () => {
           data: {
             entityId: "STK-FLT-01-2027-04-06-U1",
             entityKind: "StockItem",
-            type: "stock/flight/seat",
+            type: "stock/airline/flight/seat",
             schemaVersion: 1,
             properties: { serviceDate: "2027-04-06", unitPriceAmount: "199.00", currencyCode: "EUR" },
           },
