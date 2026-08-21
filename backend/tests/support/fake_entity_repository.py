@@ -69,6 +69,10 @@ class FakeEntityRepository:
             raise EntityNotFoundError(to_kind, to_id)
         self.relationship_calls.append((from_kind, from_id, relationship, to_kind, to_id))
 
+    def delete_relationship(self, *, from_kind, from_id, relationship, to_kind, to_id):
+        target = (from_kind, from_id, relationship, to_kind, to_id)
+        self.relationship_calls = [call for call in self.relationship_calls if call != target]
+
     def list_related(self, *, from_kind, from_id, relationship, to_kind):
         return tuple(
             self._entities[(to_kind, to_id)]

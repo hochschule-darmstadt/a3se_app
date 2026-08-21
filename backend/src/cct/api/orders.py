@@ -263,6 +263,23 @@ def allocate_stock(
     )
 
 
+@router.delete(
+    "/{order_id}/positions/{position_id}/stock/{stock_item_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    operation_id="releaseOrderPositionStock",
+    responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+)
+def release_stock(
+    order_id: str,
+    position_id: str,
+    stock_item_id: str,
+    repository: RepositoryDependency,
+    stock_repository: StockRepositoryDependency,
+    actor: ActorDependency,
+) -> None:
+    service.release_stock(repository, position_id, stock_item_id=stock_item_id, stock_repository=stock_repository)
+
+
 @router.put(
     "/{order_id}/positions/{position_id}/traveller",
     status_code=status.HTTP_204_NO_CONTENT,

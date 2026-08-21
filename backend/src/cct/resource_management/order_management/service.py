@@ -107,13 +107,62 @@ def allocate_stock(
     stock_repository: EntityRepositoryPort,
 ) -> None:
     get_order_position(repository, position_id)
-    inventory_service.get_stock_item(stock_repository, stock_item_id)  # raises EntityNotFoundError if missing
+    stock_item = inventory_service.get_stock_item(stock_repository, stock_item_id)
+    existing = repository.list_related(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=position_id,
+        relationship=RelationshipType.ALLOCATES_STOCK,
+        to_kind=EntityKind.STOCK_ITEM,
+    )
+    if any(item.entity_id == stock_item_id for item in existing):
+        return
+    if existing:
+        raise ValueError(f"order position {position_id} already has allocated stock")
+    properties = stock_item.properties.model_dump(by_alias=True)
+    available = properties["capacityQuantity"] - properties["heldQuantity"] - properties["allocatedQuantity"]
+    if properties["inventoryStatusCode"] != "inventory/active" or available <= 0:
+        raise ValueError(f"stock item {stock_item_id} has no active available capacity")
     repository.create_relationship(
         from_kind=EntityKind.ORDER_ITEM,
         from_id=position_id,
         relationship=RelationshipType.ALLOCATES_STOCK,
         to_kind=EntityKind.STOCK_ITEM,
         to_id=stock_item_id,
+    )
+    properties["allocatedQuantity"] += 1
+    inventory_service.update_stock_item(
+        stock_repository, stock_item_id, type=stock_item.type or "", properties=properties
+    )
+
+
+def release_stock(
+    repository: EntityRepositoryPort,
+    position_id: str,
+    *,
+    stock_item_id: str,
+    stock_repository: EntityRepositoryPort,
+) -> None:
+    get_order_position(repository, position_id)
+    stock_item = inventory_service.get_stock_item(stock_repository, stock_item_id)
+    existing = repository.list_related(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=position_id,
+        relationship=RelationshipType.ALLOCATES_STOCK,
+        to_kind=EntityKind.STOCK_ITEM,
+    )
+    if not any(item.entity_id == stock_item_id for item in existing):
+        return
+    repository.delete_relationship(
+        from_kind=EntityKind.ORDER_ITEM,
+        from_id=position_id,
+        relationship=RelationshipType.ALLOCATES_STOCK,
+        to_kind=EntityKind.STOCK_ITEM,
+        to_id=stock_item_id,
+    )
+    properties = stock_item.properties.model_dump(by_alias=True)
+    properties["allocatedQuantity"] = max(0, properties["allocatedQuantity"] - 1)
+    inventory_service.update_stock_item(
+        stock_repository, stock_item_id, type=stock_item.type or "", properties=properties
     )
 
 

@@ -4,6 +4,20 @@
 - Owner: Requirements
 - Last reviewed: 2026-08-21
 
+## MVP scope note (issue #32, VIEW-S-007)
+
+Stakeholder authorization on 2026-08-21 accepted implementation without a separate Phase 1 checkpoint. The VIEW-S-007 MVP is governed by these stable view requirements:
+
+| ID | Requirement | Classification |
+|---|---|---|
+| INV-001 | Inventory shall list pre-procured capacity with its linked TouristicProductItem, supplier context, service date, available, held, and allocated quantities, and derived availability state. | Accepted for issue #32; refines UC-006, UC-009, UC-017. |
+| INV-002 | Staff shall filter the loaded inventory by date range, product or supplier text, availability state, and linked product type. | Accepted interaction requirement; VIEW-S-007. |
+| INV-003 | A Purchaser shall record a stock entry for an existing TouristicProductItem with service date, sale price, currency, and capacity, and may later adjust those stock-owned values. | Accepted MVP boundary for UC-006; records already agreed capacity, not supplier negotiation. |
+| INV-004 | Staff shall allocate an active available stock entry to an existing order position and release that relationship without deleting either business record. | Accepted MVP boundary for UC-017. Current OrderItem cardinality represents one stock allocation per position; bulk quantity allocation is deferred. |
+| INV-005 | Withdrawal and expiry shall preserve the StockItem and its allocation history; hard deletion is not exposed by VIEW-S-007. | Accepted audit-preservation rule. |
+
+The detail view distinguishes the linked product (what is supplied) from StockItem properties (when, quantity, state, and price). “Request supplier capacity” remains visible but disabled because negotiating or committing net-new capacity, supplier agreements, authorization policy, allocation audit events, bulk allocation, and concurrency-safe over-allocation prevention require later business decisions. Availability state is derived as withdrawn/expired first, then shortfall for zero or negative availability, held when capacity is held, allocated when exhausted by allocation, and otherwise available. Product and supplier labels are backend-computed projections; identifiers remain links.
+
 ## MVP scope note (issue #29 phase 1)
 
 VIEW-S-002's frame now shows Person (shared identity) and PersonRole (contextual customer/traveller role) as distinct entities per the [entity model](../../../architecture/entity-model/entity-model.md), reflecting UC-014. In scope: person search/list/detail; role-type and role-status filters; create a Person with an initial role; add a further role to an existing Person; edit Person's shared fields separately from a selected role's role-specific fields; deactivate a role (status change) rather than delete. Deferred: opening a live VIEW-S-006 advice workspace (shown only as a disabled placeholder entry point, since its conversational backing does not yet exist in the build sequence) and the UC-001/UC-002 conversational use cases themselves, which belong to the advisor issues later in the sequence, not staff CRUD.

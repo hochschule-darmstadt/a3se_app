@@ -22,12 +22,14 @@ codegen selection, are recorded in
 | Person Management | `/persons` | `/persons/{personId}/roles` | -- |
 | Partner Management | `/organisations` | `/organisations/{organisationId}/roles` | -- |
 | Touristic Product Management | `/products` (recursive `CONTAINS`, read at `/products/{productId}/components`) | -- | `PUT /products/{productId}/supplier` validates via Partner Management |
-| Inventory | `/stock-items` (requires `productId` at creation) | -- | validates the product via Touristic Product Management at creation |
-| Order Management | `/orders` | `/orders/{orderId}/positions`; bounded read at `/orders/{orderId}/detail` | `PUT .../stock` validates via Inventory; `PUT .../traveller` and `PUT /orders/{orderId}/customer` validate via Person Management |
+| Inventory | `/stock-items` (requires `productId` at creation; reads include product/supplier/availability projection; `DELETE` marks withdrawn) | -- | validates the product via Touristic Product Management at creation |
+| Order Management | `/orders` | `/orders/{orderId}/positions`; bounded read at `/orders/{orderId}/detail` | `PUT .../stock` validates via Inventory; `DELETE .../stock/{stockItemId}` releases an allocation; `PUT .../traveller` and `PUT /orders/{orderId}/customer` validate via Person Management |
 
 Every root and nested resource supports create/read/update/delete except
 `OrderItem` positions, which have no properties of their own (only
 relationships) and so support create/read/delete/list without update.
+Inventory's delete-equivalent is deliberately a lifecycle update to
+`inventory/withdrawn`, not physical deletion, so historical references remain.
 
 ## Error contract
 

@@ -40,6 +40,9 @@ class FakeResult:
     def __iter__(self):
         return iter(self._records)
 
+    def consume(self):
+        return None
+
 
 class ScriptedTransaction:
     """Returns one pre-scripted result list per .run() call, in call order."""

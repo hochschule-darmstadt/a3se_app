@@ -86,6 +86,18 @@ class Neo4jEntityRepository:
         with self._driver.session(database=self._database) as session:
             session.execute_write(self._create_relationship, from_kind, from_id, relationship, to_kind, to_id)
 
+    def delete_relationship(
+        self,
+        *,
+        from_kind: EntityKind,
+        from_id: str,
+        relationship: RelationshipType,
+        to_kind: EntityKind,
+        to_id: str,
+    ) -> None:
+        with self._driver.session(database=self._database) as session:
+            session.execute_write(self._delete_relationship, from_kind, from_id, relationship, to_kind, to_id)
+
     def list_related(
         self,
         *,
@@ -241,6 +253,22 @@ class Neo4jEntityRepository:
         record = tx.run(query, fromId=from_id, toId=to_id).single(strict=False)
         if record is None:
             raise EntityNotFoundError(from_kind, from_id)
+
+    @staticmethod
+    def _delete_relationship(
+        tx: Transaction,
+        from_kind: EntityKind,
+        from_id: str,
+        relationship: RelationshipType,
+        to_kind: EntityKind,
+        to_id: str,
+    ) -> None:
+        query = (
+            f"MATCH (source:{LABELS[from_kind]} {{entityId: $fromId}})"
+            f"-[edge:{relationship.value}]->"
+            f"(target:{LABELS[to_kind]} {{entityId: $toId}}) DELETE edge"
+        )
+        tx.run(query, fromId=from_id, toId=to_id).consume()
 
     @staticmethod
     def _read_related(

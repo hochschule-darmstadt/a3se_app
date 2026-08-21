@@ -128,6 +128,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orders/{order_id}/positions/{position_id}/stock/{stock_item_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Release Stock */
+        delete: operations["releaseOrderPositionStock"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/orders/{order_id}/positions/{position_id}/traveller": {
         parameters: {
             query?: never;
@@ -435,8 +452,8 @@ export interface paths {
         /** Update Stock Item */
         put: operations["updateStockItem"];
         post?: never;
-        /** Delete Stock Item */
-        delete: operations["deleteStockItem"];
+        /** Withdraw Stock Item */
+        delete: operations["withdrawStockItem"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1057,6 +1074,13 @@ export interface components {
         };
         /** StockItemResponse */
         StockItemResponse: {
+            /**
+             * Availabilitystate
+             * @enum {string}
+             */
+            availabilityState: "available" | "held" | "allocated" | "shortfall" | "withdrawn" | "expired";
+            /** Availablequantity */
+            availableQuantity: number;
             /** Entityid */
             entityId: string;
             /**
@@ -1065,9 +1089,21 @@ export interface components {
              * @constant
              */
             entityKind: "StockItem";
+            /** Productdisplayname */
+            productDisplayName: string;
+            /** Productdisplaynamechain */
+            productDisplayNameChain: string[];
+            /** Productid */
+            productId: string;
+            /** Producttype */
+            productType: string;
             properties: components["schemas"]["StockProperties"];
             /** Schemaversion */
             schemaVersion: number;
+            /** Supplierdisplayname */
+            supplierDisplayName: string | null;
+            /** Supplierorganisationid */
+            supplierOrganisationId: string | null;
             /** Type */
             type: string;
         };
@@ -1083,10 +1119,31 @@ export interface components {
         /** StockProperties */
         StockProperties: {
             /**
+             * Allocatedquantity
+             * @default 0
+             */
+            allocatedQuantity: number;
+            /**
+             * Capacityquantity
+             * @default 1
+             */
+            capacityQuantity: number;
+            /**
              * Currencycode
              * @constant
              */
             currencyCode: "EUR";
+            /**
+             * Heldquantity
+             * @default 0
+             */
+            heldQuantity: number;
+            /**
+             * Inventorystatuscode
+             * @default inventory/active
+             * @enum {string}
+             */
+            inventoryStatusCode: "inventory/active" | "inventory/withdrawn" | "inventory/expired";
             /**
              * Servicedate
              * Format: date
@@ -1098,10 +1155,31 @@ export interface components {
         /** StockPropertiesTransport */
         StockPropertiesTransport: {
             /**
+             * Allocatedquantity
+             * @default 0
+             */
+            allocatedQuantity: number;
+            /**
+             * Capacityquantity
+             * @default 1
+             */
+            capacityQuantity: number;
+            /**
              * Currencycode
              * @constant
              */
             currencyCode: "EUR";
+            /**
+             * Heldquantity
+             * @default 0
+             */
+            heldQuantity: number;
+            /**
+             * Inventorystatuscode
+             * @default inventory/active
+             * @enum {string}
+             */
+            inventoryStatusCode: "inventory/active" | "inventory/withdrawn" | "inventory/expired";
             /**
              * Servicedate
              * Format: date
@@ -1622,6 +1700,46 @@ export interface operations {
                 "application/json": components["schemas"]["AllocateStockRequest"];
             };
         };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    releaseOrderPositionStock: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                order_id: string;
+                position_id: string;
+                stock_item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             204: {
@@ -3146,7 +3264,7 @@ export interface operations {
             };
         };
     };
-    deleteStockItem: {
+    withdrawStockItem: {
         parameters: {
             query?: never;
             header?: never;
@@ -3166,15 +3284,6 @@ export interface operations {
             };
             /** @description Not Found */
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -8,29 +8,25 @@ from fastapi.testclient import TestClient
 from support.fake_entity_repository import FakeEntityRepository
 
 from cct.api.app import create_app
-from cct.api.dependencies import get_current_actor, get_product_repository, get_stock_repository
+from cct.api.dependencies import get_current_actor, get_partner_repository, get_product_repository, get_stock_repository
 
 
-def flight_payload(entity_id: str = "I21-FLIGHT") -> dict[str, object]:
+def product_payload(entity_id: str = "I21-PRODUCT") -> dict[str, object]:
     return {
         "entityId": entity_id,
         "product": {
-            "type": "product/airline/flight",
+            "type": "product/mobility/transfer",
             "properties": {
-                "flightNumber": "500",
-                "departureLocationCode": "FRA",
-                "arrivalLocationCode": "GIG",
-                "scheduledDepartureLocalTime": "10:30:00",
-                "scheduledArrivalLocalTime": "18:45:00",
+                "name": "Airport transfer",
             },
         },
     }
 
 
-def stock_payload(entity_id: str = "I21-STOCK-01", product_id: str = "I21-FLIGHT", **overrides: object) -> dict[str, object]:
+def stock_payload(entity_id: str = "I21-STOCK-01", product_id: str = "I21-PRODUCT", **overrides: object) -> dict[str, object]:
     properties = {"serviceDate": "2027-01-08", "unitPriceAmount": "500.00", "currencyCode": "EUR"}
     properties.update(overrides)
-    return {"entityId": entity_id, "productId": product_id, "type": "stock/flight/seat", "properties": properties}
+    return {"entityId": entity_id, "productId": product_id, "type": "stock/mobility/transfer", "properties": properties}
 
 
 class StockItemsApiTest(unittest.TestCase):
@@ -39,9 +35,10 @@ class StockItemsApiTest(unittest.TestCase):
         self.app = create_app()
         self.app.dependency_overrides[get_stock_repository] = lambda: self.repository
         self.app.dependency_overrides[get_product_repository] = lambda: self.repository
+        self.app.dependency_overrides[get_partner_repository] = lambda: self.repository
         self.app.dependency_overrides[get_current_actor] = lambda: None
         self.client = TestClient(self.app, raise_server_exceptions=False)
-        self.client.post("/products", json=flight_payload())
+        self.client.post("/products", json=product_payload())
 
     def test_create_stock_item_returns_201(self) -> None:
         response = self.client.post("/stock-items", json=stock_payload())
@@ -72,17 +69,26 @@ class StockItemsApiTest(unittest.TestCase):
         response = self.client.put(
             "/stock-items/I21-STOCK-01",
             json={
-                "type": "stock/flight/seat",
+                "type": "stock/mobility/transfer",
                 "properties": {"serviceDate": "2027-01-08", "unitPriceAmount": "600.00", "currencyCode": "EUR"},
             },
         )
         self.assertEqual(200, response.status_code)
         self.assertEqual("600.00", response.json()["properties"]["unitPriceAmount"])
 
-    def test_delete_stock_item_returns_204(self) -> None:
+    def test_delete_stock_item_withdraws_it_without_erasing_history(self) -> None:
         self.client.post("/stock-items", json=stock_payload())
         response = self.client.delete("/stock-items/I21-STOCK-01")
         self.assertEqual(204, response.status_code)
+        detail = self.client.get("/stock-items/I21-STOCK-01")
+        self.assertEqual("inventory/withdrawn", detail.json()["properties"]["inventoryStatusCode"])
+
+    def test_response_projects_product_and_availability(self) -> None:
+        self.client.post("/stock-items", json=stock_payload(capacityQuantity=5, heldQuantity=1, allocatedQuantity=2))
+        item = self.client.get("/stock-items/I21-STOCK-01").json()
+        self.assertEqual("Airport transfer", item["productDisplayName"])
+        self.assertEqual(2, item["availableQuantity"])
+        self.assertEqual("held", item["availabilityState"])
 
     def test_negative_price_returns_422(self) -> None:
         response = self.client.post("/stock-items", json=stock_payload(unitPriceAmount="-1.00"))

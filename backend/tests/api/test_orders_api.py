@@ -148,6 +148,16 @@ class OrdersApiTest(unittest.TestCase):
             },
             body["positions"][0],
         )
+        stock_after_allocation = self.client.get("/stock-items/I21-STOCK").json()
+        self.assertEqual(1, stock_after_allocation["properties"]["allocatedQuantity"])
+        self.assertEqual("allocated", stock_after_allocation["availabilityState"])
+
+        release_response = self.client.delete(
+            "/orders/I21-ORDER-01/positions/I21-POS-01/stock/I21-STOCK"
+        )
+        self.assertEqual(204, release_response.status_code)
+        self.assertEqual(0, self.client.get("/stock-items/I21-STOCK").json()["properties"]["allocatedQuantity"])
+        self.assertIsNone(self.client.get("/orders/I21-ORDER-01/detail").json()["positions"][0]["stockItemId"])
 
     def test_allocate_stock_requires_existing_stock_returns_404(self) -> None:
         self.client.post(

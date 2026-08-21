@@ -1863,6 +1863,22 @@
       },
       "StockItemResponse": {
         "properties": {
+          "availabilityState": {
+            "enum": [
+              "available",
+              "held",
+              "allocated",
+              "shortfall",
+              "withdrawn",
+              "expired"
+            ],
+            "title": "Availabilitystate",
+            "type": "string"
+          },
+          "availableQuantity": {
+            "title": "Availablequantity",
+            "type": "integer"
+          },
           "entityId": {
             "title": "Entityid",
             "type": "string"
@@ -1873,12 +1889,53 @@
             "title": "Entitykind",
             "type": "string"
           },
+          "productDisplayName": {
+            "title": "Productdisplayname",
+            "type": "string"
+          },
+          "productDisplayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Productdisplaynamechain",
+            "type": "array"
+          },
+          "productId": {
+            "title": "Productid",
+            "type": "string"
+          },
+          "productType": {
+            "title": "Producttype",
+            "type": "string"
+          },
           "properties": {
             "$ref": "#/components/schemas/StockProperties"
           },
           "schemaVersion": {
             "title": "Schemaversion",
             "type": "integer"
+          },
+          "supplierDisplayName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supplierdisplayname"
+          },
+          "supplierOrganisationId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supplierorganisationid"
           },
           "type": {
             "title": "Type",
@@ -1889,7 +1946,15 @@
           "entityId",
           "type",
           "schemaVersion",
-          "properties"
+          "properties",
+          "productId",
+          "productType",
+          "productDisplayName",
+          "productDisplayNameChain",
+          "supplierOrganisationId",
+          "supplierDisplayName",
+          "availableQuantity",
+          "availabilityState"
         ],
         "title": "StockItemResponse",
         "type": "object"
@@ -1927,9 +1992,37 @@
       "StockProperties": {
         "additionalProperties": false,
         "properties": {
+          "allocatedQuantity": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Allocatedquantity",
+            "type": "integer"
+          },
+          "capacityQuantity": {
+            "default": 1,
+            "minimum": 0.0,
+            "title": "Capacityquantity",
+            "type": "integer"
+          },
           "currencyCode": {
             "const": "EUR",
             "title": "Currencycode",
+            "type": "string"
+          },
+          "heldQuantity": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Heldquantity",
+            "type": "integer"
+          },
+          "inventoryStatusCode": {
+            "default": "inventory/active",
+            "enum": [
+              "inventory/active",
+              "inventory/withdrawn",
+              "inventory/expired"
+            ],
+            "title": "Inventorystatuscode",
             "type": "string"
           },
           "serviceDate": {
@@ -1954,9 +2047,37 @@
       "StockPropertiesTransport": {
         "additionalProperties": false,
         "properties": {
+          "allocatedQuantity": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Allocatedquantity",
+            "type": "integer"
+          },
+          "capacityQuantity": {
+            "default": 1,
+            "minimum": 0.0,
+            "title": "Capacityquantity",
+            "type": "integer"
+          },
           "currencyCode": {
             "const": "EUR",
             "title": "Currencycode",
+            "type": "string"
+          },
+          "heldQuantity": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Heldquantity",
+            "type": "integer"
+          },
+          "inventoryStatusCode": {
+            "default": "inventory/active",
+            "enum": [
+              "inventory/active",
+              "inventory/withdrawn",
+              "inventory/expired"
+            ],
+            "title": "Inventorystatuscode",
             "type": "string"
           },
           "serviceDate": {
@@ -2722,6 +2843,69 @@
           }
         },
         "summary": "Allocate Stock",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{order_id}/positions/{position_id}/stock/{stock_item_id}": {
+      "delete": {
+        "operationId": "releaseOrderPositionStock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "schema": {
+              "title": "Order Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "position_id",
+            "required": true,
+            "schema": {
+              "title": "Position Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "stock_item_id",
+            "required": true,
+            "schema": {
+              "title": "Stock Item Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Release Stock",
         "tags": [
           "orders"
         ]
@@ -4689,7 +4873,7 @@
     },
     "/stock-items/{stock_item_id}": {
       "delete": {
-        "operationId": "deleteStockItem",
+        "operationId": "withdrawStockItem",
         "parameters": [
           {
             "in": "path",
@@ -4715,16 +4899,6 @@
             },
             "description": "Not Found"
           },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
           "422": {
             "content": {
               "application/json": {
@@ -4736,7 +4910,7 @@
             "description": "Unprocessable Content"
           }
         },
-        "summary": "Delete Stock Item",
+        "summary": "Withdraw Stock Item",
         "tags": [
           "stock-items"
         ]

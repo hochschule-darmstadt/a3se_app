@@ -32,6 +32,16 @@ class EntityRepositoryPort(Protocol):
         to_id: str,
     ) -> None: ...
 
+    def delete_relationship(
+        self,
+        *,
+        from_kind: EntityKind,
+        from_id: str,
+        relationship: RelationshipType,
+        to_kind: EntityKind,
+        to_id: str,
+    ) -> None: ...
+
     def list_related(
         self,
         *,
@@ -94,6 +104,20 @@ class ScopedEntityRepository:
     ) -> None:
         self._require_allowed(from_kind)
         self._repository.create_relationship(
+            from_kind=from_kind, from_id=from_id, relationship=relationship, to_kind=to_kind, to_id=to_id
+        )
+
+    def delete_relationship(
+        self,
+        *,
+        from_kind: EntityKind,
+        from_id: str,
+        relationship: RelationshipType,
+        to_kind: EntityKind,
+        to_id: str,
+    ) -> None:
+        self._require_allowed(from_kind)
+        self._repository.delete_relationship(
             from_kind=from_kind, from_id=from_id, relationship=relationship, to_kind=to_kind, to_id=to_id
         )
 
