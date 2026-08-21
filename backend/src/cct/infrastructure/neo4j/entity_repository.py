@@ -406,7 +406,8 @@ MATCH (header:OrderItem {entityId: $orderId})
 OPTIONAL MATCH (header)-[:CONTAINS]->(position:OrderItem)
 OPTIONAL MATCH (position)-[:ALLOCATES_STOCK]->(stock:StockItem)
 OPTIONAL MATCH (stock)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)
-OPTIONAL MATCH (product)-[:SUPPLIED_BY]->(:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
+OPTIONAL MATCH (supplierProduct:TouristicProductItem)-[:CONTAINS*0..10]->(product)
+OPTIONAL MATCH (supplierProduct)-[:SUPPLIED_BY]->(:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
 OPTIONAL MATCH (position)-[:ASSIGNED_TRAVELLER]->(:PersonRole)<-[:HAS_ROLE]-(traveller:Person)
 RETURN position.entityId AS positionId, stock.entityId AS stockItemId,
        product.entityId AS productId, supplier.entityId AS supplierOrganisationId,

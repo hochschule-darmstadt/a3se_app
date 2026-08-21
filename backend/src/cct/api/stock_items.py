@@ -56,6 +56,8 @@ class StockItemResponse(BaseModel):
     product_type: str = Field(alias="productType")
     product_display_name: str = Field(alias="productDisplayName")
     product_display_name_chain: list[str] = Field(alias="productDisplayNameChain")
+    product_ancestors: list["StockHierarchyLink"] = Field(alias="productAncestors")
+    supplier_role: "StockHierarchyLink | None" = Field(alias="supplierRole")
     supplier_organisation_id: str | None = Field(alias="supplierOrganisationId")
     supplier_display_name: str | None = Field(alias="supplierDisplayName")
     available_quantity: int = Field(alias="availableQuantity")
@@ -68,7 +70,11 @@ class StockItemResponse(BaseModel):
             raise InvalidEntityGraphError(entity.entity_id, "stock item must represent exactly one product")
         product = products[0]
         product_projection = display_names.product(product, product_repository, partner_repository)
-        supplier_role = product_service.get_supplier(product_repository, product.entity_id)
+        ancestors = product_service.get_ancestors(product_repository, product.entity_id)
+        supplier_role = next(
+            (role for candidate in (product, *reversed(ancestors)) if (role := product_service.get_supplier(product_repository, candidate.entity_id)) is not None),
+            None,
+        )
         supplier = partner_service.get_organisation_for_role(partner_repository, supplier_role.entity_id) if supplier_role else None
         properties = entity.properties
         available = properties.capacity_quantity - properties.held_quantity - properties.allocated_quantity
@@ -80,9 +86,18 @@ class StockItemResponse(BaseModel):
         else: state = "available"
         return cls(entityId=entity.entity_id, type=entity.type, schemaVersion=entity.schema_version, properties=properties,
                    productId=product.entity_id, productType=product.type, productDisplayName=product_projection.display_name,
-                   productDisplayNameChain=list(product_projection.display_name_chain), supplierOrganisationId=supplier.entity_id if supplier else None,
+                   productDisplayNameChain=list(product_projection.display_name_chain),
+                   productAncestors=[StockHierarchyLink(entityId=ancestor.entity_id, displayNameChain=list(display_names.product(ancestor, product_repository, partner_repository).display_name_chain)) for ancestor in ancestors],
+                   supplierRole=StockHierarchyLink(entityId=supplier_role.entity_id, displayNameChain=list(display_names.orga_role(supplier_role, supplier).display_name_chain)) if supplier_role and supplier else None,
+                   supplierOrganisationId=supplier.entity_id if supplier else None,
                    supplierDisplayName=display_names.organisation(supplier).display_name if supplier else None,
                    availableQuantity=available, availabilityState=state)
+
+
+class StockHierarchyLink(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
+    entity_id: str = Field(alias="entityId")
+    display_name_chain: list[str] = Field(alias="displayNameChain")
 
 
 RepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_stock_repository)]

@@ -26,7 +26,8 @@ too.
   within one EntityKind's namespace, dangling references between files)
   before any write.
 - `inventory.py`: pure, deterministic 2027 `StockItem` generator for every
-  used (non-reserve) room-category/flight-type product, plus one ad hoc
+  lowest-level room and seat below a used (non-reserve) room-type/flight
+  product, plus one ad hoc
   StockItem per date a mobility/water/experience/protection order position
   actually needs (those families are not part of the mandatory 2027 daily
   calendar). No I/O -- exhaustively unit-tested without touching Neo4j.

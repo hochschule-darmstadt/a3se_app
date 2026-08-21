@@ -134,12 +134,16 @@ class OrderServiceTest(unittest.TestCase):
         product_service.set_supplier(
             self.repository, "I21-FLIGHT", supplier_role_id="I21-SUPPLIER-ROLE", partner_repository=self.repository
         )
+        product_service.create_product(
+            self.repository, entity_id="I21-SEAT", type="product/airline/flight/seat",
+            properties={"seatNumber": "1A"}, parent_product_id="I21-FLIGHT",
+        )
         inventory_service.create_stock_item(
             self.repository,
             entity_id="I21-STOCK",
             type="stock/flight/seat",
             properties={"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"), "currencyCode": "EUR"},
-            product_id="I21-FLIGHT",
+            product_id="I21-SEAT",
             product_repository=self.repository,
         )
         self.create_order_fixture()
@@ -160,7 +164,7 @@ class OrderServiceTest(unittest.TestCase):
                 {
                     "positionId": "I21-POS-01",
                     "stockItemId": "I21-STOCK",
-                    "productId": "I21-FLIGHT",
+                    "productId": "I21-SEAT",
                     "supplierOrganisationId": "I21-SUPPLIER",
                     "travellerPersonId": "I21-PERSON",
                 },

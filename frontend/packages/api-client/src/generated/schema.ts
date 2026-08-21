@@ -1059,6 +1059,13 @@ export interface components {
             /** Supplierroleid */
             supplierRoleId: string;
         };
+        /** StockHierarchyLink */
+        StockHierarchyLink: {
+            /** Displaynamechain */
+            displayNameChain: string[];
+            /** Entityid */
+            entityId: string;
+        };
         /** StockItemCreateRequest */
         StockItemCreateRequest: {
             /** Entityid */
@@ -1089,6 +1096,8 @@ export interface components {
              * @constant
              */
             entityKind: "StockItem";
+            /** Productancestors */
+            productAncestors: components["schemas"]["StockHierarchyLink"][];
             /** Productdisplayname */
             productDisplayName: string;
             /** Productdisplaynamechain */
@@ -1104,6 +1113,7 @@ export interface components {
             supplierDisplayName: string | null;
             /** Supplierorganisationid */
             supplierOrganisationId: string | null;
+            supplierRole: components["schemas"]["StockHierarchyLink"] | null;
             /** Type */
             type: string;
         };

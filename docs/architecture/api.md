@@ -22,7 +22,7 @@ codegen selection, are recorded in
 | Person Management | `/persons` | `/persons/{personId}/roles` | -- |
 | Partner Management | `/organisations` | `/organisations/{organisationId}/roles` | -- |
 | Touristic Product Management | `/products` (recursive `CONTAINS`, read at `/products/{productId}/components`) | -- | `PUT /products/{productId}/supplier` validates via Partner Management |
-| Inventory | `/stock-items` (requires `productId` at creation; reads include product/supplier/availability projection; `DELETE` marks withdrawn) | -- | validates the product via Touristic Product Management at creation |
+| Inventory | `/stock-items` (requires a lowest-level `productId` at creation; reads include product ancestry, supplier-role/supplier, and availability projections; `DELETE` marks withdrawn) | -- | validates the product via Touristic Product Management and rejects product items that have children or are structural parent types |
 | Order Management | `/orders` | `/orders/{orderId}/positions`; bounded read at `/orders/{orderId}/detail` | `PUT .../stock` validates via Inventory; `DELETE .../stock/{stockItemId}` releases an allocation; `PUT .../traveller` and `PUT /orders/{orderId}/customer` validate via Person Management |
 
 Every root and nested resource supports create/read/update/delete except

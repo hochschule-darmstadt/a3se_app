@@ -187,12 +187,23 @@ class FakeEntityRepository:
                     None,
                 )
                 if product_id is not None:
+                    supplier_product_ids = {product_id}
+                    current_ids = {product_id}
+                    while current_ids:
+                        parents = {
+                            fi for (fk, fi, rel, tk, to_id) in self.relationship_calls
+                            if fk == EntityKind.TOURISTIC_PRODUCT_ITEM and rel == RelationshipType.CONTAINS
+                            and tk == EntityKind.TOURISTIC_PRODUCT_ITEM and to_id in current_ids
+                        }
+                        parents -= supplier_product_ids
+                        supplier_product_ids.update(parents)
+                        current_ids = parents
                     supplier_role_id = next(
                         (
                             to_id
                             for (fk, fi, rel, tk, to_id) in self.relationship_calls
                             if fk == EntityKind.TOURISTIC_PRODUCT_ITEM
-                            and fi == product_id
+                            and fi in supplier_product_ids
                             and rel == RelationshipType.SUPPLIED_BY
                             and tk == EntityKind.ORGA_ROLE
                         ),

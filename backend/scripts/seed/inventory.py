@@ -30,12 +30,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, timedelta
 from decimal import Decimal
+import re
 
 START_2027 = date(2027, 1, 1)
 END_2027 = date(2027, 12, 31)
 
-ROOM_CATEGORY_TYPE = "product/accommodation/room-type"
-FLIGHT_TYPE = "product/airline/flight"
+ROOM_CATEGORY_TYPE = "product/accommodation/room-type/room"
+FLIGHT_TYPE = "product/airline/flight/seat"
 
 FLIGHT_STOCK_TYPE = "stock/flight/seat"
 ROOM_CATEGORY_STOCK_TYPE = "stock/accommodation/room-category"
@@ -85,7 +86,10 @@ class StockItemSpec:
 def _product_ordinal(product_id: str) -> int:
     prefix, _, suffix = product_id.partition("-")
     offset = 0 if prefix == "FLT" else 500
-    return int(suffix) + offset
+    match = re.match(r"\d+", suffix)
+    if match is None:
+        raise ValueError(f"product id has no numeric ordinal: {product_id}")
+    return int(match.group()) + offset
 
 
 def daily_quantity(product_id: str, day: date, *, guaranteed: bool) -> int:

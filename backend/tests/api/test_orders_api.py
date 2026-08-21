@@ -108,12 +108,16 @@ class OrdersApiTest(unittest.TestCase):
             },
         )
         self.client.put("/products/I21-FLIGHT/supplier", json={"supplierRoleId": "I21-SUPPLIER-ROLE"})
+        self.client.post(
+            "/products",
+            json={"entityId": "I21-SEAT", "parentProductId": "I21-FLIGHT", "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "1A"}}},
+        )
         # Stock
         self.client.post(
             "/stock-items",
             json={
                 "entityId": "I21-STOCK",
-                "productId": "I21-FLIGHT",
+                "productId": "I21-SEAT",
                 "type": "stock/flight/seat",
                 "properties": {"serviceDate": "2027-01-08", "unitPriceAmount": "500.00", "currencyCode": "EUR"},
             },
@@ -142,7 +146,7 @@ class OrdersApiTest(unittest.TestCase):
             {
                 "positionId": "I21-POS-01",
                 "stockItemId": "I21-STOCK",
-                "productId": "I21-FLIGHT",
+                "productId": "I21-SEAT",
                 "supplierOrganisationId": "I21-SUPPLIER",
                 "travellerPersonId": "I21-PERSON",
             },

@@ -11,7 +11,7 @@
       "positions": [
         {
           "entityId": "ORD-001-P1",
-          "productId": "FLT-01",
+          "productId": "FLT-01-SEAT-1",
           "serviceDate": "2027-04-06",
           "travellerPersonRoleIds": [
             "PER-001-TRAVELLER"
@@ -19,7 +19,7 @@
         },
         {
           "entityId": "ORD-001-P2",
-          "productId": "ACC-01",
+          "productId": "ACC-01-R1",
           "serviceDate": "2027-04-07",
           "travellerPersonRoleIds": [
             "PER-001-TRAVELLER"
@@ -54,7 +54,7 @@
       "positions": [
         {
           "entityId": "ORD-002-P1",
-          "productId": "FLT-02",
+          "productId": "FLT-02-SEAT-1",
           "serviceDate": "2027-01-08",
           "travellerPersonRoleIds": [
             "PER-002-TRAVELLER",
@@ -63,7 +63,7 @@
         },
         {
           "entityId": "ORD-002-P2",
-          "productId": "ACC-02",
+          "productId": "ACC-02-R1",
           "serviceDate": "2027-01-09",
           "travellerPersonRoleIds": [
             "PER-002-TRAVELLER",
@@ -101,7 +101,7 @@
       "positions": [
         {
           "entityId": "ORD-003-P1",
-          "productId": "FLT-03",
+          "productId": "FLT-03-SEAT-1",
           "serviceDate": "2027-08-03",
           "travellerPersonRoleIds": [
             "PER-004-TRAVELLER",
@@ -112,7 +112,7 @@
         },
         {
           "entityId": "ORD-003-P2",
-          "productId": "ACC-03",
+          "productId": "ACC-03-R1",
           "serviceDate": "2027-08-04",
           "travellerPersonRoleIds": [
             "PER-004-TRAVELLER",
@@ -167,7 +167,7 @@
       "positions": [
         {
           "entityId": "ORD-004-P1",
-          "productId": "FLT-04",
+          "productId": "FLT-04-SEAT-1",
           "serviceDate": "2027-11-10",
           "travellerPersonRoleIds": [
             "PER-008-TRAVELLER",
@@ -176,7 +176,7 @@
         },
         {
           "entityId": "ORD-004-P2",
-          "productId": "ACC-04",
+          "productId": "ACC-04-R1",
           "serviceDate": "2027-11-11",
           "travellerPersonRoleIds": [
             "PER-008-TRAVELLER",
@@ -214,7 +214,7 @@
       "positions": [
         {
           "entityId": "ORD-005-P1",
-          "productId": "FLT-05",
+          "productId": "FLT-05-SEAT-1",
           "serviceDate": "2027-05-02",
           "travellerPersonRoleIds": [
             "PER-010-TRAVELLER"
@@ -222,7 +222,7 @@
         },
         {
           "entityId": "ORD-005-P2",
-          "productId": "ACC-05",
+          "productId": "ACC-05-R1",
           "serviceDate": "2027-05-03",
           "travellerPersonRoleIds": [
             "PER-010-TRAVELLER"
@@ -257,7 +257,7 @@
       "positions": [
         {
           "entityId": "ORD-006-P1",
-          "productId": "FLT-06",
+          "productId": "FLT-06-SEAT-1",
           "serviceDate": "2027-07-05",
           "travellerPersonRoleIds": [
             "PER-011-TRAVELLER",
@@ -267,7 +267,7 @@
         },
         {
           "entityId": "ORD-006-P2",
-          "productId": "ACC-06",
+          "productId": "ACC-06-R1",
           "serviceDate": "2027-07-06",
           "travellerPersonRoleIds": [
             "PER-011-TRAVELLER",
@@ -308,7 +308,7 @@
       "positions": [
         {
           "entityId": "ORD-007-P1",
-          "productId": "FLT-07",
+          "productId": "FLT-07-SEAT-1",
           "serviceDate": "2027-02-12",
           "travellerPersonRoleIds": [
             "PER-014-TRAVELLER",
@@ -317,7 +317,7 @@
         },
         {
           "entityId": "ORD-007-P2",
-          "productId": "ACC-07",
+          "productId": "ACC-07-R1",
           "serviceDate": "2027-02-13",
           "travellerPersonRoleIds": [
             "PER-014-TRAVELLER",
@@ -364,7 +364,7 @@
       "positions": [
         {
           "entityId": "ORD-008-P1",
-          "productId": "FLT-08",
+          "productId": "FLT-08-SEAT-1",
           "serviceDate": "2027-06-01",
           "travellerPersonRoleIds": [
             "PER-016-TRAVELLER"
@@ -372,7 +372,7 @@
         },
         {
           "entityId": "ORD-008-P2",
-          "productId": "ACC-08",
+          "productId": "ACC-08-R1",
           "serviceDate": "2027-06-02",
           "travellerPersonRoleIds": [
             "PER-016-TRAVELLER"
@@ -407,7 +407,7 @@
       "positions": [
         {
           "entityId": "ORD-009-P1",
-          "productId": "FLT-09",
+          "productId": "FLT-09-SEAT-1",
           "serviceDate": "2027-03-18",
           "travellerPersonRoleIds": [
             "PER-017-TRAVELLER",
@@ -418,7 +418,7 @@
         },
         {
           "entityId": "ORD-009-P2",
-          "productId": "ACC-09",
+          "productId": "ACC-09-R1",
           "serviceDate": "2027-03-19",
           "travellerPersonRoleIds": [
             "PER-017-TRAVELLER",
@@ -473,7 +473,7 @@
       "positions": [
         {
           "entityId": "ORD-010-P1",
-          "productId": "FLT-10",
+          "productId": "FLT-10-SEAT-1",
           "serviceDate": "2027-12-04",
           "travellerPersonRoleIds": [
             "PER-021-TRAVELLER"
@@ -481,7 +481,7 @@
         },
         {
           "entityId": "ORD-010-P2",
-          "productId": "ACC-10",
+          "productId": "ACC-10-R1",
           "serviceDate": "2027-12-05",
           "travellerPersonRoleIds": [
             "PER-021-TRAVELLER"
@@ -516,7 +516,7 @@
       "positions": [
         {
           "entityId": "ORD-011-P1",
-          "productId": "FLT-11",
+          "productId": "FLT-11-SEAT-1",
           "serviceDate": "2027-09-09",
           "travellerPersonRoleIds": [
             "PER-022-TRAVELLER",
@@ -525,7 +525,7 @@
         },
         {
           "entityId": "ORD-011-P2",
-          "productId": "ACC-11",
+          "productId": "ACC-11-R1",
           "serviceDate": "2027-09-10",
           "travellerPersonRoleIds": [
             "PER-022-TRAVELLER",
@@ -563,7 +563,7 @@
       "positions": [
         {
           "entityId": "ORD-012-P1",
-          "productId": "FLT-12",
+          "productId": "FLT-12-SEAT-1",
           "serviceDate": "2027-10-07",
           "travellerPersonRoleIds": [
             "PER-024-TRAVELLER",
@@ -572,7 +572,7 @@
         },
         {
           "entityId": "ORD-012-P2",
-          "productId": "ACC-12",
+          "productId": "ACC-12-R1",
           "serviceDate": "2027-10-08",
           "travellerPersonRoleIds": [
             "PER-024-TRAVELLER",
@@ -619,7 +619,7 @@
       "positions": [
         {
           "entityId": "ORD-013-P1",
-          "productId": "FLT-13",
+          "productId": "FLT-13-SEAT-1",
           "serviceDate": "2027-07-20",
           "travellerPersonRoleIds": [
             "PER-026-TRAVELLER",
@@ -631,7 +631,7 @@
         },
         {
           "entityId": "ORD-013-P2",
-          "productId": "ACC-13",
+          "productId": "ACC-13-R1",
           "serviceDate": "2027-07-21",
           "travellerPersonRoleIds": [
             "PER-026-TRAVELLER",
@@ -690,7 +690,7 @@
       "positions": [
         {
           "entityId": "ORD-014-P1",
-          "productId": "FLT-14",
+          "productId": "FLT-14-SEAT-1",
           "serviceDate": "2027-11-06",
           "travellerPersonRoleIds": [
             "PER-031-TRAVELLER"
@@ -698,7 +698,7 @@
         },
         {
           "entityId": "ORD-014-P2",
-          "productId": "ACC-14",
+          "productId": "ACC-14-R1",
           "serviceDate": "2027-11-07",
           "travellerPersonRoleIds": [
             "PER-031-TRAVELLER"
@@ -733,7 +733,7 @@
       "positions": [
         {
           "entityId": "ORD-015-P1",
-          "productId": "FLT-15",
+          "productId": "FLT-15-SEAT-1",
           "serviceDate": "2027-04-11",
           "travellerPersonRoleIds": [
             "PER-032-TRAVELLER",
@@ -744,7 +744,7 @@
         },
         {
           "entityId": "ORD-015-P2",
-          "productId": "ACC-15",
+          "productId": "ACC-15-R1",
           "serviceDate": "2027-04-12",
           "travellerPersonRoleIds": [
             "PER-032-TRAVELLER",

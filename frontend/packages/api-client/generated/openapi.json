@@ -1817,6 +1817,27 @@
         "title": "SetSupplierRequest",
         "type": "object"
       },
+      "StockHierarchyLink": {
+        "properties": {
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "displayNameChain"
+        ],
+        "title": "StockHierarchyLink",
+        "type": "object"
+      },
       "StockItemCreateRequest": {
         "properties": {
           "entityId": {
@@ -1889,6 +1910,13 @@
             "title": "Entitykind",
             "type": "string"
           },
+          "productAncestors": {
+            "items": {
+              "$ref": "#/components/schemas/StockHierarchyLink"
+            },
+            "title": "Productancestors",
+            "type": "array"
+          },
           "productDisplayName": {
             "title": "Productdisplayname",
             "type": "string"
@@ -1937,6 +1965,16 @@
             ],
             "title": "Supplierorganisationid"
           },
+          "supplierRole": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StockHierarchyLink"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "type": {
             "title": "Type",
             "type": "string"
@@ -1951,6 +1989,8 @@
           "productType",
           "productDisplayName",
           "productDisplayNameChain",
+          "productAncestors",
+          "supplierRole",
           "supplierOrganisationId",
           "supplierDisplayName",
           "availableQuantity",

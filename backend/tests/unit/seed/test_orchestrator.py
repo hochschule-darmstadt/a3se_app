@@ -43,7 +43,7 @@ class OrchestratorTest(unittest.TestCase):
         self.assertEqual(2, summary.created.get("PersonRole"))
         self.assertEqual(1, summary.created.get("Organisation"))
         self.assertEqual(1, summary.created.get("OrgaRole"))
-        self.assertEqual(1, summary.created.get("TouristicProductItem"))
+        self.assertEqual(2, summary.created.get("TouristicProductItem"))
         self.assertEqual(1, summary.created.get("OrderItem (header)"))
         self.assertEqual(1, summary.created.get("OrderItem (position)"))
         self.assertGreaterEqual(summary.created.get("StockItem (calendar)", 0), 1)

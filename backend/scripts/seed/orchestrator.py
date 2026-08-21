@@ -207,17 +207,17 @@ def _load_products(repos: SeedRepositories, data: SeedData, summary: SeedSummary
 
 
 def _used_product_ids_by_type(data: SeedData) -> dict[str, list[str]]:
-    """Non-reserve, top-level catalog products only.
+    """Lowest-level seat and room products used for dated stock."""
 
-    Excludes nested sub-components (e.g. FLT-01's recursive leg children,
-    `parentProductId` set) from the mandatory 2027 calendar -- only whole
-    catalog-ID products ("every room category", "every flight type") get
-    one, not every sub-component a recursive product happens to contain.
-    """
-
+    products_by_id = {product.entity_id: product for product in data.products}
     by_type: dict[str, list[str]] = {}
     for product in data.products:
-        if product.reserve or product.parent_product_id is not None:
+        if product.type not in {inventory.FLIGHT_TYPE, inventory.ROOM_CATEGORY_TYPE}:
+            continue
+        root = product
+        while root.parent_product_id is not None:
+            root = products_by_id[root.parent_product_id]
+        if root.reserve:
             continue
         by_type.setdefault(product.type, []).append(product.entity_id)
     return by_type

@@ -2115,6 +2115,66 @@
       "supplierRoleId": null,
       "parentProductId": "FLT-01-L2",
       "reserve": false
+    },
+    {
+      "entityId": "FLT-01-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-01", "reserve": false
+    },
+    {
+      "entityId": "FLT-02-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-02", "reserve": false
+    },
+    {
+      "entityId": "FLT-03-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-03", "reserve": false
+    },
+    {
+      "entityId": "FLT-04-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-04", "reserve": false
+    },
+    {
+      "entityId": "FLT-05-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-05", "reserve": false
+    },
+    {
+      "entityId": "FLT-06-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-06", "reserve": false
+    },
+    {
+      "entityId": "FLT-07-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-07", "reserve": false
+    },
+    {
+      "entityId": "FLT-08-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-08", "reserve": false
+    },
+    {
+      "entityId": "FLT-09-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-09", "reserve": false
+    },
+    {
+      "entityId": "FLT-10-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-10", "reserve": false
+    },
+    {
+      "entityId": "FLT-11-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-11", "reserve": false
+    },
+    {
+      "entityId": "FLT-12-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-12", "reserve": false
+    },
+    {
+      "entityId": "FLT-13-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-13", "reserve": false
+    },
+    {
+      "entityId": "FLT-14-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-14", "reserve": false
+    },
+    {
+      "entityId": "FLT-15-SEAT-1", "type": "product/airline/flight/seat",
+      "properties": { "seatNumber": "1A" }, "supplierRoleId": null, "parentProductId": "FLT-15", "reserve": false
     }
   ]
 }

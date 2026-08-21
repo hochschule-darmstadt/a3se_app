@@ -100,7 +100,7 @@ class SeedDataIntegrationTest(unittest.TestCase):
             "(order)-[:CONTAINS]->(position:OrderItem {entityId: 'ORD-001-P1'}),"
             "(position)-[:ALLOCATES_STOCK]->(stock:StockItem),"
             "(position)-[:ASSIGNED_TRAVELLER]->(traveller:PersonRole),"
-            "(stock)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem {entityId: 'FLT-01'}),"
+            "(stock)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem {entityId: 'FLT-01-SEAT-1'}),"
             "(product)-[:SUPPLIED_BY]->(supplierRole:OrgaRole),"
             "(supplier:Organisation)-[:HAS_ROLE]->(supplierRole)"
             " RETURN customer.entityId AS customer, traveller.entityId AS traveller, supplier.entityId AS supplier"

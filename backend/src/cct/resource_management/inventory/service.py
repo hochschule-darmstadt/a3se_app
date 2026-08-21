@@ -14,7 +14,7 @@ from __future__ import annotations
 from datetime import date
 
 from cct.resource_management.contracts import EntityKind, ValidatedEntity
-from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError
+from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError, InvalidEntityGraphError
 from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.relationship_types import RelationshipType
 from cct.resource_management.repository_ports import EntityRepositoryPort
@@ -30,7 +30,15 @@ def create_stock_item(
     product_id: str,
     product_repository: EntityRepositoryPort,
 ) -> ValidatedEntity:
-    product_service.get_product(product_repository, product_id)  # raises EntityNotFoundError if missing
+    product = product_service.get_product(product_repository, product_id)  # raises EntityNotFoundError if missing
+    children = product_repository.list_related(
+        from_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+        from_id=product_id,
+        relationship=RelationshipType.CONTAINS,
+        to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+    )
+    if children or product.type in {"product/airline/flight", "product/accommodation/room-type"}:
+        raise InvalidEntityGraphError(product_id, "stock item must reference a lowest-level product item")
     if repository.get(EntityKind.STOCK_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.STOCK_ITEM, entity_id)
     stock_item = repository.save(

@@ -63,6 +63,14 @@ def _minimal_files() -> dict[str, dict[str, object]]:
                     "supplierRoleId": "SUP-AIR-01-ROLE",
                     "parentProductId": None,
                     "reserve": False,
+                },
+                {
+                    "entityId": "FLT-01-SEAT-1",
+                    "type": "product/airline/flight/seat",
+                    "properties": {"seatNumber": "1A"},
+                    "supplierRoleId": None,
+                    "parentProductId": "FLT-01",
+                    "reserve": False,
                 }
             ],
         },
@@ -76,7 +84,7 @@ def _minimal_files() -> dict[str, dict[str, object]]:
                     "positions": [
                         {
                             "entityId": "ORD-001-P1",
-                            "productId": "FLT-01",
+                            "productId": "FLT-01-SEAT-1",
                             "serviceDate": "2027-04-06",
                             "travellerPersonRoleIds": ["PER-001-TRAVELLER"],
                         }

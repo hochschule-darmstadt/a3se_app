@@ -62,7 +62,7 @@ export default function StockItemsRoute() {
             {page.status === "error" && page.error ? <ApiErrorBanner error={page.error} onRetry={page.refetch} /> : null}
           </Stack>
           {page.status === "success" ? <div style={{ flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}><DataTable<StockItem> caption="Availability by service" rowKey={(row) => row.entityId} rows={page.items} emptyMessage="No stock entries match these filters." onRowActivate={(row) => updateView({ [STAFF_VIEW_PARAM.detail]: row.entityId, [STAFF_VIEW_PARAM.panel]: null })} isRowSelected={(row) => rightPane.mode === "detail" && row.entityId === rightPane.stockItemId} columns={[
-            { key: "service", header: "Service", render: (row) => row.productDisplayNameChain.join(" · ") },
+            { key: "service", header: "Service", render: (row) => `${row.properties.serviceDate} · ${row.productDisplayNameChain.join(" · ")}` },
             { key: "date", header: "Service date", render: (row) => row.properties.serviceDate },
             { key: "available", header: "Available", render: (row) => row.availableQuantity },
             { key: "held", header: "Held", render: (row) => row.properties.heldQuantity },

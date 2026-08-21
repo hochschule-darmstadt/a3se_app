@@ -8,7 +8,7 @@ import unittest
 
 from support.fake_entity_repository import FakeEntityRepository
 
-from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError
+from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError, InvalidEntityGraphError
 from cct.resource_management.inventory import service
 from cct.resource_management.touristic_product_management import service as product_service
 
@@ -37,6 +37,20 @@ class StockItemServiceTest(unittest.TestCase):
                 "scheduledArrivalLocalTime": time(18, 45),
             },
         )
+        product_service.create_product(
+            self.product_repository,
+            entity_id="I21-SEAT",
+            type="product/airline/flight/seat",
+            properties={"seatNumber": "1A"},
+            parent_product_id="I21-FLIGHT",
+        )
+
+    def test_create_stock_item_rejects_non_leaf_product(self) -> None:
+        with self.assertRaises(InvalidEntityGraphError):
+            service.create_stock_item(
+                self.repository, entity_id="I21-STOCK-PARENT", type="stock/flight/seat",
+                properties=stock_properties(), product_id="I21-FLIGHT", product_repository=self.product_repository,
+            )
 
     def test_create_stock_item_requires_existing_product(self) -> None:
         with self.assertRaises(EntityNotFoundError):
@@ -55,12 +69,12 @@ class StockItemServiceTest(unittest.TestCase):
             entity_id="I21-STOCK-01",
             type="stock/flight/seat",
             properties=stock_properties(),
-            product_id="I21-FLIGHT",
+            product_id="I21-SEAT",
             product_repository=self.product_repository,
         )
         self.assertEqual(Decimal("500.00"), entity.properties.unit_price_amount)
         self.assertIn(
-            ("StockItem", "I21-STOCK-01", "REPRESENTS_PRODUCT", "TouristicProductItem", "I21-FLIGHT"),
+            ("StockItem", "I21-STOCK-01", "REPRESENTS_PRODUCT", "TouristicProductItem", "I21-SEAT"),
             [(fk.value, fi, rel.value, tk.value, ti) for (fk, fi, rel, tk, ti) in self.repository.relationship_calls],
         )
 
@@ -70,7 +84,7 @@ class StockItemServiceTest(unittest.TestCase):
             entity_id="I21-STOCK-01",
             type="stock/flight/seat",
             properties=stock_properties(),
-            product_id="I21-FLIGHT",
+            product_id="I21-SEAT",
             product_repository=self.product_repository,
         )
         with self.assertRaises(DuplicateEntityError):
@@ -79,7 +93,7 @@ class StockItemServiceTest(unittest.TestCase):
                 entity_id="I21-STOCK-01",
                 type="stock/flight/seat",
                 properties=stock_properties(),
-                product_id="I21-FLIGHT",
+            product_id="I21-SEAT",
                 product_repository=self.product_repository,
             )
 
@@ -93,7 +107,7 @@ class StockItemServiceTest(unittest.TestCase):
             entity_id="I21-STOCK-01",
             type="stock/flight/seat",
             properties=stock_properties(),
-            product_id="I21-FLIGHT",
+            product_id="I21-SEAT",
             product_repository=self.product_repository,
         )
         updated = service.update_stock_item(
@@ -127,7 +141,7 @@ class StockItemServiceTest(unittest.TestCase):
                     entity_id=entity_id,
                     type=stock_type,
                     properties=stock_properties(),
-                    product_id="I21-FLIGHT",
+            product_id="I21-SEAT",
                     product_repository=self.product_repository,
                 )
                 self.assertEqual(stock_type, entity.type)
@@ -138,7 +152,7 @@ class StockItemServiceTest(unittest.TestCase):
             entity_id="I21-STOCK-01",
             type="stock/flight/seat",
             properties=stock_properties(),
-            product_id="I21-FLIGHT",
+            product_id="I21-SEAT",
             product_repository=self.product_repository,
         )
         service.delete_stock_item(self.repository, "I21-STOCK-01")
