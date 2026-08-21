@@ -1,6 +1,6 @@
 import { Select, TextInput } from "@mantine/core";
 
-import { ROOM_TYPE_OPTIONS, isAirlineFlightType, isRoomCategoryType } from "./catalogue-product-types";
+import { ROOM_TYPE_OPTIONS, isAirlineFlightType, isRoomCategoryType, isStructuralChildType } from "./catalogue-product-types";
 
 export interface ProductTypeFieldValues {
   displayName: string;
@@ -12,6 +12,8 @@ export interface ProductTypeFieldValues {
   aircraftTypeDesignator: string;
   roomTypeCode: string;
   smokingPreferenceCode: string;
+  seatNumber: string;
+  roomNumber: string;
 }
 
 export const EMPTY_PRODUCT_TYPE_FIELD_VALUES: ProductTypeFieldValues = {
@@ -24,9 +26,19 @@ export const EMPTY_PRODUCT_TYPE_FIELD_VALUES: ProductTypeFieldValues = {
   aircraftTypeDesignator: "",
   roomTypeCode: "room/double",
   smokingPreferenceCode: "",
+  seatNumber: "",
+  roomNumber: "",
 };
 
-/** Type-driven field inputs shared by the create and edit forms: flight, room-category, and "no extra fields" shapes cover all 12 catalogue-root types (entity-model TERM-002/TERM-004). */
+function isSeatType(type: string): boolean {
+  return type === "product/airline/flight/seat";
+}
+
+function isRoomType(type: string): boolean {
+  return type === "product/accommodation/room-type/room";
+}
+
+/** Type-driven field inputs shared by the create and edit forms: flight, room-category, and "no extra fields" shapes cover all 11 catalogue-root types, plus the seat/room structural-child shapes (entity-model TERM-002/TERM-004). Structural children omit displayName -- their StrictProperties contract has no such field. */
 export function ProductTypeFields({
   type,
   values,
@@ -42,7 +54,27 @@ export function ProductTypeFields({
 
   return (
     <>
-      <TextInput label="Display name" value={values.displayName} onChange={(event) => set("displayName", event.currentTarget.value)} />
+      {!isStructuralChildType(type) ? (
+        <TextInput label="Display name" value={values.displayName} onChange={(event) => set("displayName", event.currentTarget.value)} />
+      ) : null}
+      {isSeatType(type) ? (
+        <TextInput
+          label="Seat number"
+          required
+          placeholder="e.g. 12A"
+          value={values.seatNumber}
+          onChange={(event) => set("seatNumber", event.currentTarget.value.toUpperCase())}
+        />
+      ) : null}
+      {isRoomType(type) ? (
+        <TextInput
+          label="Room number"
+          required
+          placeholder="e.g. 204"
+          value={values.roomNumber}
+          onChange={(event) => set("roomNumber", event.currentTarget.value)}
+        />
+      ) : null}
       {isAirlineFlightType(type) ? (
         <>
           <TextInput label="Flight number" required value={values.flightNumber} onChange={(event) => set("flightNumber", event.currentTarget.value)} />
@@ -116,6 +148,13 @@ export function productTypeProperties(
   values: ProductTypeFieldValues,
   lifecycleStatusCode: "product/draft" | "product/active" | "product/retired"
 ): Record<string, unknown> {
+  // Structural children (seat, room) are bare StrictProperties with extra="forbid": no displayName/lifecycleStatusCode.
+  if (isSeatType(type)) {
+    return { seatNumber: values.seatNumber.trim() };
+  }
+  if (isRoomType(type)) {
+    return { roomNumber: values.roomNumber.trim() };
+  }
   const base = { displayName: values.displayName.trim() || null, lifecycleStatusCode };
   if (isAirlineFlightType(type)) {
     return {
@@ -149,6 +188,8 @@ export function productTypeValidationErrors(type: string, values: ProductTypeFie
     if (!values.scheduledDepartureLocalTime) errors.push("Enter a scheduled departure time.");
     if (!values.scheduledArrivalLocalTime) errors.push("Enter a scheduled arrival time.");
   }
+  if (isSeatType(type) && !values.seatNumber.trim()) errors.push("Enter a seat number.");
+  if (isRoomType(type) && !values.roomNumber.trim()) errors.push("Enter a room number.");
   return errors;
 }
 
@@ -164,5 +205,7 @@ export function fieldValuesFromProperties(type: string, properties: Record<strin
     aircraftTypeDesignator: (properties.aircraftTypeDesignator as string | null) ?? "",
     roomTypeCode: (properties.roomTypeCode as string | undefined) ?? "room/double",
     smokingPreferenceCode: (properties.smokingPreferenceCode as string | null) ?? "",
+    seatNumber: (properties.seatNumber as string | undefined) ?? "",
+    roomNumber: (properties.roomNumber as string | undefined) ?? "",
   };
 }

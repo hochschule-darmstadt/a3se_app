@@ -197,8 +197,8 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     await screen.findByText(/no products match these filters/i);
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: "Create product draft" }));
+    await user.click(screen.getByRole("button", { name: "Create product" }));
 
-    expect(screen.getByRole("heading", { level: 1, name: "Create product draft" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Create product" })).toBeInTheDocument();
   });
 });

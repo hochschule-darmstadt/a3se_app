@@ -4,7 +4,7 @@ import { ProductCreatePanel } from "../lib/product-create-panel";
 import { StaffShell } from "../lib/shell";
 
 export function meta() {
-  return [{ title: "Create product draft — CCT Staff" }];
+  return [{ title: "Create product — CCT Staff" }];
 }
 
 /**
@@ -17,7 +17,7 @@ export default function ProductCreateRoute() {
   const navigate = useNavigate();
 
   return (
-    <StaffShell breadcrumbs={[{ label: "Touristic product catalogue", to: "/products" }, { label: "Create product draft" }]}>
+    <StaffShell breadcrumbs={[{ label: "Touristic product catalogue", to: "/products" }, { label: "Create product" }]}>
       <ProductCreatePanel
         onCreated={(productId) => navigate(`/products/${productId}`)}
         onCancel={() => navigate("/products")}

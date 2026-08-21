@@ -219,6 +219,76 @@ class ProductServiceTest(unittest.TestCase):
                 properties=flight_properties(imageUrl="http://example.com/example.jpg"),
             )
 
+    def test_create_seat_accepts_a_flight_parent(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I-FLIGHT", type="product/airline/flight", properties=flight_properties()
+        )
+        seat = service.create_product(
+            self.repository,
+            entity_id="I-SEAT",
+            type="product/airline/flight/seat",
+            properties={"seatNumber": "12A"},
+            parent_product_id="I-FLIGHT",
+        )
+        self.assertEqual("I-SEAT", seat.entity_id)
+
+    def test_create_seat_requires_a_parent(self) -> None:
+        with self.assertRaises(ValueError):
+            service.create_product(
+                self.repository, entity_id="I-SEAT", type="product/airline/flight/seat", properties={"seatNumber": "12A"}
+            )
+
+    def test_create_seat_rejects_a_non_flight_parent(self) -> None:
+        service.create_product(
+            self.repository,
+            entity_id="I-CAT",
+            type="product/accommodation/room-type",
+            properties={"roomTypeCode": "room/double"},
+        )
+        with self.assertRaises(ValueError):
+            service.create_product(
+                self.repository,
+                entity_id="I-SEAT",
+                type="product/airline/flight/seat",
+                properties={"seatNumber": "12A"},
+                parent_product_id="I-CAT",
+            )
+
+    def test_create_room_accepts_a_room_type_parent(self) -> None:
+        service.create_product(
+            self.repository,
+            entity_id="I-CAT",
+            type="product/accommodation/room-type",
+            properties={"roomTypeCode": "room/double"},
+        )
+        room = service.create_product(
+            self.repository,
+            entity_id="I-ROOM",
+            type="product/accommodation/room-type/room",
+            properties={"roomNumber": "204"},
+            parent_product_id="I-CAT",
+        )
+        self.assertEqual("I-ROOM", room.entity_id)
+
+    def test_create_room_requires_a_parent(self) -> None:
+        with self.assertRaises(ValueError):
+            service.create_product(
+                self.repository, entity_id="I-ROOM", type="product/accommodation/room-type/room", properties={"roomNumber": "204"}
+            )
+
+    def test_create_room_rejects_a_non_room_type_parent(self) -> None:
+        service.create_product(
+            self.repository, entity_id="I-FLIGHT", type="product/airline/flight", properties=flight_properties()
+        )
+        with self.assertRaises(ValueError):
+            service.create_product(
+                self.repository,
+                entity_id="I-ROOM",
+                type="product/accommodation/room-type/room",
+                properties={"roomNumber": "204"},
+                parent_product_id="I-FLIGHT",
+            )
+
     def test_create_product_defaults_to_draft_lifecycle_status(self) -> None:
         entity = service.create_product(
             self.repository, entity_id="I31-FLIGHT", type="product/airline/flight", properties=flight_properties()

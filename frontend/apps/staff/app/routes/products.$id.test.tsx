@@ -93,7 +93,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     expect(screen.getByText(/no supplier set/i)).toBeInTheDocument();
   });
 
-  it("activates a draft via a status-changing PUT rather than a version bump", async () => {
+  it("activates a draft via a status-changing PUT rather than a version bump, chosen from the edit form", async () => {
     mockGetImplementation(
       { data: flightProduct, response: { ok: true, status: 200 } },
       { data: [flightProduct], response: { ok: true, status: 200 } },
@@ -107,7 +107,10 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     await screen.findByRole("heading", { level: 1, name: "Return flight" });
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: "Activate" }));
+    await user.click(screen.getByRole("button", { name: "Edit product" }));
+    await user.click(screen.getByRole("textbox", { name: /lifecycle status/i }));
+    await user.click(await screen.findByRole("option", { name: "Active", hidden: true }));
+    await user.click(screen.getByRole("button", { name: "Save changes" }));
 
     expect(putMock).toHaveBeenCalledWith(
       "/products/{product_id}",
@@ -234,6 +237,44 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       expect.objectContaining({
         params: { path: { product_id: "PRD-001" } },
         body: { supplierRoleId: "SUP-AIR-01-ROLE" },
+      })
+    );
+  });
+
+  it("only offers the one matching structural-child type when adding a component to a flight", async () => {
+    mockGetImplementation(
+      { data: flightProduct, response: { ok: true, status: 200 } },
+      { data: [flightProduct], response: { ok: true, status: 200 } },
+      { data: null, response: { ok: true, status: 200 } }
+    );
+    postMock.mockResolvedValue({
+      data: { entityId: "PRD-seat", entityKind: "TouristicProductItem", type: "product/airline/flight/seat", schemaVersion: 1, properties: {} },
+      response: { ok: true, status: 201 },
+    });
+    renderDetail();
+    await screen.findByRole("heading", { level: 1, name: "Return flight" });
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("button", { name: "Add component" }));
+
+    await user.click(screen.getByRole("textbox", { name: /^type/i }));
+    const options = await screen.findAllByRole("option", { hidden: true });
+    expect(options).toHaveLength(1);
+    expect(options[0]).toHaveTextContent("airline/flight/seat");
+    await user.click(options[0]!);
+
+    expect(screen.queryByLabelText(/parent product id/i)).not.toBeInTheDocument();
+
+    await user.type(screen.getByLabelText(/seat number/i), "12A");
+    await user.click(screen.getByRole("button", { name: "Add component" }));
+
+    expect(postMock).toHaveBeenCalledWith(
+      "/products",
+      expect.objectContaining({
+        body: expect.objectContaining({
+          parentProductId: "PRD-001",
+          product: { type: "product/airline/flight/seat", properties: { seatNumber: "12A" } },
+        }),
       })
     );
   });

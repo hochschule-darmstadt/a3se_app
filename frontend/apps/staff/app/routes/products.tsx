@@ -11,7 +11,7 @@ import { ProductCreatePanel } from "../lib/product-create-panel";
 import { ProductDetailPanel } from "../lib/product-detail-panel";
 import { breadcrumbLabel, buildChildrenIndex, matchesSearchTerm, rootOf, type ProductTreeEntry } from "../lib/catalogue-tree";
 import { ProductTreeList } from "../lib/product-tree-list";
-import { LIFECYCLE_STATUS_OPTIONS, catalogueProperties, groupTypeOptions, typeLabel } from "../lib/catalogue-product-types";
+import { LIFECYCLE_STATUS_OPTIONS, catalogueProperties, sortTypeOptionsAlphabetically, typeLabel } from "../lib/catalogue-product-types";
 import { StaffShell } from "../lib/shell";
 
 type RightPane = { readonly mode: "none" } | { readonly mode: "detail"; readonly productId: string } | { readonly mode: "create" };
@@ -105,8 +105,8 @@ export default function ProductsRoute() {
   // Every type actually present in the DB, not a hardcoded list -- so a
   // newly seeded/created type is never silently missing from the filter.
   const typeOptions = useMemo(() => {
-    const types = Array.from(new Set(allProducts.items.map((product) => product.type))).sort();
-    return groupTypeOptions(types.map((value) => ({ value, label: typeLabel(value) })));
+    const types = Array.from(new Set(allProducts.items.map((product) => product.type)));
+    return sortTypeOptionsAlphabetically(types.map((value) => ({ value, label: typeLabel(value) })));
   }, [allProducts.items]);
 
   const [search, setSearch] = useState("");
@@ -152,7 +152,7 @@ export default function ProductsRoute() {
       <Stack gap="sm" style={{ height: "calc(100vh - 104px)" }}>
         <Group justify="space-between" align="center">
           <Title order={1}>Touristic product catalogue</Title>
-          <Button onClick={() => setRightPane({ mode: "create" })}>Create product draft</Button>
+          <Button onClick={() => setRightPane({ mode: "create" })}>Create product</Button>
         </Group>
 
         {/*
@@ -176,7 +176,7 @@ export default function ProductsRoute() {
                 />
                 <Select
                   label="Type"
-                  data={[{ group: "All", items: [{ value: "all", label: "All" }] }, ...typeOptions]}
+                  data={[{ value: "all", label: "All" }, ...typeOptions]}
                   value={type}
                   onChange={(value) => setType(value ?? "all")}
                   allowDeselect={false}

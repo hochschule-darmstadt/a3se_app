@@ -20,6 +20,11 @@ from cct.resource_management.partner_management import service as partner_servic
 from cct.resource_management.relationship_types import RelationshipType
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
+STRUCTURAL_CHILD_PARENT_TYPE: dict[str, str] = {
+    "product/airline/flight/seat": "product/airline/flight",
+    "product/accommodation/room-type/room": "product/accommodation/room-type",
+}
+
 
 def create_product(
     repository: EntityRepositoryPort,
@@ -29,8 +34,21 @@ def create_product(
     properties: dict[str, object],
     parent_product_id: str | None = None,
 ) -> ValidatedEntity:
-    if parent_product_id is not None and repository.get(EntityKind.TOURISTIC_PRODUCT_ITEM, parent_product_id) is None:
-        raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, parent_product_id)
+    parent = None
+    if parent_product_id is not None:
+        parent = repository.get(EntityKind.TOURISTIC_PRODUCT_ITEM, parent_product_id)
+        if parent is None:
+            raise EntityNotFoundError(EntityKind.TOURISTIC_PRODUCT_ITEM, parent_product_id)
+
+    required_parent_type = STRUCTURAL_CHILD_PARENT_TYPE.get(type)
+    if required_parent_type is not None:
+        if parent_product_id is None:
+            raise ValueError(f"{type} requires parentProductId, referencing an existing {required_parent_type}")
+        if parent is not None and parent.type != required_parent_type:
+            raise ValueError(
+                f"parentProductId must reference a {required_parent_type} for type {type}, got {parent.type}"
+            )
+
     if repository.get(EntityKind.TOURISTIC_PRODUCT_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.TOURISTIC_PRODUCT_ITEM, entity_id)
     product = repository.save(

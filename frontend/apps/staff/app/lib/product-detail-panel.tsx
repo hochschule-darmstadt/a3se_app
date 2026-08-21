@@ -1,4 +1,4 @@
-import { Anchor, Badge, Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Anchor, Badge, Button, Group, Select, Stack, Text, TextInput, Title } from "@mantine/core";
 import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router";
 
@@ -8,12 +8,12 @@ import { useApiMutation, useApiQuery } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
 import {
-  CATALOGUE_ROOT_TYPE_OPTIONS,
   LIFECYCLE_STATUS_LABEL,
+  LIFECYCLE_STATUS_OPTIONS,
+  addableComponentTypeOptions,
   catalogueProperties,
   productPropertyEntries,
   typeLabel,
-  type CatalogueRootType,
   type LifecycleStatusCode,
   productDisplayLabel,
 } from "./catalogue-product-types";
@@ -126,6 +126,7 @@ export function ProductDetailPanel({
 
   const [editing, setEditing] = useState(false);
   const [values, setValues] = useState<ProductTypeFieldValues>(EMPTY_PRODUCT_TYPE_FIELD_VALUES);
+  const [editLifecycleStatusCode, setEditLifecycleStatusCode] = useState<LifecycleStatusCode>("product/draft");
   const [validationErrors, setValidationErrors] = useState<readonly string[]>([]);
   const [addingComponent, setAddingComponent] = useState(false);
   const [supplierRoleId, setSupplierRoleId] = useState("");
@@ -138,6 +139,8 @@ export function ProductDetailPanel({
   useEffect(() => {
     if (productQuery.data) {
       setValues(fieldValuesFromProperties(productQuery.data.type, productQuery.data.properties as Record<string, unknown>));
+      const currentLifecycleStatusCode = catalogueProperties(productQuery.data.properties).lifecycleStatusCode;
+      if (currentLifecycleStatusCode) setEditLifecycleStatusCode(currentLifecycleStatusCode);
     }
   }, [productQuery.data]);
 
@@ -159,17 +162,8 @@ export function ProductDetailPanel({
     if (errors.length > 0) return;
 
     updateMutation.mutate(
-      { type, properties: productTypeProperties(type, values, catalogueProperties(productQuery.data.properties).lifecycleStatusCode ?? "product/draft") },
+      { type, properties: productTypeProperties(type, values, editLifecycleStatusCode) },
       { onSuccess: () => { setEditing(false); invalidateProduct(productId); } }
-    );
-  }
-
-  function handleLifecycleChange(lifecycleStatusCode: LifecycleStatusCode) {
-    if (!productQuery.data) return;
-    const type = productQuery.data.type;
-    updateMutation.mutate(
-      { type, properties: productTypeProperties(type, fieldValuesFromProperties(type, productQuery.data.properties as Record<string, unknown>), lifecycleStatusCode) },
-      { onSuccess: () => invalidateProduct(productId) }
     );
   }
 
@@ -199,7 +193,8 @@ export function ProductDetailPanel({
   }
 
   const product = productQuery.data;
-  const lifecycleStatusCode = catalogueProperties(product.properties).lifecycleStatusCode as LifecycleStatusCode;
+  const lifecycleStatusCode = catalogueProperties(product.properties).lifecycleStatusCode as LifecycleStatusCode | undefined;
+  const hasLifecycleStatus = Boolean(lifecycleStatusCode);
   const isActive = lifecycleStatusCode === "product/active";
   const isRetired = lifecycleStatusCode === "product/retired";
   const ownLabel = productDisplayLabel(product.entityId, product.type, catalogueProperties(product.properties).displayName);
@@ -226,7 +221,9 @@ export function ProductDetailPanel({
     <Stack gap="md">
       <Group justify="space-between" align="flex-start">
         <Title order={1}>{label}</Title>
-        <Badge color={isActive ? "green" : isRetired ? "gray" : undefined}>{LIFECYCLE_STATUS_LABEL[lifecycleStatusCode]}</Badge>
+        {hasLifecycleStatus ? (
+          <Badge color={isActive ? "green" : isRetired ? "gray" : undefined}>{LIFECYCLE_STATUS_LABEL[lifecycleStatusCode as LifecycleStatusCode]}</Badge>
+        ) : null}
       </Group>
 
       {editing ? (
@@ -234,15 +231,26 @@ export function ProductDetailPanel({
           <Stack gap="xs">
             <FormErrorSummary errors={validationErrors} />
             <ProductTypeFields type={product.type} values={values} onChange={setValues} />
+            {hasLifecycleStatus ? (
+              <Select
+                label="Lifecycle status"
+                data={LIFECYCLE_STATUS_OPTIONS}
+                value={editLifecycleStatusCode}
+                onChange={(value) => setEditLifecycleStatusCode((value as LifecycleStatusCode) ?? "product/draft")}
+                allowDeselect={false}
+              />
+            ) : null}
             <Group>
               <Button type="submit" loading={updateMutation.isPending}>
-                Update draft
+                Save changes
               </Button>
               <Button
                 variant="default"
                 onClick={() => {
                   setEditing(false);
                   setValues(fieldValuesFromProperties(product.type, product.properties as Record<string, unknown>));
+                  const currentLifecycleStatusCode = catalogueProperties(product.properties).lifecycleStatusCode;
+                  if (currentLifecycleStatusCode) setEditLifecycleStatusCode(currentLifecycleStatusCode);
                 }}
               >
                 Cancel changes
@@ -268,17 +276,13 @@ export function ProductDetailPanel({
             </Group>
           ))}
           <Group mt="xs">
-            <Button onClick={() => setEditing(true)}>Edit draft</Button>
-            <Button className="primary" disabled={isActive} loading={updateMutation.isPending} onClick={() => handleLifecycleChange("product/active")}>
-              Activate
-            </Button>
-            <Button variant="default" disabled={isRetired} loading={updateMutation.isPending} onClick={() => handleLifecycleChange("product/retired")}>
-              Retire from future sale
-            </Button>
+            <Button onClick={() => setEditing(true)}>Edit product</Button>
           </Group>
-          <Text size="sm" c="dimmed" mt="xs">
-            Activation and retirement change this record's lifecycle status; deletion is not assumed.
-          </Text>
+          {hasLifecycleStatus ? (
+            <Text size="sm" c="dimmed" mt="xs">
+              Lifecycle status (draft, active, or retired) is changed from the edit form; deletion is not assumed.
+            </Text>
+          ) : null}
         </Stack>
       )}
 
@@ -348,7 +352,7 @@ export function ProductDetailPanel({
         {addingComponent ? (
           <ProductCreatePanel
             parentProductId={productId}
-            typeOptions={CATALOGUE_ROOT_TYPE_OPTIONS as { value: CatalogueRootType; label: string }[]}
+            typeOptions={addableComponentTypeOptions(product.type)}
             onCreated={() => {
               setAddingComponent(false);
               void queryClient.invalidateQueries({ queryKey: ["products", productId, "components"] });
