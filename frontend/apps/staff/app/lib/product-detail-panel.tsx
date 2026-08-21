@@ -37,30 +37,17 @@ function invalidateProduct(productId: string) {
 }
 
 /**
- * A cross-link to another product: updates the master-detail right pane in
- * place when `onSelectProduct` is supplied, otherwise falls back to a real
- * route `Link` (the standalone `/products/:id` route has no pane to update).
- * Rendered via Mantine's `Anchor` either way so it looks like every other
- * design-system control, not a bare unstyled `<a>`.
+ * A real route link to another product. The list/detail route supplies an
+ * href carrying its complete view state; the standalone route links to the
+ * related product's detail route.
  */
 function ProductCrossLink({
   to,
-  productId,
-  onSelectProduct,
   children,
 }: {
   readonly to: string;
-  readonly productId: string;
-  readonly onSelectProduct?: (productId: string) => void;
   readonly children: ReactNode;
 }) {
-  if (onSelectProduct) {
-    return (
-      <Anchor component="button" type="button" onClick={() => onSelectProduct(productId)}>
-        {children}
-      </Anchor>
-    );
-  }
   return (
     <Anchor component={Link} to={to}>
       {children}
@@ -76,18 +63,16 @@ function ProductCrossLink({
  * `/products/:id` route's content, mirroring `PersonDetailPanel` (#29) and
  * `OrganisationDetailPanel` (#30).
  *
- * `onSelectProduct`, when supplied, is called instead of a real navigation
- * for the parent/component cross-links below: the products list passes its
- * own right-pane setter so those links update the split view in place; the
- * standalone route passes nothing, so the same links fall back to an
- * ordinary `Link` (there is no split view there to update).
+ * `productHref`, when supplied, keeps parent/component cross-links in the
+ * list/detail route with its filters, page, and selection represented in the
+ * URL. The standalone route falls back to the related product's detail route.
  */
 export function ProductDetailPanel({
   productId,
-  onSelectProduct,
+  productHref,
 }: {
   readonly productId: string;
-  readonly onSelectProduct?: (productId: string) => void;
+  readonly productHref?: (productId: string) => string;
 }) {
   const productQuery = useApiQuery(
     ["products", productId],
@@ -285,7 +270,7 @@ export function ProductDetailPanel({
         {!isRoot && displaySupplier ? (
           <Text size="sm" c="dimmed" mt={2}>
             Set on the root product{" "}
-            <ProductCrossLink to={`/products/${rootId}`} productId={rootId} onSelectProduct={onSelectProduct}>
+            <ProductCrossLink to={productHref?.(rootId) ?? `/products/${rootId}`}>
               {rootLabel}
             </ProductCrossLink>
             ; it supplies every component beneath it.
@@ -326,7 +311,7 @@ export function ProductDetailPanel({
               key: "entityId",
               header: "Component",
               render: (row) => (
-                <ProductCrossLink to={`/products/${row.entityId}`} productId={row.entityId} onSelectProduct={onSelectProduct}>
+                <ProductCrossLink to={productHref?.(row.entityId) ?? `/products/${row.entityId}`}>
                   {row.displayName}
                 </ProductCrossLink>
               ),

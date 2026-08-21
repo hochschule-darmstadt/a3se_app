@@ -1,6 +1,7 @@
 import { Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useQueries } from "@tanstack/react-query";
+import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
 import { ApiErrorBanner, CursorPager, StatusBanner } from "@cct/ui";
@@ -13,6 +14,7 @@ import { breadcrumbLabel, buildChildrenIndex, matchesSearchTerm, type ProductTre
 import { ProductTreeList } from "../lib/product-tree-list";
 import { LIFECYCLE_STATUS_OPTIONS, catalogueProperties, sortTypeOptionsAlphabetically, typeLabel } from "../lib/catalogue-product-types";
 import { StaffShell } from "../lib/shell";
+import { STAFF_VIEW_PARAM, patchStaffViewState, readStaffViewOption, readStaffViewPage, staffViewHref } from "../lib/staff-view-state";
 
 type RightPane = { readonly mode: "none" } | { readonly mode: "detail"; readonly productId: string } | { readonly mode: "create" };
 
@@ -36,6 +38,7 @@ export function meta() {
  * rows; each expands ("+") to its own children, lazily, to any depth.
  */
 export default function ProductsRoute() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const allProducts = useAllPages<ProductResponse>(["products"], (cursor) =>
     apiClient.GET("/products", { params: { query: { cursor, limit: 50 } } })
   );
@@ -67,10 +70,17 @@ export default function ProductsRoute() {
     return sortTypeOptionsAlphabetically(types.map((value) => ({ value, label: typeLabel(value) })));
   }, [allProducts.items]);
 
-  const [search, setSearch] = useState("");
-  const [type, setType] = useState<string>("all");
-  const [lifecycle, setLifecycle] = useState<string>("all");
-  const [rightPane, setRightPane] = useState<RightPane>({ mode: "none" });
+  const search = searchParams.get(STAFF_VIEW_PARAM.search) ?? "";
+  const type = readStaffViewOption(searchParams, STAFF_VIEW_PARAM.type, typeOptions.map((option) => option.value));
+  const lifecycle = readStaffViewOption(searchParams, STAFF_VIEW_PARAM.status, LIFECYCLE_STATUS_OPTIONS.map((option) => option.value));
+  const detailId = searchParams.get(STAFF_VIEW_PARAM.detail);
+  const rightPane: RightPane = searchParams.get(STAFF_VIEW_PARAM.panel) === "create"
+    ? { mode: "create" }
+    : detailId ? { mode: "detail", productId: detailId } : { mode: "none" };
+
+  function updateView(patch: Parameters<typeof patchStaffViewState>[1], replace = false) {
+    setSearchParams(patchStaffViewState(searchParams, patch), { replace });
+  }
 
   const matches = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -100,8 +110,7 @@ export default function ProductsRoute() {
   // cheaper server page to fetch here -- this instead caps how many rows
   // render at once, which is what actually removes the need to scroll.
   const PAGE_SIZE = 20;
-  const [page, setPage] = useState(0);
-  useEffect(() => setPage(0), [search, type, lifecycle]);
+  const page = Math.min(readStaffViewPage(searchParams), Math.max(0, Math.ceil(matches.length / PAGE_SIZE) - 1));
   const pagedMatches = useMemo(() => matches.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE), [matches, page]);
   const listCaption = `Products · ${matches.length === 0 ? 0 : page * PAGE_SIZE + 1}–${Math.min(matches.length, (page + 1) * PAGE_SIZE)} of ${matches.length}`;
 
@@ -110,7 +119,7 @@ export default function ProductsRoute() {
       <Stack gap="sm" style={{ height: "calc(100vh - 104px)" }}>
         <Group justify="space-between" align="center">
           <Title order={1}>Touristic product catalogue</Title>
-          <Button onClick={() => setRightPane({ mode: "create" })}>Create product</Button>
+          <Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create product</Button>
         </Group>
 
         {/*
@@ -129,21 +138,21 @@ export default function ProductsRoute() {
                   label="Search"
                   placeholder="Anything: supplier, product name, or ID"
                   value={search}
-                  onChange={(event) => setSearch(event.currentTarget.value)}
+                  onChange={(event) => updateView({ [STAFF_VIEW_PARAM.search]: event.currentTarget.value, [STAFF_VIEW_PARAM.page]: null }, true)}
                   style={{ flex: 1 }}
                 />
                 <Select
                   label="Type"
                   data={[{ value: "all", label: "All" }, ...typeOptions]}
                   value={type}
-                  onChange={(value) => setType(value ?? "all")}
+                  onChange={(value) => updateView({ [STAFF_VIEW_PARAM.type]: value === "all" ? null : value, [STAFF_VIEW_PARAM.page]: null }, true)}
                   allowDeselect={false}
                 />
                 <Select
                   label="Lifecycle"
                   data={LIFECYCLE_OPTIONS}
                   value={lifecycle}
-                  onChange={(value) => setLifecycle(value ?? "all")}
+                  onChange={(value) => updateView({ [STAFF_VIEW_PARAM.status]: value === "all" ? null : value, [STAFF_VIEW_PARAM.page]: null }, true)}
                   allowDeselect={false}
                 />
               </Group>
@@ -161,7 +170,7 @@ export default function ProductsRoute() {
                   matches={pagedMatches}
                   childrenByParentId={childrenByParentId}
                   selectedId={rightPane.mode === "detail" ? rightPane.productId : null}
-                  onSelect={(productId) => setRightPane({ mode: "detail", productId })}
+                  onSelect={(productId) => updateView({ [STAFF_VIEW_PARAM.detail]: productId, [STAFF_VIEW_PARAM.panel]: null })}
                   emptyMessage="No products match these filters."
                   caption={listCaption}
                 />
@@ -172,8 +181,8 @@ export default function ProductsRoute() {
                 <CursorPager
                   hasPrevious={page > 0}
                   hasNext={(page + 1) * PAGE_SIZE < matches.length}
-                  onPrevious={() => setPage((current) => current - 1)}
-                  onNext={() => setPage((current) => current + 1)}
+                  onPrevious={() => updateView({ [STAFF_VIEW_PARAM.page]: page - 1 })}
+                  onNext={() => updateView({ [STAFF_VIEW_PARAM.page]: page + 1 })}
                 />
               </div>
             ) : null}
@@ -181,11 +190,17 @@ export default function ProductsRoute() {
 
           <Grid.Col span={{ base: 12, md: 5 }} style={{ height: "100%", overflowY: "auto" }}>
             {rightPane.mode === "detail" ? (
-              <ProductDetailPanel productId={rightPane.productId} onSelectProduct={(productId) => setRightPane({ mode: "detail", productId })} />
+              <ProductDetailPanel
+                productId={rightPane.productId}
+                productHref={(productId) => staffViewHref("/products", searchParams, {
+                  [STAFF_VIEW_PARAM.detail]: productId,
+                  [STAFF_VIEW_PARAM.panel]: null,
+                })}
+              />
             ) : rightPane.mode === "create" ? (
               <ProductCreatePanel
-                onCreated={(productId) => setRightPane({ mode: "detail", productId })}
-                onCancel={() => setRightPane({ mode: "none" })}
+                onCreated={(productId) => updateView({ [STAFF_VIEW_PARAM.detail]: productId, [STAFF_VIEW_PARAM.panel]: null })}
+                onCancel={() => updateView({ [STAFF_VIEW_PARAM.panel]: null })}
               />
             ) : (
               <StatusBanner kind="info" title="No product selected" description="Select a product from the list to view its details, or create one." />

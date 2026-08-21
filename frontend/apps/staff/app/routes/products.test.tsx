@@ -1,7 +1,7 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createRoutesStub } from "react-router";
+import { createRoutesStub, useLocation, useNavigate } from "react-router";
 
 import { createTestQueryClient, TestProviders } from "../test-utils";
 
@@ -18,7 +18,18 @@ vi.mock("../api", () => ({
 
 const { default: ProductsRoute } = await import("./products");
 
-function renderProducts() {
+function LocationProbe() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  return (
+    <>
+      <output aria-label="Current URL">{`${location.pathname}${location.search}`}</output>
+      <button type="button" onClick={() => navigate(-1)}>Browser back</button>
+    </>
+  );
+}
+
+function renderProducts(initialEntry = "/products") {
   const client = createTestQueryClient();
   const Stub = createRoutesStub([
     {
@@ -26,13 +37,14 @@ function renderProducts() {
       Component: () => (
         <TestProviders client={client}>
           <ProductsRoute />
+          <LocationProbe />
         </TestProviders>
       ),
     },
     { path: "/products/new", Component: () => <div>Create product page</div> },
     { path: "/products/:productId", Component: () => <div>Product detail page</div> },
   ]);
-  return render(<Stub initialEntries={["/products"]} />);
+  return render(<Stub initialEntries={[initialEntry]} />);
 }
 
 function productResponse(entityId: string, type: string, displayName: string, lifecycleStatusCode: string, displayNameChain = [displayName]) {
@@ -50,15 +62,23 @@ function productResponse(entityId: string, type: string, displayName: string, li
 interface Fixture {
   readonly products: unknown[];
   readonly ancestorsByProduct?: Record<string, unknown[]>;
+  readonly componentsByProduct?: Record<string, unknown[]>;
   readonly supplierByRoot?: Record<string, unknown>;
   readonly organisationByRole?: Record<string, unknown>;
 }
 
-function mockGetImplementation({ products, ancestorsByProduct = {}, supplierByRoot = {}, organisationByRole = {} }: Fixture) {
+function mockGetImplementation({ products, ancestorsByProduct = {}, componentsByProduct = {}, supplierByRoot = {}, organisationByRole = {} }: Fixture) {
+  const productById = new Map(products.map((product) => [(product as { entityId: string }).entityId, product]));
   getMock.mockImplementation((path: string, options?: { params?: { path?: Record<string, string> } }) => {
     if (path === "/products") return Promise.resolve({ data: { items: products, nextCursor: null }, response: { ok: true, status: 200 } });
     const productId = options?.params?.path?.product_id;
     const roleId = options?.params?.path?.role_id;
+    if (path === "/products/{product_id}") {
+      return Promise.resolve({ data: productById.get(productId as string), response: { ok: true, status: 200 } });
+    }
+    if (path === "/products/{product_id}/components") {
+      return Promise.resolve({ data: componentsByProduct[productId as string] ?? [], response: { ok: true, status: 200 } });
+    }
     if (path === "/products/{product_id}/ancestors") {
       return Promise.resolve({ data: ancestorsByProduct[productId as string] ?? [], response: { ok: true, status: 200 } });
     }
@@ -185,6 +205,30 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     await user.click(row);
 
     expect(await screen.findByRole("heading", { level: 1, name: "Touristic product catalogue" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Current URL")).toHaveTextContent("/products?detail=PRD-001");
+  });
+
+  it("restores URL state after following a related-record link and navigating back", async () => {
+    const airport = productResponse("PRD-001", "product/mobility/transfer", "Airport shuttle", "product/active");
+    const harbour = productResponse("PRD-002", "product/mobility/transfer", "Harbour shuttle", "product/active");
+    mockGetImplementation({
+      products: [airport, harbour],
+      componentsByProduct: { "PRD-001": [harbour] },
+    });
+    renderProducts("/products?q=Airport&detail=PRD-001");
+
+    expect(await screen.findByDisplayValue("Airport")).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Airport shuttle" })).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole("link", { name: "Harbour shuttle" }));
+    expect(screen.getByLabelText("Current URL")).toHaveTextContent("/products?q=Airport&detail=PRD-002");
+    expect(await screen.findByRole("heading", { level: 1, name: "Harbour shuttle" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Browser back" }));
+    await waitFor(() => expect(screen.getByLabelText("Current URL")).toHaveTextContent("/products?q=Airport&detail=PRD-001"));
+    expect(await screen.findByRole("heading", { level: 1, name: "Airport shuttle" })).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Airport")).toBeInTheDocument();
   });
 
   it("paginates the list instead of rendering every match at once", async () => {
