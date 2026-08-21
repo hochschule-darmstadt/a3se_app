@@ -81,6 +81,10 @@ class OrdersApiTest(unittest.TestCase):
             "/persons/I21-PERSON/roles",
             json={"entityId": "I21-TRAVELLER-ROLE", "role": {"type": "person/traveller", "properties": {}}},
         )
+        self.client.post(
+            "/persons/I21-PERSON/roles",
+            json={"entityId": "I21-CUSTOMER-ROLE", "role": {"type": "person/customer", "properties": {}}},
+        )
         # Organisation + supplier role
         self.client.post("/organisations", json={"entityId": "I21-SUPPLIER", "properties": {"name": "Condorleaf Air"}})
         self.client.post(
@@ -135,7 +139,7 @@ class OrdersApiTest(unittest.TestCase):
             "/orders/I21-ORDER-01/positions/I21-POS-01/traveller", json={"travellerRoleId": "I21-TRAVELLER-ROLE"}
         )
         self.assertEqual(204, traveller_response.status_code)
-        customer_response = self.client.put("/orders/I21-ORDER-01/customer", json={"customerRoleId": "I21-TRAVELLER-ROLE"})
+        customer_response = self.client.put("/orders/I21-ORDER-01/customer", json={"customerRoleId": "I21-CUSTOMER-ROLE"})
         self.assertEqual(204, customer_response.status_code)
 
         detail_response = self.client.get("/orders/I21-ORDER-01/detail")
@@ -143,13 +147,8 @@ class OrdersApiTest(unittest.TestCase):
         body = detail_response.json()
         self.assertEqual("I21-ORDER-01", body["order"]["entityId"])
         self.assertEqual(
-            {
-                "positionId": "I21-POS-01",
-                "stockItemId": "I21-STOCK",
-                "productId": "I21-SEAT",
-                "supplierOrganisationId": "I21-SUPPLIER",
-                "travellerPersonId": "I21-PERSON",
-            },
+            {"positionId": "I21-POS-01", "stockItemId": "I21-STOCK", "productId": "I21-SEAT",
+             "travellers": [{"roleId": "I21-TRAVELLER-ROLE", "personId": "I21-PERSON", "displayName": "Emil Brandt"}]},
             body["positions"][0],
         )
         stock_after_allocation = self.client.get("/stock-items/I21-STOCK").json()

@@ -1,148 +1,43 @@
-import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createRoutesStub } from "react-router";
-
 import { createTestQueryClient, TestProviders } from "../test-utils";
-
 const getMock = vi.fn();
-
-vi.mock("../api", () => ({
-  apiClient: { GET: (...args: unknown[]) => getMock(...args) },
-  queryClient: undefined,
-}));
-
-const { default: OrdersRoute } = await import("./orders");
-
-function renderOrders() {
-  const client = createTestQueryClient();
-  const Stub = createRoutesStub([
-    {
-      path: "/orders",
-      Component: () => (
-        <TestProviders client={client}>
-          <OrdersRoute />
-        </TestProviders>
-      ),
-    },
-    { path: "/orders/:orderId", Component: () => <div>Order detail page</div> },
-  ]);
-  return render(<Stub initialEntries={["/orders"]} />);
-}
-
-function orderResponse(entityId: string, orderNumber: string, orderStatusCode: string) {
-  return {
-    entityId,
-    entityKind: "OrderItem",
-    schemaVersion: 1,
-    type: "order/header",
-    properties: { orderNumber, orderStatusCode },
-  };
-}
-
-afterEach(() => {
-  cleanup();
-  getMock.mockReset();
-});
-
+vi.mock("../api", () => ({ apiClient: { GET: (...a: unknown[]) => getMock(...a) }, queryClient: { invalidateQueries: vi.fn() } }));
+const { default: Route } = await import("./orders");
+const summary = { entityId: "ORD-001", entityKind: "OrderItem", schemaVersion: 1, type: "order/header", properties: { orderNumber: "6001", orderStatusCode: "order/reserved" }, customerPersonId: "PER-1", customerDisplayName: "Ada Kern", positionCount: 2, unresolvedPositionCount: 1, serviceDateFrom: "2027-01-08", serviceDateTo: "2027-01-10" };
+function mount() { const Stub = createRoutesStub([{ path: "/orders", Component: () => <TestProviders client={createTestQueryClient()}><Route/></TestProviders> }]); return render(<Stub initialEntries={["/orders"]}/>); }
+afterEach(() => { cleanup(); getMock.mockReset(); });
 describe("OrdersRoute", () => {
-  it("shows a loading state before data arrives", () => {
-    getMock.mockReturnValue(new Promise(() => {}));
-    renderOrders();
-    expect(screen.getByText(/loading orders/i)).toBeInTheDocument();
-  });
-
-  it("shows an empty state when there are no orders", async () => {
-    getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } });
-    renderOrders();
-    expect(await screen.findByText(/no orders to display/i)).toBeInTheDocument();
-  });
-
-  it("shows an error banner and allows retry when the request fails", async () => {
-    getMock.mockResolvedValue({
-      error: { type: "unknown", title: "Server error", detail: "Something went wrong." },
-      response: { ok: false, status: 500 },
+  it("renders server summaries in a split pane", async () => { getMock.mockResolvedValue({ data: { items: [summary], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); expect(await screen.findByText("Order 6001")).toBeInTheDocument(); expect(screen.getByText("Ada Kern")).toBeInTheDocument(); expect(screen.getByText("2 (1 unresolved)")).toBeInTheDocument(); expect(screen.getByText("No order selected")).toBeInTheDocument(); });
+  it("sends status filtering to the API", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); const user = userEvent.setup(); await user.click(screen.getByRole("textbox", { name: "Status" })); await user.click(await screen.findByRole("option", { name: "Paid", hidden: true })); await waitFor(() => expect(getMock).toHaveBeenLastCalledWith("/orders", expect.objectContaining({ params: { query: expect.objectContaining({ status: "order/paid" }) } }))); });
+  it("opens add functionality in the right pane", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); await userEvent.setup().click(await screen.findByRole("button", { name: "Add order" })); expect(screen.getByRole("heading", { name: "Add order" })).toBeInTheDocument(); expect(screen.getByRole("textbox", { name: "Customer role ID" })).toBeInTheDocument(); });
+  it("sends product-type filtering to the API", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); const user = userEvent.setup(); await user.click(await screen.findByRole("textbox", { name: "Product type" })); await user.click(await screen.findByRole("option", { name: "accommodation/room-type", hidden: true })); await waitFor(() => expect(getMock).toHaveBeenLastCalledWith("/orders", expect.objectContaining({ params: { query: expect.objectContaining({ productType: "product/accommodation/room-type" }) } }))); });
+  it("expands an order to reveal its positions, showing an unresolved one distinctly", async () => {
+    getMock.mockImplementation((path: string) => {
+      if (path === "/orders") return Promise.resolve({ data: { items: [summary], nextCursor: null }, response: { ok: true, status: 200 } });
+      if (path === "/orders/{order_id}/detail") return Promise.resolve({ data: { order: { entityId: "ORD-001", entityKind: "OrderItem", type: "order/header", schemaVersion: 1, properties: summary.properties }, customerRoleId: "PER-1-CUSTOMER", customerPersonId: "PER-1", customerDisplayName: "Ada Kern", positions: [{ positionId: "ORD-001-P1", stockItemId: "STK-1", productId: "FLT-01", travellers: [] }, { positionId: "ORD-001-P2", stockItemId: null, productId: null, travellers: [] }] }, response: { ok: true, status: 200 } });
+      if (path === "/stock-items/{stock_item_id}") return Promise.resolve({ data: { entityId: "STK-1", entityKind: "StockItem", schemaVersion: 1, availabilityState: "available", availableQuantity: 1, productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight 01", productDisplayNameChain: ["Flight 01"], productAncestors: [], properties: { serviceDate: "2027-01-08" } }, response: { ok: true, status: 200 } });
+      throw new Error(`Unexpected GET path: ${path}`);
     });
-    renderOrders();
-    expect(await screen.findByText("Server error")).toBeInTheDocument();
-    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
-  });
-
-  it("renders a populated table with order number and status columns", async () => {
-    getMock.mockResolvedValue({
-      data: {
-        items: [
-          orderResponse("ORD-001", "6001", "order/reserved"),
-          orderResponse("ORD-002", "6002", "order/paid"),
-        ],
-        nextCursor: null,
-      },
-      response: { ok: true, status: 200 },
-    });
-    renderOrders();
-    expect(await screen.findByText("6001")).toBeInTheDocument();
-    expect(screen.getByText("6002")).toBeInTheDocument();
-    expect(screen.getByText("order/reserved")).toBeInTheDocument();
-    expect(screen.getByText("order/paid")).toBeInTheDocument();
-  });
-
-  it("sorts rows client-side over the currently-fetched page when a sortable header is activated", async () => {
-    getMock.mockResolvedValue({
-      data: {
-        items: [
-          orderResponse("ORD-002", "6002", "order/paid"),
-          orderResponse("ORD-001", "6001", "order/reserved"),
-        ],
-        nextCursor: null,
-      },
-      response: { ok: true, status: 200 },
-    });
-    renderOrders();
-    await screen.findByText("6002");
-
+    mount();
     const user = userEvent.setup();
-    const table = screen.getByRole("table");
-    await user.click(within(table).getByRole("button", { name: /order number/i }));
-
-    const [firstRow, secondRow] = within(table).getAllByRole("row").slice(1);
-    expect(within(firstRow!).getByText("6001")).toBeInTheDocument();
-    expect(within(secondRow!).getByText("6002")).toBeInTheDocument();
+    await user.click(await screen.findByRole("button", { name: /expand order 6001/i }));
+    expect(await screen.findByText("Flight 01 · 2027-01-08")).toBeInTheDocument();
+    expect(await screen.findByText("Unresolved")).toBeInTheDocument();
   });
-
-  it("filters rows client-side by status", async () => {
-    getMock.mockResolvedValue({
-      data: {
-        items: [
-          orderResponse("ORD-001", "6001", "order/reserved"),
-          orderResponse("ORD-002", "6002", "order/paid"),
-        ],
-        nextCursor: null,
-      },
-      response: { ok: true, status: 200 },
+  it("opens a position's own detail in the right pane when its tree row is selected", async () => {
+    getMock.mockImplementation((path: string) => {
+      if (path === "/orders") return Promise.resolve({ data: { items: [summary], nextCursor: null }, response: { ok: true, status: 200 } });
+      if (path === "/orders/{order_id}/detail") return Promise.resolve({ data: { order: { entityId: "ORD-001", entityKind: "OrderItem", type: "order/header", schemaVersion: 1, properties: summary.properties }, customerRoleId: "PER-1-CUSTOMER", customerPersonId: "PER-1", customerDisplayName: "Ada Kern", positions: [{ positionId: "ORD-001-P1", stockItemId: "STK-1", productId: "FLT-01", travellers: [] }, { positionId: "ORD-001-P2", stockItemId: null, productId: null, travellers: [] }] }, response: { ok: true, status: 200 } });
+      if (path === "/stock-items/{stock_item_id}") return Promise.resolve({ data: { entityId: "STK-1", entityKind: "StockItem", schemaVersion: 1, availabilityState: "available", availableQuantity: 1, productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight 01", productDisplayNameChain: ["Flight 01"], productAncestors: [], properties: { serviceDate: "2027-01-08" } }, response: { ok: true, status: 200 } });
+      throw new Error(`Unexpected GET path: ${path}`);
     });
-    renderOrders();
-    await screen.findByText("6001");
-
+    mount();
     const user = userEvent.setup();
-    await user.click(screen.getByRole("textbox", { name: /filter by status/i }));
-    await user.click(await screen.findByRole("option", { name: "Paid", hidden: true }));
-
-    await waitFor(() => expect(screen.queryByText("6001")).not.toBeInTheDocument());
-    expect(screen.getByText("6002")).toBeInTheDocument();
-  });
-
-  it("navigates to order detail when a row is activated via the keyboard", async () => {
-    getMock.mockResolvedValue({
-      data: { items: [orderResponse("ORD-001", "6001", "order/reserved")], nextCursor: null },
-      response: { ok: true, status: 200 },
-    });
-    renderOrders();
-    const row = await screen.findByText("6001").then((cell) => cell.closest("tr") as HTMLTableRowElement);
-
-    const user = userEvent.setup();
-    row.focus();
-    await user.keyboard("{Enter}");
-
-    expect(await screen.findByText("Order detail page")).toBeInTheDocument();
+    await user.click(await screen.findByRole("button", { name: /expand order 6001/i }));
+    await user.click(await screen.findByText("Flight 01 · 2027-01-08"));
+    expect(await screen.findByRole("heading", { level: 1, name: "Flight 01 · 2027-01-08" })).toBeInTheDocument();
   });
 });

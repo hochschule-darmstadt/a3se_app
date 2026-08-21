@@ -160,15 +160,10 @@ class OrderServiceTest(unittest.TestCase):
 
         detail = service.get_order_detail(self.repository, "I21-ORDER-01")
         self.assertEqual(
-            (
-                {
-                    "positionId": "I21-POS-01",
-                    "stockItemId": "I21-STOCK",
-                    "productId": "I21-SEAT",
-                    "supplierOrganisationId": "I21-SUPPLIER",
-                    "travellerPersonId": "I21-PERSON",
-                },
-            ),
+            {"customerRoleId": None, "customerPersonId": None, "customerDisplayName": None,
+             "positions": [{"positionId": "I21-POS-01", "stockItemId": "I21-STOCK",
+             "productId": "I21-SEAT", "travellers": [{"roleId": "I21-TRAVELLER-ROLE",
+             "personId": "I21-PERSON", "displayName": "Emil Brandt"}]}]},
             detail,
         )
 

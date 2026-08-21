@@ -153,23 +153,31 @@ class Neo4jEntityRepository:
             raise InvalidEntityGraphError(role_id, "organisation role has multiple owners")
         return self._mapper.from_node(NodeRecord(LABELS[EntityKind.ORGANISATION], dict(records[0]["organisation"])))
 
-    def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]:
-        """Return each position's resolved bounded summary (ids only, never raw nodes)."""
+    def get_order_detail(self, order_id: str) -> dict[str, object]:
+        """Return the three bounded order hierarchies as scalar projections."""
         with self._driver.session(database=self._database) as session:
             rows = session.execute_read(self._read_order_detail, order_id)
         if rows is None:
             raise EntityNotFoundError(EntityKind.ORDER_ITEM, order_id)
-        return tuple(
-            {
-                "positionId": row["positionId"],
-                "stockItemId": row["stockItemId"],
-                "productId": row["productId"],
-                "supplierOrganisationId": row["supplierOrganisationId"],
-                "travellerPersonId": row["travellerPersonId"],
-            }
-            for row in rows
-            if row["positionId"] is not None
-        )
+        row = rows[0]
+        return {"customerRoleId": row["customerRoleId"], "customerPersonId": row["customerPersonId"],
+            "customerDisplayName": row["customerDisplayName"], "positions": row["positions"]}
+
+    def list_orders(self, *, search, status, product_type, service_date_from,
+        service_date_to, unresolved_only, page):
+        with self._driver.session(database=self._database) as session:
+            rows = session.execute_read(self._read_order_page, search, status, product_type,
+                service_date_from, service_date_to, unresolved_only, page)
+        result = []
+        for row in rows:
+            entity = self._mapper.from_node(NodeRecord(LABELS[EntityKind.ORDER_ITEM], dict(row["entity"])))
+            first_date = row["serviceDateFrom"].to_native() if row["serviceDateFrom"] is not None else None
+            last_date = row["serviceDateTo"].to_native() if row["serviceDateTo"] is not None else None
+            result.append((entity, {"customerPersonId": row["customerPersonId"],
+                "customerDisplayName": row["customerDisplayName"], "positionCount": row["positionCount"],
+                "unresolvedPositionCount": row["unresolvedPositionCount"], "serviceDateFrom": first_date,
+                "serviceDateTo": last_date}))
+        return tuple(result)
 
     def list_stock_items(
         self,
@@ -365,6 +373,14 @@ class Neo4jEntityRepository:
         return list(tx.run(ORDER_DETAIL_TRAVERSAL, orderId=order_id))
 
     @staticmethod
+    def _read_order_page(tx: Transaction, search, status, product_type, service_date_from,
+        service_date_to, unresolved_only, page):
+        return list(tx.run(ORDER_FILTER_TRAVERSAL, search=search.lower() if search else None,
+            status=status, productType=product_type, serviceDateFrom=service_date_from,
+            serviceDateTo=service_date_to, unresolvedOnly=unresolved_only,
+            after=page.after, limit=page.limit + 1))
+
+    @staticmethod
     def _read_stock_page(
         tx: Transaction,
         search: str | None,
@@ -403,15 +419,46 @@ COMMUNITY_SCHEMA = (
 
 ORDER_DETAIL_TRAVERSAL = """
 MATCH (header:OrderItem {entityId: $orderId})
+OPTIONAL MATCH (header)-[:CUSTOMER]->(customerRole:PersonRole)<-[:HAS_ROLE]-(customer:Person)
 OPTIONAL MATCH (header)-[:CONTAINS]->(position:OrderItem)
 OPTIONAL MATCH (position)-[:ALLOCATES_STOCK]->(stock:StockItem)
 OPTIONAL MATCH (stock)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)
 OPTIONAL MATCH (supplierProduct:TouristicProductItem)-[:CONTAINS*0..10]->(product)
-OPTIONAL MATCH (supplierProduct)-[:SUPPLIED_BY]->(:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
-OPTIONAL MATCH (position)-[:ASSIGNED_TRAVELLER]->(:PersonRole)<-[:HAS_ROLE]-(traveller:Person)
-RETURN position.entityId AS positionId, stock.entityId AS stockItemId,
-       product.entityId AS productId, supplier.entityId AS supplierOrganisationId,
-       traveller.entityId AS travellerPersonId
+OPTIONAL MATCH (supplierProduct)-[:SUPPLIED_BY]->(:OrgaRole)<-[:HAS_ROLE]-(:Organisation)
+OPTIONAL MATCH (position)-[:ASSIGNED_TRAVELLER]->(travellerRole:PersonRole)<-[:HAS_ROLE]-(traveller:Person)
+WITH header, customerRole, customer, position, stock, product,
+     collect(DISTINCT CASE WHEN travellerRole IS NULL THEN NULL ELSE {roleId: travellerRole.entityId,
+       personId: traveller.entityId, displayName: trim(coalesce(traveller.givenName, '') + ' ' + coalesce(traveller.familyName, ''))} END) AS travellers
+WITH header, customerRole, customer, collect(DISTINCT CASE WHEN position IS NULL THEN NULL ELSE {
+  positionId: position.entityId, stockItemId: stock.entityId, productId: product.entityId, travellers: travellers} END) AS positions
+RETURN customerRole.entityId AS customerRoleId, customer.entityId AS customerPersonId,
+       trim(coalesce(customer.givenName, '') + ' ' + coalesce(customer.familyName, '')) AS customerDisplayName,
+       positions
+""".strip()
+
+ORDER_FILTER_TRAVERSAL = """
+MATCH (header:OrderItem {type: 'order/header'})
+OPTIONAL MATCH (header)-[:CUSTOMER]->(:PersonRole)<-[:HAS_ROLE]-(customer:Person)
+OPTIONAL MATCH (header)-[:CONTAINS]->(position:OrderItem)
+OPTIONAL MATCH (position)-[:ALLOCATES_STOCK]->(stock:StockItem)-[:REPRESENTS_PRODUCT]->(leaf:TouristicProductItem)
+OPTIONAL MATCH (ancestor:TouristicProductItem)-[:CONTAINS*0..10]->(leaf)
+WITH header, customer, collect(DISTINCT position) AS positions, collect(DISTINCT stock) AS stocks,
+     collect(DISTINCT leaf) + collect(DISTINCT ancestor) AS products
+WITH header, customer, positions, stocks, products,
+     [p IN positions WHERE NOT (p)-[:ALLOCATES_STOCK]->(:StockItem)] AS unresolved
+WHERE ($after IS NULL OR header.entityId > $after)
+  AND ($status IS NULL OR header.orderStatusCode = $status)
+  AND ($unresolvedOnly = false OR size(unresolved) > 0)
+  AND ($serviceDateFrom IS NULL OR any(s IN stocks WHERE s.serviceDate >= $serviceDateFrom))
+  AND ($serviceDateTo IS NULL OR any(s IN stocks WHERE s.serviceDate <= $serviceDateTo))
+  AND ($productType IS NULL OR any(p IN products WHERE p.type = $productType))
+  AND ($search IS NULL OR any(n IN [header, customer] + products WHERE n IS NOT NULL AND any(k IN keys(n) WHERE toLower(toString(n[k])) CONTAINS $search)))
+RETURN DISTINCT header AS entity, customer.entityId AS customerPersonId,
+ trim(coalesce(customer.givenName, '') + ' ' + coalesce(customer.familyName, '')) AS customerDisplayName,
+ size(positions) AS positionCount, size(unresolved) AS unresolvedPositionCount,
+ reduce(d = null, s IN stocks | CASE WHEN d IS NULL OR s.serviceDate < d THEN s.serviceDate ELSE d END) AS serviceDateFrom,
+ reduce(d = null, s IN stocks | CASE WHEN d IS NULL OR s.serviceDate > d THEN s.serviceDate ELSE d END) AS serviceDateTo
+ORDER BY header.entityId LIMIT $limit
 """.strip()
 
 STOCK_FILTER_TRAVERSAL = """

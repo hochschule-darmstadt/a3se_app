@@ -9,6 +9,7 @@ supplier/traveller ids only), never a raw graph read.
 
 from __future__ import annotations
 
+from datetime import date
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Query, status
@@ -97,15 +98,42 @@ class OrderPositionDetail(BaseModel):
     position_id: str = Field(alias="positionId")
     stock_item_id: str | None = Field(alias="stockItemId")
     product_id: str | None = Field(alias="productId")
-    supplier_organisation_id: str | None = Field(alias="supplierOrganisationId")
-    traveller_person_id: str | None = Field(alias="travellerPersonId")
+    travellers: list["OrderTravellerDetail"]
+
+
+class OrderTravellerDetail(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
+    role_id: str = Field(alias="roleId")
+    person_id: str = Field(alias="personId")
+    display_name: str = Field(alias="displayName")
 
 
 class OrderDetailResponse(BaseModel):
     model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
 
     order: OrderResponse
+    customer_role_id: str | None = Field(alias="customerRoleId")
+    customer_person_id: str | None = Field(alias="customerPersonId")
+    customer_display_name: str | None = Field(alias="customerDisplayName")
     positions: list[OrderPositionDetail]
+
+
+class OrderSummaryResponse(OrderResponse):
+    customer_person_id: str | None = Field(alias="customerPersonId")
+    customer_display_name: str | None = Field(alias="customerDisplayName")
+    position_count: int = Field(alias="positionCount")
+    unresolved_position_count: int = Field(alias="unresolvedPositionCount")
+    service_date_from: date | None = Field(alias="serviceDateFrom")
+    service_date_to: date | None = Field(alias="serviceDateTo")
+
+
+class OrderPageParams(PageParams):
+    search: str | None = None
+    status: str | None = None
+    product_type: str | None = Field(default=None, alias="productType")
+    service_date_from: date | None = Field(default=None, alias="serviceDateFrom")
+    service_date_to: date | None = Field(default=None, alias="serviceDateTo")
+    unresolved_only: bool = Field(default=False, alias="unresolvedOnly")
 
 
 RepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_order_repository)]
@@ -139,13 +167,19 @@ def get_order(order_id: str, repository: RepositoryDependency) -> OrderResponse:
 
 
 @router.get(
-    "", response_model=Page[OrderResponse], operation_id="listOrders", responses={422: {"model": ErrorResponse}}
+    "", response_model=Page[OrderSummaryResponse], operation_id="listOrders", responses={422: {"model": ErrorResponse}}
 )
-def list_orders(repository: RepositoryDependency, params: Annotated[PageParams, Query()]) -> Page[OrderResponse]:
+def list_orders(repository: RepositoryDependency, params: Annotated[OrderPageParams, Query()]) -> Page[OrderSummaryResponse]:
     after = decode_cursor(params.cursor) if params.cursor else None
-    result = service.list_orders(repository, page=PageRequest(limit=params.limit, after=after))
-    next_cursor = encode_cursor(result.next_cursor) if result.next_cursor else None
-    return Page[OrderResponse](items=[OrderResponse.from_domain(entity) for entity in result.items], next_cursor=next_cursor)
+    rows = service.list_order_summaries(repository, search=params.search, status=params.status,
+        product_type=params.product_type, service_date_from=params.service_date_from,
+        service_date_to=params.service_date_to, unresolved_only=params.unresolved_only,
+        page=PageRequest(limit=params.limit, after=after))
+    has_more = len(rows) > params.limit
+    visible = rows[:params.limit]
+    items = [OrderSummaryResponse(**OrderResponse.from_domain(entity).model_dump(by_alias=True), **summary) for entity, summary in visible]
+    next_cursor = encode_cursor(visible[-1][0].entity_id) if has_more and visible else None
+    return Page[OrderSummaryResponse](items=items, next_cursor=next_cursor)
 
 
 @router.put(
@@ -195,8 +229,8 @@ def assign_customer(
 )
 def get_order_detail(order_id: str, repository: RepositoryDependency) -> OrderDetailResponse:
     order = OrderResponse.from_domain(service.get_order(repository, order_id))
-    positions = [OrderPositionDetail(**detail) for detail in service.get_order_detail(repository, order_id)]
-    return OrderDetailResponse(order=order, positions=positions)
+    detail = service.get_order_detail(repository, order_id)
+    return OrderDetailResponse(order=order, **detail)
 
 
 @router.post(

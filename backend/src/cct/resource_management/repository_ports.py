@@ -58,7 +58,13 @@ class EntityRepositoryPort(Protocol):
 
     def get_product_parents(self, product_id: str) -> tuple[ValidatedEntity, ...]: ...
 
-    def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]: ...
+    def get_order_detail(self, order_id: str) -> dict[str, object]: ...
+
+    def list_orders(
+        self, *, search: str | None, status: str | None, product_type: str | None,
+        service_date_from: date | None, service_date_to: date | None,
+        unresolved_only: bool, page: PageRequest,
+    ) -> tuple[tuple[ValidatedEntity, dict[str, object]], ...]: ...
 
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None: ...
 
@@ -158,9 +164,13 @@ class ScopedEntityRepository:
         self._require_allowed(EntityKind.TOURISTIC_PRODUCT_ITEM)
         return self._repository.get_product_parents(product_id)
 
-    def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]:
+    def get_order_detail(self, order_id: str) -> dict[str, object]:
         self._require_allowed(EntityKind.ORDER_ITEM)
         return self._repository.get_order_detail(order_id)
+
+    def list_orders(self, **kwargs) -> tuple[tuple[ValidatedEntity, dict[str, object]], ...]:
+        self._require_allowed(EntityKind.ORDER_ITEM)
+        return self._repository.list_orders(**kwargs)
 
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None:
         self._require_allowed(EntityKind.ORGA_ROLE)

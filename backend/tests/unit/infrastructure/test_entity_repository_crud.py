@@ -232,17 +232,9 @@ class Neo4jEntityRepositoryCrudTest(unittest.TestCase):
 
     def test_order_detail_filters_out_positionless_row_and_raises_not_found_for_missing_header(self) -> None:
         header_found = [{"id": "I21-ORDER-01"}]
-        detail_rows = [
-            {
-                "positionId": None,
-                "stockItemId": None,
-                "productId": None,
-                "supplierOrganisationId": None,
-                "travellerPersonId": None,
-            },
-        ]
+        detail_rows = [{"customerRoleId": None, "customerPersonId": None, "customerDisplayName": "", "positions": []}]
         repository, _ = self.repository([header_found, detail_rows])
-        self.assertEqual((), repository.get_order_detail("I21-ORDER-01"))
+        self.assertEqual({"customerRoleId": None, "customerPersonId": None, "customerDisplayName": "", "positions": []}, repository.get_order_detail("I21-ORDER-01"))
 
         repository_missing, _ = self.repository([[]])
         with self.assertRaises(EntityNotFoundError):
@@ -250,27 +242,14 @@ class Neo4jEntityRepositoryCrudTest(unittest.TestCase):
 
     def test_order_detail_returns_resolved_summary_for_positions(self) -> None:
         header_found = [{"id": "I21-ORDER-01"}]
-        detail_rows = [
-            {
-                "positionId": "I21-POS-01",
-                "stockItemId": "I21-STOCK-01",
-                "productId": "I21-FLIGHT",
-                "supplierOrganisationId": "I21-SUPPLIER",
-                "travellerPersonId": "I21-PERSON",
-            },
-        ]
+        detail_rows = [{"customerRoleId": "I21-CUSTOMER-ROLE", "customerPersonId": "I21-CUSTOMER",
+            "customerDisplayName": "Ada Kern", "positions": [{"positionId": "I21-POS-01",
+            "stockItemId": "I21-STOCK-01", "productId": "I21-FLIGHT", "travellers": [
+            {"roleId": "I21-TRAVELLER-ROLE", "personId": "I21-PERSON", "displayName": "Emil Brandt"}]}]}]
         repository, _ = self.repository([header_found, detail_rows])
         detail = repository.get_order_detail("I21-ORDER-01")
         self.assertEqual(
-            (
-                {
-                    "positionId": "I21-POS-01",
-                    "stockItemId": "I21-STOCK-01",
-                    "productId": "I21-FLIGHT",
-                    "supplierOrganisationId": "I21-SUPPLIER",
-                    "travellerPersonId": "I21-PERSON",
-                },
-            ),
+            detail_rows[0],
             detail,
         )
 

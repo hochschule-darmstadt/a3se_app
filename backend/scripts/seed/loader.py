@@ -90,12 +90,16 @@ def load_seed_data() -> SeedData:
     known_product_ids = {p.entity_id for p in products_file.products}
     known_orga_role_ids = {o.role.entity_id for o in organisations_file.organisations}
     known_person_role_ids = set(person_role_ids)
+    role_types = {role.entity_id: role.type for person in persons_file.persons for role in person.roles}
 
     _require_known(
         {p.supplier_role_id for p in products_file.products if p.supplier_role_id is not None},
         known_orga_role_ids,
         description="products.supplierRoleId",
     )
+    invalid_customers = sorted(o.customer_person_role_id for o in orders_file.orders if role_types.get(o.customer_person_role_id) != "person/customer")
+    if invalid_customers:
+        raise SeedValidationError(f"orders.customerPersonRoleId must reference person/customer roles: {invalid_customers}")
     _require_known(
         {p.parent_product_id for p in products_file.products if p.parent_product_id is not None},
         known_product_ids,
@@ -114,6 +118,13 @@ def load_seed_data() -> SeedData:
     _require_known(
         position_traveller_ids, known_person_role_ids, description="orders.positions.travellerPersonRoleIds"
     )
+    invalid_travellers = sorted(role_id for role_id in position_traveller_ids if role_types.get(role_id) != "person/traveller")
+    if invalid_travellers:
+        raise SeedValidationError(f"orders.positions.travellerPersonRoleIds must reference person/traveller roles: {invalid_travellers}")
+    parent_ids = {p.parent_product_id for p in products_file.products if p.parent_product_id is not None}
+    non_leaf_products = sorted(position_product_ids & parent_ids)
+    if non_leaf_products:
+        raise SeedValidationError(f"orders.positions.productId must reference leaf products: {non_leaf_products}")
     _require_known(
         {i.product_id for i in images_file.images}, known_product_ids, description="images.productId"
     )

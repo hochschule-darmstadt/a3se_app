@@ -491,6 +491,39 @@
       },
       "OrderDetailResponse": {
         "properties": {
+          "customerDisplayName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customerdisplayname"
+          },
+          "customerPersonId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customerpersonid"
+          },
+          "customerRoleId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customerroleid"
+          },
           "order": {
             "$ref": "#/components/schemas/OrderResponse"
           },
@@ -504,6 +537,9 @@
         },
         "required": [
           "order",
+          "customerRoleId",
+          "customerPersonId",
+          "customerDisplayName",
           "positions"
         ],
         "title": "OrderDetailResponse",
@@ -579,35 +615,19 @@
             ],
             "title": "Stockitemid"
           },
-          "supplierOrganisationId": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Supplierorganisationid"
-          },
-          "travellerPersonId": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Travellerpersonid"
+          "travellers": {
+            "items": {
+              "$ref": "#/components/schemas/OrderTravellerDetail"
+            },
+            "title": "Travellers",
+            "type": "array"
           }
         },
         "required": [
           "positionId",
           "stockItemId",
           "productId",
-          "supplierOrganisationId",
-          "travellerPersonId"
+          "travellers"
         ],
         "title": "OrderPositionDetail",
         "type": "object"
@@ -684,6 +704,123 @@
           "properties"
         ],
         "title": "OrderResponse",
+        "type": "object"
+      },
+      "OrderSummaryResponse": {
+        "properties": {
+          "customerDisplayName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customerdisplayname"
+          },
+          "customerPersonId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customerpersonid"
+          },
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          },
+          "entityKind": {
+            "const": "OrderItem",
+            "default": "OrderItem",
+            "title": "Entitykind",
+            "type": "string"
+          },
+          "positionCount": {
+            "title": "Positioncount",
+            "type": "integer"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/OrderHeaderProperties"
+          },
+          "schemaVersion": {
+            "title": "Schemaversion",
+            "type": "integer"
+          },
+          "serviceDateFrom": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Servicedatefrom"
+          },
+          "serviceDateTo": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Servicedateto"
+          },
+          "type": {
+            "const": "order/header",
+            "default": "order/header",
+            "title": "Type",
+            "type": "string"
+          },
+          "unresolvedPositionCount": {
+            "title": "Unresolvedpositioncount",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entityId",
+          "schemaVersion",
+          "properties",
+          "customerPersonId",
+          "customerDisplayName",
+          "positionCount",
+          "unresolvedPositionCount",
+          "serviceDateFrom",
+          "serviceDateTo"
+        ],
+        "title": "OrderSummaryResponse",
+        "type": "object"
+      },
+      "OrderTravellerDetail": {
+        "properties": {
+          "displayName": {
+            "title": "Displayname",
+            "type": "string"
+          },
+          "personId": {
+            "title": "Personid",
+            "type": "string"
+          },
+          "roleId": {
+            "title": "Roleid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "roleId",
+          "personId",
+          "displayName"
+        ],
+        "title": "OrderTravellerDetail",
         "type": "object"
       },
       "OrderUpdateRequest": {
@@ -926,11 +1063,11 @@
         "title": "OrganisationUpdateRequest",
         "type": "object"
       },
-      "Page_OrderResponse_": {
+      "Page_OrderSummaryResponse_": {
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/OrderResponse"
+              "$ref": "#/components/schemas/OrderSummaryResponse"
             },
             "title": "Items",
             "type": "array"
@@ -950,7 +1087,7 @@
         "required": [
           "items"
         ],
-        "title": "Page[OrderResponse]",
+        "title": "Page[OrderSummaryResponse]",
         "type": "object"
       },
       "Page_OrganisationResponse_": {
@@ -2224,6 +2361,98 @@
               "description": "Opaque cursor from a previous page's nextCursor.",
               "title": "Cursor"
             }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productType",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Producttype"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceDateFrom",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Servicedatefrom"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceDateTo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Servicedateto"
+            }
+          },
+          {
+            "in": "query",
+            "name": "unresolvedOnly",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Unresolvedonly",
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -2231,7 +2460,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Page_OrderResponse_"
+                  "$ref": "#/components/schemas/Page_OrderSummaryResponse_"
                 }
               }
             },

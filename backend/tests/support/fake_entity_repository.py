@@ -169,6 +169,14 @@ class FakeEntityRepository:
                     return to_id
             return None
 
+        customer_role_id = next((to_id for fk, fi, rel, tk, to_id in self.relationship_calls
+            if fk == EntityKind.ORDER_ITEM and fi == order_id and rel == RelationshipType.CUSTOMER
+            and tk == EntityKind.PERSON_ROLE), None)
+        customer_person_id = next((fi for fk, fi, rel, tk, to_id in self.relationship_calls
+            if fk == EntityKind.PERSON and rel == RelationshipType.HAS_ROLE and tk == EntityKind.PERSON_ROLE
+            and to_id == customer_role_id), None)
+        customer = self._entities.get((EntityKind.PERSON, customer_person_id)) if customer_person_id else None
+        customer_name = f"{customer.properties.given_name} {customer.properties.family_name}" if customer else None
         details = []
         for position_id in position_ids:
             stock_id = related_id(position_id, RelationshipType.ALLOCATES_STOCK, EntityKind.STOCK_ITEM)
@@ -221,30 +229,62 @@ class FakeEntityRepository:
                             ),
                             None,
                         )
-            traveller_role_id = related_id(position_id, RelationshipType.ASSIGNED_TRAVELLER, EntityKind.PERSON_ROLE)
-            traveller_id = None
-            if traveller_role_id is not None:
-                traveller_id = next(
-                    (
-                        fi
-                        for (fk, fi, rel, tk, to_id) in self.relationship_calls
-                        if fk == EntityKind.PERSON
-                        and rel == RelationshipType.HAS_ROLE
-                        and tk == EntityKind.PERSON_ROLE
-                        and to_id == traveller_role_id
-                    ),
-                    None,
-                )
+            traveller_role_ids = [to_id for fk, fi, rel, tk, to_id in self.relationship_calls
+                if fk == EntityKind.ORDER_ITEM and fi == position_id and rel == RelationshipType.ASSIGNED_TRAVELLER
+                and tk == EntityKind.PERSON_ROLE]
+            travellers = []
+            for role_id in traveller_role_ids:
+                person_id = next((fi for fk, fi, rel, tk, to_id in self.relationship_calls
+                    if fk == EntityKind.PERSON and rel == RelationshipType.HAS_ROLE
+                    and tk == EntityKind.PERSON_ROLE and to_id == role_id), None)
+                person = self._entities.get((EntityKind.PERSON, person_id)) if person_id else None
+                if person:
+                    travellers.append({"roleId": role_id, "personId": person_id,
+                        "displayName": f"{person.properties.given_name} {person.properties.family_name}"})
             details.append(
                 {
                     "positionId": position_id,
                     "stockItemId": stock_id,
                     "productId": product_id,
-                    "supplierOrganisationId": supplier_id,
-                    "travellerPersonId": traveller_id,
+                    "travellers": travellers,
                 }
             )
-        return tuple(details)
+        return {"customerRoleId": customer_role_id, "customerPersonId": customer_person_id,
+            "customerDisplayName": customer_name, "positions": details}
+
+    def list_orders(self, *, search=None, status=None, product_type=None,
+        service_date_from=None, service_date_to=None, unresolved_only=False, page=PageRequest()):
+        def product_for(stock):
+            products = self.list_related(
+                from_kind=EntityKind.STOCK_ITEM,
+                from_id=stock.entity_id,
+                relationship=RelationshipType.REPRESENTS_PRODUCT,
+                to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+            )
+            return products[0] if products else None
+
+        headers = self.list(EntityKind.ORDER_ITEM, type_filter="order/header", page=PageRequest(limit=1000)).items
+        rows = []
+        for header in headers:
+            detail = self.get_order_detail(header.entity_id)
+            stocks = [self._entities.get((EntityKind.STOCK_ITEM, p["stockItemId"])) for p in detail["positions"] if p["stockItemId"]]
+            stocks = [s for s in stocks if s]
+            dates = sorted(s.properties.service_date for s in stocks)
+            products = [product_for(s) for s in stocks]
+            summary = {"customerPersonId": detail["customerPersonId"], "customerDisplayName": detail["customerDisplayName"],
+                "positionCount": len(detail["positions"]), "unresolvedPositionCount": sum(p["stockItemId"] is None for p in detail["positions"]),
+                "serviceDateFrom": dates[0] if dates else None, "serviceDateTo": dates[-1] if dates else None}
+            if status and header.properties.order_status_code != status: continue
+            if unresolved_only and not summary["unresolvedPositionCount"]: continue
+            text = f"{header.entity_id} {header.properties.order_number} {summary['customerDisplayName'] or ''}".lower()
+            if search and search.lower() not in text: continue
+            if product_type and not any(p and p.type == product_type for p in products): continue
+            if service_date_from and (not dates or dates[-1] < service_date_from): continue
+            if service_date_to and (not dates or dates[0] > service_date_to): continue
+            rows.append((header, summary))
+        rows.sort(key=lambda pair: pair[0].entity_id)
+        if page.after: rows = [pair for pair in rows if pair[0].entity_id > page.after]
+        return tuple(rows[:page.limit + 1])
 
     def list_stock_items(
         self,

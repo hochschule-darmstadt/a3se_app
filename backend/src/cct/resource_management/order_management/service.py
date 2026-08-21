@@ -16,6 +16,7 @@ from __future__ import annotations
 from cct.resource_management.contracts import EntityKind, ValidatedEntity
 from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError
 from cct.resource_management.inventory import service as inventory_service
+from datetime import date
 from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.person_management import service as person_service
 from cct.resource_management.relationship_types import RelationshipType
@@ -44,6 +45,15 @@ def list_orders(
     repository: EntityRepositoryPort, *, page: PageRequest = PageRequest()
 ) -> PageResult[ValidatedEntity]:
     return repository.list(EntityKind.ORDER_ITEM, type_filter=ORDER_HEADER_TYPE, page=page)
+
+
+def list_order_summaries(repository: EntityRepositoryPort, *, search: str | None = None,
+    status: str | None = None, product_type: str | None = None,
+    service_date_from: date | None = None, service_date_to: date | None = None,
+    unresolved_only: bool = False, page: PageRequest = PageRequest()):
+    return repository.list_orders(search=search, status=status, product_type=product_type,
+        service_date_from=service_date_from, service_date_to=service_date_to,
+        unresolved_only=unresolved_only, page=page)
 
 
 def update_order(
@@ -174,7 +184,9 @@ def assign_traveller(
     person_repository: EntityRepositoryPort,
 ) -> None:
     get_order_position(repository, position_id)
-    person_service.get_person_role(person_repository, traveller_role_id)
+    role = person_service.get_person_role(person_repository, traveller_role_id)
+    if role.type != "person/traveller":
+        raise ValueError(f"person role {traveller_role_id} is not a traveller role")
     repository.create_relationship(
         from_kind=EntityKind.ORDER_ITEM,
         from_id=position_id,
@@ -192,7 +204,9 @@ def assign_customer(
     person_repository: EntityRepositoryPort,
 ) -> None:
     get_order(repository, order_id)
-    person_service.get_person_role(person_repository, customer_role_id)
+    role = person_service.get_person_role(person_repository, customer_role_id)
+    if role.type != "person/customer":
+        raise ValueError(f"person role {customer_role_id} is not a customer role")
     repository.create_relationship(
         from_kind=EntityKind.ORDER_ITEM,
         from_id=order_id,
@@ -202,5 +216,5 @@ def assign_customer(
     )
 
 
-def get_order_detail(repository: EntityRepositoryPort, order_id: str) -> tuple[dict[str, str | None], ...]:
+def get_order_detail(repository: EntityRepositoryPort, order_id: str) -> dict[str, object]:
     return repository.get_order_detail(order_id)

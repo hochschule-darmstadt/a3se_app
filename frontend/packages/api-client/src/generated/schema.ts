@@ -663,6 +663,12 @@ export interface components {
         };
         /** OrderDetailResponse */
         OrderDetailResponse: {
+            /** Customerdisplayname */
+            customerDisplayName: string | null;
+            /** Customerpersonid */
+            customerPersonId: string | null;
+            /** Customerroleid */
+            customerRoleId: string | null;
             order: components["schemas"]["OrderResponse"];
             /** Positions */
             positions: components["schemas"]["OrderPositionDetail"][];
@@ -690,10 +696,8 @@ export interface components {
             productId: string | null;
             /** Stockitemid */
             stockItemId: string | null;
-            /** Supplierorganisationid */
-            supplierOrganisationId: string | null;
-            /** Travellerpersonid */
-            travellerPersonId: string | null;
+            /** Travellers */
+            travellers: components["schemas"]["OrderTravellerDetail"][];
         };
         /** OrderPositionProperties */
         OrderPositionProperties: Record<string, never>;
@@ -736,6 +740,47 @@ export interface components {
              * @constant
              */
             type: "order/header";
+        };
+        /** OrderSummaryResponse */
+        OrderSummaryResponse: {
+            /** Customerdisplayname */
+            customerDisplayName: string | null;
+            /** Customerpersonid */
+            customerPersonId: string | null;
+            /** Entityid */
+            entityId: string;
+            /**
+             * Entitykind
+             * @default OrderItem
+             * @constant
+             */
+            entityKind: "OrderItem";
+            /** Positioncount */
+            positionCount: number;
+            properties: components["schemas"]["OrderHeaderProperties"];
+            /** Schemaversion */
+            schemaVersion: number;
+            /** Servicedatefrom */
+            serviceDateFrom: string | null;
+            /** Servicedateto */
+            serviceDateTo: string | null;
+            /**
+             * Type
+             * @default order/header
+             * @constant
+             */
+            type: "order/header";
+            /** Unresolvedpositioncount */
+            unresolvedPositionCount: number;
+        };
+        /** OrderTravellerDetail */
+        OrderTravellerDetail: {
+            /** Displayname */
+            displayName: string;
+            /** Personid */
+            personId: string;
+            /** Roleid */
+            roleId: string;
         };
         /** OrderUpdateRequest */
         OrderUpdateRequest: {
@@ -809,10 +854,10 @@ export interface components {
         OrganisationUpdateRequest: {
             properties: components["schemas"]["OrganisationProperties"];
         };
-        /** Page[OrderResponse] */
-        Page_OrderResponse_: {
+        /** Page[OrderSummaryResponse] */
+        Page_OrderSummaryResponse_: {
             /** Items */
-            items: components["schemas"]["OrderResponse"][];
+            items: components["schemas"]["OrderSummaryResponse"][];
             /** Nextcursor */
             nextCursor?: string | null;
         };
@@ -1231,6 +1276,12 @@ export interface operations {
                 limit?: number;
                 /** @description Opaque cursor from a previous page's nextCursor. */
                 cursor?: string | null;
+                search?: string | null;
+                status?: string | null;
+                productType?: string | null;
+                serviceDateFrom?: string | null;
+                serviceDateTo?: string | null;
+                unresolvedOnly?: boolean;
             };
             header?: never;
             path?: never;
@@ -1244,7 +1295,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page_OrderResponse_"];
+                    "application/json": components["schemas"]["Page_OrderSummaryResponse_"];
                 };
             };
             /** @description Unprocessable Content */
