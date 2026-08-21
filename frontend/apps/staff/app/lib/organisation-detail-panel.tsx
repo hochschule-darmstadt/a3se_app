@@ -218,7 +218,12 @@ function RoleCard({ organisationId, role }: { readonly organisationId: string; r
   }
 
   return (
-    <Stack gap="xs" p="sm" style={{ border: "1px solid var(--mantine-color-gray-4)", borderRadius: 8 }}>
+    <Stack
+      id={`role-${role.entityId}`}
+      gap="xs"
+      p="sm"
+      style={{ border: "1px solid var(--mantine-color-gray-4)", borderRadius: 8, scrollMarginTop: 88 }}
+    >
       <Group justify="space-between">
         <Group gap="xs">
           <Text fw={700}>{label}</Text>

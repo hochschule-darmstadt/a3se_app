@@ -196,6 +196,12 @@ export default function ProductsRoute() {
                   [STAFF_VIEW_PARAM.detail]: productId,
                   [STAFF_VIEW_PARAM.panel]: null,
                 })}
+                organisationHref={(organisationId, roleId) => {
+                  const href = staffViewHref("/organisations", new URLSearchParams(), {
+                    [STAFF_VIEW_PARAM.detail]: organisationId,
+                  });
+                  return roleId ? `${href}#role-${roleId}` : href;
+                }}
               />
             ) : rightPane.mode === "create" ? (
               <ProductCreatePanel

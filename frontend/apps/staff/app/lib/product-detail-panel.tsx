@@ -30,6 +30,7 @@ type ProductResponse = components["schemas"]["ProductResponse"];
 type ProductMutationResponse = components["schemas"]["ProductMutationResponse"];
 type ProductComponentResponse = components["schemas"]["ProductComponentResponse"];
 type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
+type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 
 function invalidateProduct(productId: string) {
   void queryClient.invalidateQueries({ queryKey: ["products", productId] });
@@ -55,6 +56,21 @@ function ProductCrossLink({
   );
 }
 
+/** A compact record link used for hierarchy navigation within the detail panel. */
+function ProductChipLink({
+  to,
+  children,
+}: {
+  readonly to: string;
+  readonly children: ReactNode;
+}) {
+  return (
+    <Badge component={Link} to={to} variant="light" size="lg" tt="none">
+      {children}
+    </Badge>
+  );
+}
+
 /**
  * S-003 detail (issue #31): a TouristicProductItem's type-specific fields,
  * lifecycle status (activate/retire -- WF-Q-014, no version history), its
@@ -70,9 +86,11 @@ function ProductCrossLink({
 export function ProductDetailPanel({
   productId,
   productHref,
+  organisationHref,
 }: {
   readonly productId: string;
   readonly productHref?: (productId: string) => string;
+  readonly organisationHref?: (organisationId: string, roleId?: string) => string;
 }) {
   const productQuery = useApiQuery(
     ["products", productId],
@@ -99,6 +117,12 @@ export function ProductDetailPanel({
     ["products", rootId, "supplier"],
     () => apiClient.GET("/products/{product_id}/supplier", { params: { path: { product_id: rootId } } }),
     { enabled: Boolean(ancestorsQuery.data) }
+  );
+  const hierarchySupplier = (supplierQuery.data ?? rootSupplierQuery.data) as OrgaRoleResponse | null | undefined;
+  const supplierOrganisationQuery = useApiQuery(
+    ["organisations", "roles", hierarchySupplier?.entityId, "organisation"],
+    () => apiClient.GET("/organisations/roles/{role_id}/organisation", { params: { path: { role_id: hierarchySupplier!.entityId } } }),
+    { enabled: Boolean(hierarchySupplier?.entityId) }
   );
 
   const [editing, setEditing] = useState(false);
@@ -183,6 +207,9 @@ export function ProductDetailPanel({
   // a nested item shows the same supplier, inherited from its root, rather than "No supplier set."
   const displaySupplier = supplier ?? (rootSupplierQuery.data as OrgaRoleResponse | null) ?? null;
   const rootAncestor = ancestorsQuery.data && ancestorsQuery.data.length > 0 ? ancestorsQuery.data[0]! : null;
+  const ancestorsParentFirst = ancestorsQuery.data ? [...ancestorsQuery.data].reverse() : [];
+  const supplierOrganisation = supplierOrganisationQuery.data as OrganisationResponse | null | undefined;
+  const hasHierarchy = ancestorsParentFirst.length > 0 || Boolean(hierarchySupplier) || Boolean(supplierOrganisation);
   const rootLabel = rootAncestor
     ? rootAncestor.displayName
     : ownLabel;
@@ -239,6 +266,37 @@ export function ProductDetailPanel({
             <Text fw={500} size="sm" w={200}>Type</Text>
             <Text size="sm">{typeLabel(product.type)}</Text>
           </Group>
+          {hasHierarchy ? (
+            <Group align="flex-start" role="group" aria-label="Product hierarchy">
+              <Text fw={500} size="sm" w={200}>Hierarchy</Text>
+              <Group gap="xs">
+                {ancestorsParentFirst.map((ancestor) => (
+                  <ProductChipLink
+                    key={ancestor.entityId}
+                    to={productHref?.(ancestor.entityId) ?? `/products/${ancestor.entityId}`}
+                  >
+                    {ancestor.displayNameChain.join(" · ")}
+                  </ProductChipLink>
+                ))}
+                {hierarchySupplier && supplierOrganisation ? (
+                  <ProductChipLink
+                    to={organisationHref?.(supplierOrganisation.entityId, hierarchySupplier.entityId)
+                      ?? `/organisations/${supplierOrganisation.entityId}#role-${hierarchySupplier.entityId}`}
+                  >
+                    {hierarchySupplier.displayNameChain.join(" · ")}
+                  </ProductChipLink>
+                ) : null}
+                {supplierOrganisation ? (
+                  <ProductChipLink
+                    to={organisationHref?.(supplierOrganisation.entityId)
+                      ?? `/organisations/${supplierOrganisation.entityId}`}
+                  >
+                    {supplierOrganisation.properties.name}
+                  </ProductChipLink>
+                ) : null}
+              </Group>
+            </Group>
+          ) : null}
           {productPropertyEntries(product.properties).map(({ key, label, value }) => (
             <Group key={key}>
               <Text fw={500} size="sm" w={200}>{label}</Text>
@@ -311,9 +369,9 @@ export function ProductDetailPanel({
               key: "entityId",
               header: "Component",
               render: (row) => (
-                <ProductCrossLink to={productHref?.(row.entityId) ?? `/products/${row.entityId}`}>
-                  {row.displayName}
-                </ProductCrossLink>
+                <ProductChipLink to={productHref?.(row.entityId) ?? `/products/${row.entityId}`}>
+                  {row.displayNameChain.join(" · ")}
+                </ProductChipLink>
               ),
             },
             { key: "type", header: "Type", render: (row) => typeLabel(row.type) },

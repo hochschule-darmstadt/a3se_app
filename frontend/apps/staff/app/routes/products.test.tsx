@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createRoutesStub, useLocation, useNavigate } from "react-router";
@@ -229,6 +229,68 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     await waitFor(() => expect(screen.getByLabelText("Current URL")).toHaveTextContent("/products?q=Airport&detail=PRD-001"));
     expect(await screen.findByRole("heading", { level: 1, name: "Airport shuttle" })).toBeInTheDocument();
     expect(screen.getByDisplayValue("Airport")).toBeInTheDocument();
+  });
+
+  it("shows ancestor chips parent-first and preserves URL state when navigating to one", async () => {
+    const root = productResponse("PRD-ROOT", "product/package", "Brazil Explorer", "product/active", ["Brazil Explorer"]);
+    const parent = productResponse("PRD-PARENT", "product/airline/flight", "Outbound flight", "product/active", ["Brazil Explorer", "Outbound flight"]);
+    const leaf = productResponse("PRD-LEAF", "product/airline/flight/seat", "12A", "product/active", ["Brazil Explorer", "Outbound flight", "12A"]);
+    mockGetImplementation({
+      products: [root, parent, leaf],
+      ancestorsByProduct: { "PRD-LEAF": [root, parent], "PRD-PARENT": [root] },
+      supplierByRoot: {
+        "PRD-ROOT": {
+          entityId: "ROLE-001",
+          entityKind: "OrgaRole",
+          type: "organisation/accommodation",
+          schemaVersion: 1,
+          properties: { roleStatusCode: "role/active" },
+          displayName: "Accommodation",
+          displayNameChain: ["Southlight Stays", "Accommodation"],
+        },
+      },
+      organisationByRole: {
+        "ROLE-001": {
+          entityId: "ORG-001",
+          entityKind: "Organisation",
+          schemaVersion: 1,
+          properties: { name: "Southlight Stays", addressLocalityName: "Lima" },
+        },
+      },
+    });
+    renderProducts("/products?q=flight&page=1&detail=PRD-LEAF");
+
+    const hierarchy = await screen.findByRole("group", { name: "Product hierarchy" });
+    const links = within(hierarchy).getAllByRole("link");
+    expect(links.map((link) => link.textContent)).toEqual([
+      "Brazil Explorer · Outbound flight",
+      "Brazil Explorer",
+      "Southlight Stays · Accommodation",
+      "Southlight Stays",
+    ]);
+    expect(links.every((link) => link.classList.contains("mantine-Badge-root"))).toBe(true);
+    expect(links[2]).toHaveAttribute("href", "/organisations?detail=ORG-001#role-ROLE-001");
+    expect(links[3]).toHaveAttribute("href", "/organisations?detail=ORG-001");
+
+    const user = userEvent.setup();
+    await user.click(links[0]!);
+    expect(screen.getByLabelText("Current URL")).toHaveTextContent("/products?q=flight&page=1&detail=PRD-PARENT");
+  });
+
+  it("renders component links with the hierarchy chip presentation", async () => {
+    const parent = productResponse("PRD-001", "product/mobility/transfer", "Airport shuttle", "product/active");
+    const component = productResponse(
+      "PRD-002",
+      "product/mobility/transfer/leg",
+      "Terminal leg",
+      "product/active",
+      ["Airport shuttle", "Terminal leg"]
+    );
+    mockGetImplementation({ products: [parent, component], componentsByProduct: { "PRD-001": [component] } });
+    renderProducts("/products?detail=PRD-001");
+
+    const link = await screen.findByRole("link", { name: "Airport shuttle · Terminal leg" });
+    expect(link).toHaveClass("mantine-Badge-root");
   });
 
   it("paginates the list instead of rendering every match at once", async () => {

@@ -93,6 +93,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     expect(screen.getByText("airline/flight")).toBeInTheDocument();
     expect(screen.getByText("Draft")).toBeInTheDocument();
     expect(screen.getByText(/no supplier set/i)).toBeInTheDocument();
+    expect(screen.queryByText("Hierarchy")).not.toBeInTheDocument();
   });
 
   it("activates a draft via a status-changing PUT rather than a version bump, chosen from the edit form", async () => {
