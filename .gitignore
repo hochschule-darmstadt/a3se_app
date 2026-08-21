@@ -15,3 +15,4 @@ tools/diagrams/.tmp/
 **/.$*.drawio.bkp
 /.env
 /.env.*
+/.claude/settings.local.json
