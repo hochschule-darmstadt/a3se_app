@@ -4782,6 +4782,98 @@
               "description": "Opaque cursor from a previous page's nextCursor.",
               "title": "Cursor"
             }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 200,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceDateFrom",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Servicedatefrom"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceDateTo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Servicedateto"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availabilityState",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "available",
+                    "held",
+                    "allocated",
+                    "shortfall",
+                    "withdrawn",
+                    "expired"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Availabilitystate"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productType",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Producttype"
+            }
           }
         ],
         "responses": {

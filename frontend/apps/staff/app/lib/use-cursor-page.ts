@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { toApiError, useApiQuery, type ApiError } from "@cct/api-client";
@@ -32,6 +32,14 @@ export function useCursorPage<T>(
   fetchPage: (cursor: string | undefined) => Promise<{ data?: PageResult<T>; error?: unknown; response: Response }>
 ): CursorPageState<T> {
   const [cursorStack, setCursorStack] = useState<readonly (string | undefined)[]>([undefined]);
+  const queryKeySignature = JSON.stringify(queryKeyBase);
+  const previousQueryKeySignature = useRef(queryKeySignature);
+  useEffect(() => {
+    if (previousQueryKeySignature.current !== queryKeySignature) {
+      previousQueryKeySignature.current = queryKeySignature;
+      setCursorStack([undefined]);
+    }
+  }, [queryKeySignature]);
   const cursor = cursorStack[cursorStack.length - 1];
 
   const query = useApiQuery<PageResult<T>>([...queryKeyBase, cursor], () => fetchPage(cursor));

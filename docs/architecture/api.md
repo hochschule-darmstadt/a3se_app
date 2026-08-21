@@ -30,6 +30,11 @@ Every root and nested resource supports create/read/update/delete except
 relationships) and so support create/read/delete/list without update.
 Inventory's delete-equivalent is deliberately a lifecycle update to
 `inventory/withdrawn`, not physical deletion, so historical references remain.
+`GET /stock-items` accepts `search`, `serviceDateFrom`, `serviceDateTo`,
+`availabilityState`, and `productType`. These predicates execute in the
+persistence query before cursor pagination; `search` covers the represented
+product ancestry and supplier context from which the response display chain is
+computed, as well as stable identifiers and source properties.
 
 ## Error contract
 

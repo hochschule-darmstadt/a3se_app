@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date
 from typing import Protocol
 
 from .contracts import EntityKind, FlexibleEntity, ValidatedEntity
@@ -60,6 +61,17 @@ class EntityRepositoryPort(Protocol):
     def get_order_detail(self, order_id: str) -> tuple[dict[str, str | None], ...]: ...
 
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None: ...
+
+    def list_stock_items(
+        self,
+        *,
+        search: str | None,
+        service_date_from: date | None,
+        service_date_to: date | None,
+        availability_state: str | None,
+        product_type: str | None,
+        page: PageRequest,
+    ) -> PageResult[ValidatedEntity]: ...
 
 
 class ScopedEntityRepository:
@@ -153,6 +165,26 @@ class ScopedEntityRepository:
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None:
         self._require_allowed(EntityKind.ORGA_ROLE)
         return self._repository.get_organisation_for_role(role_id)
+
+    def list_stock_items(
+        self,
+        *,
+        search: str | None,
+        service_date_from: date | None,
+        service_date_to: date | None,
+        availability_state: str | None,
+        product_type: str | None,
+        page: PageRequest,
+    ) -> PageResult[ValidatedEntity]:
+        self._require_allowed(EntityKind.STOCK_ITEM)
+        return self._repository.list_stock_items(
+            search=search,
+            service_date_from=service_date_from,
+            service_date_to=service_date_to,
+            availability_state=availability_state,
+            product_type=product_type,
+            page=page,
+        )
 
     def _require_allowed(self, entity_kind: EntityKind) -> None:
         if entity_kind not in self._allowed_kinds:

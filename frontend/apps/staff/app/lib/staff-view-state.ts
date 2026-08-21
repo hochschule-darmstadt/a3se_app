@@ -5,6 +5,8 @@ export const STAFF_VIEW_PARAM = {
   page: "page",
   detail: "detail",
   panel: "panel",
+  fromDate: "from",
+  toDate: "to",
 } as const;
 
 export type StaffViewParam = (typeof STAFF_VIEW_PARAM)[keyof typeof STAFF_VIEW_PARAM];

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Query, status
@@ -90,6 +91,15 @@ PartnerRepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_partne
 ActorDependency = Annotated[Actor, Depends(get_current_actor)]
 
 
+class StockPageParams(PageParams):
+    model_config = ConfigDict(populate_by_name=True)
+    search: str | None = Field(default=None, max_length=200)
+    service_date_from: date | None = Field(default=None, alias="serviceDateFrom")
+    service_date_to: date | None = Field(default=None, alias="serviceDateTo")
+    availability_state: Literal["available", "held", "allocated", "shortfall", "withdrawn", "expired"] | None = Field(default=None, alias="availabilityState")
+    product_type: str | None = Field(default=None, alias="productType", max_length=100)
+
+
 def _response(entity, repository, product_repository, partner_repository) -> StockItemResponse:
     return StockItemResponse.from_domain(entity, repository, product_repository, partner_repository)
 
@@ -106,9 +116,19 @@ def get_stock_item(stock_item_id: str, repository: RepositoryDependency, product
 
 
 @router.get("", response_model=Page[StockItemResponse], operation_id="listStockItems", responses={422: {"model": ErrorResponse}})
-def list_stock_items(repository: RepositoryDependency, product_repository: ProductRepositoryDependency, partner_repository: PartnerRepositoryDependency, params: Annotated[PageParams, Query()]) -> Page[StockItemResponse]:
+def list_stock_items(repository: RepositoryDependency, product_repository: ProductRepositoryDependency, partner_repository: PartnerRepositoryDependency, params: Annotated[StockPageParams, Query()]) -> Page[StockItemResponse]:
     after = decode_cursor(params.cursor) if params.cursor else None
-    result = service.list_stock_items(repository, page=PageRequest(limit=params.limit, after=after))
+    if params.service_date_from and params.service_date_to and params.service_date_from > params.service_date_to:
+        raise ValueError("serviceDateFrom must not be after serviceDateTo")
+    result = service.list_stock_items(
+        repository,
+        search=params.search.strip() if params.search and params.search.strip() else None,
+        service_date_from=params.service_date_from,
+        service_date_to=params.service_date_to,
+        availability_state=params.availability_state,
+        product_type=params.product_type,
+        page=PageRequest(limit=params.limit, after=after),
+    )
     next_cursor = encode_cursor(result.next_cursor) if result.next_cursor else None
     return Page[StockItemResponse](items=[_response(entity, repository, product_repository, partner_repository) for entity in result.items], next_cursor=next_cursor)
 

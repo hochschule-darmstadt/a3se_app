@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date
 from typing import Final, Protocol
 
 from cct.resource_management.contracts import EntityKind, FlexibleEntity, ValidatedEntity
@@ -170,6 +171,38 @@ class Neo4jEntityRepository:
             if row["positionId"] is not None
         )
 
+    def list_stock_items(
+        self,
+        *,
+        search: str | None,
+        service_date_from: date | None,
+        service_date_to: date | None,
+        availability_state: str | None,
+        product_type: str | None,
+        page: PageRequest,
+    ) -> PageResult[ValidatedEntity]:
+        with self._driver.session(database=self._database) as session:
+            records = session.execute_read(
+                self._read_stock_page,
+                search,
+                service_date_from,
+                service_date_to,
+                availability_state,
+                product_type,
+                page,
+            )
+        entities = [
+            self._mapper.from_node(NodeRecord(LABELS[EntityKind.STOCK_ITEM], dict(record["entity"])))
+            for record in records
+        ]
+        has_more = len(entities) > page.limit
+        if has_more:
+            entities = entities[: page.limit]
+        return PageResult(
+            items=tuple(entities),
+            next_cursor=entities[-1].entity_id if has_more and entities else None,
+        )
+
     @staticmethod
     def _write_node(tx: Transaction, node: NodeRecord) -> None:
         # The label comes from the EntityKind allow-list, never caller input.
@@ -331,6 +364,29 @@ class Neo4jEntityRepository:
             return None
         return list(tx.run(ORDER_DETAIL_TRAVERSAL, orderId=order_id))
 
+    @staticmethod
+    def _read_stock_page(
+        tx: Transaction,
+        search: str | None,
+        service_date_from: date | None,
+        service_date_to: date | None,
+        availability_state: str | None,
+        product_type: str | None,
+        page: PageRequest,
+    ):
+        return list(
+            tx.run(
+                STOCK_FILTER_TRAVERSAL,
+                search=search.lower() if search else None,
+                serviceDateFrom=service_date_from,
+                serviceDateTo=service_date_to,
+                availabilityState=availability_state,
+                productType=product_type,
+                after=page.after,
+                limit=page.limit + 1,
+            )
+        )
+
 
 COMMUNITY_SCHEMA = (
     "CREATE CONSTRAINT person_entity_id IF NOT EXISTS FOR (n:Person) REQUIRE n.entityId IS UNIQUE",
@@ -355,4 +411,33 @@ OPTIONAL MATCH (position)-[:ASSIGNED_TRAVELLER]->(:PersonRole)<-[:HAS_ROLE]-(tra
 RETURN position.entityId AS positionId, stock.entityId AS stockItemId,
        product.entityId AS productId, supplier.entityId AS supplierOrganisationId,
        traveller.entityId AS travellerPersonId
+""".strip()
+
+STOCK_FILTER_TRAVERSAL = """
+MATCH (stock:StockItem)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)
+OPTIONAL MATCH (ancestor:TouristicProductItem)-[:CONTAINS*0..10]->(product)
+WITH stock, product, collect(DISTINCT ancestor) + [product] AS chainNodes
+OPTIONAL MATCH (supplierProduct:TouristicProductItem)-[:SUPPLIED_BY]->(supplierRole:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
+WHERE supplierProduct IN chainNodes
+WITH stock, product, chainNodes, collect(DISTINCT supplierRole) AS supplierRoles, collect(DISTINCT supplier) AS suppliers,
+     coalesce(stock['capacityQuantity'], 1) - coalesce(stock['heldQuantity'], 0) - coalesce(stock['allocatedQuantity'], 0) AS available,
+     CASE
+       WHEN coalesce(stock['inventoryStatusCode'], 'inventory/active') <> 'inventory/active'
+         THEN replace(stock['inventoryStatusCode'], 'inventory/', '')
+       WHEN coalesce(stock['capacityQuantity'], 1) = 0 OR coalesce(stock['capacityQuantity'], 1) - coalesce(stock['heldQuantity'], 0) - coalesce(stock['allocatedQuantity'], 0) < 0
+         THEN 'shortfall'
+       WHEN coalesce(stock['heldQuantity'], 0) > 0 THEN 'held'
+       WHEN coalesce(stock['capacityQuantity'], 1) - coalesce(stock['heldQuantity'], 0) - coalesce(stock['allocatedQuantity'], 0) = 0 AND coalesce(stock['allocatedQuantity'], 0) > 0
+         THEN 'allocated'
+       ELSE 'available'
+     END AS state
+WHERE ($after IS NULL OR stock.entityId > $after)
+  AND ($serviceDateFrom IS NULL OR stock.serviceDate >= $serviceDateFrom)
+  AND ($serviceDateTo IS NULL OR stock.serviceDate <= $serviceDateTo)
+  AND ($availabilityState IS NULL OR state = $availabilityState)
+  AND ($productType IS NULL OR product.type = $productType)
+  AND ($search IS NULL
+       OR any(node IN chainNodes + supplierRoles + suppliers
+              WHERE any(key IN keys(node) WHERE toLower(toString(node[key])) CONTAINS $search)))
+RETURN DISTINCT stock AS entity ORDER BY stock.entityId LIMIT $limit
 """.strip()

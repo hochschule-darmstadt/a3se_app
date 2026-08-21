@@ -64,6 +64,36 @@ class StockItemsApiTest(unittest.TestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual(1, len(response.json()["items"]))
 
+    def test_list_filters_are_applied_by_repository_query(self) -> None:
+        self.client.post("/stock-items", json=stock_payload(entity_id="I21-STOCK-AVAILABLE", capacityQuantity=5))
+        self.client.post(
+            "/stock-items",
+            json=stock_payload(
+                entity_id="I21-STOCK-HELD",
+                serviceDate="2027-02-08",
+                capacityQuantity=5,
+                heldQuantity=2,
+            ),
+        )
+        response = self.client.get(
+            "/stock-items",
+            params={
+                "search": "airport transfer",
+                "serviceDateFrom": "2027-02-01",
+                "serviceDateTo": "2027-02-28",
+                "availabilityState": "held",
+                "productType": "product/mobility/transfer",
+            },
+        )
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(["I21-STOCK-HELD"], [item["entityId"] for item in response.json()["items"]])
+
+    def test_list_rejects_reversed_date_range(self) -> None:
+        response = self.client.get(
+            "/stock-items", params={"serviceDateFrom": "2027-03-01", "serviceDateTo": "2027-02-01"}
+        )
+        self.assertEqual(422, response.status_code)
+
     def test_update_stock_item_replaces_properties(self) -> None:
         self.client.post("/stock-items", json=stock_payload())
         response = self.client.put(

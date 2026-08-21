@@ -11,6 +11,8 @@ repository to validate the represented product, via that module's own
 
 from __future__ import annotations
 
+from datetime import date
+
 from cct.resource_management.contracts import EntityKind, ValidatedEntity
 from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError
 from cct.resource_management.pagination import PageRequest, PageResult
@@ -52,9 +54,23 @@ def get_stock_item(repository: EntityRepositoryPort, entity_id: str) -> Validate
 
 
 def list_stock_items(
-    repository: EntityRepositoryPort, *, type_filter: str | None = None, page: PageRequest = PageRequest()
+    repository: EntityRepositoryPort,
+    *,
+    search: str | None = None,
+    service_date_from: date | None = None,
+    service_date_to: date | None = None,
+    availability_state: str | None = None,
+    product_type: str | None = None,
+    page: PageRequest = PageRequest(),
 ) -> PageResult[ValidatedEntity]:
-    return repository.list(EntityKind.STOCK_ITEM, type_filter=type_filter, page=page)
+    return repository.list_stock_items(
+        search=search,
+        service_date_from=service_date_from,
+        service_date_to=service_date_to,
+        availability_state=availability_state,
+        product_type=product_type,
+        page=page,
+    )
 
 
 def update_stock_item(

@@ -3102,6 +3102,11 @@ export interface operations {
                 limit?: number;
                 /** @description Opaque cursor from a previous page's nextCursor. */
                 cursor?: string | null;
+                search?: string | null;
+                serviceDateFrom?: string | null;
+                serviceDateTo?: string | null;
+                availabilityState?: ("available" | "held" | "allocated" | "shortfall" | "withdrawn" | "expired") | null;
+                productType?: string | null;
             };
             header?: never;
             path?: never;

@@ -234,3 +234,80 @@ class FakeEntityRepository:
                 }
             )
         return tuple(details)
+
+    def list_stock_items(
+        self,
+        *,
+        search=None,
+        service_date_from=None,
+        service_date_to=None,
+        availability_state=None,
+        product_type=None,
+        page=PageRequest(),
+    ):
+        stocks = [entity for (kind, _), entity in self._entities.items() if kind == EntityKind.STOCK_ITEM]
+
+        def product_for(stock_id):
+            products = self.list_related(
+                from_kind=EntityKind.STOCK_ITEM,
+                from_id=stock_id,
+                relationship=RelationshipType.REPRESENTS_PRODUCT,
+                to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+            )
+            return products[0] if products else None
+
+        def state_of(stock):
+            properties = stock.properties
+            lifecycle = properties.inventory_status_code.removeprefix("inventory/")
+            available = properties.capacity_quantity - properties.held_quantity - properties.allocated_quantity
+            if lifecycle != "active":
+                return lifecycle
+            if available < 0 or properties.capacity_quantity == 0:
+                return "shortfall"
+            if properties.held_quantity > 0:
+                return "held"
+            if available == 0 and properties.allocated_quantity > 0:
+                return "allocated"
+            return "available"
+
+        def search_text(stock, product):
+            entities = [stock]
+            if product is not None:
+                entities.extend((*self.get_ancestors(product.entity_id), product))
+                root = entities[1] if len(entities) > 2 else product
+                supplier_roles = self.list_related(
+                    from_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+                    from_id=root.entity_id,
+                    relationship=RelationshipType.SUPPLIED_BY,
+                    to_kind=EntityKind.ORGA_ROLE,
+                )
+                if supplier_roles:
+                    entities.append(supplier_roles[0])
+                    organisation = self.get_organisation_for_role(supplier_roles[0].entity_id)
+                    if organisation is not None:
+                        entities.append(organisation)
+            return " ".join(
+                " ".join([entity.entity_id, entity.type or "", *map(str, entity.properties.model_dump(by_alias=True).values())])
+                for entity in entities
+            )
+
+        filtered = []
+        for stock in stocks:
+            product = product_for(stock.entity_id)
+            if product_type and (product is None or product.type != product_type):
+                continue
+            if service_date_from and stock.properties.service_date < service_date_from:
+                continue
+            if service_date_to and stock.properties.service_date > service_date_to:
+                continue
+            if availability_state and state_of(stock) != availability_state:
+                continue
+            if search and search.lower() not in search_text(stock, product).lower():
+                continue
+            filtered.append(stock)
+        filtered.sort(key=lambda entity: entity.entity_id)
+        if page.after is not None:
+            filtered = [entity for entity in filtered if entity.entity_id > page.after]
+        page_items = filtered[: page.limit]
+        next_cursor = page_items[-1].entity_id if len(filtered) > page.limit else None
+        return PageResult(items=tuple(page_items), next_cursor=next_cursor)
