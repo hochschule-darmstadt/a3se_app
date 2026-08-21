@@ -505,22 +505,8 @@ export interface components {
         EmptyProductProperties: {
             /** Displayname */
             displayName?: string | null;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
             /** Imageurl */
             imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -598,22 +584,8 @@ export interface components {
             displayName?: string | null;
             /** Flightnumber */
             flightNumber: string;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
             /** Imageurl */
             imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -643,22 +615,8 @@ export interface components {
             displayName?: string | null;
             /** Flightnumber */
             flightNumber: string;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
             /** Imageurl */
             imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -982,22 +940,8 @@ export interface components {
         RoomCategoryProperties: {
             /** Displayname */
             displayName?: string | null;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: ("CC0-1.0" | "CC-BY-4.0" | "CC-BY-SA-4.0" | "CC-BY-SA-3.0" | "PDM-1.0") | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
             /** Imageurl */
             imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft

@@ -88,13 +88,6 @@ class ImageSeedTest(unittest.TestCase):
         payload = {
             "productId": "ACC-01",
             "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Example_Hotel_Room.jpg",
-            "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Example_Hotel_Room.jpg",
-            "imageCreatorCredit": "Example Creator",
-            "imageLicenceCode": "CC-BY-SA-4.0",
-            "imageLicenceVersion": "4.0",
-            "imageAttributionText": "Example Creator, CC BY-SA 4.0, via Wikimedia Commons",
-            "imageAltText": "A bright double hotel room with a large window.",
-            "imageVerifiedDate": "2026-08-18",
         }
         payload.update(overrides)
         return payload
@@ -105,13 +98,6 @@ class ImageSeedTest(unittest.TestCase):
     def test_non_https_url_is_rejected(self) -> None:
         with self.assertRaises(pydantic.ValidationError):
             schema.ImageSeed.model_validate(self._valid_payload(imageUrl="http://example.com/room.jpg"))
-
-    def test_alt_text_derived_from_filename_is_rejected(self) -> None:
-        with self.assertRaises(pydantic.ValidationError):
-            schema.ImageSeed.model_validate(self._valid_payload(imageAltText="Example Hotel Room"))
-
-    def test_alt_text_describing_content_is_accepted(self) -> None:
-        schema.ImageSeed.model_validate(self._valid_payload(imageAltText="A bright double room with a large window."))
 
 
 if __name__ == "__main__":

@@ -156,87 +156,6 @@
             ],
             "title": "Displayname"
           },
-          "imageAltText": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagealttext"
-          },
-          "imageAttributionText": {
-            "anyOf": [
-              {
-                "maxLength": 300,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageattributiontext"
-          },
-          "imageCreatorCredit": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagecreatorcredit"
-          },
-          "imageLicenceCode": {
-            "anyOf": [
-              {
-                "enum": [
-                  "CC0-1.0",
-                  "CC-BY-4.0",
-                  "CC-BY-SA-4.0",
-                  "CC-BY-SA-3.0",
-                  "PDM-1.0"
-                ],
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicencecode"
-          },
-          "imageLicenceVersion": {
-            "anyOf": [
-              {
-                "maxLength": 10,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicenceversion"
-          },
-          "imageSourcePageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagesourcepageurl"
-          },
           "imageUrl": {
             "anyOf": [
               {
@@ -248,18 +167,6 @@
               }
             ],
             "title": "Imageurl"
-          },
-          "imageVerifiedDate": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageverifieddate"
           },
           "lifecycleStatusCode": {
             "default": "product/draft",
@@ -417,87 +324,6 @@
             "title": "Flightnumber",
             "type": "string"
           },
-          "imageAltText": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagealttext"
-          },
-          "imageAttributionText": {
-            "anyOf": [
-              {
-                "maxLength": 300,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageattributiontext"
-          },
-          "imageCreatorCredit": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagecreatorcredit"
-          },
-          "imageLicenceCode": {
-            "anyOf": [
-              {
-                "enum": [
-                  "CC0-1.0",
-                  "CC-BY-4.0",
-                  "CC-BY-SA-4.0",
-                  "CC-BY-SA-3.0",
-                  "PDM-1.0"
-                ],
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicencecode"
-          },
-          "imageLicenceVersion": {
-            "anyOf": [
-              {
-                "maxLength": 10,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicenceversion"
-          },
-          "imageSourcePageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagesourcepageurl"
-          },
           "imageUrl": {
             "anyOf": [
               {
@@ -509,18 +335,6 @@
               }
             ],
             "title": "Imageurl"
-          },
-          "imageVerifiedDate": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageverifieddate"
           },
           "lifecycleStatusCode": {
             "default": "product/draft",
@@ -596,87 +410,6 @@
             "title": "Flightnumber",
             "type": "string"
           },
-          "imageAltText": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagealttext"
-          },
-          "imageAttributionText": {
-            "anyOf": [
-              {
-                "maxLength": 300,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageattributiontext"
-          },
-          "imageCreatorCredit": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagecreatorcredit"
-          },
-          "imageLicenceCode": {
-            "anyOf": [
-              {
-                "enum": [
-                  "CC0-1.0",
-                  "CC-BY-4.0",
-                  "CC-BY-SA-4.0",
-                  "CC-BY-SA-3.0",
-                  "PDM-1.0"
-                ],
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicencecode"
-          },
-          "imageLicenceVersion": {
-            "anyOf": [
-              {
-                "maxLength": 10,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicenceversion"
-          },
-          "imageSourcePageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagesourcepageurl"
-          },
           "imageUrl": {
             "anyOf": [
               {
@@ -688,18 +421,6 @@
               }
             ],
             "title": "Imageurl"
-          },
-          "imageVerifiedDate": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageverifieddate"
           },
           "lifecycleStatusCode": {
             "default": "product/draft",
@@ -1747,87 +1468,6 @@
             ],
             "title": "Displayname"
           },
-          "imageAltText": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagealttext"
-          },
-          "imageAttributionText": {
-            "anyOf": [
-              {
-                "maxLength": 300,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageattributiontext"
-          },
-          "imageCreatorCredit": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagecreatorcredit"
-          },
-          "imageLicenceCode": {
-            "anyOf": [
-              {
-                "enum": [
-                  "CC0-1.0",
-                  "CC-BY-4.0",
-                  "CC-BY-SA-4.0",
-                  "CC-BY-SA-3.0",
-                  "PDM-1.0"
-                ],
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicencecode"
-          },
-          "imageLicenceVersion": {
-            "anyOf": [
-              {
-                "maxLength": 10,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagelicenceversion"
-          },
-          "imageSourcePageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imagesourcepageurl"
-          },
           "imageUrl": {
             "anyOf": [
               {
@@ -1839,18 +1479,6 @@
               }
             ],
             "title": "Imageurl"
-          },
-          "imageVerifiedDate": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageverifieddate"
           },
           "lifecycleStatusCode": {
             "default": "product/draft",

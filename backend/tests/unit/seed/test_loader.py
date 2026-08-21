@@ -160,13 +160,6 @@ class LoaderTest(unittest.TestCase):
         image = {
             "productId": "FLT-01",
             "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Example.jpg",
-            "imageSourcePageUrl": "https://commons.wikimedia.org/wiki/File:Example.jpg",
-            "imageCreatorCredit": "Example",
-            "imageLicenceCode": "CC0-1.0",
-            "imageLicenceVersion": "1.0",
-            "imageAttributionText": "Public domain",
-            "imageAltText": "An aircraft on the tarmac at sunset.",
-            "imageVerifiedDate": "2026-08-18",
         }
         files["images.json"]["images"] = [image, image]
         with self.assertRaises(loader.SeedValidationError):

@@ -3,7 +3,7 @@
 This layer validates only the SHAPE of the seed-authoring input (types,
 structure, obviously-malformed strings) so a mistake in the JSON fails fast
 with a seed-specific error message. The property VALUES themselves
-(roomTypeCode, flightNumber, imageLicenceCode, ...) are authoritatively
+(roomTypeCode, flightNumber, imageUrl, ...) are authoritatively
 validated a second time when the orchestrator calls the real module
 service.py functions, through the registry's StrictProperties contracts --
 per implementation.md, "the registry and entity contracts are the
@@ -13,7 +13,7 @@ rules." This module never re-implements that validation.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field
 
 SEED_SCHEMA_VERSION = 1
 
@@ -97,24 +97,6 @@ class ImageSeed(SeedModel):
 
     product_id: str = Field(alias="productId", min_length=1)
     image_url: str = Field(alias="imageUrl", pattern=r"^https://")
-    image_source_page_url: str = Field(alias="imageSourcePageUrl", pattern=r"^https://")
-    image_creator_credit: str = Field(alias="imageCreatorCredit")
-    image_licence_code: str = Field(alias="imageLicenceCode", min_length=1)
-    image_licence_version: str = Field(alias="imageLicenceVersion", min_length=1)
-    image_attribution_text: str = Field(alias="imageAttributionText", min_length=1)
-    image_alt_text: str = Field(alias="imageAltText", min_length=1)
-    image_verified_date: str = Field(alias="imageVerifiedDate", pattern=r"^\d{4}-\d{2}-\d{2}$")
-
-    @field_validator("image_alt_text")
-    @classmethod
-    def alt_text_is_not_derived_from_the_filename(cls, value: str, info) -> str:  # noqa: ANN001
-        url = info.data.get("image_url", "")
-        filename = url.rsplit("/", 1)[-1].rsplit(".", 1)[0]
-        normalized_alt = value.strip().lower().replace("-", " ").replace("_", " ")
-        normalized_name = filename.strip().lower().replace("-", " ").replace("_", " ")
-        if normalized_name and normalized_alt == normalized_name:
-            raise ValueError("imageAltText must describe the image content, not restate the filename")
-        return value
 
 
 class ImagesFile(SeedModel):

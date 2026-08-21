@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, time
+from datetime import time
 import unittest
 
 import pydantic
@@ -200,33 +200,15 @@ class ProductServiceTest(unittest.TestCase):
         assert supplier is not None
         self.assertEqual("I31-SUPPLIER-ROLE", supplier.entity_id)
 
-    def test_create_product_accepts_complete_image_metadata(self) -> None:
-        # TERM-010 (issue #12): every image field required once imageUrl is set.
+    def test_create_product_accepts_image_url(self) -> None:
+        # TERM-010 (issue #12): image metadata reduced to imageUrl only.
         entity = service.create_product(
             self.repository,
             entity_id="I12-FLIGHT-IMG",
             type="product/airline/flight",
-            properties=flight_properties(
-                imageUrl="https://commons.wikimedia.org/example.jpg",
-                imageSourcePageUrl="https://commons.wikimedia.org/wiki/File:Example.jpg",
-                imageCreatorCredit="Example Creator",
-                imageLicenceCode="CC-BY-SA-4.0",
-                imageLicenceVersion="4.0",
-                imageAttributionText="Example Creator, CC BY-SA 4.0, via Wikimedia Commons",
-                imageAltText="A widebody aircraft on the tarmac.",
-                imageVerifiedDate=date(2026, 8, 18),
-            ),
+            properties=flight_properties(imageUrl="https://commons.wikimedia.org/example.jpg"),
         )
-        self.assertEqual("CC-BY-SA-4.0", entity.properties.image_licence_code)
-
-    def test_create_product_rejects_partial_image_metadata(self) -> None:
-        with self.assertRaises(pydantic.ValidationError):
-            service.create_product(
-                self.repository,
-                entity_id="I12-FLIGHT-BADIMG",
-                type="product/airline/flight",
-                properties=flight_properties(imageUrl="https://commons.wikimedia.org/example.jpg"),
-            )
+        self.assertEqual("https://commons.wikimedia.org/example.jpg", entity.properties.image_url)
 
     def test_create_product_rejects_non_https_image_url(self) -> None:
         with self.assertRaises(pydantic.ValidationError):
@@ -234,15 +216,7 @@ class ProductServiceTest(unittest.TestCase):
                 self.repository,
                 entity_id="I12-FLIGHT-INSECUREIMG",
                 type="product/airline/flight",
-                properties=flight_properties(
-                    imageUrl="http://example.com/example.jpg",
-                    imageSourcePageUrl="https://example.com/source",
-                    imageLicenceCode="CC0-1.0",
-                    imageLicenceVersion="1.0",
-                    imageAttributionText="Public domain",
-                    imageAltText="An aircraft.",
-                    imageVerifiedDate=date(2026, 8, 18),
-                ),
+                properties=flight_properties(imageUrl="http://example.com/example.jpg"),
             )
 
     def test_create_product_defaults_to_draft_lifecycle_status(self) -> None:
