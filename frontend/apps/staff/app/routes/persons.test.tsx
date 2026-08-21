@@ -1,7 +1,7 @@
 import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createRoutesStub } from "react-router";
+import { createRoutesStub, useLocation, useNavigate } from "react-router";
 
 import { createTestQueryClient, TestProviders } from "../test-utils";
 
@@ -18,7 +18,18 @@ vi.mock("../api", () => ({
 
 const { default: PersonsRoute } = await import("./persons");
 
-function renderPersons() {
+function LocationProbe() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  return (
+    <>
+      <output aria-label="Current URL">{`${location.pathname}${location.search}`}</output>
+      <button type="button" onClick={() => navigate(-1)}>Browser back</button>
+    </>
+  );
+}
+
+function renderPersons(initialEntry = "/persons") {
   const client = createTestQueryClient();
   const Stub = createRoutesStub([
     {
@@ -26,13 +37,14 @@ function renderPersons() {
       Component: () => (
         <TestProviders client={client}>
           <PersonsRoute />
+          <LocationProbe />
         </TestProviders>
       ),
     },
     { path: "/persons/new", Component: () => <div>Create person page</div> },
     { path: "/persons/:personId", Component: () => <div>Person detail page</div> },
   ]);
-  return render(<Stub initialEntries={["/persons"]} />);
+  return render(<Stub initialEntries={[initialEntry]} />);
 }
 
 function personResponse(entityId: string, givenName: string, familyName: string, locality?: string) {
@@ -184,6 +196,35 @@ describe("PersonsRoute (VIEW-S-002, issue #29 phase 2)", () => {
 
     expect(await screen.findByRole("heading", { level: 1, name: "Casey Example" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Customers and travellers" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Current URL")).toHaveTextContent("/persons?detail=PER-001");
+  });
+
+  it("restores filters and detail selection from the URL and browser history", async () => {
+    mockGetImplementation(
+      {
+        data: {
+          items: [personResponse("PER-001", "Casey", "Example"), personResponse("PER-002", "Morgan", "Sample")],
+          nextCursor: null,
+        },
+        response: { ok: true, status: 200 },
+      },
+      {
+        "PER-001": { data: [], response: { ok: true, status: 200 } },
+        "PER-002": { data: [], response: { ok: true, status: 200 } },
+      }
+    );
+    renderPersons("/persons?q=a&detail=PER-002");
+
+    expect(await screen.findByDisplayValue("a")).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Morgan Sample" })).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(screen.getByText("Casey Example"));
+    expect(screen.getByLabelText("Current URL")).toHaveTextContent("/persons?q=a&detail=PER-001");
+
+    await user.click(screen.getByRole("button", { name: "Browser back" }));
+    await waitFor(() => expect(screen.getByLabelText("Current URL")).toHaveTextContent("/persons?q=a&detail=PER-002"));
+    expect(await screen.findByRole("heading", { level: 1, name: "Morgan Sample" })).toBeInTheDocument();
   });
 
   it("shows the create-person form inline in the right pane, and switches to the new person's detail on success", async () => {

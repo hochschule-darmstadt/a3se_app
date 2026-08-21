@@ -1,6 +1,7 @@
 import { Badge, Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useQueries } from "@tanstack/react-query";
+import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
 import { ApiErrorBanner, CursorPager, DataTable, StatusBanner } from "@cct/ui";
@@ -11,6 +12,7 @@ import { OrganisationCreatePanel } from "../lib/organisation-create-panel";
 import { OrganisationDetailPanel } from "../lib/organisation-detail-panel";
 import { SUPPLIER_ROLE_TYPE_LABEL, SUPPLIER_ROLE_TYPE_OPTIONS } from "../lib/supplier-roles";
 import { StaffShell } from "../lib/shell";
+import { STAFF_VIEW_PARAM, patchStaffViewState, readStaffViewOption, readStaffViewPage } from "../lib/staff-view-state";
 
 type RightPane =
   | { readonly mode: "none" }
@@ -42,15 +44,22 @@ export function meta() {
  * instead of navigating to a separate page.
  */
 export default function OrganisationsRoute() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const allOrganisations = useAllPages<OrganisationResponse>(["organisations"], (cursor) =>
     apiClient.GET("/organisations", { params: { query: { cursor, limit: 50 } } })
   );
 
-  const [search, setSearch] = useState("");
-  const [roleType, setRoleType] = useState<string>("all");
-  const [relationshipStatus, setRelationshipStatus] = useState<string>("all");
-  const [pageIndex, setPageIndex] = useState(0);
-  const [rightPane, setRightPane] = useState<RightPane>({ mode: "none" });
+  const search = searchParams.get(STAFF_VIEW_PARAM.search) ?? "";
+  const roleType = readStaffViewOption(searchParams, STAFF_VIEW_PARAM.type, ROLE_TYPE_OPTIONS.map((option) => option.value));
+  const relationshipStatus = readStaffViewOption(searchParams, STAFF_VIEW_PARAM.status, RELATIONSHIP_STATUS_OPTIONS.map((option) => option.value));
+  const detailId = searchParams.get(STAFF_VIEW_PARAM.detail);
+  const rightPane: RightPane = searchParams.get(STAFF_VIEW_PARAM.panel) === "create"
+    ? { mode: "create" }
+    : detailId ? { mode: "detail", organisationId: detailId } : { mode: "none" };
+
+  function updateView(patch: Parameters<typeof patchStaffViewState>[1], replace = false) {
+    setSearchParams(patchStaffViewState(searchParams, patch), { replace });
+  }
 
   const roleQueries = useQueries({
     queries: allOrganisations.items.map((organisation) => ({
@@ -85,12 +94,8 @@ export default function OrganisationsRoute() {
       });
   }, [allOrganisations.items, roleQueries, search, roleType, relationshipStatus]);
 
-  useEffect(() => {
-    setPageIndex(0);
-  }, [search, roleType, relationshipStatus]);
-
   const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const clampedPageIndex = Math.min(pageIndex, pageCount - 1);
+  const clampedPageIndex = Math.min(readStaffViewPage(searchParams), pageCount - 1);
   const pageRows = rows.slice(clampedPageIndex * PAGE_SIZE, clampedPageIndex * PAGE_SIZE + PAGE_SIZE);
 
   return (
@@ -98,7 +103,7 @@ export default function OrganisationsRoute() {
       <Stack gap="sm">
         <Group justify="space-between" align="center">
           <Title order={1}>Suppliers and partners</Title>
-          <Button onClick={() => setRightPane({ mode: "create" })}>Create organisation</Button>
+          <Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create organisation</Button>
         </Group>
 
         <Grid gutter="xl">
@@ -109,14 +114,14 @@ export default function OrganisationsRoute() {
                   label="Search"
                   placeholder="Name or locality"
                   value={search}
-                  onChange={(event) => setSearch(event.currentTarget.value)}
+                  onChange={(event) => updateView({ [STAFF_VIEW_PARAM.search]: event.currentTarget.value, [STAFF_VIEW_PARAM.page]: null }, true)}
                 />
-                <Select label="Role type" data={ROLE_TYPE_OPTIONS} value={roleType} onChange={(value) => setRoleType(value ?? "all")} allowDeselect={false} />
+                <Select label="Role type" data={ROLE_TYPE_OPTIONS} value={roleType} onChange={(value) => updateView({ [STAFF_VIEW_PARAM.type]: value === "all" ? null : value, [STAFF_VIEW_PARAM.page]: null }, true)} allowDeselect={false} />
                 <Select
                   label="Relationship status"
                   data={RELATIONSHIP_STATUS_OPTIONS}
                   value={relationshipStatus}
-                  onChange={(value) => setRelationshipStatus(value ?? "all")}
+                  onChange={(value) => updateView({ [STAFF_VIEW_PARAM.status]: value === "all" ? null : value, [STAFF_VIEW_PARAM.page]: null }, true)}
                   allowDeselect={false}
                 />
               </Group>
@@ -132,7 +137,7 @@ export default function OrganisationsRoute() {
                     rowKey={(row) => row.organisation.entityId}
                     rows={pageRows}
                     emptyMessage="No organisations match these filters."
-                    onRowActivate={(row) => setRightPane({ mode: "detail", organisationId: row.organisation.entityId })}
+                    onRowActivate={(row) => updateView({ [STAFF_VIEW_PARAM.detail]: row.organisation.entityId, [STAFF_VIEW_PARAM.panel]: null })}
                     isRowSelected={(row) => rightPane.mode === "detail" && row.organisation.entityId === rightPane.organisationId}
                     columns={[
                       { key: "name", header: "Organisation", render: (row) => row.organisation.properties.name },
@@ -162,8 +167,8 @@ export default function OrganisationsRoute() {
                   <CursorPager
                     hasPrevious={clampedPageIndex > 0}
                     hasNext={clampedPageIndex < pageCount - 1}
-                    onPrevious={() => setPageIndex((index) => Math.max(0, index - 1))}
-                    onNext={() => setPageIndex((index) => Math.min(pageCount - 1, index + 1))}
+                    onPrevious={() => updateView({ [STAFF_VIEW_PARAM.page]: clampedPageIndex - 1 })}
+                    onNext={() => updateView({ [STAFF_VIEW_PARAM.page]: clampedPageIndex + 1 })}
                   />
                 </>
               ) : null}
@@ -175,8 +180,8 @@ export default function OrganisationsRoute() {
               <OrganisationDetailPanel organisationId={rightPane.organisationId} />
             ) : rightPane.mode === "create" ? (
               <OrganisationCreatePanel
-                onCreated={(organisationId) => setRightPane({ mode: "detail", organisationId })}
-                onCancel={() => setRightPane({ mode: "none" })}
+                onCreated={(organisationId) => updateView({ [STAFF_VIEW_PARAM.detail]: organisationId, [STAFF_VIEW_PARAM.panel]: null })}
+                onCancel={() => updateView({ [STAFF_VIEW_PARAM.panel]: null })}
               />
             ) : (
               <StatusBanner kind="info" title="No organisation selected" description="Select an organisation from the list to view its details, or create one." />

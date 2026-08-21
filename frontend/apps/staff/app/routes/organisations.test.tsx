@@ -1,7 +1,7 @@
 import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createRoutesStub } from "react-router";
+import { createRoutesStub, useLocation, useNavigate } from "react-router";
 
 import { createTestQueryClient, TestProviders } from "../test-utils";
 
@@ -18,7 +18,18 @@ vi.mock("../api", () => ({
 
 const { default: OrganisationsRoute } = await import("./organisations");
 
-function renderOrganisations() {
+function LocationProbe() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  return (
+    <>
+      <output aria-label="Current URL">{`${location.pathname}${location.search}`}</output>
+      <button type="button" onClick={() => navigate(-1)}>Browser back</button>
+    </>
+  );
+}
+
+function renderOrganisations(initialEntry = "/organisations") {
   const client = createTestQueryClient();
   const Stub = createRoutesStub([
     {
@@ -26,13 +37,14 @@ function renderOrganisations() {
       Component: () => (
         <TestProviders client={client}>
           <OrganisationsRoute />
+          <LocationProbe />
         </TestProviders>
       ),
     },
     { path: "/organisations/new", Component: () => <div>Create organisation page</div> },
     { path: "/organisations/:organisationId", Component: () => <div>Organisation detail page</div> },
   ]);
-  return render(<Stub initialEntries={["/organisations"]} />);
+  return render(<Stub initialEntries={[initialEntry]} />);
 }
 
 function organisationResponse(entityId: string, name: string, locality?: string) {
@@ -184,6 +196,35 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
 
     expect(await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Suppliers and partners" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Current URL")).toHaveTextContent("/organisations?detail=ORG-001");
+  });
+
+  it("restores filters and detail selection from the URL and browser history", async () => {
+    mockGetImplementation(
+      {
+        data: {
+          items: [organisationResponse("ORG-001", "Example Garden Hotel"), organisationResponse("ORG-002", "Sample Island Transfers")],
+          nextCursor: null,
+        },
+        response: { ok: true, status: 200 },
+      },
+      {
+        "ORG-001": { data: [], response: { ok: true, status: 200 } },
+        "ORG-002": { data: [], response: { ok: true, status: 200 } },
+      }
+    );
+    renderOrganisations("/organisations?q=a&detail=ORG-002");
+
+    expect(await screen.findByDisplayValue("a")).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Sample Island Transfers" })).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(screen.getByText("Example Garden Hotel"));
+    expect(screen.getByLabelText("Current URL")).toHaveTextContent("/organisations?q=a&detail=ORG-001");
+
+    await user.click(screen.getByRole("button", { name: "Browser back" }));
+    await waitFor(() => expect(screen.getByLabelText("Current URL")).toHaveTextContent("/organisations?q=a&detail=ORG-002"));
+    expect(await screen.findByRole("heading", { level: 1, name: "Sample Island Transfers" })).toBeInTheDocument();
   });
 
   it("shows the create-organisation form inline in the right pane, and switches to the new organisation's detail on success", async () => {

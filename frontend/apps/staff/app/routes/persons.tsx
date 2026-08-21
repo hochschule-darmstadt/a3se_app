@@ -1,6 +1,7 @@
 import { Badge, Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useQueries } from "@tanstack/react-query";
+import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
 import { ApiErrorBanner, CursorPager, DataTable, StatusBanner } from "@cct/ui";
@@ -10,6 +11,7 @@ import { useAllPages } from "../lib/use-cursor-page";
 import { PersonCreatePanel } from "../lib/person-create-panel";
 import { PersonDetailPanel } from "../lib/person-detail-panel";
 import { StaffShell } from "../lib/shell";
+import { STAFF_VIEW_PARAM, patchStaffViewState, readStaffViewOption, readStaffViewPage } from "../lib/staff-view-state";
 
 type RightPane = { readonly mode: "none" } | { readonly mode: "detail"; readonly personId: string } | { readonly mode: "create" };
 
@@ -45,15 +47,22 @@ export function meta() {
  * of navigating to a separate page.
  */
 export default function PersonsRoute() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const allPersons = useAllPages<PersonResponse>(["persons"], (cursor) =>
     apiClient.GET("/persons", { params: { query: { cursor, limit: 50 } } })
   );
 
-  const [search, setSearch] = useState("");
-  const [roleType, setRoleType] = useState<string>("all");
-  const [roleStatus, setRoleStatus] = useState<string>("all");
-  const [pageIndex, setPageIndex] = useState(0);
-  const [rightPane, setRightPane] = useState<RightPane>({ mode: "none" });
+  const search = searchParams.get(STAFF_VIEW_PARAM.search) ?? "";
+  const roleType = readStaffViewOption(searchParams, STAFF_VIEW_PARAM.type, ROLE_TYPE_OPTIONS.map((option) => option.value));
+  const roleStatus = readStaffViewOption(searchParams, STAFF_VIEW_PARAM.status, ROLE_STATUS_OPTIONS.map((option) => option.value));
+  const detailId = searchParams.get(STAFF_VIEW_PARAM.detail);
+  const rightPane: RightPane = searchParams.get(STAFF_VIEW_PARAM.panel) === "create"
+    ? { mode: "create" }
+    : detailId ? { mode: "detail", personId: detailId } : { mode: "none" };
+
+  function updateView(patch: Parameters<typeof patchStaffViewState>[1], replace = false) {
+    setSearchParams(patchStaffViewState(searchParams, patch), { replace });
+  }
 
   const roleQueries = useQueries({
     queries: allPersons.items.map((person) => ({
@@ -86,12 +95,8 @@ export default function PersonsRoute() {
       });
   }, [allPersons.items, roleQueries, search, roleType, roleStatus]);
 
-  useEffect(() => {
-    setPageIndex(0);
-  }, [search, roleType, roleStatus]);
-
   const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const clampedPageIndex = Math.min(pageIndex, pageCount - 1);
+  const clampedPageIndex = Math.min(readStaffViewPage(searchParams), pageCount - 1);
   const pageRows = rows.slice(clampedPageIndex * PAGE_SIZE, clampedPageIndex * PAGE_SIZE + PAGE_SIZE);
 
   return (
@@ -99,7 +104,7 @@ export default function PersonsRoute() {
       <Stack gap="sm">
         <Group justify="space-between" align="center">
           <Title order={1}>Customers and travellers</Title>
-          <Button onClick={() => setRightPane({ mode: "create" })}>Create person</Button>
+          <Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create person</Button>
         </Group>
 
         <Grid gutter="xl">
@@ -110,14 +115,14 @@ export default function PersonsRoute() {
                   label="Search"
                   placeholder="Given name, family name or locality"
                   value={search}
-                  onChange={(event) => setSearch(event.currentTarget.value)}
+                  onChange={(event) => updateView({ [STAFF_VIEW_PARAM.search]: event.currentTarget.value, [STAFF_VIEW_PARAM.page]: null }, true)}
                 />
-                <Select label="Role type" data={ROLE_TYPE_OPTIONS} value={roleType} onChange={(value) => setRoleType(value ?? "all")} allowDeselect={false} />
+                <Select label="Role type" data={ROLE_TYPE_OPTIONS} value={roleType} onChange={(value) => updateView({ [STAFF_VIEW_PARAM.type]: value === "all" ? null : value, [STAFF_VIEW_PARAM.page]: null }, true)} allowDeselect={false} />
                 <Select
                   label="Role status"
                   data={ROLE_STATUS_OPTIONS}
                   value={roleStatus}
-                  onChange={(value) => setRoleStatus(value ?? "all")}
+                  onChange={(value) => updateView({ [STAFF_VIEW_PARAM.status]: value === "all" ? null : value, [STAFF_VIEW_PARAM.page]: null }, true)}
                   allowDeselect={false}
                 />
               </Group>
@@ -133,7 +138,7 @@ export default function PersonsRoute() {
                     rowKey={(row) => row.person.entityId}
                     rows={pageRows}
                     emptyMessage="No persons match these filters."
-                    onRowActivate={(row) => setRightPane({ mode: "detail", personId: row.person.entityId })}
+                    onRowActivate={(row) => updateView({ [STAFF_VIEW_PARAM.detail]: row.person.entityId, [STAFF_VIEW_PARAM.panel]: null })}
                     isRowSelected={(row) => rightPane.mode === "detail" && row.person.entityId === rightPane.personId}
                     columns={[
                       {
@@ -167,8 +172,8 @@ export default function PersonsRoute() {
                   <CursorPager
                     hasPrevious={clampedPageIndex > 0}
                     hasNext={clampedPageIndex < pageCount - 1}
-                    onPrevious={() => setPageIndex((index) => Math.max(0, index - 1))}
-                    onNext={() => setPageIndex((index) => Math.min(pageCount - 1, index + 1))}
+                    onPrevious={() => updateView({ [STAFF_VIEW_PARAM.page]: clampedPageIndex - 1 })}
+                    onNext={() => updateView({ [STAFF_VIEW_PARAM.page]: clampedPageIndex + 1 })}
                   />
                 </>
               ) : null}
@@ -180,8 +185,8 @@ export default function PersonsRoute() {
               <PersonDetailPanel personId={rightPane.personId} />
             ) : rightPane.mode === "create" ? (
               <PersonCreatePanel
-                onCreated={(personId) => setRightPane({ mode: "detail", personId })}
-                onCancel={() => setRightPane({ mode: "none" })}
+                onCreated={(personId) => updateView({ [STAFF_VIEW_PARAM.detail]: personId, [STAFF_VIEW_PARAM.panel]: null })}
+                onCancel={() => updateView({ [STAFF_VIEW_PARAM.panel]: null })}
               />
             ) : (
               <StatusBanner kind="info" title="No person selected" description="Select a person from the list to view their details, or create one." />
