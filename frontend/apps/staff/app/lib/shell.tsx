@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigationType } from "react-router";
 
 import { CctIcon, StaffShell as UiStaffShell, type BreadcrumbItem } from "@cct/ui";
 
@@ -37,11 +37,16 @@ function renderNavLink({ to, children }: { to: string; children: ReactNode }) {
  * exists yet (issue #27), so it must not imply a real session.
  */
 export function StaffShell({ breadcrumbs: _breadcrumbs, children }: { readonly breadcrumbs?: readonly BreadcrumbItem[]; readonly children: ReactNode }) {
+  const location = useLocation();
+  const navigationType = useNavigationType();
+
   return (
     <UiStaffShell
       navLinks={NAV_LINKS}
       linkComponent={renderNavLink}
       userMenu={{ label: "User" }}
+      historyNavigationKey={location.key}
+      historyAction={navigationType}
     >
       {children}
     </UiStaffShell>

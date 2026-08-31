@@ -1,6 +1,6 @@
 import { AppShell, Burger, Button, Group, Menu, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { type ComponentType, type ReactNode, useState } from "react";
+import { type ComponentType, type ReactNode, useEffect, useState } from "react";
 
 import cctWordmarkDark from "./assets/cct-wordmark-dark.svg";
 import { CctIcon } from "./icons.js";
@@ -116,6 +116,55 @@ function ShellUserMenu({ label, items }: ShellUserMenuProps) {
   );
 }
 
+/**
+ * Portal-level convenience controls for the same session history used by the
+ * browser. They intentionally do not maintain a second navigation stack.
+ */
+type HistoryAction = "POP" | "PUSH" | "REPLACE";
+
+// Route modules remount the shell during navigation. Keep the highest known
+// router index for this SPA session so going Back does not forget Forward.
+let knownMaxHistoryIndex: number | null = null;
+
+function HistoryControls({ navigationKey, action }: { readonly navigationKey?: string; readonly action?: HistoryAction }) {
+  const [availability, setAvailability] = useState({ canGoBack: true, canGoForward: true });
+
+  useEffect(() => {
+    const index = window.history.state?.idx;
+    if (typeof index !== "number") return;
+
+    if (knownMaxHistoryIndex === null || action === "PUSH") {
+      knownMaxHistoryIndex = index;
+    } else {
+      knownMaxHistoryIndex = Math.max(knownMaxHistoryIndex, index);
+    }
+    setAvailability({ canGoBack: index > 0, canGoForward: index < knownMaxHistoryIndex });
+  }, [navigationKey, action]);
+
+  return (
+    <Group gap={4} component="nav" aria-label="Portal history">
+      <Button
+        variant="white"
+        size="compact-sm"
+        disabled={!availability.canGoBack}
+        onClick={() => window.history.back()}
+        aria-label="Go back"
+      >
+        ← Back
+      </Button>
+      <Button
+        variant="white"
+        size="compact-sm"
+        disabled={!availability.canGoForward}
+        onClick={() => window.history.forward()}
+        aria-label="Go forward"
+      >
+        Forward →
+      </Button>
+    </Group>
+  );
+}
+
 export interface CustomerShellProps {
   readonly breadcrumbs?: readonly BreadcrumbItem[];
   readonly linkComponent: ShellLinkComponent;
@@ -178,6 +227,9 @@ export interface StaffShellProps {
   readonly navLinks: readonly StaffShellNavLink[];
   readonly linkComponent: ShellLinkComponent;
   readonly userMenu: ShellUserMenuProps;
+  /** Optional router signals used to mirror known browser-history availability. */
+  readonly historyNavigationKey?: string;
+  readonly historyAction?: HistoryAction;
   readonly children: ReactNode;
 }
 
@@ -209,7 +261,7 @@ const NAV_LINK_STYLES = `
 `;
 
 /** DS-CMP-001 staff profile: header + persistent sidebar, no footer. */
-export function StaffShell({ navLinks, linkComponent, userMenu, children }: StaffShellProps) {
+export function StaffShell({ navLinks, linkComponent, userMenu, historyNavigationKey, historyAction, children }: StaffShellProps) {
   const [opened, { toggle }] = useDisclosure();
 
   return (
@@ -237,6 +289,7 @@ export function StaffShell({ navLinks, linkComponent, userMenu, children }: Staf
             <Text fw={700} c="white">
               Staff Portal
             </Text>
+            <HistoryControls navigationKey={historyNavigationKey} action={historyAction} />
           </Group>
           <ShellUserMenu {...userMenu} />
         </Group>

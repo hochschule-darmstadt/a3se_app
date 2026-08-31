@@ -1,7 +1,7 @@
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { createTestQueryClient, TestProviders } from "../test-utils";
 import { NAV_LINKS, StaffShell } from "./shell";
@@ -49,6 +49,21 @@ describe("StaffShell (DS-CMP-001 staff profile, issue #27 phase 2)", () => {
 
     expect(screen.getByText("User")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "User" })).not.toBeInTheDocument();
+  });
+
+  it("offers portal history controls that use the browser history stack", async () => {
+    const user = userEvent.setup();
+    const back = vi.spyOn(window.history, "back").mockImplementation(() => undefined);
+    const forward = vi.spyOn(window.history, "forward").mockImplementation(() => undefined);
+
+    renderShell();
+    await user.click(screen.getByRole("button", { name: "Go back" }));
+    await user.click(screen.getByRole("button", { name: "Go forward" }));
+
+    expect(back).toHaveBeenCalledOnce();
+    expect(forward).toHaveBeenCalledOnce();
+    back.mockRestore();
+    forward.mockRestore();
   });
 
   it("does not render a breadcrumb trail", () => {
