@@ -6,6 +6,9 @@ Read the authoritative [Modular Software Architecture](software-architecture.md)
 for logical modules, responsibilities, and interactions. Then read the
 [Project Structure](project-structure.md) when mapping those modules to the
 frontend workspace, Python packages, tests, and enforceable dependency rules.
+For the conventions realized in the current implementation, read the
+[Frontend Architecture](frontend-architecture.md) and
+[Backend Architecture](backend-architecture.md) documents as well.
 Adjacent diagram sources, rendered assets, and validators are supporting files
 and need not be read separately.
 
