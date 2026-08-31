@@ -69,9 +69,21 @@ are rejected.
 | `ASSIGNED_TRAVELLER` | Order position to traveller PersonRole |
 
 Community schema creates one `entityId` uniqueness constraint per label and
-indexes for accepted lookup paths such as product type, flight departure, and
-order number. Application validation remains mandatory because Community
+ indexes for accepted lookup paths such as product type and flight departure.
+Application validation remains mandatory because Community
 Edition cannot enforce property existence or types.
+
+## Generated identifiers
+
+[DR-0021](../../governance/decisions/0021-transaction-safe-prefixed-identifiers.md)
+owns the staff-create ID policy. `Neo4jEntityRepository.create_generated` uses
+an `EntityIdCounter` node and reserves the next value in the same managed write
+transaction that creates the entity. Root counters are keyed by the explicit
+prefix registry; order positions use a counter keyed by their order and are
+created with the order `CONTAINS` edge. Counter values are not reset on normal
+startup and are not decremented after deletion. Existing seeded IDs are loaded
+through explicit save/restore, and an incompatible catalog requires a fresh
+database seed rather than an in-place migration.
 
 ## Boundary validation
 
@@ -85,4 +97,3 @@ Edition cannot enforce property existence or types.
 
 The public registry and entity contracts are the authoritative input for issue
 #12. Seed data must not recreate property rules.
-

@@ -16,8 +16,10 @@ from cct.resource_management.repository_ports import EntityRepositoryPort
 
 
 def create_person(
-    repository: EntityRepositoryPort, *, entity_id: str, properties: dict[str, object]
+    repository: EntityRepositoryPort, *, entity_id: str | None, properties: dict[str, object]
 ) -> ValidatedEntity:
+    if entity_id is None:
+        return repository.create_generated(entity_kind=EntityKind.PERSON, type=None, properties=properties)
     if repository.get(EntityKind.PERSON, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.PERSON, entity_id)
     return repository.save({"entityId": entity_id, "entityKind": "Person", "properties": properties})
@@ -51,16 +53,16 @@ def delete_person(repository: EntityRepositoryPort, entity_id: str) -> None:
 def create_person_role(
     repository: EntityRepositoryPort,
     *,
-    entity_id: str,
+    entity_id: str | None,
     person_id: str,
     type: str,
     properties: dict[str, object],
 ) -> ValidatedEntity:
     if repository.get(EntityKind.PERSON, person_id) is None:
         raise EntityNotFoundError(EntityKind.PERSON, person_id)
-    if repository.get(EntityKind.PERSON_ROLE, entity_id) is not None:
+    if entity_id is not None and repository.get(EntityKind.PERSON_ROLE, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.PERSON_ROLE, entity_id)
-    role = repository.save(
+    role = repository.create_generated(entity_kind=EntityKind.PERSON_ROLE, type=type, properties=properties) if entity_id is None else repository.save(
         {"entityId": entity_id, "entityKind": "PersonRole", "type": type, "properties": properties}
     )
     repository.create_relationship(
@@ -68,7 +70,7 @@ def create_person_role(
         from_id=person_id,
         relationship=RelationshipType.HAS_ROLE,
         to_kind=EntityKind.PERSON_ROLE,
-        to_id=entity_id,
+        to_id=role.entity_id,
     )
     return role
 

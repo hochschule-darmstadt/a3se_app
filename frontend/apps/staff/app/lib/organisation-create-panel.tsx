@@ -11,10 +11,6 @@ import { SUPPLIER_ROLE_TYPE_OPTIONS, type SupplierRoleType } from "./supplier-ro
 type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
 
-function generateEntityId(prefix: string): string {
-  return `${prefix}-${crypto.randomUUID()}`;
-}
-
 function isAirline(type: SupplierRoleType): type is "organisation/airline" {
   return type === "organisation/airline";
 }
@@ -42,17 +38,16 @@ export function OrganisationCreatePanel({ onCreated, onCancel }: OrganisationCre
 
   const organisationMutation = useApiMutation<
     OrganisationResponse,
-    { entityId: string; properties: OrganisationResponse["properties"] }
-  >(({ entityId, properties }) => apiClient.POST("/organisations", { body: { entityId, properties } }));
+    { properties: OrganisationResponse["properties"] }
+  >(({ properties }) => apiClient.POST("/organisations", { body: { properties } }));
 
   const roleMutation = useApiMutation<OrgaRoleResponse, { organisationId: string }>(({ organisationId }) => {
-    const entityId = generateEntityId("ROLE");
     const role = isAirline(roleType)
       ? { type: roleType, properties: { airlineDesignator, roleStatusCode: "role/active" as const } }
       : { type: roleType, properties: { roleStatusCode: "role/active" as const } };
     return apiClient.POST("/organisations/{organisation_id}/roles", {
       params: { path: { organisation_id: organisationId } },
-      body: { entityId, role },
+      body: { role },
     });
   });
 
@@ -76,13 +71,12 @@ export function OrganisationCreatePanel({ onCreated, onCancel }: OrganisationCre
     setValidationErrors(validation);
     if (validation.length > 0) return;
 
-    const organisationId = generateEntityId("ORG");
     organisationMutation.mutate(
-      { entityId: organisationId, properties: { name: name.trim(), addressLocalityName: locality.trim() || null } },
+      { properties: { name: name.trim(), addressLocalityName: locality.trim() || null } },
       {
-        onSuccess: () => {
-          setCreatedOrganisationId(organisationId);
-          submitRole(organisationId);
+        onSuccess: (organisation) => {
+          setCreatedOrganisationId(organisation.entityId);
+          submitRole(organisation.entityId);
         },
       }
     );

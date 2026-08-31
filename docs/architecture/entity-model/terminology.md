@@ -54,7 +54,7 @@ Terms use British English and lower camel case for property keys. Type identifie
 | `stock/experience/guided-tour` | namespaced code | Sellable dated capacity for one guided-tour service date. | Inventory | common stock properties in TERM-005 | Project identifier |
 | `stock/experience/activity` | namespaced code | Sellable dated capacity for one bookable-activity service date. | Inventory | common stock properties in TERM-005 | Project identifier |
 | `stock/protection/travel` | namespaced code | Sellable dated capacity for one travel-protection service date. | Inventory | common stock properties in TERM-005 | Project identifier |
-| `order/header` | namespaced code | Root of one Travel Order. | Order Management | required `orderNumber`, `orderStatusCode` | Project identifier mapped to glossary Travel Order |
+| `order/header` | namespaced code | Root of one Travel Order. | Order Management | required `orderStatusCode` | Project identifier mapped to glossary Travel Order |
 | `order/position` | namespaced code | Ordered component contained by an order header. | Order Management | none yet; relationship identifies stock and traveller | Project identifier |
 
 ## TERM-003 Person and organisation properties
@@ -113,7 +113,6 @@ Terms use British English and lower camel case for property keys. Type identifie
 | `heldQuantity` | non-negative integer | Units temporarily held but not yet allocated. | Inventory; all current StockItem types | defaults to 0 | Project extension for INV-001 |
 | `allocatedQuantity` | non-negative integer | Units recorded as allocated. | Inventory; all current StockItem types | defaults to 0; audit/concurrency rules remain deferred | Project extension for INV-001 |
 | `inventoryStatusCode` | string code | Lifecycle of pre-procured capacity independent of its computed availability. | Inventory; all current StockItem types | `inventory/active`, `inventory/withdrawn`, or `inventory/expired`; defaults to active | Project extension for INV-005 |
-| `orderNumber` | string, 1–40 characters | Stable business-facing Travel Order reference; not a database identifier. | Order Management; `order/header` | required and unique in Order Management; current synthetic example `5766` | Project identifier mapped to OTA booking/order reference concept |
 | `orderStatusCode` | namespaced code | Current Travel Order lifecycle status; replaces generic `status`. | Order Management; `order/header` | required; exactly one value from this row's four permitted codes; issue #21 introduces the CRUD API's `PUT` as the only current transition mechanism, so any code may currently follow any other -- ordering/guard rules remain future requirements work | Project value set; no external lifecycle adopted |
 | `order/reserved` | namespaced code | Positions are allocated to stock and travellers but payment has not yet been recorded. | Order Management; `orderStatusCode` | permitted; precedes `order/paid` in the informal glossary "Reservation" concept | Project extension grounded in the glossary's Reservation concept |
 | `order/paid` | namespaced code | Required customer payment has been recorded for the synthetic order example. | Order Management; `orderStatusCode` | permitted example; does not imply supplier settlement or completed travel | Project extension grounded in UC-018 and glossary |

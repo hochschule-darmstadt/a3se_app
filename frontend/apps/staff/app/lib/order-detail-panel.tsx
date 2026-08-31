@@ -23,7 +23,6 @@ export function Row({ label, children }: { readonly label: string; readonly chil
  */
 export function PositionHierarchies({
   orderId,
-  orderNumber,
   customerRoleId,
   customerPersonId,
   customerDisplayName,
@@ -31,7 +30,6 @@ export function PositionHierarchies({
   stock,
 }: {
   readonly orderId: string;
-  readonly orderNumber: string;
   readonly customerRoleId: string | null;
   readonly customerPersonId: string | null;
   readonly customerDisplayName: string | null;
@@ -53,7 +51,7 @@ export function PositionHierarchies({
         ) : <Text size="sm">No stock allocated</Text>}
       </Row>
       <Row label="Customer hierarchy">
-        <Chip to={`/orders?detail=${encodeURIComponent(orderId)}`}>Order {orderNumber}</Chip>
+        <Chip to={`/orders?detail=${encodeURIComponent(orderId)}`}>Order {orderId}</Chip>
         {customerRoleId && customerDisplayName ? <Chip to={`/persons?detail=${encodeURIComponent(customerPersonId!)}`}>{customerDisplayName} · customer</Chip> : <Text size="sm">No customer assigned</Text>}
       </Row>
       {position.travellers.length === 0 ? (
@@ -75,13 +73,13 @@ export function OrderDetailPanel({ orderId, positionHref }: { readonly orderId: 
   const stockQueries = useQueries({ queries: positions.map(position => ({ queryKey: ["stock-items", position.stockItemId], enabled: Boolean(position.stockItemId), queryFn: async () => { const { data, error } = await apiClient.GET("/stock-items/{stock_item_id}", { params: { path: { stock_item_id: position.stockItemId! } } }); if (error) throw error; return data as StockItem; } })) });
   const [editing, setEditing] = useState(false); const [status, setStatus] = useState<OrderProperties["orderStatusCode"]>("order/reserved");
   useEffect(() => { if (query.data) setStatus(query.data.order.properties.orderStatusCode); }, [query.data]);
-  const update = useApiMutation((next: OrderProperties["orderStatusCode"]) => apiClient.PUT("/orders/{order_id}", { params: { path: { order_id: orderId } }, body: { properties: { orderNumber: query.data!.order.properties.orderNumber, orderStatusCode: next } } }));
+  const update = useApiMutation((next: OrderProperties["orderStatusCode"]) => apiClient.PUT("/orders/{order_id}", { params: { path: { order_id: orderId } }, body: { properties: { orderStatusCode: next } } }));
   function save(event: FormEvent) { event.preventDefault(); update.mutate(status, { onSuccess: () => { setEditing(false); void queryClient.invalidateQueries({ queryKey: ["orders"] }); } }); }
   if (query.status === "pending") return <StatusBanner kind="loading" title="Loading order…" />;
   if (query.status === "error") return <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} />;
   const detail = query.data;
-  return <Stack gap="md"><Group justify="space-between" align="flex-start"><Title order={1}>Order {detail.order.properties.orderNumber}</Title><Badge>{detail.order.properties.orderStatusCode.replace("order/", "")}</Badge></Group>
-    {editing ? <form aria-label="Edit order" onSubmit={save}><Stack gap="xs"><Select label="Order status" data={STATUSES} value={status} onChange={value => setStatus(value as typeof status)} allowDeselect={false}/><Group><Button type="submit" loading={update.isPending}>Save changes</Button><Button variant="default" onClick={() => setEditing(false)}>Cancel changes</Button></Group>{update.isError ? <ApiErrorBanner error={update.error}/> : null}</Stack></form> : <Stack gap={6}><Row label="ID"><Text size="sm">{detail.order.entityId}</Text></Row><Row label="Type"><Text size="sm">{detail.order.type}</Text></Row><Row label="Order number"><Text size="sm">{detail.order.properties.orderNumber}</Text></Row><Row label="Customer hierarchy"><Chip to={`/orders?detail=${encodeURIComponent(orderId)}`}>Order {detail.order.properties.orderNumber}</Chip>{detail.customerRoleId && detail.customerDisplayName ? <Chip to={`/persons?detail=${encodeURIComponent(detail.customerPersonId!)}&role=${encodeURIComponent(detail.customerRoleId)}`}>{detail.customerDisplayName} · customer</Chip> : <Text size="sm">No customer assigned</Text>}{detail.customerPersonId && detail.customerDisplayName ? <Chip to={`/persons?detail=${encodeURIComponent(detail.customerPersonId)}`}>{detail.customerDisplayName}</Chip> : null}</Row><Group mt="xs"><Button onClick={() => setEditing(true)}>Edit order</Button></Group></Stack>}
+  return <Stack gap="md"><Group justify="space-between" align="flex-start"><Title order={1}>Order {detail.order.entityId}</Title><Badge>{detail.order.properties.orderStatusCode.replace("order/", "")}</Badge></Group>
+    {editing ? <form aria-label="Edit order" onSubmit={save}><Stack gap="xs"><Select label="Order status" data={STATUSES} value={status} onChange={value => setStatus(value as typeof status)} allowDeselect={false}/><Group><Button type="submit" loading={update.isPending}>Save changes</Button><Button variant="default" onClick={() => setEditing(false)}>Cancel changes</Button></Group>{update.isError ? <ApiErrorBanner error={update.error}/> : null}</Stack></form> : <Stack gap={6}><Row label="ID"><Text size="sm">{detail.order.entityId}</Text></Row><Row label="Type"><Text size="sm">{detail.order.type}</Text></Row><Row label="Customer hierarchy"><Chip to={`/orders?detail=${encodeURIComponent(orderId)}`}>Order {detail.order.entityId}</Chip>{detail.customerRoleId && detail.customerDisplayName ? <Chip to={`/persons?detail=${encodeURIComponent(detail.customerPersonId!)}&role=${encodeURIComponent(detail.customerRoleId)}`}>{detail.customerDisplayName} · customer</Chip> : <Text size="sm">No customer assigned</Text>}{detail.customerPersonId && detail.customerDisplayName ? <Chip to={`/persons?detail=${encodeURIComponent(detail.customerPersonId)}`}>{detail.customerDisplayName}</Chip> : null}</Row><Group mt="xs"><Button onClick={() => setEditing(true)}>Edit order</Button></Group></Stack>}
     <div><Title order={2}>Positions</Title><Stack gap="xs" mt="xs">{positions.length === 0 ? <StatusBanner kind="empty" title="This order has no positions."/> : positions.map((position, index) => { const stock = stockQueries[index]?.data; const label = stock ? `${stock.productDisplayNameChain.join(" · ")} · ${stock.properties.serviceDate}` : position.positionId; return <Row key={position.positionId} label="Position"><Chip to={positionHref?.(position.positionId) ?? `/orders?detail=${encodeURIComponent(orderId)}&position=${encodeURIComponent(position.positionId)}`}>{label}</Chip></Row>; })}</Stack></div>
   </Stack>;
 }

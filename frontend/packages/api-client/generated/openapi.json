@@ -436,18 +436,11 @@
       },
       "OrderCreateRequest": {
         "properties": {
-          "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
-          },
           "properties": {
             "$ref": "#/components/schemas/OrderHeaderProperties"
           }
         },
         "required": [
-          "entityId",
           "properties"
         ],
         "title": "OrderCreateRequest",
@@ -512,12 +505,6 @@
       "OrderHeaderProperties": {
         "additionalProperties": false,
         "properties": {
-          "orderNumber": {
-            "maxLength": 40,
-            "minLength": 1,
-            "title": "Ordernumber",
-            "type": "string"
-          },
           "orderStatusCode": {
             "enum": [
               "order/reserved",
@@ -530,7 +517,6 @@
           }
         },
         "required": [
-          "orderNumber",
           "orderStatusCode"
         ],
         "title": "OrderHeaderProperties",
@@ -539,15 +525,19 @@
       "OrderPositionCreateRequest": {
         "properties": {
           "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid"
           }
         },
-        "required": [
-          "entityId"
-        ],
         "title": "OrderPositionCreateRequest",
         "type": "object"
       },
@@ -803,10 +793,17 @@
         "additionalProperties": false,
         "properties": {
           "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid"
           },
           "role": {
             "discriminator": {
@@ -832,7 +829,6 @@
           }
         },
         "required": [
-          "entityId",
           "role"
         ],
         "title": "OrgaRoleCreateRequest",
@@ -928,17 +924,23 @@
         "additionalProperties": false,
         "properties": {
           "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid"
           },
           "properties": {
             "$ref": "#/components/schemas/OrganisationProperties"
           }
         },
         "required": [
-          "entityId",
           "properties"
         ],
         "title": "OrganisationCreateRequest",
@@ -1166,17 +1168,23 @@
         "additionalProperties": false,
         "properties": {
           "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid"
           },
           "properties": {
             "$ref": "#/components/schemas/PersonProperties"
           }
         },
         "required": [
-          "entityId",
           "properties"
         ],
         "title": "PersonCreateRequest",
@@ -1263,10 +1271,17 @@
         "additionalProperties": false,
         "properties": {
           "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid"
           },
           "role": {
             "discriminator": {
@@ -1288,7 +1303,6 @@
           }
         },
         "required": [
-          "entityId",
           "role"
         ],
         "title": "PersonRoleCreateRequest",
@@ -1461,10 +1475,17 @@
         "additionalProperties": false,
         "properties": {
           "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid"
           },
           "parentProductId": {
             "anyOf": [
@@ -1509,7 +1530,6 @@
           }
         },
         "required": [
-          "entityId",
           "product"
         ],
         "title": "ProductCreateRequest",
@@ -1777,10 +1797,17 @@
       "StockItemCreateRequest": {
         "properties": {
           "entityId": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Entityid",
-            "type": "string"
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid"
           },
           "productId": {
             "maxLength": 100,
@@ -1810,7 +1837,6 @@
           }
         },
         "required": [
-          "entityId",
           "productId",
           "type",
           "properties"

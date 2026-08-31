@@ -17,10 +17,6 @@ const ROLE_TYPE_OPTIONS: { value: RoleType; label: string }[] = [
   { value: "person/traveller", label: "Traveller" },
 ];
 
-function generateEntityId(prefix: string): string {
-  return `${prefix}-${crypto.randomUUID()}`;
-}
-
 export interface PersonCreatePanelProps {
   /** Called once the person (and, if it succeeded, its initial role) exists. */
   readonly onCreated: (personId: string) => void;
@@ -45,16 +41,14 @@ export function PersonCreatePanel({ onCreated, onCancel }: PersonCreatePanelProp
   const [validationErrors, setValidationErrors] = useState<readonly string[]>([]);
   const [createdPersonId, setCreatedPersonId] = useState<string | null>(null);
 
-  const personMutation = useApiMutation<PersonResponse, { entityId: string; properties: PersonResponse["properties"] }>(
-    ({ entityId, properties }) => apiClient.POST("/persons", { body: { entityId, properties } })
+  const personMutation = useApiMutation<PersonResponse, { properties: PersonResponse["properties"] }>(
+    ({ properties }) => apiClient.POST("/persons", { body: { properties } })
   );
   const roleMutation = useApiMutation<PersonRoleResponse, { personId: string }>(({ personId }) => {
-    const entityId = generateEntityId("ROLE");
     if (roleType === "person/customer") {
       return apiClient.POST("/persons/{person_id}/roles", {
         params: { path: { person_id: personId } },
         body: {
-          entityId,
           role: {
             type: "person/customer",
             properties: { paymentMethodCode: paymentMethod as PaymentMethodCode | null, roleStatusCode: "role/active" },
@@ -64,7 +58,7 @@ export function PersonCreatePanel({ onCreated, onCancel }: PersonCreatePanelProp
     }
     return apiClient.POST("/persons/{person_id}/roles", {
       params: { path: { person_id: personId } },
-      body: { entityId, role: { type: "person/traveller", properties: { roleStatusCode: "role/active" } } },
+      body: { role: { type: "person/traveller", properties: { roleStatusCode: "role/active" } } },
     });
   });
 
@@ -88,10 +82,8 @@ export function PersonCreatePanel({ onCreated, onCancel }: PersonCreatePanelProp
     setValidationErrors(validation);
     if (validation.length > 0) return;
 
-    const personId = generateEntityId("PER");
     personMutation.mutate(
       {
-        entityId: personId,
         properties: {
           givenName: givenName.trim(),
           familyName: familyName.trim(),
@@ -99,9 +91,9 @@ export function PersonCreatePanel({ onCreated, onCancel }: PersonCreatePanelProp
         },
       },
       {
-        onSuccess: () => {
-          setCreatedPersonId(personId);
-          submitRole(personId);
+        onSuccess: (person) => {
+          setCreatedPersonId(person.entityId);
+          submitRole(person.entityId);
         },
       }
     );

@@ -263,7 +263,7 @@ export function ResourceCard({ title, subtitle, badge, icon, details, action }: 
 }
 
 export interface OfferSummaryProps {
-  readonly orderNumber: string;
+  readonly orderLabel: string;
   readonly statusLabel: string;
   readonly positions: readonly { label: string; detail: string; amount?: string }[];
   readonly totalAmount?: string;
@@ -272,12 +272,12 @@ export interface OfferSummaryProps {
 }
 
 /** DS-CMP-008 offer/order summary: identifier, positions, price, status, pending-data labelling. */
-export function OfferSummary({ orderNumber, statusLabel, positions, totalAmount, currencyCode, pendingNote }: OfferSummaryProps) {
+export function OfferSummary({ orderLabel, statusLabel, positions, totalAmount, currencyCode, pendingNote }: OfferSummaryProps) {
   return (
     <Card withBorder padding="lg" radius="lg">
       <Stack gap="sm">
         <Group justify="space-between">
-          <Title order={2}>Order {orderNumber}</Title>
+          <Title order={2}>Order {orderLabel}</Title>
           <Badge>{statusLabel}</Badge>
         </Group>
         <Stack gap={4}>

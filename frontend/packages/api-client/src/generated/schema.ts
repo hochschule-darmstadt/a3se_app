@@ -651,8 +651,6 @@ export interface components {
         };
         /** OrderCreateRequest */
         OrderCreateRequest: {
-            /** Entityid */
-            entityId: string;
             properties: components["schemas"]["OrderHeaderProperties"];
         };
         /** OrderDetailResponse */
@@ -669,8 +667,6 @@ export interface components {
         };
         /** OrderHeaderProperties */
         OrderHeaderProperties: {
-            /** Ordernumber */
-            orderNumber: string;
             /**
              * Orderstatuscode
              * @enum {string}
@@ -680,7 +676,7 @@ export interface components {
         /** OrderPositionCreateRequest */
         OrderPositionCreateRequest: {
             /** Entityid */
-            entityId: string;
+            entityId?: string | null;
         };
         /** OrderPositionDetail */
         OrderPositionDetail: {
@@ -783,7 +779,7 @@ export interface components {
         /** OrgaRoleCreateRequest */
         OrgaRoleCreateRequest: {
             /** Entityid */
-            entityId: string;
+            entityId?: string | null;
             /** Role */
             role: components["schemas"]["AirlineRoleRequest"] | components["schemas"]["EmptySupplierRoleRequest"];
         };
@@ -816,7 +812,7 @@ export interface components {
         /** OrganisationCreateRequest */
         OrganisationCreateRequest: {
             /** Entityid */
-            entityId: string;
+            entityId?: string | null;
             properties: components["schemas"]["OrganisationProperties"];
         };
         /** OrganisationProperties */
@@ -886,7 +882,7 @@ export interface components {
         /** PersonCreateRequest */
         PersonCreateRequest: {
             /** Entityid */
-            entityId: string;
+            entityId?: string | null;
             properties: components["schemas"]["PersonProperties"];
         };
         /** PersonProperties */
@@ -919,7 +915,7 @@ export interface components {
         /** PersonRoleCreateRequest */
         PersonRoleCreateRequest: {
             /** Entityid */
-            entityId: string;
+            entityId?: string | null;
             /** Role */
             role: components["schemas"]["CustomerRoleRequest"] | components["schemas"]["TravellerRoleRequest"];
         };
@@ -979,7 +975,7 @@ export interface components {
         /** ProductCreateRequest */
         ProductCreateRequest: {
             /** Entityid */
-            entityId: string;
+            entityId?: string | null;
             /** Parentproductid */
             parentProductId?: string | null;
             /** Product */
@@ -1070,7 +1066,7 @@ export interface components {
         /** StockItemCreateRequest */
         StockItemCreateRequest: {
             /** Entityid */
-            entityId: string;
+            entityId?: string | null;
             /** Productid */
             productId: string;
             properties: components["schemas"]["StockPropertiesTransport"];

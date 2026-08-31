@@ -21,6 +21,10 @@ class EntityRepositoryPort(Protocol):
 
     def save(self, candidate: FlexibleEntity | dict[str, object]) -> ValidatedEntity: ...
 
+    def create_generated(
+        self, *, entity_kind: EntityKind, type: str | None, properties: dict[str, object], parent_id: str | None = None
+    ) -> ValidatedEntity: ...
+
     def delete(self, entity_kind: EntityKind, entity_id: str) -> None: ...
 
     def create_relationship(
@@ -106,6 +110,12 @@ class ScopedEntityRepository:
     def save(self, candidate: FlexibleEntity | dict[str, object]) -> ValidatedEntity:
         self._require_allowed(self._entity_kind_of(candidate))
         return self._repository.save(candidate)
+
+    def create_generated(self, *, entity_kind, type, properties, parent_id=None):
+        self._require_allowed(entity_kind)
+        return self._repository.create_generated(
+            entity_kind=entity_kind, type=type, properties=properties, parent_id=parent_id
+        )
 
     def delete(self, entity_kind: EntityKind, entity_id: str) -> None:
         self._require_allowed(entity_kind)

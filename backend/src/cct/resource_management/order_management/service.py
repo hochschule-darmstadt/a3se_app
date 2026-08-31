@@ -26,7 +26,9 @@ ORDER_HEADER_TYPE = "order/header"
 ORDER_POSITION_TYPE = "order/position"
 
 
-def create_order(repository: EntityRepositoryPort, *, entity_id: str, properties: dict[str, object]) -> ValidatedEntity:
+def create_order(repository: EntityRepositoryPort, *, entity_id: str | None, properties: dict[str, object]) -> ValidatedEntity:
+    if entity_id is None:
+        return repository.create_generated(entity_kind=EntityKind.ORDER_ITEM, type=ORDER_HEADER_TYPE, properties=properties)
     if repository.get(EntityKind.ORDER_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.ORDER_ITEM, entity_id)
     return repository.save(
@@ -70,12 +72,12 @@ def delete_order(repository: EntityRepositoryPort, entity_id: str) -> None:
 
 
 def create_order_position(
-    repository: EntityRepositoryPort, *, entity_id: str, order_id: str
+    repository: EntityRepositoryPort, *, entity_id: str | None, order_id: str
 ) -> ValidatedEntity:
     get_order(repository, order_id)
-    if repository.get(EntityKind.ORDER_ITEM, entity_id) is not None:
+    if entity_id is not None and repository.get(EntityKind.ORDER_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.ORDER_ITEM, entity_id)
-    position = repository.save(
+    position = repository.create_generated(entity_kind=EntityKind.ORDER_ITEM, type=ORDER_POSITION_TYPE, properties={}, parent_id=order_id) if entity_id is None else repository.save(
         {"entityId": entity_id, "entityKind": "OrderItem", "type": ORDER_POSITION_TYPE, "properties": {}}
     )
     repository.create_relationship(
@@ -83,7 +85,7 @@ def create_order_position(
         from_id=order_id,
         relationship=RelationshipType.CONTAINS,
         to_kind=EntityKind.ORDER_ITEM,
-        to_id=entity_id,
+        to_id=position.entity_id,
     )
     return position
 

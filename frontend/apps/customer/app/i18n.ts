@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+﻿import { createContext, useContext } from "react";
 
 import { translate, type Locale } from "@cct/ui";
 
@@ -39,18 +39,18 @@ export const dictionary: Record<string, string> = {
   "results.criteria.destination": "Destination",
   "results.criteria.date": "Outbound date",
   "results.criteria.travellers": "Travellers",
-  "results.loading": "Loading the product catalogue…",
+  "results.loading": "Loading the product catalogueâ€¦",
   "results.empty": "No products are in the catalogue.",
   "results.error.title": "Could not load the catalogue",
   "results.viewDetail": "View details",
   "results.revise": "Revise criteria",
 
   "detail.heading": "Travel product",
-  "detail.loading": "Loading product details…",
+  "detail.loading": "Loading product detailsâ€¦",
   "detail.error.title": "Could not load this product",
   "detail.back": "Back to results",
   "detail.requestedDate": "Requested date",
-  "detail.checkingAvailability": "Checking availability for {date}…",
+  "detail.checkingAvailability": "Checking availability for {date}â€¦",
   "detail.available": "Available on {date}",
   "detail.available.price": "Price",
   "detail.unavailable": "Not available on {date}",
@@ -68,7 +68,7 @@ export const dictionary: Record<string, string> = {
   "compose.summary.date": "Date",
   "compose.travellers.label": "Party size",
   "compose.travellers.note":
-    "This thin slice assigns the single seeded demonstration traveller role (PER-001-TRAVELLER) to the order regardless of party size; additional travellers are captured for display only and are not yet individually modelled.",
+    "This thin slice assigns the single seeded demonstration traveller role (PER-000001-TRAVELLER) to the order regardless of party size; additional travellers are captured for display only and are not yet individually modelled.",
   "compose.continue": "Continue to sign in",
 
   "signIn.heading": "Sign in",
@@ -89,10 +89,10 @@ export const dictionary: Record<string, string> = {
   "offer.pendingNote":
     "This offer is not yet a confirmed order. Submit it to create a real order.",
   "offer.submit": "Submit order",
-  "offer.submitting": "Submitting…",
+  "offer.submitting": "Submittingâ€¦",
 
   "order.heading": "Order",
-  "order.submitting": "Submitting your order…",
+  "order.submitting": "Submitting your orderâ€¦",
   "order.success.title": "Order confirmed",
   "order.success.id.label": "Order ID",
   "order.success.number.label": "Order number",

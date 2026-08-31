@@ -33,3 +33,4 @@ Decision records intentionally use the `Status/Date/Deciders/Supersedes` metadat
 | [DR-0017](0017-align-orgarole-and-touristicproductitem-type-families.md) | Align OrgaRole and TouristicProductItem type-identifier families | accepted | 2026-08-20 | none |
 | [DR-0019](0019-compute-resource-display-projections.md) | Compute resource display projections in the backend | accepted | 2026-08-21 | DR-0013 in part |
 | [DR-0020](0020-align-stockitem-types-with-product-leaves.md) | Align StockItem types with represented product leaves | accepted | 2026-08-21 | DR-0017 in part |
+| [DR-0021](0021-transaction-safe-prefixed-identifiers.md) | Use transaction-safe prefixed identifiers for staff-created entities | proposed | 2026-08-31 | none |

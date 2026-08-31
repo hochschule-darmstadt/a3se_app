@@ -23,10 +23,6 @@ import {
 
 type ProductMutationResponse = components["schemas"]["ProductMutationResponse"];
 
-function generateEntityId(prefix: string): string {
-  return `${prefix}-${crypto.randomUUID()}`;
-}
-
 export interface ProductCreatePanelProps {
   readonly onCreated: (productId: string) => void;
   readonly onCancel: () => void;
@@ -62,11 +58,9 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
   const [createdProductId, setCreatedProductId] = useState<string | null>(null);
 
   const createMutation = useApiMutation<ProductMutationResponse, void>(() => {
-    const entityId = generateEntityId("PRD");
     const effectiveParentId = isAddComponent ? parentProductId : null;
     return apiClient.POST("/products", {
       body: {
-        entityId,
         parentProductId: effectiveParentId,
         product: { type, properties: productTypeProperties(type, values, lifecycleStatusCode) } as never,
       },

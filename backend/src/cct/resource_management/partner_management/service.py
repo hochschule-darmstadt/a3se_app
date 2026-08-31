@@ -16,8 +16,10 @@ from cct.resource_management.repository_ports import EntityRepositoryPort
 
 
 def create_organisation(
-    repository: EntityRepositoryPort, *, entity_id: str, properties: dict[str, object]
+    repository: EntityRepositoryPort, *, entity_id: str | None, properties: dict[str, object]
 ) -> ValidatedEntity:
+    if entity_id is None:
+        return repository.create_generated(entity_kind=EntityKind.ORGANISATION, type=None, properties=properties)
     if repository.get(EntityKind.ORGANISATION, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.ORGANISATION, entity_id)
     return repository.save({"entityId": entity_id, "entityKind": "Organisation", "properties": properties})
@@ -51,16 +53,16 @@ def delete_organisation(repository: EntityRepositoryPort, entity_id: str) -> Non
 def create_orga_role(
     repository: EntityRepositoryPort,
     *,
-    entity_id: str,
+    entity_id: str | None,
     organisation_id: str,
     type: str,
     properties: dict[str, object],
 ) -> ValidatedEntity:
     if repository.get(EntityKind.ORGANISATION, organisation_id) is None:
         raise EntityNotFoundError(EntityKind.ORGANISATION, organisation_id)
-    if repository.get(EntityKind.ORGA_ROLE, entity_id) is not None:
+    if entity_id is not None and repository.get(EntityKind.ORGA_ROLE, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.ORGA_ROLE, entity_id)
-    role = repository.save(
+    role = repository.create_generated(entity_kind=EntityKind.ORGA_ROLE, type=type, properties=properties) if entity_id is None else repository.save(
         {"entityId": entity_id, "entityKind": "OrgaRole", "type": type, "properties": properties}
     )
     repository.create_relationship(
@@ -68,7 +70,7 @@ def create_orga_role(
         from_id=organisation_id,
         relationship=RelationshipType.HAS_ROLE,
         to_kind=EntityKind.ORGA_ROLE,
-        to_id=entity_id,
+        to_id=role.entity_id,
     )
     return role
 

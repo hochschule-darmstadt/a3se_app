@@ -76,7 +76,7 @@ export async function runSubmissionStep(
 
     case "order": {
       const { error, response } = await apiClient.POST("/orders", {
-        body: { entityId: orderId, properties: { orderNumber: orderId, orderStatusCode: "order/reserved" } },
+        body: { properties: { orderStatusCode: "order/reserved" } },
       });
       if (!response.ok) throw toApiError(error, response);
       return;

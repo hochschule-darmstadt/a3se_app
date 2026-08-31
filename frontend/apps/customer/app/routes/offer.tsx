@@ -87,7 +87,7 @@ export default function Offer() {
           {productQuery.isSuccess && stockQuery.isSuccess ? (
             <Stack gap="md">
               <OfferSummary
-                orderNumber={t("offer.status.draft")}
+                orderLabel={t("offer.status.draft")}
                 statusLabel={t("offer.status.draft")}
                 positions={[
                   {

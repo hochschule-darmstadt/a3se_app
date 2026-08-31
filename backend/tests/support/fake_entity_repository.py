@@ -13,6 +13,7 @@ from cct.resource_management.default_registry import create_entity_registry
 from cct.resource_management.errors import DependentEntityExistsError, EntityNotFoundError
 from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.relationship_types import OWNERSHIP_RELATIONSHIP_TYPES, RelationshipType
+from cct.resource_management.id_policy import ENTITY_PREFIXES, format_entity_id, format_position_id
 
 
 class FakeEntityRepository:
@@ -20,6 +21,8 @@ class FakeEntityRepository:
         self._registry = create_entity_registry()
         self._entities: dict[tuple[EntityKind, str], object] = {}
         self.relationship_calls: list[tuple] = []
+        self._next_ids: dict[object, int] = {}
+        self._next_positions: dict[str, int] = {}
 
     def get(self, entity_kind, entity_id):
         return self._entities.get((entity_kind, entity_id))
@@ -40,6 +43,18 @@ class FakeEntityRepository:
     def save(self, candidate):
         entity = self._registry.validate(candidate)
         self._entities[(entity.entity_kind, entity.entity_id)] = entity
+        return entity
+
+    def create_generated(self, *, entity_kind, type, properties, parent_id=None):
+        if type == "order/position":
+            number = self._next_positions.get(parent_id, 1)
+            entity_id = format_position_id(parent_id, number)
+            self._next_positions[parent_id] = number + 1
+        else:
+            number = self._next_ids.get(entity_kind, 1)
+            entity_id = format_entity_id(entity_kind, number)
+            self._next_ids[entity_kind] = number + 1
+        entity = self.save({"entityId": entity_id, "entityKind": entity_kind, "type": type, "properties": properties})
         return entity
 
     def delete(self, entity_kind, entity_id):

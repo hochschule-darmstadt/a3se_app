@@ -19,10 +19,6 @@ const ADDABLE_ROLE_TYPES: { value: RoleType; label: string }[] = [
   { value: "person/traveller", label: "Traveller" },
 ];
 
-function generateEntityId(prefix: string): string {
-  return `${prefix}-${crypto.randomUUID()}`;
-}
-
 /**
  * S-002 detail (issue #29): Person's shared fields, edited separately from
  * each PersonRole's role-specific fields, per the entity model. Roles are
@@ -301,12 +297,10 @@ function AddRoleButton({ personId, roleType, label }: { readonly personId: strin
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
 
   const createMutation = useApiMutation<PersonRoleResponse, void>(() => {
-    const entityId = generateEntityId("ROLE");
     if (roleType === "person/customer") {
       return apiClient.POST("/persons/{person_id}/roles", {
         params: { path: { person_id: personId } },
         body: {
-          entityId,
           role: {
             type: "person/customer",
             properties: { paymentMethodCode: paymentMethod as PaymentMethodCode | null, roleStatusCode: "role/active" },
@@ -316,7 +310,7 @@ function AddRoleButton({ personId, roleType, label }: { readonly personId: strin
     }
     return apiClient.POST("/persons/{person_id}/roles", {
       params: { path: { person_id: personId } },
-      body: { entityId, role: { type: "person/traveller", properties: { roleStatusCode: "role/active" } } },
+      body: { role: { type: "person/traveller", properties: { roleStatusCode: "role/active" } } },
     });
   });
 

@@ -39,3 +39,4 @@ The glossary defines the shared business vocabulary for the tour operator inform
 | Deposit | Initial customer payment whose receipt may enable later activities such as issuing travel documents | Order Management | Fee, full payment |
 | Travel documents | Customer-facing documents needed to undertake or evidence ordered travel | Customer Care | Invoice, travel order |
 | Supplier settlement | Reconciliation and payment of liabilities arising from pre-procured travel services obtained from suppliers | Procurement | Customer payment, travel order |
+| Identifier | Immutable structural reference allocated by the system for a staff-created entity; generated root identifiers use the registered prefix and fixed-width numeric sequence defined by [DR-0021](../governance/decisions/0021-transaction-safe-prefixed-identifiers.md) | Entire system | Display name, authorization secret |

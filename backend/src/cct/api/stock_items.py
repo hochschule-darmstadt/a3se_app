@@ -33,7 +33,7 @@ StockPropertiesTransport = transport_properties_model(StockProperties)
 
 class StockItemCreateRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
-    entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
+    entity_id: str | None = Field(default=None, alias="entityId", min_length=1, max_length=100)
     product_id: str = Field(alias="productId", min_length=1, max_length=100)
     type: Literal[STOCK_ITEM_TYPES]
     properties: StockPropertiesTransport

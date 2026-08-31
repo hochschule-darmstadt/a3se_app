@@ -10,6 +10,7 @@ from cct.resource_management.errors import DependentEntityExistsError, EntityNot
 from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.registry import EntityTypeRegistry
 from cct.resource_management.relationship_types import OWNERSHIP_RELATIONSHIP_TYPES, RelationshipType
+from cct.resource_management.id_policy import ENTITY_PREFIXES
 
 from .entity_mapping import LABELS, Neo4jEntityMapper, NodeRecord
 
@@ -48,6 +49,18 @@ class Neo4jEntityRepository:
         with self._driver.session(database=self._database) as session:
             session.execute_write(self._write_node, node)
         return entity
+
+    def create_generated(
+        self, *, entity_kind: EntityKind, type: str | None, properties: dict[str, object], parent_id: str | None = None
+    ) -> ValidatedEntity:
+        """Allocate and create an ID in the same Neo4j write transaction."""
+        placeholder = {"entityId": "ALLOCATING", "entityKind": entity_kind, "type": type, "properties": properties}
+        entity = self._registry.validate(placeholder)
+        node = self._mapper.to_node(entity)
+        with self._driver.session(database=self._database) as session:
+            record = session.execute_write(self._write_generated_node, node, parent_id)
+        generated_id = record["entityId"]
+        return entity.model_copy(update={"entity_id": generated_id})
 
     def get(self, entity_kind: EntityKind, entity_id: str) -> ValidatedEntity | None:
         with self._driver.session(database=self._database) as session:
@@ -216,6 +229,40 @@ class Neo4jEntityRepository:
         # The label comes from the EntityKind allow-list, never caller input.
         query = f"MERGE (entity:{node.label} {{entityId: $entityId}}) SET entity = $properties"
         tx.run(query, entityId=node.properties["entityId"], properties=node.properties)
+
+    @staticmethod
+    def _write_generated_node(tx: Transaction, node: NodeRecord, parent_id: str | None):
+        prefix = ENTITY_PREFIXES[EntityKind(node.properties["entityKind"])]
+        if node.properties.get("type") == "order/position":
+            query = """
+            MATCH (parent:OrderItem {entityId: $parentId})
+            OPTIONAL MATCH (parent)-[:CONTAINS]->(existing:OrderItem)
+            WITH parent, coalesce(max(toInteger(substring(existing.entityId, size($parentId) + 2))), 0) AS maximum
+            MERGE (counter:EntityIdCounter {counterKey: $parentId})
+            ON CREATE SET counter.nextValue = maximum + 1
+            WITH parent, counter, counter.nextValue AS value
+            WHERE value <= 99
+            SET counter.nextValue = value + 1
+            CREATE (entity:OrderItem)
+            SET entity = $properties, entity.entityId = $parentId + '-P' + CASE WHEN value < 10 THEN '0' ELSE '' END + toString(value)
+            RETURN entity.entityId AS entityId
+            """
+            return tx.run(query, parentId=parent_id, properties=node.properties).single(strict=False)
+        label = node.label
+        query = f"""
+        OPTIONAL MATCH (existing:{label})
+        WHERE existing.entityId STARTS WITH $prefix + '-' AND existing.entityId =~ $prefix + '-[0-9]{{6}}'
+        WITH coalesce(max(toInteger(substring(existing.entityId, size($prefix) + 1))), 0) AS maximum
+        MERGE (counter:EntityIdCounter {{counterKey: $prefix}})
+        ON CREATE SET counter.nextValue = maximum + 1
+        WITH counter, counter.nextValue AS value
+        WHERE value <= 999999
+        SET counter.nextValue = value + 1
+        CREATE (entity:{label})
+        SET entity = $properties, entity.entityId = $prefix + '-' + substring('000000' + toString(value), size('000000' + toString(value)) - 6, 6)
+        RETURN entity.entityId AS entityId
+        """
+        return tx.run(query, prefix=prefix, properties=node.properties).single(strict=False)
 
     @staticmethod
     def _read_one(tx: Transaction, entity_kind: EntityKind, entity_id: str):
@@ -405,6 +452,7 @@ class Neo4jEntityRepository:
 
 
 COMMUNITY_SCHEMA = (
+    "CREATE CONSTRAINT entity_id_counter_key IF NOT EXISTS FOR (n:EntityIdCounter) REQUIRE n.counterKey IS UNIQUE",
     "CREATE CONSTRAINT person_entity_id IF NOT EXISTS FOR (n:Person) REQUIRE n.entityId IS UNIQUE",
     "CREATE CONSTRAINT person_role_entity_id IF NOT EXISTS FOR (n:PersonRole) REQUIRE n.entityId IS UNIQUE",
     "CREATE CONSTRAINT organisation_entity_id IF NOT EXISTS FOR (n:Organisation) REQUIRE n.entityId IS UNIQUE",
@@ -414,7 +462,6 @@ COMMUNITY_SCHEMA = (
     "CREATE CONSTRAINT order_entity_id IF NOT EXISTS FOR (n:OrderItem) REQUIRE n.entityId IS UNIQUE",
     "CREATE INDEX product_type IF NOT EXISTS FOR (n:TouristicProductItem) ON (n.type)",
     "CREATE INDEX flight_departure IF NOT EXISTS FOR (n:TouristicProductItem) ON (n.departureLocationCode)",
-    "CREATE INDEX order_number IF NOT EXISTS FOR (n:OrderItem) ON (n.orderNumber)",
 )
 
 ORDER_DETAIL_TRAVERSAL = """

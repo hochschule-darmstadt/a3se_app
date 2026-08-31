@@ -31,7 +31,7 @@ router = APIRouter(prefix="/persons", tags=["persons"])
 class PersonCreateRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
-    entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
+    entity_id: str | None = Field(default=None, alias="entityId", min_length=1, max_length=100)
     properties: PersonProperties
 
 
@@ -83,7 +83,7 @@ PersonRoleVariant = Annotated[Union[CustomerRoleRequest, TravellerRoleRequest], 
 class PersonRoleCreateRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
-    entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
+    entity_id: str | None = Field(default=None, alias="entityId", min_length=1, max_length=100)
     role: PersonRoleVariant
 
 

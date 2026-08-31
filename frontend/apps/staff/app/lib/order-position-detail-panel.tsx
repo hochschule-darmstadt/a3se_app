@@ -48,7 +48,6 @@ export function OrderPositionDetailPanel({
       <Row label="ID"><Text size="sm">{position.positionId}</Text></Row>
       <PositionHierarchies
         orderId={orderId}
-        orderNumber={detail.order.properties.orderNumber}
         customerRoleId={detail.customerRoleId}
         customerPersonId={detail.customerPersonId}
         customerDisplayName={detail.customerDisplayName}

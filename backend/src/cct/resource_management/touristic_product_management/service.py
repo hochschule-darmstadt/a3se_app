@@ -26,7 +26,7 @@ STRUCTURAL_CHILD_PARENT_TYPE: dict[str, str] = {}
 def create_product(
     repository: EntityRepositoryPort,
     *,
-    entity_id: str,
+    entity_id: str | None,
     type: str,
     properties: dict[str, object],
     parent_product_id: str | None = None,
@@ -46,9 +46,9 @@ def create_product(
                 f"parentProductId must reference a {required_parent_type} for type {type}, got {parent.type}"
             )
 
-    if repository.get(EntityKind.TOURISTIC_PRODUCT_ITEM, entity_id) is not None:
+    if entity_id is not None and repository.get(EntityKind.TOURISTIC_PRODUCT_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.TOURISTIC_PRODUCT_ITEM, entity_id)
-    product = repository.save(
+    product = repository.create_generated(entity_kind=EntityKind.TOURISTIC_PRODUCT_ITEM, type=type, properties=properties, parent_id=parent_product_id) if entity_id is None else repository.save(
         {"entityId": entity_id, "entityKind": "TouristicProductItem", "type": type, "properties": properties}
     )
     if parent_product_id is not None:
@@ -57,7 +57,7 @@ def create_product(
             from_id=parent_product_id,
             relationship=RelationshipType.CONTAINS,
             to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
-            to_id=entity_id,
+            to_id=product.entity_id,
         )
     return product
 

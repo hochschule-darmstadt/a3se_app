@@ -12,10 +12,6 @@ import { propertyDisplayEntries } from "./property-display";
 type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
 
-function generateEntityId(prefix: string): string {
-  return `${prefix}-${crypto.randomUUID()}`;
-}
-
 function isAirline(type: string): type is "organisation/airline" {
   return type === "organisation/airline";
 }
@@ -294,10 +290,9 @@ function AddRoleButton({
   const [airlineDesignator, setAirlineDesignator] = useState("");
 
   const createMutation = useApiMutation<OrgaRoleResponse, void>(() => {
-    const entityId = generateEntityId("ROLE");
     return apiClient.POST("/organisations/{organisation_id}/roles", {
       params: { path: { organisation_id: organisationId } },
-      body: { entityId, role: roleRequestBody(roleType, { airlineDesignator, roleStatusCode: "role/active" }) },
+      body: { role: roleRequestBody(roleType, { airlineDesignator, roleStatusCode: "role/active" }) },
     });
   });
 

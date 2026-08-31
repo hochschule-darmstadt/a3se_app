@@ -24,7 +24,7 @@ from cct.resource_management.touristic_product_management import service as prod
 def create_stock_item(
     repository: EntityRepositoryPort,
     *,
-    entity_id: str,
+    entity_id: str | None,
     type: str,
     properties: dict[str, object],
     product_id: str,
@@ -43,14 +43,14 @@ def create_stock_item(
         )
         if children:
             raise InvalidEntityGraphError(product_id, "stock item must reference a lowest-level product item")
-    if repository.get(EntityKind.STOCK_ITEM, entity_id) is not None:
+    if entity_id is not None and repository.get(EntityKind.STOCK_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.STOCK_ITEM, entity_id)
-    stock_item = repository.save(
+    stock_item = repository.create_generated(entity_kind=EntityKind.STOCK_ITEM, type=type, properties=properties) if entity_id is None else repository.save(
         {"entityId": entity_id, "entityKind": "StockItem", "type": type, "properties": properties}
     )
     repository.create_relationship(
         from_kind=EntityKind.STOCK_ITEM,
-        from_id=entity_id,
+        from_id=stock_item.entity_id,
         relationship=RelationshipType.REPRESENTS_PRODUCT,
         to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
         to_id=product_id,

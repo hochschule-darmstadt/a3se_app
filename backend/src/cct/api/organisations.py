@@ -36,7 +36,7 @@ EMPTY_SUPPLIER_ROLE_TYPES = (
 class OrganisationCreateRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
-    entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
+    entity_id: str | None = Field(default=None, alias="entityId", min_length=1, max_length=100)
     properties: OrganisationProperties
 
 
@@ -88,7 +88,7 @@ OrgaRoleVariant = Annotated[Union[AirlineRoleRequest, EmptySupplierRoleRequest],
 class OrgaRoleCreateRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
-    entity_id: str = Field(alias="entityId", min_length=1, max_length=100)
+    entity_id: str | None = Field(default=None, alias="entityId", min_length=1, max_length=100)
     role: OrgaRoleVariant
 
 

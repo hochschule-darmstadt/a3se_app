@@ -83,7 +83,7 @@ function OrderTreeRow({
   const [expanded, setExpanded] = useState(selectedId === order.entityId && Boolean(selectedPositionId));
   const hasPositions = order.positionCount > 0;
   const selected = selectedId === order.entityId;
-  const label = `Order ${order.properties.orderNumber}`;
+  const label = `Order ${order.entityId}`;
 
   const detailQuery = useApiQuery(
     ["orders", order.entityId, "detail"],
