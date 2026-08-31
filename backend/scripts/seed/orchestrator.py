@@ -36,7 +36,7 @@ from cct.resource_management.person_management import service as person_service
 from cct.resource_management.repository_ports import EntityRepositoryPort, ScopedEntityRepository
 from cct.resource_management.touristic_product_management import service as product_service
 
-from . import images, inventory
+from . import inventory
 from .loader import SeedData, load_seed_data
 from .schema import SEED_SCHEMA_VERSION
 
@@ -161,7 +161,6 @@ def _load_organisations(repos: SeedRepositories, data: SeedData, summary: SeedSu
 
 
 def _load_products(repos: SeedRepositories, data: SeedData, summary: SeedSummary) -> None:
-    image_by_product = images.index_images_by_product(data.images)
     remaining = list(data.products)
     created_ids: set[str] = set()
     while remaining:
@@ -172,7 +171,6 @@ def _load_products(repos: SeedRepositories, data: SeedData, summary: SeedSummary
                 next_remaining.append(product)
                 continue
             properties = _coerce_property_types(product.properties)
-            properties.update(images.image_properties(image_by_product.get(product.entity_id)))
             try:
                 product_service.create_product(
                     repos.product,

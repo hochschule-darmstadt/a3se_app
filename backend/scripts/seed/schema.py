@@ -3,7 +3,7 @@
 This layer validates only the SHAPE of the seed-authoring input (types,
 structure, obviously-malformed strings) so a mistake in the JSON fails fast
 with a seed-specific error message. The property VALUES themselves
-(roomTypeCode, flightNumber, imageUrl, ...) are authoritatively
+(roomTypeCode, flightNumber, ...) are authoritatively
 validated a second time when the orchestrator calls the real module
 service.py functions, through the registry's StrictProperties contracts --
 per implementation.md, "the registry and entity contracts are the
@@ -91,14 +91,3 @@ class OrdersFile(SeedModel):
     schema_version: int = Field(alias="schemaVersion")
     orders: list[OrderSeed]
 
-
-class ImageSeed(SeedModel):
-    """One TERM-010 image record, keyed by the product it is attached to."""
-
-    product_id: str = Field(alias="productId", min_length=1)
-    image_url: str = Field(alias="imageUrl", pattern=r"^https://")
-
-
-class ImagesFile(SeedModel):
-    schema_version: int = Field(alias="schemaVersion")
-    images: list[ImageSeed]

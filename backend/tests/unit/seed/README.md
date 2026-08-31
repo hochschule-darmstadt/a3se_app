@@ -14,7 +14,6 @@ package, since the seed code lives outside `backend/src`.
   boundaries, the documented 0-10 range, guaranteed zero/non-zero coverage
   per product, determinism, and the mobility/water/experience/protection
   ad hoc single-date path.
-- `test_images.py`: TERM-010 image lookup/merge helpers.
 - `test_orchestrator.py`: dependency ordering, idempotent reruns, and
   validate-before-mutate, against a fake repository and the same minimal
   dataset `test_loader.py` uses.

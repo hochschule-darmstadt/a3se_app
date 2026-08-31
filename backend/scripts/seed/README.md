@@ -13,7 +13,7 @@ too.
 
 - `sources/*.json`: the authoritative, reviewable seed facts --
   `persons.json`, `organisations.json`, `products.json`, `orders.json`,
-  `images.json` -- each directly traceable to a `catalogs.md`/
+  each directly traceable to a `catalogs.md`/
   `test-scenarios.md` table. `schemaVersion` starts at 1; a breaking shape
   change bumps it and `schema.SEED_SCHEMA_VERSION` together.
 - `schema.py`: Pydantic models validating the *shape* of the source files.
@@ -31,7 +31,6 @@ too.
   StockItem per date a mobility/water/experience/protection order position
   actually needs (those families are not part of the mandatory 2027 daily
   calendar). No I/O -- exhaustively unit-tested without touching Neo4j.
-- `images.py`: TERM-010 image-property lookup/merge helpers.
 - `orchestrator.py`: the composition root -- builds the real Neo4j driver
   and one `ScopedEntityRepository` per module (mirrors `serve.py`), then
   loads persons/roles -> organisations/roles -> products (parents before

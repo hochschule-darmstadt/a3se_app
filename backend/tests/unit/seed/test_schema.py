@@ -83,22 +83,5 @@ class OrderPositionSeedTest(unittest.TestCase):
             )
 
 
-class ImageSeedTest(unittest.TestCase):
-    def _valid_payload(self, **overrides: object) -> dict[str, object]:
-        payload = {
-            "productId": "ACC-01",
-            "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Example_Hotel_Room.jpg",
-        }
-        payload.update(overrides)
-        return payload
-
-    def test_valid_image_parses(self) -> None:
-        schema.ImageSeed.model_validate(self._valid_payload())
-
-    def test_non_https_url_is_rejected(self) -> None:
-        with self.assertRaises(pydantic.ValidationError):
-            schema.ImageSeed.model_validate(self._valid_payload(imageUrl="http://example.com/room.jpg"))
-
-
 if __name__ == "__main__":
     unittest.main()

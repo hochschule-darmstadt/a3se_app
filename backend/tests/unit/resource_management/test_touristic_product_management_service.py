@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import time
 import unittest
 
-import pydantic
 from support.fake_entity_repository import FakeEntityRepository
 
 from cct.resource_management.contracts import EntityKind
@@ -199,25 +198,6 @@ class ProductServiceTest(unittest.TestCase):
         supplier = service.get_supplier(self.repository, "I31-FLIGHT")
         assert supplier is not None
         self.assertEqual("I31-SUPPLIER-ROLE", supplier.entity_id)
-
-    def test_create_product_accepts_image_url(self) -> None:
-        # TERM-010 (issue #12): image metadata reduced to imageUrl only.
-        entity = service.create_product(
-            self.repository,
-            entity_id="I12-FLIGHT-IMG",
-            type="product/airline/flight",
-            properties=flight_properties(imageUrl="https://commons.wikimedia.org/example.jpg"),
-        )
-        self.assertEqual("https://commons.wikimedia.org/example.jpg", entity.properties.image_url)
-
-    def test_create_product_rejects_non_https_image_url(self) -> None:
-        with self.assertRaises(pydantic.ValidationError):
-            service.create_product(
-                self.repository,
-                entity_id="I12-FLIGHT-INSECUREIMG",
-                type="product/airline/flight",
-                properties=flight_properties(imageUrl="http://example.com/example.jpg"),
-            )
 
     def test_create_seat_accepts_a_flight_parent(self) -> None:
         service.create_product(

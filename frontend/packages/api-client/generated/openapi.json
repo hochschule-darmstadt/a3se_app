@@ -145,18 +145,6 @@
       "EmptyProductProperties": {
         "additionalProperties": false,
         "properties": {
-          "imageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageurl"
-          },
           "lifecycleStatusCode": {
             "default": "product/draft",
             "enum": [
@@ -309,18 +297,6 @@
             "title": "Flightnumber",
             "type": "string"
           },
-          "imageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageurl"
-          },
           "lifecycleStatusCode": {
             "default": "product/draft",
             "enum": [
@@ -394,18 +370,6 @@
             "pattern": "^[0-9]{1,4}$",
             "title": "Flightnumber",
             "type": "string"
-          },
-          "imageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageurl"
           },
           "lifecycleStatusCode": {
             "default": "product/draft",
@@ -1729,18 +1693,6 @@
       "RoomCategoryProperties": {
         "additionalProperties": false,
         "properties": {
-          "imageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageurl"
-          },
           "lifecycleStatusCode": {
             "default": "product/draft",
             "enum": [
@@ -1823,18 +1775,6 @@
       "RoomProperties": {
         "additionalProperties": false,
         "properties": {
-          "imageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageurl"
-          },
           "name": {
             "anyOf": [
               {
@@ -1883,18 +1823,6 @@
       "SeatProperties": {
         "additionalProperties": false,
         "properties": {
-          "imageUrl": {
-            "anyOf": [
-              {
-                "pattern": "^https://",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Imageurl"
-          },
           "name": {
             "anyOf": [
               {

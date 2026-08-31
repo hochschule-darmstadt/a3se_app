@@ -19,13 +19,7 @@ RoomTypeCode = Literal[
 ]
 
 
-class ImageProperties(StrictProperties):
-    """TERM-010 image metadata, optional on any product/* type."""
-
-    image_url: str | None = Field(default=None, alias="imageUrl", pattern=r"^https://")
-
-
-class CatalogueItemProperties(ImageProperties):
+class CatalogueItemProperties(StrictProperties):
     """Shared fields for catalogue-root product types (not their structural children).
 
     `name` is human-authored source data for TERM-011's computed display
@@ -59,7 +53,7 @@ class FlightProperties(CatalogueItemProperties):
         return self
 
 
-class SeatProperties(ImageProperties):
+class SeatProperties(StrictProperties):
     name: str | None = Field(default=None, min_length=1, max_length=200)
     seat_number: str = Field(alias="seatNumber", pattern=r"^[1-9][0-9]{0,2}[A-Z]$")
 
@@ -71,7 +65,7 @@ class RoomCategoryProperties(CatalogueItemProperties):
     )
 
 
-class RoomProperties(ImageProperties):
+class RoomProperties(StrictProperties):
     name: str | None = Field(default=None, min_length=1, max_length=200)
     room_number: str = Field(alias="roomNumber", min_length=1, max_length=20)
 

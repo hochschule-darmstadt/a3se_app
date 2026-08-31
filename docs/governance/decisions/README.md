@@ -31,6 +31,5 @@ Decision records intentionally use the `Status/Date/Deciders/Supersedes` metadat
 | [DR-0015](0015-frontend-thin-slice-testing-i18n-and-catalog-listing.md) | Frontend thin-slice test stack, i18n demonstration, staff grid, and catalog listing | accepted | 2026-08-18 | none |
 | [DR-0016](0016-poc-technology-confirmation-with-residual-risk.md) | Confirm the DR-0010 technology profile with explicit residual risk | accepted | 2026-08-18 | none |
 | [DR-0017](0017-align-orgarole-and-touristicproductitem-type-families.md) | Align OrgaRole and TouristicProductItem type-identifier families | accepted | 2026-08-20 | none |
-| [DR-0018](0018-reduce-image-metadata-to-url-only.md) | Reduce TERM-010 image metadata to `imageUrl` only | accepted | 2026-08-21 | DR-0014 (in part) |
 | [DR-0019](0019-compute-resource-display-projections.md) | Compute resource display projections in the backend | accepted | 2026-08-21 | DR-0013 in part |
 | [DR-0020](0020-align-stockitem-types-with-product-leaves.md) | Align StockItem types with represented product leaves | accepted | 2026-08-21 | DR-0017 in part |

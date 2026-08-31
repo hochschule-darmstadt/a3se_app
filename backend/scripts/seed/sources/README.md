@@ -13,5 +13,3 @@ each file must satisfy).
   `FLT-01`'s recursive leg children) and 60 reserve catalog products.
 - `orders.json`: `OrderItem` headers and positions for `ORD-001`..`ORD-015`,
   one position per catalog product each `TS-nnn` references.
-- `images.json`: TERM-010 image metadata, one record per representative
-  scenario-used resource (not one per product).

@@ -93,7 +93,6 @@ def _minimal_files() -> dict[str, dict[str, object]]:
                 }
             ],
         },
-        "images.json": {"schemaVersion": 1, "images": []},
     }
 
 
@@ -162,17 +161,6 @@ class LoaderTest(unittest.TestCase):
         files["persons.json"]["schemaVersion"] = 2
         with self.assertRaises(loader.SeedValidationError):
             self._write_and_load(files)
-
-    def test_duplicate_image_product_id_is_rejected(self) -> None:
-        files = _minimal_files()
-        image = {
-            "productId": "FLT-01",
-            "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Example.jpg",
-        }
-        files["images.json"]["images"] = [image, image]
-        with self.assertRaises(loader.SeedValidationError):
-            self._write_and_load(files)
-
 
 if __name__ == "__main__":
     unittest.main()

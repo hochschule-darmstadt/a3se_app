@@ -520,8 +520,6 @@ export interface components {
         };
         /** EmptyProductProperties */
         EmptyProductProperties: {
-            /** Imageurl */
-            imageUrl?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -594,8 +592,6 @@ export interface components {
             departureLocationCode: string;
             /** Flightnumber */
             flightNumber: string;
-            /** Imageurl */
-            imageUrl?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -625,8 +621,6 @@ export interface components {
             departureLocationCode: string;
             /** Flightnumber */
             flightNumber: string;
-            /** Imageurl */
-            imageUrl?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -1036,8 +1030,6 @@ export interface components {
         };
         /** RoomCategoryProperties */
         RoomCategoryProperties: {
-            /** Imageurl */
-            imageUrl?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -1065,8 +1057,6 @@ export interface components {
         };
         /** RoomProperties */
         RoomProperties: {
-            /** Imageurl */
-            imageUrl?: string | null;
             /** Name */
             name?: string | null;
             /** Roomnumber */
@@ -1083,8 +1073,6 @@ export interface components {
         };
         /** SeatProperties */
         SeatProperties: {
-            /** Imageurl */
-            imageUrl?: string | null;
             /** Name */
             name?: string | null;
             /** Seatnumber */

@@ -32,7 +32,6 @@ class SeedData:
     organisations: tuple[schema.OrganisationSeed, ...]
     products: tuple[schema.ProductSeed, ...]
     orders: tuple[schema.OrderSeed, ...]
-    images: tuple[schema.ImageSeed, ...]
 
 
 def _read_json(name: str) -> dict[str, object]:
@@ -63,9 +62,7 @@ def load_seed_data() -> SeedData:
     organisations_file = schema.OrganisationsFile.model_validate(_read_json("organisations.json"))
     products_file = schema.ProductsFile.model_validate(_read_json("products.json"))
     orders_file = schema.OrdersFile.model_validate(_read_json("orders.json"))
-    images_file = schema.ImagesFile.model_validate(_read_json("images.json"))
-
-    for source in (persons_file, organisations_file, products_file, orders_file, images_file):
+    for source in (persons_file, organisations_file, products_file, orders_file):
         if source.schema_version != schema.SEED_SCHEMA_VERSION:
             raise SeedValidationError(
                 f"unsupported seed source schemaVersion: {source.schema_version}"
@@ -84,8 +81,6 @@ def load_seed_data() -> SeedData:
     order_item_ids = [o.entity_id for o in orders_file.orders]
     order_item_ids += [pos.entity_id for o in orders_file.orders for pos in o.positions]
     _require_unique(order_item_ids, kind="OrderItem")
-
-    _require_unique([i.product_id for i in images_file.images], kind="image (one per productId)")
 
     known_product_ids = {p.entity_id for p in products_file.products}
     known_orga_role_ids = {o.role.entity_id for o in organisations_file.organisations}
@@ -125,14 +120,9 @@ def load_seed_data() -> SeedData:
     non_leaf_products = sorted(position_product_ids & parent_ids)
     if non_leaf_products:
         raise SeedValidationError(f"orders.positions.productId must reference leaf products: {non_leaf_products}")
-    _require_known(
-        {i.product_id for i in images_file.images}, known_product_ids, description="images.productId"
-    )
-
     return SeedData(
         persons=tuple(persons_file.persons),
         organisations=tuple(organisations_file.organisations),
         products=tuple(products_file.products),
         orders=tuple(orders_file.orders),
-        images=tuple(images_file.images),
     )

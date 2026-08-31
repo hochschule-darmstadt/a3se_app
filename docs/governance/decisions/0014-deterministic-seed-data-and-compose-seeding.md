@@ -13,8 +13,7 @@ catalogs) into deterministic, terminology-compliant seed data loaded
 through the module `service.py` functions DR-0012/DR-0013 already built --
 never a raw Neo4j write. It also required a recorded comparison of seed
 representations, a full 2027 dated stock calendar for every room category
-and flight type, at least one licence-verified portal image per
-representative resource family, and Docker Compose integration for a
+and flight type, and Docker Compose integration for a
 one-shot seeding entry point.
 
 Repo research on 2026-08-18 confirmed several open gaps this decision
@@ -41,8 +40,6 @@ kind of contract-widening DR-0013 already did once for `orderStatusCode`.
 | Entity ID scheme | Reuse catalog IDs directly as `entityId`; invent `ORD-nnn`/`STK-<productId>-<date>-U<n>` only where the catalog has none | Accepted: human-diffable, traceable to the source table by inspection |
 | Missing `stock/*` type identifiers | Invent new family-specific StockItem properties per product family | Rejected: `terminology.md`'s own limitations section calls detailed product-family properties "deliberately unresolved until business rules are specified" -- inventing them here would be scope creep unrelated to seeding |
 | Missing `stock/*` type identifiers | Add the ten missing type identifiers, all reusing the existing common `StockProperties` shape | Accepted: resolves only what blocks seeding (a type identifier to select), not the unresolved property question |
-| Image licence coding | A project-controlled `licence/` namespace (TERM-007 style) | Rejected: licence identifiers are exactly what SPDX/Creative Commons already define; a parallel project vocabulary would be a second, needlessly duplicated registry for values an external authority already names |
-| Image licence coding | Reuse external SPDX-style licence identifiers directly as `imageLicenceCode`'s enum values | Accepted; extended from three to four values (`CC-BY-SA-3.0` added) once real image research needed it, rather than pre-guessing every possible licence up front |
 | Cruise cabin modelling | New `product/water/cabin` type, parallel to room categories | Rejected: adds a second "room-like" contract for one scenario detail |
 | Cruise cabin modelling | Nest a `product/accommodation/room-category` (`roomTypeCode = room/cabin`) under the cruise product via `CONTAINS` | Accepted (documented, not built in this pass -- see Consequences): reuses the existing recursive-composition and room-category machinery instead of adding a parallel one |
 | Seed script location | New top-level package under `backend/src/cct` | Rejected: would need its own architecture-test exemption and blurs the already-accepted "only `serve.py` composition-root" boundary (DR-0013) |
@@ -57,7 +54,7 @@ kind of contract-widening DR-0013 already did once for `orderStatusCode`.
 
 ### Seed representation and package layout
 
-`backend/scripts/seed/sources/{persons,organisations,products,orders,images}.json`
+`backend/scripts/seed/sources/{persons,organisations,products,orders}.json`
 are the authoritative, reviewable seed facts, each transcribed directly
 from a `catalogs.md`/`test-scenarios.md` table (`schemaVersion: 1`).
 `schema.py` validates their shape with Pydantic (`extra="forbid"`, so a
@@ -66,8 +63,7 @@ typo'd key fails loudly); `loader.py` additionally rejects duplicate IDs
 constraint-per-label Neo4j schema) and dangling references between files,
 all before any Neo4j write. `inventory.py` is pure, I/O-free Python that
 generates the 2027 `StockItem` calendar and the mobility/water/experience/
-protection families' ad hoc single-date stock; `images.py` merges TERM-010
-image properties into a product's properties. `orchestrator.py` is the
+protection families' ad hoc single-date stock. `orchestrator.py` is the
 composition root -- builds a real Neo4j driver and one
 `ScopedEntityRepository` per module exactly like `serve.py`, then loads in
 dependency order (persons/roles -> organisations/roles -> products,
@@ -109,13 +105,7 @@ reusing the existing common `StockProperties` shape. TERM-004's
 eight (`room/single`, `room/double`, `room/twin`, `room/triple`,
 `room/family`, `room/adjoining`, `room/suite`, `room/cabin`), grounded in
 `test-scenarios.md`'s own occupancy text and `catalogs.md`'s reserve-entry
-names. New TERM-010 defines the eight TERM-010 image properties on
-`TouristicProductItem` only (single owner: the displayed resource, not its
-supplying `Organisation`); `imageLicenceCode`'s enum widened from three to
-four values (`CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`, `CC-BY-SA-3.0`,
-`PDM-1.0` accepted but unused) once real image research needed
-`CC-BY-SA-3.0`. See `terminology.md`'s own "Issue #12" AI-assisted
-validation record entry for the full inventory/rejection detail.
+names.
 
 ### Contract widening this seed data required
 
@@ -123,12 +113,8 @@ The terminology additions above were not yet reflected in the actual
 Pydantic contracts DR-0012 built, so this issue widened them the same way
 DR-0013 widened `OrderStatusCode`:
 `touristic_product_management/models.py`'s `RoomCategoryProperties
-.room_type_code` Literal now matches TERM-004's eight values; a new
-`ImageProperties` mixin (the eight TERM-010 fields, `imageUrl` gating
-"all-or-nothing" on the rest via a `model_validator`) is now the base class
-of `FlightProperties`, `RoomCategoryProperties`, and
-`EmptyProductProperties`, making image metadata optional on every
-`product/*` type that can carry it; `default_registry.py` maps the ten new
+.room_type_code` Literal now matches TERM-004's eight values;
+`default_registry.py` maps the ten new
 `stock/*` identifiers to `StockProperties`; `cct/api/stock_items.py`'s
 `STOCK_ITEM_TYPES` tuple widened to match, so the CRUD API accepts the same
 types the seed data writes.
@@ -248,7 +234,7 @@ already-tested code to match a doc that predated it.
 ## Validation evidence and limitations
 
 231 backend unit/API tests pass (197 pre-existing + 34 new: seed package
-coverage plus the `ImageProperties`/widened-`roomTypeCode`/new-`stock/*`-
+coverage plus the widened-`roomTypeCode`/new-`stock/*`-
 type contract tests in `resource_management`). A fake-repository dry run
 of the full committed seed data (`run_seed` against
 `support.FakeEntityRepository`) completes in ~0.25s, creating exactly 35
