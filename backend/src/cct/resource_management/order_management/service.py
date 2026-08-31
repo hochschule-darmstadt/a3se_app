@@ -129,8 +129,8 @@ def allocate_stock(
     if existing:
         raise ValueError(f"order position {position_id} already has allocated stock")
     properties = stock_item.properties.model_dump(by_alias=True)
-    available = properties["capacityQuantity"] - properties["heldQuantity"] - properties["allocatedQuantity"]
-    if properties["inventoryStatusCode"] != "inventory/active" or available <= 0:
+    traveller_count = len(repository.list_related(from_kind=EntityKind.ORDER_ITEM, from_id=position_id, relationship=RelationshipType.ASSIGNED_TRAVELLER, to_kind=EntityKind.PERSON_ROLE))
+    if properties["inventoryStatusCode"] != "inventory/active" or properties["remainingCapacity"] < traveller_count:
         raise ValueError(f"stock item {stock_item_id} has no active available capacity")
     repository.create_relationship(
         from_kind=EntityKind.ORDER_ITEM,
@@ -139,7 +139,7 @@ def allocate_stock(
         to_kind=EntityKind.STOCK_ITEM,
         to_id=stock_item_id,
     )
-    properties["allocatedQuantity"] += 1
+    properties["remainingCapacity"] -= traveller_count
     inventory_service.update_stock_item(
         stock_repository, stock_item_id, type=stock_item.type or "", properties=properties
     )
@@ -170,7 +170,8 @@ def release_stock(
         to_id=stock_item_id,
     )
     properties = stock_item.properties.model_dump(by_alias=True)
-    properties["allocatedQuantity"] = max(0, properties["allocatedQuantity"] - 1)
+    allocated_travellers = len(repository.list_related(from_kind=EntityKind.ORDER_ITEM, from_id=position_id, relationship=RelationshipType.ASSIGNED_TRAVELLER, to_kind=EntityKind.PERSON_ROLE))
+    properties["remainingCapacity"] += allocated_travellers
     inventory_service.update_stock_item(
         stock_repository, stock_item_id, type=stock_item.type or "", properties=properties
     )

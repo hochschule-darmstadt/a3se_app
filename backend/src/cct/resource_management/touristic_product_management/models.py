@@ -53,21 +53,11 @@ class FlightProperties(CatalogueItemProperties):
         return self
 
 
-class SeatProperties(StrictProperties):
-    name: str | None = Field(default=None, min_length=1, max_length=200)
-    seat_number: str = Field(alias="seatNumber", pattern=r"^[1-9][0-9]{0,2}[A-Z]$")
-
-
 class RoomCategoryProperties(CatalogueItemProperties):
     room_type_code: RoomTypeCode = Field(alias="roomTypeCode")
     smoking_preference_code: Literal["nonSmoking", "smoking", "unspecified"] | None = Field(
         default=None, alias="smokingPreferenceCode"
     )
-
-
-class RoomProperties(StrictProperties):
-    name: str | None = Field(default=None, min_length=1, max_length=200)
-    room_number: str = Field(alias="roomNumber", min_length=1, max_length=20)
 
 
 class EmptyProductProperties(CatalogueItemProperties):

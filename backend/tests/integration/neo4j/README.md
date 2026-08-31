@@ -37,5 +37,5 @@ relationship-vocabulary chain (`HAS_ROLE`/`CONTAINS`/`SUPPLIED_BY`/
 `REPRESENTS_PRODUCT`/`ALLOCATES_STOCK`/`CUSTOMER`/`ASSIGNED_TRAVELLER`) for
 one order end to end, `FLT-01`'s recursive leg composition, that reserve
 catalog entries never receive stock, and that the same product has both a
-queryably zero-availability date and a queryably available date. It deletes
-only nodes whose `entityId` matches `orchestrator.SEED_ID_PREFIXES`.
+queryably zero-availability date and a queryably available date. It clears the
+complete disposable graph before loading.

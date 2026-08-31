@@ -35,11 +35,11 @@ import re
 START_2027 = date(2027, 1, 1)
 END_2027 = date(2027, 12, 31)
 
-ROOM_CATEGORY_TYPE = "product/accommodation/room-type/room"
-FLIGHT_TYPE = "product/airline/flight/seat"
+ROOM_CATEGORY_TYPE = "product/accommodation/room-type"
+FLIGHT_TYPE = "product/airline/flight"
 
-FLIGHT_STOCK_TYPE = "stock/airline/flight/seat"
-ROOM_CATEGORY_STOCK_TYPE = "stock/accommodation/room-type/room"
+FLIGHT_STOCK_TYPE = "stock/airline/flight"
+ROOM_CATEGORY_STOCK_TYPE = "stock/accommodation/room-type"
 
 FLIGHT_BASE_PRICE = 250
 ROOM_BASE_PRICE = 90
@@ -72,6 +72,7 @@ class StockItemSpec:
     product_id: str
     service_date: date
     unit_price_amount: Decimal
+    capacity_quantity: int = 1
     currency_code: str = "EUR"
 
     @property
@@ -80,6 +81,8 @@ class StockItemSpec:
             "serviceDate": self.service_date,
             "unitPriceAmount": self.unit_price_amount,
             "currencyCode": self.currency_code,
+            "capacityQuantity": self.capacity_quantity,
+            "remainingCapacity": self.capacity_quantity,
         }
 
 
@@ -95,8 +98,13 @@ def _product_ordinal(product_id: str) -> int:
 def daily_quantity(product_id: str, day: date, *, guaranteed: bool) -> int:
     ordinal = _product_ordinal(product_id)
     day_of_year = day.timetuple().tm_yday
+    # Seeded order parties must fit in their one dated StockItem; the
+    # deterministic guaranteed value deliberately leaves room for the largest
+    # synthetic party in the catalog.
+    if guaranteed:
+        return 10
     if (day_of_year + ordinal) % 11 == 0:
-        return 1 if guaranteed else 0
+        return 0
     if (day_of_year + ordinal) % 30 == 0:
         return 10
     return 1 + ((day_of_year * 7 + ordinal * 13) % 3)
@@ -133,16 +141,8 @@ def generate_stock_specs(
                 guaranteed = (product_id, day) in guaranteed_dates
                 quantity = daily_quantity(product_id, day, guaranteed=guaranteed)
                 price = _daily_price(base_price, day)
-                for unit in range(1, quantity + 1):
-                    specs.append(
-                        StockItemSpec(
-                            entity_id=f"STK-{product_id}-{day.isoformat()}-U{unit}",
-                            type=stock_type,
-                            product_id=product_id,
-                            service_date=day,
-                            unit_price_amount=price,
-                        )
-                    )
+                specs.append(StockItemSpec(entity_id=f"STK-{product_id}-{day.isoformat()}", type=stock_type,
+                    product_id=product_id, service_date=day, unit_price_amount=price, capacity_quantity=quantity))
                 day += timedelta(days=1)
     return tuple(specs)
 
@@ -158,7 +158,7 @@ def ad_hoc_stock_spec(product_id: str, product_type: str, service_date: date) ->
     stock_type = PRODUCT_TYPE_TO_STOCK_TYPE[product_type]
     price = _daily_price(AD_HOC_BASE_PRICE, service_date)
     return StockItemSpec(
-        entity_id=f"STK-{product_id}-{service_date.isoformat()}-U1",
+        entity_id=f"STK-{product_id}-{service_date.isoformat()}",
         type=stock_type,
         product_id=product_id,
         service_date=service_date,

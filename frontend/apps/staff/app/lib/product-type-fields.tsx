@@ -1,6 +1,6 @@
 import { Select, TextInput } from "@mantine/core";
 
-import { ROOM_TYPE_OPTIONS, isAirlineFlightType, isRoomCategoryType, isStructuralChildType } from "./catalogue-product-types";
+import { ROOM_TYPE_OPTIONS, isAirlineFlightType, isRoomCategoryType } from "./catalogue-product-types";
 
 export interface ProductTypeFieldValues {
   name: string;
@@ -12,8 +12,6 @@ export interface ProductTypeFieldValues {
   aircraftTypeDesignator: string;
   roomTypeCode: string;
   smokingPreferenceCode: string;
-  seatNumber: string;
-  roomNumber: string;
 }
 
 export const EMPTY_PRODUCT_TYPE_FIELD_VALUES: ProductTypeFieldValues = {
@@ -26,17 +24,7 @@ export const EMPTY_PRODUCT_TYPE_FIELD_VALUES: ProductTypeFieldValues = {
   aircraftTypeDesignator: "",
   roomTypeCode: "room/double",
   smokingPreferenceCode: "",
-  seatNumber: "",
-  roomNumber: "",
 };
-
-function isSeatType(type: string): boolean {
-  return type === "product/airline/flight/seat";
-}
-
-function isRoomType(type: string): boolean {
-  return type === "product/accommodation/room-type/room";
-}
 
 /** Type-driven fields. `name` is source data; TERM-011 display values are read-only response fields. */
 export function ProductTypeFields({
@@ -54,32 +42,14 @@ export function ProductTypeFields({
 
   return (
     <>
-      {!isStructuralChildType(type) ? (
+      {
         <TextInput
           label="Name"
           required={!isAirlineFlightType(type) && !isRoomCategoryType(type)}
           value={values.name}
           onChange={(event) => set("name", event.currentTarget.value)}
         />
-      ) : null}
-      {isSeatType(type) ? (
-        <TextInput
-          label="Seat number"
-          required
-          placeholder="e.g. 12A"
-          value={values.seatNumber}
-          onChange={(event) => set("seatNumber", event.currentTarget.value.toUpperCase())}
-        />
-      ) : null}
-      {isRoomType(type) ? (
-        <TextInput
-          label="Room number"
-          required
-          placeholder="e.g. 204"
-          value={values.roomNumber}
-          onChange={(event) => set("roomNumber", event.currentTarget.value)}
-        />
-      ) : null}
+      }
       {isAirlineFlightType(type) ? (
         <>
           <TextInput label="Flight number" required value={values.flightNumber} onChange={(event) => set("flightNumber", event.currentTarget.value)} />
@@ -153,13 +123,6 @@ export function productTypeProperties(
   values: ProductTypeFieldValues,
   lifecycleStatusCode: "product/draft" | "product/active" | "product/retired"
 ): Record<string, unknown> {
-  // Structural children derive their labels from seat/room number.
-  if (isSeatType(type)) {
-    return { seatNumber: values.seatNumber.trim() };
-  }
-  if (isRoomType(type)) {
-    return { roomNumber: values.roomNumber.trim() };
-  }
   const base = { name: values.name.trim() || null, lifecycleStatusCode };
   if (isAirlineFlightType(type)) {
     return {
@@ -184,7 +147,7 @@ export function productTypeProperties(
 
 export function productTypeValidationErrors(type: string, values: ProductTypeFieldValues): string[] {
   const errors: string[] = [];
-  if (!isStructuralChildType(type) && !isAirlineFlightType(type) && !isRoomCategoryType(type) && !values.name.trim()) {
+  if (!isAirlineFlightType(type) && !isRoomCategoryType(type) && !values.name.trim()) {
     errors.push("Enter a name.");
   }
   if (isAirlineFlightType(type)) {
@@ -196,8 +159,6 @@ export function productTypeValidationErrors(type: string, values: ProductTypeFie
     if (!values.scheduledDepartureLocalTime) errors.push("Enter a scheduled departure time.");
     if (!values.scheduledArrivalLocalTime) errors.push("Enter a scheduled arrival time.");
   }
-  if (isSeatType(type) && !values.seatNumber.trim()) errors.push("Enter a seat number.");
-  if (isRoomType(type) && !values.roomNumber.trim()) errors.push("Enter a room number.");
   return errors;
 }
 
@@ -213,7 +174,5 @@ export function fieldValuesFromProperties(type: string, properties: Record<strin
     aircraftTypeDesignator: (properties.aircraftTypeDesignator as string | null) ?? "",
     roomTypeCode: (properties.roomTypeCode as string | undefined) ?? "room/double",
     smokingPreferenceCode: (properties.smokingPreferenceCode as string | null) ?? "",
-    seatNumber: (properties.seatNumber as string | undefined) ?? "",
-    roomNumber: (properties.roomNumber as string | undefined) ?? "",
   };
 }

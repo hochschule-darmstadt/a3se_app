@@ -108,16 +108,12 @@ def _product_label(entity: ValidatedEntity, supplier: ValidatedEntity | None) ->
         if not designator:
             raise InvalidEntityGraphError(entity.entity_id, "supplying airline role has no airlineDesignator")
         return f"{designator}{properties['flightNumber']} {properties['departureLocationCode']}–{properties['arrivalLocationCode']}"
-    if entity.type == "product/airline/flight/seat":
-        return str(properties["seatNumber"])
     if entity.type == "product/accommodation/room-type":
         code = str(properties["roomTypeCode"])
         try:
             return ROOM_TYPE_LABELS[code]
         except KeyError as exc:
             raise InvalidEntityGraphError(entity.entity_id, f"unsupported roomTypeCode {code}") from exc
-    if entity.type == "product/accommodation/room-type/room":
-        return str(properties["roomNumber"])
     name = properties.get("name")
     if not isinstance(name, str) or not name.strip():
         raise InvalidEntityGraphError(entity.entity_id, "product type requires name")

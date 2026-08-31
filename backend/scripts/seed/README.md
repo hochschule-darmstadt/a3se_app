@@ -35,7 +35,9 @@ too.
   and one `ScopedEntityRepository` per module (mirrors `serve.py`), then
   loads persons/roles -> organisations/roles -> products (parents before
   children, then supplier assignment) -> the 2027 stock calendar -> orders,
-  idempotently (`DuplicateEntityError` is counted, not raised).
+  idempotently (`DuplicateEntityError` is counted, not raised). The operator
+  entry point clears the disposable graph before invoking this orchestrator,
+  so each inspection seed starts from a fresh database.
 
 ## Deliberate scope limitations (recorded in DR-0014)
 

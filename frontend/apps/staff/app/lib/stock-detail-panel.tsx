@@ -26,15 +26,15 @@ function DetailRow({ label, value }: { readonly label: string; readonly value: s
 function StockDetail({ item }: { readonly item: StockItem }) {
   const [editing, setEditing] = useState(false);
   const [capacity, setCapacity] = useState<string | number>(item.properties.capacityQuantity);
-  const [held, setHeld] = useState<string | number>(item.properties.heldQuantity);
+  const [remaining, setRemaining] = useState<string | number>(item.properties.remainingCapacity);
   const [date, setDate] = useState(item.properties.serviceDate);
   const [price, setPrice] = useState<string | number>(item.properties.unitPriceAmount);
   const [lifecycle, setLifecycle] = useState(item.properties.inventoryStatusCode);
-  const update = useApiMutation<StockItem, Record<string, never>>(() => apiClient.PUT("/stock-items/{stock_item_id}", { params: { path: { stock_item_id: item.entityId } }, body: { type: item.type as never, properties: { serviceDate: date, unitPriceAmount: String(price), currencyCode: item.properties.currencyCode, capacityQuantity: Number(capacity), heldQuantity: Number(held), allocatedQuantity: item.properties.allocatedQuantity, inventoryStatusCode: lifecycle } } }));
+  const update = useApiMutation<StockItem, Record<string, never>>(() => apiClient.PUT("/stock-items/{stock_item_id}", { params: { path: { stock_item_id: item.entityId } }, body: { type: item.type as never, properties: { serviceDate: date, unitPriceAmount: String(price), currencyCode: item.properties.currencyCode, capacityQuantity: Number(capacity), remainingCapacity: Number(remaining), inventoryStatusCode: lifecycle } } }));
   const refresh = () => { void queryClient.invalidateQueries({ queryKey: ["stock-items"] }); void queryClient.invalidateQueries({ queryKey: ["stock-items", item.entityId] }); };
   function save(event: FormEvent) { event.preventDefault(); update.mutate({}, { onSuccess: () => { refresh(); setEditing(false); } }); }
   function cancelEditing() {
-    setEditing(false); setCapacity(item.properties.capacityQuantity); setHeld(item.properties.heldQuantity);
+    setEditing(false); setCapacity(item.properties.capacityQuantity); setRemaining(item.properties.remainingCapacity);
     setDate(item.properties.serviceDate); setPrice(item.properties.unitPriceAmount); setLifecycle(item.properties.inventoryStatusCode);
   }
   const displayName = `${item.productDisplayNameChain.join(" · ")} · ${item.properties.serviceDate}`;
@@ -52,7 +52,7 @@ function StockDetail({ item }: { readonly item: StockItem }) {
           <TextInput type="date" label="Service date" value={date} onChange={(event) => setDate(event.currentTarget.value)} />
           <NumberInput min={0} label={`Unit sale price (${item.properties.currencyCode})`} value={price} onChange={setPrice} />
           <NumberInput min={0} label="Capacity" value={capacity} onChange={setCapacity} />
-          <NumberInput min={0} label="Held" value={held} onChange={setHeld} />
+          <NumberInput min={0} label="Remaining capacity" value={remaining} onChange={setRemaining} />
           <Select label="Lifecycle status" data={[{ value: "inventory/active", label: "Active" }, { value: "inventory/withdrawn", label: "Withdrawn" }, { value: "inventory/expired", label: "Expired" }]} value={lifecycle} onChange={(value) => setLifecycle((value as typeof lifecycle) ?? "inventory/active")} allowDeselect={false} />
           <Group><Button type="submit" loading={update.isPending}>Save changes</Button><Button variant="default" onClick={cancelEditing}>Cancel changes</Button></Group>
           {update.isError ? <ApiErrorBanner error={update.error} /> : null}
@@ -74,9 +74,7 @@ function StockDetail({ item }: { readonly item: StockItem }) {
         <DetailRow label="Service date" value={item.properties.serviceDate} />
         <DetailRow label="Unit sale price" value={`${item.properties.unitPriceAmount} ${item.properties.currencyCode}`} />
         <DetailRow label="Capacity" value={String(item.properties.capacityQuantity)} />
-        <DetailRow label="Available" value={String(item.availableQuantity)} />
-        <DetailRow label="Held" value={String(item.properties.heldQuantity)} />
-        <DetailRow label="Allocated" value={String(item.properties.allocatedQuantity)} />
+        <DetailRow label="Remaining capacity" value={String(item.properties.remainingCapacity)} />
         <DetailRow label="Lifecycle status" value={item.properties.inventoryStatusCode.replace("inventory/", "")} />
         <Group mt="xs"><Button onClick={() => setEditing(true)}>Edit stock entry</Button></Group>
         <Text size="sm" c="dimmed" mt="xs">Lifecycle status is changed from the edit form; withdrawal does not delete the stock entry.</Text>

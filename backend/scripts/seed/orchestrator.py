@@ -108,15 +108,15 @@ def ensure_schema(driver: Driver, database: str) -> None:
 
 
 def reset_seed_data(driver: Driver, database: str) -> None:
-    """Delete only nodes whose entityId starts with a known seed prefix, in
-    one transaction -- never a bare `MATCH (n) DETACH DELETE n`."""
+    """Reset the disposable local graph to an empty database in one transaction.
+
+    The seed database is an inspection fixture, not a persistent user-data
+    store. Clearing the complete graph prevents hand-created or older-schema
+    records from surviving a reseed.
+    """
 
     with driver.session(database=database) as session:
-        session.run(
-            "MATCH (n) WHERE any(prefix IN $prefixes WHERE n.entityId STARTS WITH prefix) "
-            "DETACH DELETE n",
-            prefixes=list(SEED_ID_PREFIXES),
-        ).consume()
+        session.run("MATCH (n) DETACH DELETE n").consume()
 
 
 def _load_persons(repos: SeedRepositories, data: SeedData, summary: SeedSummary) -> None:
@@ -205,17 +205,13 @@ def _load_products(repos: SeedRepositories, data: SeedData, summary: SeedSummary
 
 
 def _used_product_ids_by_type(data: SeedData) -> dict[str, list[str]]:
-    """Lowest-level seat and room products used for dated stock."""
+    """Used flight and room-type products used for dated stock."""
 
-    products_by_id = {product.entity_id: product for product in data.products}
     by_type: dict[str, list[str]] = {}
     for product in data.products:
         if product.type not in {inventory.FLIGHT_TYPE, inventory.ROOM_CATEGORY_TYPE}:
             continue
-        root = product
-        while root.parent_product_id is not None:
-            root = products_by_id[root.parent_product_id]
-        if root.reserve:
+        if product.reserve:
             continue
         by_type.setdefault(product.type, []).append(product.entity_id)
     return by_type
@@ -280,9 +276,17 @@ def _load_orders(repos: SeedRepositories, data: SeedData, summary: SeedSummary) 
             product_type = product_type_by_id[position.product_id]
             service_date = date.fromisoformat(position.service_date)
             if product_type in calendar_types:
-                stock_item_id = f"STK-{position.product_id}-{position.service_date}-U1"
+                stock_item_id = f"STK-{position.product_id}-{position.service_date}"
             else:
                 spec = inventory.ad_hoc_stock_spec(position.product_id, product_type, service_date)
+                spec = inventory.StockItemSpec(
+                    entity_id=spec.entity_id,
+                    type=spec.type,
+                    product_id=spec.product_id,
+                    service_date=spec.service_date,
+                    unit_price_amount=spec.unit_price_amount,
+                    capacity_quantity=len(position.traveller_person_role_ids),
+                )
                 try:
                     inventory_service.create_stock_item(
                         repos.stock,
@@ -297,10 +301,6 @@ def _load_orders(repos: SeedRepositories, data: SeedData, summary: SeedSummary) 
                     summary.record("StockItem (ad hoc)", created=False)
                 stock_item_id = spec.entity_id
 
-            order_service.allocate_stock(
-                repos.order, position.entity_id, stock_item_id=stock_item_id, stock_repository=repos.stock
-            )
-
             for traveller_role_id in position.traveller_person_role_ids:
                 order_service.assign_traveller(
                     repos.order,
@@ -308,6 +308,9 @@ def _load_orders(repos: SeedRepositories, data: SeedData, summary: SeedSummary) 
                     traveller_role_id=traveller_role_id,
                     person_repository=repos.person,
                 )
+            order_service.allocate_stock(
+                repos.order, position.entity_id, stock_item_id=stock_item_id, stock_repository=repos.stock
+            )
 
 
 def run_seed(

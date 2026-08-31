@@ -24,8 +24,6 @@ from cct.resource_management.touristic_product_management.models import (
     EmptyProductProperties,
     FlightProperties,
     RoomCategoryProperties,
-    RoomProperties,
-    SeatProperties,
 )
 
 from .dependencies import Actor, get_current_actor, get_partner_repository, get_product_repository
@@ -52,7 +50,6 @@ EMPTY_PRODUCT_TYPES = (
     "product/protection/travel",
 )
 ROOM_CATEGORY_TYPES = ("product/accommodation/room-type",)
-ROOM_TYPES = ("product/accommodation/room-type/room",)
 
 
 class FlightRequest(BaseModel):
@@ -62,25 +59,11 @@ class FlightRequest(BaseModel):
     properties: FlightPropertiesTransport
 
 
-class SeatRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, extra="forbid")
-
-    type: Literal["product/airline/flight/seat"] = "product/airline/flight/seat"
-    properties: SeatProperties
-
-
 class RoomCategoryRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
 
     type: Literal[ROOM_CATEGORY_TYPES]
     properties: RoomCategoryProperties
-
-
-class RoomRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True, extra="forbid")
-
-    type: Literal[ROOM_TYPES]
-    properties: RoomProperties
 
 
 class EmptyProductRequest(BaseModel):
@@ -91,11 +74,11 @@ class EmptyProductRequest(BaseModel):
 
 
 ProductVariant = Annotated[
-    Union[FlightRequest, SeatRequest, RoomCategoryRequest, RoomRequest, EmptyProductRequest],
+    Union[FlightRequest, RoomCategoryRequest, EmptyProductRequest],
     Field(discriminator="type"),
 ]
 ProductPropertiesUnion = (
-    FlightProperties | SeatProperties | RoomCategoryProperties | RoomProperties | EmptyProductProperties
+    FlightProperties | RoomCategoryProperties | EmptyProductProperties
 )
 
 

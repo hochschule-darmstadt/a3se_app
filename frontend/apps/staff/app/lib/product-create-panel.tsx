@@ -10,9 +10,6 @@ import {
   CATALOGUE_ROOT_TYPE_OPTIONS,
   CREATABLE_TYPE_OPTIONS,
   LIFECYCLE_STATUS_OPTIONS,
-  STRUCTURAL_CHILD_PARENT_TYPE,
-  isStructuralChildType,
-  typeLabel,
   type LifecycleStatusCode,
   type ProductType,
 } from "./catalogue-product-types";
@@ -62,14 +59,11 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
   const [lifecycleStatusCode, setLifecycleStatusCode] = useState<LifecycleStatusCode>("product/draft");
   const [validationErrors, setValidationErrors] = useState<readonly string[]>([]);
   const [supplierRoleId, setSupplierRoleId] = useState("");
-  const [linkedParentId, setLinkedParentId] = useState("");
   const [createdProductId, setCreatedProductId] = useState<string | null>(null);
-
-  const structuralChildParentType = isStructuralChildType(type) ? STRUCTURAL_CHILD_PARENT_TYPE[type] : null;
 
   const createMutation = useApiMutation<ProductMutationResponse, void>(() => {
     const entityId = generateEntityId("PRD");
-    const effectiveParentId = isAddComponent ? parentProductId : structuralChildParentType ? linkedParentId.trim() : null;
+    const effectiveParentId = isAddComponent ? parentProductId : null;
     return apiClient.POST("/products", {
       body: {
         entityId,
@@ -101,16 +95,13 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const errors = productTypeValidationErrors(type, values);
-    if (!isAddComponent && structuralChildParentType && !linkedParentId.trim()) {
-      errors.push(`Enter the ID of the parent ${typeLabel(structuralChildParentType)} product.`);
-    }
     setValidationErrors(errors);
     if (errors.length > 0) return;
 
     createMutation.mutate(undefined, {
       onSuccess: (entity) => {
         void queryClient.invalidateQueries({ queryKey: ["products"] });
-        if (!isAddComponent && !structuralChildParentType && supplierRoleId.trim()) {
+        if (!isAddComponent && supplierRoleId.trim()) {
           setCreatedProductId(entity.entityId);
           submitSupplierLink(entity.entityId);
           return;
@@ -141,7 +132,7 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
           />
           <ProductTypeFields type={type} values={values} onChange={setValues} />
 
-          {!structuralChildParentType ? (
+          {
             <Select
               label="Lifecycle status"
               data={LIFECYCLE_STATUS_OPTIONS}
@@ -149,20 +140,9 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
               onChange={(value) => setLifecycleStatusCode((value as LifecycleStatusCode) ?? "product/draft")}
               allowDeselect={false}
             />
-          ) : null}
+          }
 
-          {!isAddComponent && structuralChildParentType ? (
-            <TextInput
-              label="Parent product ID"
-              required
-              placeholder="Existing product ID"
-              description={`Must be the ID of an existing ${typeLabel(structuralChildParentType)} product.`}
-              value={linkedParentId}
-              onChange={(event) => setLinkedParentId(event.currentTarget.value)}
-            />
-          ) : null}
-
-          {!isAddComponent && !structuralChildParentType ? (
+          {!isAddComponent ? (
             <TextInput
               label="Supplier role ID"
               placeholder="e.g. SUP-AIR-01-ROLE"

@@ -16,11 +16,13 @@ at all, and `cct.resource_management` modules depend only on
   `frontend/packages/api-client/generated/openapi.json` with no live
   database (`create_app()` takes no required arguments; OpenAPI generation
   never executes a route or a dependency). Run via `npm run api-client:generate`.
-- `seed_data.py` (issue #12): loads the deterministic `docs/test/test-scenarios`
-  seed data through the same module `service.py` functions the API uses,
-  never a raw Neo4j write. Requires `CCT_NEO4J_PASSWORD`; `--reset` deletes
-  only known seed-ID-prefixed entities first. Composition logic lives in the
-  `seed/` package next to this file (its own README has the full layout);
+- `seed_data.py` (issue #12): clears the disposable Neo4j graph and loads the
+  deterministic `docs/test/test-scenarios` seed data through the same module
+  `service.py` functions the API uses, never a raw Neo4j write. Requires
+  `CCT_NEO4J_PASSWORD`; every invocation starts fresh so hand-created and
+  older-schema records cannot survive. `--reset` remains accepted for
+  compatibility. Composition logic lives in the `seed/` package next to this
+  file (its own README has the full layout);
 
 Issue #50 changes seeded product properties from `displayName` to `name`.
 Existing prototype databases are disposable: reset and rerun `seed_data.py`

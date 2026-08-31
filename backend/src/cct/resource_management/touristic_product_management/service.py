@@ -20,10 +20,7 @@ from cct.resource_management.partner_management import service as partner_servic
 from cct.resource_management.relationship_types import RelationshipType
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
-STRUCTURAL_CHILD_PARENT_TYPE: dict[str, str] = {
-    "product/airline/flight/seat": "product/airline/flight",
-    "product/accommodation/room-type/room": "product/accommodation/room-type",
-}
+STRUCTURAL_CHILD_PARENT_TYPE: dict[str, str] = {}
 
 
 def create_product(

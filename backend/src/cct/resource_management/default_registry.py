@@ -10,8 +10,6 @@ from .touristic_product_management.models import (
     EmptyProductProperties,
     FlightProperties,
     RoomCategoryProperties,
-    RoomProperties,
-    SeatProperties,
 )
 
 
@@ -26,7 +24,7 @@ def create_entity_registry() -> EntityTypeRegistry:
         "product/experience/guided-tour", "product/experience/activity", "product/protection/travel",
     )
     additional_stock_types = (
-        "stock/accommodation/room-type/room",
+        "stock/accommodation/room-type",
         "stock/mobility/transfer", "stock/mobility/rail", "stock/mobility/coach", "stock/mobility/vehicle-rental",
         "stock/water-transport/day-boat", "stock/water-transport/cruise",
         "stock/experience/guided-tour", "stock/experience/activity",
@@ -39,10 +37,8 @@ def create_entity_registry() -> EntityTypeRegistry:
         (EntityKind.ORGANISATION, None): OrganisationProperties,
         (EntityKind.ORGA_ROLE, "organisation/airline"): AirlineRoleProperties,
         (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/airline/flight"): FlightProperties,
-        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/airline/flight/seat"): SeatProperties,
         (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room-type"): RoomCategoryProperties,
-        (EntityKind.TOURISTIC_PRODUCT_ITEM, "product/accommodation/room-type/room"): RoomProperties,
-        (EntityKind.STOCK_ITEM, "stock/airline/flight/seat"): StockProperties,
+        (EntityKind.STOCK_ITEM, "stock/airline/flight"): StockProperties,
         (EntityKind.ORDER_ITEM, "order/header"): OrderHeaderProperties,
         (EntityKind.ORDER_ITEM, "order/position"): OrderPositionProperties,
     }

@@ -24,7 +24,7 @@ from .schemas import ErrorResponse, Page, PageParams, transport_properties_model
 
 router = APIRouter(prefix="/stock-items", tags=["stock-items"])
 STOCK_ITEM_TYPES = (
-    "stock/airline/flight/seat", "stock/accommodation/room-type/room", "stock/mobility/transfer", "stock/mobility/rail",
+    "stock/airline/flight", "stock/accommodation/room-type", "stock/mobility/transfer", "stock/mobility/rail",
     "stock/mobility/coach", "stock/mobility/vehicle-rental", "stock/water-transport/day-boat", "stock/water-transport/cruise",
     "stock/experience/guided-tour", "stock/experience/activity", "stock/protection/travel",
 )
@@ -61,7 +61,7 @@ class StockItemResponse(BaseModel):
     supplier_organisation_id: str | None = Field(alias="supplierOrganisationId")
     supplier_display_name: str | None = Field(alias="supplierDisplayName")
     available_quantity: int = Field(alias="availableQuantity")
-    availability_state: Literal["available", "held", "allocated", "shortfall", "withdrawn", "expired"] = Field(alias="availabilityState")
+    availability_state: Literal["available", "allocated", "shortfall", "withdrawn", "expired"] = Field(alias="availabilityState")
 
     @classmethod
     def from_domain(cls, entity: ValidatedEntity, stock_repository: EntityRepositoryPort, product_repository: EntityRepositoryPort, partner_repository: EntityRepositoryPort) -> "StockItemResponse":
@@ -77,12 +77,11 @@ class StockItemResponse(BaseModel):
         )
         supplier = partner_service.get_organisation_for_role(partner_repository, supplier_role.entity_id) if supplier_role else None
         properties = entity.properties
-        available = properties.capacity_quantity - properties.held_quantity - properties.allocated_quantity
+        available = properties.remaining_capacity
         lifecycle = properties.inventory_status_code.removeprefix("inventory/")
         if lifecycle != "active": state = lifecycle
         elif available < 0 or properties.capacity_quantity == 0: state = "shortfall"
-        elif properties.held_quantity > 0: state = "held"
-        elif available == 0 and properties.allocated_quantity > 0: state = "allocated"
+        elif available == 0: state = "allocated"
         else: state = "available"
         return cls(entityId=entity.entity_id, type=entity.type, schemaVersion=entity.schema_version, properties=properties,
                    productId=product.entity_id, productType=product.type, productDisplayName=product_projection.display_name,
@@ -111,7 +110,7 @@ class StockPageParams(PageParams):
     search: str | None = Field(default=None, max_length=200)
     service_date_from: date | None = Field(default=None, alias="serviceDateFrom")
     service_date_to: date | None = Field(default=None, alias="serviceDateTo")
-    availability_state: Literal["available", "held", "allocated", "shortfall", "withdrawn", "expired"] | None = Field(default=None, alias="availabilityState")
+    availability_state: Literal["available", "allocated", "shortfall", "withdrawn", "expired"] | None = Field(default=None, alias="availabilityState")
     product_type: str | None = Field(default=None, alias="productType", max_length=100)
 
 

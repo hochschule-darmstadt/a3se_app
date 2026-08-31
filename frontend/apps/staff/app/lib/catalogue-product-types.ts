@@ -1,6 +1,6 @@
 import { propertyDisplayEntries, type PropertyDisplayEntry } from "./property-display";
 
-/** Catalogue-root TouristicProductItem types (entity-model TERM-002). Excludes product/airline/flight/seat and product/accommodation/room-type/room, which are structural children shown only under their parent's component tree, not created directly from the catalogue list. */
+/** Supported root TouristicProductItem types (entity-model TERM-002). */
 export type CatalogueRootType =
   | "product/airline/flight"
   | "product/accommodation/room-type"
@@ -14,7 +14,7 @@ export type CatalogueRootType =
   | "product/experience/activity"
   | "product/protection/travel";
 
-/** Strips the "product/" prefix so a type identifier reads as its own namespaced-path label (e.g. "airline/flight", "accommodation/room"), matching every family/subtype consistently -- no "hotel" vs "accommodation" or "flight" vs "airline/flight" mismatch. Works for any type, including structural children (product/airline/flight/seat, product/accommodation/room-type/room) not in the catalogue-root list below. */
+/** Strips the "product/" prefix for compact selector labels. */
 export function typeLabel(type: string): string {
   return type.startsWith("product/") ? type.slice("product/".length) : type;
 }
@@ -44,47 +44,17 @@ export const CATALOGUE_ROOT_TYPE_LABEL: Record<string, string> = Object.fromEntr
   CATALOGUE_ROOT_TYPE_OPTIONS.map((option) => [option.value, option.label])
 );
 
-/** The two structural-child TouristicProductItem types: not creatable as catalogue roots, only as a named parent's component (TERM-004). */
-export type StructuralChildType = "product/airline/flight/seat" | "product/accommodation/room-type/room";
+export type ProductType = CatalogueRootType;
 
-export const STRUCTURAL_CHILD_TYPE_OPTIONS: { value: StructuralChildType; label: string }[] = sortTypeOptionsAlphabetically(
-  ["product/airline/flight/seat", "product/accommodation/room-type/room"].map((value) => ({
-    value: value as StructuralChildType,
-    label: typeLabel(value),
-  }))
-);
-
-/** The one product type each structural-child type must nest under (CONTAINS), enforced server-side in create_product. */
-export const STRUCTURAL_CHILD_PARENT_TYPE: Record<StructuralChildType, CatalogueRootType> = {
-  "product/airline/flight/seat": "product/airline/flight",
-  "product/accommodation/room-type/room": "product/accommodation/room-type",
-};
-
-export function isStructuralChildType(type: string): type is StructuralChildType {
-  return type in STRUCTURAL_CHILD_PARENT_TYPE;
-}
-
-export type ProductType = CatalogueRootType | StructuralChildType;
-
-/** Every creatable type: catalogue roots (optionally link a supplier) plus structural children (require a matching-typed parent). */
-export const CREATABLE_TYPE_OPTIONS: { value: ProductType; label: string }[] = sortTypeOptionsAlphabetically([
-  ...CATALOGUE_ROOT_TYPE_OPTIONS,
-  ...STRUCTURAL_CHILD_TYPE_OPTIONS,
-]);
+/** Every creatable type is a supported root product type. */
+export const CREATABLE_TYPE_OPTIONS: { value: ProductType; label: string }[] = CATALOGUE_ROOT_TYPE_OPTIONS;
 
 /**
- * The type options addable as a component of `parentType`. A parent type with
- * its own structural-child type (flight -> seat, room-type -> room) accepts
- * only that one specific type -- e.g. a room-type's only addable component is
- * `product/accommodation/room-type/room`, not an arbitrary catalogue-root
- * type. Every other parent type keeps the existing package-bundling
- * behaviour (any catalogue-root type may be nested as a component, WF-Q-004).
+ * Product composition remains available for package products; flight and
+ * accommodation capacity is represented by StockItem rather than child products.
  */
 export function addableComponentTypeOptions(parentType: string): { value: ProductType; label: string }[] {
-  const structuralChild = STRUCTURAL_CHILD_TYPE_OPTIONS.find(
-    (option) => STRUCTURAL_CHILD_PARENT_TYPE[option.value] === parentType
-  );
-  return structuralChild ? [structuralChild] : CATALOGUE_ROOT_TYPE_OPTIONS;
+  return CATALOGUE_ROOT_TYPE_OPTIONS;
 }
 
 export const ROOM_CATEGORY_TYPE: CatalogueRootType = "product/accommodation/room-type";

@@ -1429,13 +1429,7 @@
                 "$ref": "#/components/schemas/FlightProperties"
               },
               {
-                "$ref": "#/components/schemas/SeatProperties"
-              },
-              {
                 "$ref": "#/components/schemas/RoomCategoryProperties"
-              },
-              {
-                "$ref": "#/components/schemas/RoomProperties"
               },
               {
                 "$ref": "#/components/schemas/EmptyProductProperties"
@@ -1487,9 +1481,7 @@
             "discriminator": {
               "mapping": {
                 "product/accommodation/room-type": "#/components/schemas/RoomCategoryRequest",
-                "product/accommodation/room-type/room": "#/components/schemas/RoomRequest",
                 "product/airline/flight": "#/components/schemas/FlightRequest",
-                "product/airline/flight/seat": "#/components/schemas/SeatRequest",
                 "product/experience/activity": "#/components/schemas/EmptyProductRequest",
                 "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
@@ -1507,13 +1499,7 @@
                 "$ref": "#/components/schemas/FlightRequest"
               },
               {
-                "$ref": "#/components/schemas/SeatRequest"
-              },
-              {
                 "$ref": "#/components/schemas/RoomCategoryRequest"
-              },
-              {
-                "$ref": "#/components/schemas/RoomRequest"
               },
               {
                 "$ref": "#/components/schemas/EmptyProductRequest"
@@ -1547,13 +1533,7 @@
                 "$ref": "#/components/schemas/FlightProperties"
               },
               {
-                "$ref": "#/components/schemas/SeatProperties"
-              },
-              {
                 "$ref": "#/components/schemas/RoomCategoryProperties"
-              },
-              {
-                "$ref": "#/components/schemas/RoomProperties"
               },
               {
                 "$ref": "#/components/schemas/EmptyProductProperties"
@@ -1608,13 +1588,7 @@
                 "$ref": "#/components/schemas/FlightProperties"
               },
               {
-                "$ref": "#/components/schemas/SeatProperties"
-              },
-              {
                 "$ref": "#/components/schemas/RoomCategoryProperties"
-              },
-              {
-                "$ref": "#/components/schemas/RoomProperties"
               },
               {
                 "$ref": "#/components/schemas/EmptyProductProperties"
@@ -1649,9 +1623,7 @@
             "discriminator": {
               "mapping": {
                 "product/accommodation/room-type": "#/components/schemas/RoomCategoryRequest",
-                "product/accommodation/room-type/room": "#/components/schemas/RoomRequest",
                 "product/airline/flight": "#/components/schemas/FlightRequest",
-                "product/airline/flight/seat": "#/components/schemas/SeatRequest",
                 "product/experience/activity": "#/components/schemas/EmptyProductRequest",
                 "product/experience/guided-tour": "#/components/schemas/EmptyProductRequest",
                 "product/mobility/coach": "#/components/schemas/EmptyProductRequest",
@@ -1669,13 +1641,7 @@
                 "$ref": "#/components/schemas/FlightRequest"
               },
               {
-                "$ref": "#/components/schemas/SeatRequest"
-              },
-              {
                 "$ref": "#/components/schemas/RoomCategoryRequest"
-              },
-              {
-                "$ref": "#/components/schemas/RoomRequest"
               },
               {
                 "$ref": "#/components/schemas/EmptyProductRequest"
@@ -1772,101 +1738,6 @@
         "title": "RoomCategoryRequest",
         "type": "object"
       },
-      "RoomProperties": {
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name"
-          },
-          "roomNumber": {
-            "maxLength": 20,
-            "minLength": 1,
-            "title": "Roomnumber",
-            "type": "string"
-          }
-        },
-        "required": [
-          "roomNumber"
-        ],
-        "title": "RoomProperties",
-        "type": "object"
-      },
-      "RoomRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "properties": {
-            "$ref": "#/components/schemas/RoomProperties"
-          },
-          "type": {
-            "const": "product/accommodation/room-type/room",
-            "title": "Type",
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "properties"
-        ],
-        "title": "RoomRequest",
-        "type": "object"
-      },
-      "SeatProperties": {
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "anyOf": [
-              {
-                "maxLength": 200,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name"
-          },
-          "seatNumber": {
-            "pattern": "^[1-9][0-9]{0,2}[A-Z]$",
-            "title": "Seatnumber",
-            "type": "string"
-          }
-        },
-        "required": [
-          "seatNumber"
-        ],
-        "title": "SeatProperties",
-        "type": "object"
-      },
-      "SeatRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "properties": {
-            "$ref": "#/components/schemas/SeatProperties"
-          },
-          "type": {
-            "const": "product/airline/flight/seat",
-            "default": "product/airline/flight/seat",
-            "title": "Type",
-            "type": "string"
-          }
-        },
-        "required": [
-          "properties"
-        ],
-        "title": "SeatRequest",
-        "type": "object"
-      },
       "SetSupplierRequest": {
         "properties": {
           "supplierRoleId": {
@@ -1922,8 +1793,8 @@
           },
           "type": {
             "enum": [
-              "stock/airline/flight/seat",
-              "stock/accommodation/room-type/room",
+              "stock/airline/flight",
+              "stock/accommodation/room-type",
               "stock/mobility/transfer",
               "stock/mobility/rail",
               "stock/mobility/coach",
@@ -1952,7 +1823,6 @@
           "availabilityState": {
             "enum": [
               "available",
-              "held",
               "allocated",
               "shortfall",
               "withdrawn",
@@ -2071,8 +1941,8 @@
           },
           "type": {
             "enum": [
-              "stock/airline/flight/seat",
-              "stock/accommodation/room-type/room",
+              "stock/airline/flight",
+              "stock/accommodation/room-type",
               "stock/mobility/transfer",
               "stock/mobility/rail",
               "stock/mobility/coach",
@@ -2097,12 +1967,6 @@
       "StockProperties": {
         "additionalProperties": false,
         "properties": {
-          "allocatedQuantity": {
-            "default": 0,
-            "minimum": 0.0,
-            "title": "Allocatedquantity",
-            "type": "integer"
-          },
           "capacityQuantity": {
             "default": 1,
             "minimum": 0.0,
@@ -2114,12 +1978,6 @@
             "title": "Currencycode",
             "type": "string"
           },
-          "heldQuantity": {
-            "default": 0,
-            "minimum": 0.0,
-            "title": "Heldquantity",
-            "type": "integer"
-          },
           "inventoryStatusCode": {
             "default": "inventory/active",
             "enum": [
@@ -2129,6 +1987,12 @@
             ],
             "title": "Inventorystatuscode",
             "type": "string"
+          },
+          "remainingCapacity": {
+            "default": 1,
+            "minimum": 0.0,
+            "title": "Remainingcapacity",
+            "type": "integer"
           },
           "serviceDate": {
             "format": "date",
@@ -2152,12 +2016,6 @@
       "StockPropertiesTransport": {
         "additionalProperties": false,
         "properties": {
-          "allocatedQuantity": {
-            "default": 0,
-            "minimum": 0.0,
-            "title": "Allocatedquantity",
-            "type": "integer"
-          },
           "capacityQuantity": {
             "default": 1,
             "minimum": 0.0,
@@ -2169,12 +2027,6 @@
             "title": "Currencycode",
             "type": "string"
           },
-          "heldQuantity": {
-            "default": 0,
-            "minimum": 0.0,
-            "title": "Heldquantity",
-            "type": "integer"
-          },
           "inventoryStatusCode": {
             "default": "inventory/active",
             "enum": [
@@ -2184,6 +2036,12 @@
             ],
             "title": "Inventorystatuscode",
             "type": "string"
+          },
+          "remainingCapacity": {
+            "default": 1,
+            "minimum": 0.0,
+            "title": "Remainingcapacity",
+            "type": "integer"
           },
           "serviceDate": {
             "format": "date",
@@ -5040,7 +4898,6 @@
                 {
                   "enum": [
                     "available",
-                    "held",
                     "allocated",
                     "shortfall",
                     "withdrawn",

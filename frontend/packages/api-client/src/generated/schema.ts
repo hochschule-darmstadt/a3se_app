@@ -970,7 +970,7 @@ export interface components {
             /** Parentproductid */
             parentProductId?: string | null;
             /** Properties */
-            properties: components["schemas"]["FlightProperties"] | components["schemas"]["SeatProperties"] | components["schemas"]["RoomCategoryProperties"] | components["schemas"]["RoomProperties"] | components["schemas"]["EmptyProductProperties"];
+            properties: components["schemas"]["FlightProperties"] | components["schemas"]["RoomCategoryProperties"] | components["schemas"]["EmptyProductProperties"];
             /** Schemaversion */
             schemaVersion: number;
             /** Type */
@@ -983,7 +983,7 @@ export interface components {
             /** Parentproductid */
             parentProductId?: string | null;
             /** Product */
-            product: components["schemas"]["FlightRequest"] | components["schemas"]["SeatRequest"] | components["schemas"]["RoomCategoryRequest"] | components["schemas"]["RoomRequest"] | components["schemas"]["EmptyProductRequest"];
+            product: components["schemas"]["FlightRequest"] | components["schemas"]["RoomCategoryRequest"] | components["schemas"]["EmptyProductRequest"];
         };
         /** ProductMutationResponse */
         ProductMutationResponse: {
@@ -996,7 +996,7 @@ export interface components {
              */
             entityKind: "TouristicProductItem";
             /** Properties */
-            properties: components["schemas"]["FlightProperties"] | components["schemas"]["SeatProperties"] | components["schemas"]["RoomCategoryProperties"] | components["schemas"]["RoomProperties"] | components["schemas"]["EmptyProductProperties"];
+            properties: components["schemas"]["FlightProperties"] | components["schemas"]["RoomCategoryProperties"] | components["schemas"]["EmptyProductProperties"];
             /** Schemaversion */
             schemaVersion: number;
             /** Type */
@@ -1017,7 +1017,7 @@ export interface components {
              */
             entityKind: "TouristicProductItem";
             /** Properties */
-            properties: components["schemas"]["FlightProperties"] | components["schemas"]["SeatProperties"] | components["schemas"]["RoomCategoryProperties"] | components["schemas"]["RoomProperties"] | components["schemas"]["EmptyProductProperties"];
+            properties: components["schemas"]["FlightProperties"] | components["schemas"]["RoomCategoryProperties"] | components["schemas"]["EmptyProductProperties"];
             /** Schemaversion */
             schemaVersion: number;
             /** Type */
@@ -1026,7 +1026,7 @@ export interface components {
         /** ProductUpdateRequest */
         ProductUpdateRequest: {
             /** Product */
-            product: components["schemas"]["FlightRequest"] | components["schemas"]["SeatRequest"] | components["schemas"]["RoomCategoryRequest"] | components["schemas"]["RoomRequest"] | components["schemas"]["EmptyProductRequest"];
+            product: components["schemas"]["FlightRequest"] | components["schemas"]["RoomCategoryRequest"] | components["schemas"]["EmptyProductRequest"];
         };
         /** RoomCategoryProperties */
         RoomCategoryProperties: {
@@ -1055,38 +1055,6 @@ export interface components {
              */
             type: "product/accommodation/room-type";
         };
-        /** RoomProperties */
-        RoomProperties: {
-            /** Name */
-            name?: string | null;
-            /** Roomnumber */
-            roomNumber: string;
-        };
-        /** RoomRequest */
-        RoomRequest: {
-            properties: components["schemas"]["RoomProperties"];
-            /**
-             * @description discriminator enum property added by openapi-typescript
-             * @enum {string}
-             */
-            type: "product/accommodation/room-type/room";
-        };
-        /** SeatProperties */
-        SeatProperties: {
-            /** Name */
-            name?: string | null;
-            /** Seatnumber */
-            seatNumber: string;
-        };
-        /** SeatRequest */
-        SeatRequest: {
-            properties: components["schemas"]["SeatProperties"];
-            /**
-             * @description discriminator enum property added by openapi-typescript
-             * @enum {string}
-             */
-            type: "product/airline/flight/seat";
-        };
         /** SetSupplierRequest */
         SetSupplierRequest: {
             /** Supplierroleid */
@@ -1110,7 +1078,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/airline/flight/seat" | "stock/accommodation/room-type/room" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water-transport/day-boat" | "stock/water-transport/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
+            type: "stock/airline/flight" | "stock/accommodation/room-type" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water-transport/day-boat" | "stock/water-transport/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockItemResponse */
         StockItemResponse: {
@@ -1118,7 +1086,7 @@ export interface components {
              * Availabilitystate
              * @enum {string}
              */
-            availabilityState: "available" | "held" | "allocated" | "shortfall" | "withdrawn" | "expired";
+            availabilityState: "available" | "allocated" | "shortfall" | "withdrawn" | "expired";
             /** Availablequantity */
             availableQuantity: number;
             /** Entityid */
@@ -1157,15 +1125,10 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "stock/airline/flight/seat" | "stock/accommodation/room-type/room" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water-transport/day-boat" | "stock/water-transport/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
+            type: "stock/airline/flight" | "stock/accommodation/room-type" | "stock/mobility/transfer" | "stock/mobility/rail" | "stock/mobility/coach" | "stock/mobility/vehicle-rental" | "stock/water-transport/day-boat" | "stock/water-transport/cruise" | "stock/experience/guided-tour" | "stock/experience/activity" | "stock/protection/travel";
         };
         /** StockProperties */
         StockProperties: {
-            /**
-             * Allocatedquantity
-             * @default 0
-             */
-            allocatedQuantity: number;
             /**
              * Capacityquantity
              * @default 1
@@ -1177,16 +1140,16 @@ export interface components {
              */
             currencyCode: "EUR";
             /**
-             * Heldquantity
-             * @default 0
-             */
-            heldQuantity: number;
-            /**
              * Inventorystatuscode
              * @default inventory/active
              * @enum {string}
              */
             inventoryStatusCode: "inventory/active" | "inventory/withdrawn" | "inventory/expired";
+            /**
+             * Remainingcapacity
+             * @default 1
+             */
+            remainingCapacity: number;
             /**
              * Servicedate
              * Format: date
@@ -1198,11 +1161,6 @@ export interface components {
         /** StockPropertiesTransport */
         StockPropertiesTransport: {
             /**
-             * Allocatedquantity
-             * @default 0
-             */
-            allocatedQuantity: number;
-            /**
              * Capacityquantity
              * @default 1
              */
@@ -1213,16 +1171,16 @@ export interface components {
              */
             currencyCode: "EUR";
             /**
-             * Heldquantity
-             * @default 0
-             */
-            heldQuantity: number;
-            /**
              * Inventorystatuscode
              * @default inventory/active
              * @enum {string}
              */
             inventoryStatusCode: "inventory/active" | "inventory/withdrawn" | "inventory/expired";
+            /**
+             * Remainingcapacity
+             * @default 1
+             */
+            remainingCapacity: number;
             /**
              * Servicedate
              * Format: date
@@ -3154,7 +3112,7 @@ export interface operations {
                 search?: string | null;
                 serviceDateFrom?: string | null;
                 serviceDateTo?: string | null;
-                availabilityState?: ("available" | "held" | "allocated" | "shortfall" | "withdrawn" | "expired") | null;
+                availabilityState?: ("available" | "allocated" | "shortfall" | "withdrawn" | "expired") | null;
                 productType?: string | null;
             };
             header?: never;

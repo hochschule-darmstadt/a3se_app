@@ -468,14 +468,13 @@ WITH stock, product, collect(DISTINCT ancestor) + [product] AS chainNodes
 OPTIONAL MATCH (supplierProduct:TouristicProductItem)-[:SUPPLIED_BY]->(supplierRole:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
 WHERE supplierProduct IN chainNodes
 WITH stock, product, chainNodes, collect(DISTINCT supplierRole) AS supplierRoles, collect(DISTINCT supplier) AS suppliers,
-     coalesce(stock['capacityQuantity'], 1) - coalesce(stock['heldQuantity'], 0) - coalesce(stock['allocatedQuantity'], 0) AS available,
+     coalesce(stock['remainingCapacity'], 0) AS available,
      CASE
        WHEN coalesce(stock['inventoryStatusCode'], 'inventory/active') <> 'inventory/active'
          THEN replace(stock['inventoryStatusCode'], 'inventory/', '')
-       WHEN coalesce(stock['capacityQuantity'], 1) = 0 OR coalesce(stock['capacityQuantity'], 1) - coalesce(stock['heldQuantity'], 0) - coalesce(stock['allocatedQuantity'], 0) < 0
+       WHEN coalesce(stock['capacityQuantity'], 0) = 0 OR coalesce(stock['remainingCapacity'], 0) < 0
          THEN 'shortfall'
-       WHEN coalesce(stock['heldQuantity'], 0) > 0 THEN 'held'
-       WHEN coalesce(stock['capacityQuantity'], 1) - coalesce(stock['heldQuantity'], 0) - coalesce(stock['allocatedQuantity'], 0) = 0 AND coalesce(stock['allocatedQuantity'], 0) > 0
+       WHEN coalesce(stock['remainingCapacity'], 0) = 0
          THEN 'allocated'
        ELSE 'available'
      END AS state

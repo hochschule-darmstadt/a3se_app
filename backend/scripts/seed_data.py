@@ -1,9 +1,8 @@
 """Load the issue #12 deterministic seed data into a real Neo4j instance.
 
 Usage:
-    python backend/scripts/seed_data.py           # idempotent load/reload
-    python backend/scripts/seed_data.py --reset    # delete known seed
-                                                    # entities first, then load
+    python backend/scripts/seed_data.py           # fresh disposable database, then load
+    python backend/scripts/seed_data.py --reset    # accepted for compatibility; same behavior
 
 Reads CCT_NEO4J_URI / CCT_NEO4J_USER / CCT_NEO4J_PASSWORD / CCT_NEO4J_DATABASE
 (only the password is required; the rest default to the same localhost/
@@ -39,8 +38,10 @@ def main() -> int:
     try:
         driver.verify_connectivity()
         ensure_schema(driver, database)
-        if args.reset:
-            reset_seed_data(driver, database)
+        # Seed data is an inspection fixture. Always start from an empty graph
+        # so stale hand-created records and prior schema versions cannot leak
+        # into the app. --reset remains accepted for compatibility.
+        reset_seed_data(driver, database)
         repos = build_repositories(driver, database)
         summary = run_seed(repos)
         print(summary.report())

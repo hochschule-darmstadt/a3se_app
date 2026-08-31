@@ -69,7 +69,7 @@ composition root -- builds a real Neo4j driver and one
 dependency order (persons/roles -> organisations/roles -> products,
 parents before children, then supplier assignment -> the stock calendar ->
 orders), catching `DuplicateEntityError` per call for idempotent reruns.
-`backend/scripts/seed_data.py` is the thin CLI (`--reset`), reading the
+`backend/scripts/seed_data.py` is the thin CLI (`--reset` is retained for compatibility), reading the
 same `CCT_NEO4J_*` env vars `serve.py` uses.
 
 ### Deterministic 2027 calendar
@@ -128,7 +128,7 @@ used directly as `entityId`. New ID families this issue introduces:
 (`orchestrator.SEED_ID_PREFIXES`) is exactly the ten catalog/order/stock ID
 prefixes above -- `reset_seed_data` deletes only nodes whose `entityId`
 starts with one of them, in one transaction, never a bare `MATCH (n)
-DETACH DELETE n`.
+DETACH DELETE n`. The seed database is disposable, so the reset operation clears the complete graph before loading; hand-created and older-schema records cannot survive a reseed.
 
 ### FLT-01 recursive composition; other flights simplified
 

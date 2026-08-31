@@ -36,14 +36,13 @@ def create_stock_item(
         raise InvalidEntityGraphError(
             product_id, f"stock type {type} must match represented product type {product.type}"
         )
-    children = product_repository.list_related(
-        from_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
-        from_id=product_id,
-        relationship=RelationshipType.CONTAINS,
-        to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
-    )
-    if children or product.type in {"product/airline/flight", "product/accommodation/room-type"}:
-        raise InvalidEntityGraphError(product_id, "stock item must reference a lowest-level product item")
+    if product.type not in {"product/airline/flight", "product/accommodation/room-type"}:
+        children = product_repository.list_related(
+            from_kind=EntityKind.TOURISTIC_PRODUCT_ITEM, from_id=product_id,
+            relationship=RelationshipType.CONTAINS, to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+        )
+        if children:
+            raise InvalidEntityGraphError(product_id, "stock item must reference a lowest-level product item")
     if repository.get(EntityKind.STOCK_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.STOCK_ITEM, entity_id)
     stock_item = repository.save(

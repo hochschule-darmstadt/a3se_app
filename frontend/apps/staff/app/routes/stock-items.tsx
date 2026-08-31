@@ -65,8 +65,7 @@ export default function StockItemsRoute() {
             { key: "service", header: "Service", render: (row) => `${row.productDisplayNameChain.join(" · ")} · ${row.properties.serviceDate}` },
             { key: "date", header: "Service date", render: (row) => row.properties.serviceDate },
             { key: "available", header: "Available", render: (row) => row.availableQuantity },
-            { key: "held", header: "Held", render: (row) => row.properties.heldQuantity },
-            { key: "allocated", header: "Allocated", render: (row) => row.properties.allocatedQuantity },
+            { key: "remaining", header: "Remaining", render: (row) => row.properties.remainingCapacity },
             { key: "state", header: "State", render: (row) => row.availabilityState },
           ]} /></div> : null}
           {page.status === "success" ? <div style={{ flex: "0 0 auto" }}><CursorPager hasPrevious={page.hasPrevious} hasNext={page.hasNext} onPrevious={page.onPrevious} onNext={page.onNext} loading={page.isFetching} /></div> : null}
