@@ -10,7 +10,7 @@ type IconComponent = ComponentType<{ size?: number | string; "aria-hidden"?: boo
 
 /**
  * DS-CMP-001 / WF-012 shared shell chrome: two profile shells (`CustomerShell`,
- * `StaffShell`) composed from the same small primitives (logo, breadcrumbs,
+ * `StaffShell`) composed from the same small primitives (logo,
  * user-icon menu) rather than one shell with conditional structure, because
  * the profiles differ structurally -- staff has a sidebar and no footer,
  * customer has no sidebar and has a footer.
@@ -176,7 +176,6 @@ export interface StaffShellNavLink {
 
 export interface StaffShellProps {
   readonly navLinks: readonly StaffShellNavLink[];
-  readonly breadcrumbs?: readonly BreadcrumbItem[];
   readonly linkComponent: ShellLinkComponent;
   readonly userMenu: ShellUserMenuProps;
   readonly children: ReactNode;
@@ -210,7 +209,7 @@ const NAV_LINK_STYLES = `
 `;
 
 /** DS-CMP-001 staff profile: header + persistent sidebar, no footer. */
-export function StaffShell({ navLinks, breadcrumbs = [], linkComponent, userMenu, children }: StaffShellProps) {
+export function StaffShell({ navLinks, linkComponent, userMenu, children }: StaffShellProps) {
   const [opened, { toggle }] = useDisclosure();
 
   return (
@@ -263,7 +262,6 @@ export function StaffShell({ navLinks, breadcrumbs = [], linkComponent, userMenu
         </Stack>
       </AppShell.Navbar>
       <AppShell.Main id={MAIN_CONTENT_ID}>
-        <ShellBreadcrumbs items={breadcrumbs} linkComponent={linkComponent} />
         {children}
       </AppShell.Main>
     </AppShell>

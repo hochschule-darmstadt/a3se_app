@@ -36,11 +36,10 @@ function renderNavLink({ to, children }: { to: string; children: ReactNode }) {
  * The staff user-icon menu is a non-interactive placeholder: no staff login
  * exists yet (issue #27), so it must not imply a real session.
  */
-export function StaffShell({ breadcrumbs, children }: { readonly breadcrumbs?: readonly BreadcrumbItem[]; readonly children: ReactNode }) {
+export function StaffShell({ breadcrumbs: _breadcrumbs, children }: { readonly breadcrumbs?: readonly BreadcrumbItem[]; readonly children: ReactNode }) {
   return (
     <UiStaffShell
       navLinks={NAV_LINKS}
-      breadcrumbs={breadcrumbs}
       linkComponent={renderNavLink}
       userMenu={{ label: "User" }}
     >

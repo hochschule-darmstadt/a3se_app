@@ -10,14 +10,14 @@ afterEach(() => {
   cleanup();
 });
 
-function renderShell(breadcrumbs?: { label: string; to?: string }[]) {
+function renderShell() {
   const client = createTestQueryClient();
   const Stub = createRoutesStub([
     {
       path: "/orders",
       Component: () => (
         <TestProviders client={client}>
-          <StaffShell breadcrumbs={breadcrumbs}>
+          <StaffShell>
             <p>Page content</p>
           </StaffShell>
         </TestProviders>
@@ -51,17 +51,9 @@ describe("StaffShell (DS-CMP-001 staff profile, issue #27 phase 2)", () => {
     expect(screen.queryByRole("button", { name: "User" })).not.toBeInTheDocument();
   });
 
-  it("omits the breadcrumb trail when none is given", () => {
+  it("does not render a breadcrumb trail", () => {
     renderShell();
     expect(screen.queryByRole("navigation", { name: "Breadcrumb" })).not.toBeInTheDocument();
-  });
-
-  it("shows the breadcrumb trail and marks the current page when one is given", () => {
-    renderShell([{ label: "Orders", to: "/orders" }, { label: "Order 6001" }]);
-
-    const breadcrumb = screen.getByRole("navigation", { name: "Breadcrumb" });
-    expect(within(breadcrumb).getByRole("link", { name: "Orders" })).toHaveAttribute("href", "/orders");
-    expect(within(breadcrumb).getByText("Order 6001")).toHaveAttribute("aria-current", "page");
   });
 
   it("toggles the sidebar with the mobile burger control", async () => {
