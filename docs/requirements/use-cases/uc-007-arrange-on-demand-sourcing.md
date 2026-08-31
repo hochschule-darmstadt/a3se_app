@@ -56,7 +56,7 @@ Detailed policies and stated gaps require stakeholder confirmation.
 
 ## Use-case-specific quality and compliance considerations
 
-protect commercial terms and credentials; technology remains undecided.
+protect commercial terms and credentials; implementation technology is governed by the accepted technology profile and is outside this use case's scope.
 
 ## Acceptance example
 

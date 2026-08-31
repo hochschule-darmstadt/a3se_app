@@ -9,6 +9,7 @@
 - [feature.md](feature.md): one use case within an epic
 - [story.md](story.md): independently reviewable use-case slice
 - [task.md](task.md): concrete lifecycle or engineering work
+- [task-context.md](task-context.md): bounded reading packet for non-trivial changes
 - [bug.md](bug.md): observed defect or specification deviation
 - [use-case.md](use-case.md): Cockburn-style use case
 

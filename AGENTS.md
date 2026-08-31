@@ -6,7 +6,7 @@ Build a tour operator business information system while demonstrating discipline
 
 ## Current phase
 
-The project is in requirements engineering. Do not select a technology stack or introduce production code unless a recorded decision authorizes it. Prefer clarifying the business problem, terminology, workflows, rules, risks, and quality needs.
+The project continues in requirements engineering while implementing the accepted technology profile in [DR-0010](docs/governance/decisions/0010-adopt-python-centered-modular-technology-stack.md) and its validation conditions. Do not introduce a new or changed technology choice without a recorded decision authorizing it. Prefer clarifying the business problem, terminology, workflows, rules, risks, and quality needs.
 
 ## Required working behavior
 
@@ -14,7 +14,7 @@ The project is in requirements engineering. Do not select a technology stack or 
 2. Check the glossary and existing decisions before introducing a business or technical term.
 3. Distinguish facts, assumptions, proposals, and decisions. Never silently turn an assumption into a requirement.
 4. Give every requirement a stable identifier. Preserve identifiers when wording changes; retire rather than reuse them.
-5. Record consequential choices as decision records (DRs). Technology remains undecided until requirements justify a choice.
+5. Record consequential choices as decision records (DRs). Technology choices are governed by accepted decisions; revisit the selected profile only when its recorded triggers or new evidence justify it.
 6. Update affected specifications, diagrams, acceptance examples, and cross-artifact links in the same change as the behavior they describe.
 7. Use established notations and standards listed in [docs/governance/standards/notations.md](docs/governance/standards/notations.md). Do not invent a DSL when a suitable standard exists.
 8. Keep documents concise, link rather than duplicate, and name one authoritative location for each fact.

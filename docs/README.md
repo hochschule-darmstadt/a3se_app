@@ -42,6 +42,14 @@ Cross-cutting concerns such as security, privacy, accessibility, reliability, an
 | Standards and notations | [governance/standards/README.md](governance/standards/README.md) | relevant notation and tooling guidance |
 | Decisions | [governance/decisions/README.md](governance/decisions/README.md) | applicable decision records |
 
+## Context Selection and Stop Rules
+
+Before reading, define a small context packet for the task: the intended outcome, authoritative artifact, affected stable IDs, required evidence, and likely reviewers. Read `docs/README.md`, the applicable area README, the authoritative artifact, directly linked definitions and decisions, and only the additional material needed to resolve a stated ambiguity or risk. Do not read source collections, generated assets, historical records, or unrelated lifecycle areas by default.
+
+Stop loading context when the authoritative artifact and its directly affected links, terminology, acceptance evidence, and applicable decisions have been checked. Expand the packet only when new evidence reveals a contradiction, material uncertainty, or a security, privacy, legal, payment, identity, accessibility, or operational risk. Record excluded context, skipped checks, and residual risks when they could affect confidence. Summaries may route work, but normative edits require checking the authoritative source.
+
+Use the compact [task-context template](governance/templates/task-context.md) for non-trivial changes. Specialists should receive the same bounded packet, not the whole repository; independence concerns the review, not unnecessary duplication of context.
+
 ## Topic growth strategy
 
 A topic starts as a single file such as `architecture.md`. When it needs independently reviewable parts, diagram sources, or supporting assets, replace that file with a same-named directory containing both `README.md` and a same-named authoritative document. The `README.md` is only a routing page: it identifies the authoritative topic document and tells readers what to read, without duplicating the specification or requiring them to inspect included diagram assets individually. Put the authoritative document and supporting files beside that README, and preserve the topic title, authority, and inbound links.
