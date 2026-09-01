@@ -1,4 +1,5 @@
 import { Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
@@ -23,6 +24,7 @@ export function meta() { return [{ title: "Inventory — CCT Staff" }]; }
 export default function StockItemsRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get(STAFF_VIEW_PARAM.search) ?? "";
+  const productId = searchParams.get("productId"); const supplierRoleId = searchParams.get("supplierRoleId");
   const fromDate = searchParams.get(STAFF_VIEW_PARAM.fromDate) ?? "";
   const toDate = searchParams.get(STAFF_VIEW_PARAM.toDate) ?? "";
   const availability = readStaffViewOption(searchParams, STAFF_VIEW_PARAM.status, AVAILABILITY_OPTIONS.map((option) => option.value));
@@ -34,18 +36,24 @@ export default function StockItemsRoute() {
     setSearchParams(patchStaffViewState(searchParams, patch), { replace });
   }
 
-  const page = useCursorPage<StockItem>(["stock-items", "filtered", search, fromDate, toDate, availability, productType], (cursor) => apiClient.GET("/stock-items", { params: { query: {
+  const page = useCursorPage<StockItem>(["stock-items", "filtered", search, fromDate, toDate, availability, productType, productId, supplierRoleId], (cursor) => apiClient.GET("/stock-items", { params: { query: {
     cursor, limit: 20,
     search: search.trim() || undefined,
     serviceDateFrom: fromDate || undefined,
     serviceDateTo: toDate || undefined,
     availabilityState: availability === "all" ? undefined : availability as never,
-    productType: productType === "all" ? undefined : productType,
+    productType: productType === "all" ? undefined : productType, productId: productId || undefined, supplierRoleId: supplierRoleId || undefined,
   } } }));
+
+  useEffect(() => {
+    if (page.status === "success" && page.items.length === 1 && !detailId && searchParams.get(STAFF_VIEW_PARAM.panel) !== "create") {
+      updateView({ [STAFF_VIEW_PARAM.detail]: page.items[0]!.entityId }, true);
+    }
+  }, [page.status, page.items, detailId, searchParams]);
 
   return <StaffShell breadcrumbs={[{ label: "Inventory" }]}>
     <Stack gap="sm" style={{ height: "calc(100vh - 104px)" }}>
-      <Group justify="space-between" align="center"><Title order={1}>Inventory</Title><Group><Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Add stock entry</Button><Button variant="default" disabled title="Supplier negotiation is deferred from this MVP">Request supplier capacity</Button></Group></Group>
+      <Group justify="space-between" align="center"><Title order={1}>Inventory</Title><Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Add stock entry</Button></Group>
       <Grid gutter="xl" style={{ flex: 1, minHeight: 0 }}>
         <Grid.Col span={{ base: 12, md: 7 }} style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}>
           <Stack gap="sm" style={{ flex: "0 0 auto" }}>

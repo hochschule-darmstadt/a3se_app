@@ -30,9 +30,10 @@ docker compose up -d
 docker compose --profile seed run --rm seed
 ```
 
-The first command starts Neo4j and the API. The second loads the deterministic
-synthetic inspection data. Seeding is explicit and is not part of ordinary
-startup.
+The first command starts Neo4j and the API. The second clears the disposable
+local graph and loads the deterministic synthetic inspection data from
+scratch. Every seed invocation starts fresh; it never migrates or merges with
+retained records. Seeding is explicit and is not part of ordinary startup.
 
 ## Start the browser applications
 
@@ -71,9 +72,9 @@ docker compose down
 This preserves the named `neo4j-data` volume. Do not use `docker compose down
 -v` unless an explicit local data reset is intended.
 
-For a deliberate reset and reload, use the documented `seed-reset` profile:
+The `seed` command already performs the reset. The equivalent compatibility
+alias for a deliberate reset and reload is:
 
 ```powershell
 docker compose --profile seed run --rm seed-reset
 ```
-

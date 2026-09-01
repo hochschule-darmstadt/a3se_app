@@ -5,6 +5,7 @@ import type { components } from "@cct/api-client";
 import { useApiMutation, useApiQuery } from "@cct/api-client";
 import { ApiErrorBanner, StatusBanner } from "@cct/ui";
 import { apiClient, queryClient } from "../api";
+import { IncomingReferenceLinks } from "./incoming-reference-links";
 
 type StockItem = components["schemas"]["StockItemResponse"];
 
@@ -62,6 +63,7 @@ function StockDetail({ item }: { readonly item: StockItem }) {
       <Stack gap={6}>
         <DetailRow label="ID" value={item.entityId} />
         <DetailRow label="Type" value={item.type} />
+        <IncomingReferenceLinks kind="stock-item" entityId={item.entityId} countKeys={["orders"]} targetPath="/orders" targetParam="stockItemId" />
         <Group align="flex-start" role="group" aria-label="Stock product hierarchy">
           <Text fw={500} size="sm" w={200}>Hierarchy</Text>
           <Group gap="xs">

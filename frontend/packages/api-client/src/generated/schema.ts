@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/incoming-references/{reference_kind}/{entity_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Incoming Reference Counts */
+        get: operations["getIncomingReferenceCounts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/orders": {
         parameters: {
             query?: never;
@@ -649,6 +666,15 @@ export interface components {
              */
             type: "product/airline/flight";
         };
+        /** IncomingReferenceResponse */
+        IncomingReferenceResponse: {
+            /** Counts */
+            counts: {
+                [key: string]: number;
+            };
+            /** Entityid */
+            entityId: string;
+        };
         /** OrderCreateRequest */
         OrderCreateRequest: {
             properties: components["schemas"]["OrderHeaderProperties"];
@@ -1212,6 +1238,47 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getIncomingReferenceCounts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                reference_kind: "person-role" | "orga-role" | "organisation" | "product" | "stock-item";
+                entity_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IncomingReferenceResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     listOrders: {
         parameters: {
             query?: {
@@ -1224,6 +1291,9 @@ export interface operations {
                 serviceDateFrom?: string | null;
                 serviceDateTo?: string | null;
                 unresolvedOnly?: boolean;
+                customerRoleId?: string | null;
+                stockItemId?: string | null;
+                travellerRoleId?: string | null;
             };
             header?: never;
             path?: never;
@@ -2728,6 +2798,7 @@ export interface operations {
                 cursor?: string | null;
                 /** @description Filter by exact terminology type, e.g. product/airline/flight */
                 type?: string | null;
+                supplierRoleId?: string | null;
             };
             header?: never;
             path?: never;
@@ -3110,6 +3181,8 @@ export interface operations {
                 serviceDateTo?: string | null;
                 availabilityState?: ("available" | "allocated" | "shortfall" | "withdrawn" | "expired") | null;
                 productType?: string | null;
+                productId?: string | null;
+                supplierRoleId?: string | null;
             };
             header?: never;
             path?: never;

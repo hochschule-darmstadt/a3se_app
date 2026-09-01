@@ -7,6 +7,7 @@ import { ApiErrorBanner, DataTable, FormErrorSummary, StatusBanner } from "@cct/
 import { useApiMutation, useApiQuery } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
+import { IncomingReferenceLinks } from "./incoming-reference-links";
 import {
   LIFECYCLE_STATUS_LABEL,
   LIFECYCLE_STATUS_OPTIONS,
@@ -266,6 +267,7 @@ export function ProductDetailPanel({
             <Text fw={500} size="sm" w={200}>Type</Text>
             <Text size="sm">{typeLabel(product.type)}</Text>
           </Group>
+          <IncomingReferenceLinks kind="product" entityId={product.entityId} countKeys={["stockItems"]} targetPath="/stock-items" targetParam="productId" />
           {hasHierarchy ? (
             <Group align="flex-start" role="group" aria-label="Product hierarchy">
               <Text fw={500} size="sm" w={200}>Hierarchy</Text>

@@ -70,10 +70,10 @@ class Neo4jEntityRepository:
         return self._mapper.from_node(NodeRecord(LABELS[entity_kind], dict(record["entity"])))
 
     def list(
-        self, entity_kind: EntityKind, *, type_filter: str | None = None, page: PageRequest = PageRequest()
+        self, entity_kind: EntityKind, *, type_filter: str | None = None, page: PageRequest = PageRequest(), supplier_role_id: str | None = None
     ) -> PageResult[ValidatedEntity]:
         with self._driver.session(database=self._database) as session:
-            records = session.execute_read(self._read_page, entity_kind, type_filter, page)
+            records = session.execute_read(self._read_page, entity_kind, type_filter, page, supplier_role_id)
         entities = [
             self._mapper.from_node(NodeRecord(LABELS[entity_kind], dict(record["entity"])))
             for record in records
@@ -127,6 +127,14 @@ class Neo4jEntityRepository:
             for record in records
         )
 
+    def incoming_reference_counts(self, *, entity_kind: EntityKind, entity_id: str) -> dict[str, int]:
+        """Return only the accepted, staff-navigable incoming projections."""
+        with self._driver.session(database=self._database) as session:
+            row = session.execute_read(self._read_incoming_reference_counts, entity_kind, entity_id)
+        if row is None:
+            raise EntityNotFoundError(entity_kind, entity_id)
+        return {key: int(value or 0) for key, value in dict(row).items() if key != "entityId"}
+
     def get_component_tree(self, product_id: str) -> tuple[tuple[ValidatedEntity, str | None], ...]:
         """Return the recursive CONTAINS subtree as (node, parentId) pairs; parentId is None for the root."""
         with self._driver.session(database=self._database) as session:
@@ -177,10 +185,10 @@ class Neo4jEntityRepository:
             "customerDisplayName": row["customerDisplayName"], "positions": row["positions"]}
 
     def list_orders(self, *, search, status, product_type, service_date_from,
-        service_date_to, unresolved_only, page):
+        service_date_to, unresolved_only, page, customer_role_id=None, stock_item_id=None, traveller_role_id=None):
         with self._driver.session(database=self._database) as session:
             rows = session.execute_read(self._read_order_page, search, status, product_type,
-                service_date_from, service_date_to, unresolved_only, page)
+                service_date_from, service_date_to, unresolved_only, page, customer_role_id, stock_item_id, traveller_role_id)
         result = []
         for row in rows:
             entity = self._mapper.from_node(NodeRecord(LABELS[EntityKind.ORDER_ITEM], dict(row["entity"])))
@@ -200,7 +208,7 @@ class Neo4jEntityRepository:
         service_date_to: date | None,
         availability_state: str | None,
         product_type: str | None,
-        page: PageRequest,
+        page: PageRequest, product_id: str | None = None, supplier_role_id: str | None = None,
     ) -> PageResult[ValidatedEntity]:
         with self._driver.session(database=self._database) as session:
             records = session.execute_read(
@@ -211,6 +219,8 @@ class Neo4jEntityRepository:
                 availability_state,
                 product_type,
                 page,
+                product_id,
+                supplier_role_id,
             )
         entities = [
             self._mapper.from_node(NodeRecord(LABELS[EntityKind.STOCK_ITEM], dict(record["entity"])))
@@ -270,14 +280,17 @@ class Neo4jEntityRepository:
         return tx.run(query, entityId=entity_id).single(strict=False)
 
     @staticmethod
-    def _read_page(tx: Transaction, entity_kind: EntityKind, type_filter: str | None, page: PageRequest):
+    def _read_page(tx: Transaction, entity_kind: EntityKind, type_filter: str | None, page: PageRequest, supplier_role_id: str | None = None):
         query = (
             f"MATCH (entity:{LABELS[entity_kind]}) "
             "WHERE ($type IS NULL OR entity.type = $type) "
+            "AND ($supplierRoleId IS NULL OR EXISTS { "
+            "MATCH (entity)-[:SUPPLIED_BY]->(supplierRole:OrgaRole) "
+            "WHERE supplierRole.entityId = $supplierRoleId }) "
             "AND ($after IS NULL OR entity.entityId > $after) "
             "RETURN entity ORDER BY entity.entityId LIMIT $limit"
         )
-        return list(tx.run(query, type=type_filter, after=page.after, limit=page.limit + 1))
+        return list(tx.run(query, type=type_filter, supplierRoleId=supplier_role_id, after=page.after, limit=page.limit + 1))
 
     @staticmethod
     def _delete_node(tx: Transaction, entity_kind: EntityKind, entity_id: str) -> None:
@@ -370,6 +383,42 @@ class Neo4jEntityRepository:
         return list(tx.run(query, fromId=from_id))
 
     @staticmethod
+    def _read_incoming_reference_counts(tx: Transaction, entity_kind: EntityKind, entity_id: str):
+        queries = {
+            EntityKind.PERSON_ROLE: (
+                "MATCH (target:PersonRole {entityId: $entityId}) "
+                "OPTIONAL MATCH (customer:OrderItem)-[:CUSTOMER]->(target) "
+                "WITH target, count(DISTINCT customer) AS customerOrders "
+                "OPTIONAL MATCH (travellerOrder:OrderItem)-[:CONTAINS]->(:OrderItem)-[:ASSIGNED_TRAVELLER]->(target) "
+                "RETURN target.entityId AS entityId, customerOrders, count(DISTINCT travellerOrder) AS travellerOrders"
+            ),
+            EntityKind.ORGA_ROLE: (
+                "MATCH (target:OrgaRole {entityId: $entityId}) "
+                "OPTIONAL MATCH (product:TouristicProductItem)-[:SUPPLIED_BY]->(target) "
+                "RETURN target.entityId AS entityId, count(DISTINCT product) AS products"
+            ),
+            EntityKind.ORGANISATION: (
+                "MATCH (target:Organisation {entityId: $entityId}) "
+                "OPTIONAL MATCH (target)-[:HAS_ROLE]->(role:OrgaRole)<-[:SUPPLIED_BY]-(product:TouristicProductItem) "
+                "RETURN target.entityId AS entityId, count(DISTINCT product) AS products"
+            ),
+            EntityKind.TOURISTIC_PRODUCT_ITEM: (
+                "MATCH (target:TouristicProductItem {entityId: $entityId}) "
+                "OPTIONAL MATCH (stock:StockItem)-[:REPRESENTS_PRODUCT]->(target) "
+                "RETURN target.entityId AS entityId, count(DISTINCT stock) AS stockItems"
+            ),
+            EntityKind.STOCK_ITEM: (
+                "MATCH (target:StockItem {entityId: $entityId}) "
+                "OPTIONAL MATCH (order:OrderItem)-[:CONTAINS]->(position:OrderItem)-[:ALLOCATES_STOCK]->(target) "
+                "RETURN target.entityId AS entityId, count(DISTINCT order) AS orders"
+            ),
+        }
+        query = queries.get(entity_kind)
+        if query is None:
+            return {"entityId": entity_id}
+        return tx.run(query, entityId=entity_id).single(strict=False)
+
+    @staticmethod
     def _read_component_tree(tx: Transaction, product_id: str):
         query = (
             "MATCH (root:TouristicProductItem {entityId: $productId}) "
@@ -421,11 +470,11 @@ class Neo4jEntityRepository:
 
     @staticmethod
     def _read_order_page(tx: Transaction, search, status, product_type, service_date_from,
-        service_date_to, unresolved_only, page):
+        service_date_to, unresolved_only, page, customer_role_id, stock_item_id, traveller_role_id):
         return list(tx.run(ORDER_FILTER_TRAVERSAL, search=search.lower() if search else None,
             status=status, productType=product_type, serviceDateFrom=service_date_from,
             serviceDateTo=service_date_to, unresolvedOnly=unresolved_only,
-            after=page.after, limit=page.limit + 1))
+            after=page.after, limit=page.limit + 1, customerRoleId=customer_role_id, stockItemId=stock_item_id, travellerRoleId=traveller_role_id))
 
     @staticmethod
     def _read_stock_page(
@@ -434,8 +483,7 @@ class Neo4jEntityRepository:
         service_date_from: date | None,
         service_date_to: date | None,
         availability_state: str | None,
-        product_type: str | None,
-        page: PageRequest,
+        product_type: str | None, page: PageRequest, product_id: str | None = None, supplier_role_id: str | None = None,
     ):
         return list(
             tx.run(
@@ -444,7 +492,7 @@ class Neo4jEntityRepository:
                 serviceDateFrom=service_date_from,
                 serviceDateTo=service_date_to,
                 availabilityState=availability_state,
-                productType=product_type,
+                productType=product_type, productId=product_id, supplierRoleId=supplier_role_id,
                 after=page.after,
                 limit=page.limit + 1,
             )
@@ -499,6 +547,9 @@ WHERE ($after IS NULL OR header.entityId > $after)
   AND ($serviceDateFrom IS NULL OR any(s IN stocks WHERE s.serviceDate >= $serviceDateFrom))
   AND ($serviceDateTo IS NULL OR any(s IN stocks WHERE s.serviceDate <= $serviceDateTo))
   AND ($productType IS NULL OR any(p IN products WHERE p.type = $productType))
+  AND ($customerRoleId IS NULL OR (header)-[:CUSTOMER]->(:PersonRole {entityId: $customerRoleId}))
+  AND ($stockItemId IS NULL OR any(s IN stocks WHERE s.entityId = $stockItemId))
+  AND ($travellerRoleId IS NULL OR any(p IN positions WHERE (p)-[:ASSIGNED_TRAVELLER]->(:PersonRole {entityId: $travellerRoleId})))
   AND ($search IS NULL OR any(n IN [header, customer] + products WHERE n IS NOT NULL AND any(k IN keys(n) WHERE toLower(toString(n[k])) CONTAINS $search)))
 RETURN DISTINCT header AS entity, customer.entityId AS customerPersonId,
  trim(coalesce(customer.givenName, '') + ' ' + coalesce(customer.familyName, '')) AS customerDisplayName,
@@ -530,6 +581,8 @@ WHERE ($after IS NULL OR stock.entityId > $after)
   AND ($serviceDateTo IS NULL OR stock.serviceDate <= $serviceDateTo)
   AND ($availabilityState IS NULL OR state = $availabilityState)
   AND ($productType IS NULL OR product.type = $productType)
+  AND ($productId IS NULL OR product.entityId = $productId)
+  AND ($supplierRoleId IS NULL OR any(role IN supplierRoles WHERE role.entityId = $supplierRoleId))
   AND ($search IS NULL
        OR any(node IN chainNodes + supplierRoles + suppliers
               WHERE any(key IN keys(node) WHERE toLower(toString(node[key])) CONTAINS $search)))

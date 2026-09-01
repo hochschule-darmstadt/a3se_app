@@ -8,6 +8,7 @@ import { useApiMutation, useApiQuery } from "@cct/api-client";
 import { apiClient, queryClient } from "../api";
 import { SUPPLIER_ROLE_TYPE_LABEL, SUPPLIER_ROLE_TYPE_OPTIONS, type SupplierRoleType } from "./supplier-roles";
 import { propertyDisplayEntries } from "./property-display";
+import { IncomingReferenceLinks } from "./incoming-reference-links";
 
 type OrganisationResponse = components["schemas"]["OrganisationResponse"];
 type OrgaRoleResponse = components["schemas"]["OrgaRoleResponse"];
@@ -262,6 +263,7 @@ function RoleCard({ organisationId, role }: { readonly organisationId: string; r
               {propertyLabel}: {value}
             </Text>
           ))}
+          <IncomingReferenceLinks kind="orga-role" entityId={role.entityId} countKeys={["products"]} targetPath="/products" targetParam="supplierRoleId" />
           <Group>
             <Button size="compact-sm" onClick={() => setEditing(true)}>
               Edit {label.toLowerCase()}

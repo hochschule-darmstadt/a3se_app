@@ -112,6 +112,8 @@ class StockPageParams(PageParams):
     service_date_to: date | None = Field(default=None, alias="serviceDateTo")
     availability_state: Literal["available", "allocated", "shortfall", "withdrawn", "expired"] | None = Field(default=None, alias="availabilityState")
     product_type: str | None = Field(default=None, alias="productType", max_length=100)
+    product_id: str | None = Field(default=None, alias="productId", max_length=100)
+    supplier_role_id: str | None = Field(default=None, alias="supplierRoleId", max_length=100)
 
 
 def _response(entity, repository, product_repository, partner_repository) -> StockItemResponse:
@@ -141,6 +143,7 @@ def list_stock_items(repository: RepositoryDependency, product_repository: Produ
         service_date_to=params.service_date_to,
         availability_state=params.availability_state,
         product_type=params.product_type,
+        product_id=params.product_id, supplier_role_id=params.supplier_role_id,
         page=PageRequest(limit=params.limit, after=after),
     )
     next_cursor = encode_cursor(result.next_cursor) if result.next_cursor else None

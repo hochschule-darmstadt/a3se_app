@@ -213,6 +213,7 @@ class ProductPageParams(PageParams):
     """
 
     type: str | None = Field(default=None, description="Filter by exact terminology type, e.g. product/airline/flight")
+    supplier_role_id: str | None = Field(default=None, alias="supplierRoleId", max_length=100)
 
 
 @router.get(
@@ -225,7 +226,7 @@ def list_products(
 ) -> Page[ProductResponse]:
     after = decode_cursor(params.cursor) if params.cursor else None
     result = service.list_products(
-        repository, type_filter=params.type, page=PageRequest(limit=params.limit, after=after)
+        repository, type_filter=params.type, supplier_role_id=params.supplier_role_id, page=PageRequest(limit=params.limit, after=after)
     )
     next_cursor = encode_cursor(result.next_cursor) if result.next_cursor else None
     return Page[ProductResponse](

@@ -8,6 +8,7 @@ import { useApiMutation, useApiQuery } from "@cct/api-client";
 import { apiClient, queryClient } from "../api";
 import { PAYMENT_METHOD_LABEL, PAYMENT_METHOD_OPTIONS, type PaymentMethodCode } from "./payment-methods";
 import { propertyDisplayEntries } from "./property-display";
+import { IncomingReferenceLinks } from "./incoming-reference-links";
 
 type PersonResponse = components["schemas"]["PersonResponse"];
 type PersonRoleResponse = components["schemas"]["PersonRoleResponse"];
@@ -277,6 +278,7 @@ function RoleCard({ personId, role }: { readonly personId: string; readonly role
               </Text>
             )
           )}
+          <IncomingReferenceLinks kind="person-role" entityId={role.entityId} countKeys={[role.type === "person/customer" ? "customerOrders" : "travellerOrders"]} targetPath="/orders" targetParam={role.type === "person/customer" ? "customerRoleId" : "travellerRoleId"} />
           <Group>
             <Button size="compact-sm" onClick={() => setEditing(true)}>
               Edit {ROLE_TYPE_LABEL[role.type]?.toLowerCase() ?? "role"}

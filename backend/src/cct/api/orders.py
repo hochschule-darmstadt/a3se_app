@@ -133,6 +133,9 @@ class OrderPageParams(PageParams):
     service_date_from: date | None = Field(default=None, alias="serviceDateFrom")
     service_date_to: date | None = Field(default=None, alias="serviceDateTo")
     unresolved_only: bool = Field(default=False, alias="unresolvedOnly")
+    customer_role_id: str | None = Field(default=None, alias="customerRoleId")
+    stock_item_id: str | None = Field(default=None, alias="stockItemId")
+    traveller_role_id: str | None = Field(default=None, alias="travellerRoleId")
 
 
 RepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_order_repository)]
@@ -173,7 +176,7 @@ def list_orders(repository: RepositoryDependency, params: Annotated[OrderPagePar
     rows = service.list_order_summaries(repository, search=params.search, status=params.status,
         product_type=params.product_type, service_date_from=params.service_date_from,
         service_date_to=params.service_date_to, unresolved_only=params.unresolved_only,
-        page=PageRequest(limit=params.limit, after=after))
+        page=PageRequest(limit=params.limit, after=after), customer_role_id=params.customer_role_id, stock_item_id=params.stock_item_id, traveller_role_id=params.traveller_role_id)
     has_more = len(rows) > params.limit
     visible = rows[:params.limit]
     items = [OrderSummaryResponse(**OrderResponse.from_domain(entity).model_dump(by_alias=True), **summary) for entity, summary in visible]

@@ -1,5 +1,5 @@
 import { Badge, Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useQueries } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 
@@ -97,6 +97,12 @@ export default function OrganisationsRoute() {
   const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const clampedPageIndex = Math.min(readStaffViewPage(searchParams), pageCount - 1);
   const pageRows = rows.slice(clampedPageIndex * PAGE_SIZE, clampedPageIndex * PAGE_SIZE + PAGE_SIZE);
+
+  useEffect(() => {
+    if (allOrganisations.status === "success" && pageRows.length === 1 && !detailId && searchParams.get(STAFF_VIEW_PARAM.panel) !== "create") {
+      updateView({ [STAFF_VIEW_PARAM.detail]: pageRows[0]!.organisation.entityId }, true);
+    }
+  }, [allOrganisations.status, pageRows, detailId, searchParams]);
 
   return (
     <StaffShell breadcrumbs={[{ label: "Suppliers and partners" }]}>

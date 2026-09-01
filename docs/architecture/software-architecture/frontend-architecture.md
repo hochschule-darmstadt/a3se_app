@@ -133,6 +133,14 @@ For URL-backed Staff state:
 Use stable URL-safe IDs, never credentials, tokens, or sensitive personal data.
 This contract is the frontend realization of #51 and DS-CMP-007.
 
+Issue #49 extends this contract through the shared `IncomingReferenceLinks`
+pattern: links preserve the complete relative origin in `returnTo`; target
+views use exact identifier filters (`customerRoleId`, `travellerRoleId`,
+`supplierRoleId`, `productId`, or `stockItemId`) and expose a deliberate return
+control. The accepted paths are Customer/traveller role → Orders, supplier
+role → Products, Product → Inventory, and StockItem → Orders. Product → Orders
+and supplier → Inventory are excluded.
+
 ## 6. API client, queries, and pagination
 
 `frontend/packages/api-client` is generated from FastAPI OpenAPI: the export

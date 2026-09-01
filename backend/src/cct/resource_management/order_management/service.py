@@ -52,10 +52,14 @@ def list_orders(
 def list_order_summaries(repository: EntityRepositoryPort, *, search: str | None = None,
     status: str | None = None, product_type: str | None = None,
     service_date_from: date | None = None, service_date_to: date | None = None,
-    unresolved_only: bool = False, page: PageRequest = PageRequest()):
-    return repository.list_orders(search=search, status=status, product_type=product_type,
+    unresolved_only: bool = False, page: PageRequest = PageRequest(), customer_role_id: str | None = None, stock_item_id: str | None = None, traveller_role_id: str | None = None):
+    kwargs = dict(search=search, status=status, product_type=product_type,
         service_date_from=service_date_from, service_date_to=service_date_to,
         unresolved_only=unresolved_only, page=page)
+    if customer_role_id is not None: kwargs["customer_role_id"] = customer_role_id
+    if stock_item_id is not None: kwargs["stock_item_id"] = stock_item_id
+    if traveller_role_id is not None: kwargs["traveller_role_id"] = traveller_role_id
+    return repository.list_orders(**kwargs)
 
 
 def update_order(

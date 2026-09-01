@@ -74,15 +74,14 @@ def list_stock_items(
     availability_state: str | None = None,
     product_type: str | None = None,
     page: PageRequest = PageRequest(),
+    product_id: str | None = None,
+    supplier_role_id: str | None = None,
 ) -> PageResult[ValidatedEntity]:
-    return repository.list_stock_items(
-        search=search,
-        service_date_from=service_date_from,
-        service_date_to=service_date_to,
-        availability_state=availability_state,
-        product_type=product_type,
-        page=page,
-    )
+    kwargs = dict(search=search, service_date_from=service_date_from, service_date_to=service_date_to,
+        availability_state=availability_state, product_type=product_type, page=page)
+    if product_id is not None: kwargs["product_id"] = product_id
+    if supplier_role_id is not None: kwargs["supplier_role_id"] = supplier_role_id
+    return repository.list_stock_items(**kwargs)
 
 
 def update_stock_item(

@@ -34,10 +34,12 @@ too.
 - `orchestrator.py`: the composition root -- builds the real Neo4j driver
   and one `ScopedEntityRepository` per module (mirrors `serve.py`), then
   loads persons/roles -> organisations/roles -> products (parents before
-  children, then supplier assignment) -> the 2027 stock calendar -> orders,
-  idempotently (`DuplicateEntityError` is counted, not raised). The operator
-  entry point clears the disposable graph before invoking this orchestrator,
-  so each inspection seed starts from a fresh database.
+  children, then supplier assignment) -> the 2027 stock calendar -> orders.
+  The operator entry point clears the disposable graph before invoking this
+  orchestrator, so every inspection seed starts from a fresh database rather
+  than migrating or merging retained records. Duplicate handling remains an
+  internal safeguard for a partial rerun, not the normal data-retention
+  policy.
 
 ## Deliberate scope limitations (recorded in DR-0014)
 

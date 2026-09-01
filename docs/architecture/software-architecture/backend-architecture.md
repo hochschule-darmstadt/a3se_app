@@ -67,6 +67,7 @@ ownership:
 | Touristic product catalogue, #31 | Touristic Product Management owns recursive `TouristicProductItem` composition and supplier assignment |
 | Inventory, #32 | Inventory owns dated `StockItem` capacity, availability and represented-product validation |
 | Travel orders, #33 | Order Management owns headers/positions, customer/traveller links, stock allocation and order status |
+| Incoming-reference navigation, #49 | A read-only API projection composes accepted incoming counts across Person/Partner/Product/Inventory/Order owners; it does not create a second persistence model |
 
 The API may compose a read projection across these owners, but no view or
 router may write another module's entity or bypass its service validation.
@@ -283,16 +284,22 @@ or rely on ID secrecy.
 
 Seed sources are synthetic, reviewable, deterministic catalogs. The seed
 loader validates all source data through the public terminology/registry and
-then restores entities and relationships in dependency order. It is
-idempotent, preserves explicit compatible seeded IDs, and supports fresh
-reset/reseed for incompatible catalog changes. It must not duplicate domain
-validation or introduce seed-only terms.
+then restores entities and relationships in dependency order. Every seed run
+first clears the disposable local graph and then loads the complete catalog;
+there is no in-place migration, merge with retained records, or preservation
+of compatible seeded IDs. The reset-before-load rule is mandatory because
+schema and vocabulary changes must never leave deprecated records in the
+inspection database. The loader must not duplicate domain validation or
+introduce seed-only terms.
 
-The seed process is not a general migration engine: source validation happens
-before writes, but an unexpected infrastructure failure may leave a partial
-run and is recovered by an idempotent rerun. A schema or vocabulary change
-requires explicit versioning, reviewed migration/reseed policy, and updated
-API/UI/tests; historical codes must not be silently reinterpreted.
+The seed process is not a general migration engine: source validation is part
+of the fresh load, and an unexpected validation or infrastructure failure may
+leave an empty or partial disposable graph that is recovered by running the
+complete seed again. A schema or vocabulary change requires explicit
+versioning, updated API/UI/tests, and a fresh seed; historical codes must not
+be silently reinterpreted. The
+`--reset` command-line option is retained only for compatibility and does not
+change the always-fresh behavior.
 
 The accepted PoC seed profile from DR-0014 is concrete: it uses synthetic
 Person, PersonRole, Organisation, OrgaRole, recursive product, order header /

@@ -434,6 +434,27 @@
         "title": "FlightRequest",
         "type": "object"
       },
+      "IncomingReferenceResponse": {
+        "properties": {
+          "counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "object"
+          },
+          "entityId": {
+            "title": "Entityid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entityId",
+          "counts"
+        ],
+        "title": "IncomingReferenceResponse",
+        "type": "object"
+      },
       "OrderCreateRequest": {
         "properties": {
           "properties": {
@@ -2140,6 +2161,74 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/incoming-references/{reference_kind}/{entity_id}": {
+      "get": {
+        "operationId": "getIncomingReferenceCounts",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "reference_kind",
+            "required": true,
+            "schema": {
+              "enum": [
+                "person-role",
+                "orga-role",
+                "organisation",
+                "product",
+                "stock-item"
+              ],
+              "title": "Reference Kind",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "entity_id",
+            "required": true,
+            "schema": {
+              "title": "Entity Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncomingReferenceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Get Incoming Reference Counts",
+        "tags": [
+          "incoming-references"
+        ]
+      }
+    },
     "/orders": {
       "get": {
         "operationId": "listOrders",
@@ -2264,6 +2353,54 @@
               "default": false,
               "title": "Unresolvedonly",
               "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "customerRoleId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Customerroleid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "stockItemId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Stockitemid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "travellerRoleId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Travellerroleid"
             }
           }
         ],
@@ -4350,6 +4487,23 @@
               "description": "Filter by exact terminology type, e.g. product/airline/flight",
               "title": "Type"
             }
+          },
+          {
+            "in": "query",
+            "name": "supplierRoleId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Supplierroleid"
+            }
           }
         ],
         "responses": {
@@ -4953,6 +5107,40 @@
                 }
               ],
               "title": "Producttype"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Productid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "supplierRoleId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Supplierroleid"
             }
           }
         ],

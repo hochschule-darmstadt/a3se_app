@@ -70,9 +70,11 @@ def get_product(repository: EntityRepositoryPort, entity_id: str) -> ValidatedEn
 
 
 def list_products(
-    repository: EntityRepositoryPort, *, type_filter: str | None = None, page: PageRequest = PageRequest()
+    repository: EntityRepositoryPort, *, type_filter: str | None = None, page: PageRequest = PageRequest(), supplier_role_id: str | None = None
 ) -> PageResult[ValidatedEntity]:
-    return repository.list(EntityKind.TOURISTIC_PRODUCT_ITEM, type_filter=type_filter, page=page)
+    if supplier_role_id is None:
+        return repository.list(EntityKind.TOURISTIC_PRODUCT_ITEM, type_filter=type_filter, page=page)
+    return repository.list(EntityKind.TOURISTIC_PRODUCT_ITEM, type_filter=type_filter, page=page, supplier_role_id=supplier_role_id)
 
 
 def update_product(

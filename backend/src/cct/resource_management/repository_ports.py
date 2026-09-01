@@ -16,7 +16,7 @@ class EntityRepositoryPort(Protocol):
     def get(self, entity_kind: EntityKind, entity_id: str) -> ValidatedEntity | None: ...
 
     def list(
-        self, entity_kind: EntityKind, *, type_filter: str | None, page: PageRequest
+        self, entity_kind: EntityKind, *, type_filter: str | None, page: PageRequest, supplier_role_id: str | None = None
     ) -> PageResult[ValidatedEntity]: ...
 
     def save(self, candidate: FlexibleEntity | dict[str, object]) -> ValidatedEntity: ...
@@ -56,6 +56,8 @@ class EntityRepositoryPort(Protocol):
         to_kind: EntityKind,
     ) -> tuple[ValidatedEntity, ...]: ...
 
+    def incoming_reference_counts(self, *, entity_kind: EntityKind, entity_id: str) -> dict[str, int]: ...
+
     def get_component_tree(self, product_id: str) -> tuple[tuple[ValidatedEntity, str | None], ...]: ...
 
     def get_ancestors(self, product_id: str) -> tuple[ValidatedEntity, ...]: ...
@@ -67,7 +69,7 @@ class EntityRepositoryPort(Protocol):
     def list_orders(
         self, *, search: str | None, status: str | None, product_type: str | None,
         service_date_from: date | None, service_date_to: date | None,
-        unresolved_only: bool, page: PageRequest,
+        unresolved_only: bool, page: PageRequest, customer_role_id: str | None = None, stock_item_id: str | None = None, traveller_role_id: str | None = None,
     ) -> tuple[tuple[ValidatedEntity, dict[str, object]], ...]: ...
 
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None: ...
@@ -80,7 +82,7 @@ class EntityRepositoryPort(Protocol):
         service_date_to: date | None,
         availability_state: str | None,
         product_type: str | None,
-        page: PageRequest,
+        page: PageRequest, product_id: str | None = None, supplier_role_id: str | None = None,
     ) -> PageResult[ValidatedEntity]: ...
 
 
@@ -102,10 +104,10 @@ class ScopedEntityRepository:
         return self._repository.get(entity_kind, entity_id)
 
     def list(
-        self, entity_kind: EntityKind, *, type_filter: str | None = None, page: PageRequest = PageRequest()
+        self, entity_kind: EntityKind, *, type_filter: str | None = None, page: PageRequest = PageRequest(), supplier_role_id: str | None = None
     ) -> PageResult[ValidatedEntity]:
         self._require_allowed(entity_kind)
-        return self._repository.list(entity_kind, type_filter=type_filter, page=page)
+        return self._repository.list(entity_kind, type_filter=type_filter, page=page, supplier_role_id=supplier_role_id)
 
     def save(self, candidate: FlexibleEntity | dict[str, object]) -> ValidatedEntity:
         self._require_allowed(self._entity_kind_of(candidate))
@@ -186,6 +188,10 @@ class ScopedEntityRepository:
         self._require_allowed(EntityKind.ORGA_ROLE)
         return self._repository.get_organisation_for_role(role_id)
 
+    def incoming_reference_counts(self, *, entity_kind: EntityKind, entity_id: str) -> dict[str, int]:
+        self._require_allowed(entity_kind)
+        return self._repository.incoming_reference_counts(entity_kind=entity_kind, entity_id=entity_id)
+
     def list_stock_items(
         self,
         *,
@@ -195,6 +201,8 @@ class ScopedEntityRepository:
         availability_state: str | None,
         product_type: str | None,
         page: PageRequest,
+        product_id: str | None = None,
+        supplier_role_id: str | None = None,
     ) -> PageResult[ValidatedEntity]:
         self._require_allowed(EntityKind.STOCK_ITEM)
         return self._repository.list_stock_items(
@@ -203,6 +211,7 @@ class ScopedEntityRepository:
             service_date_to=service_date_to,
             availability_state=availability_state,
             product_type=product_type,
+            product_id=product_id, supplier_role_id=supplier_role_id,
             page=page,
         )
 

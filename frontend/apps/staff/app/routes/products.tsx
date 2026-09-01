@@ -1,5 +1,5 @@
 import { Button, Grid, Group, Select, Stack, TextInput, Title } from "@mantine/core";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useQueries } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 
@@ -39,8 +39,9 @@ export function meta() {
  */
 export default function ProductsRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const allProducts = useAllPages<ProductResponse>(["products"], (cursor) =>
-    apiClient.GET("/products", { params: { query: { cursor, limit: 50 } } })
+  const supplierRoleId = searchParams.get("supplierRoleId");
+  const allProducts = useAllPages<ProductResponse>(["products", "supplier", supplierRoleId], (cursor) =>
+    apiClient.GET("/products", { params: { query: { cursor, limit: 50, supplierRoleId: supplierRoleId || undefined } } })
   );
 
   const ancestorQueries = useQueries({
@@ -113,6 +114,12 @@ export default function ProductsRoute() {
   const page = Math.min(readStaffViewPage(searchParams), Math.max(0, Math.ceil(matches.length / PAGE_SIZE) - 1));
   const pagedMatches = useMemo(() => matches.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE), [matches, page]);
   const listCaption = `Products · ${matches.length === 0 ? 0 : page * PAGE_SIZE + 1}–${Math.min(matches.length, (page + 1) * PAGE_SIZE)} of ${matches.length}`;
+
+  useEffect(() => {
+    if (ancestorsLoaded && pagedMatches.length === 1 && !detailId && searchParams.get(STAFF_VIEW_PARAM.panel) !== "create") {
+      updateView({ [STAFF_VIEW_PARAM.detail]: pagedMatches[0]!.product.entityId }, true);
+    }
+  }, [ancestorsLoaded, pagedMatches, detailId, searchParams]);
 
   return (
     <StaffShell breadcrumbs={[{ label: "Touristic product catalogue" }]}>
