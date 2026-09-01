@@ -10,6 +10,7 @@ Start with:
 
 - [AGENTS.md](AGENTS.md) for repository-wide agent rules.
 - [docs/README.md](docs/README.md) for the context map and reading paths.
+- [docs/operations/local-development.md](docs/operations/local-development.md) for starting and stopping the app locally.
 - [docs/requirements/README.md](docs/requirements/README.md) for requirements work.
 - [docs/governance/workflows/continuous-spec-alignment.md](docs/governance/workflows/continuous-spec-alignment.md) for keeping lifecycle specifications aligned.
 - [docs/governance/tooling/diagram-tooling.md](docs/governance/tooling/diagram-tooling.md) for installing and using the pinned diagrams-as-code toolchain.

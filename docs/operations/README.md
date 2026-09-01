@@ -6,6 +6,7 @@
 
 Operations covers delivery and runtime concerns including reproducible builds, deployment, configuration, observability, resilience, backup, recovery, capacity, cost, access, and incident readiness.
 
+- [Local Development](local-development.md): commands for starting and stopping the local browser, API, and Neo4j environment
 - [Localhost Deployment Architecture](deployment-architecture/): Docker topology, UML diagram, configuration, health, persistence, failures, and deferred production concerns
 
 [DR-0011](../governance/decisions/0011-use-docker-for-localhost-deployment.md) selects Docker and localhost for the initial development/proof-of-concept deployment. A deployment server, remote hosting platform, production topology, and CI/CD product remain undecided. Operational requirements must influence those later choices.
