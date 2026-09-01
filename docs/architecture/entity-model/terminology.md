@@ -79,7 +79,7 @@ Terms use British English and lower camel case for property keys. Type identifie
 | Term | Datatype | Description / usage | Owner and applicability | Requirement and validation | Source |
 |---|---|---|---|---|---|
 | `airlineDesignator` | string, IATA two-character designator | Airline code used with schedules and flight numbers. Synthetic codes must be marked and verified unassigned. | Partner Management; `organisation/airline` | required; IATA syntax and current assignment validation | IATA airline coding database/current assignment data |
-| `flightNumber` | string, 1–4 decimal digits | Numeric flight number without airline designator; replaces generic `code`. | Touristic Product Management; `product/airline/flight` | required; combine with supplying role's `airlineDesignator` for display | IATA scheduling convention; project logical key |
+| `flightNumber` | string, two uppercase letters followed by three decimal digits | Complete airline-designated flight number, such as `CA509`; its prefix matches the supplying role's `airlineDesignator`. | Touristic Product Management; `product/airline/flight` | required; `^[A-Z]{2}[0-9]{3}$`; prefix must match the supplying airline role | IATA scheduling convention; project logical key |
 | `departureLocationCode` | string, IATA three-letter location identifier | Departure airport or eligible intermodal location. | Touristic Product Management; `product/airline/flight` | required; current IATA code; must differ from arrival | IATA Airport and Location Coding Database |
 | `arrivalLocationCode` | string, IATA three-letter location identifier | Arrival airport or eligible intermodal location. | Touristic Product Management; `product/airline/flight` | required; current IATA code | IATA Airport and Location Coding Database |
 | `scheduledDepartureLocalTime` | local time string, `hh:mm:ss` | Scheduled local departure time; replaces unexplained `STD`. Date and zone come from the operated service/location context. | Touristic Product Management; `product/airline/flight` | required; ISO 8601-1 local time; no offset may be inferred | ISO 8601-1:2019; OTA schedule concept |
@@ -175,7 +175,7 @@ Primary source links: [OpenTravel downloads](https://opentravel.org/download-spe
 | `address` → `addressLocalityName` | deprecated key mapping | The example contained only a locality, not a complete postal address. |
 | `paymentMethod = payPal` → `paymentMethodCode = payment/paypal` | deprecated key/value mapping | Corrects casing and distinguishes the coded category from credentials. |
 | `flightType` → `product/flight` | deprecated type mapping | Places the flight definition in the project type namespace. |
-| `code = NL500` → `flightNumber = 500` | deprecated key/value mapping | Airline designator remains on the supplier role and is no longer duplicated ambiguously. |
+| `code = NL500` → `flightNumber = CA500` | deprecated key/value mapping | The complete airline-designated value is stored on the flight and must match the supplying role; `CA` is synthetic in the example. |
 | `origin` / `destination` → `departureLocationCode` / `arrivalLocationCode` | deprecated key mapping | States explicitly that values are IATA location identifiers. |
 | `STD` / `STA` → `scheduledDepartureLocalTime` / `scheduledArrivalLocalTime` | deprecated key mapping | Removes unexplained abbreviations and records local-time semantics. |
 | `aircraft = B747` → `aircraftTypeDesignator = B744` | deprecated key/value mapping | Uses an ICAO Doc 8643 designator; the example now specifies the aircraft variant. |

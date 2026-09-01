@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture/Implementation
-- Last reviewed: 2026-08-17
+- Last reviewed: 2026-09-01
 
 This view applies [DR-0012](../../governance/decisions/0012-use-validated-property-registry-and-direct-neo4j-properties.md)
 to the [logical entity model](entity-model.md). The logical vocabulary remains
@@ -97,3 +97,10 @@ database seed rather than an in-place migration.
 
 The public registry and entity contracts are the authoritative input for issue
 #12. Seed data must not recreate property rules.
+
+Seed restore uses the same visible identifier convention: Organisations use
+`ORG-<six digits>`, TouristicProductItems use `PRD-<six digits>`, and StockItems
+use `STK-<six digits>`. Role IDs are derived from their owning root and
+semantic role suffix, for example `ORG-000011-AIRLINE`, rather than generic
+`OROLE-*` references. Seeded airline flights store values such as `CA509`,
+whose prefix matches the supplying airline role's two-letter designator.

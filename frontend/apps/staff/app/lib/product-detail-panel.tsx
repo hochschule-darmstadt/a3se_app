@@ -339,7 +339,7 @@ export function ProductDetailPanel({
             <Group align="flex-end">
               <TextInput
                 label="Supplier role ID"
-                placeholder="e.g. SUP-AIR-01-ROLE"
+                placeholder="e.g. ORG-000001-AIRLINE"
                 value={supplierRoleId}
                 onChange={(event) => setSupplierRoleId(event.currentTarget.value)}
               />

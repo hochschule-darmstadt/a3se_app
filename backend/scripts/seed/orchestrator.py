@@ -27,6 +27,7 @@ from neo4j import Driver
 
 from cct.infrastructure.neo4j.entity_repository import COMMUNITY_SCHEMA, Neo4jEntityRepository
 from cct.resource_management.contracts import EntityKind
+from cct.resource_management.id_policy import format_entity_id
 from cct.resource_management.default_registry import create_entity_registry
 from cct.resource_management.errors import DuplicateEntityError
 from cct.resource_management.inventory import service as inventory_service
@@ -40,7 +41,7 @@ from . import inventory
 from .loader import SeedData, load_seed_data
 from .schema import SEED_SCHEMA_VERSION
 
-SEED_ID_PREFIXES = ("PER-", "SUP-", "FLT-", "ACC-", "MOB-", "WTR-", "EXP-", "OTH-", "ORD-", "STK-")
+SEED_ID_PREFIXES = ("PER-", "ORG-", "PRD-", "ORD-", "STK-")
 
 # JSON has no time/date literal; these product-property keys carry an
 # ISO-8601 `hh:mm:ss` string in the source files and must become real
@@ -227,16 +228,19 @@ def _guaranteed_dates(data: SeedData) -> set[tuple[str, date]]:
 
 def _load_stock_calendar(
     repos: SeedRepositories, data: SeedData, summary: SeedSummary, *, start: date, end: date
-) -> None:
+) -> tuple[dict[tuple[str, str], str], int]:
     by_type = _used_product_ids_by_type(data)
     calendar_types = {inventory.FLIGHT_TYPE, inventory.ROOM_CATEGORY_TYPE}
     calendar_products = {t: ids for t, ids in by_type.items() if t in calendar_types}
     specs = inventory.generate_stock_specs(calendar_products, _guaranteed_dates(data), start=start, end=end)
-    for spec in specs:
+    stock_ids: dict[tuple[str, str], str] = {}
+    for number, spec in enumerate(specs, start=1):
+        stock_id = format_entity_id(EntityKind.STOCK_ITEM, number)
+        stock_ids[(spec.product_id, spec.service_date.isoformat())] = stock_id
         try:
             inventory_service.create_stock_item(
                 repos.stock,
-                entity_id=spec.entity_id,
+                entity_id=stock_id,
                 type=spec.type,
                 properties=spec.properties,
                 product_id=spec.product_id,
@@ -245,9 +249,16 @@ def _load_stock_calendar(
             summary.record("StockItem (calendar)", created=True)
         except DuplicateEntityError:
             summary.record("StockItem (calendar)", created=False)
+    return stock_ids, len(specs)
 
 
-def _load_orders(repos: SeedRepositories, data: SeedData, summary: SeedSummary) -> None:
+def _load_orders(
+    repos: SeedRepositories,
+    data: SeedData,
+    summary: SeedSummary,
+    stock_ids: dict[tuple[str, str], str],
+    next_stock_number: int,
+) -> None:
     product_type_by_id = {p.entity_id: p.type for p in data.products}
     calendar_types = {inventory.FLIGHT_TYPE, inventory.ROOM_CATEGORY_TYPE}
 
@@ -276,11 +287,13 @@ def _load_orders(repos: SeedRepositories, data: SeedData, summary: SeedSummary) 
             product_type = product_type_by_id[position.product_id]
             service_date = date.fromisoformat(position.service_date)
             if product_type in calendar_types:
-                stock_item_id = f"STK-{position.product_id}-{position.service_date}"
+                stock_item_id = stock_ids[(position.product_id, position.service_date)]
             else:
                 spec = inventory.ad_hoc_stock_spec(position.product_id, product_type, service_date)
+                stock_id = format_entity_id(EntityKind.STOCK_ITEM, next_stock_number)
+                next_stock_number += 1
                 spec = inventory.StockItemSpec(
-                    entity_id=spec.entity_id,
+                    entity_id=stock_id,
                     type=spec.type,
                     product_id=spec.product_id,
                     service_date=spec.service_date,
@@ -299,7 +312,7 @@ def _load_orders(repos: SeedRepositories, data: SeedData, summary: SeedSummary) 
                     summary.record("StockItem (ad hoc)", created=True)
                 except DuplicateEntityError:
                     summary.record("StockItem (ad hoc)", created=False)
-                stock_item_id = spec.entity_id
+                stock_item_id = stock_id
 
             for traveller_role_id in position.traveller_person_role_ids:
                 order_service.assign_traveller(
@@ -331,6 +344,8 @@ def run_seed(
     _load_persons(repos, data, summary)
     _load_organisations(repos, data, summary)
     _load_products(repos, data, summary)
-    _load_stock_calendar(repos, data, summary, start=stock_calendar_start, end=stock_calendar_end)
-    _load_orders(repos, data, summary)
+    stock_ids, calendar_stock_count = _load_stock_calendar(
+        repos, data, summary, start=stock_calendar_start, end=stock_calendar_end
+    )
+    _load_orders(repos, data, summary, stock_ids, calendar_stock_count + 1)
     return summary

@@ -293,7 +293,7 @@
             "type": "string"
           },
           "flightNumber": {
-            "pattern": "^[0-9]{1,4}$",
+            "pattern": "^[A-Z]{2}[0-9]{3}$",
             "title": "Flightnumber",
             "type": "string"
           },
@@ -367,7 +367,7 @@
             "type": "string"
           },
           "flightNumber": {
-            "pattern": "^[0-9]{1,4}$",
+            "pattern": "^[A-Z]{2}[0-9]{3}$",
             "title": "Flightnumber",
             "type": "string"
           },

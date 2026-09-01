@@ -41,8 +41,8 @@ too.
 
 ## Deliberate scope limitations (recorded in DR-0014)
 
-- Every `FLT-nn`/`ACC-nn` used catalog product models exactly the primary
-  leg/room category described in `test-scenarios.md`; `FLT-01` additionally
+- Every `PRD-nnnnnn` used catalog product models exactly the primary
+  leg/room category described in `test-scenarios.md`; `PRD-000001` additionally
   demonstrates genuine multi-level recursive composition (its full 4-leg
   itinerary as nested `CONTAINS` children) -- the other 14 flights model
   only their outbound leg, not every itinerary segment.

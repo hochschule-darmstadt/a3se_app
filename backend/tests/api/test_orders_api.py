@@ -102,7 +102,7 @@ class OrdersApiTest(unittest.TestCase):
                 "product": {
                     "type": "product/airline/flight",
                     "properties": {
-                        "flightNumber": "500",
+                        "flightNumber": "CA500",
                         "departureLocationCode": "FRA",
                         "arrivalLocationCode": "GIG",
                         "scheduledDepartureLocalTime": "10:30:00",

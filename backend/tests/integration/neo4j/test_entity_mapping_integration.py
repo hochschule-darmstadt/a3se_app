@@ -39,7 +39,7 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
         repository = Neo4jEntityRepository(self.driver, "neo4j", self.registry)
         entity = repository.save(
             {"entityId": "I20-FLIGHT", "entityKind": "TouristicProductItem", "type": "product/airline/flight",
-             "properties": {"flightNumber": "500", "departureLocationCode": "FRA",
+             "properties": {"flightNumber": "CA500", "departureLocationCode": "FRA",
                             "arrivalLocationCode": "GIG", "scheduledDepartureLocalTime": time(10, 30),
                             "scheduledArrivalLocalTime": time(18, 45)}}
         )
@@ -59,7 +59,7 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
         repository = Neo4jEntityRepository(self.driver, "neo4j", self.registry)
         fixtures = (
             {"entityId": "I20-FLIGHT", "entityKind": "TouristicProductItem", "type": "product/airline/flight",
-             "properties": {"flightNumber": "500", "departureLocationCode": "FRA",
+             "properties": {"flightNumber": "CA500", "departureLocationCode": "FRA",
                             "arrivalLocationCode": "GIG", "scheduledDepartureLocalTime": time(10, 30),
                             "scheduledArrivalLocalTime": time(18, 45)}},
             {"entityId": "I20-ORDER", "entityKind": "OrderItem", "type": "order/header",

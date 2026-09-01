@@ -44,7 +44,7 @@ class DisplayNamesTest(unittest.TestCase):
             "FLT-1",
             "TouristicProductItem",
             {
-                "flightNumber": "501",
+                "flightNumber": "CA501",
                 "departureLocationCode": "BER",
                 "arrivalLocationCode": "LIM",
                 "scheduledDepartureLocalTime": "08:15:00",
@@ -77,8 +77,8 @@ class DisplayNamesTest(unittest.TestCase):
         root_role = self.save("ROLE-1", "OrgaRole", {"airlineDesignator": "CA"}, "organisation/airline")
         nested_owner = self.save("ORG-2", "Organisation", {"name": "Andes Connect"})
         nested_role = self.save("ROLE-2", "OrgaRole", {"airlineDesignator": "AC"}, "organisation/airline")
-        root = self.save("FLT-1", "TouristicProductItem", {"flightNumber": "501", "departureLocationCode": "BER", "arrivalLocationCode": "LIM", "scheduledDepartureLocalTime": "08:15:00", "scheduledArrivalLocalTime": "18:40:00"}, "product/airline/flight")
-        nested = self.save("FLT-2", "TouristicProductItem", {"flightNumber": "600", "departureLocationCode": "LIM", "arrivalLocationCode": "CUZ", "scheduledDepartureLocalTime": "07:20:00", "scheduledArrivalLocalTime": "08:55:00"}, "product/airline/flight")
+        root = self.save("FLT-1", "TouristicProductItem", {"flightNumber": "CA501", "departureLocationCode": "BER", "arrivalLocationCode": "LIM", "scheduledDepartureLocalTime": "08:15:00", "scheduledArrivalLocalTime": "18:40:00"}, "product/airline/flight")
+        nested = self.save("FLT-2", "TouristicProductItem", {"flightNumber": "AC600", "departureLocationCode": "LIM", "arrivalLocationCode": "CUZ", "scheduledDepartureLocalTime": "07:20:00", "scheduledArrivalLocalTime": "08:55:00"}, "product/airline/flight")
         for owner, role in ((root_owner, root_role), (nested_owner, nested_role)):
             self.relate(EntityKind.ORGANISATION, owner.entity_id, RelationshipType.HAS_ROLE, EntityKind.ORGA_ROLE, role.entity_id)
         self.relate(EntityKind.TOURISTIC_PRODUCT_ITEM, root.entity_id, RelationshipType.SUPPLIED_BY, EntityKind.ORGA_ROLE, root_role.entity_id)
@@ -102,7 +102,7 @@ class DisplayNamesTest(unittest.TestCase):
             "FLT-1",
             "TouristicProductItem",
             {
-                "flightNumber": "501",
+                "flightNumber": "CA501",
                 "departureLocationCode": "BER",
                 "arrivalLocationCode": "LIM",
                 "scheduledDepartureLocalTime": "08:15:00",

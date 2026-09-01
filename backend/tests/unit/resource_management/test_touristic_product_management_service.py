@@ -16,7 +16,7 @@ from cct.resource_management.touristic_product_management import service
 
 def flight_properties(**overrides: object) -> dict[str, object]:
     properties = {
-        "flightNumber": "500",
+        "flightNumber": "CA500",
         "departureLocationCode": "FRA",
         "arrivalLocationCode": "GIG",
         "scheduledDepartureLocalTime": time(10, 30),

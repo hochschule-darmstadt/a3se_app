@@ -37,7 +37,7 @@ class CatalogueItemProperties(StrictProperties):
 
 
 class FlightProperties(CatalogueItemProperties):
-    flight_number: str = Field(alias="flightNumber", pattern=r"^[0-9]{1,4}$")
+    flight_number: str = Field(alias="flightNumber", pattern=r"^[A-Z]{2}[0-9]{3}$")
     departure_location_code: str = Field(alias="departureLocationCode", pattern=r"^[A-Z]{3}$")
     arrival_location_code: str = Field(alias="arrivalLocationCode", pattern=r"^[A-Z]{3}$")
     scheduled_departure_local_time: time = Field(alias="scheduledDepartureLocalTime")

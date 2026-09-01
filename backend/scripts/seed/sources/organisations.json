@@ -1,900 +1,1010 @@
 {
-  "schemaVersion": 1,
-  "organisations": [
-    {
-      "entityId": "SUP-AIR-01",
-      "properties": {
-        "name": "Condorleaf Air",
-        "addressLocalityName": "Berlin"
-      },
-      "role": {
-        "entityId": "SUP-AIR-01-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "0Q"
-        }
-      },
-      "reserve": false
-    },
-    {
-      "entityId": "SUP-AIR-02",
-      "properties": {
-        "name": "Blue Pampa Airways",
-        "addressLocalityName": "Frankfurt am Main"
-      },
-      "role": {
-        "entityId": "SUP-AIR-02-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "1Q"
-        }
-      },
-      "reserve": false
-    },
-    {
-      "entityId": "SUP-ACC-01",
-      "properties": {
-        "name": "Southlight Stays",
-        "addressLocalityName": "Lima"
-      },
-      "role": {
-        "entityId": "SUP-ACC-01-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": false
-    },
-    {
-      "entityId": "SUP-MOB-01",
-      "properties": {
-        "name": "Meridian Groundways",
-        "addressLocalityName": "Lima"
-      },
-      "role": {
-        "entityId": "SUP-MOB-01-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": false
-    },
-    {
-      "entityId": "SUP-WTR-01",
-      "properties": {
-        "name": "Pelican Passage",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-WTR-01-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": false
-    },
-    {
-      "entityId": "SUP-EXP-01",
-      "properties": {
-        "name": "Andes & Atlantic Guides",
-        "addressLocalityName": "Lima"
-      },
-      "role": {
-        "entityId": "SUP-EXP-01-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": false
-    },
-    {
-      "entityId": "SUP-OTH-01",
-      "properties": {
-        "name": "Safepath Travel Cover",
-        "addressLocalityName": "Berlin"
-      },
-      "role": {
-        "entityId": "SUP-OTH-01-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": false
-    },
-    {
-      "entityId": "SUP-AIR-11",
-      "properties": {
-        "name": "Alderwing Air",
-        "addressLocalityName": "Munich"
-      },
-      "role": {
-        "entityId": "SUP-AIR-11-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "2Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-12",
-      "properties": {
-        "name": "Brisa Meridian",
-        "addressLocalityName": "Hamburg"
-      },
-      "role": {
-        "entityId": "SUP-AIR-12-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "3Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-13",
-      "properties": {
-        "name": "Copper Kite",
-        "addressLocalityName": "Cologne"
-      },
-      "role": {
-        "entityId": "SUP-AIR-13-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "4Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-14",
-      "properties": {
-        "name": "Estuary Air",
-        "addressLocalityName": "Lima"
-      },
-      "role": {
-        "entityId": "SUP-AIR-14-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "5Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-15",
-      "properties": {
-        "name": "Fjordleaf Aviation",
-        "addressLocalityName": "Cusco"
-      },
-      "role": {
-        "entityId": "SUP-AIR-15-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "6Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-16",
-      "properties": {
-        "name": "Golden Tern",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-AIR-16-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "7Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-17",
-      "properties": {
-        "name": "Horizon Quipu",
-        "addressLocalityName": "Sao Paulo"
-      },
-      "role": {
-        "entityId": "SUP-AIR-17-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "8Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-18",
-      "properties": {
-        "name": "Indigo Pampas",
-        "addressLocalityName": "Santiago"
-      },
-      "role": {
-        "entityId": "SUP-AIR-18-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "9Q"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-19",
-      "properties": {
-        "name": "Juniper Condor",
-        "addressLocalityName": "Buenos Aires"
-      },
-      "role": {
-        "entityId": "SUP-AIR-19-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "2X"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-AIR-20",
-      "properties": {
-        "name": "Kestrel Sur",
-        "addressLocalityName": "Bogota"
-      },
-      "role": {
-        "entityId": "SUP-AIR-20-ROLE",
-        "type": "organisation/airline",
-        "properties": {
-          "airlineDesignator": "3X"
-        }
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-11",
-      "properties": {
-        "name": "Amber Courtyard",
-        "addressLocalityName": "Cusco"
-      },
-      "role": {
-        "entityId": "SUP-ACC-11-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-12",
-      "properties": {
-        "name": "Bramble House",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-ACC-12-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-13",
-      "properties": {
-        "name": "Cloudstep Lodges",
-        "addressLocalityName": "Sao Paulo"
-      },
-      "role": {
-        "entityId": "SUP-ACC-13-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-14",
-      "properties": {
-        "name": "Dune Lantern",
-        "addressLocalityName": "Santiago"
-      },
-      "role": {
-        "entityId": "SUP-ACC-14-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-15",
-      "properties": {
-        "name": "Estrella Rooms",
-        "addressLocalityName": "Buenos Aires"
-      },
-      "role": {
-        "entityId": "SUP-ACC-15-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-16",
-      "properties": {
-        "name": "Fern Plaza",
-        "addressLocalityName": "Bogota"
-      },
-      "role": {
-        "entityId": "SUP-ACC-16-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-17",
-      "properties": {
-        "name": "Granite Patio",
-        "addressLocalityName": "Quito"
-      },
-      "role": {
-        "entityId": "SUP-ACC-17-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-18",
-      "properties": {
-        "name": "Harbour Loom",
-        "addressLocalityName": "Lima"
-      },
-      "role": {
-        "entityId": "SUP-ACC-18-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-19",
-      "properties": {
-        "name": "Indigo Terrace",
-        "addressLocalityName": "Cusco"
-      },
-      "role": {
-        "entityId": "SUP-ACC-19-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-ACC-20",
-      "properties": {
-        "name": "Jacaranda Rest",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-ACC-20-ROLE",
-        "type": "organisation/accommodation",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-11",
-      "properties": {
-        "name": "Atlas Shuttle",
-        "addressLocalityName": "Cusco"
-      },
-      "role": {
-        "entityId": "SUP-MOB-11-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-12",
-      "properties": {
-        "name": "Birch Roadways",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-MOB-12-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-13",
-      "properties": {
-        "name": "Cobalt Transit",
-        "addressLocalityName": "Sao Paulo"
-      },
-      "role": {
-        "entityId": "SUP-MOB-13-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-14",
-      "properties": {
-        "name": "Delta Wheels",
-        "addressLocalityName": "Santiago"
-      },
-      "role": {
-        "entityId": "SUP-MOB-14-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-15",
-      "properties": {
-        "name": "Ember Rail",
-        "addressLocalityName": "Buenos Aires"
-      },
-      "role": {
-        "entityId": "SUP-MOB-15-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-16",
-      "properties": {
-        "name": "Fieldstone Coaches",
-        "addressLocalityName": "Bogota"
-      },
-      "role": {
-        "entityId": "SUP-MOB-16-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-17",
-      "properties": {
-        "name": "Green Mile Hire",
-        "addressLocalityName": "Quito"
-      },
-      "role": {
-        "entityId": "SUP-MOB-17-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-18",
-      "properties": {
-        "name": "Highplain Transfer",
-        "addressLocalityName": "Lima"
-      },
-      "role": {
-        "entityId": "SUP-MOB-18-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-19",
-      "properties": {
-        "name": "Iris Mobility",
-        "addressLocalityName": "Cusco"
-      },
-      "role": {
-        "entityId": "SUP-MOB-19-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-MOB-20",
-      "properties": {
-        "name": "Juno Routes",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-MOB-20-ROLE",
-        "type": "organisation/mobility",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-11",
-      "properties": {
-        "name": "Albatross Wake",
-        "addressLocalityName": "Buenos Aires"
-      },
-      "role": {
-        "entityId": "SUP-WTR-11-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-12",
-      "properties": {
-        "name": "Bayleaf Voyages",
-        "addressLocalityName": "Valparaiso"
-      },
-      "role": {
-        "entityId": "SUP-WTR-12-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-13",
-      "properties": {
-        "name": "Current & Cove",
-        "addressLocalityName": "Guayaquil"
-      },
-      "role": {
-        "entityId": "SUP-WTR-13-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-14",
-      "properties": {
-        "name": "Dolphin Passage",
-        "addressLocalityName": "Santa Marta"
-      },
-      "role": {
-        "entityId": "SUP-WTR-14-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-15",
-      "properties": {
-        "name": "Estuary Sail",
-        "addressLocalityName": "Salvador"
-      },
-      "role": {
-        "entityId": "SUP-WTR-15-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-16",
-      "properties": {
-        "name": "Foamline Cruises",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-WTR-16-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-17",
-      "properties": {
-        "name": "Gullwater",
-        "addressLocalityName": "Buenos Aires"
-      },
-      "role": {
-        "entityId": "SUP-WTR-17-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-18",
-      "properties": {
-        "name": "Harbour Finch",
-        "addressLocalityName": "Valparaiso"
-      },
-      "role": {
-        "entityId": "SUP-WTR-18-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-19",
-      "properties": {
-        "name": "Island Thread",
-        "addressLocalityName": "Guayaquil"
-      },
-      "role": {
-        "entityId": "SUP-WTR-19-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-WTR-20",
-      "properties": {
-        "name": "Juniper Wake",
-        "addressLocalityName": "Santa Marta"
-      },
-      "role": {
-        "entityId": "SUP-WTR-20-ROLE",
-        "type": "organisation/water-transport",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-11",
-      "properties": {
-        "name": "Altitude Stories",
-        "addressLocalityName": "Cusco"
-      },
-      "role": {
-        "entityId": "SUP-EXP-11-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-12",
-      "properties": {
-        "name": "Barrio Walks",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-EXP-12-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-13",
-      "properties": {
-        "name": "Canopy Compass",
-        "addressLocalityName": "Sao Paulo"
-      },
-      "role": {
-        "entityId": "SUP-EXP-13-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-14",
-      "properties": {
-        "name": "Desert Lantern",
-        "addressLocalityName": "Santiago"
-      },
-      "role": {
-        "entityId": "SUP-EXP-14-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-15",
-      "properties": {
-        "name": "Estuary Encounters",
-        "addressLocalityName": "Buenos Aires"
-      },
-      "role": {
-        "entityId": "SUP-EXP-15-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-16",
-      "properties": {
-        "name": "Forest Notebook",
-        "addressLocalityName": "Bogota"
-      },
-      "role": {
-        "entityId": "SUP-EXP-16-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-17",
-      "properties": {
-        "name": "Glacier Steps",
-        "addressLocalityName": "Quito"
-      },
-      "role": {
-        "entityId": "SUP-EXP-17-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-18",
-      "properties": {
-        "name": "Heritage Thread",
-        "addressLocalityName": "Lima"
-      },
-      "role": {
-        "entityId": "SUP-EXP-18-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-19",
-      "properties": {
-        "name": "Island Lens",
-        "addressLocalityName": "Cusco"
-      },
-      "role": {
-        "entityId": "SUP-EXP-19-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-EXP-20",
-      "properties": {
-        "name": "Jungle Almanac",
-        "addressLocalityName": "Rio de Janeiro"
-      },
-      "role": {
-        "entityId": "SUP-EXP-20-ROLE",
-        "type": "organisation/experience",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-11",
-      "properties": {
-        "name": "Amber Shield",
-        "addressLocalityName": "Frankfurt am Main"
-      },
-      "role": {
-        "entityId": "SUP-OTH-11-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-12",
-      "properties": {
-        "name": "Borderless Cover",
-        "addressLocalityName": "Munich"
-      },
-      "role": {
-        "entityId": "SUP-OTH-12-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-13",
-      "properties": {
-        "name": "Compass Guard",
-        "addressLocalityName": "Hamburg"
-      },
-      "role": {
-        "entityId": "SUP-OTH-13-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-14",
-      "properties": {
-        "name": "Departure Safe",
-        "addressLocalityName": "Cologne"
-      },
-      "role": {
-        "entityId": "SUP-OTH-14-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-15",
-      "properties": {
-        "name": "Evergreen Assist",
-        "addressLocalityName": "Berlin"
-      },
-      "role": {
-        "entityId": "SUP-OTH-15-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-16",
-      "properties": {
-        "name": "Farway Cover",
-        "addressLocalityName": "Frankfurt am Main"
-      },
-      "role": {
-        "entityId": "SUP-OTH-16-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-17",
-      "properties": {
-        "name": "Globe Shelter",
-        "addressLocalityName": "Munich"
-      },
-      "role": {
-        "entityId": "SUP-OTH-17-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-18",
-      "properties": {
-        "name": "Horizon Help",
-        "addressLocalityName": "Hamburg"
-      },
-      "role": {
-        "entityId": "SUP-OTH-18-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-19",
-      "properties": {
-        "name": "Itinerary Guard",
-        "addressLocalityName": "Cologne"
-      },
-      "role": {
-        "entityId": "SUP-OTH-19-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    },
-    {
-      "entityId": "SUP-OTH-20",
-      "properties": {
-        "name": "Journey Safeguard",
-        "addressLocalityName": "Berlin"
-      },
-      "role": {
-        "entityId": "SUP-OTH-20-ROLE",
-        "type": "organisation/protection",
-        "properties": {}
-      },
-      "reserve": true
-    }
-  ]
+    "schemaVersion":  1,
+    "organisations":  [
+                          {
+                              "entityId":  "ORG-000001",
+                              "properties":  {
+                                                 "name":  "Condorleaf Air",
+                                                 "addressLocalityName":  "Berlin"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000001-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "CA"
+                                                          }
+                                       },
+                              "reserve":  false
+                          },
+                          {
+                              "entityId":  "ORG-000002",
+                              "properties":  {
+                                                 "name":  "Blue Pampa Airways",
+                                                 "addressLocalityName":  "Frankfurt am Main"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000002-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "BP"
+                                                          }
+                                       },
+                              "reserve":  false
+                          },
+                          {
+                              "entityId":  "ORG-000003",
+                              "properties":  {
+                                                 "name":  "Southlight Stays",
+                                                 "addressLocalityName":  "Lima"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000003-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  false
+                          },
+                          {
+                              "entityId":  "ORG-000004",
+                              "properties":  {
+                                                 "name":  "Meridian Groundways",
+                                                 "addressLocalityName":  "Lima"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000004-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  false
+                          },
+                          {
+                              "entityId":  "ORG-000005",
+                              "properties":  {
+                                                 "name":  "Pelican Passage",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000005-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  false
+                          },
+                          {
+                              "entityId":  "ORG-000006",
+                              "properties":  {
+                                                 "name":  "Andes \u0026 Atlantic Guides",
+                                                 "addressLocalityName":  "Lima"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000006-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  false
+                          },
+                          {
+                              "entityId":  "ORG-000007",
+                              "properties":  {
+                                                 "name":  "Safepath Travel Cover",
+                                                 "addressLocalityName":  "Berlin"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000007-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  false
+                          },
+                          {
+                              "entityId":  "ORG-000011",
+                              "properties":  {
+                                                 "name":  "Alderwing Air",
+                                                 "addressLocalityName":  "Munich"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000011-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "AA"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000012",
+                              "properties":  {
+                                                 "name":  "Brisa Meridian",
+                                                 "addressLocalityName":  "Hamburg"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000012-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "BM"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000013",
+                              "properties":  {
+                                                 "name":  "Copper Kite",
+                                                 "addressLocalityName":  "Cologne"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000013-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "CK"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000014",
+                              "properties":  {
+                                                 "name":  "Estuary Air",
+                                                 "addressLocalityName":  "Lima"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000014-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "EA"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000015",
+                              "properties":  {
+                                                 "name":  "Fjordleaf Aviation",
+                                                 "addressLocalityName":  "Cusco"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000015-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "FA"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000016",
+                              "properties":  {
+                                                 "name":  "Golden Tern",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000016-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "GT"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000017",
+                              "properties":  {
+                                                 "name":  "Horizon Quipu",
+                                                 "addressLocalityName":  "Sao Paulo"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000017-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "HQ"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000018",
+                              "properties":  {
+                                                 "name":  "Indigo Pampas",
+                                                 "addressLocalityName":  "Santiago"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000018-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "IP"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000019",
+                              "properties":  {
+                                                 "name":  "Juniper Condor",
+                                                 "addressLocalityName":  "Buenos Aires"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000019-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "JC"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000020",
+                              "properties":  {
+                                                 "name":  "Kestrel Sur",
+                                                 "addressLocalityName":  "Bogota"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000020-AIRLINE",
+                                           "type":  "organisation/airline",
+                                           "properties":  {
+                                                              "airlineDesignator":  "KS"
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000021",
+                              "properties":  {
+                                                 "name":  "Amber Courtyard",
+                                                 "addressLocalityName":  "Cusco"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000021-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000022",
+                              "properties":  {
+                                                 "name":  "Bramble House",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000022-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000023",
+                              "properties":  {
+                                                 "name":  "Cloudstep Lodges",
+                                                 "addressLocalityName":  "Sao Paulo"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000023-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000024",
+                              "properties":  {
+                                                 "name":  "Dune Lantern",
+                                                 "addressLocalityName":  "Santiago"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000024-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000025",
+                              "properties":  {
+                                                 "name":  "Estrella Rooms",
+                                                 "addressLocalityName":  "Buenos Aires"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000025-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000026",
+                              "properties":  {
+                                                 "name":  "Fern Plaza",
+                                                 "addressLocalityName":  "Bogota"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000026-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000027",
+                              "properties":  {
+                                                 "name":  "Granite Patio",
+                                                 "addressLocalityName":  "Quito"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000027-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000028",
+                              "properties":  {
+                                                 "name":  "Harbour Loom",
+                                                 "addressLocalityName":  "Lima"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000028-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000029",
+                              "properties":  {
+                                                 "name":  "Indigo Terrace",
+                                                 "addressLocalityName":  "Cusco"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000029-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000030",
+                              "properties":  {
+                                                 "name":  "Jacaranda Rest",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000030-ACCOMMODATION",
+                                           "type":  "organisation/accommodation",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000031",
+                              "properties":  {
+                                                 "name":  "Atlas Shuttle",
+                                                 "addressLocalityName":  "Cusco"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000031-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000032",
+                              "properties":  {
+                                                 "name":  "Birch Roadways",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000032-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000033",
+                              "properties":  {
+                                                 "name":  "Cobalt Transit",
+                                                 "addressLocalityName":  "Sao Paulo"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000033-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000034",
+                              "properties":  {
+                                                 "name":  "Delta Wheels",
+                                                 "addressLocalityName":  "Santiago"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000034-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000035",
+                              "properties":  {
+                                                 "name":  "Ember Rail",
+                                                 "addressLocalityName":  "Buenos Aires"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000035-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000036",
+                              "properties":  {
+                                                 "name":  "Fieldstone Coaches",
+                                                 "addressLocalityName":  "Bogota"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000036-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000037",
+                              "properties":  {
+                                                 "name":  "Green Mile Hire",
+                                                 "addressLocalityName":  "Quito"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000037-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000038",
+                              "properties":  {
+                                                 "name":  "Highplain Transfer",
+                                                 "addressLocalityName":  "Lima"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000038-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000039",
+                              "properties":  {
+                                                 "name":  "Iris Mobility",
+                                                 "addressLocalityName":  "Cusco"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000039-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000040",
+                              "properties":  {
+                                                 "name":  "Juno Routes",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000040-MOBILITY",
+                                           "type":  "organisation/mobility",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000041",
+                              "properties":  {
+                                                 "name":  "Albatross Wake",
+                                                 "addressLocalityName":  "Buenos Aires"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000041-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000042",
+                              "properties":  {
+                                                 "name":  "Bayleaf Voyages",
+                                                 "addressLocalityName":  "Valparaiso"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000042-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000043",
+                              "properties":  {
+                                                 "name":  "Current \u0026 Cove",
+                                                 "addressLocalityName":  "Guayaquil"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000043-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000044",
+                              "properties":  {
+                                                 "name":  "Dolphin Passage",
+                                                 "addressLocalityName":  "Santa Marta"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000044-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000045",
+                              "properties":  {
+                                                 "name":  "Estuary Sail",
+                                                 "addressLocalityName":  "Salvador"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000045-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000046",
+                              "properties":  {
+                                                 "name":  "Foamline Cruises",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000046-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000047",
+                              "properties":  {
+                                                 "name":  "Gullwater",
+                                                 "addressLocalityName":  "Buenos Aires"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000047-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000048",
+                              "properties":  {
+                                                 "name":  "Harbour Finch",
+                                                 "addressLocalityName":  "Valparaiso"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000048-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000049",
+                              "properties":  {
+                                                 "name":  "Island Thread",
+                                                 "addressLocalityName":  "Guayaquil"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000049-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000050",
+                              "properties":  {
+                                                 "name":  "Juniper Wake",
+                                                 "addressLocalityName":  "Santa Marta"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000050-WATER-TRANSPORT",
+                                           "type":  "organisation/water-transport",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000051",
+                              "properties":  {
+                                                 "name":  "Altitude Stories",
+                                                 "addressLocalityName":  "Cusco"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000051-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000052",
+                              "properties":  {
+                                                 "name":  "Barrio Walks",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000052-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000053",
+                              "properties":  {
+                                                 "name":  "Canopy Compass",
+                                                 "addressLocalityName":  "Sao Paulo"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000053-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000054",
+                              "properties":  {
+                                                 "name":  "Desert Lantern",
+                                                 "addressLocalityName":  "Santiago"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000054-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000055",
+                              "properties":  {
+                                                 "name":  "Estuary Encounters",
+                                                 "addressLocalityName":  "Buenos Aires"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000055-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000056",
+                              "properties":  {
+                                                 "name":  "Forest Notebook",
+                                                 "addressLocalityName":  "Bogota"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000056-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000057",
+                              "properties":  {
+                                                 "name":  "Glacier Steps",
+                                                 "addressLocalityName":  "Quito"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000057-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000058",
+                              "properties":  {
+                                                 "name":  "Heritage Thread",
+                                                 "addressLocalityName":  "Lima"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000058-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000059",
+                              "properties":  {
+                                                 "name":  "Island Lens",
+                                                 "addressLocalityName":  "Cusco"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000059-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000060",
+                              "properties":  {
+                                                 "name":  "Jungle Almanac",
+                                                 "addressLocalityName":  "Rio de Janeiro"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000060-EXPERIENCE",
+                                           "type":  "organisation/experience",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000061",
+                              "properties":  {
+                                                 "name":  "Amber Shield",
+                                                 "addressLocalityName":  "Frankfurt am Main"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000061-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000062",
+                              "properties":  {
+                                                 "name":  "Borderless Cover",
+                                                 "addressLocalityName":  "Munich"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000062-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000063",
+                              "properties":  {
+                                                 "name":  "Compass Guard",
+                                                 "addressLocalityName":  "Hamburg"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000063-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000064",
+                              "properties":  {
+                                                 "name":  "Departure Safe",
+                                                 "addressLocalityName":  "Cologne"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000064-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000065",
+                              "properties":  {
+                                                 "name":  "Evergreen Assist",
+                                                 "addressLocalityName":  "Berlin"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000065-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000066",
+                              "properties":  {
+                                                 "name":  "Farway Cover",
+                                                 "addressLocalityName":  "Frankfurt am Main"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000066-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000067",
+                              "properties":  {
+                                                 "name":  "Globe Shelter",
+                                                 "addressLocalityName":  "Munich"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000067-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000068",
+                              "properties":  {
+                                                 "name":  "Horizon Help",
+                                                 "addressLocalityName":  "Hamburg"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000068-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000069",
+                              "properties":  {
+                                                 "name":  "Itinerary Guard",
+                                                 "addressLocalityName":  "Cologne"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000069-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          },
+                          {
+                              "entityId":  "ORG-000070",
+                              "properties":  {
+                                                 "name":  "Journey Safeguard",
+                                                 "addressLocalityName":  "Berlin"
+                                             },
+                              "role":  {
+                                           "entityId":  "ORG-000070-PROTECTION",
+                                           "type":  "organisation/protection",
+                                           "properties":  {
+
+                                                          }
+                                       },
+                              "reserve":  true
+                          }
+                      ]
 }

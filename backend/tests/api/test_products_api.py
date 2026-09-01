@@ -15,7 +15,7 @@ from cct.resource_management.relationship_types import RelationshipType
 
 def flight_payload(entity_id: str = "I21-FLIGHT", **overrides: object) -> dict[str, object]:
     properties = {
-        "flightNumber": "500",
+        "flightNumber": "CA500",
         "departureLocationCode": "FRA",
         "arrivalLocationCode": "GIG",
         "scheduledDepartureLocalTime": "10:30:00",
@@ -115,7 +115,7 @@ class ProductsApiTest(unittest.TestCase):
         self.client.post("/products", json=flight_payload())
         response = self.client.put(
             "/products/I21-FLIGHT",
-            json={"product": {"type": "product/airline/flight", "properties": flight_payload()["product"]["properties"] | {"flightNumber": "600"}}},
+            json={"product": {"type": "product/airline/flight", "properties": flight_payload()["product"]["properties"] | {"flightNumber": "CA600"}}},
         )
         self.assertEqual(200, response.status_code)
         self.assertEqual("600", response.json()["properties"]["flightNumber"])

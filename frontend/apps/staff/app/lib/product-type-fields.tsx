@@ -52,7 +52,7 @@ export function ProductTypeFields({
       }
       {isAirlineFlightType(type) ? (
         <>
-          <TextInput label="Flight number" required value={values.flightNumber} onChange={(event) => set("flightNumber", event.currentTarget.value)} />
+          <TextInput label="Flight number (e.g. CA509)" required value={values.flightNumber} onChange={(event) => set("flightNumber", event.currentTarget.value)} />
           <TextInput
             label="Departure location code"
             required

@@ -28,7 +28,7 @@ const flightProduct = {
   properties: {
     name: "Return flight",
     lifecycleStatusCode: "product/draft",
-    flightNumber: "500",
+    flightNumber: "CA500",
     departureLocationCode: "FRA",
     arrivalLocationCode: "GIG",
     scheduledDepartureLocalTime: "10:30:00",
@@ -122,7 +122,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
         body: {
           product: {
             type: "product/airline/flight",
-            properties: expect.objectContaining({ lifecycleStatusCode: "product/active", flightNumber: "500" }),
+            properties: expect.objectContaining({ lifecycleStatusCode: "product/active", flightNumber: "CA500" }),
           },
         },
       })

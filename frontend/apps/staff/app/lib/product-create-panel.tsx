@@ -139,7 +139,7 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
           {!isAddComponent ? (
             <TextInput
               label="Supplier role ID"
-              placeholder="e.g. SUP-AIR-01-ROLE"
+              placeholder="e.g. ORG-000001-AIRLINE"
               description="Optional. Link this product to an existing organisation's supplier role now, or set one later from the product's detail view."
               value={supplierRoleId}
               onChange={(event) => setSupplierRoleId(event.currentTarget.value)}

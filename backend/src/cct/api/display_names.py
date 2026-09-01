@@ -107,7 +107,10 @@ def _product_label(entity: ValidatedEntity, supplier: ValidatedEntity | None) ->
         designator = _properties(supplier).get("airlineDesignator")
         if not designator:
             raise InvalidEntityGraphError(entity.entity_id, "supplying airline role has no airlineDesignator")
-        return f"{designator}{properties['flightNumber']} {properties['departureLocationCode']}–{properties['arrivalLocationCode']}"
+        flight_number = properties["flightNumber"]
+        if not isinstance(flight_number, str) or not flight_number.startswith(str(designator)):
+            raise InvalidEntityGraphError(entity.entity_id, "flight number does not match supplying airline designator")
+        return f"{flight_number} {properties['departureLocationCode']}–{properties['arrivalLocationCode']}"
     if entity.type == "product/accommodation/room-type":
         code = str(properties["roomTypeCode"])
         try:

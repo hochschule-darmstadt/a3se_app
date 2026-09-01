@@ -1,1600 +1,1600 @@
 {
-  "schemaVersion": 1,
-  "products": [
-    {
-      "entityId": "FLT-01",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "501",
-        "departureLocationCode": "BER",
-        "arrivalLocationCode": "LIM",
-        "scheduledDepartureLocalTime": "08:15:00",
-        "scheduledArrivalLocalTime": "18:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 501: BER–LIM"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-02",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "502",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "GIG",
-        "scheduledDepartureLocalTime": "09:15:00",
-        "scheduledArrivalLocalTime": "19:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 502: FRA–GIG"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-03",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "503",
-        "departureLocationCode": "MUC",
-        "arrivalLocationCode": "GRU",
-        "scheduledDepartureLocalTime": "10:15:00",
-        "scheduledArrivalLocalTime": "20:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 503: MUC–GRU"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-04",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "504",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "SCL",
-        "scheduledDepartureLocalTime": "11:15:00",
-        "scheduledArrivalLocalTime": "21:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 504: FRA–SCL"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-05",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "505",
-        "departureLocationCode": "BER",
-        "arrivalLocationCode": "EZE",
-        "scheduledDepartureLocalTime": "07:15:00",
-        "scheduledArrivalLocalTime": "17:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 505: BER–EZE"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-06",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "506",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "BOG",
-        "scheduledDepartureLocalTime": "08:15:00",
-        "scheduledArrivalLocalTime": "18:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 506: FRA–BOG"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-07",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "507",
-        "departureLocationCode": "MUC",
-        "arrivalLocationCode": "UIO",
-        "scheduledDepartureLocalTime": "09:15:00",
-        "scheduledArrivalLocalTime": "19:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 507: MUC–UIO"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-08",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "508",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "LIM",
-        "scheduledDepartureLocalTime": "10:15:00",
-        "scheduledArrivalLocalTime": "20:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 508: FRA–LIM"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-09",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "509",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "GIG",
-        "scheduledDepartureLocalTime": "11:15:00",
-        "scheduledArrivalLocalTime": "21:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 509: FRA–GIG"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-10",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "510",
-        "departureLocationCode": "MUC",
-        "arrivalLocationCode": "SCL",
-        "scheduledDepartureLocalTime": "07:15:00",
-        "scheduledArrivalLocalTime": "17:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 510: MUC–SCL"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-11",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "511",
-        "departureLocationCode": "BER",
-        "arrivalLocationCode": "GRU",
-        "scheduledDepartureLocalTime": "08:15:00",
-        "scheduledArrivalLocalTime": "18:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 511: BER–GRU"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-12",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "512",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "BOG",
-        "scheduledDepartureLocalTime": "09:15:00",
-        "scheduledArrivalLocalTime": "19:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 512: FRA–BOG"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-13",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "513",
-        "departureLocationCode": "MUC",
-        "arrivalLocationCode": "LIM",
-        "scheduledDepartureLocalTime": "10:15:00",
-        "scheduledArrivalLocalTime": "20:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 513: MUC–LIM"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-14",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "514",
-        "departureLocationCode": "BER",
-        "arrivalLocationCode": "EZE",
-        "scheduledDepartureLocalTime": "11:15:00",
-        "scheduledArrivalLocalTime": "21:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 514: BER–EZE"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-15",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "515",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "UIO",
-        "scheduledDepartureLocalTime": "07:15:00",
-        "scheduledArrivalLocalTime": "17:40:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 515: FRA–UIO"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-01-L2",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "600",
-        "departureLocationCode": "LIM",
-        "arrivalLocationCode": "CUZ",
-        "scheduledDepartureLocalTime": "07:20:00",
-        "scheduledArrivalLocalTime": "08:55:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 600: LIM–CUZ"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-01-L3",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "601",
-        "departureLocationCode": "CUZ",
-        "arrivalLocationCode": "LIM",
-        "scheduledDepartureLocalTime": "17:10:00",
-        "scheduledArrivalLocalTime": "18:45:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 601: CUZ–LIM"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-01-L4",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "602",
-        "departureLocationCode": "LIM",
-        "arrivalLocationCode": "BER",
-        "scheduledDepartureLocalTime": "21:30:00",
-        "scheduledArrivalLocalTime": "16:05:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 602: LIM–BER"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-01",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/single",
-        "lifecycleStatusCode": "product/active",
-        "name": "Single Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-02",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-03",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/adjoining",
-        "lifecycleStatusCode": "product/active",
-        "name": "Adjoining Rooms"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-04",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-05",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/single",
-        "lifecycleStatusCode": "product/active",
-        "name": "Single Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-06",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/triple",
-        "lifecycleStatusCode": "product/active",
-        "name": "Triple Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-07",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-08",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/single",
-        "lifecycleStatusCode": "product/active",
-        "name": "Single Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-09",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-10",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/single",
-        "lifecycleStatusCode": "product/active",
-        "name": "Single Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-11",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-12",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-13",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/family",
-        "lifecycleStatusCode": "product/active",
-        "name": "Family Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-14",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/single",
-        "lifecycleStatusCode": "product/active",
-        "name": "Single Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "ACC-15",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/family",
-        "lifecycleStatusCode": "product/active",
-        "name": "Family Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-01",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Airport Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-02",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hotel Shuttle"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-03",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "City Center Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-04",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Private Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-05",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Shared Shuttle"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-06",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Airport Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-07",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hotel Shuttle"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-08",
-      "type": "product/mobility/rail",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Regional Rail Connection"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-09",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "City Center Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-10",
-      "type": "product/mobility/vehicle-rental",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Compact Car Rental"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-11",
-      "type": "product/mobility/coach",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Scheduled Coach Service"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-12",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Private Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-13",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Shared Shuttle"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-14",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Airport Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "MOB-15",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hotel Shuttle"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "WTR-01",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Coastal Day Boat Excursion"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "WTR-02",
-      "type": "product/water-transport/cruise",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Multi-Day Coastal Cruise"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "WTR-03",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Snorkeling Day Boat Trip"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-01",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Cooking Class"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-02",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Snorkeling Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-03",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hiking Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-04",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Cultural Workshop"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-05",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Wildlife Watching"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-06",
-      "type": "product/experience/guided-tour",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "City Walking Tour"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-07",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Local Market Visit"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-08",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Cooking Class"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-09",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Snorkeling Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-10",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hiking Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-11",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Cultural Workshop"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-12",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Wildlife Watching"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-13",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Local Market Visit"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-14",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Cooking Class"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "EXP-15",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Snorkeling Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "OTH-01",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Standard Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "OTH-02",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Comprehensive Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "OTH-03",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Trip Cancellation Cover"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "OTH-04",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Medical Travel Cover"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": false
-    },
-    {
-      "entityId": "FLT-21",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "921",
-        "departureLocationCode": "BER",
-        "arrivalLocationCode": "GIG",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 921: BER–GIG"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-22",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "922",
-        "departureLocationCode": "FRA",
-        "arrivalLocationCode": "EZE",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 922: FRA–EZE"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-23",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "923",
-        "departureLocationCode": "MUC",
-        "arrivalLocationCode": "SCL",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 923: MUC–SCL"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-24",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "924",
-        "departureLocationCode": "LIM",
-        "arrivalLocationCode": "PUQ",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 924: LIM–PUQ"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-25",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "925",
-        "departureLocationCode": "CUZ",
-        "arrivalLocationCode": "BOG",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 925: CUZ–BOG"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-26",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "926",
-        "departureLocationCode": "GRU",
-        "arrivalLocationCode": "UIO",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 926: GRU–UIO"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-27",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "927",
-        "departureLocationCode": "GIG",
-        "arrivalLocationCode": "BER",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 927: GIG–BER"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-28",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "928",
-        "departureLocationCode": "EZE",
-        "arrivalLocationCode": "FRA",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 928: EZE–FRA"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-29",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "929",
-        "departureLocationCode": "SCL",
-        "arrivalLocationCode": "MUC",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 929: SCL–MUC"
-      },
-      "supplierRoleId": "SUP-AIR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "FLT-30",
-      "type": "product/airline/flight",
-      "properties": {
-        "flightNumber": "930",
-        "departureLocationCode": "PUQ",
-        "arrivalLocationCode": "LIM",
-        "scheduledDepartureLocalTime": "10:00:00",
-        "scheduledArrivalLocalTime": "20:00:00",
-        "lifecycleStatusCode": "product/active",
-        "name": "Flight 930: PUQ–LIM"
-      },
-      "supplierRoleId": "SUP-AIR-02-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-21",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-22",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/family",
-        "lifecycleStatusCode": "product/active",
-        "name": "Family Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-23",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/twin",
-        "lifecycleStatusCode": "product/active",
-        "name": "Twin Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-24",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/triple",
-        "lifecycleStatusCode": "product/active",
-        "name": "Triple Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-25",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/single",
-        "lifecycleStatusCode": "product/active",
-        "name": "Single Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-26",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/suite",
-        "lifecycleStatusCode": "product/active",
-        "name": "Suite"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-27",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/family",
-        "lifecycleStatusCode": "product/active",
-        "name": "Family Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-28",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/double",
-        "lifecycleStatusCode": "product/active",
-        "name": "Double Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-29",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/cabin",
-        "lifecycleStatusCode": "product/active",
-        "name": "Cabin"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "ACC-30",
-      "type": "product/accommodation/room-type",
-      "properties": {
-        "roomTypeCode": "room/twin",
-        "lifecycleStatusCode": "product/active",
-        "name": "Twin Room"
-      },
-      "supplierRoleId": "SUP-ACC-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-21",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "City Center Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-22",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Private Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-23",
-      "type": "product/mobility/rail",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Express Rail Connection"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-24",
-      "type": "product/mobility/coach",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Chartered Coach Service"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-25",
-      "type": "product/mobility/vehicle-rental",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "SUV Rental"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-26",
-      "type": "product/mobility/vehicle-rental",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Economy Car Rental"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-27",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Shared Shuttle"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-28",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Airport Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-29",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hotel Shuttle"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "MOB-30",
-      "type": "product/mobility/transfer",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "City Center Transfer"
-      },
-      "supplierRoleId": "SUP-MOB-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-21",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Sunset Day Boat Cruise"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-22",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Island-Hopping Day Boat"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-23",
-      "type": "product/water-transport/cruise",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "River Cruise"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-24",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Coastal Day Boat Excursion"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-25",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Snorkeling Day Boat Trip"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-26",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Sunset Day Boat Cruise"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-27",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Island-Hopping Day Boat"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-28",
-      "type": "product/water-transport/cruise",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Archipelago Cruise"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-29",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Coastal Day Boat Excursion"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "WTR-30",
-      "type": "product/water-transport/day-boat",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Snorkeling Day Boat Trip"
-      },
-      "supplierRoleId": "SUP-WTR-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-21",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hiking Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-22",
-      "type": "product/experience/guided-tour",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Guided Heritage Tour"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-23",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Cultural Workshop"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-24",
-      "type": "product/experience/guided-tour",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Guided Nature Trek"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-25",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Wildlife Watching"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-26",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Local Market Visit"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-27",
-      "type": "product/experience/guided-tour",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Local Culture Tour"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-28",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Cooking Class"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-29",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Snorkeling Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "EXP-30",
-      "type": "product/experience/activity",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Hiking Activity"
-      },
-      "supplierRoleId": "SUP-EXP-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-21",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Standard Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-22",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Comprehensive Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-23",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Trip Cancellation Cover"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-24",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Medical Travel Cover"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-25",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Standard Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-26",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Comprehensive Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-27",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Trip Cancellation Cover"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-28",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Medical Travel Cover"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-29",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Standard Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    },
-    {
-      "entityId": "OTH-30",
-      "type": "product/protection/travel",
-      "properties": {
-        "lifecycleStatusCode": "product/active",
-        "name": "Comprehensive Travel Protection Plan"
-      },
-      "supplierRoleId": "SUP-OTH-01-ROLE",
-      "parentProductId": null,
-      "reserve": true
-    }
-  ]
+    "schemaVersion":  1,
+    "products":  [
+                     {
+                         "entityId":  "PRD-000001",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA501",
+                                            "departureLocationCode":  "BER",
+                                            "arrivalLocationCode":  "LIM",
+                                            "scheduledDepartureLocalTime":  "08:15:00",
+                                            "scheduledArrivalLocalTime":  "18:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 501: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000005",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP502",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "GIG",
+                                            "scheduledDepartureLocalTime":  "09:15:00",
+                                            "scheduledArrivalLocalTime":  "19:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 502: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000006",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA503",
+                                            "departureLocationCode":  "MUC",
+                                            "arrivalLocationCode":  "GRU",
+                                            "scheduledDepartureLocalTime":  "10:15:00",
+                                            "scheduledArrivalLocalTime":  "20:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 503: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GRU"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000007",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP504",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "SCL",
+                                            "scheduledDepartureLocalTime":  "11:15:00",
+                                            "scheduledArrivalLocalTime":  "21:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 504: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000008",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA505",
+                                            "departureLocationCode":  "BER",
+                                            "arrivalLocationCode":  "EZE",
+                                            "scheduledDepartureLocalTime":  "07:15:00",
+                                            "scheduledArrivalLocalTime":  "17:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 505: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000009",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP506",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "BOG",
+                                            "scheduledDepartureLocalTime":  "08:15:00",
+                                            "scheduledArrivalLocalTime":  "18:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 506: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000010",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA507",
+                                            "departureLocationCode":  "MUC",
+                                            "arrivalLocationCode":  "UIO",
+                                            "scheduledDepartureLocalTime":  "09:15:00",
+                                            "scheduledArrivalLocalTime":  "19:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 507: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000011",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP508",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "LIM",
+                                            "scheduledDepartureLocalTime":  "10:15:00",
+                                            "scheduledArrivalLocalTime":  "20:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 508: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000012",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA509",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "GIG",
+                                            "scheduledDepartureLocalTime":  "11:15:00",
+                                            "scheduledArrivalLocalTime":  "21:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 509: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000013",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP510",
+                                            "departureLocationCode":  "MUC",
+                                            "arrivalLocationCode":  "SCL",
+                                            "scheduledDepartureLocalTime":  "07:15:00",
+                                            "scheduledArrivalLocalTime":  "17:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 510: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000014",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA511",
+                                            "departureLocationCode":  "BER",
+                                            "arrivalLocationCode":  "GRU",
+                                            "scheduledDepartureLocalTime":  "08:15:00",
+                                            "scheduledArrivalLocalTime":  "18:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 511: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GRU"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000015",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP512",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "BOG",
+                                            "scheduledDepartureLocalTime":  "09:15:00",
+                                            "scheduledArrivalLocalTime":  "19:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 512: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000016",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA513",
+                                            "departureLocationCode":  "MUC",
+                                            "arrivalLocationCode":  "LIM",
+                                            "scheduledDepartureLocalTime":  "10:15:00",
+                                            "scheduledArrivalLocalTime":  "20:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 513: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000017",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP514",
+                                            "departureLocationCode":  "BER",
+                                            "arrivalLocationCode":  "EZE",
+                                            "scheduledDepartureLocalTime":  "11:15:00",
+                                            "scheduledArrivalLocalTime":  "21:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 514: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000018",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA515",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "UIO",
+                                            "scheduledDepartureLocalTime":  "07:15:00",
+                                            "scheduledArrivalLocalTime":  "17:40:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 515: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000002",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA600",
+                                            "departureLocationCode":  "LIM",
+                                            "arrivalLocationCode":  "CUZ",
+                                            "scheduledDepartureLocalTime":  "07:20:00",
+                                            "scheduledArrivalLocalTime":  "08:55:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 600: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“CUZ"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000004",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA601",
+                                            "departureLocationCode":  "CUZ",
+                                            "arrivalLocationCode":  "LIM",
+                                            "scheduledDepartureLocalTime":  "17:10:00",
+                                            "scheduledArrivalLocalTime":  "18:45:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 601: CUZÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000003",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA602",
+                                            "departureLocationCode":  "LIM",
+                                            "arrivalLocationCode":  "BER",
+                                            "scheduledDepartureLocalTime":  "21:30:00",
+                                            "scheduledArrivalLocalTime":  "16:05:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 602: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BER"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000029",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/single",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Single Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000030",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000031",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/adjoining",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Adjoining Rooms"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000032",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000033",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/single",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Single Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000034",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/triple",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Triple Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000035",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000036",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/single",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Single Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000037",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000038",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/single",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Single Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000039",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000040",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000041",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/family",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Family Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000042",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/single",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Single Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000043",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/family",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Family Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000054",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Airport Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000055",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hotel Shuttle"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000056",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "City Center Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000057",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Private Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000058",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Shared Shuttle"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000059",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Airport Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000060",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hotel Shuttle"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000061",
+                         "type":  "product/mobility/rail",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Regional Rail Connection"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000062",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "City Center Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000063",
+                         "type":  "product/mobility/vehicle-rental",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Compact Car Rental"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000064",
+                         "type":  "product/mobility/coach",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Scheduled Coach Service"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000065",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Private Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000066",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Shared Shuttle"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000067",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Airport Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000068",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hotel Shuttle"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000079",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Coastal Day Boat Excursion"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000080",
+                         "type":  "product/water-transport/cruise",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Multi-Day Coastal Cruise"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000081",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Snorkeling Day Boat Trip"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000092",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cooking Class"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000093",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Snorkeling Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000094",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hiking Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000095",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cultural Workshop"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000096",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Wildlife Watching"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000097",
+                         "type":  "product/experience/guided-tour",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "City Walking Tour"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000098",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Local Market Visit"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000099",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cooking Class"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000100",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Snorkeling Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000101",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hiking Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000102",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cultural Workshop"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000103",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Wildlife Watching"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000104",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Local Market Visit"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000105",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cooking Class"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000106",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Snorkeling Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000117",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Standard Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000118",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Comprehensive Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000119",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Trip Cancellation Cover"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000120",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Medical Travel Cover"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  false
+                     },
+                     {
+                         "entityId":  "PRD-000019",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA921",
+                                            "departureLocationCode":  "BER",
+                                            "arrivalLocationCode":  "GIG",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 921: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000020",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP922",
+                                            "departureLocationCode":  "FRA",
+                                            "arrivalLocationCode":  "EZE",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 922: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000021",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA923",
+                                            "departureLocationCode":  "MUC",
+                                            "arrivalLocationCode":  "SCL",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 923: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000022",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP924",
+                                            "departureLocationCode":  "LIM",
+                                            "arrivalLocationCode":  "PUQ",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 924: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“PUQ"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000023",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA925",
+                                            "departureLocationCode":  "CUZ",
+                                            "arrivalLocationCode":  "BOG",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 925: CUZÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000024",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP926",
+                                            "departureLocationCode":  "GRU",
+                                            "arrivalLocationCode":  "UIO",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 926: GRUÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000025",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA927",
+                                            "departureLocationCode":  "GIG",
+                                            "arrivalLocationCode":  "BER",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 927: GIGÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BER"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000026",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP928",
+                                            "departureLocationCode":  "EZE",
+                                            "arrivalLocationCode":  "FRA",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 928: EZEÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“FRA"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000027",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "CA929",
+                                            "departureLocationCode":  "SCL",
+                                            "arrivalLocationCode":  "MUC",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 929: SCLÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“MUC"
+                                        },
+                         "supplierRoleId":  "ORG-000001-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000028",
+                         "type":  "product/airline/flight",
+                         "properties":  {
+                                            "flightNumber":  "BP930",
+                                            "departureLocationCode":  "PUQ",
+                                            "arrivalLocationCode":  "LIM",
+                                            "scheduledDepartureLocalTime":  "10:00:00",
+                                            "scheduledArrivalLocalTime":  "20:00:00",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Flight 930: PUQÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                        },
+                         "supplierRoleId":  "ORG-000002-AIRLINE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000044",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000045",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/family",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Family Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000046",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/twin",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Twin Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000047",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/triple",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Triple Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000048",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/single",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Single Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000049",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/suite",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Suite"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000050",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/family",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Family Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000051",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/double",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Double Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000052",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/cabin",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cabin"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000053",
+                         "type":  "product/accommodation/room-type",
+                         "properties":  {
+                                            "roomTypeCode":  "room/twin",
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Twin Room"
+                                        },
+                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000069",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "City Center Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000070",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Private Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000071",
+                         "type":  "product/mobility/rail",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Express Rail Connection"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000072",
+                         "type":  "product/mobility/coach",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Chartered Coach Service"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000073",
+                         "type":  "product/mobility/vehicle-rental",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "SUV Rental"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000074",
+                         "type":  "product/mobility/vehicle-rental",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Economy Car Rental"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000075",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Shared Shuttle"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000076",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Airport Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000077",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hotel Shuttle"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000078",
+                         "type":  "product/mobility/transfer",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "City Center Transfer"
+                                        },
+                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000082",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Sunset Day Boat Cruise"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000083",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Island-Hopping Day Boat"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000084",
+                         "type":  "product/water-transport/cruise",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "River Cruise"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000085",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Coastal Day Boat Excursion"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000086",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Snorkeling Day Boat Trip"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000087",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Sunset Day Boat Cruise"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000088",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Island-Hopping Day Boat"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000089",
+                         "type":  "product/water-transport/cruise",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Archipelago Cruise"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000090",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Coastal Day Boat Excursion"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000091",
+                         "type":  "product/water-transport/day-boat",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Snorkeling Day Boat Trip"
+                                        },
+                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000107",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hiking Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000108",
+                         "type":  "product/experience/guided-tour",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Guided Heritage Tour"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000109",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cultural Workshop"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000110",
+                         "type":  "product/experience/guided-tour",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Guided Nature Trek"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000111",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Wildlife Watching"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000112",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Local Market Visit"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000113",
+                         "type":  "product/experience/guided-tour",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Local Culture Tour"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000114",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Cooking Class"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000115",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Snorkeling Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000116",
+                         "type":  "product/experience/activity",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Hiking Activity"
+                                        },
+                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000121",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Standard Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000122",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Comprehensive Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000123",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Trip Cancellation Cover"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000124",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Medical Travel Cover"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000125",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Standard Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000126",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Comprehensive Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000127",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Trip Cancellation Cover"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000128",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Medical Travel Cover"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000129",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Standard Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     },
+                     {
+                         "entityId":  "PRD-000130",
+                         "type":  "product/protection/travel",
+                         "properties":  {
+                                            "lifecycleStatusCode":  "product/active",
+                                            "name":  "Comprehensive Travel Protection Plan"
+                                        },
+                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "parentProductId":  null,
+                         "reserve":  true
+                     }
+                 ]
 }

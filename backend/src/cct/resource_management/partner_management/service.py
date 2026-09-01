@@ -60,10 +60,11 @@ def create_orga_role(
 ) -> ValidatedEntity:
     if repository.get(EntityKind.ORGANISATION, organisation_id) is None:
         raise EntityNotFoundError(EntityKind.ORGANISATION, organisation_id)
-    if entity_id is not None and repository.get(EntityKind.ORGA_ROLE, entity_id) is not None:
-        raise DuplicateEntityError(EntityKind.ORGA_ROLE, entity_id)
-    role = repository.create_generated(entity_kind=EntityKind.ORGA_ROLE, type=type, properties=properties) if entity_id is None else repository.save(
-        {"entityId": entity_id, "entityKind": "OrgaRole", "type": type, "properties": properties}
+    role_id = entity_id or f"{organisation_id}-{type.rsplit('/', 1)[-1].upper()}"
+    if repository.get(EntityKind.ORGA_ROLE, role_id) is not None:
+        raise DuplicateEntityError(EntityKind.ORGA_ROLE, role_id)
+    role = repository.save(
+        {"entityId": role_id, "entityKind": "OrgaRole", "type": type, "properties": properties}
     )
     repository.create_relationship(
         from_kind=EntityKind.ORGANISATION,

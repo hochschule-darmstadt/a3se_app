@@ -14,7 +14,7 @@ from cct.resource_management.default_registry import create_entity_registry
 
 def flight(**overrides: object) -> dict[str, object]:
     properties: dict[str, object] = {
-        "flightNumber": "500",
+        "flightNumber": "CA500",
         "departureLocationCode": "FRA",
         "arrivalLocationCode": "GIG",
         "scheduledDepartureLocalTime": time(10, 30),

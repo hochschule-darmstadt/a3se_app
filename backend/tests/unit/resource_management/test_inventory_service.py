@@ -30,7 +30,7 @@ class StockItemServiceTest(unittest.TestCase):
             entity_id="I21-FLIGHT",
             type="product/airline/flight",
             properties={
-                "flightNumber": "500",
+                "flightNumber": "CA500",
                 "departureLocationCode": "FRA",
                 "arrivalLocationCode": "GIG",
                 "scheduledDepartureLocalTime": time(10, 30),

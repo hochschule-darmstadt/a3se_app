@@ -107,7 +107,7 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
           product: {
             type: "product/airline/flight",
             properties: expect.objectContaining({
-              flightNumber: "500",
+              flightNumber: "CA500",
               departureLocationCode: "FRA",
               arrivalLocationCode: "GIG",
               lifecycleStatusCode: "product/draft",

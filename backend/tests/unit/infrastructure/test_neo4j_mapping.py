@@ -66,7 +66,7 @@ class Neo4jMappingTest(unittest.TestCase):
     def test_direct_properties_remain_queryable_and_indexes_are_declared(self) -> None:
         entity = self.registry.validate(
             {"entityId": "FLT-02", "entityKind": "TouristicProductItem", "type": "product/airline/flight",
-             "properties": {"flightNumber": "500", "departureLocationCode": "FRA",
+             "properties": {"flightNumber": "CA500", "departureLocationCode": "FRA",
                             "arrivalLocationCode": "GIG", "scheduledDepartureLocalTime": time(10, 30),
                             "scheduledArrivalLocalTime": time(18, 45)}}
         )
@@ -86,7 +86,7 @@ class Neo4jMappingTest(unittest.TestCase):
     def test_optional_null_is_omitted_but_missing_required_value_is_invalid(self) -> None:
         entity = self.registry.validate(
             {"entityId": "FLT-02", "entityKind": "TouristicProductItem", "type": "product/airline/flight",
-             "properties": {"flightNumber": "500", "departureLocationCode": "FRA",
+             "properties": {"flightNumber": "CA500", "departureLocationCode": "FRA",
                             "arrivalLocationCode": "GIG", "scheduledDepartureLocalTime": time(10, 30),
                             "scheduledArrivalLocalTime": time(18, 45), "aircraftTypeDesignator": None}}
         )

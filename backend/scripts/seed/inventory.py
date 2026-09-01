@@ -88,7 +88,7 @@ class StockItemSpec:
 
 def _product_ordinal(product_id: str) -> int:
     prefix, _, suffix = product_id.partition("-")
-    offset = 0 if prefix == "FLT" else 500
+    offset = 0 if prefix == "PRD" else 500
     match = re.match(r"\d+", suffix)
     if match is None:
         raise ValueError(f"product id has no numeric ordinal: {product_id}")
@@ -131,6 +131,7 @@ def generate_stock_specs(
     """
 
     specs: list[StockItemSpec] = []
+    stock_number = 1
     for product_type, stock_type, base_price in (
         (FLIGHT_TYPE, FLIGHT_STOCK_TYPE, FLIGHT_BASE_PRICE),
         (ROOM_CATEGORY_TYPE, ROOM_CATEGORY_STOCK_TYPE, ROOM_BASE_PRICE),
@@ -141,8 +142,9 @@ def generate_stock_specs(
                 guaranteed = (product_id, day) in guaranteed_dates
                 quantity = daily_quantity(product_id, day, guaranteed=guaranteed)
                 price = _daily_price(base_price, day)
-                specs.append(StockItemSpec(entity_id=f"STK-{product_id}-{day.isoformat()}", type=stock_type,
+                specs.append(StockItemSpec(entity_id=f"STK-{stock_number:06d}", type=stock_type,
                     product_id=product_id, service_date=day, unit_price_amount=price, capacity_quantity=quantity))
+                stock_number += 1
                 day += timedelta(days=1)
     return tuple(specs)
 
@@ -158,7 +160,7 @@ def ad_hoc_stock_spec(product_id: str, product_type: str, service_date: date) ->
     stock_type = PRODUCT_TYPE_TO_STOCK_TYPE[product_type]
     price = _daily_price(AD_HOC_BASE_PRICE, service_date)
     return StockItemSpec(
-        entity_id=f"STK-{product_id}-{service_date.isoformat()}",
+        entity_id="STK-000001",
         type=stock_type,
         product_id=product_id,
         service_date=service_date,

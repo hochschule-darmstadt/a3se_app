@@ -20,7 +20,7 @@ const FLIGHT_PRODUCT = {
   displayName: "0Q501 BER–LIM",
   displayNameChain: ["Nordwind Airways", "Airline", "0Q501 BER–LIM"],
   properties: {
-    flightNumber: "501",
+    flightNumber: "CA501",
     departureLocationCode: "BER",
     arrivalLocationCode: "LIM",
     scheduledDepartureLocalTime: "08:15:00",

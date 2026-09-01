@@ -2,7 +2,7 @@
 
 - Status: proposed
 - Owner: Architecture
-- Last reviewed: 2026-08-21
+- Last reviewed: 2026-09-01
 
 This technology-neutral logical entity model defines generic entity structures owned by Resources modules in the accepted [software architecture](../software-architecture/software-architecture.md). It was produced by iteratively refining the accepted [business objects](../../requirements/business-objects.md): recurring party roles and item structures were generalized while concrete business meaning remains expressed through types, properties, and relationships.
 
@@ -41,6 +41,22 @@ Owning modules shall validate properties at their boundaries before accepting st
 The accepted [flexible entity implementation](implementation.md) realizes these
 logical rules through strict module-owned Pydantic contracts and a direct,
 loss-aware Neo4j property mapping.
+
+## Entity identifiers and airline flight numbers
+
+`entityId` is the immutable system reference and is distinct from display names
+and business properties. Root entities use a six-digit sequence with `PER`
+(Person), `ORG` (Organisation), `PRD` (TouristicProductItem), `STK`
+(StockItem), and `ORD` (OrderItem) prefixes. PersonRole and OrgaRole IDs
+identify their owning root and role type, for example
+`PER-000035-TRAVELLER` and `ORG-000011-AIRLINE`. Order positions append their
+position sequence to the order ID.
+
+For `organisation/airline`, `airlineDesignator` is exactly two uppercase
+letters. A `product/airline/flight` stores the complete three-digit flight
+number together with that designator, such as `CA509`; the supplying role's
+designator must match the stored prefix. Synthetic seed designators are
+hypothetical and are not asserted to be assigned IATA codes.
 
 ## Entities and module ownership
 
