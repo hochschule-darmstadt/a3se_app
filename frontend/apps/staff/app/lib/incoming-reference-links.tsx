@@ -1,7 +1,7 @@
 import { Button, Group, Text } from "@mantine/core";
 import { Link, useLocation } from "react-router";
 import type { components } from "@cct/api-client";
-import { StatusBanner } from "@cct/ui";
+import { CctIcon, StatusBanner } from "@cct/ui";
 import { apiClient } from "../api";
 import { useApiQuery } from "@cct/api-client";
 
@@ -15,6 +15,13 @@ const labels: Record<string, string> = {
   stockItems: "inventory records",
   orders: "travel orders",
 };
+
+const referenceIcons = {
+  "/products": CctIcon.catalogue,
+  "/stock-items": CctIcon.inventory,
+  "/orders": CctIcon.order,
+  "/organisations": CctIcon.supplier,
+} as const;
 
 export function IncomingReferenceLinks({ kind, entityId, countKeys, targetPath, targetParam }: {
   readonly kind: ReferenceKind;
@@ -34,7 +41,8 @@ export function IncomingReferenceLinks({ kind, entityId, countKeys, targetPath, 
       const label = labels[key] ?? key;
       if (count === 0) return <Text size="sm" key={key}>0 {label}</Text>;
       const params = new URLSearchParams({ [targetParam]: entityId, returnTo: `${location.pathname}${location.search}` });
-      return <Button key={key} component={Link} to={`${targetPath}?${params.toString()}`} variant="subtle" size="compact-sm">{count} {label}</Button>;
+      const Icon = referenceIcons[targetPath as keyof typeof referenceIcons];
+      return <Button key={key} component={Link} to={`${targetPath}?${params.toString()}`} variant="subtle" size="compact-sm" leftSection={Icon ? <Icon size={16} aria-hidden /> : undefined}>{count} {label}</Button>;
     })}
   </Group>;
 }

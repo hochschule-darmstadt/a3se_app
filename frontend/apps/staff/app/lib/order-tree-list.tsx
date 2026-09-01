@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import type { components } from "@cct/api-client";
 import { useApiQuery } from "@cct/api-client";
-import { StatusBanner } from "@cct/ui";
+import { CctIcon, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { typeLabel } from "./catalogue-product-types";
@@ -141,7 +141,7 @@ function OrderTreeRow({
             ) : (
               <span style={{ display: "inline-block", width: 16, flexShrink: 0 }} />
             )}
-            <Text size="sm" truncate style={{ minWidth: 0 }}>{label}</Text>
+            <CctIcon.order size={18} aria-hidden /><Text size="sm" truncate style={{ minWidth: 0 }}>{label}</Text>
           </Group>
         </Table.Td>
         <Table.Td>
@@ -182,7 +182,7 @@ function OrderTreeRow({
                 <Table.Td style={{ overflow: "hidden" }}>
                   <Group gap="xs" wrap="nowrap" style={{ paddingLeft: 20, minWidth: 0 }}>
                     <span style={{ display: "inline-block", width: 16, flexShrink: 0 }} />
-                    <Text size="sm" truncate style={{ minWidth: 0 }}>{positionLabel}</Text>
+                    <CctIcon.inventory size={18} aria-hidden /><Text size="sm" truncate style={{ minWidth: 0 }}>{positionLabel}</Text>
                   </Group>
                 </Table.Td>
                 <Table.Td />

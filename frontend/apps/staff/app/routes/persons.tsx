@@ -4,7 +4,7 @@ import { useQueries } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, CursorPager, DataTable, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, CursorPager, DataTable, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { useAllPages } from "../lib/use-cursor-page";
@@ -109,8 +109,8 @@ export default function PersonsRoute() {
     <StaffShell breadcrumbs={[{ label: "Customers and travellers" }]}>
       <Stack gap="sm">
         <Group justify="space-between" align="center">
-          <Title order={1}>Customers and travellers</Title>
-          <Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create person</Button>
+          <Group gap="xs"><CctIcon.person size={28} aria-hidden /><Title order={1}>Customers and travellers</Title></Group>
+          <Button leftSection={<CctIcon.person size={18} aria-hidden />} onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create person</Button>
         </Group>
 
         <Grid gutter="xl">
@@ -150,7 +150,7 @@ export default function PersonsRoute() {
                       {
                         key: "name",
                         header: "Person",
-                        render: (row) => `${row.person.properties.givenName} ${row.person.properties.familyName}`,
+                        render: (row) => <Group gap="xs" wrap="nowrap"><CctIcon.person size={18} aria-hidden /><span>{row.person.properties.givenName} {row.person.properties.familyName}</span></Group>,
                       },
                       {
                         key: "roles",

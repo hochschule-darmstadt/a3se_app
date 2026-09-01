@@ -2,7 +2,7 @@ import { Badge, Button, Group, Stack, Text, TextInput, Title } from "@mantine/co
 import { type FormEvent, useEffect, useState } from "react";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, FormErrorSummary, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, FormErrorSummary, StatusBanner } from "@cct/ui";
 import { useApiMutation, useApiQuery } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
@@ -102,7 +102,7 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
 
   return (
     <Stack gap="md">
-      <Title order={1}>{organisation.properties.name}</Title>
+      <Group gap="xs"><CctIcon.supplier size={28} aria-hidden /><Title order={1}>{organisation.properties.name}</Title></Group>
 
       {editingOrganisation ? (
         <form onSubmit={handleOrganisationSubmit} aria-label="Edit organisation" noValidate>

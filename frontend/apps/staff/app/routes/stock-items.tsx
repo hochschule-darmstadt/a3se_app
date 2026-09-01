@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, CursorPager, DataTable, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, CursorPager, DataTable, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { CREATABLE_TYPE_OPTIONS } from "../lib/catalogue-product-types";
@@ -53,7 +53,7 @@ export default function StockItemsRoute() {
 
   return <StaffShell breadcrumbs={[{ label: "Inventory" }]}>
     <Stack gap="sm" style={{ height: "calc(100vh - 104px)" }}>
-      <Group justify="space-between" align="center"><Title order={1}>Inventory</Title><Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Add stock entry</Button></Group>
+      <Group justify="space-between" align="center"><Group gap="xs"><CctIcon.inventory size={28} aria-hidden /><Title order={1}>Inventory</Title></Group><Button leftSection={<CctIcon.inventory size={18} aria-hidden />} onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Add stock entry</Button></Group>
       <Grid gutter="xl" style={{ flex: 1, minHeight: 0 }}>
         <Grid.Col span={{ base: 12, md: 7 }} style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}>
           <Stack gap="sm" style={{ flex: "0 0 auto" }}>

@@ -2,7 +2,7 @@ import { Button, Group, Select, Stack, Text, TextInput, Title } from "@mantine/c
 import { type FormEvent, useState } from "react";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, FormErrorSummary, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, FormErrorSummary, StatusBanner } from "@cct/ui";
 import { useApiMutation } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
@@ -101,7 +101,7 @@ export function PersonCreatePanel({ onCreated, onCancel }: PersonCreatePanelProp
 
   return (
     <Stack gap="md">
-      <Title order={1}>Create person</Title>
+      <Group gap="xs"><CctIcon.person size={24} aria-hidden /><Title order={1}>Create person</Title></Group>
       <Text size="sm" c="dimmed">
         Creates a Person plus its initial customer or traveller role. Add further roles from the person's detail view.
       </Text>

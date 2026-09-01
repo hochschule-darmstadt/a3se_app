@@ -2,7 +2,7 @@ import { Badge, Group, Table, Text, UnstyledButton } from "@mantine/core";
 import { useState } from "react";
 
 import type { components } from "@cct/api-client";
-import { StatusBanner } from "@cct/ui";
+import { CctIcon, StatusBanner } from "@cct/ui";
 
 import { catalogueProperties, typeLabel } from "./catalogue-product-types";
 import { LIFECYCLE_STATUS_LABEL } from "./catalogue-product-types";
@@ -131,7 +131,7 @@ function ProductTreeRow({
             ) : (
               <span style={{ display: "inline-block", width: 16, flexShrink: 0 }} />
             )}
-            <Text size="sm" truncate style={{ minWidth: 0 }}>{label}</Text>
+            <CctIcon.catalogue size={18} aria-hidden /><Text size="sm" truncate style={{ minWidth: 0 }}>{label}</Text>
           </Group>
         </Table.Td>
         <Table.Td>

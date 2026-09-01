@@ -1,6 +1,6 @@
 import { Badge, Group, Stack, Text, Title } from "@mantine/core";
 import { useApiQuery } from "@cct/api-client";
-import { ApiErrorBanner, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { PositionHierarchies, Row } from "./order-detail-panel";
@@ -42,7 +42,7 @@ export function OrderPositionDetailPanel({
   return (
     <Stack gap="md">
       <Group justify="space-between" align="flex-start">
-        <Title order={1}>{label}</Title>
+        <Group gap="xs"><CctIcon.inventory size={28} aria-hidden /><Title order={1}>{label}</Title></Group>
         {position.stockItemId ? null : <Badge color="orange">Unresolved</Badge>}
       </Group>
       <Row label="ID"><Text size="sm">{position.positionId}</Text></Row>

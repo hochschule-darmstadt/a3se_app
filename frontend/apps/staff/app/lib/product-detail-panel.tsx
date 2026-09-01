@@ -3,7 +3,7 @@ import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, DataTable, FormErrorSummary, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, DataTable, FormErrorSummary, StatusBanner } from "@cct/ui";
 import { useApiMutation, useApiQuery } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
@@ -51,23 +51,23 @@ function ProductCrossLink({
   readonly children: ReactNode;
 }) {
   return (
-    <Anchor component={Link} to={to}>
-      {children}
-    </Anchor>
+    <Anchor component={Link} to={to}>{children}</Anchor>
   );
 }
 
 /** A compact record link used for hierarchy navigation within the detail panel. */
 function ProductChipLink({
   to,
+  icon: Icon = CctIcon.catalogue,
   children,
 }: {
   readonly to: string;
+  readonly icon?: typeof CctIcon.catalogue;
   readonly children: ReactNode;
 }) {
   return (
     <Badge component={Link} to={to} variant="light" size="lg" tt="none">
-      {children}
+      <Group gap={4} wrap="nowrap"><Icon size={16} aria-hidden />{children}</Group>
     </Badge>
   );
 }
@@ -218,7 +218,7 @@ export function ProductDetailPanel({
   return (
     <Stack gap="md">
       <Group justify="space-between" align="flex-start">
-        <Title order={1}>{label}</Title>
+        <Group gap="xs"><CctIcon.catalogue size={28} aria-hidden /><Title order={1}>{label}</Title></Group>
         {hasLifecycleStatus ? (
           <Badge color={isActive ? "green" : isRetired ? "gray" : undefined}>{LIFECYCLE_STATUS_LABEL[lifecycleStatusCode as LifecycleStatusCode]}</Badge>
         ) : null}
@@ -282,6 +282,7 @@ export function ProductDetailPanel({
                 ))}
                 {hierarchySupplier && supplierOrganisation ? (
                   <ProductChipLink
+                    icon={CctIcon.supplier}
                     to={organisationHref?.(supplierOrganisation.entityId, hierarchySupplier.entityId)
                       ?? `/organisations/${supplierOrganisation.entityId}#role-${hierarchySupplier.entityId}`}
                   >
@@ -290,6 +291,7 @@ export function ProductDetailPanel({
                 ) : null}
                 {supplierOrganisation ? (
                   <ProductChipLink
+                    icon={CctIcon.supplier}
                     to={organisationHref?.(supplierOrganisation.entityId)
                       ?? `/organisations/${supplierOrganisation.entityId}`}
                   >
@@ -346,7 +348,7 @@ export function ProductDetailPanel({
                 onChange={(event) => setSupplierRoleId(event.currentTarget.value)}
               />
               <Button type="submit" size="compact-sm" loading={supplierMutation.isPending}>
-                Set supplier
+                <><CctIcon.supplier size={16} aria-hidden />Set supplier</>
               </Button>
             </Group>
             {supplierMutation.isError ? <ApiErrorBanner error={supplierMutation.error} /> : null}
@@ -357,7 +359,7 @@ export function ProductDetailPanel({
       <div>
         <Group justify="space-between" align="center">
           <Title order={2}>Components</Title>
-          <Button size="compact-sm" variant="default" onClick={() => setAddingComponent((open) => !open)}>
+          <Button size="compact-sm" variant="default" leftSection={<CctIcon.catalogue size={16} aria-hidden />} onClick={() => setAddingComponent((open) => !open)}>
             {addingComponent ? "Cancel" : "Add component"}
           </Button>
         </Group>

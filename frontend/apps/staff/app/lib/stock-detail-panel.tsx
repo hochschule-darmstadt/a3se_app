@@ -3,7 +3,7 @@ import { type FormEvent, useState } from "react";
 import { Link } from "react-router";
 import type { components } from "@cct/api-client";
 import { useApiMutation, useApiQuery } from "@cct/api-client";
-import { ApiErrorBanner, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, StatusBanner } from "@cct/ui";
 import { apiClient, queryClient } from "../api";
 import { IncomingReferenceLinks } from "./incoming-reference-links";
 
@@ -17,7 +17,8 @@ export function StockDetailPanel({ stockItemId }: { readonly stockItemId: string
 }
 
 function HierarchyLink({ to, children }: { readonly to: string; readonly children: string }) {
-  return <Badge component={Link} to={to} variant="light" size="lg" tt="none">{children}</Badge>;
+  const Icon = to.startsWith("/organisations") ? CctIcon.supplier : CctIcon.catalogue;
+  return <Badge component={Link} to={to} variant="light" size="lg" tt="none"><Group gap={4} wrap="nowrap"><Icon size={16} aria-hidden />{children}</Group></Badge>;
 }
 
 function DetailRow({ label, value }: { readonly label: string; readonly value: string }) {
@@ -43,7 +44,7 @@ function StockDetail({ item }: { readonly item: StockItem }) {
 
   return <Stack gap="md">
     <Group justify="space-between" align="flex-start">
-      <Title order={1}>{displayName}</Title>
+          <Group gap="xs"><CctIcon.inventory size={28} aria-hidden /><Title order={1}>{displayName}</Title></Group>
       <Badge color={statusColor}>{item.availabilityState}</Badge>
     </Group>
 

@@ -279,3 +279,8 @@ explicit CORS, and the honest no-filter Customer catalogue behavior.
 [DR-0019](../../governance/decisions/0019-compute-resource-display-projections.md)
 defines API-owned display projections; [DR-0021](../../governance/decisions/0021-transaction-safe-prefixed-identifiers.md)
 remains the proposed source for the future generated-ID display contract.
+
+Staff routes do not render a breadcrumb trail. The persistent staff-area
+sidebar is the authoritative navigation context; route-level breadcrumb data,
+where retained for shared route signatures, is intentionally ignored by the
+staff shell.

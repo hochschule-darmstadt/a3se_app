@@ -2,7 +2,7 @@ import { Button, Group, Select, Stack, Text, TextInput, Title } from "@mantine/c
 import { type FormEvent, useState } from "react";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, FormErrorSummary, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, FormErrorSummary, StatusBanner } from "@cct/ui";
 import { useApiMutation } from "@cct/api-client";
 
 import { apiClient, queryClient } from "../api";
@@ -107,7 +107,7 @@ export function ProductCreatePanel({ onCreated, onCancel, parentProductId, typeO
 
   return (
     <Stack gap="md">
-      <Title order={parentProductId ? 3 : 1}>{isAddComponent ? "Add component" : "Create product"}</Title>
+      <Group gap="xs"><CctIcon.catalogue size={24} aria-hidden /><Title order={parentProductId ? 3 : 1}>{isAddComponent ? "Add component" : "Create product"}</Title></Group>
       <Text size="sm" c="dimmed">
         Creates a new draft TouristicProductItem{isAddComponent ? " contained by this product" : ""}. Its type selects
         the property schema (entity-model TERM-002).

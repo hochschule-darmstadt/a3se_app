@@ -4,13 +4,13 @@ import { type FormEvent, useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import type { components } from "@cct/api-client";
 import { useApiMutation, useApiQuery } from "@cct/api-client";
-import { ApiErrorBanner, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, StatusBanner } from "@cct/ui";
 import { apiClient, queryClient } from "../api";
 type OrderProperties = components["schemas"]["OrderHeaderProperties"];
 type OrderPositionDetail = components["schemas"]["OrderPositionDetail"];
 type StockItem = components["schemas"]["StockItemResponse"];
 const STATUSES = ["order/reserved", "order/paid", "order/fulfilled", "order/cancelled"].map(value => ({ value, label: value.replace("order/", "").replace(/^./, c => c.toUpperCase()) }));
-export function Chip({ to, children }: { readonly to: string; readonly children: ReactNode }) { return <Badge component={Link} to={to} variant="light" size="lg" tt="none">{children}</Badge>; }
+export function Chip({ to, children }: { readonly to: string; readonly children: ReactNode }) { return <Badge component={Link} to={to} variant="light" size="lg" tt="none"><Group gap={4} wrap="nowrap"><CctIcon.order size={16} aria-hidden />{children}</Group></Badge>; }
 export function Row({ label, children }: { readonly label: string; readonly children: ReactNode }) { return <Group align="flex-start"><Text fw={500} size="sm" w={150}>{label}</Text><Group gap="xs" style={{ flex: 1 }}>{children}</Group></Group>; }
 
 /**
@@ -78,7 +78,7 @@ export function OrderDetailPanel({ orderId, positionHref }: { readonly orderId: 
   if (query.status === "pending") return <StatusBanner kind="loading" title="Loading order…" />;
   if (query.status === "error") return <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} />;
   const detail = query.data;
-  return <Stack gap="md"><Group justify="space-between" align="flex-start"><Title order={1}>Order {detail.order.entityId}</Title><Badge>{detail.order.properties.orderStatusCode.replace("order/", "")}</Badge></Group>
+  return <Stack gap="md"><Group justify="space-between" align="flex-start"><Group gap="xs"><CctIcon.order size={28} aria-hidden /><Title order={1}>Order {detail.order.entityId}</Title></Group><Badge>{detail.order.properties.orderStatusCode.replace("order/", "")}</Badge></Group>
     {editing ? <form aria-label="Edit order" onSubmit={save}><Stack gap="xs"><Select label="Order status" data={STATUSES} value={status} onChange={value => setStatus(value as typeof status)} allowDeselect={false}/><Group><Button type="submit" loading={update.isPending}>Save changes</Button><Button variant="default" onClick={() => setEditing(false)}>Cancel changes</Button></Group>{update.isError ? <ApiErrorBanner error={update.error}/> : null}</Stack></form> : <Stack gap={6}><Row label="ID"><Text size="sm">{detail.order.entityId}</Text></Row><Row label="Type"><Text size="sm">{detail.order.type}</Text></Row><Row label="Customer hierarchy"><Chip to={`/orders?detail=${encodeURIComponent(orderId)}`}>Order {detail.order.entityId}</Chip>{detail.customerRoleId && detail.customerDisplayName ? <Chip to={`/persons?detail=${encodeURIComponent(detail.customerPersonId!)}&role=${encodeURIComponent(detail.customerRoleId)}`}>{detail.customerDisplayName} · customer</Chip> : <Text size="sm">No customer assigned</Text>}{detail.customerPersonId && detail.customerDisplayName ? <Chip to={`/persons?detail=${encodeURIComponent(detail.customerPersonId)}`}>{detail.customerDisplayName}</Chip> : null}</Row><Group mt="xs"><Button onClick={() => setEditing(true)}>Edit order</Button></Group></Stack>}
     <div><Title order={2}>Positions</Title><Stack gap="xs" mt="xs">{positions.length === 0 ? <StatusBanner kind="empty" title="This order has no positions."/> : positions.map((position, index) => { const stock = stockQueries[index]?.data; const label = stock ? `${stock.productDisplayNameChain.join(" · ")} · ${stock.properties.serviceDate}` : position.positionId; return <Row key={position.positionId} label="Position"><Chip to={positionHref?.(position.positionId) ?? `/orders?detail=${encodeURIComponent(orderId)}&position=${encodeURIComponent(position.positionId)}`}>{label}</Chip></Row>; })}</Stack></div>
   </Stack>;

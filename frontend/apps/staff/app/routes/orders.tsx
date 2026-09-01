@@ -1,10 +1,10 @@
-import { Button, Checkbox, Grid, Group, Select, Stack, Text, TextInput, Title } from "@mantine/core";
-import { type FormEvent, useEffect, useState } from "react";
+import { Button, Checkbox, Grid, Group, Select, Stack, Text, TextInput, Title as MantineTitle } from "@mantine/core";
+import { type ComponentProps, type FormEvent, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import type { components } from "@cct/api-client";
 import { useApiMutation } from "@cct/api-client";
-import { ApiErrorBanner, CursorPager, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, CursorPager, StatusBanner } from "@cct/ui";
 import { apiClient, queryClient } from "../api";
 import { CREATABLE_TYPE_OPTIONS } from "../lib/catalogue-product-types";
 import { OrderDetailPanel } from "../lib/order-detail-panel";
@@ -14,6 +14,9 @@ import { StaffShell } from "../lib/shell";
 import { STAFF_VIEW_PARAM, patchStaffViewState, readStaffViewOption, staffViewHref } from "../lib/staff-view-state";
 import { useCursorPage } from "../lib/use-cursor-page";
 type Order = components["schemas"]["OrderSummaryResponse"];
+function Title(props: ComponentProps<typeof MantineTitle>) {
+  return props.children === "Orders" ? <MantineTitle {...props}><span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><CctIcon.order size={28} aria-hidden />{props.children}</span></MantineTitle> : <MantineTitle {...props} />;
+}
 const STATUS = ["order/reserved", "order/paid", "order/fulfilled", "order/cancelled"].map(value => ({ value, label: value.replace("order/", "").replace(/^./, c => c.toUpperCase()) }));
 const PRODUCT_TYPE_OPTIONS = CREATABLE_TYPE_OPTIONS.map(option => ({ value: option.value, label: option.label }));
 export function meta() { return [{ title: "Orders — CCT Staff" }]; }
@@ -21,7 +24,7 @@ function CreateOrder({ onCreated, onCancel }: { readonly onCreated: (id: string)
   const [customerRoleId, setCustomerRoleId] = useState("");
   const mutation = useMutation({ mutationFn: async () => { const result = await apiClient.POST("/orders", { body: { properties: { orderStatusCode: "order/reserved" } } }); if (result.error) throw result.error; const assigned = await apiClient.PUT("/orders/{order_id}/customer", { params: { path: { order_id: result.data.entityId } }, body: { customerRoleId } }); if (assigned.error) throw assigned.error; return result.data; } });
   function submit(event: FormEvent) { event.preventDefault(); mutation.mutate(undefined, { onSuccess: (order) => { void queryClient.invalidateQueries({ queryKey: ["orders"] }); onCreated(order.entityId); } }); }
-  return <Stack gap="md"><Title order={1}>Add order</Title><form onSubmit={submit}><Stack gap="xs"><TextInput required label="Customer role ID" value={customerRoleId} onChange={e => setCustomerRoleId(e.currentTarget.value)}/><Group><Button type="submit" loading={mutation.isPending}>Add order</Button><Button variant="default" onClick={onCancel}>Cancel</Button></Group>{mutation.isError ? <Text c="red" size="sm">Could not add the order. Check the customer role ID.</Text> : null}</Stack></form></Stack>;
+  return <Stack gap="md"><Group gap="xs"><CctIcon.order size={24} aria-hidden /><Title order={1}>Add order</Title></Group><form onSubmit={submit}><Stack gap="xs"><TextInput required label="Customer role ID" value={customerRoleId} onChange={e => setCustomerRoleId(e.currentTarget.value)}/><Group><Button leftSection={<CctIcon.order size={18} aria-hidden />} type="submit" loading={mutation.isPending}>Add order</Button><Button variant="default" onClick={onCancel}>Cancel</Button></Group>{mutation.isError ? <Text c="red" size="sm">Could not add the order. Check the customer role ID.</Text> : null}</Stack></form></Stack>;
 }
 export default function OrdersRoute() {
   const [params, setParams] = useSearchParams(); const search = params.get(STAFF_VIEW_PARAM.search) ?? ""; const from = params.get(STAFF_VIEW_PARAM.fromDate) ?? ""; const to = params.get(STAFF_VIEW_PARAM.toDate) ?? ""; const unresolved = params.get(STAFF_VIEW_PARAM.unresolved) === "true"; const status = readStaffViewOption(params, STAFF_VIEW_PARAM.status, STATUS.map(x => x.value)); const productType = readStaffViewOption(params, STAFF_VIEW_PARAM.type, PRODUCT_TYPE_OPTIONS.map(x => x.value)); const detail = params.get(STAFF_VIEW_PARAM.detail); const position = params.get(STAFF_VIEW_PARAM.position); const creating = params.get(STAFF_VIEW_PARAM.panel) === "create"; const customerRoleId = params.get("customerRoleId"); const travellerRoleId = params.get("travellerRoleId"); const stockItemId = params.get("stockItemId");

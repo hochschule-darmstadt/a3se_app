@@ -4,7 +4,7 @@ import { useQueries } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, CursorPager, DataTable, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, CursorPager, DataTable, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { useAllPages } from "../lib/use-cursor-page";
@@ -108,8 +108,8 @@ export default function OrganisationsRoute() {
     <StaffShell breadcrumbs={[{ label: "Suppliers and partners" }]}>
       <Stack gap="sm">
         <Group justify="space-between" align="center">
-          <Title order={1}>Suppliers and partners</Title>
-          <Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create organisation</Button>
+          <Group gap="xs"><CctIcon.supplier size={28} aria-hidden /><Title order={1}>Suppliers and partners</Title></Group>
+          <Button leftSection={<CctIcon.supplier size={18} aria-hidden />} onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create organisation</Button>
         </Group>
 
         <Grid gutter="xl">

@@ -19,6 +19,7 @@ type IconComponent = ComponentType<{ size?: number | string; "aria-hidden"?: boo
 export interface BreadcrumbItem {
   readonly label: string;
   readonly to?: string;
+  readonly icon?: IconComponent;
 }
 
 /** Lets the UI package stay router-agnostic: callers inject their framework's `Link`. */
@@ -73,11 +74,22 @@ function ShellBreadcrumbs({ items, linkComponent: Link }: { items: readonly Brea
                 </Text>
               ) : null}
               {isLast || !item.to ? (
-                <Text fw={isLast ? 700 : undefined} aria-current={isLast ? "page" : undefined}>
-                  {item.label}
-                </Text>
+                <Group gap={4} wrap="nowrap">
+                  {item.icon ? <item.icon size={16} aria-hidden /> : null}
+                  <Text fw={isLast ? 700 : undefined} aria-current={isLast ? "page" : undefined}>
+                    {item.label}
+                  </Text>
+                </Group>
               ) : (
-                Link({ to: item.to, children: item.label })
+                Link({
+                  to: item.to,
+                  children: (
+                    <Group gap={4} wrap="nowrap">
+                      {item.icon ? <item.icon size={16} aria-hidden /> : null}
+                      <span>{item.label}</span>
+                    </Group>
+                  ),
+                })
               )}
             </Group>
           );

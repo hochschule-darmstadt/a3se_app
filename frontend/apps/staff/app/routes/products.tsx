@@ -4,7 +4,7 @@ import { useQueries } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 
 import type { components } from "@cct/api-client";
-import { ApiErrorBanner, CursorPager, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, CctIcon, CursorPager, StatusBanner } from "@cct/ui";
 
 import { apiClient } from "../api";
 import { useAllPages } from "../lib/use-cursor-page";
@@ -125,8 +125,8 @@ export default function ProductsRoute() {
     <StaffShell breadcrumbs={[{ label: "Touristic product catalogue" }]}>
       <Stack gap="sm" style={{ height: "calc(100vh - 104px)" }}>
         <Group justify="space-between" align="center">
-          <Title order={1}>Touristic product catalogue</Title>
-          <Button onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create product</Button>
+          <Group gap="xs"><CctIcon.catalogue size={28} aria-hidden /><Title order={1}>Touristic product catalogue</Title></Group>
+          <Button leftSection={<CctIcon.catalogue size={18} aria-hidden />} onClick={() => updateView({ [STAFF_VIEW_PARAM.panel]: "create", [STAFF_VIEW_PARAM.detail]: null })}>Create product</Button>
         </Group>
 
         {/*

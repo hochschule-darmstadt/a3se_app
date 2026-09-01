@@ -1,7 +1,7 @@
-import { Button, SimpleGrid, Stack, Title } from "@mantine/core";
+import { Button, Group, SimpleGrid, Stack, Title } from "@mantine/core";
 import { Link } from "react-router";
 
-import { ResourceCard } from "@cct/ui";
+import { CctIcon, ResourceCard } from "@cct/ui";
 
 import { NAV_LINKS, StaffShell } from "../lib/shell";
 
@@ -34,7 +34,7 @@ export default function StaffHome() {
   return (
     <StaffShell breadcrumbs={[{ label: "Staff Portal Home" }]}>
       <Stack gap="lg">
-        <Title order={1}>CCT Staff Portal</Title>
+        <Group gap="xs"><CctIcon.home size={28} aria-hidden /><Title order={1}>CCT Staff Portal</Title></Group>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
           {areaLinks.map((link) => {
             const Icon = link.icon;
