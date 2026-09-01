@@ -301,7 +301,7 @@ export function ProductDetailPanel({
               </Group>
             </Group>
           ) : null}
-          {productPropertyEntries(product.properties).map(({ key, label, value }) => (
+          {productPropertyEntries(product.properties, product.type).map(({ key, label, value }) => (
             <Group key={key}>
               <Text fw={500} size="sm" w={200}>{label}</Text>
               <Text size="sm">{value}</Text>

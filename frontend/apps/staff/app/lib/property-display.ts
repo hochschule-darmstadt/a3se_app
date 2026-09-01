@@ -32,17 +32,30 @@ function humanizePropertyKey(key: string): string {
  */
 export function propertyDisplayEntries(
   properties: unknown,
-  options: { readonly skipKeys?: readonly string[]; readonly valueLabels?: Readonly<Record<string, Record<string, string>>> } = {}
+  options: {
+    readonly skipKeys?: readonly string[];
+    readonly valueLabels?: Readonly<Record<string, Record<string, string>>>;
+    readonly valueFormatters?: Readonly<Record<string, (value: unknown) => string>>;
+    readonly orderKeys?: readonly string[];
+  } = {}
 ): PropertyDisplayEntry[] {
   const record = (properties ?? {}) as Record<string, unknown>;
   const skip = new Set(options.skipKeys ?? []);
+  const order = new Map((options.orderKeys ?? []).map((key, index) => [key, index]));
   return Object.keys(record)
     .filter((key) => !skip.has(key))
     .filter((key) => record[key] !== null && record[key] !== undefined && record[key] !== "")
-    .sort()
+    .sort((left, right) => {
+      const leftOrder = order.get(left);
+      const rightOrder = order.get(right);
+      if (leftOrder !== undefined || rightOrder !== undefined) {
+        return (leftOrder ?? Number.MAX_SAFE_INTEGER) - (rightOrder ?? Number.MAX_SAFE_INTEGER);
+      }
+      return left.localeCompare(right);
+    })
     .map((key) => {
       const raw = record[key];
-      const value = options.valueLabels?.[key]?.[String(raw)] ?? String(raw);
+      const value = options.valueFormatters?.[key]?.(raw) ?? options.valueLabels?.[key]?.[String(raw)] ?? String(raw);
       return { key, label: humanizePropertyKey(key), value };
     });
 }

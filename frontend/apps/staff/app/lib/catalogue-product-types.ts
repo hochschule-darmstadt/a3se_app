@@ -110,9 +110,24 @@ export function catalogueProperties(properties: unknown): { name?: string | null
 }
 
 /** Every property beyond source name and lifecycle, which have dedicated controls/presentation. */
-export function productPropertyEntries(properties: unknown): PropertyDisplayEntry[] {
+export function productPropertyEntries(properties: unknown, type?: string): PropertyDisplayEntry[] {
   return propertyDisplayEntries(properties, {
     skipKeys: ["name", "lifecycleStatusCode"],
     valueLabels: { roomTypeCode: ROOM_TYPE_LABEL },
+    valueFormatters: type === "product/airline/flight"
+      ? {
+          scheduledDepartureLocalTime: (value) => String(value).slice(0, 5),
+          scheduledArrivalLocalTime: (value) => String(value).slice(0, 5),
+        }
+      : undefined,
+    orderKeys: type === "product/airline/flight"
+      ? [
+          "flightNumber",
+          "departureLocationCode",
+          "scheduledDepartureLocalTime",
+          "arrivalLocationCode",
+          "scheduledArrivalLocalTime",
+        ]
+      : undefined,
   });
 }

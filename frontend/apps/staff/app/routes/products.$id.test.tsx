@@ -139,9 +139,23 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     await screen.findByRole("heading", { level: 1, name: "Nordwind Airways · Airline · 0Q500 FRA–GIG" });
 
     expect(screen.getByText("Flight number")).toBeInTheDocument();
-    expect(screen.getByText("500")).toBeInTheDocument();
+    expect(screen.getByText("CA500")).toBeInTheDocument();
     expect(screen.getByText("Departure location")).toBeInTheDocument();
     expect(screen.getByText("FRA")).toBeInTheDocument();
+    expect(screen.getByText("10:30")).toBeInTheDocument();
+    expect(screen.getByText("18:45")).toBeInTheDocument();
+    expect(screen.queryByText("10:30:00")).not.toBeInTheDocument();
+    expect(screen.queryByText("18:45:00")).not.toBeInTheDocument();
+    const detailLabels = [
+      "Flight number",
+      "Departure location",
+      "Scheduled departure local time",
+      "Arrival location",
+      "Scheduled arrival local time",
+    ].map((label) => screen.getByText(label));
+    for (let index = 1; index < detailLabels.length; index += 1) {
+      expect(detailLabels[index - 1]!.compareDocumentPosition(detailLabels[index]!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    }
     // aircraftTypeDesignator is null on this fixture -- no row, and no "—" placeholder either.
     expect(screen.queryByText(/aircraft type/i)).not.toBeInTheDocument();
     expect(screen.queryByText("—")).not.toBeInTheDocument();
