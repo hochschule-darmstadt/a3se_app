@@ -537,6 +537,22 @@ export interface components {
         };
         /** EmptyProductProperties */
         EmptyProductProperties: {
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: string | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -609,6 +625,22 @@ export interface components {
             departureLocationCode: string;
             /** Flightnumber */
             flightNumber: string;
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: string | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -638,6 +670,22 @@ export interface components {
             departureLocationCode: string;
             /** Flightnumber */
             flightNumber: string;
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: string | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -677,6 +725,8 @@ export interface components {
         };
         /** OrderCreateRequest */
         OrderCreateRequest: {
+            /** Entityid */
+            entityId?: string | null;
             properties: components["schemas"]["OrderHeaderProperties"];
         };
         /** OrderDetailResponse */
@@ -693,6 +743,8 @@ export interface components {
         };
         /** OrderHeaderProperties */
         OrderHeaderProperties: {
+            /** Ordernumber */
+            orderNumber?: string | null;
             /**
              * Orderstatuscode
              * @enum {string}
@@ -1052,6 +1104,22 @@ export interface components {
         };
         /** RoomCategoryProperties */
         RoomCategoryProperties: {
+            /** Imagealttext */
+            imageAltText?: string | null;
+            /** Imageattributiontext */
+            imageAttributionText?: string | null;
+            /** Imagecreatorcredit */
+            imageCreatorCredit?: string | null;
+            /** Imagelicencecode */
+            imageLicenceCode?: string | null;
+            /** Imagelicenceversion */
+            imageLicenceVersion?: string | null;
+            /** Imagesourcepageurl */
+            imageSourcePageUrl?: string | null;
+            /** Imageurl */
+            imageUrl?: string | null;
+            /** Imageverifieddate */
+            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft

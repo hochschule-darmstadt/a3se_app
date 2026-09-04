@@ -1,6 +1,6 @@
 """Touristic Product Management flexible-property contracts."""
 
-from datetime import time
+from datetime import date, time
 from typing import Literal
 
 from pydantic import Field, model_validator
@@ -34,6 +34,14 @@ class CatalogueItemProperties(StrictProperties):
     lifecycle_status_code: Literal["product/draft", "product/active", "product/retired"] = Field(
         default="product/draft", alias="lifecycleStatusCode"
     )
+    image_alt_text: str | None = Field(default=None, alias="imageAltText", min_length=1, max_length=500)
+    image_licence_version: str | None = Field(default=None, alias="imageLicenceVersion", min_length=1, max_length=50)
+    image_creator_credit: str | None = Field(default=None, alias="imageCreatorCredit", min_length=1, max_length=500)
+    image_licence_code: str | None = Field(default=None, alias="imageLicenceCode", min_length=1, max_length=100)
+    image_verified_date: date | None = Field(default=None, alias="imageVerifiedDate")
+    image_url: str | None = Field(default=None, alias="imageUrl", min_length=1, max_length=2000)
+    image_source_page_url: str | None = Field(default=None, alias="imageSourcePageUrl", min_length=1, max_length=2000)
+    image_attribution_text: str | None = Field(default=None, alias="imageAttributionText", min_length=1, max_length=1000)
 
 
 class FlightProperties(CatalogueItemProperties):
@@ -51,6 +59,12 @@ class FlightProperties(CatalogueItemProperties):
         if self.departure_location_code == self.arrival_location_code:
             raise ValueError("departureLocationCode must differ from arrivalLocationCode")
         return self
+
+
+class LegacyFlightProperties(FlightProperties):
+    """Read contract for deprecated `product/flight` persisted rows."""
+
+    flight_number: str = Field(alias="flightNumber", pattern=r"^[0-9]{1,4}$")
 
 
 class RoomCategoryProperties(CatalogueItemProperties):

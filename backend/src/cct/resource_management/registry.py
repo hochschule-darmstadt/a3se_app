@@ -41,6 +41,12 @@ class EntityTypeRegistry:
         key = (EntityKind(str(structural["entityKind"])), structural.get("type"))
         contract = self._contracts[key]
         restored = dict(properties)
+        # Older catalogue rows predate the required product `name`. Keep the
+        # write contract strict while giving those persisted rows a stable,
+        # non-mutating read projection until they are explicitly migrated.
+        name_field = contract.model_fields.get("name")
+        if key[0] is EntityKind.TOURISTIC_PRODUCT_ITEM and name_field and name_field.is_required() and "name" not in restored:
+            restored["name"] = str(structural["entityId"])
         for field_name, field in contract.model_fields.items():
             alias = field.alias or field_name
             if field.annotation is Decimal and alias in restored and isinstance(restored[alias], str):

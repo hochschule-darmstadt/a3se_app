@@ -30,6 +30,7 @@ router = APIRouter(prefix="/orders", tags=["orders"])
 class OrderCreateRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    entity_id: str | None = Field(default=None, alias="entityId", min_length=1, max_length=100)
     properties: OrderHeaderProperties
 
 
@@ -153,7 +154,7 @@ ActorDependency = Annotated[Actor, Depends(get_current_actor)]
 )
 def create_order(request: OrderCreateRequest, repository: RepositoryDependency, actor: ActorDependency) -> OrderResponse:
     entity = service.create_order(
-        repository, entity_id=request.entity_id, properties=request.properties.model_dump(by_alias=True)
+        repository, entity_id=request.entity_id, properties=request.properties.model_dump(by_alias=True, exclude_none=True)
     )
     return OrderResponse.from_domain(entity)
 
@@ -191,7 +192,7 @@ def list_orders(repository: RepositoryDependency, params: Annotated[OrderPagePar
     responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
 def update_order(order_id: str, request: OrderUpdateRequest, repository: RepositoryDependency, actor: ActorDependency) -> OrderResponse:
-    entity = service.update_order(repository, order_id, properties=request.properties.model_dump(by_alias=True))
+    entity = service.update_order(repository, order_id, properties=request.properties.model_dump(by_alias=True, exclude_none=True))
     return OrderResponse.from_domain(entity)
 
 

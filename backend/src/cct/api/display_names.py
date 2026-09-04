@@ -25,6 +25,12 @@ ORGA_ROLE_LABELS = {
     "organisation/water-transport": "Water transport",
     "organisation/experience": "Experience",
     "organisation/protection": "Protection",
+    "partner/supplier/airline": "Airline",
+    "partner/supplier/accommodation": "Accommodation",
+    "partner/supplier/mobility": "Mobility",
+    "partner/supplier/water-transport": "Water transport",
+    "partner/supplier/experience": "Experience",
+    "partner/supplier/protection": "Protection",
 }
 ROOM_TYPE_LABELS = {
     "room/single": "Single room",
@@ -101,17 +107,19 @@ def _supplier_role(repository: EntityRepositoryPort, product: ValidatedEntity) -
 
 def _product_label(entity: ValidatedEntity, supplier: ValidatedEntity | None) -> str:
     properties = _properties(entity)
-    if entity.type == "product/airline/flight":
-        if supplier is None or supplier.type != "organisation/airline":
+    if entity.type in {"product/airline/flight", "product/flight"}:
+        if supplier is None or supplier.type not in {"organisation/airline", "partner/supplier/airline"}:
             raise InvalidEntityGraphError(entity.entity_id, "flight requires one supplying airline role")
         designator = _properties(supplier).get("airlineDesignator")
         if not designator:
             raise InvalidEntityGraphError(entity.entity_id, "supplying airline role has no airlineDesignator")
         flight_number = properties["flightNumber"]
+        if entity.type == "product/flight":
+            flight_number = f"{designator}{flight_number}"
         if not isinstance(flight_number, str) or not flight_number.startswith(str(designator)):
             raise InvalidEntityGraphError(entity.entity_id, "flight number does not match supplying airline designator")
         return f"{flight_number} {properties['departureLocationCode']}–{properties['arrivalLocationCode']}"
-    if entity.type == "product/accommodation/room-type":
+    if entity.type in {"product/accommodation/room-type", "product/accommodation/room-category"}:
         code = str(properties["roomTypeCode"])
         try:
             return ROOM_TYPE_LABELS[code]

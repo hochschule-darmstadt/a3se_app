@@ -127,6 +127,18 @@ class FlexibleEntityValidationTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unsupported entity contract"):
             self.registry.validate(candidate)
 
+    def test_restore_projects_identifier_for_legacy_unnamed_product_but_create_validation_stays_strict(self) -> None:
+        structural = {
+            "entityId": "EXP-01",
+            "entityKind": "TouristicProductItem",
+            "type": "product/experience/activity",
+            "schemaVersion": 1,
+        }
+        restored = self.registry.restore(structural=structural, properties={})
+        self.assertEqual("EXP-01", restored.properties.name)
+        with self.assertRaises(ValidationError):
+            self.registry.validate({**structural, "properties": {}})
+
     def test_unknown_schema_version_requires_migration(self) -> None:
         candidate = flight()
         candidate["schemaVersion"] = 2

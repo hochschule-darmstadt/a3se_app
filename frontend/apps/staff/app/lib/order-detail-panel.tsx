@@ -73,7 +73,7 @@ export function OrderDetailPanel({ orderId, positionHref }: { readonly orderId: 
   const stockQueries = useQueries({ queries: positions.map(position => ({ queryKey: ["stock-items", position.stockItemId], enabled: Boolean(position.stockItemId), queryFn: async () => { const { data, error } = await apiClient.GET("/stock-items/{stock_item_id}", { params: { path: { stock_item_id: position.stockItemId! } } }); if (error) throw error; return data as StockItem; } })) });
   const [editing, setEditing] = useState(false); const [status, setStatus] = useState<OrderProperties["orderStatusCode"]>("order/reserved");
   useEffect(() => { if (query.data) setStatus(query.data.order.properties.orderStatusCode); }, [query.data]);
-  const update = useApiMutation((next: OrderProperties["orderStatusCode"]) => apiClient.PUT("/orders/{order_id}", { params: { path: { order_id: orderId } }, body: { properties: { orderStatusCode: next } } }));
+  const update = useApiMutation((next: OrderProperties["orderStatusCode"]) => apiClient.PUT("/orders/{order_id}", { params: { path: { order_id: orderId } }, body: { properties: { orderNumber: query.data?.order.properties.orderNumber ?? undefined, orderStatusCode: next } } }));
   function save(event: FormEvent) { event.preventDefault(); update.mutate(status, { onSuccess: () => { setEditing(false); void queryClient.invalidateQueries({ queryKey: ["orders"] }); } }); }
   if (query.status === "pending") return <StatusBanner kind="loading" title="Loading order…" />;
   if (query.status === "error") return <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} />;
