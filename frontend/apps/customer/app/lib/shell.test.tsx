@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -62,7 +62,8 @@ describe("CustomerShell (DS-CMP-001 customer profile, issue #27 phase 2)", () =>
     renderShell();
 
     await user.click(screen.getByRole("button", { name: /guest.*sign in/i }));
-    await user.click(await screen.findByRole("menuitem", { name: "Sign in" }));
+    const signInItem = await screen.findByRole("menuitem", { name: "Sign in" });
+    fireEvent.click(signInItem);
 
     expect(await screen.findByText("Sign-in page")).toBeInTheDocument();
   });

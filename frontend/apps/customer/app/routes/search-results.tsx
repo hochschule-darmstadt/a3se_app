@@ -84,7 +84,7 @@ export default function SearchResults() {
             </SimpleGrid>
             <CursorPager hasPrevious={cursorStack.length > 0} hasNext={Boolean(query.data.nextCursor)} onPrevious={goPrevious} onNext={goNext} loading={query.isFetching} />
           </> : null}
-          <Link to="/">{t("results.revise")}</Link>
+          <Link to={`/?${searchParams.toString()}`}>{t("results.revise")}</Link>
         </Stack>
       </Container>
     </CustomerShell>

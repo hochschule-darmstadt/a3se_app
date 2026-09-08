@@ -1,7 +1,7 @@
 import { Button, Card, Container, Group, Paper, Select, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
 import { FormErrorSummary } from "@cct/ui";
 import { type FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { useT } from "../i18n";
 import { CustomerShell } from "../lib/shell";
@@ -20,11 +20,12 @@ const QUICK_LINKS = [
 export default function CustomerHome() {
   const t = useT();
   const navigate = useNavigate();
-  const [destinationOrTheme, setDestinationOrTheme] = useState("");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [travellers, setTravellers] = useState("1");
-  const [departureLocationCode, setDepartureLocationCode] = useState("any");
+  const [searchParams] = useSearchParams();
+  const [destinationOrTheme, setDestinationOrTheme] = useState(() => searchParams.get("destinationOrTheme") ?? "");
+  const [dateFrom, setDateFrom] = useState(() => searchParams.get("dateFrom") ?? "");
+  const [dateTo, setDateTo] = useState(() => searchParams.get("dateTo") ?? "");
+  const [travellers, setTravellers] = useState(() => searchParams.get("travellers") ?? "1");
+  const [departureLocationCode, setDepartureLocationCode] = useState(() => searchParams.get("departureLocationCode") ?? "any");
   const [errors, setErrors] = useState<string[]>([]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {

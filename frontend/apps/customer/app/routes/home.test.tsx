@@ -18,6 +18,11 @@ function renderHome() {
   );
 }
 
+function renderHomeWithCriteria() {
+  const Stub = createRoutesStub([{ path: "/", Component: CustomerHome }]);
+  return render(<TestProviders><Stub initialEntries={["/?destinationOrTheme=Peru&dateFrom=2027-04-01&dateTo=2027-04-06&travellers=2&departureLocationCode=BER"]} /></TestProviders>);
+}
+
 describe("CustomerHome (VIEW-C-001 structured search)", () => {
   it("shows validation errors and does not navigate when the form is submitted empty", async () => {
     const user = userEvent.setup();
@@ -44,5 +49,15 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
     await user.click(screen.getByRole("button", { name: "Search the catalogue" }));
 
     expect(await screen.findByText("Search results page")).toBeInTheDocument();
+  });
+
+  it("restores criteria when opened with the revise-criteria URL", () => {
+    renderHomeWithCriteria();
+
+    expect(screen.getByLabelText("Destination or theme")).toHaveValue("Peru");
+    expect(screen.getByLabelText("Earliest departure")).toHaveValue("2027-04-01");
+    expect(screen.getByLabelText("Latest return")).toHaveValue("2027-04-06");
+    expect(screen.getAllByLabelText("Number of travellers").find((element) => element.tagName === "INPUT")).toHaveValue("2");
+    expect(screen.getAllByLabelText("Departure region").find((element) => element.tagName === "INPUT")).toHaveValue("BER");
   });
 });
