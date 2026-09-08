@@ -9,6 +9,8 @@ const putMock = vi.fn();
 vi.mock("../api", () => ({ apiClient: { GET: (...a: unknown[]) => getMock(...a), PUT: (...a: unknown[]) => putMock(...a) }, queryClient: { invalidateQueries: vi.fn() } }));
 const { default: Route } = await import("./order-detail");
 const { OrderPositionDetailPanel } = await import("../lib/order-position-detail-panel");
+const { chipIcon } = await import("../lib/order-detail-panel");
+const { CctIcon } = await import("@cct/ui");
 const order = { entityId: "ORD-001", entityKind: "OrderItem", schemaVersion: 1, type: "order/header", properties: { orderNumber: "6001", orderStatusCode: "order/reserved" } };
 const stock = { entityId: "STOCK-1", productId: "PROD-1", productDisplayNameChain: ["Andes & Atlantic Guides", "Experience", "Hiking Activity"], productAncestors: [], supplierRole: null, supplierOrganisationId: null, supplierDisplayName: null, properties: { serviceDate: "2027-08-03" } };
 const detail = { order, customerRoleId: "PER-1-C", customerPersonId: "PER-1", customerDisplayName: "Ada Kern", positions: [{ positionId: "POS-1", productId: null, stockItemId: "STOCK-1", travellers: [{ roleId: "PER-2-T", personId: "PER-2", displayName: "Emil Brandt" }] }] };
@@ -18,6 +20,13 @@ function mockDetailAndStock() { getMock.mockImplementation((path: string) => pat
 afterEach(() => { cleanup(); getMock.mockReset(); putMock.mockReset(); });
 
 describe("OrderDetailRoute", () => {
+  it("uses the destination entity icon for mixed hierarchy chips", () => {
+    expect(chipIcon("/orders?detail=ORD-001")).toBe(CctIcon.order);
+    expect(chipIcon("/stock-items?detail=STOCK-1")).toBe(CctIcon.inventory);
+    expect(chipIcon("/products?detail=PROD-1")).toBe(CctIcon.catalogue);
+    expect(chipIcon("/organisations?detail=ORG-1")).toBe(CctIcon.supplier);
+    expect(chipIcon("/persons?detail=PER-1")).toBe(CctIcon.person);
+  });
   it("renders each position as a display-name chip on its own row", async () => { mockDetailAndStock(); mount(); expect(await screen.findByRole("link", { name: "Andes & Atlantic Guides · Experience · Hiking Activity · 2027-08-03" })).toHaveAttribute("href", "/orders?detail=ORD-001&position=POS-1"); });
   it("edits status only after opening the edit form", async () => { mockDetailAndStock(); putMock.mockResolvedValue({ data: order, response: { ok: true, status: 200 } }); mount(); const user = userEvent.setup(); await user.click(await screen.findByRole("button", { name: "Edit order" })); await user.click(screen.getByRole("textbox", { name: "Order status" })); await user.click(await screen.findByRole("option", { name: "Paid", hidden: true })); await user.click(screen.getByRole("button", { name: "Save changes" })); expect(putMock).toHaveBeenCalledWith("/orders/{order_id}", expect.objectContaining({ body: { properties: { orderNumber: "6001", orderStatusCode: "order/paid" } } })); });
   it("keeps traveller hierarchy details in the standalone position view", async () => { mockDetailAndStock(); mountPosition(); expect(await screen.findByRole("link", { name: /emil brandt.*traveller/i })).toBeInTheDocument(); });

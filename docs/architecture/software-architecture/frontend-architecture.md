@@ -186,6 +186,16 @@ row; and a supplier-root relationship specified as prose remains a text link.
 This is the “always done this way” rule extending #50, #51, and #53. A chip
 must not be labelled only with a type, truncated ID, or raw property.
 
+Entity chips must use the icon for the entity represented by that chip, never
+the icon of the detail view or the preceding entity in a hierarchy. Mixed
+chains are expected: an order-position hierarchy uses order for the
+order/position chip, inventory for the StockItem chip, catalogue for product
+and ancestor chips, supplier for organisation/role chips, and person for
+customer/traveller chips. Shared chip primitives must therefore receive an
+explicit icon or apply a documented semantic entity-kind mapping; they must
+not use an unrelated default icon. Detail-panel tests shall cover a mixed
+chain and verify icon ownership for each chip.
+
 ## 8. Shared UI, forms, and presentation states
 
 Use `@cct/ui` and design tokens before creating local equivalents:
