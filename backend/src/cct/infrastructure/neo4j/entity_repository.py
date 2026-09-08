@@ -584,6 +584,7 @@ WHERE ($after IS NULL OR stock.entityId > $after)
   AND ($productId IS NULL OR product.entityId = $productId)
   AND ($supplierRoleId IS NULL OR any(role IN supplierRoles WHERE role.entityId = $supplierRoleId))
   AND ($search IS NULL
+       OR toLower(coalesce(stock.searchText, '')) CONTAINS $search
        OR any(node IN chainNodes + supplierRoles + suppliers
               WHERE any(key IN keys(node) WHERE toLower(toString(node[key])) CONTAINS $search)))
 RETURN DISTINCT stock AS entity ORDER BY stock.entityId LIMIT $limit

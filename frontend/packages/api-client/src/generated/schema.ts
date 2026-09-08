@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/catalogue-search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search Catalogue */
+        get: operations["searchCatalogue"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/incoming-references/{reference_kind}/{entity_id}": {
         parameters: {
             query?: never;
@@ -515,6 +532,23 @@ export interface components {
             /** Travellerroleid */
             travellerRoleId: string;
         };
+        /** CatalogueSearchResult */
+        CatalogueSearchResult: {
+            /** Availabledates */
+            availableDates: string[];
+            /** Currencycode */
+            currencyCode: string;
+            /** Indicativeunitpriceamount */
+            indicativeUnitPriceAmount: string;
+            /** Productdisplayname */
+            productDisplayName: string;
+            /** Productdisplaynamechain */
+            productDisplayNameChain: string[];
+            /** Productid */
+            productId: string;
+            /** Producttype */
+            productType: string;
+        };
         /** CustomerRoleProperties */
         CustomerRoleProperties: {
             /** Paymentmethodcode */
@@ -714,6 +748,11 @@ export interface components {
              */
             type: "product/airline/flight";
         };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
         /** IncomingReferenceResponse */
         IncomingReferenceResponse: {
             /** Counts */
@@ -895,6 +934,8 @@ export interface components {
         };
         /** OrganisationProperties */
         OrganisationProperties: {
+            /** Addresscountryname */
+            addressCountryName?: string | null;
             /** Addresslocalityname */
             addressLocalityName?: string | null;
             /** Name */
@@ -921,6 +962,13 @@ export interface components {
         /** OrganisationUpdateRequest */
         OrganisationUpdateRequest: {
             properties: components["schemas"]["OrganisationProperties"];
+        };
+        /** Page[CatalogueSearchResult] */
+        Page_CatalogueSearchResult_: {
+            /** Items */
+            items: components["schemas"]["CatalogueSearchResult"][];
+            /** Nextcursor */
+            nextCursor?: string | null;
         };
         /** Page[OrderSummaryResponse] */
         Page_OrderSummaryResponse_: {
@@ -1241,6 +1289,11 @@ export interface components {
              */
             remainingCapacity: number;
             /**
+             * Searchtext
+             * @default
+             */
+            searchText: string;
+            /**
              * Servicedate
              * Format: date
              */
@@ -1272,6 +1325,11 @@ export interface components {
              */
             remainingCapacity: number;
             /**
+             * Searchtext
+             * @default
+             */
+            searchText: string;
+            /**
              * Servicedate
              * Format: date
              */
@@ -1297,6 +1355,19 @@ export interface components {
              */
             type: "person/traveller";
         };
+        /** ValidationError */
+        ValidationError: {
+            /** Context */
+            ctx?: Record<string, never>;
+            /** Input */
+            input?: unknown;
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -1306,6 +1377,42 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    searchCatalogue: {
+        parameters: {
+            query: {
+                limit?: number;
+                /** @description Opaque cursor from a previous page's nextCursor. */
+                cursor?: string | null;
+                search: string;
+                serviceDateFrom?: string | null;
+                serviceDateTo?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Page_CatalogueSearchResult_"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     getIncomingReferenceCounts: {
         parameters: {
             query?: never;

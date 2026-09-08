@@ -29,6 +29,11 @@ export default function ProductDetail() {
   const travellers = searchParams.get("travellers") ?? "";
   const origin = searchParams.get("origin") ?? "";
   const destination = searchParams.get("destination") ?? "";
+  const resultsParams = new URLSearchParams(searchParams);
+  resultsParams.delete("date");
+  const backToResultsHref = resultsParams.get("destinationOrTheme")
+    ? `/search?${resultsParams.toString()}`
+    : "/";
 
   const productQuery = useApiQuery(["product", productId], () =>
     apiClient.GET("/products/{product_id}", { params: { path: { product_id: productId ?? "" } } })
@@ -62,7 +67,7 @@ export default function ProductDetail() {
     <CustomerShell
       breadcrumbs={[
         { label: "Travel portal", to: "/" },
-        { label: "Search results", to: "/search" },
+        { label: "Search results", to: backToResultsHref },
         { label: productQuery.isSuccess ? productTitle(productQuery.data) : t("detail.heading") },
       ]}
     >
@@ -111,7 +116,7 @@ export default function ProductDetail() {
                 </Stack>
               ) : null}
 
-              <Link to="/search">{t("detail.back")}</Link>
+              <Link to={backToResultsHref}>{t("detail.back")}</Link>
             </Stack>
           ) : null}
         </Stack>

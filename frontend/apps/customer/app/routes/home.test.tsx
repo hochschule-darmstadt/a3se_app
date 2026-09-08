@@ -20,7 +20,7 @@ function renderHome() {
 
 function renderHomeWithCriteria() {
   const Stub = createRoutesStub([{ path: "/", Component: CustomerHome }]);
-  return render(<TestProviders><Stub initialEntries={["/?destinationOrTheme=Peru&dateFrom=2027-04-01&dateTo=2027-04-06&travellers=2&departureLocationCode=BER"]} /></TestProviders>);
+  return render(<TestProviders><Stub initialEntries={["/?destinationOrTheme=Peru&dateFrom=2027-04-01&dateTo=2027-04-06&travellers=2"]} /></TestProviders>);
 }
 
 describe("CustomerHome (VIEW-C-001 structured search)", () => {
@@ -45,10 +45,20 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
 
     await user.type(screen.getByLabelText("Destination or theme"), "Peru");
     await user.type(screen.getByLabelText("Earliest departure"), "2027-04-01");
+    expect(screen.getByLabelText("Latest return")).toHaveValue("2027-04-02");
     await user.type(screen.getByLabelText("Latest return"), "2027-04-06");
     await user.click(screen.getByRole("button", { name: "Search the catalogue" }));
 
     expect(await screen.findByText("Search results page")).toBeInTheDocument();
+  });
+
+  it("defaults the latest return to the day after the earliest departure", async () => {
+    const user = userEvent.setup();
+    renderHome();
+
+    await user.type(screen.getByLabelText("Earliest departure"), "2027-04-01");
+
+    expect(screen.getByLabelText("Latest return")).toHaveValue("2027-04-02");
   });
 
   it("restores criteria when opened with the revise-criteria URL", () => {
@@ -58,6 +68,5 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
     expect(screen.getByLabelText("Earliest departure")).toHaveValue("2027-04-01");
     expect(screen.getByLabelText("Latest return")).toHaveValue("2027-04-06");
     expect(screen.getAllByLabelText("Number of travellers").find((element) => element.tagName === "INPUT")).toHaveValue("2");
-    expect(screen.getAllByLabelText("Departure region").find((element) => element.tagName === "INPUT")).toHaveValue("BER");
   });
 });

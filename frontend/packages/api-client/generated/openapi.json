@@ -89,6 +89,57 @@
         "title": "AssignTravellerRequest",
         "type": "object"
       },
+      "CatalogueSearchResult": {
+        "properties": {
+          "availableDates": {
+            "items": {
+              "format": "date",
+              "type": "string"
+            },
+            "title": "Availabledates",
+            "type": "array"
+          },
+          "currencyCode": {
+            "title": "Currencycode",
+            "type": "string"
+          },
+          "indicativeUnitPriceAmount": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Indicativeunitpriceamount",
+            "type": "string"
+          },
+          "productDisplayName": {
+            "title": "Productdisplayname",
+            "type": "string"
+          },
+          "productDisplayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Productdisplaynamechain",
+            "type": "array"
+          },
+          "productId": {
+            "title": "Productid",
+            "type": "string"
+          },
+          "productType": {
+            "title": "Producttype",
+            "type": "string"
+          }
+        },
+        "required": [
+          "productId",
+          "productType",
+          "productDisplayName",
+          "productDisplayNameChain",
+          "availableDates",
+          "indicativeUnitPriceAmount",
+          "currencyCode"
+        ],
+        "title": "CatalogueSearchResult",
+        "type": "object"
+      },
       "CustomerRoleProperties": {
         "additionalProperties": false,
         "properties": {
@@ -743,6 +794,19 @@
         "title": "FlightRequest",
         "type": "object"
       },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
       "IncomingReferenceResponse": {
         "properties": {
           "counts": {
@@ -1306,6 +1370,19 @@
       "OrganisationProperties": {
         "additionalProperties": false,
         "properties": {
+          "addressCountryName": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresscountryname"
+          },
           "addressLocalityName": {
             "anyOf": [
               {
@@ -1384,6 +1461,33 @@
           "properties"
         ],
         "title": "OrganisationUpdateRequest",
+        "type": "object"
+      },
+      "Page_CatalogueSearchResult_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogueSearchResult"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextcursor"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Page[CatalogueSearchResult]",
         "type": "object"
       },
       "Page_OrderSummaryResponse_": {
@@ -2480,6 +2584,12 @@
             "title": "Remainingcapacity",
             "type": "integer"
           },
+          "searchText": {
+            "default": "",
+            "maxLength": 10000,
+            "title": "Searchtext",
+            "type": "string"
+          },
           "serviceDate": {
             "format": "date",
             "title": "Servicedate",
@@ -2528,6 +2638,12 @@
             "minimum": 0.0,
             "title": "Remainingcapacity",
             "type": "integer"
+          },
+          "searchText": {
+            "default": "",
+            "maxLength": 10000,
+            "title": "Searchtext",
+            "type": "string"
           },
           "serviceDate": {
             "format": "date",
@@ -2590,6 +2706,46 @@
         ],
         "title": "TravellerRoleRequest",
         "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
       }
     }
   },
@@ -2600,6 +2756,114 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/catalogue-search": {
+      "get": {
+        "operationId": "searchCatalogue",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque cursor from a previous page's nextCursor.",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Opaque cursor from a previous page's nextCursor.",
+              "title": "Cursor"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": true,
+            "schema": {
+              "maxLength": 200,
+              "minLength": 1,
+              "title": "Search",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceDateFrom",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Servicedatefrom"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceDateTo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Servicedateto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_CatalogueSearchResult_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Search Catalogue",
+        "tags": [
+          "catalogue-search"
+        ]
+      }
+    },
     "/incoming-references/{reference_kind}/{entity_id}": {
       "get": {
         "operationId": "getIncomingReferenceCounts",

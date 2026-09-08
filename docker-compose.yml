@@ -24,6 +24,7 @@ services:
       retries: 30
 
   api:
+    image: cct-backend:local
     build:
       context: ./backend
     environment:
@@ -40,6 +41,7 @@ services:
       - cct
 
   seed:
+    image: cct-backend:local
     build:
       context: ./backend
     command: ["python", "scripts/seed_data.py"]
@@ -56,6 +58,7 @@ services:
       - seed
 
   seed-reset:
+    image: cct-backend:local
     build:
       context: ./backend
     command: ["python", "scripts/seed_data.py", "--reset"]

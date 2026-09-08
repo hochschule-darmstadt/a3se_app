@@ -206,13 +206,14 @@ def _load_products(repos: SeedRepositories, data: SeedData, summary: SeedSummary
 
 
 def _used_product_ids_by_type(data: SeedData) -> dict[str, list[str]]:
-    """Used flight and room-type products used for dated stock."""
+    """Non-reserve leaf products that receive dated sellable stock."""
 
     by_type: dict[str, list[str]] = {}
+    parent_ids = {product.parent_product_id for product in data.products if product.parent_product_id}
     for product in data.products:
-        if product.type not in {inventory.FLIGHT_TYPE, inventory.ROOM_CATEGORY_TYPE}:
+        if product.type not in inventory.PRODUCT_TYPE_TO_STOCK_TYPE:
             continue
-        if product.reserve:
+        if product.reserve or product.entity_id in parent_ids:
             continue
         by_type.setdefault(product.type, []).append(product.entity_id)
     return by_type
@@ -230,9 +231,7 @@ def _load_stock_calendar(
     repos: SeedRepositories, data: SeedData, summary: SeedSummary, *, start: date, end: date
 ) -> tuple[dict[tuple[str, str], str], int]:
     by_type = _used_product_ids_by_type(data)
-    calendar_types = {inventory.FLIGHT_TYPE, inventory.ROOM_CATEGORY_TYPE}
-    calendar_products = {t: ids for t, ids in by_type.items() if t in calendar_types}
-    specs = inventory.generate_stock_specs(calendar_products, _guaranteed_dates(data), start=start, end=end)
+    specs = inventory.generate_stock_specs(by_type, _guaranteed_dates(data), start=start, end=end)
     stock_ids: dict[tuple[str, str], str] = {}
     for number, spec in enumerate(specs, start=1):
         stock_id = format_entity_id(EntityKind.STOCK_ITEM, number)
@@ -245,9 +244,17 @@ def _load_stock_calendar(
                 properties=spec.properties,
                 product_id=spec.product_id,
                 product_repository=repos.product,
+                partner_repository=repos.partner,
             )
             summary.record("StockItem (calendar)", created=True)
         except DuplicateEntityError:
+            existing = repos.stock.get(EntityKind.STOCK_ITEM, stock_id)
+            if existing is not None:
+                inventory_service.update_stock_item(
+                    repos.stock, stock_id, type=spec.type,
+                    properties=existing.properties.model_dump(by_alias=True),
+                    product_repository=repos.product, partner_repository=repos.partner,
+                )
             summary.record("StockItem (calendar)", created=False)
     return stock_ids, len(specs)
 
@@ -260,7 +267,7 @@ def _load_orders(
     next_stock_number: int,
 ) -> None:
     product_type_by_id = {p.entity_id: p.type for p in data.products}
-    calendar_types = {inventory.FLIGHT_TYPE, inventory.ROOM_CATEGORY_TYPE}
+    calendar_types = set(_used_product_ids_by_type(data))
 
     for order in data.orders:
         try:
@@ -308,9 +315,17 @@ def _load_orders(
                         properties=spec.properties,
                         product_id=spec.product_id,
                         product_repository=repos.product,
+                        partner_repository=repos.partner,
                     )
                     summary.record("StockItem (ad hoc)", created=True)
                 except DuplicateEntityError:
+                    existing = repos.stock.get(EntityKind.STOCK_ITEM, stock_id)
+                    if existing is not None:
+                        inventory_service.update_stock_item(
+                            repos.stock, stock_id, type=spec.type,
+                            properties=existing.properties.model_dump(by_alias=True),
+                            product_repository=repos.product, partner_repository=repos.partner,
+                        )
                     summary.record("StockItem (ad hoc)", created=False)
                 stock_item_id = stock_id
 

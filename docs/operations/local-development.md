@@ -26,11 +26,16 @@ production credentials or customer data.
 From the repository root:
 
 ```powershell
+docker compose build api
 docker compose up -d
 docker compose --profile seed run --rm seed
 ```
 
-The first command starts Neo4j and the API. The second clears the disposable
+The build command must run before seeding after backend source changes. The
+`api`, `seed`, and `seed-reset` services deliberately share the explicit
+`cct-backend:local` image tag, so the seed job cannot silently use a different
+service-specific image from the API. The first runtime command starts Neo4j and
+the API. The seed command clears the disposable
 local graph and loads the deterministic synthetic inspection data from
 scratch. Every seed invocation starts fresh; it never migrates or merges with
 retained records. Seeding is explicit and is not part of ordinary startup.

@@ -1,7 +1,7 @@
 """Deterministic 2027 StockItem calendar generator (issue #12).
 
 Pure computation, no I/O: every function here takes data in and returns
-StockItemSpec tuples out, so the full-year x every-room-category/flight-type
+StockItemSpec tuples out, so the full-year x every-sellable-product
 matrix can be exhaustively unit-tested without touching Neo4j. The
 orchestrator is the only caller that turns these specs into real
 create_stock_item calls.
@@ -45,10 +45,7 @@ FLIGHT_BASE_PRICE = 250
 ROOM_BASE_PRICE = 90
 
 # product/* type -> stock/* type, covering every family a seeded order
-# position allocates against (not only the flight/room-category families
-# that get a full 2027 calendar -- mobility/water/experience/protection get
-# one ad hoc StockItem per date an order position actually needs, via
-# `ad_hoc_stock_spec` below).
+# position allocates against.
 PRODUCT_TYPE_TO_STOCK_TYPE = {
     FLIGHT_TYPE: FLIGHT_STOCK_TYPE,
     ROOM_CATEGORY_TYPE: ROOM_CATEGORY_STOCK_TYPE,
@@ -124,19 +121,18 @@ def generate_stock_specs(
 ) -> tuple[StockItemSpec, ...]:
     """Generate the deterministic dated inventory for a set of products.
 
-    `product_ids_by_type` maps FLIGHT_TYPE/ROOM_CATEGORY_TYPE to the list of
-    (non-reserve, used) catalog product ids of that type. `guaranteed_dates`
+    `product_ids_by_type` maps supported product types to the list of
+    (non-reserve, used leaf) catalog product ids of that type. `guaranteed_dates`
     is the exact (productId, date) set the seeded orders allocate against --
     never left at zero regardless of the deterministic formula.
     """
 
     specs: list[StockItemSpec] = []
     stock_number = 1
-    for product_type, stock_type, base_price in (
-        (FLIGHT_TYPE, FLIGHT_STOCK_TYPE, FLIGHT_BASE_PRICE),
-        (ROOM_CATEGORY_TYPE, ROOM_CATEGORY_STOCK_TYPE, ROOM_BASE_PRICE),
-    ):
-        for product_id in product_ids_by_type.get(product_type, []):
+    for product_type, product_ids in product_ids_by_type.items():
+        stock_type = PRODUCT_TYPE_TO_STOCK_TYPE[product_type]
+        base_price = FLIGHT_BASE_PRICE if product_type == FLIGHT_TYPE else ROOM_BASE_PRICE if product_type == ROOM_CATEGORY_TYPE else AD_HOC_BASE_PRICE
+        for product_id in product_ids:
             day = start
             while day <= end:
                 guaranteed = (product_id, day) in guaranteed_dates
@@ -150,11 +146,8 @@ def generate_stock_specs(
 
 
 def ad_hoc_stock_spec(product_id: str, product_type: str, service_date: date) -> StockItemSpec:
-    """One deterministic StockItem for a mobility/water/experience/protection
-    product date an order position needs -- these families are not part of
-    the mandatory 2027 daily calendar (only room categories and flight types
-    are), so they get exactly the dated units seeded orders allocate
-    against, not a speculative full-year run.
+    """One deterministic fallback StockItem for a product date an order
+    position needs when that product family is not part of the calendar.
     """
 
     stock_type = PRODUCT_TYPE_TO_STOCK_TYPE[product_type]

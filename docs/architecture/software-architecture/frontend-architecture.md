@@ -157,13 +157,17 @@ query key. Use the bounded cursor contract (`limit`, opaque `cursor`,
 
 `useAllPages` is allowed only for bounded cross-page projections such as the
 Staff product hierarchy and has a documented 50-page limit. It must not hide a
-missing backend search capability. The Customer catalogue sends destination or
-theme text and the requested service-date interval to `GET /stock-items`, where
-the backend performs the authoritative text/date filtering. The Customer route
-then groups matching stock records by product and applies only the currently
-indicative departure-region and budget narrowing to the returned projection;
-traveller count is carried as search context until booking confirmation can
-evaluate capacity and pricing.
+missing backend search capability. The Customer catalogue sends location or
+theme text and the requested service-date interval to `GET /catalogue-search`.
+The backend searches generated StockItem `searchText` projections, filters
+sellable dates, and returns one product-level result with aggregated available
+dates. Traveller count is carried as search context until booking confirmation
+can evaluate capacity and pricing.
+The home date picker defaults latest return to one day after a newly selected
+earliest departure when no return date is already present. Search result cards
+use the backend-provided `displayNameChain` joined with ` · ` as their title;
+available service dates are presented only through the per-product dropdown,
+not as a separate date list in the card body.
 
 ## 7. Entity display, chains, and links
 
@@ -289,7 +293,10 @@ defines the shared capability API and generated TypeScript boundary.
 [DR-0015](../../governance/decisions/0015-frontend-thin-slice-testing-i18n-and-catalog-listing.md)
 defines React Query, Vitest/RTL, Playwright, Mantine DataTable, pseudo-locale,
 and explicit CORS. Its original no-filter catalogue limitation has since been
-superseded by the implemented `/stock-items` text/date query parameters.
+superseded by the implemented `/catalogue-search` projection.
+[DR-0023](../../governance/decisions/0023-product-level-location-aware-catalogue-search.md)
+defines the current location-aware StockItem search projection and product-level
+result contract.
 [DR-0019](../../governance/decisions/0019-compute-resource-display-projections.md)
 defines API-owned display projections; [DR-0021](../../governance/decisions/0021-transaction-safe-prefixed-identifiers.md)
 remains the proposed source for the future generated-ID display contract.

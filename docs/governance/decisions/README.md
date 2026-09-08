@@ -35,3 +35,4 @@ Decision records intentionally use the `Status/Date/Deciders/Supersedes` metadat
 | [DR-0020](0020-align-stockitem-types-with-product-leaves.md) | Align StockItem types with represented product leaves | accepted | 2026-08-21 | DR-0017 in part |
 | [DR-0021](0021-transaction-safe-prefixed-identifiers.md) | Use transaction-safe prefixed identifiers for staff-created entities | proposed | 2026-08-31 | none |
 | [DR-0022](0022-add-active-travel-order-status.md) | Add an active execution state to Travel Orders | accepted | 2026-09-08 | none |
+| [DR-0023](0023-product-level-location-aware-catalogue-search.md) | Product-level location-aware catalogue search | proposed | 2026-09-08 | DR-0015 in part |

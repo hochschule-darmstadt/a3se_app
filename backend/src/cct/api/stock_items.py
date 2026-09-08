@@ -122,7 +122,7 @@ def _response(entity, repository, product_repository, partner_repository) -> Sto
 
 @router.post("", response_model=StockItemResponse, status_code=status.HTTP_201_CREATED, operation_id="createStockItem", responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}})
 def create_stock_item(request: StockItemCreateRequest, repository: RepositoryDependency, product_repository: ProductRepositoryDependency, partner_repository: PartnerRepositoryDependency, actor: ActorDependency) -> StockItemResponse:
-    entity = service.create_stock_item(repository, entity_id=request.entity_id, type=request.type, properties=request.properties.model_dump(by_alias=True), product_id=request.product_id, product_repository=product_repository)
+    entity = service.create_stock_item(repository, entity_id=request.entity_id, type=request.type, properties=request.properties.model_dump(by_alias=True), product_id=request.product_id, product_repository=product_repository, partner_repository=partner_repository)
     return _response(entity, repository, product_repository, partner_repository)
 
 
@@ -152,7 +152,7 @@ def list_stock_items(repository: RepositoryDependency, product_repository: Produ
 
 @router.put("/{stock_item_id}", response_model=StockItemResponse, operation_id="updateStockItem", responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}})
 def update_stock_item(stock_item_id: str, request: StockItemUpdateRequest, repository: RepositoryDependency, product_repository: ProductRepositoryDependency, partner_repository: PartnerRepositoryDependency, actor: ActorDependency) -> StockItemResponse:
-    entity = service.update_stock_item(repository, stock_item_id, type=request.type, properties=request.properties.model_dump(by_alias=True))
+    entity = service.update_stock_item(repository, stock_item_id, type=request.type, properties=request.properties.model_dump(by_alias=True), product_repository=product_repository, partner_repository=partner_repository)
     return _response(entity, repository, product_repository, partner_repository)
 
 
@@ -161,4 +161,4 @@ def withdraw_stock_item(stock_item_id: str, repository: RepositoryDependency, ac
     entity = service.get_stock_item(repository, stock_item_id)
     properties = entity.properties.model_dump(by_alias=True)
     properties["inventoryStatusCode"] = "inventory/withdrawn"
-    service.update_stock_item(repository, stock_item_id, type=entity.type or "", properties=properties)
+    service.update_stock_item(repository, stock_item_id, type=entity.type or "", properties=properties, product_repository=product_repository, partner_repository=partner_repository)

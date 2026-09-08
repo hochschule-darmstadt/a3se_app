@@ -1,6 +1,6 @@
 import { Button, Card, Container, Group, Paper, Select, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
 import { FormErrorSummary } from "@cct/ui";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { useT } from "../i18n";
@@ -16,6 +16,13 @@ const QUICK_LINKS = [
   { key: "city", query: "FRA", accent: "linear-gradient(135deg, #7048e8, #d0bfff)" },
 ];
 
+function nextDay(value: string) {
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return "";
+  date.setUTCDate(date.getUTCDate() + 1);
+  return date.toISOString().slice(0, 10);
+}
+
 /** VIEW-C-001: visual discovery home and structured search entry point. */
 export default function CustomerHome() {
   const t = useT();
@@ -25,8 +32,11 @@ export default function CustomerHome() {
   const [dateFrom, setDateFrom] = useState(() => searchParams.get("dateFrom") ?? "");
   const [dateTo, setDateTo] = useState(() => searchParams.get("dateTo") ?? "");
   const [travellers, setTravellers] = useState(() => searchParams.get("travellers") ?? "1");
-  const [departureLocationCode, setDepartureLocationCode] = useState(() => searchParams.get("departureLocationCode") ?? "any");
   const [errors, setErrors] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!dateTo && dateFrom) setDateTo(nextDay(dateFrom));
+  }, [dateFrom, dateTo]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,12 +48,12 @@ export default function CustomerHome() {
     setErrors(nextErrors);
     if (nextErrors.length > 0) return;
 
-    const params = new URLSearchParams({ destinationOrTheme: destinationOrTheme.trim(), dateFrom, dateTo, travellers, departureLocationCode, budgetPerPerson: "any" });
+    const params = new URLSearchParams({ destinationOrTheme: destinationOrTheme.trim(), dateFrom, dateTo, travellers, budgetPerPerson: "any" });
     navigate(`/search?${params.toString()}`);
   }
 
   function quickLinkHref(query: string) {
-    return `/search?${new URLSearchParams({ destinationOrTheme: query, dateFrom: "", dateTo: "", travellers: "2", departureLocationCode: "any", budgetPerPerson: "any" })}`;
+    return `/search?${new URLSearchParams({ destinationOrTheme: query, dateFrom: "", dateTo: "", travellers: "2", budgetPerPerson: "any" })}`;
   }
 
   return (
@@ -66,7 +76,6 @@ export default function CustomerHome() {
                 <FormErrorSummary errors={errors} />
                 <Group align="end" gap="sm" wrap="wrap">
                   <TextInput style={{ flex: "2 1 220px" }} label={t("home.destinationOrTheme.label")} placeholder={t("home.destinationOrTheme.placeholder")} value={destinationOrTheme} onChange={(event) => setDestinationOrTheme(event.currentTarget.value)} />
-                  <Select style={{ flex: "1 1 170px" }} label={t("home.departureLocation.label")} data={[{ value: "any", label: t("home.any") }, "BER", "FRA", "MUC", "LIM", "CUZ"]} value={departureLocationCode} onChange={(value) => setDepartureLocationCode(value ?? "any")} />
                   <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateFrom.label")} value={dateFrom} onChange={(event) => setDateFrom(event.currentTarget.value)} />
                   <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateTo.label")} value={dateTo} onChange={(event) => setDateTo(event.currentTarget.value)} />
                   <Select style={{ flex: "0 1 130px" }} label={t("home.travellers.label")} data={["1", "2", "3", "4", "5+"]} value={travellers} onChange={(value) => setTravellers(value ?? "1")} />

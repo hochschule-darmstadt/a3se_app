@@ -11,6 +11,7 @@ from ..contracts import StrictProperties
 
 class StockProperties(StrictProperties):
     service_date: date = Field(alias="serviceDate")
+    search_text: str = Field(default="", alias="searchText", max_length=10000)
     unit_price_amount: Decimal = Field(alias="unitPriceAmount", ge=Decimal("0"))
     currency_code: Literal["EUR"] = Field(alias="currencyCode")
     capacity_quantity: int = Field(alias="capacityQuantity", ge=0, default=1)

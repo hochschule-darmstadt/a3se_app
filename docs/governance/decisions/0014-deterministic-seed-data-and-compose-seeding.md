@@ -62,8 +62,8 @@ typo'd key fails loudly); `loader.py` additionally rejects duplicate IDs
 (checked per `EntityKind`'s own namespace, matching the one-uniqueness-
 constraint-per-label Neo4j schema) and dangling references between files,
 all before any Neo4j write. `inventory.py` is pure, I/O-free Python that
-generates the 2027 `StockItem` calendar and the mobility/water/experience/
-protection families' ad hoc single-date stock. `orchestrator.py` is the
+generates the 2027 `StockItem` calendar for every used, non-reserve leaf
+product family supported by the inventory registry. `orchestrator.py` is the
 composition root -- builds a real Neo4j driver and one
 `ScopedEntityRepository` per module exactly like `serve.py`, then loads in
 dependency order (persons/roles -> organisations/roles -> products,
@@ -74,11 +74,9 @@ same `CCT_NEO4J_*` env vars `serve.py` uses.
 
 ### Deterministic 2027 calendar
 
-For every non-reserve, top-level `product/flight` and
-`product/accommodation/room-category` catalog product (30 total: the 15
-used `FLT-*`/`ACC-*` products; `FLT-01`'s three recursive leg children are
-excluded -- the calendar covers whole catalog products, not every
-sub-component a recursive product happens to contain), `inventory.py`
+For every used, non-reserve leaf catalog product whose type is supported by
+the inventory registry (flight, accommodation, mobility, water transport,
+experience, or protection), `inventory.py`
 generates one `StockItem` per sellable unit per day from 2027-01-01 through
 2027-12-31: `daily_quantity(product, day) = 0` when
 `(day_of_year + ordinal) % 11 == 0`, else `10` when
@@ -86,14 +84,12 @@ generates one `StockItem` per sellable unit per day from 2027-01-01 through
 ordinal*13) % 3)` (range 1-3) -- `ordinal` a stable per-product integer
 from the catalog ID's numeric suffix. This keeps the deterministic range
 formally 0-10 inclusive (a periodic subset of dates reaches the documented
-ceiling; the rest sit low) while keeping the resulting dataset's real size
-(~23,000 `StockItem`s) tractable to load. Any `(productId, date)` pair a
+ceiling; the rest sit low) while keeping the resulting dataset tractable to
+load. Any `(productId, date)` pair a
 seeded order actually allocates against is exempted from the zero rule
 (forced to at least 1) so orders never reference stock the calendar itself
-left empty. Mobility/water/experience/protection products are not part of
-this mandatory calendar (only room categories and flight types are, per
-the issue's own "Inventory for 2027" section); they receive exactly one ad
-hoc `StockItem` per date a seeded order position needs.
+left empty. Products that are parents in a composition are excluded; stock is
+represented by the sellable leaf product, not duplicated for every ancestor.
 
 ### Terminology additions consumed by this seed data
 
@@ -160,6 +156,10 @@ DR-0010/DR-0011. `seed`/`seed-reset` sit under Compose's `seed` profile,
 excluded from the default `docker compose up`, so ordinary startup never
 mutates or duplicates retained data -- an operator opts in explicitly.
 `web` is intentionally not containerized here (see "Options considered").
+The three backend services use the explicit shared image tag
+`cct-backend:local`. A clean disposable graph does not imply a current image;
+backend source changes therefore require `docker compose build api` before
+running either seed job.
 `deployment-architecture.md`'s previously-proposed `NEO4J_URI`/
 `NEO4J_USERNAME`/`NEO4J_PASSWORD` env var names are corrected to the
 `CCT_NEO4J_*` names the actual code already used before this doc's

@@ -20,6 +20,8 @@ from cct.resource_management.relationship_types import RelationshipType
 from cct.resource_management.repository_ports import EntityRepositoryPort
 from cct.resource_management.touristic_product_management import service as product_service
 
+from .search import build_search_text
+
 
 def create_stock_item(
     repository: EntityRepositoryPort,
@@ -29,6 +31,7 @@ def create_stock_item(
     properties: dict[str, object],
     product_id: str,
     product_repository: EntityRepositoryPort,
+    partner_repository: EntityRepositoryPort | None = None,
 ) -> ValidatedEntity:
     product = product_service.get_product(product_repository, product_id)  # raises EntityNotFoundError if missing
     expected_stock_type = f"stock/{(product.type or '').removeprefix('product/')}"
@@ -45,6 +48,8 @@ def create_stock_item(
             raise InvalidEntityGraphError(product_id, "stock item must reference a lowest-level product item")
     if entity_id is not None and repository.get(EntityKind.STOCK_ITEM, entity_id) is not None:
         raise DuplicateEntityError(EntityKind.STOCK_ITEM, entity_id)
+    properties = dict(properties)
+    properties["searchText"] = build_search_text(product_repository, partner_repository, product_id)
     stock_item = repository.create_generated(entity_kind=EntityKind.STOCK_ITEM, type=type, properties=properties) if entity_id is None else repository.save(
         {"entityId": entity_id, "entityKind": "StockItem", "type": type, "properties": properties}
     )
@@ -85,10 +90,22 @@ def list_stock_items(
 
 
 def update_stock_item(
-    repository: EntityRepositoryPort, entity_id: str, *, type: str, properties: dict[str, object]
+    repository: EntityRepositoryPort, entity_id: str, *, type: str, properties: dict[str, object],
+    product_repository: EntityRepositoryPort | None = None,
+    partner_repository: EntityRepositoryPort | None = None,
 ) -> ValidatedEntity:
     if repository.get(EntityKind.STOCK_ITEM, entity_id) is None:
         raise EntityNotFoundError(EntityKind.STOCK_ITEM, entity_id)
+    properties = dict(properties)
+    if product_repository is not None:
+        products = repository.list_related(
+            from_kind=EntityKind.STOCK_ITEM,
+            from_id=entity_id,
+            relationship=RelationshipType.REPRESENTS_PRODUCT,
+            to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+        )
+        if len(products) == 1:
+            properties["searchText"] = build_search_text(product_repository, partner_repository, products[0].entity_id)
     return repository.save(
         {"entityId": entity_id, "entityKind": "StockItem", "type": type, "properties": properties}
     )

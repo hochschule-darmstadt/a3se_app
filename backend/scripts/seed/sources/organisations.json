@@ -35,7 +35,8 @@
                               "entityId":  "ORG-000003",
                               "properties":  {
                                                  "name":  "Southlight Stays",
-                                                 "addressLocalityName":  "Lima"
+                                                 "addressLocalityName":  "Lima",
+                                                 "addressCountryName":  "Peru"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000003-ACCOMMODATION",

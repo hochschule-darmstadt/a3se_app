@@ -26,20 +26,22 @@ too.
   within one EntityKind's namespace, dangling references between files)
   before any write.
 - `inventory.py`: pure, deterministic 2027 `StockItem` generator for every
-  lowest-level room and seat below a used (non-reserve) room-type/flight
-  product, plus one ad hoc
-  StockItem per date a mobility/water/experience/protection order position
-  actually needs (those families are not part of the mandatory 2027 daily
-  calendar). No I/O -- exhaustively unit-tested without touching Neo4j.
+  used, non-reserve leaf product type supported by the inventory registry.
+  This gives flights, accommodation, mobility, water transport, experiences,
+  and protection sellable dates for catalogue search; the ad hoc generator is
+  retained only as a fallback for an unsupported family. No I/O --
+  exhaustively unit-tested without touching Neo4j.
 - `orchestrator.py`: the composition root -- builds the real Neo4j driver
   and one `ScopedEntityRepository` per module (mirrors `serve.py`), then
   loads persons/roles -> organisations/roles -> products (parents before
   children, then supplier assignment) -> the 2027 stock calendar -> orders.
   The operator entry point clears the disposable graph before invoking this
   orchestrator, so every inspection seed starts from a fresh database rather
-  than migrating or merging retained records. Duplicate handling remains an
-  internal safeguard for a partial rerun, not the normal data-retention
-  policy.
+  than migrating or merging retained records. In Docker Compose, rebuild the
+  shared `cct-backend:local` image after backend source changes before invoking
+  `seed` or `seed-reset`; a clean database does not make an old container image
+  current. Duplicate handling remains an internal safeguard for a partial
+  rerun, not the normal data-retention policy.
 
 ## Deliberate scope limitations (recorded in DR-0014)
 

@@ -105,4 +105,17 @@ describe("ProductDetail (VIEW-C-010 availability check)", () => {
     expect(await screen.findByText("No availability was found in the next 7 days either.")).toBeInTheDocument();
     expect(screen.queryByText(/An alternative date is available/)).not.toBeInTheDocument();
   });
+
+  it("returns to the originating search with its criteria preserved", async () => {
+    getMock.mockImplementation(((path: string) => {
+      if (path === "/products/{product_id}") return Promise.resolve({ data: FLIGHT_PRODUCT, response: { ok: true, status: 200 } });
+      if (path === "/products/{product_id}/components") return Promise.resolve({ data: [], response: { ok: true, status: 200 } });
+      throw new Error(`Unexpected path ${path}`);
+    }) as never);
+
+    renderDetail("/products/FLT-01?destinationOrTheme=Lima&dateFrom=2027-01-01&dateTo=2027-12-31&travellers=1&date=2027-04-06");
+
+    const backLink = await screen.findByRole("link", { name: "Back to results" });
+    expect(backLink).toHaveAttribute("href", "/search?destinationOrTheme=Lima&dateFrom=2027-01-01&dateTo=2027-12-31&travellers=1");
+  });
 });
