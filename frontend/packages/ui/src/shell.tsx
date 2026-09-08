@@ -215,9 +215,9 @@ export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, advis
       <AppShell.Footer p="md">
         <Stack gap={4}>
           <Group gap="lg" component="nav" aria-label="Legal">
-            <Text size="sm">Imprint (placeholder)</Text>
-            <Text size="sm">Privacy notice (placeholder)</Text>
-            <Text size="sm">Terms and conditions (placeholder)</Text>
+            <Text size="sm">Imprint</Text>
+            <Text size="sm">Privacy notice</Text>
+            <Text size="sm">Terms and conditions</Text>
           </Group>
           <Text size="xs" c="dimmed">
             CCT is a fictitious company created for this project; imprint and legal content are placeholders pending

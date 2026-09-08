@@ -40,7 +40,7 @@ describe("CustomerShell (DS-CMP-001 customer profile, issue #27 phase 2)", () =>
     expect(screen.getByRole("main")).toHaveTextContent("Page content");
 
     const footer = screen.getByRole("contentinfo");
-    expect(within(footer).getByText(/imprint \(placeholder\)/i)).toBeInTheDocument();
+    expect(within(footer).getByText("Imprint")).toBeInTheDocument();
     expect(within(footer).getByText(/fictitious company/i)).toBeInTheDocument();
   });
 

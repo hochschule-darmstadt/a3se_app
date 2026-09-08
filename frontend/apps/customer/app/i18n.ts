@@ -19,6 +19,9 @@ export const dictionary: Record<string, string> = {
 
   "home.heading": "Where would you like to go?",
   "home.intro": "Tell us your travel criteria and browse the seeded catalogue.",
+  "home.hero.eyebrow": "Travel made personal",
+  "home.hero.heading": "Find the journey that feels like yours.",
+  "home.hero.note": "Explore inspiring places, flexible travel ideas, and carefully connected experiences.",
   "home.destinationOrTheme.label": "Destination or theme",
   "home.destinationOrTheme.placeholder": "e.g. Coastal walking or Peru",
   "home.dateFrom.label": "Earliest departure",
@@ -35,6 +38,12 @@ export const dictionary: Record<string, string> = {
   "home.advisor.heading": "AI travel advisor",
   "home.advisor.note": "Advice is available through the Automated Travel Advisor. The conversational capability is scheduled for a later MVP increment.",
   "home.advisor.launch": "Open AI travel advisor",
+  "home.quickLinks.heading": "Start with an idea",
+  "home.quickLinks.note": "Quick links use the current travel catalogue. Destination photography will be added later.",
+  "home.quickLinks.coastal": "Coastal escapes",
+  "home.quickLinks.southAmerica": "South America",
+  "home.quickLinks.city": "City journeys",
+  "home.quickLinks.explore": "Explore matching trips",
 
   "results.heading": "Search results",
   "results.criteria.heading": "Your criteria",
