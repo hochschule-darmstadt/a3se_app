@@ -48,7 +48,7 @@ export const dictionary: Record<string, string> = {
   "results.heading": "Search results",
   "results.criteria.heading": "Your criteria",
   "results.criteria.note":
-    "These criteria are shown for context only. The current catalogue API has no filter/search parameters (DR-0015), so every seeded product is listed below, not just ones matching your criteria.",
+    "These criteria are applied to the catalogue search. Results are matched by destination or theme and service-date range; traveller count, departure region, and budget remain indicative until the booking flow confirms them.",
   "results.criteria.destinationOrTheme": "Destination or theme",
   "results.criteria.dateFrom": "Earliest departure",
   "results.criteria.dateTo": "Latest return",

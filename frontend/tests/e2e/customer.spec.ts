@@ -18,11 +18,10 @@ const GOLDEN_PATH_DATE = "2027-04-06";
 const UNAVAILABLE_DATE = "2028-01-01"; // outside the seeded 2027 calendar (DR-0014): genuinely no stock, on the requested date or any of the following 7 days.
 
 /**
- * The catalogue-listing screen (VIEW-C-009) has no filter/search parameter
- * (DR-0015) and lists the full ~130-product seeded catalogue 20 at a time,
- * so finding one named product means paging through results, not a single
- * lookup. Bounded to avoid an infinite loop if the product is genuinely
- * absent.
+ * The catalogue-listing screen (VIEW-C-009) applies the submitted search
+ * criteria through the StockItem API. The helper still pages because a search
+ * can legitimately match more than one page, and remains bounded to avoid an
+ * infinite loop if the product is genuinely absent.
  */
 async function findAndOpenProduct(page: Page, productId: string, maxPages = 10) {
   for (let attempt = 0; attempt < maxPages; attempt += 1) {

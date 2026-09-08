@@ -17,7 +17,7 @@ export function meta() {
 /**
  * VIEW-C-010: product itinerary/services and the requested-date
  * availability check. Availability is proven only by probing the
- * deterministic seeded `StockItem` id directly (DR-0015) -- never
+ * deterministic seeded `StockItem` id directly -- never
  * fabricated from the product record alone.
  */
 export default function ProductDetail() {

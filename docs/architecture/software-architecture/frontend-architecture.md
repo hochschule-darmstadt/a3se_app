@@ -157,10 +157,13 @@ query key. Use the bounded cursor contract (`limit`, opaque `cursor`,
 
 `useAllPages` is allowed only for bounded cross-page projections such as the
 Staff product hierarchy and has a documented 50-page limit. It must not hide a
-missing backend search capability. Customer criteria are currently context
-only; the frontend must not client-filter the catalogue to simulate search.
-When server-side product/date/party matching exists, replace this thin slice
-with that API capability.
+missing backend search capability. The Customer catalogue sends destination or
+theme text and the requested service-date interval to `GET /stock-items`, where
+the backend performs the authoritative text/date filtering. The Customer route
+then groups matching stock records by product and applies only the currently
+indicative departure-region and budget narrowing to the returned projection;
+traveller count is carried as search context until booking confirmation can
+evaluate capacity and pricing.
 
 ## 7. Entity display, chains, and links
 
@@ -285,7 +288,8 @@ localization, grid behavior, and performance subject to evidence.
 defines the shared capability API and generated TypeScript boundary.
 [DR-0015](../../governance/decisions/0015-frontend-thin-slice-testing-i18n-and-catalog-listing.md)
 defines React Query, Vitest/RTL, Playwright, Mantine DataTable, pseudo-locale,
-explicit CORS, and the honest no-filter Customer catalogue behavior.
+and explicit CORS. Its original no-filter catalogue limitation has since been
+superseded by the implemented `/stock-items` text/date query parameters.
 [DR-0019](../../governance/decisions/0019-compute-resource-display-projections.md)
 defines API-owned display projections; [DR-0021](../../governance/decisions/0021-transaction-safe-prefixed-identifiers.md)
 remains the proposed source for the future generated-ID display contract.

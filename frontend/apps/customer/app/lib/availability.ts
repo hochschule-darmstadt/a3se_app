@@ -23,8 +23,8 @@ export function stockItemId(productId: string, date: string): string {
 }
 
 /**
- * The frontend workaround for the missing `/stock-items` filter (DR-0015):
- * constructs the deterministic stock item id per candidate date and probes
+ * The date-specific availability check constructs the deterministic stock item
+ * id per candidate date and probes
  * `GET /stock-items/{id}` directly, trying the requested date first and then
  * up to {@link ALTERNATIVE_DATE_WINDOW_DAYS} following days. A 404 on a
  * candidate date means "no stock that day" and moves to the next candidate;
