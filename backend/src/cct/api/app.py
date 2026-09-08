@@ -26,6 +26,7 @@ from .errors import register_exception_handlers
 # to a wildcard or reflect arbitrary origins.
 DEFAULT_ALLOWED_ORIGINS = (
     "http://127.0.0.1:4300,http://localhost:4300,http://127.0.0.1:4301,http://localhost:4301,"
+    "http://127.0.0.1:4302,http://localhost:4302,http://127.0.0.1:4303,http://localhost:4303,"
     "http://127.0.0.1:5173,http://localhost:5173,http://127.0.0.1:5174,http://localhost:5174"
 )
 

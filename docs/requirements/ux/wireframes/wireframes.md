@@ -133,6 +133,20 @@ Both prototypes now apply a consistent page-shell chrome (WF-012) instead of ad 
 
 The annotated thin slice is `VIEW-C-001 → C-009 → C-010 → C-002 → C-011 or C-012 → C-003 → C-004 → S-005`. Customer payment and documents remain visible follow-on hypotheses. Staff review of the customer-created order begins in VIEW-S-005 and links to customer/traveler and inventory context without inventing module boundaries.
 
+## MVP scope note (issue #34: VIEW-C-001)
+
+The VIEW-C-001 implementation delivers the structured-search half of the Travel portal home. It captures destination or theme, earliest departure, latest return, travellers, departure region, and budget per person, then carries the confirmed criteria to VIEW-C-009 in URL state. Departure-region values use the domain property name `departureLocationCode`; the form does not invent a second product attribute. VIEW-C-009 now applies the supported text and service-date criteria through the StockItem API and presents indicative stock price and availability.
+
+The home also presents an explicitly identified Automated Travel Advisor entry point. Conversational answers, action invocation, and operation-state handling remain deferred to issue #46; the disabled launcher is therefore a visible boundary marker, not a second advice channel. Inspiration imagery and curated cards remain deferred to issue #25 and are not fabricated here.
+
+This is an implementation proposal pending the #34 human review checkpoint: the existing low-fidelity frame remains the UX evidence, and the structured-search field mapping plus deferred advisor/inspiration behaviour are recorded here so they are reviewable rather than silently treated as accepted requirements.
+
+## MVP scope note (issue #35: VIEW-C-009)
+
+VIEW-C-009 queries `/stock-items` with the destination/theme text and service-date interval from VIEW-C-001. It groups matching stock records by represented product and presents one result card with the product display name, indicative unit price, available quantity, and availability state. Budget and departure-region narrowing are applied to the returned stock-backed projection; authoritative availability confirmation remains deferred to the inventory/order flow.
+
+The low-fidelity duration filter is not implemented because the current `TouristicProductItem` and `StockItem` contracts contain no authoritative duration or nights property. Adding one would be a new domain decision and seed-data change, so it remains an explicit residual gap rather than a guessed client-side calculation. Guided-tour and flexible-cancellation filters are likewise deferred because the current seeded model does not expose those properties consistently.
+
 ## Accessibility and responsive review
 
 - Native headings, landmarks, links, buttons, labels, tables, fieldsets, and status regions provide a semantic review baseline.
