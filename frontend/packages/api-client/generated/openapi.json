@@ -865,6 +865,7 @@
             "enum": [
               "order/reserved",
               "order/paid",
+              "order/active",
               "order/fulfilled",
               "order/cancelled"
             ],

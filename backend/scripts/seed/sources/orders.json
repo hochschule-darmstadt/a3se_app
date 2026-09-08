@@ -46,7 +46,7 @@
                    {
                        "entityId":  "ORD-000002",
                        "properties":  {
-                                          "orderStatusCode":  "order/paid"
+                                          "orderStatusCode":  "order/active"
                                       },
                        "customerPersonRoleId":  "PER-000002-CUSTOMER",
                        "positions":  [

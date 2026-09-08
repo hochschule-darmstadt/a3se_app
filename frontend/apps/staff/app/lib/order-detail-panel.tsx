@@ -9,7 +9,7 @@ import { apiClient, queryClient } from "../api";
 type OrderProperties = components["schemas"]["OrderHeaderProperties"];
 type OrderPositionDetail = components["schemas"]["OrderPositionDetail"];
 type StockItem = components["schemas"]["StockItemResponse"];
-const STATUSES = ["order/reserved", "order/paid", "order/fulfilled", "order/cancelled"].map(value => ({ value, label: value.replace("order/", "").replace(/^./, c => c.toUpperCase()) }));
+const STATUSES = ["order/reserved", "order/paid", "order/active", "order/fulfilled", "order/cancelled"].map(value => ({ value, label: value.replace("order/", "").replace(/^./, c => c.toUpperCase()) }));
 export function Chip({ to, children }: { readonly to: string; readonly children: ReactNode }) { return <Badge component={Link} to={to} variant="light" size="lg" tt="none"><Group gap={4} wrap="nowrap"><CctIcon.order size={16} aria-hidden />{children}</Group></Badge>; }
 export function Row({ label, children }: { readonly label: string; readonly children: ReactNode }) { return <Group align="flex-start"><Text fw={500} size="sm" w={150}>{label}</Text><Group gap="xs" style={{ flex: 1 }}>{children}</Group></Group>; }
 

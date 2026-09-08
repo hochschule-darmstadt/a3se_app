@@ -48,6 +48,13 @@ class OrdersApiTest(unittest.TestCase):
         self.assertEqual(201, response.status_code)
         self.assertEqual("6001", response.json()["properties"]["orderNumber"])
 
+    def test_create_order_accepts_active_status(self) -> None:
+        response = self.client.post(
+            "/orders", json={"entityId": "I21-ORDER-ACTIVE", "properties": {"orderStatusCode": "order/active"}}
+        )
+        self.assertEqual(201, response.status_code)
+        self.assertEqual("order/active", response.json()["properties"]["orderStatusCode"])
+
     def test_create_order_duplicate_returns_409(self) -> None:
         payload = {"entityId": "I21-ORDER-01", "properties": {"orderNumber": "5766", "orderStatusCode": "order/reserved"}}
         self.client.post("/orders", json=payload)

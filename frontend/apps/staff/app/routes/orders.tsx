@@ -17,7 +17,7 @@ type Order = components["schemas"]["OrderSummaryResponse"];
 function Title(props: ComponentProps<typeof MantineTitle>) {
   return props.children === "Orders" ? <MantineTitle {...props}><span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}><CctIcon.order size={28} aria-hidden />{props.children}</span></MantineTitle> : <MantineTitle {...props} />;
 }
-const STATUS = ["order/reserved", "order/paid", "order/fulfilled", "order/cancelled"].map(value => ({ value, label: value.replace("order/", "").replace(/^./, c => c.toUpperCase()) }));
+const STATUS = ["order/reserved", "order/paid", "order/active", "order/fulfilled", "order/cancelled"].map(value => ({ value, label: value.replace("order/", "").replace(/^./, c => c.toUpperCase()) }));
 const PRODUCT_TYPE_OPTIONS = CREATABLE_TYPE_OPTIONS.map(option => ({ value: option.value, label: option.label }));
 export function meta() { return [{ title: "Orders — CCT Staff" }]; }
 function CreateOrder({ onCreated, onCancel }: { readonly onCreated: (id: string) => void; readonly onCancel: () => void }) {

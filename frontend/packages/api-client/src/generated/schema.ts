@@ -749,7 +749,7 @@ export interface components {
              * Orderstatuscode
              * @enum {string}
              */
-            orderStatusCode: "order/reserved" | "order/paid" | "order/fulfilled" | "order/cancelled";
+            orderStatusCode: "order/reserved" | "order/paid" | "order/active" | "order/fulfilled" | "order/cancelled";
         };
         /** OrderPositionCreateRequest */
         OrderPositionCreateRequest: {

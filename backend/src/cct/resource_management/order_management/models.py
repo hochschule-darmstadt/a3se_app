@@ -7,7 +7,7 @@ from pydantic import Field
 from ..contracts import StrictProperties
 
 
-OrderStatusCode = Literal["order/reserved", "order/paid", "order/fulfilled", "order/cancelled"]
+OrderStatusCode = Literal["order/reserved", "order/paid", "order/active", "order/fulfilled", "order/cancelled"]
 
 
 class OrderHeaderProperties(StrictProperties):
