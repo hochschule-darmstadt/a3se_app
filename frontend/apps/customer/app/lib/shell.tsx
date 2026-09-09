@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 
-import { CustomerShell as UiCustomerShell, useMockActor, type BreadcrumbItem } from "@cct/ui";
+import { Button } from "@mantine/core";
+import { CctIcon, CustomerShell as UiCustomerShell, useMockActor, type BreadcrumbItem } from "@cct/ui";
+import { useTravel } from "./travel";
 
 function renderLink({ to, children }: { to: string; children: ReactNode }) {
   return <Link to={to} style={{ color: "var(--mantine-color-blue-7)", fontWeight: 600, textDecoration: "none" }}>{children}</Link>;
@@ -18,14 +20,17 @@ export function CustomerShell({ breadcrumbs, children }: { readonly breadcrumbs?
   const { actor, signOut } = useMockActor();
   const navigate = useNavigate();
   const location = useLocation();
+  const travel = useTravel();
 
   const userMenu = actor
     ? {
         label: actor.displayName,
         items: [
+          { label: "My orders", onSelect: () => navigate("/my-orders") },
           {
             label: "Sign out",
             onSelect: () => {
+              travel.clear();
               signOut();
               navigate("/");
             },
@@ -41,7 +46,9 @@ export function CustomerShell({ breadcrumbs, children }: { readonly breadcrumbs?
       };
 
   return (
-    <UiCustomerShell breadcrumbs={breadcrumbs} linkComponent={renderLink} userMenu={userMenu}>
+    <UiCustomerShell breadcrumbs={breadcrumbs} linkComponent={renderLink} userMenu={userMenu}
+      headerAction={<Button component={Link} to="/travel" variant="white" size="compact-sm"
+        leftSection={<CctIcon.travel size={16} aria-hidden />}>My travel ({travel.positions.length})</Button>}>
       {children}
     </UiCustomerShell>
   );

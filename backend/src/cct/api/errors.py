@@ -17,6 +17,7 @@ from cct.resource_management.errors import (
     EntityNotFoundError,
     InvalidEntityGraphError,
     InvalidReferenceError,
+    StockUnavailableError,
 )
 
 from .schemas import ErrorResponse
@@ -47,6 +48,10 @@ def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(InvalidEntityGraphError)
     async def handle_invalid_entity_graph(request: Request, exc: InvalidEntityGraphError) -> JSONResponse:
         return _respond(409, "invalid_entity_graph", "Invalid entity graph", str(exc))
+
+    @app.exception_handler(StockUnavailableError)
+    async def handle_stock_unavailable(request: Request, exc: StockUnavailableError) -> JSONResponse:
+        return _respond(409, "stock_unavailable", "Selected stock is no longer available", str(exc))
 
     @app.exception_handler(RequestValidationError)
     async def handle_request_validation(request: Request, exc: RequestValidationError) -> JSONResponse:

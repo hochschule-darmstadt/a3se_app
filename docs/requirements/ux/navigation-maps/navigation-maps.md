@@ -19,19 +19,21 @@ The maps propose page/view boundaries; the use cases remain authoritative for be
 | View ID | Proposed view and purpose | Audience | Requirements evidence | Classification |
 |---|---|---|---|---|
 | VIEW-C-001 | Travel portal home: begin structured search or converse with the Automated Travel Advisor, which can answer questions and perform supported customer actions | Customer | ACT-001; UC-001; FR-005, FR-008, FR-009; NFR-002 | Revised proposed boundary; evidenced outcome |
-| VIEW-C-002 | Travel composition: review and revise an individual itinerary | Customer | ACT-001; UC-003, UC-005 | Proposed view boundary; evidenced outcome |
-| VIEW-C-003 | Sales offer: review composition, price, validity, conditions, availability, and acceptance after authentication | Customer | ACT-001; UC-008, UC-009, UC-010; FR-006 | Proposed consolidation; evidenced information, actions, and guard |
-| VIEW-C-004 | Order: review the created Travel Order and required service outcome | Customer | ACT-001; UC-016, UC-017 | Proposed view boundary; evidenced outcome |
+| VIEW-C-002 | Retired: former single-product Trip composition, replaced by VIEW-C-013 | Customer | Issue #36 | Retired; identifier is not reused |
+| VIEW-C-003 | Retired: former Sales offer, not part of direct customer order placement | Customer | Issue #36 | Retired; identifier is not reused |
+| VIEW-C-004 | My orders: list the signed-in Customer's Travel Orders and open their order-detail projection | Customer | ACT-001; UC-016, UC-017; issue #36 | Revised proposed boundary |
 | VIEW-C-005 | Payment: submit a payment or Deposit and see its confirmed, pending, or failed outcome | Customer | ACT-001; UC-018 | Proposed view boundary; evidenced outcome |
 | VIEW-C-006 | Travel documents: obtain authorized current documents | Customer; Traveler | ACT-001, ACT-002; UC-012 | Proposed view boundary; evidenced outcome |
 | VIEW-C-007 | Travel assistance: request and continue contextual support during or after travel | Customer; Traveler | ACT-001, ACT-002; UC-002, UC-013 | Proposed view boundary; evidenced outcome |
 | VIEW-C-008 | Customer account: review or correct customer information and access protected journeys | Customer | ACT-001; UC-014; FR-006 | Revised proposed boundary; evidenced outcome |
 | VIEW-C-009 | Search results: compare matching travel products and refine criteria when none fit | Customer | ACT-001; UC-001, UC-009; FR-005 | New proposal inspired by comparative UX evidence |
-| VIEW-C-010 | Travel detail: understand services, itinerary, dates, price indication, and availability before composition | Customer | ACT-001; UC-003, UC-005, UC-009; FR-005 | New proposal inspired by comparative UX evidence |
+| VIEW-C-010 | Travel detail: understand services, dates, price and availability, then add confirmed StockItem selection to My travel | Customer | ACT-001; UC-003, UC-005, UC-009; FR-005; issue #36 | Revised proposed boundary |
 | VIEW-C-011 | Sign in: identify an existing Customer account and resume the intended journey | Customer | ACT-001; UC-008; FR-006, FR-007 | MVP resolves a persisted active customer by exact email; password verification, recovery, and production sessions remain unresolved |
 | VIEW-C-012 | Registration: establish a Customer account and resume the intended journey | Customer | ACT-001; UC-014; FR-006, FR-007 | New evidenced access view; required information unresolved |
+| VIEW-C-013 | My travel: review session-held positions, assigned travellers and prices; remove positions; and place the complete Travel Order | Customer | ACT-001; UC-016, UC-017; issue #36 | New accepted MVP boundary |
+| VIEW-C-014 | Traveller selection: assign the signed-in Customer or a reusable, client-only new traveller to a pending StockItem | Customer; Traveler | ACT-001, ACT-002; UC-014, UC-016; issue #36 | New accepted MVP boundary |
 
-The primary path is now a recognisable funnel: discovery/advice → results → travel detail → composition → authenticated Sales Offer → Travel Order. Structured search is discovery, not a second advice mechanism: advice is exclusively an AI-chat conversation, and the Automated Travel Advisor may invoke the same supported transitions as a Customer action when its authorization and required customer decisions are satisfied. Registration and sign-in are deferred until the Customer requests a Sales Offer, although the account remains directly reachable. Validation, empty results, unavailable inventory, pending payment, and authentication failure remain states of their originating views rather than separate pages; this removes the first map's speculative shared recovery destinations. Favourites, ratings, promotions, checkout add-ons, and content-heavy destination hierarchies observed on the comparison site were not added because project evidence does not require them.
+The MVP order path is discovery/advice → results or travel detail → sign-in when needed → traveller selection → My travel → atomic Travel Order placement → My orders. VIEW-C-002 and VIEW-C-003 are retired rather than repurposed. Structured search remains discovery, not a second advice mechanism. Validation, empty results, unavailable inventory, placement conflicts, and authentication failure remain states of their originating views.
 
 ## Staff-facing map
 

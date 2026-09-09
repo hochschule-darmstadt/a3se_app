@@ -92,6 +92,30 @@ class AssignCustomerRequest(BaseModel):
     customer_role_id: str = Field(alias="customerRoleId", min_length=1, max_length=100)
 
 
+class TravelTravellerRequest(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    client_traveller_id: str = Field(alias="clientTravellerId", min_length=1, max_length=100)
+    kind: Literal["self", "new"]
+    given_name: str | None = Field(default=None, alias="givenName", min_length=1, max_length=100)
+    family_name: str | None = Field(default=None, alias="familyName", min_length=1, max_length=100)
+
+
+class TravelPositionRequest(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    stock_item_id: str = Field(alias="stockItemId", min_length=1, max_length=100)
+    client_traveller_id: str = Field(alias="clientTravellerId", min_length=1, max_length=100)
+
+
+class PlaceCustomerOrderRequest(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    customer_person_id: str = Field(alias="customerPersonId", min_length=1, max_length=100)
+    travellers: list[TravelTravellerRequest] = Field(min_length=1)
+    positions: list[TravelPositionRequest] = Field(min_length=1)
+
+
 class OrderPositionDetail(BaseModel):
     model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
 
@@ -155,6 +179,29 @@ ActorDependency = Annotated[Actor, Depends(get_current_actor)]
 def create_order(request: OrderCreateRequest, repository: RepositoryDependency, actor: ActorDependency) -> OrderResponse:
     entity = service.create_order(
         repository, entity_id=request.entity_id, properties=request.properties.model_dump(by_alias=True, exclude_none=True)
+    )
+    return OrderResponse.from_domain(entity)
+
+
+@router.post(
+    "/place",
+    response_model=OrderResponse,
+    status_code=status.HTTP_201_CREATED,
+    operation_id="placeCustomerOrder",
+    responses={409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+)
+def place_customer_order(
+    request: PlaceCustomerOrderRequest, repository: RepositoryDependency, actor: ActorDependency
+) -> OrderResponse:
+    travellers = tuple(item.model_dump(by_alias=True, exclude_none=True) for item in request.travellers)
+    for traveller in travellers:
+        if traveller["kind"] == "new" and (not traveller.get("givenName") or not traveller.get("familyName")):
+            raise ValueError("new travellers require givenName and familyName")
+    entity = service.place_customer_order(
+        repository,
+        customer_person_id=request.customer_person_id,
+        travellers=travellers,
+        positions=tuple(item.model_dump(by_alias=True) for item in request.positions),
     )
     return OrderResponse.from_domain(entity)
 

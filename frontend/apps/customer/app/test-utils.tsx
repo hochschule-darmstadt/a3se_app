@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 
 import { LocaleContext } from "./i18n";
+import { TravelProvider } from "./lib/travel";
 
 /** Not a route -- shared test scaffolding for `routes/*.test.tsx` (colocated per `frontend/tests/README.md`). */
 export function createTestQueryClient(): QueryClient {
@@ -17,9 +18,9 @@ export function TestProviders({ children }: { readonly children: ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <CustomerUiProvider>
         <MockAuthProvider>
-          <LocaleContext.Provider value={{ locale: "en-GB", setLocale: () => {} }}>
+          <TravelProvider><LocaleContext.Provider value={{ locale: "en-GB", setLocale: () => {} }}>
             {children}
-          </LocaleContext.Provider>
+          </LocaleContext.Provider></TravelProvider>
         </MockAuthProvider>
       </CustomerUiProvider>
     </QueryClientProvider>

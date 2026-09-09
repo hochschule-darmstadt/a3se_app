@@ -1,19 +1,16 @@
 import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
 /**
- * Customer Interaction thin slice (issue #22): `VIEW-C-001 -> C-009 -> C-010
- * -> C-002 -> C-011/012 -> C-003 -> C-004`. State between steps (selected
- * product, requested/confirmed date, party size) is carried in URL search
- * params rather than a client-side store, so every step is a plain,
- * independently linkable/testable route (React Router v7 framework mode,
- * `ssr:false`).
+ * Customer journey after issue #36: catalogue discovery feeds the
+ * session-scoped Travel and traveller-selection step; persisted orders are
+ * then available in My orders. Search criteria remain URL-backed.
  */
 export default [
   index("routes/home.tsx"),
   route("search", "routes/search-results.tsx"),
   route("products/:productId", "routes/product-detail.tsx"),
-  route("compose", "routes/compose.tsx"),
   route("sign-in", "routes/sign-in.tsx"),
-  route("offer", "routes/offer.tsx"),
-  route("order", "routes/order.tsx"),
+  route("travel/add", "routes/traveller-selection.tsx"),
+  route("travel", "routes/my-travel.tsx"),
+  route("my-orders", "routes/my-orders.tsx"),
 ] satisfies RouteConfig;

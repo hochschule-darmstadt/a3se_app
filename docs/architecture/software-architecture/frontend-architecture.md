@@ -150,6 +150,16 @@ and supplier → Inventory are excluded.
 
 ## 6. API client, queries, and pagination
 
+The pre-order customer Travel is the narrow exception to URL-backed view state.
+It is a session-scoped aggregate stored under one versioned `sessionStorage`
+key and exposed only through the Customer application's `TravelProvider`.
+Pending add-to-travel data survives the sign-in `returnTo` round trip;
+travellers created in the selection view remain client-only and reusable until
+successful atomic placement. Sign-out and successful placement clear the
+Travel. Search criteria and record selection remain URL state, and persisted
+orders remain server state. New customer flows must not introduce another
+browser store without revisiting this boundary.
+
 `frontend/packages/api-client` is generated from FastAPI OpenAPI: the export
 script writes `openapi.json`, `openapi-typescript` generates `schema.ts`, and
 the hand-authored `openapi-fetch` facade exposes typed path operations. Never

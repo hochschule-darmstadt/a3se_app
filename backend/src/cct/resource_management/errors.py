@@ -53,3 +53,12 @@ class DependentEntityExistsError(ValueError):
         super().__init__(f"cannot delete {entity_id}: dependent relationships exist ({detail})")
         self.entity_id = entity_id
         self.dependents = dependents
+
+
+class StockUnavailableError(ValueError):
+    """Raised when optimistic order placement finds unavailable stock."""
+
+    def __init__(self, stock_item_ids: tuple[str, ...]) -> None:
+        joined = ", ".join(stock_item_ids)
+        super().__init__(f"stock is no longer available: {joined}")
+        self.stock_item_ids = stock_item_ids

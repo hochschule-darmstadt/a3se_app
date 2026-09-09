@@ -1,4 +1,4 @@
-import { IconBuilding, IconHeadset, IconHome, IconLuggage, IconPackages, IconTicket, IconUser } from "@tabler/icons-react";
+import { IconBuilding, IconHeadset, IconHome, IconLuggage, IconPackages, IconShoppingCart, IconTicket, IconUser } from "@tabler/icons-react";
 import type { ComponentType } from "react";
 
 /**
@@ -14,6 +14,7 @@ export const CctIcon = {
   supplier: IconBuilding,
   inventory: IconPackages,
   order: IconTicket,
+  travel: IconShoppingCart,
   /** Not yet wired into a route: reserved for VIEW-C-007/S-006 once built. */
   assistance: IconHeadset,
 } as const satisfies Record<string, ComponentType<{ size?: number | string; "aria-hidden"?: boolean }>>;

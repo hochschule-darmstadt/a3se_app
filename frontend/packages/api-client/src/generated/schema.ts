@@ -56,6 +56,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/orders/place": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Place Customer Order */
+        post: operations["placeCustomerOrder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/orders/{order_id}": {
         parameters: {
             query?: never;
@@ -1097,6 +1114,15 @@ export interface components {
         PersonUpdateRequest: {
             properties: components["schemas"]["PersonProperties"];
         };
+        /** PlaceCustomerOrderRequest */
+        PlaceCustomerOrderRequest: {
+            /** Customerpersonid */
+            customerPersonId: string;
+            /** Positions */
+            positions: components["schemas"]["TravelPositionRequest"][];
+            /** Travellers */
+            travellers: components["schemas"]["TravelTravellerRequest"][];
+        };
         /** ProductComponentResponse */
         ProductComponentResponse: {
             /** Displayname */
@@ -1359,6 +1385,27 @@ export interface components {
             /** Unitpriceamount */
             unitPriceAmount: number | string;
         };
+        /** TravelPositionRequest */
+        TravelPositionRequest: {
+            /** Clienttravellerid */
+            clientTravellerId: string;
+            /** Stockitemid */
+            stockItemId: string;
+        };
+        /** TravelTravellerRequest */
+        TravelTravellerRequest: {
+            /** Clienttravellerid */
+            clientTravellerId: string;
+            /** Familyname */
+            familyName?: string | null;
+            /** Givenname */
+            givenName?: string | null;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "self" | "new";
+        };
         /** TravellerRoleProperties */
         TravellerRoleProperties: {
             /**
@@ -1529,6 +1576,48 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["OrderCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    placeCustomerOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlaceCustomerOrderRequest"];
             };
         };
         responses: {

@@ -225,3 +225,21 @@ def assign_customer(
 
 def get_order_detail(repository: EntityRepositoryPort, order_id: str) -> dict[str, object]:
     return repository.get_order_detail(order_id)
+
+
+def place_customer_order(
+    repository: EntityRepositoryPort,
+    *,
+    customer_person_id: str,
+    travellers: tuple[dict[str, str], ...],
+    positions: tuple[dict[str, str], ...],
+) -> ValidatedEntity:
+    """Recheck stock and persist the complete customer order as one transaction."""
+    traveller_ids = {traveller["clientTravellerId"] for traveller in travellers}
+    if not positions:
+        raise ValueError("an order must contain at least one position")
+    if any(position["clientTravellerId"] not in traveller_ids for position in positions):
+        raise ValueError("every position must reference a submitted traveller")
+    return repository.place_order(
+        customer_person_id=customer_person_id, travellers=travellers, positions=positions
+    )

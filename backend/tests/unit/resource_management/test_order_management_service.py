@@ -14,7 +14,8 @@ import unittest
 
 from support.fake_entity_repository import FakeEntityRepository
 
-from cct.resource_management.errors import DependentEntityExistsError, DuplicateEntityError, EntityNotFoundError
+from cct.resource_management.contracts import EntityKind
+from cct.resource_management.errors import DependentEntityExistsError, DuplicateEntityError, EntityNotFoundError, StockUnavailableError
 from cct.resource_management.inventory import service as inventory_service
 from cct.resource_management.order_management import service
 from cct.resource_management.partner_management import service as partner_service
@@ -166,6 +167,47 @@ class OrderServiceTest(unittest.TestCase):
              "personId": "I21-PERSON", "displayName": "Emil Brandt"}]}]},
             detail,
         )
+
+    def test_customer_order_is_placed_with_self_and_new_traveller(self) -> None:
+        person_service.create_person(self.repository, entity_id="PER-CUSTOMER",
+            properties={"givenName": "Casey", "familyName": "Example"})
+        person_service.create_person_role(self.repository, entity_id="ROLE-CUSTOMER", person_id="PER-CUSTOMER",
+            type="person/customer", properties={})
+        for stock_id in ("STK-A", "STK-B"):
+            self.repository.save({"entityId": stock_id, "entityKind": "StockItem",
+                "type": "stock/mobility/transfer", "properties": {"serviceDate": date(2027, 3, 18),
+                "unitPriceAmount": Decimal("40.00"), "currencyCode": "EUR", "capacityQuantity": 2,
+                "remainingCapacity": 2, "inventoryStatusCode": "inventory/active"}})
+
+        order = service.place_customer_order(self.repository, customer_person_id="PER-CUSTOMER",
+            travellers=({"clientTravellerId": "self", "kind": "self"},
+                {"clientTravellerId": "guest", "kind": "new", "givenName": "Alex", "familyName": "Example"}),
+            positions=({"stockItemId": "STK-A", "clientTravellerId": "self"},
+                {"stockItemId": "STK-B", "clientTravellerId": "guest"}))
+
+        detail = service.get_order_detail(self.repository, order.entity_id)
+        self.assertEqual(2, len(detail["positions"]))
+        self.assertEqual(1, self.repository.get(EntityKind.STOCK_ITEM, "STK-A").properties.remaining_capacity)
+        self.assertEqual({"Casey Example", "Alex Example"},
+            {traveller["displayName"] for position in detail["positions"] for traveller in position["travellers"]})
+
+    def test_customer_order_conflict_rolls_back_every_write(self) -> None:
+        person_service.create_person(self.repository, entity_id="PER-CUSTOMER",
+            properties={"givenName": "Casey", "familyName": "Example"})
+        person_service.create_person_role(self.repository, entity_id="ROLE-CUSTOMER", person_id="PER-CUSTOMER",
+            type="person/customer", properties={})
+        self.repository.save({"entityId": "STK-FULL", "entityKind": "StockItem",
+            "type": "stock/mobility/transfer", "properties": {"serviceDate": date(2027, 3, 18),
+            "unitPriceAmount": Decimal("40.00"), "currencyCode": "EUR", "capacityQuantity": 1,
+            "remainingCapacity": 0, "inventoryStatusCode": "inventory/active"}})
+
+        with self.assertRaises(StockUnavailableError):
+            service.place_customer_order(self.repository, customer_person_id="PER-CUSTOMER",
+                travellers=({"clientTravellerId": "guest", "kind": "new", "givenName": "Alex", "familyName": "Example"},),
+                positions=({"stockItemId": "STK-FULL", "clientTravellerId": "guest"},))
+
+        self.assertEqual((), service.list_orders(self.repository).items)
+        self.assertEqual(3, len(self.repository._entities))
 
 
 if __name__ == "__main__":

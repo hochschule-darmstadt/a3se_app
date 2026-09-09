@@ -8,6 +8,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 import { queryClient } from "./api";
 import { LocaleContext, useLocale, useT } from "./i18n";
+import { TravelProvider } from "./lib/travel";
 
 export function Layout({ children }: Readonly<{ children: ReactNode }>) {
   return (
@@ -60,10 +61,10 @@ export default function CustomerApplication() {
     <QueryClientProvider client={queryClient}>
       <CustomerUiProvider>
         <MockAuthProvider>
-          <LocaleContext.Provider value={localeValue}>
+          <TravelProvider><LocaleContext.Provider value={localeValue}>
             <LocaleBar />
             <Outlet />
-          </LocaleContext.Provider>
+          </LocaleContext.Provider></TravelProvider>
         </MockAuthProvider>
       </CustomerUiProvider>
     </QueryClientProvider>

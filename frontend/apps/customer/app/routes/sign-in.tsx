@@ -45,9 +45,7 @@ export default function SignIn() {
       navigate(returnTo);
       return;
     }
-    const params = new URLSearchParams(searchParams);
-    params.delete("returnTo");
-    navigate(`/offer?${params.toString()}`);
+    navigate("/");
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -96,7 +94,6 @@ export default function SignIn() {
     <CustomerShell
       breadcrumbs={[
         { label: "Travel portal", to: "/" },
-        { label: "Trip composition", to: "/compose" },
         { label: mode === "register" ? "Registration" : "Sign in" },
       ]}
     >
@@ -104,6 +101,7 @@ export default function SignIn() {
         <Stack gap="lg">
           <Title order={1}>{mode === "register" ? t("signIn.register.heading") : t("signIn.heading")}</Title>
           <StatusBanner kind="info" title={mode === "register" ? t("signIn.register.notice") : t("signIn.notice")} />
+          {searchParams.get("returnTo")?.startsWith("/travel/add") ? <StatusBanner kind="info" title={t("travel.signInRequired")} /> : null}
           {productId ? <p>{t("signIn.context", { product: productId, date })}</p> : null}
 
           <form onSubmit={handleSubmit} noValidate>

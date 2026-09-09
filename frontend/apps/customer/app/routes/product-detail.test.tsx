@@ -79,7 +79,7 @@ describe("ProductDetail (VIEW-C-010 availability check)", () => {
 
     expect(await screen.findByText("Not available on 2027-04-06")).toBeInTheDocument();
     expect(await screen.findByText("An alternative date is available: 2027-04-07.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Use 2027-04-07 instead" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Add 2027-04-07 to travel" })).toBeInTheDocument();
   });
 
   it("shows a genuine unavailable state (no fabricated alternative) when no date in the window has stock", async () => {

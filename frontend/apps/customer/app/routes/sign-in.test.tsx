@@ -14,7 +14,7 @@ const postMock = vi.mocked(apiClient.POST);
 function renderSignIn() {
   const Stub = createRoutesStub([
     { path: "/sign-in", Component: SignIn },
-    { path: "/offer", Component: () => <div>Offer page</div> },
+    { path: "/", Component: () => <div>Travel portal page</div> },
   ]);
   return render(
     <TestProviders>
@@ -44,13 +44,13 @@ describe("SignIn (VIEW-C-011/C-012 mock identity)", () => {
     expect(screen.getByText("Enter a password.")).toBeInTheDocument();
   });
 
-  it("signs in and continues to the offer step, preserving the booking params", async () => {
+  it("signs in and returns to the portal when there is no explicit return destination", async () => {
     const user = userEvent.setup();
     renderSignIn();
     await user.type(screen.getByLabelText("Email address"), "ada@example.test");
     await user.type(screen.getByLabelText("Password"), "demo-password");
     await user.click(screen.getByRole("button", { name: "Sign in" }));
-    expect(await screen.findByText("Offer page")).toBeInTheDocument();
+    expect(await screen.findByText("Travel portal page")).toBeInTheDocument();
   });
 
   it("returns to the originating page when sign-in was opened from the header", async () => {
@@ -74,7 +74,7 @@ describe("SignIn (VIEW-C-011/C-012 mock identity)", () => {
   });
 
   it("shows the registration fields and preserves the booking context", async () => {
-    const Stub = createRoutesStub([{ path: "/sign-in", Component: SignIn }, { path: "/offer", Component: () => <div>Offer page</div> }]);
+    const Stub = createRoutesStub([{ path: "/sign-in", Component: SignIn }, { path: "/", Component: () => <div>Travel portal page</div> }]);
     render(<TestProviders><Stub initialEntries={["/sign-in?productId=FLT-01&date=2027-04-06&travellers=1"]} /></TestProviders>);
     await userEvent.setup().click(screen.getByRole("button", { name: "New customer? Register instead" }));
     expect(screen.getByLabelText("Given name")).toBeInTheDocument();
@@ -99,6 +99,6 @@ describe("SignIn (VIEW-C-011/C-012 mock identity)", () => {
     await waitFor(() => expect(postMock).toHaveBeenCalledTimes(2));
     expect(postMock.mock.calls[0]?.[0]).toBe("/persons");
     expect(postMock.mock.calls[1]?.[0]).toBe("/persons/{person_id}/roles");
-    expect(await screen.findByText("Offer page")).toBeInTheDocument();
+    expect(await screen.findByText("Travel portal page")).toBeInTheDocument();
   });
 });

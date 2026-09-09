@@ -6,7 +6,7 @@ from datetime import date
 from typing import Final, Protocol
 
 from cct.resource_management.contracts import EntityKind, FlexibleEntity, ValidatedEntity
-from cct.resource_management.errors import DependentEntityExistsError, EntityNotFoundError, InvalidEntityGraphError
+from cct.resource_management.errors import DependentEntityExistsError, EntityNotFoundError, InvalidEntityGraphError, StockUnavailableError
 from cct.resource_management.pagination import PageRequest, PageResult
 from cct.resource_management.registry import EntityTypeRegistry
 from cct.resource_management.relationship_types import OWNERSHIP_RELATIONSHIP_TYPES, RelationshipType
@@ -183,6 +183,87 @@ class Neo4jEntityRepository:
         row = rows[0]
         return {"customerRoleId": row["customerRoleId"], "customerPersonId": row["customerPersonId"],
             "customerDisplayName": row["customerDisplayName"], "positions": row["positions"]}
+
+    def place_order(self, *, customer_person_id: str, travellers: tuple[dict[str, str], ...],
+        positions: tuple[dict[str, str], ...]) -> ValidatedEntity:
+        """Persist the complete customer Travel using one Neo4j transaction."""
+        order = self._registry.validate({"entityId": "ALLOCATING", "entityKind": "OrderItem",
+            "type": "order/header", "properties": {"orderStatusCode": "order/reserved"}})
+        with self._driver.session(database=self._database) as session:
+            order_id = session.execute_write(
+                self._place_order_transaction, customer_person_id, travellers, positions,
+                self._mapper.to_node(order),
+            )
+        return order.model_copy(update={"entity_id": order_id})
+
+    def _place_order_transaction(self, tx: Transaction, customer_person_id: str,
+        travellers: tuple[dict[str, str], ...], positions: tuple[dict[str, str], ...], order_node: NodeRecord) -> str:
+        customer = tx.run(
+            "MATCH (person:Person {entityId: $personId})-[:HAS_ROLE]->(role:PersonRole) "
+            "WHERE role.type = 'person/customer' AND role.roleStatusCode = 'role/active' "
+            "RETURN role.entityId AS roleId LIMIT 1", personId=customer_person_id,
+        ).single(strict=False)
+        if customer is None:
+            raise EntityNotFoundError(EntityKind.PERSON, customer_person_id)
+
+        unavailable = tuple(row["stockId"] for row in tx.run(
+            "UNWIND $stockIds AS stockId WITH stockId, count(*) AS requested "
+            "OPTIONAL MATCH (stock:StockItem {entityId: stockId}) "
+            "WITH stockId, requested, stock "
+            "WHERE stock IS NULL OR stock.inventoryStatusCode <> 'inventory/active' "
+            "OR stock.remainingCapacity < requested RETURN stockId ORDER BY stockId",
+            stockIds=[position["stockItemId"] for position in positions],
+        ))
+        if unavailable:
+            raise StockUnavailableError(unavailable)
+
+        role_by_client_id: dict[str, str] = {}
+        for traveller in travellers:
+            if traveller["kind"] == "self":
+                row = tx.run(
+                    "MATCH (person:Person {entityId: $personId}) "
+                    "OPTIONAL MATCH (person)-[:HAS_ROLE]->(role:PersonRole {type: 'person/traveller'}) "
+                    "RETURN role.entityId AS roleId LIMIT 1", personId=customer_person_id,
+                ).single(strict=False)
+                role_id = row["roleId"] if row else None
+                if role_id is None:
+                    role_node = self._mapper.to_node(self._registry.validate({"entityId": "ALLOCATING",
+                        "entityKind": "PersonRole", "type": "person/traveller",
+                        "properties": {"roleStatusCode": "role/active"}}))
+                    role_id = self._write_generated_node(tx, role_node, None)["entityId"]
+                    tx.run("MATCH (person:Person {entityId: $personId}), (role:PersonRole {entityId: $roleId}) "
+                        "CREATE (person)-[:HAS_ROLE]->(role)", personId=customer_person_id, roleId=role_id)
+            else:
+                person_node = self._mapper.to_node(self._registry.validate({"entityId": "ALLOCATING",
+                    "entityKind": "Person", "properties": {"givenName": traveller["givenName"],
+                    "familyName": traveller["familyName"]}}))
+                person_id = self._write_generated_node(tx, person_node, None)["entityId"]
+                role_node = self._mapper.to_node(self._registry.validate({"entityId": "ALLOCATING",
+                    "entityKind": "PersonRole", "type": "person/traveller",
+                    "properties": {"roleStatusCode": "role/active"}}))
+                role_id = self._write_generated_node(tx, role_node, None)["entityId"]
+                tx.run("MATCH (person:Person {entityId: $personId}), (role:PersonRole {entityId: $roleId}) "
+                    "CREATE (person)-[:HAS_ROLE]->(role)", personId=person_id, roleId=role_id)
+            role_by_client_id[traveller["clientTravellerId"]] = role_id
+
+        order_id = self._write_generated_node(tx, order_node, None)["entityId"]
+        tx.run("MATCH (order:OrderItem {entityId: $orderId}), (role:PersonRole {entityId: $roleId}) "
+            "CREATE (order)-[:CUSTOMER]->(role)", orderId=order_id, roleId=customer["roleId"])
+        position_template = self._mapper.to_node(self._registry.validate({"entityId": "ALLOCATING",
+            "entityKind": "OrderItem", "type": "order/position", "properties": {}}))
+        for position in positions:
+            position_id = self._write_generated_node(tx, position_template, order_id)["entityId"]
+            tx.run(
+                "MATCH (order:OrderItem {entityId: $orderId}), (position:OrderItem {entityId: $positionId}), "
+                "(stock:StockItem {entityId: $stockId}), (traveller:PersonRole {entityId: $travellerRoleId}) "
+                "CREATE (order)-[:CONTAINS]->(position) "
+                "CREATE (position)-[:ALLOCATES_STOCK]->(stock) "
+                "CREATE (position)-[:ASSIGNED_TRAVELLER]->(traveller) "
+                "SET stock.remainingCapacity = stock.remainingCapacity - 1",
+                orderId=order_id, positionId=position_id, stockId=position["stockItemId"],
+                travellerRoleId=role_by_client_id[position["clientTravellerId"]],
+            )
+        return order_id
 
     def list_orders(self, *, search, status, product_type, service_date_from,
         service_date_to, unresolved_only, page, customer_role_id=None, stock_item_id=None, traveller_role_id=None):

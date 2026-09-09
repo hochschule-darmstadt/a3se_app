@@ -166,6 +166,70 @@ class FakeEntityRepository:
             raise InvalidEntityGraphError(role_id, "organisation role has multiple owners")
         return self._entities.get((EntityKind.ORGANISATION, organisation_ids[0]))
 
+    def place_order(self, *, customer_person_id, travellers, positions):
+        from copy import deepcopy
+        from cct.resource_management.errors import StockUnavailableError
+
+        snapshot = (deepcopy(self._entities), list(self.relationship_calls), dict(self._next_ids), dict(self._next_positions))
+        try:
+            customer_roles = self.list_related(from_kind=EntityKind.PERSON, from_id=customer_person_id,
+                relationship=RelationshipType.HAS_ROLE, to_kind=EntityKind.PERSON_ROLE)
+            customer_role = next((role for role in customer_roles if role.type == "person/customer"
+                and role.properties.role_status_code == "role/active"), None)
+            if customer_role is None:
+                raise EntityNotFoundError(EntityKind.PERSON, customer_person_id)
+            required: dict[str, int] = {}
+            for position in positions:
+                required[position["stockItemId"]] = required.get(position["stockItemId"], 0) + 1
+            unavailable = tuple(stock_id for stock_id, count in required.items()
+                if (stock := self.get(EntityKind.STOCK_ITEM, stock_id)) is None
+                or stock.properties.inventory_status_code != "inventory/active"
+                or stock.properties.remaining_capacity < count)
+            if unavailable:
+                raise StockUnavailableError(unavailable)
+
+            role_by_client_id = {}
+            for traveller in travellers:
+                if traveller["kind"] == "self":
+                    role = next((item for item in customer_roles if item.type == "person/traveller"), None)
+                    if role is None:
+                        role = self.create_generated(entity_kind=EntityKind.PERSON_ROLE, type="person/traveller",
+                            properties={"roleStatusCode": "role/active"})
+                        self.create_relationship(from_kind=EntityKind.PERSON, from_id=customer_person_id,
+                            relationship=RelationshipType.HAS_ROLE, to_kind=EntityKind.PERSON_ROLE, to_id=role.entity_id)
+                else:
+                    person = self.create_generated(entity_kind=EntityKind.PERSON, type=None,
+                        properties={"givenName": traveller["givenName"], "familyName": traveller["familyName"]})
+                    role = self.create_generated(entity_kind=EntityKind.PERSON_ROLE, type="person/traveller",
+                        properties={"roleStatusCode": "role/active"})
+                    self.create_relationship(from_kind=EntityKind.PERSON, from_id=person.entity_id,
+                        relationship=RelationshipType.HAS_ROLE, to_kind=EntityKind.PERSON_ROLE, to_id=role.entity_id)
+                role_by_client_id[traveller["clientTravellerId"]] = role.entity_id
+
+            order = self.create_generated(entity_kind=EntityKind.ORDER_ITEM, type="order/header",
+                properties={"orderStatusCode": "order/reserved"})
+            self.create_relationship(from_kind=EntityKind.ORDER_ITEM, from_id=order.entity_id,
+                relationship=RelationshipType.CUSTOMER, to_kind=EntityKind.PERSON_ROLE, to_id=customer_role.entity_id)
+            for item in positions:
+                position = self.create_generated(entity_kind=EntityKind.ORDER_ITEM, type="order/position",
+                    properties={}, parent_id=order.entity_id)
+                self.create_relationship(from_kind=EntityKind.ORDER_ITEM, from_id=order.entity_id,
+                    relationship=RelationshipType.CONTAINS, to_kind=EntityKind.ORDER_ITEM, to_id=position.entity_id)
+                self.create_relationship(from_kind=EntityKind.ORDER_ITEM, from_id=position.entity_id,
+                    relationship=RelationshipType.ALLOCATES_STOCK, to_kind=EntityKind.STOCK_ITEM, to_id=item["stockItemId"])
+                self.create_relationship(from_kind=EntityKind.ORDER_ITEM, from_id=position.entity_id,
+                    relationship=RelationshipType.ASSIGNED_TRAVELLER, to_kind=EntityKind.PERSON_ROLE,
+                    to_id=role_by_client_id[item["clientTravellerId"]])
+                stock = self.get(EntityKind.STOCK_ITEM, item["stockItemId"])
+                properties = stock.properties.model_dump(by_alias=True)
+                properties["remainingCapacity"] -= 1
+                self.save({"entityId": stock.entity_id, "entityKind": "StockItem", "type": stock.type,
+                    "properties": properties})
+            return order
+        except Exception:
+            self._entities, self.relationship_calls, self._next_ids, self._next_positions = snapshot
+            raise
+
     def get_order_detail(self, order_id):
         if (EntityKind.ORDER_ITEM, order_id) not in self._entities:
             raise EntityNotFoundError(EntityKind.ORDER_ITEM, order_id)

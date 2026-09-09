@@ -181,13 +181,14 @@ export interface CustomerShellProps {
   readonly breadcrumbs?: readonly BreadcrumbItem[];
   readonly linkComponent: ShellLinkComponent;
   readonly userMenu: ShellUserMenuProps;
+  readonly headerAction?: ReactNode;
   /** Composition point for the persistent AI travel advisor rail (DS-CMP-009); not populated by this shell. */
   readonly advisorRail?: ReactNode;
   readonly children: ReactNode;
 }
 
 /** DS-CMP-001 customer profile: header + footer, no sidebar; reserves advisor context in an `aside` landmark. */
-export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, advisorRail, children }: CustomerShellProps) {
+export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, headerAction, advisorRail, children }: CustomerShellProps) {
   return (
     <AppShell
       header={{ height: 72 }}
@@ -203,7 +204,10 @@ export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, advis
             to: "/",
             children: <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />,
           })}
-          <ShellUserMenu {...userMenu} />
+          <Group gap="sm">
+            {headerAction}
+            <ShellUserMenu {...userMenu} />
+          </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Main id={MAIN_CONTENT_ID}>

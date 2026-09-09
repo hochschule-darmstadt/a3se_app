@@ -1,14 +1,15 @@
 import { Button, Container, List, Stack, Text, Title } from "@mantine/core";
 import { useApiQuery, type ApiError } from "@cct/api-client";
-import { ApiErrorBanner, StatusBanner } from "@cct/ui";
+import { ApiErrorBanner, StatusBanner, useMockActor } from "@cct/ui";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router";
 
 import { apiClient } from "../api";
 import { useT } from "../i18n";
 import { checkAvailability, type AvailabilityResult } from "../lib/availability";
 import { productTitle } from "../lib/product-display";
 import { CustomerShell } from "../lib/shell";
+import { useTravel } from "../lib/travel";
 
 export function meta() {
   return [{ title: "Travel product – Christopher Columbus Travel" }];
@@ -23,12 +24,12 @@ export function meta() {
 export default function ProductDetail() {
   const t = useT();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { actor } = useMockActor();
+  const travel = useTravel();
   const { productId } = useParams<{ productId: string }>();
   const [searchParams] = useSearchParams();
   const requestedDate = searchParams.get("date") ?? "";
-  const travellers = searchParams.get("travellers") ?? "";
-  const origin = searchParams.get("origin") ?? "";
-  const destination = searchParams.get("destination") ?? "";
   const resultsParams = new URLSearchParams(searchParams);
   resultsParams.delete("date");
   const backToResultsHref = resultsParams.get("destinationOrTheme")
@@ -52,15 +53,13 @@ export default function ProductDetail() {
     retry: false,
   });
 
-  function selectHref(confirmedDate: string) {
-    const params = new URLSearchParams({
-      productId: productId ?? "",
-      date: confirmedDate,
-      travellers,
-      origin,
-      destination,
-    });
-    return `/compose?${params.toString()}`;
+  function addToTravel(result: Extract<AvailabilityResult, { status: "available" | "alternative" }>) {
+    travel.setPending({ stockItemId: result.stockItem.entityId, productId: result.stockItem.productId,
+      displayNameChain: result.stockItem.productDisplayNameChain, serviceDate: result.date,
+      unitPriceAmount: String(result.stockItem.properties.unitPriceAmount), currencyCode: result.stockItem.properties.currencyCode });
+    const returnTo = `${location.pathname}${location.search}`;
+    const selection = `/travel/add?${new URLSearchParams({ returnTo }).toString()}`;
+    navigate(actor ? selection : `/sign-in?${new URLSearchParams({ returnTo: selection }).toString()}`);
   }
 
   return (
@@ -133,8 +132,8 @@ export default function ProductDetail() {
             {t("detail.available.price")}: {result.stockItem.properties.unitPriceAmount}{" "}
             {result.stockItem.properties.currencyCode}
           </Text>
-          <Button color="orange" onClick={() => navigate(selectHref(result.date))}>
-            {t("detail.select")}
+          <Button color="orange" onClick={() => addToTravel(result)}>
+            {t("travel.add")}
           </Button>
         </Stack>
       );
@@ -148,8 +147,8 @@ export default function ProductDetail() {
             {t("detail.available.price")}: {result.stockItem.properties.unitPriceAmount}{" "}
             {result.stockItem.properties.currencyCode}
           </Text>
-          <Button color="orange" onClick={() => navigate(selectHref(result.date))}>
-            {t("detail.alternative.select", { date: result.date })}
+          <Button color="orange" onClick={() => addToTravel(result)}>
+            {t("travel.addAlternative", { date: result.date })}
           </Button>
         </Stack>
       );

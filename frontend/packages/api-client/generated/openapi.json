@@ -1878,6 +1878,39 @@
         "title": "PersonUpdateRequest",
         "type": "object"
       },
+      "PlaceCustomerOrderRequest": {
+        "properties": {
+          "customerPersonId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Customerpersonid",
+            "type": "string"
+          },
+          "positions": {
+            "items": {
+              "$ref": "#/components/schemas/TravelPositionRequest"
+            },
+            "minItems": 1,
+            "title": "Positions",
+            "type": "array"
+          },
+          "travellers": {
+            "items": {
+              "$ref": "#/components/schemas/TravelTravellerRequest"
+            },
+            "minItems": 1,
+            "title": "Travellers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "customerPersonId",
+          "travellers",
+          "positions"
+        ],
+        "title": "PlaceCustomerOrderRequest",
+        "type": "object"
+      },
       "ProductComponentResponse": {
         "properties": {
           "displayName": {
@@ -2686,6 +2719,78 @@
         "title": "StockPropertiesTransport",
         "type": "object"
       },
+      "TravelPositionRequest": {
+        "properties": {
+          "clientTravellerId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Clienttravellerid",
+            "type": "string"
+          },
+          "stockItemId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Stockitemid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stockItemId",
+          "clientTravellerId"
+        ],
+        "title": "TravelPositionRequest",
+        "type": "object"
+      },
+      "TravelTravellerRequest": {
+        "properties": {
+          "clientTravellerId": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Clienttravellerid",
+            "type": "string"
+          },
+          "familyName": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Familyname"
+          },
+          "givenName": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Givenname"
+          },
+          "kind": {
+            "enum": [
+              "self",
+              "new"
+            ],
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientTravellerId",
+          "kind"
+        ],
+        "title": "TravelTravellerRequest",
+        "type": "object"
+      },
       "TravellerRoleProperties": {
         "additionalProperties": false,
         "properties": {
@@ -3209,6 +3314,57 @@
           }
         },
         "summary": "Create Order",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/place": {
+      "post": {
+        "operationId": "placeCustomerOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaceCustomerOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Place Customer Order",
         "tags": [
           "orders"
         ]

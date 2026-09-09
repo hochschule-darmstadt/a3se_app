@@ -228,11 +228,21 @@ Neo4j write uses a driver-managed transaction and parameterized queries. A
 cross-module reference is resolved through the owning module before the write;
 a failed reference or relationship must not leave a dangling partial result.
 
-For future allocation/order implementation, party-size checks, atomic
-decrement/increment, rollback, idempotent repeated release/allocation, and
-concurrent no-oversell behavior are required. A boolean availability field
-alone cannot answer a party-size query. These claims require real Neo4j
-transaction/concurrency evidence, not only fakes.
+Customer order placement is one explicit cross-resource unit of work exposed
+by Order Management. It receives the signed-in Customer Person, unique
+client-side travellers, and StockItem/traveller position references. The
+Neo4j repository rechecks every requested StockItem and grouped required
+capacity before writes, then creates missing traveller Persons/roles, the
+order header, positions and relationships and decrements capacity within one
+driver-managed transaction. A conflict rolls back the complete unit; no
+position is silently omitted. Selecting “Myself” reuses the Person's active
+traveller role or creates that role in the same transaction. This deliberate
+cross-resource transaction is composed behind the Order service operation;
+ordinary module-scoped CRUD remains unchanged.
+
+Concurrent no-oversell behavior still requires real Neo4j concurrency evidence
+beyond the in-memory rollback/optimistic-conflict tests. A boolean availability
+field alone cannot answer a multi-position capacity query.
 
 ## 9. FastAPI HTTP adapter
 

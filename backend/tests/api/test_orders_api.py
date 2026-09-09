@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import date
+from decimal import Decimal
 import unittest
 
 from fastapi.testclient import TestClient
@@ -16,6 +18,8 @@ from cct.api.dependencies import (
     get_product_repository,
     get_stock_repository,
 )
+from cct.resource_management.person_management import service as person_service
+from cct.resource_management.contracts import EntityKind
 
 
 class OrdersApiTest(unittest.TestCase):
@@ -186,6 +190,24 @@ class OrdersApiTest(unittest.TestCase):
             "/orders/I21-ORDER-01/positions/I21-POS-01/stock", json={"stockItemId": "MISSING"}
         )
         self.assertEqual(404, response.status_code)
+
+    def test_place_customer_order_rechecks_and_returns_conflict_without_partial_order(self) -> None:
+        person_service.create_person(self.repository, entity_id="PER-CUSTOMER",
+            properties={"givenName": "Casey", "familyName": "Example"})
+        person_service.create_person_role(self.repository, entity_id="ROLE-CUSTOMER", person_id="PER-CUSTOMER",
+            type="person/customer", properties={})
+        self.repository.save({"entityId": "STK-FULL", "entityKind": "StockItem",
+            "type": "stock/mobility/transfer", "properties": {"serviceDate": date(2027, 3, 18),
+            "unitPriceAmount": Decimal("40.00"), "currencyCode": "EUR", "capacityQuantity": 1,
+            "remainingCapacity": 0, "inventoryStatusCode": "inventory/active"}})
+
+        response = self.client.post("/orders/place", json={"customerPersonId": "PER-CUSTOMER",
+            "travellers": [{"clientTravellerId": "self", "kind": "self"}],
+            "positions": [{"stockItemId": "STK-FULL", "clientTravellerId": "self"}]})
+
+        self.assertEqual(409, response.status_code)
+        self.assertEqual("stock_unavailable", response.json()["type"])
+        self.assertEqual((), self.repository.list(EntityKind.ORDER_ITEM, type_filter="order/header").items)
 
 
 if __name__ == "__main__":

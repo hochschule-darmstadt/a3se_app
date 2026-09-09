@@ -66,6 +66,11 @@ class EntityRepositoryPort(Protocol):
 
     def get_order_detail(self, order_id: str) -> dict[str, object]: ...
 
+    def place_order(
+        self, *, customer_person_id: str, travellers: tuple[dict[str, str], ...],
+        positions: tuple[dict[str, str], ...]
+    ) -> ValidatedEntity: ...
+
     def list_orders(
         self, *, search: str | None, status: str | None, product_type: str | None,
         service_date_from: date | None, service_date_to: date | None,
@@ -188,6 +193,12 @@ class ScopedEntityRepository:
     def get_order_detail(self, order_id: str) -> dict[str, object]:
         self._require_allowed(EntityKind.ORDER_ITEM)
         return self._repository.get_order_detail(order_id)
+
+    def place_order(self, *, customer_person_id, travellers, positions) -> ValidatedEntity:
+        self._require_allowed(EntityKind.ORDER_ITEM)
+        return self._repository.place_order(
+            customer_person_id=customer_person_id, travellers=travellers, positions=positions
+        )
 
     def list_orders(self, **kwargs) -> tuple[tuple[ValidatedEntity, dict[str, object]], ...]:
         self._require_allowed(EntityKind.ORDER_ITEM)
