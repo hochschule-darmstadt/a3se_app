@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 import { CustomerShell as UiCustomerShell, useMockActor, type BreadcrumbItem } from "@cct/ui";
 
@@ -17,6 +17,7 @@ function renderLink({ to, children }: { to: string; children: ReactNode }) {
 export function CustomerShell({ breadcrumbs, children }: { readonly breadcrumbs?: readonly BreadcrumbItem[]; readonly children: ReactNode }) {
   const { actor, signOut } = useMockActor();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userMenu = actor
     ? {
@@ -33,7 +34,10 @@ export function CustomerShell({ breadcrumbs, children }: { readonly breadcrumbs?
       }
     : {
         label: "Guest · Sign in",
-        items: [{ label: "Sign in", onSelect: () => navigate("/sign-in") }],
+        items: [{
+          label: "Sign in",
+          onSelect: () => navigate(`/sign-in?${new URLSearchParams({ returnTo: `${location.pathname}${location.search}` }).toString()}`),
+        }],
       };
 
   return (

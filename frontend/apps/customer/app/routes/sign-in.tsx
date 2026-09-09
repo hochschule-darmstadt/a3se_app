@@ -1,4 +1,4 @@
-import { Anchor, Button, Container, Stack, TextInput, Title } from "@mantine/core";
+import { Anchor, Button, Checkbox, Container, Stack, TextInput, Title } from "@mantine/core";
 import { FormErrorSummary, StatusBanner, useMockActor } from "@cct/ui";
 import { type FormEvent, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
@@ -30,20 +30,36 @@ export default function SignIn() {
   const date = searchParams.get("date") ?? "";
 
   const [mode, setMode] = useState<"sign-in" | "register">("sign-in");
-  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [givenName, setGivenName] = useState("");
+  const [familyName, setFamilyName] = useState("");
+  const [privacyAcknowledged, setPrivacyAcknowledged] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!displayName.trim()) {
-      setErrors([t("signIn.error.displayName")]);
+    const nextErrors: string[] = [];
+    if (!email.trim()) nextErrors.push(t("signIn.error.email"));
+    if (!password) nextErrors.push(t("signIn.error.password"));
+    if (mode === "register" && !givenName.trim()) nextErrors.push(t("signIn.error.givenName"));
+    if (mode === "register" && !familyName.trim()) nextErrors.push(t("signIn.error.familyName"));
+    if (mode === "register" && !privacyAcknowledged) nextErrors.push(t("signIn.error.privacy"));
+    if (nextErrors.length > 0) {
+      setErrors(nextErrors);
       return;
     }
     setErrors([]);
     // PER-001 is the one seeded demonstration customer identity (see module note above).
-    signIn({ displayName: displayName.trim(), personId: "PER-001" });
+    signIn({ displayName: mode === "register" ? `${givenName.trim()} ${familyName.trim()}` : email.trim(), personId: "PER-001" });
 
+    const returnTo = searchParams.get("returnTo");
+    if (returnTo?.startsWith("/")) {
+      navigate(returnTo);
+      return;
+    }
     const params = new URLSearchParams(searchParams);
+    params.delete("returnTo");
     navigate(`/offer?${params.toString()}`);
   }
 
@@ -52,32 +68,30 @@ export default function SignIn() {
       breadcrumbs={[
         { label: "Travel portal", to: "/" },
         { label: "Trip composition", to: "/compose" },
-        { label: "Sign in" },
+        { label: mode === "register" ? "Registration" : "Sign in" },
       ]}
     >
       <Container py="xl" size="sm">
         <Stack gap="lg">
-          <Title order={1}>{t("signIn.heading")}</Title>
-          <StatusBanner kind="info" title={t("signIn.notice")} />
+          <Title order={1}>{mode === "register" ? t("signIn.register.heading") : t("signIn.heading")}</Title>
+          <StatusBanner kind="info" title={mode === "register" ? t("signIn.register.notice") : t("signIn.notice")} />
           {productId ? <p>{t("signIn.context", { product: productId, date })}</p> : null}
 
           <form onSubmit={handleSubmit} noValidate>
             <Stack gap="md">
               <FormErrorSummary errors={errors} />
-              <TextInput
-                label={t("signIn.displayName.label")}
-                value={displayName}
-                onChange={(event) => setDisplayName(event.currentTarget.value)}
-              />
+              {mode === "register" ? <>
+                <TextInput label={t("signIn.givenName.label")} value={givenName} onChange={(event) => setGivenName(event.currentTarget.value)} />
+                <TextInput label={t("signIn.familyName.label")} value={familyName} onChange={(event) => setFamilyName(event.currentTarget.value)} />
+              </> : null}
+              <TextInput type="email" autoComplete="email" label={t("signIn.email.label")} value={email} onChange={(event) => setEmail(event.currentTarget.value)} />
+              <TextInput type="password" autoComplete={mode === "register" ? "new-password" : "current-password"} label={t("signIn.password.label")} value={password} onChange={(event) => setPassword(event.currentTarget.value)} />
+              {mode === "register" ? <Checkbox label={t("signIn.privacy.label")} checked={privacyAcknowledged} onChange={(event) => setPrivacyAcknowledged(event.currentTarget.checked)} /> : null}
               <Button type="submit" color="orange">
                 {mode === "sign-in" ? t("signIn.submit") : t("signIn.register.submit")}
               </Button>
-              <Anchor
-                component="button"
-                type="button"
-                onClick={() => setMode(mode === "sign-in" ? "register" : "sign-in")}
-              >
-                {mode === "sign-in" ? t("signIn.toggle.toRegister") : t("signIn.toggle.toSignIn")}
+              <Anchor component="button" type="button" onClick={() => setMode(mode === "sign-in" ? "register" : "sign-in")}>
+                {mode === "sign-in" ? t("signIn.toggle.toRegister") : t("signIn.register.already")}
               </Anchor>
             </Stack>
           </form>
