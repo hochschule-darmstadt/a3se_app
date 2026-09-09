@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { CustomerShell as UiCustomerShell, useMockActor, type BreadcrumbItem } from "@cct/ui";
 
 function renderLink({ to, children }: { to: string; children: ReactNode }) {
-  return <Link to={to}>{children}</Link>;
+  return <Link to={to} style={{ color: "var(--mantine-color-blue-7)", fontWeight: 600, textDecoration: "none" }}>{children}</Link>;
 }
 
 /**

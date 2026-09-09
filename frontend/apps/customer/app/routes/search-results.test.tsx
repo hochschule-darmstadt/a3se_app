@@ -59,5 +59,6 @@ describe("SearchResults (VIEW-C-009 product-level catalogue search)", () => {
     expect(screen.queryByText("2027-04-06, 2027-04-13")).not.toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: "CA501 BER–LIM date" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View details" })).toBeInTheDocument();
+    expect(screen.queryByText("FLT-01")).not.toBeInTheDocument();
   });
 });
