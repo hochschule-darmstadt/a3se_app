@@ -37,6 +37,7 @@ describe("CustomerShell (DS-CMP-001 customer profile, issue #27 phase 2)", () =>
     expect(skipLink).toHaveAttribute("href", "#shell-main-content");
 
     expect(screen.getByRole("banner")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Christopher Columbus Travel" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("main")).toHaveTextContent("Page content");
 
     const footer = screen.getByRole("contentinfo");

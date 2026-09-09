@@ -55,7 +55,7 @@ export default function SearchResults() {
     return `/products/${encodeURIComponent(productId)}?${params.toString()}`;
   }
 
-  return <CustomerShell><Container py="xl" size="lg"><Stack gap="lg">
+  return <CustomerShell breadcrumbs={[{ label: "Travel portal", to: "/" }, { label: t("results.heading") }]}><Container py="xl" size="lg"><Stack gap="lg">
     <Title order={1}>{t("results.heading")}</Title>
     <Stack gap="xs" component="section" aria-label={t("results.criteria.heading")}>
       <Group justify="space-between" align="center">

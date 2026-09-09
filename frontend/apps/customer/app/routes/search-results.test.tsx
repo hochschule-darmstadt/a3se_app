@@ -30,6 +30,9 @@ describe("SearchResults (VIEW-C-009 product-level catalogue search)", () => {
     renderResults();
     expect(await screen.findByText(/Destination or theme: Peru/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Revise criteria" })).toBeVisible();
+    const breadcrumb = screen.getByRole("navigation", { name: "Breadcrumb" });
+    expect(breadcrumb).toHaveTextContent("Travel portal");
+    expect(breadcrumb).toHaveTextContent("Search results");
   });
 
   it("shows an empty state when no stock matches", async () => {

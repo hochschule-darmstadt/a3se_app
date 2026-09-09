@@ -199,7 +199,10 @@ export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, advis
       <SkipLink />
       <AppShell.Header style={{ backgroundColor: NAV_BACKGROUND, border: 0 }}>
         <Group h="100%" px="md" justify="space-between">
-          <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />
+          {linkComponent({
+            to: "/",
+            children: <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />,
+          })}
           <ShellUserMenu {...userMenu} />
         </Group>
       </AppShell.Header>
