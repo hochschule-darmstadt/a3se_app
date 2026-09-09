@@ -1667,6 +1667,20 @@
             ],
             "title": "Addresslocalityname"
           },
+          "emailAddress": {
+            "anyOf": [
+              {
+                "maxLength": 254,
+                "minLength": 3,
+                "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Emailaddress"
+          },
           "familyName": {
             "maxLength": 100,
             "minLength": 1,
@@ -4667,6 +4681,62 @@
           }
         },
         "summary": "Create Person",
+        "tags": [
+          "persons"
+        ]
+      }
+    },
+    "/persons/customer/by-email": {
+      "get": {
+        "description": "Resolve an existing persisted customer identity; no password is verified.",
+        "operationId": "findCustomerByEmail",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "emailAddress",
+            "required": true,
+            "schema": {
+              "maxLength": 254,
+              "minLength": 3,
+              "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+              "title": "Emailaddress",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Find Customer By Email",
         "tags": [
           "persons"
         ]

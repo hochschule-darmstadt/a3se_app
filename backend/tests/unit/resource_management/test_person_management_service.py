@@ -41,6 +41,33 @@ class PersonServiceTest(unittest.TestCase):
         page = service.list_persons(self.repository, page=PageRequest(limit=10))
         self.assertEqual(("I21-PER-01", "I21-PER-02"), tuple(entity.entity_id for entity in page.items))
 
+    def test_find_customer_by_email_returns_real_person_with_active_customer_role(self) -> None:
+        service.create_person(
+            self.repository,
+            entity_id="I21-PER-01",
+            properties=person_properties(emailAddress="customer@example.test"),
+        )
+        service.create_person_role(
+            self.repository,
+            entity_id="I21-ROLE-01",
+            person_id="I21-PER-01",
+            type="person/customer",
+            properties={"roleStatusCode": "role/active"},
+        )
+
+        person = service.find_customer_by_email(self.repository, "Customer@Example.Test")
+
+        self.assertEqual("I21-PER-01", person.entity_id)
+
+    def test_find_customer_by_email_rejects_person_without_customer_role(self) -> None:
+        service.create_person(
+            self.repository,
+            entity_id="I21-PER-01",
+            properties=person_properties(emailAddress="customer@example.test"),
+        )
+        with self.assertRaises(EntityNotFoundError):
+            service.find_customer_by_email(self.repository, "customer@example.test")
+
     def test_update_person_requires_existing(self) -> None:
         with self.assertRaises(EntityNotFoundError):
             service.update_person(self.repository, "MISSING", properties=person_properties())

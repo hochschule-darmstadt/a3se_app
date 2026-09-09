@@ -10,6 +10,13 @@ from ..contracts import StrictProperties
 class PersonProperties(StrictProperties):
     given_name: str = Field(alias="givenName", min_length=1, max_length=100)
     family_name: str = Field(alias="familyName", min_length=1, max_length=100)
+    email_address: str | None = Field(
+        default=None,
+        alias="emailAddress",
+        min_length=3,
+        max_length=254,
+        pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+    )
     address_locality_name: str | None = Field(default=None, alias="addressLocalityName", min_length=1, max_length=100)
 
 

@@ -63,6 +63,24 @@ class PersonsApiTest(unittest.TestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual("I21-PER-01", response.json()["entityId"])
 
+    def test_find_customer_by_email_returns_persisted_customer(self) -> None:
+        self.client.post("/persons", json=person_payload(emailAddress="customer@example.test"))
+        self.client.post(
+            "/persons/I21-PER-01/roles",
+            json={"role": {"type": "person/customer", "properties": {"roleStatusCode": "role/active"}}},
+        )
+        response = self.client.get(
+            "/persons/customer/by-email", params={"emailAddress": "Customer@Example.Test"}
+        )
+        self.assertEqual(200, response.status_code)
+        self.assertEqual("I21-PER-01", response.json()["entityId"])
+
+    def test_find_customer_by_email_returns_404_when_unregistered(self) -> None:
+        response = self.client.get(
+            "/persons/customer/by-email", params={"emailAddress": "missing@example.test"}
+        )
+        self.assertEqual(404, response.status_code)
+
     def test_list_persons_returns_page_with_items(self) -> None:
         self.client.post("/persons", json=person_payload("I21-PER-01"))
         self.client.post("/persons", json=person_payload("I21-PER-02", givenName="Sarah"))

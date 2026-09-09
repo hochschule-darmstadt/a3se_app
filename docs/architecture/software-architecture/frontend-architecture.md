@@ -116,6 +116,13 @@ list/tree layouts; selected records, positions, create/detail panels, filters,
 sort state, and page belong to the URL when they affect the visible view.
 Unsaved form input remains local and ephemeral.
 
+VIEW-C-011 and VIEW-C-012 share one account page with an in-page mode switch.
+Registration persists a Person and active `person/customer` role through the
+generated API client and stores the returned Person identifier. Sign-in
+resolves an existing active customer by exact email and stores that returned
+identifier; it never substitutes a seeded Person ID. Password verification,
+tokens, and production sessions remain outside this MVP mechanism.
+
 ## 5. URL view-state contract
 
 Use `useSearchParams`, `Link`, and React Router navigation with the shared Staff

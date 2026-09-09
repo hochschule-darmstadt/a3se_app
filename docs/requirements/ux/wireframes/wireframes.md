@@ -131,6 +131,13 @@ Both prototypes now apply a consistent page-shell chrome (WF-012) instead of ad 
 
 ## Navigation alignment and PoC thin slice
 
+Issue #59 corrects the VIEW-C-011/C-012 implementation boundary. The two
+variants remain an in-page switch, but registration now persists a Person and
+active `person/customer` role and retains the returned Person identifier.
+Sign-in resolves that persisted customer by exact email. Passwords are still
+neither stored nor verified; production authentication remains governed by
+NAV-Q-006.
+
 The annotated thin slice is `VIEW-C-001 → C-009 → C-010 → C-002 → C-011 or C-012 → C-003 → C-004 → S-005`. Customer payment and documents remain visible follow-on hypotheses. Staff review of the customer-created order begins in VIEW-S-005 and links to customer/traveler and inventory context without inventing module boundaries.
 
 ## MVP scope note (issue #34: VIEW-C-001)

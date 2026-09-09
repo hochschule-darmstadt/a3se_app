@@ -1,8 +1,10 @@
 import { Anchor, Button, Checkbox, Container, Stack, TextInput, Title } from "@mantine/core";
-import { FormErrorSummary, StatusBanner, useMockActor } from "@cct/ui";
+import { toApiError, type ApiError } from "@cct/api-client";
+import { ApiErrorBanner, FormErrorSummary, StatusBanner, useMockActor } from "@cct/ui";
 import { type FormEvent, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
+import { apiClient } from "../api";
 import { useT } from "../i18n";
 import { CustomerShell } from "../lib/shell";
 
@@ -15,11 +17,9 @@ export function meta() {
  * screen with a toggle rather than a fully separate flow (per the issue's
  * own scope guidance: registration/sign-in mechanism is otherwise
  * unresolved, NAV-Q-006/WF-Q-003). `MockAuthProvider` is a PoC placeholder
- * (DR-0015): no credential is verified, no token is issued. `PER-001` is
- * hardcoded as this thin slice's one demonstration customer identity
- * because it is the only seeded Person with both a customer and a
- * traveller role (`backend/scripts/seed/sources/persons.json`) -- a real
- * registration/account-selection flow is out of scope here.
+ * (DR-0015): no credential is verified and no token is issued. Issue #59
+ * nevertheless requires registration to persist the Person/customer role
+ * and sign-in to resolve that real Person rather than a seeded hardcoded id.
  */
 export default function SignIn() {
   const t = useT();
@@ -36,8 +36,21 @@ export default function SignIn() {
   const [familyName, setFamilyName] = useState("");
   const [privacyAcknowledged, setPrivacyAcknowledged] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const [apiError, setApiError] = useState<ApiError | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function continueAfterIdentityResolved() {
+    const returnTo = searchParams.get("returnTo");
+    if (returnTo?.startsWith("/")) {
+      navigate(returnTo);
+      return;
+    }
+    const params = new URLSearchParams(searchParams);
+    params.delete("returnTo");
+    navigate(`/offer?${params.toString()}`);
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextErrors: string[] = [];
     if (!email.trim()) nextErrors.push(t("signIn.error.email"));
@@ -50,17 +63,33 @@ export default function SignIn() {
       return;
     }
     setErrors([]);
-    // PER-001 is the one seeded demonstration customer identity (see module note above).
-    signIn({ displayName: mode === "register" ? `${givenName.trim()} ${familyName.trim()}` : email.trim(), personId: "PER-001" });
-
-    const returnTo = searchParams.get("returnTo");
-    if (returnTo?.startsWith("/")) {
-      navigate(returnTo);
-      return;
+    setApiError(null);
+    setSubmitting(true);
+    try {
+      if (mode === "register") {
+        const created = await apiClient.POST("/persons", {
+          body: { properties: { givenName: givenName.trim(), familyName: familyName.trim(), emailAddress: email.trim() } },
+        });
+        if (!created.response.ok || !created.data) throw toApiError(created.error, created.response);
+        const role = await apiClient.POST("/persons/{person_id}/roles", {
+          params: { path: { person_id: created.data.entityId } },
+          body: { role: { type: "person/customer", properties: { roleStatusCode: "role/active" } } },
+        });
+        if (!role.response.ok) throw toApiError(role.error, role.response);
+        signIn({ displayName: created.data.displayName, personId: created.data.entityId });
+      } else {
+        const resolved = await apiClient.GET("/persons/customer/by-email", {
+          params: { query: { emailAddress: email.trim() } },
+        });
+        if (!resolved.response.ok || !resolved.data) throw toApiError(resolved.error, resolved.response);
+        signIn({ displayName: resolved.data.displayName, personId: resolved.data.entityId });
+      }
+      continueAfterIdentityResolved();
+    } catch (error) {
+      setApiError(error as ApiError);
+    } finally {
+      setSubmitting(false);
     }
-    const params = new URLSearchParams(searchParams);
-    params.delete("returnTo");
-    navigate(`/offer?${params.toString()}`);
   }
 
   return (
@@ -80,6 +109,7 @@ export default function SignIn() {
           <form onSubmit={handleSubmit} noValidate>
             <Stack gap="md">
               <FormErrorSummary errors={errors} />
+              {apiError ? <ApiErrorBanner error={apiError} /> : null}
               {mode === "register" ? <>
                 <TextInput label={t("signIn.givenName.label")} value={givenName} onChange={(event) => setGivenName(event.currentTarget.value)} />
                 <TextInput label={t("signIn.familyName.label")} value={familyName} onChange={(event) => setFamilyName(event.currentTarget.value)} />
@@ -87,7 +117,7 @@ export default function SignIn() {
               <TextInput type="email" autoComplete="email" label={t("signIn.email.label")} value={email} onChange={(event) => setEmail(event.currentTarget.value)} />
               <TextInput type="password" autoComplete={mode === "register" ? "new-password" : "current-password"} label={t("signIn.password.label")} value={password} onChange={(event) => setPassword(event.currentTarget.value)} />
               {mode === "register" ? <Checkbox label={t("signIn.privacy.label")} checked={privacyAcknowledged} onChange={(event) => setPrivacyAcknowledged(event.currentTarget.checked)} /> : null}
-              <Button type="submit" color="orange">
+              <Button type="submit" color="orange" loading={submitting}>
                 {mode === "sign-in" ? t("signIn.submit") : t("signIn.register.submit")}
               </Button>
               <Anchor component="button" type="button" onClick={() => setMode(mode === "sign-in" ? "register" : "sign-in")}>

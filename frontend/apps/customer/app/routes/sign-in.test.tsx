@@ -1,10 +1,15 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { apiClient } from "../api";
 import { TestProviders } from "../test-utils";
 import SignIn from "./sign-in";
+
+vi.mock("../api", () => ({ apiClient: { GET: vi.fn(), POST: vi.fn() } }));
+const getMock = vi.mocked(apiClient.GET);
+const postMock = vi.mocked(apiClient.POST);
 
 function renderSignIn() {
   const Stub = createRoutesStub([
@@ -19,6 +24,11 @@ function renderSignIn() {
 }
 
 describe("SignIn (VIEW-C-011/C-012 mock identity)", () => {
+  beforeEach(() => {
+    getMock.mockReset();
+    postMock.mockReset();
+    getMock.mockResolvedValue({ data: { entityId: "PER-000123", entityKind: "Person", schemaVersion: 1, properties: { givenName: "Ada", familyName: "Kern", emailAddress: "ada@example.test" }, displayName: "Ada Kern", displayNameChain: ["Ada Kern"] }, response: { ok: true, status: 200 } } as never);
+  });
   it("shows the prototype-placeholder notice", () => {
     renderSignIn();
     expect(
@@ -70,5 +80,25 @@ describe("SignIn (VIEW-C-011/C-012 mock identity)", () => {
     expect(screen.getByLabelText("Given name")).toBeInTheDocument();
     expect(screen.getByLabelText("Family name")).toBeInTheDocument();
     expect(screen.getByLabelText(/privacy information/i)).toBeInTheDocument();
+  });
+
+  it("persists a new Person and customer role before continuing", async () => {
+    postMock
+      .mockResolvedValueOnce({ data: { entityId: "PER-000123", entityKind: "Person", schemaVersion: 1, properties: { givenName: "Ada", familyName: "Kern", emailAddress: "ada@example.test" }, displayName: "Ada Kern", displayNameChain: ["Ada Kern"] }, response: { ok: true, status: 201 } } as never)
+      .mockResolvedValueOnce({ data: { entityId: "PRO-000123", entityKind: "PersonRole", type: "person/customer", schemaVersion: 1, properties: { roleStatusCode: "role/active" }, displayName: "Customer", displayNameChain: ["Ada Kern", "Customer"] }, response: { ok: true, status: 201 } } as never);
+    renderSignIn();
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("button", { name: "New customer? Register instead" }));
+    await user.type(screen.getByLabelText("Given name"), "Ada");
+    await user.type(screen.getByLabelText("Family name"), "Kern");
+    await user.type(screen.getByLabelText("Email address"), "ada@example.test");
+    await user.type(screen.getByLabelText("Password"), "demo-password");
+    await user.click(screen.getByLabelText(/privacy information/i));
+    await user.click(screen.getByRole("button", { name: "Register and continue" }));
+
+    await waitFor(() => expect(postMock).toHaveBeenCalledTimes(2));
+    expect(postMock.mock.calls[0]?.[0]).toBe("/persons");
+    expect(postMock.mock.calls[1]?.[0]).toBe("/persons/{person_id}/roles");
+    expect(await screen.findByText("Offer page")).toBeInTheDocument();
   });
 });

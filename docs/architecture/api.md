@@ -19,7 +19,7 @@ codegen selection, are recorded in
 
 | Resource family | Root resource | Nested resource | Cross-module writes |
 |---|---|---|---|
-| Person Management | `/persons` | `/persons/{personId}/roles` | -- |
+| Person Management | `/persons`; MVP customer lookup at `/persons/customer/by-email` | `/persons/{personId}/roles` | -- |
 | Partner Management | `/organisations` | `/organisations/{organisationId}/roles` | -- |
 | Touristic Product Management | `/products` (recursive `CONTAINS`, read at `/products/{productId}/components`) | -- | `PUT /products/{productId}/supplier` validates via Partner Management |
 | Inventory | `/stock-items` (requires a lowest-level `productId` at creation; reads include product ancestry, supplier-role/supplier, and availability projections; `DELETE` marks withdrawn) | -- | validates the product via Touristic Product Management and rejects product items that have children or are structural parent types |
@@ -35,6 +35,13 @@ Inventory's delete-equivalent is deliberately a lifecycle update to
 persistence query before cursor pagination; `search` covers the represented
 product ancestry and supplier context from which the response display chain is
 computed, as well as stable identifiers and source properties.
+
+Issue #59 adds `emailAddress` as an optional Person property and an exact,
+case-insensitive customer lookup. Customer registration uses the existing
+Person and nested PersonRole create operations, then stores the returned
+Person identifier in the client-side MVP identity context. The lookup verifies
+that an active `person/customer` role exists; it does not verify passwords or
+constitute production authentication.
 
 ## Error contract
 

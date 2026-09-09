@@ -543,6 +543,7 @@ class Neo4jEntityRepository:
 COMMUNITY_SCHEMA = (
     "CREATE CONSTRAINT entity_id_counter_key IF NOT EXISTS FOR (n:EntityIdCounter) REQUIRE n.counterKey IS UNIQUE",
     "CREATE CONSTRAINT person_entity_id IF NOT EXISTS FOR (n:Person) REQUIRE n.entityId IS UNIQUE",
+    "CREATE CONSTRAINT person_email_address IF NOT EXISTS FOR (n:Person) REQUIRE n.emailAddress IS UNIQUE",
     "CREATE CONSTRAINT person_role_entity_id IF NOT EXISTS FOR (n:PersonRole) REQUIRE n.entityId IS UNIQUE",
     "CREATE CONSTRAINT organisation_entity_id IF NOT EXISTS FOR (n:Organisation) REQUIRE n.entityId IS UNIQUE",
     "CREATE CONSTRAINT orga_role_entity_id IF NOT EXISTS FOR (n:OrgaRole) REQUIRE n.entityId IS UNIQUE",

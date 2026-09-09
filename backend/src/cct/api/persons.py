@@ -136,6 +136,28 @@ def create_person(request: PersonCreateRequest, repository: RepositoryDependency
 
 
 @router.get(
+    "/customer/by-email",
+    response_model=PersonResponse,
+    operation_id="findCustomerByEmail",
+    responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+)
+def find_customer_by_email(
+    email_address: Annotated[
+        str,
+        Query(
+            alias="emailAddress",
+            min_length=3,
+            max_length=254,
+            pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+        ),
+    ],
+    repository: RepositoryDependency,
+) -> PersonResponse:
+    """Resolve an existing persisted customer identity; no password is verified."""
+    return PersonResponse.from_domain(service.find_customer_by_email(repository, email_address))
+
+
+@router.get(
     "/{person_id}",
     response_model=PersonResponse,
     operation_id="getPerson",

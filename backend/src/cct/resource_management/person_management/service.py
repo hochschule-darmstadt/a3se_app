@@ -38,6 +38,31 @@ def list_persons(
     return repository.list(EntityKind.PERSON, page=page)
 
 
+def find_customer_by_email(repository: EntityRepositoryPort, email_address: str) -> ValidatedEntity:
+    """Resolve an active customer Person by exact, case-insensitive email.
+
+    This is an MVP identity lookup for issue #59, not credential verification.
+    The caller must not treat a successful lookup as authentication.
+    """
+    after: str | None = None
+    normalized_email = email_address.strip().casefold()
+    while True:
+        page = repository.list(EntityKind.PERSON, page=PageRequest(limit=100, after=after))
+        for person in page.items:
+            if (person.properties.email_address or "").casefold() != normalized_email:
+                continue
+            roles = list_person_roles(repository, person.entity_id)
+            if any(
+                role.type == "person/customer" and role.properties.role_status_code == "role/active"
+                for role in roles
+            ):
+                return person
+        if page.next_cursor is None:
+            break
+        after = page.next_cursor
+    raise EntityNotFoundError(EntityKind.PERSON, "registered customer email")
+
+
 def update_person(
     repository: EntityRepositoryPort, entity_id: str, *, properties: dict[str, object]
 ) -> ValidatedEntity:
