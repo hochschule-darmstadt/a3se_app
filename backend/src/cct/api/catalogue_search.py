@@ -11,8 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from cct.api import display_names
 from cct.resource_management.contracts import EntityKind
-from cct.resource_management.pagination import PageRequest, decode_cursor, encode_cursor
-from cct.resource_management.relationship_types import RelationshipType
+from cct.resource_management.pagination import decode_cursor, encode_cursor
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
 from .dependencies import get_partner_repository, get_product_repository, get_stock_repository
@@ -50,23 +49,11 @@ def _all_matching_stock(
     service_date_from: date | None,
     service_date_to: date | None,
 ) -> list:
-    stocks = []
-    after: str | None = None
-    while True:
-        page = repository.list_stock_items(
-            search=search.casefold(),
-            service_date_from=service_date_from,
-            service_date_to=service_date_to,
-            availability_state="available",
-            product_type=None,
-            page=PageRequest(limit=100, after=after),
-        )
-        stocks.extend(page.items)
-        if page.next_cursor is None:
-            return stocks
-        if page.next_cursor == after:
-            raise RuntimeError("stock search pagination did not advance")
-        after = page.next_cursor
+    return list(repository.list_catalogue_stock_matches(
+        search=search,
+        service_date_from=service_date_from,
+        service_date_to=service_date_to,
+    ))
 
 
 @router.get("", response_model=Page[CatalogueSearchResult], operation_id="searchCatalogue")
@@ -80,21 +67,12 @@ def search_catalogue(
         raise ValueError("serviceDateFrom must not be after serviceDateTo")
 
     grouped: dict[str, dict[str, object]] = {}
-    for stock in _all_matching_stock(
+    for stock, product in _all_matching_stock(
         stock_repository,
         search=params.search.strip(),
         service_date_from=params.service_date_from,
         service_date_to=params.service_date_to,
     ):
-        represented = stock_repository.list_related(
-            from_kind=EntityKind.STOCK_ITEM,
-            from_id=stock.entity_id,
-            relationship=RelationshipType.REPRESENTS_PRODUCT,
-            to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
-        )
-        if len(represented) != 1:
-            continue
-        product = represented[0]
         item = grouped.setdefault(product.entity_id, {"product": product, "stocks": []})
         item["stocks"].append(stock)
 

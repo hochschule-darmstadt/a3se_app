@@ -39,7 +39,7 @@ Records every acceptance criterion from issue #13 as `passed`, `failed`, or `ope
 | Mantine Table sufficiency vs. additional grid component determined | passed | DR-0015 Decision item 3 (Mantine `Table` + `ScrollArea` via `@cct/ui` `DataTable`, scoped to current seed volume) |
 | FastAPI/Pydantic validation errors presented clearly and accessibly | open | Shared `ApiError`/`StatusBanner`/`ApiErrorBanner` path exists (DR-0015 item 5); no dedicated accessibility or error-clarity test evidence found in this pass |
 | British English and synthetic second language produce the same business outcome | passed | DR-0015 Decision item 4 (`translate()` dictionary, `en-GB`/`en-XP` pseudo-locale); explicitly structural evidence only, not real second-language content |
-| NFR-001 measured under documented representative load | open | No load-test tooling (k6/locust/artillery/etc.) found; NFR-001 verification not yet assigned per `docs/requirements/non-functional-requirements.md` |
+| NFR-001 measured under documented representative load | open | [Local #55 performance evidence](performance-evidence.md) records before/after single-request timings; controlled representative-load verification remains open |
 | Every mandatory frontend library/feature satisfies NFR-003 (zero-cost) | open | No dependency/licence inventory found for the frontend stack |
 
 ## Backend, module, and contract evidence
@@ -66,7 +66,7 @@ Records every acceptance criterion from issue #13 as `passed`, `failed`, or `ope
 | Module-owned writes and authorised cross-module read operations | passed | `order_management/service.py` calls other modules' read-only service functions; enforced by the architecture test's internal-persistence check |
 | Bounded read and command tools suitable for an agent | open | No agent tool module exists (see thin-slice #11) |
 | Backup, restore, upgrade feasibility, observability, least-privilege on Community Edition | open | No documentation or scripts addressing this found |
-| Relevant NFR-001/NFR-002 measurements under representative load | open | No measurement evidence found (see frontend NFR-001 row) |
+| Relevant NFR-001/NFR-002 measurements under representative load | open | [Local #55 performance evidence](performance-evidence.md) records single-request evidence; representative-load verification remains open |
 
 ## Cross-cutting finding
 

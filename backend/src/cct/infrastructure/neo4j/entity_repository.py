@@ -234,6 +234,35 @@ class Neo4jEntityRepository:
             next_cursor=entities[-1].entity_id if has_more and entities else None,
         )
 
+    def list_catalogue_stock_matches(
+        self,
+        *,
+        search: str,
+        service_date_from: date | None,
+        service_date_to: date | None,
+    ) -> tuple[tuple[ValidatedEntity, ValidatedEntity], ...]:
+        """Read matching sellable stock and its represented product together.
+
+        Catalogue aggregation must not page StockItems and then issue one
+        relationship query per row. This joined read keeps the traversal in
+        one Neo4j request; the API still performs the product-level projection
+        and display-name calculation afterward.
+        """
+        with self._driver.session(database=self._database) as session:
+            records = session.execute_read(
+                self._read_catalogue_stock_matches,
+                search.casefold(), service_date_from, service_date_to,
+            )
+        stock_label = LABELS[EntityKind.STOCK_ITEM]
+        product_label = LABELS[EntityKind.TOURISTIC_PRODUCT_ITEM]
+        return tuple(
+            (
+                self._mapper.from_node(NodeRecord(stock_label, dict(record["stock"]))),
+                self._mapper.from_node(NodeRecord(product_label, dict(record["product"]))),
+            )
+            for record in records
+        )
+
     @staticmethod
     def _write_node(tx: Transaction, node: NodeRecord) -> None:
         # The label comes from the EntityKind allow-list, never caller input.
@@ -498,6 +527,15 @@ class Neo4jEntityRepository:
             )
         )
 
+    @staticmethod
+    def _read_catalogue_stock_matches(tx: Transaction, search: str, service_date_from: date | None, service_date_to: date | None):
+        return list(tx.run(
+            CATALOGUE_STOCK_MATCHES,
+            search=search,
+            serviceDateFrom=service_date_from,
+            serviceDateTo=service_date_to,
+        ))
+
 
 COMMUNITY_SCHEMA = (
     "CREATE CONSTRAINT entity_id_counter_key IF NOT EXISTS FOR (n:EntityIdCounter) REQUIRE n.counterKey IS UNIQUE",
@@ -510,6 +548,9 @@ COMMUNITY_SCHEMA = (
     "CREATE CONSTRAINT order_entity_id IF NOT EXISTS FOR (n:OrderItem) REQUIRE n.entityId IS UNIQUE",
     "CREATE INDEX product_type IF NOT EXISTS FOR (n:TouristicProductItem) ON (n.type)",
     "CREATE INDEX flight_departure IF NOT EXISTS FOR (n:TouristicProductItem) ON (n.departureLocationCode)",
+    "CREATE INDEX stock_service_date IF NOT EXISTS FOR (n:StockItem) ON (n.serviceDate)",
+    "CREATE INDEX stock_remaining_capacity IF NOT EXISTS FOR (n:StockItem) ON (n.remainingCapacity)",
+    "CREATE INDEX stock_inventory_status IF NOT EXISTS FOR (n:StockItem) ON (n.inventoryStatusCode)",
 )
 
 ORDER_DETAIL_TRAVERSAL = """
@@ -588,4 +629,32 @@ WHERE ($after IS NULL OR stock.entityId > $after)
        OR any(node IN chainNodes + supplierRoles + suppliers
               WHERE any(key IN keys(node) WHERE toLower(toString(node[key])) CONTAINS $search)))
 RETURN DISTINCT stock AS entity ORDER BY stock.entityId LIMIT $limit
+""".strip()
+
+CATALOGUE_STOCK_MATCHES = """
+MATCH (stock:StockItem)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)
+OPTIONAL MATCH (ancestor:TouristicProductItem)-[:CONTAINS*0..10]->(product)
+WITH stock, product, collect(DISTINCT ancestor) + [product] AS chainNodes
+OPTIONAL MATCH (supplierProduct:TouristicProductItem)-[:SUPPLIED_BY]->(supplierRole:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation)
+WHERE supplierProduct IN chainNodes
+WITH stock, product, chainNodes, collect(DISTINCT supplierRole) AS supplierRoles, collect(DISTINCT supplier) AS suppliers,
+     CASE
+       WHEN coalesce(stock['inventoryStatusCode'], 'inventory/active') <> 'inventory/active'
+         THEN replace(stock['inventoryStatusCode'], 'inventory/', '')
+       WHEN coalesce(stock['capacityQuantity'], 0) = 0 OR coalesce(stock['remainingCapacity'], 0) < 0
+         THEN 'shortfall'
+       WHEN coalesce(stock['remainingCapacity'], 0) = 0
+         THEN 'allocated'
+       ELSE 'available'
+     END AS state
+WHERE state = 'available'
+  AND ($serviceDateFrom IS NULL OR stock.serviceDate >= $serviceDateFrom)
+  AND ($serviceDateTo IS NULL OR stock.serviceDate <= $serviceDateTo)
+  AND (
+    toLower(coalesce(stock.searchText, '')) CONTAINS $search
+    OR any(node IN chainNodes + supplierRoles + suppliers
+           WHERE any(key IN keys(node) WHERE toLower(toString(node[key])) CONTAINS $search))
+  )
+RETURN DISTINCT stock, product
+ORDER BY stock.entityId
 """.strip()

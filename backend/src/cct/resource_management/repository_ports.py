@@ -85,6 +85,14 @@ class EntityRepositoryPort(Protocol):
         page: PageRequest, product_id: str | None = None, supplier_role_id: str | None = None,
     ) -> PageResult[ValidatedEntity]: ...
 
+    def list_catalogue_stock_matches(
+        self,
+        *,
+        search: str,
+        service_date_from: date | None,
+        service_date_to: date | None,
+    ) -> tuple[tuple[ValidatedEntity, ValidatedEntity], ...]: ...
+
 
 class ScopedEntityRepository:
     """Wraps an EntityRepositoryPort, allow-listing the EntityKinds one module may access.
@@ -213,6 +221,20 @@ class ScopedEntityRepository:
             product_type=product_type,
             product_id=product_id, supplier_role_id=supplier_role_id,
             page=page,
+        )
+
+    def list_catalogue_stock_matches(
+        self,
+        *,
+        search: str,
+        service_date_from: date | None,
+        service_date_to: date | None,
+    ) -> tuple[tuple[ValidatedEntity, ValidatedEntity], ...]:
+        self._require_allowed(EntityKind.STOCK_ITEM)
+        return self._repository.list_catalogue_stock_matches(
+            search=search,
+            service_date_from=service_date_from,
+            service_date_to=service_date_to,
         )
 
     def _require_allowed(self, entity_kind: EntityKind) -> None:

@@ -188,6 +188,14 @@ node-key, and relationship-key constraints are unavailable in Community
 Edition, application validation, managed transactions, schema-versioned
 integrity checks, and integration tests remain mandatory.
 
+The customer catalogue projection uses one repository-side joined read to
+match sellable StockItems with their represented products, instead of issuing
+one relationship query per matching StockItem. The Neo4j adapter also defines
+range indexes for StockItem service dates and the persisted capacity/status
+properties used by inventory predicates. These are bounded query-path
+optimisations, not a substitute for representative-load evidence or a
+dedicated search projection; see [performance evidence](../../test/performance-evidence.md).
+
 ## 7. Product, inventory, and terminology evolution
 
 Product and OrgaRole family names use matching family segments. Structural
@@ -328,7 +336,8 @@ and concurrency.
 
 `npm run backend:check` compiles and runs the normal test suites. It does not
 claim to run real Neo4j integration, Docker, backup/restore, performance, or
-CI evidence. DR-0016 leaves agent tools, concurrent stock reservation,
+CI evidence. Local single-request performance evidence is recorded for #55,
+but DR-0016 leaves agent tools, concurrent stock reservation,
 rollback, Community Edition backup/recovery/observability/least privilege,
 representative NFR-001/NFR-002 load, responsive evidence, and CI automation as
 residual risks. New code must not mark those risks closed without the required
