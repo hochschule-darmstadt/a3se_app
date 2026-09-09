@@ -24,6 +24,8 @@ export const dictionary: Record<string, string> = {
   "home.hero.note": "Explore inspiring places, flexible travel ideas, and carefully connected experiences.",
   "home.destinationOrTheme.label": "Destination or theme",
   "home.destinationOrTheme.placeholder": "e.g. Coastal walking or Peru",
+  "home.productType.label": "Type",
+  "home.productType.all": "All",
   "home.dateFrom.label": "Earliest departure",
   "home.dateTo.label": "Latest return",
   "home.travellers.label": "Number of travellers",
@@ -49,6 +51,7 @@ export const dictionary: Record<string, string> = {
   "results.criteria.note":
     "These criteria are applied to the catalogue search. Results are matched by location or theme and service-date range; traveller count and budget remain indicative until the booking flow confirms them.",
   "results.criteria.destinationOrTheme": "Destination or theme",
+  "results.criteria.productType": "Type",
   "results.criteria.dateFrom": "Earliest departure",
   "results.criteria.dateTo": "Latest return",
   "results.criteria.travellers": "Travellers",

@@ -19,13 +19,14 @@ export default function SearchResults() {
   const destinationOrTheme = searchParams.get("destinationOrTheme") ?? "";
   const dateFrom = searchParams.get("dateFrom") ?? "";
   const dateTo = searchParams.get("dateTo") ?? "";
+  const productType = searchParams.get("productType") ?? "all";
   const travellers = searchParams.get("travellers") ?? "";
   const budgetPerPerson = searchParams.get("budgetPerPerson") ?? "any";
   const [cursorStack, setCursorStack] = useState<(string | undefined)[]>([]);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
   const [selectedDates, setSelectedDates] = useState<Record<string, string>>({});
-  const query = useApiQuery(["catalogue-search", destinationOrTheme, dateFrom, dateTo, cursor], () => apiClient.GET("/catalogue-search", {
-    params: { query: { limit: PAGE_SIZE, cursor, search: destinationOrTheme, serviceDateFrom: dateFrom || undefined, serviceDateTo: dateTo || undefined } },
+  const query = useApiQuery(["catalogue-search", destinationOrTheme, dateFrom, dateTo, productType, cursor], () => apiClient.GET("/catalogue-search", {
+    params: { query: { limit: PAGE_SIZE, cursor, search: destinationOrTheme, productType: productType === "all" ? undefined : productType, serviceDateFrom: dateFrom || undefined, serviceDateTo: dateTo || undefined } },
   }));
 
   const groups = useMemo(() => {
@@ -48,6 +49,7 @@ export default function SearchResults() {
   }
   function detailHref(productId: string) {
     const params = new URLSearchParams({ destinationOrTheme, dateFrom, dateTo, travellers, budgetPerPerson });
+    if (productType !== "all") params.set("productType", productType);
     const date = selectedDates[productId];
     if (date) params.set("date", date);
     return `/products/${encodeURIComponent(productId)}?${params.toString()}`;
@@ -57,7 +59,7 @@ export default function SearchResults() {
     <Title order={1}>{t("results.heading")}</Title>
     <Stack gap="xs" component="section" aria-label={t("results.criteria.heading")}>
       <Title order={2}>{t("results.criteria.heading")}</Title>
-      <Text size="sm">{t("results.criteria.destinationOrTheme")}: {destinationOrTheme || "–"} · {t("results.criteria.dateFrom")}: {dateFrom || "–"} · {t("results.criteria.dateTo")}: {dateTo || "–"} · {t("results.criteria.travellers")}: {travellers || "–"} · {t("results.criteria.budget")}: {budgetPerPerson === "any" ? t("home.any") : `€${budgetPerPerson}`}</Text>
+      <Text size="sm">{t("results.criteria.destinationOrTheme")}: {destinationOrTheme || "–"} · {t("results.criteria.productType")}: {productType === "all" ? t("home.productType.all") : productType.replace(/^product\//, "")} · {t("results.criteria.dateFrom")}: {dateFrom || "–"} · {t("results.criteria.dateTo")}: {dateTo || "–"} · {t("results.criteria.travellers")}: {travellers || "–"} · {t("results.criteria.budget")}: {budgetPerPerson === "any" ? t("home.any") : `€${budgetPerPerson}`}</Text>
     </Stack>
     {query.isPending ? <StatusBanner kind="loading" title={t("results.loading")} /> : null}
     {query.isError ? <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} /> : null}
@@ -67,6 +69,6 @@ export default function SearchResults() {
       </SimpleGrid></Stack>)}
       <CursorPager hasPrevious={cursorStack.length > 0} hasNext={Boolean(query.data.nextCursor)} onPrevious={goPrevious} onNext={goNext} loading={query.isFetching} />
     </> : null}
-    <Link to={`/?${searchParams.toString()}`}>{t("results.revise")}</Link>
+    <Link style={{ display: "inline-block", alignSelf: "flex-start", fontWeight: 600 }} to={`/?${searchParams.toString()}`}>{t("results.revise")}</Link>
   </Stack></Container></CustomerShell>;
 }

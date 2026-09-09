@@ -161,8 +161,10 @@ missing backend search capability. The Customer catalogue sends location or
 theme text and the requested service-date interval to `GET /catalogue-search`.
 The backend searches generated StockItem `searchText` projections, filters
 sellable dates, and returns one product-level result with aggregated available
-dates. Traveller count is carried as search context until booking confirmation
-can evaluate capacity and pricing.
+dates. The portal also offers a product-type criterion, defaulting to `All`;
+when a concrete type is selected it is passed as `productType` to the same
+catalogue projection. Traveller count is carried as search context until
+booking confirmation can evaluate capacity and pricing.
 The home date picker defaults latest return to one day after a newly selected
 earliest departure when no return date is already present. Search result cards
 use the backend-provided `displayNameChain` joined with ` · ` as their title;

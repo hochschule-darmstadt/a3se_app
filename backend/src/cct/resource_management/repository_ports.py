@@ -91,6 +91,7 @@ class EntityRepositoryPort(Protocol):
         search: str,
         service_date_from: date | None,
         service_date_to: date | None,
+        product_type: str | None,
     ) -> tuple[tuple[ValidatedEntity, ValidatedEntity], ...]: ...
 
 
@@ -229,12 +230,14 @@ class ScopedEntityRepository:
         search: str,
         service_date_from: date | None,
         service_date_to: date | None,
+        product_type: str | None,
     ) -> tuple[tuple[ValidatedEntity, ValidatedEntity], ...]:
         self._require_allowed(EntityKind.STOCK_ITEM)
         return self._repository.list_catalogue_stock_matches(
             search=search,
             service_date_from=service_date_from,
             service_date_to=service_date_to,
+            product_type=product_type,
         )
 
     def _require_allowed(self, entity_kind: EntityKind) -> None:

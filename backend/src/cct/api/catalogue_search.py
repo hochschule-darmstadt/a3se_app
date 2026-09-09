@@ -26,6 +26,7 @@ PartnerRepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_partne
 
 class CatalogueSearchParams(PageParams):
     search: str = Field(min_length=1, max_length=200)
+    product_type: str | None = Field(default=None, alias="productType")
     service_date_from: date | None = Field(default=None, alias="serviceDateFrom")
     service_date_to: date | None = Field(default=None, alias="serviceDateTo")
 
@@ -48,11 +49,13 @@ def _all_matching_stock(
     search: str,
     service_date_from: date | None,
     service_date_to: date | None,
+    product_type: str | None,
 ) -> list:
     return list(repository.list_catalogue_stock_matches(
         search=search,
         service_date_from=service_date_from,
         service_date_to=service_date_to,
+        product_type=product_type,
     ))
 
 
@@ -72,6 +75,7 @@ def search_catalogue(
         search=params.search.strip(),
         service_date_from=params.service_date_from,
         service_date_to=params.service_date_to,
+        product_type=params.product_type,
     ):
         item = grouped.setdefault(product.entity_id, {"product": product, "stocks": []})
         item["stocks"].append(stock)

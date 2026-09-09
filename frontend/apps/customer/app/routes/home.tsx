@@ -16,6 +16,20 @@ const QUICK_LINKS = [
   { key: "city", query: "FRA", accent: "linear-gradient(135deg, #7048e8, #d0bfff)" },
 ];
 
+const PRODUCT_TYPES = [
+  "product/airline/flight",
+  "product/accommodation/room-type",
+  "product/experience/activity",
+  "product/experience/guided-tour",
+  "product/mobility/coach",
+  "product/mobility/rail",
+  "product/mobility/transfer",
+  "product/mobility/vehicle-rental",
+  "product/protection/travel",
+  "product/water-transport/cruise",
+  "product/water-transport/day-boat",
+];
+
 function nextDay(value: string) {
   const date = new Date(`${value}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return "";
@@ -29,6 +43,7 @@ export default function CustomerHome() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [destinationOrTheme, setDestinationOrTheme] = useState(() => searchParams.get("destinationOrTheme") ?? "");
+  const [productType, setProductType] = useState(() => searchParams.get("productType") ?? "all");
   const [dateFrom, setDateFrom] = useState(() => searchParams.get("dateFrom") ?? "");
   const [dateTo, setDateTo] = useState(() => searchParams.get("dateTo") ?? "");
   const [travellers, setTravellers] = useState(() => searchParams.get("travellers") ?? "1");
@@ -49,6 +64,7 @@ export default function CustomerHome() {
     if (nextErrors.length > 0) return;
 
     const params = new URLSearchParams({ destinationOrTheme: destinationOrTheme.trim(), dateFrom, dateTo, travellers, budgetPerPerson: "any" });
+    if (productType !== "all") params.set("productType", productType);
     navigate(`/search?${params.toString()}`);
   }
 
@@ -76,6 +92,7 @@ export default function CustomerHome() {
                 <FormErrorSummary errors={errors} />
                 <Group align="end" gap="sm" wrap="wrap">
                   <TextInput style={{ flex: "2 1 220px" }} label={t("home.destinationOrTheme.label")} placeholder={t("home.destinationOrTheme.placeholder")} value={destinationOrTheme} onChange={(event) => setDestinationOrTheme(event.currentTarget.value)} />
+                  <Select style={{ flex: "1 1 170px" }} label={t("home.productType.label")} data={[{ value: "all", label: t("home.productType.all") }, ...PRODUCT_TYPES.map((value) => ({ value, label: value.replace(/^product\//, "") }))]} value={productType} onChange={(value) => setProductType(value ?? "all")} />
                   <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateFrom.label")} value={dateFrom} onChange={(event) => setDateFrom(event.currentTarget.value)} />
                   <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateTo.label")} value={dateTo} onChange={(event) => setDateTo(event.currentTarget.value)} />
                   <Select style={{ flex: "0 1 130px" }} label={t("home.travellers.label")} data={["1", "2", "3", "4", "5+"]} value={travellers} onChange={(value) => setTravellers(value ?? "1")} />

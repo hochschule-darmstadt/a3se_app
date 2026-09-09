@@ -240,6 +240,7 @@ class Neo4jEntityRepository:
         search: str,
         service_date_from: date | None,
         service_date_to: date | None,
+        product_type: str | None,
     ) -> tuple[tuple[ValidatedEntity, ValidatedEntity], ...]:
         """Read matching sellable stock and its represented product together.
 
@@ -252,6 +253,7 @@ class Neo4jEntityRepository:
             records = session.execute_read(
                 self._read_catalogue_stock_matches,
                 search.casefold(), service_date_from, service_date_to,
+                product_type,
             )
         stock_label = LABELS[EntityKind.STOCK_ITEM]
         product_label = LABELS[EntityKind.TOURISTIC_PRODUCT_ITEM]
@@ -528,12 +530,13 @@ class Neo4jEntityRepository:
         )
 
     @staticmethod
-    def _read_catalogue_stock_matches(tx: Transaction, search: str, service_date_from: date | None, service_date_to: date | None):
+    def _read_catalogue_stock_matches(tx: Transaction, search: str, service_date_from: date | None, service_date_to: date | None, product_type: str | None):
         return list(tx.run(
             CATALOGUE_STOCK_MATCHES,
             search=search,
             serviceDateFrom=service_date_from,
             serviceDateTo=service_date_to,
+            productType=product_type,
         ))
 
 
@@ -648,6 +651,7 @@ WITH stock, product, chainNodes, collect(DISTINCT supplierRole) AS supplierRoles
        ELSE 'available'
      END AS state
 WHERE state = 'available'
+  AND ($productType IS NULL OR product.type = $productType)
   AND ($serviceDateFrom IS NULL OR stock.serviceDate >= $serviceDateFrom)
   AND ($serviceDateTo IS NULL OR stock.serviceDate <= $serviceDateTo)
   AND (

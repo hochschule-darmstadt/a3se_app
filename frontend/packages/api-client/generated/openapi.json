@@ -2803,6 +2803,22 @@
           },
           {
             "in": "query",
+            "name": "productType",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Producttype"
+            }
+          },
+          {
+            "in": "query",
             "name": "serviceDateFrom",
             "required": false,
             "schema": {

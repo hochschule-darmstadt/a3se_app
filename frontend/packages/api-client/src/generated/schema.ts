@@ -1384,6 +1384,7 @@ export interface operations {
                 /** @description Opaque cursor from a previous page's nextCursor. */
                 cursor?: string | null;
                 search: string;
+                productType?: string | null;
                 serviceDateFrom?: string | null;
                 serviceDateTo?: string | null;
             };
