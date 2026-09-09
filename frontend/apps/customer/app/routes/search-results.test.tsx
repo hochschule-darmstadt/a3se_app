@@ -29,6 +29,7 @@ describe("SearchResults (VIEW-C-009 product-level catalogue search)", () => {
     getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } } as never);
     renderResults();
     expect(await screen.findByText(/Destination or theme: Peru/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Revise criteria" })).toBeVisible();
   });
 
   it("shows an empty state when no stock matches", async () => {

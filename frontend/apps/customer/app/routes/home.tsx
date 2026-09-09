@@ -93,7 +93,11 @@ export default function CustomerHome() {
                 <Group align="end" gap="sm" wrap="wrap">
                   <TextInput style={{ flex: "2 1 220px" }} label={t("home.destinationOrTheme.label")} placeholder={t("home.destinationOrTheme.placeholder")} value={destinationOrTheme} onChange={(event) => setDestinationOrTheme(event.currentTarget.value)} />
                   <Select style={{ flex: "1 1 170px" }} label={t("home.productType.label")} data={[{ value: "all", label: t("home.productType.all") }, ...PRODUCT_TYPES.map((value) => ({ value, label: value.replace(/^product\//, "") }))]} value={productType} onChange={(value) => setProductType(value ?? "all")} />
-                  <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateFrom.label")} value={dateFrom} onChange={(event) => setDateFrom(event.currentTarget.value)} />
+                  <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateFrom.label")} value={dateFrom} onChange={(event) => {
+                    const selectedDate = event.currentTarget.value;
+                    setDateFrom(selectedDate);
+                    setDateTo(selectedDate ? nextDay(selectedDate) : "");
+                  }} />
                   <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateTo.label")} value={dateTo} onChange={(event) => setDateTo(event.currentTarget.value)} />
                   <Select style={{ flex: "0 1 130px" }} label={t("home.travellers.label")} data={["1", "2", "3", "4", "5+"]} value={travellers} onChange={(value) => setTravellers(value ?? "1")} />
                   <Button type="submit" color="orange" size="md">{t("home.submit")}</Button>

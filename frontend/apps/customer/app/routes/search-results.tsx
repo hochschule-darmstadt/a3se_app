@@ -1,4 +1,4 @@
-import { Container, Select, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { Button, Container, Group, Select, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useApiQuery, type components } from "@cct/api-client";
 import { ApiErrorBanner, CursorPager, ResourceCard, StatusBanner } from "@cct/ui";
 import { useMemo, useState } from "react";
@@ -58,7 +58,10 @@ export default function SearchResults() {
   return <CustomerShell><Container py="xl" size="lg"><Stack gap="lg">
     <Title order={1}>{t("results.heading")}</Title>
     <Stack gap="xs" component="section" aria-label={t("results.criteria.heading")}>
-      <Title order={2}>{t("results.criteria.heading")}</Title>
+      <Group justify="space-between" align="center">
+        <Title order={2}>{t("results.criteria.heading")}</Title>
+        <Button component={Link} variant="light" to={`/?${searchParams.toString()}`}>{t("results.revise")}</Button>
+      </Group>
       <Text size="sm">{t("results.criteria.destinationOrTheme")}: {destinationOrTheme || "–"} · {t("results.criteria.productType")}: {productType === "all" ? t("home.productType.all") : productType.replace(/^product\//, "")} · {t("results.criteria.dateFrom")}: {dateFrom || "–"} · {t("results.criteria.dateTo")}: {dateTo || "–"} · {t("results.criteria.travellers")}: {travellers || "–"} · {t("results.criteria.budget")}: {budgetPerPerson === "any" ? t("home.any") : `€${budgetPerPerson}`}</Text>
     </Stack>
     {query.isPending ? <StatusBanner kind="loading" title={t("results.loading")} /> : null}
@@ -69,6 +72,5 @@ export default function SearchResults() {
       </SimpleGrid></Stack>)}
       <CursorPager hasPrevious={cursorStack.length > 0} hasNext={Boolean(query.data.nextCursor)} onPrevious={goPrevious} onNext={goNext} loading={query.isFetching} />
     </> : null}
-    <Link style={{ display: "inline-block", alignSelf: "flex-start", fontWeight: 600 }} to={`/?${searchParams.toString()}`}>{t("results.revise")}</Link>
   </Stack></Container></CustomerShell>;
 }

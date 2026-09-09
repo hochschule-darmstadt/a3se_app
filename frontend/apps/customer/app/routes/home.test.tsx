@@ -61,6 +61,17 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
     expect(screen.getByLabelText("Latest return")).toHaveValue("2027-04-02");
   });
 
+  it("updates the latest return when the user selects a different earliest departure", async () => {
+    const user = userEvent.setup();
+    renderHomeWithCriteria();
+
+    const earliestDeparture = screen.getByLabelText("Earliest departure");
+    await user.clear(earliestDeparture);
+    await user.type(earliestDeparture, "2027-05-10");
+
+    expect(screen.getByLabelText("Latest return")).toHaveValue("2027-05-11");
+  });
+
   it("restores criteria when opened with the revise-criteria URL", () => {
     renderHomeWithCriteria();
 
