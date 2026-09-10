@@ -135,6 +135,14 @@ is preserved through sign-in; adding a position returns to that originating
 view (normally the search result or product detail), while closing the modal
 returns there without changing the session-scoped Travel aggregate.
 
+VIEW-C-007 is delivered as a customer-wide advisor surface: the application
+root mounts the shared `AdvisorConversation` component, whose launcher remains
+available on every customer route and whose right-side drawer carries the
+current confirmed context. The `/assistance` route makes the related-order,
+current-issue, confirmed-state, and future handover context explicit. This
+phase uses a deterministic dummy reply; live Q&A, agent actions, and real
+handover remain deferred to issues #46 and #47.
+
 VIEW-C-011 and VIEW-C-012 share one account page with an in-page mode switch.
 Registration persists a Person and active `person/customer` role through the
 generated API client and stores the returned Person identifier. Sign-in

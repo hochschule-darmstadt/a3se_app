@@ -159,6 +159,16 @@ The home also presents an explicitly identified Automated Travel Advisor entry p
 
 This is an implementation proposal pending the #34 human review checkpoint: the existing low-fidelity frame remains the UX evidence, and the structured-search field mapping plus deferred advisor/inspiration behaviour are recorded here so they are reviewable rather than silently treated as accepted requirements.
 
+## MVP scope note (issue #44: VIEW-C-007)
+
+The customer implementation now provides the C-007 assistance context view,
+the persistent bottom-right advisor launcher, and a right-side conversation
+drawer with a labelled transcript, composer, and confirmed order context. The
+prototype returns a fixed dummy reply so the interaction and responsive
+handover boundary can be reviewed. Live grounded answers, agent actions, and
+real staff handover remain deferred to issues #46 and #47; no unconfirmed
+business outcome is represented as completed.
+
 ## MVP scope note (issue #35: VIEW-C-009)
 
 VIEW-C-009 queries `/catalogue-search` with the location/theme text and service-date interval from VIEW-C-001. Each StockItem carries backend-generated `searchText` assembled from relevant product-chain and supplier terms, including redundant location codes and names such as `LIM`, `Lima`, and `Peru`. The endpoint filters sellable stock and returns one result per product with the product type, display name, indicative unit price, and aggregated available dates. The customer portal groups those product results by type; the selected date is carried into product detail. Traveller-capacity confirmation remains deferred to the inventory/order flow.

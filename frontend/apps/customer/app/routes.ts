@@ -13,4 +13,5 @@ export default [
   route("travel/add", "routes/traveller-selection.tsx"),
   route("travel", "routes/my-travel.tsx"),
   route("my-orders", "routes/my-orders.tsx"),
+  route("assistance", "routes/assistance.tsx"),
 ] satisfies RouteConfig;

@@ -33,6 +33,8 @@ export {
 } from "./components.js";
 export type { DataTableColumn, ResourceCardProps, OfferSummaryProps } from "./components.js";
 export { CustomerShell, StaffShell } from "./shell.js";
+export { AdvisorConversation } from "./advisor.js";
+export type { AdvisorConversationLabels, AdvisorConversationProps, AdvisorMessage } from "./advisor.js";
 export type {
   BreadcrumbItem,
   ShellLinkComponent,

@@ -1,5 +1,5 @@
 import { Button, Card, Container, Group, Paper, Select, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
-import { FormErrorSummary } from "@cct/ui";
+import { CctIcon, FormErrorSummary } from "@cct/ui";
 import { type FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
@@ -104,6 +104,18 @@ export default function CustomerHome() {
                 </Group>
               </Stack>
             </form>
+          </Paper>
+        </Container>
+
+        <Container size="lg" w="100%" mt="xl">
+          <Paper withBorder p="md" radius="lg">
+            <Group justify="space-between" align="center" wrap="wrap">
+              <Group gap="sm" wrap="nowrap" align="flex-start">
+                <CctIcon.assistance size={24} aria-hidden />
+                <div><Title order={3}>{t("home.advisor.heading")}</Title><Text size="sm" c="dimmed">{t("home.advisor.note")}</Text></div>
+              </Group>
+              <Button component={Link} to="/assistance" color="actionSecondary">{t("home.advisor.launch")}</Button>
+            </Group>
           </Paper>
         </Container>
 
