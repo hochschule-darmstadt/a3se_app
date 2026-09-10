@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate, useNavigationType } from "react-router";
 
 import { Button } from "@mantine/core";
 import { CctIcon, CustomerShell as UiCustomerShell, useMockActor, type BreadcrumbItem } from "@cct/ui";
@@ -20,6 +20,7 @@ export function CustomerShell({ breadcrumbs, children }: { readonly breadcrumbs?
   const { actor, signOut } = useMockActor();
   const navigate = useNavigate();
   const location = useLocation();
+  const navigationType = useNavigationType();
   const travel = useTravel();
 
   const userMenu = actor
@@ -47,6 +48,7 @@ export function CustomerShell({ breadcrumbs, children }: { readonly breadcrumbs?
 
   return (
     <UiCustomerShell breadcrumbs={breadcrumbs} linkComponent={renderLink} userMenu={userMenu}
+      historyNavigationKey={location.key} historyAction={navigationType}
       headerAction={<Button component={Link} to="/travel" variant="white" size="compact-sm"
         leftSection={<CctIcon.travel size={16} aria-hidden />}>My travel ({travel.positions.length})</Button>}>
       {children}

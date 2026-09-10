@@ -6,7 +6,7 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { apiClient } from "../api";
 import { useT } from "../i18n";
-import { stockItemId } from "../lib/availability";
+import { findStockItem } from "../lib/availability";
 import {
   SUBMISSION_STEPS,
   generateDraftOrderId,
@@ -41,7 +41,6 @@ export default function Order() {
 
   const [orderId] = useState(generateDraftOrderId);
   const positionId = `${orderId}-P1`;
-  const stockId = stockItemId(productId, date);
 
   const [status, setStatus] = useState<Status>("running");
   const [error, setError] = useState<ApiError | null>(null);
@@ -62,7 +61,20 @@ export default function Order() {
     setError(null);
     setFailedStep(null);
 
-    const context = { apiClient, personId: actor.personId, orderId, positionId, stockItemId: stockId };
+    let stockItem;
+    try {
+      stockItem = await findStockItem(apiClient, productId, date);
+    } catch (caught) {
+      setError(caught as ApiError);
+      setStatus("error");
+      return;
+    }
+    if (!stockItem) {
+      setError({ kind: "validation", title: "Stock unavailable", detail: `No stock found for ${productId} on ${date}.` });
+      setStatus("error");
+      return;
+    }
+    const context = { apiClient, personId: actor.personId, orderId, positionId, stockItemId: stockItem.entityId };
 
     for (let index = startIndex; index < SUBMISSION_STEPS.length; index += 1) {
       const step = SUBMISSION_STEPS[index];

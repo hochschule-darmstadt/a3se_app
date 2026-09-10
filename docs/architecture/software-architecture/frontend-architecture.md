@@ -116,6 +116,12 @@ list/tree layouts; selected records, positions, create/detail panels, filters,
 sort state, and page belong to the URL when they affect the visible view.
 Unsaved form input remains local and ephemeral.
 
+The Customer traveller-selection step is a modal overlay over the current
+portal context, not a replacement full-page view. Its `returnTo` URL parameter
+is preserved through sign-in; adding a position returns to that originating
+view (normally the search result or product detail), while closing the modal
+returns there without changing the session-scoped Travel aggregate.
+
 VIEW-C-011 and VIEW-C-012 share one account page with an in-page mode switch.
 Registration persists a Person and active `person/customer` role through the
 generated API client and stores the returned Person identifier. Sign-in
@@ -136,6 +142,15 @@ For URL-backed Staff state:
 4. Reload reconstructs the same list, filter, page, and detail view where valid.
 5. Browser back/forward restores the prior view instead of a blank/default list.
 6. Malformed or stale parameters use safe defaults and keep the route usable.
+
+Both portal shells expose the same Back and Forward controls. They operate on
+the browser/router history rather than maintaining a second application
+history stack, so the controls preserve URL-backed filters, selections,
+pagination, and return paths. They appear immediately after the logo/page
+identity at the left side of both headers, in browser order, and use the
+secondary blue action token; My travel remains the Customer shell's warm
+primary action and the user control remains neutral on the dark navigation
+surface.
 
 Use stable URL-safe IDs, never credentials, tokens, or sensitive personal data.
 This contract is the frontend realization of #51 and DS-CMP-007.
@@ -187,6 +202,16 @@ earliest departure when no return date is already present. Search result cards
 use the backend-provided `displayNameChain` joined with ` · ` as their title;
 available service dates are presented only through the per-product dropdown,
 not as a separate date list in the card body.
+
+Staff date-range filters follow the same rule: selecting a From date defaults
+To to the following day, and clearing From clears the derived To value. This
+is applied consistently to Orders and Inventory; users may subsequently edit
+To independently.
+
+Stock availability is resolved by querying the backend with `productId` and
+the candidate service-date range. The frontend stores and submits the
+returned `StockItem.entityId`; it must not fabricate an ID from product/date
+values or treat `remainingCapacity` as a frontend-derived convention.
 
 ## 7. Entity display, chains, and links
 

@@ -22,14 +22,21 @@ export function stockItemId(productId: string, date: string): string {
   return `STK-${productId}-${date}-U1`;
 }
 
+/** Resolve the real sequential stock ID from the product/date projection. */
+export async function findStockItem(apiClient: ApiClient, productId: string, date: string): Promise<StockItemResponse | null> {
+  const { data, error, response } = await apiClient.GET("/stock-items", {
+    params: { query: { productId, serviceDateFrom: date, serviceDateTo: date, limit: 100 } },
+  });
+  if (!response.ok || !data) throw toApiError(error, response) as ApiError;
+  return data.items.find((item) => item.productId === productId && item.properties.serviceDate === date) ?? null;
+}
+
 /**
- * The date-specific availability check constructs the deterministic stock item
- * id per candidate date and probes
- * `GET /stock-items/{id}` directly, trying the requested date first and then
- * up to {@link ALTERNATIVE_DATE_WINDOW_DAYS} following days. A 404 on a
- * candidate date means "no stock that day" and moves to the next candidate;
- * any other failure is a genuine error and is thrown, never silently
- * swallowed as "unavailable".
+ * The date-specific availability check resolves stock through the API's
+ * product/date filters, trying the requested date first and then up to
+ * {@link ALTERNATIVE_DATE_WINDOW_DAYS} following days. The frontend never
+ * infers a stock ID from product/date values because IDs are immutable opaque
+ * references owned by the backend.
  */
 export async function checkAvailability(
   apiClient: ApiClient,
@@ -38,16 +45,8 @@ export async function checkAvailability(
 ): Promise<AvailabilityResult> {
   for (let offset = 0; offset <= ALTERNATIVE_DATE_WINDOW_DAYS; offset += 1) {
     const date = addDays(requestedDate, offset);
-    const id = stockItemId(productId, date);
-    const { data, error, response } = await apiClient.GET("/stock-items/{stock_item_id}", {
-      params: { path: { stock_item_id: id } },
-    });
-    if (response.ok && data) {
-      return { status: offset === 0 ? "available" : "alternative", date, stockItem: data };
-    }
-    if (response.status !== 404) {
-      throw toApiError(error, response) as ApiError;
-    }
+    const data = await findStockItem(apiClient, productId, date);
+    if (data) return { status: offset === 0 ? "available" : "alternative", date, stockItem: data };
   }
   return { status: "unavailable" };
 }

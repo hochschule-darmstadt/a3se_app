@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
 import { apiClient } from "../api";
 import { useT } from "../i18n";
 import { CustomerShell } from "../lib/shell";
-import { stockItemId } from "../lib/availability";
+import { findStockItem } from "../lib/availability";
 import { useTravel } from "../lib/travel";
 
 export function meta() { return [{ title: "Search results – Christopher Columbus Travel" }]; }
@@ -61,12 +61,14 @@ export default function SearchResults() {
     return `/products/${encodeURIComponent(productId)}?${params.toString()}`;
   }
 
-  function addToTravel(product: SearchResult) {
+  async function addToTravel(product: SearchResult) {
     const serviceDate = selectedDates[product.productId];
     if (!serviceDate) return;
-    travel.setPending({ stockItemId: stockItemId(product.productId, serviceDate), productId: product.productId,
-      displayNameChain: product.productDisplayNameChain, serviceDate,
-      unitPriceAmount: String(product.indicativeUnitPriceAmount), currencyCode: product.currencyCode });
+    const stockItem = await findStockItem(apiClient, product.productId, serviceDate);
+    if (!stockItem) return;
+    travel.setPending({ stockItemId: stockItem.entityId, productId: stockItem.productId,
+      displayNameChain: stockItem.productDisplayNameChain, serviceDate,
+      unitPriceAmount: String(stockItem.properties.unitPriceAmount), currencyCode: stockItem.properties.currencyCode });
     const returnTo = `${location.pathname}${location.search}`;
     const selection = `/travel/add?${new URLSearchParams({ returnTo }).toString()}`;
     navigate(actor ? selection : `/sign-in?${new URLSearchParams({ returnTo: selection }).toString()}`);

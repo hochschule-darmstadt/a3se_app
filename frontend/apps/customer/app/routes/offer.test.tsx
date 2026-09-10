@@ -60,15 +60,15 @@ describe("Offer (VIEW-C-003 draft offer review)", () => {
           response: { ok: true, status: 200 },
         });
       }
-      if (path === "/stock-items/{stock_item_id}") {
+      if (path === "/stock-items") {
         return Promise.resolve({
-          data: {
-            entityId: "STK-FLT-01-2027-04-06-U1",
+          data: { items: [{
+            entityId: "STK-000004",
             entityKind: "StockItem",
             type: "stock/airline/flight/seat",
             schemaVersion: 1,
-            properties: { serviceDate: "2027-04-06", unitPriceAmount: "199.00", currencyCode: "EUR" },
-          },
+            productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight", productDisplayNameChain: ["Flight"], productAncestors: [], supplierRole: null, supplierOrganisationId: null, supplierDisplayName: null, availableQuantity: 3, availabilityState: "available", properties: { serviceDate: "2027-04-06", unitPriceAmount: "199.00", currencyCode: "EUR", capacityQuantity: 3, remainingCapacity: 3, inventoryStatusCode: "inventory/active", searchText: "" },
+          }], nextCursor: null },
           response: { ok: true, status: 200 },
         });
       }

@@ -32,7 +32,7 @@ function StockDetail({ item }: { readonly item: StockItem }) {
   const [date, setDate] = useState(item.properties.serviceDate);
   const [price, setPrice] = useState<string | number>(item.properties.unitPriceAmount);
   const [lifecycle, setLifecycle] = useState(item.properties.inventoryStatusCode);
-  const update = useApiMutation<StockItem, Record<string, never>>(() => apiClient.PUT("/stock-items/{stock_item_id}", { params: { path: { stock_item_id: item.entityId } }, body: { type: item.type as never, properties: { serviceDate: date, unitPriceAmount: String(price), currencyCode: item.properties.currencyCode, capacityQuantity: Number(capacity), remainingCapacity: Number(remaining), inventoryStatusCode: lifecycle } } }));
+  const update = useApiMutation<StockItem, Record<string, never>>(() => apiClient.PUT("/stock-items/{stock_item_id}", { params: { path: { stock_item_id: item.entityId } }, body: { type: item.type as never, properties: { serviceDate: date, unitPriceAmount: String(price), currencyCode: item.properties.currencyCode, capacityQuantity: Number(capacity), remainingCapacity: Number(remaining), inventoryStatusCode: lifecycle, searchText: item.properties.searchText } } }));
   const refresh = () => { void queryClient.invalidateQueries({ queryKey: ["stock-items"] }); void queryClient.invalidateQueries({ queryKey: ["stock-items", item.entityId] }); };
   function save(event: FormEvent) { event.preventDefault(); update.mutate({}, { onSuccess: () => { refresh(); setEditing(false); } }); }
   function cancelEditing() {

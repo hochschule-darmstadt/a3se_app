@@ -156,7 +156,8 @@ function HistoryControls({ navigationKey, action }: { readonly navigationKey?: s
   return (
     <Group gap={4} component="nav" aria-label="Portal history">
       <Button
-        variant="white"
+        variant="filled"
+        color="actionSecondary"
         size="compact-sm"
         disabled={!availability.canGoBack}
         onClick={() => window.history.back()}
@@ -165,7 +166,8 @@ function HistoryControls({ navigationKey, action }: { readonly navigationKey?: s
         ← Back
       </Button>
       <Button
-        variant="white"
+        variant="filled"
+        color="actionSecondary"
         size="compact-sm"
         disabled={!availability.canGoForward}
         onClick={() => window.history.forward()}
@@ -182,13 +184,16 @@ export interface CustomerShellProps {
   readonly linkComponent: ShellLinkComponent;
   readonly userMenu: ShellUserMenuProps;
   readonly headerAction?: ReactNode;
+  /** Optional router signals used to mirror known browser-history availability. */
+  readonly historyNavigationKey?: string;
+  readonly historyAction?: HistoryAction;
   /** Composition point for the persistent AI travel advisor rail (DS-CMP-009); not populated by this shell. */
   readonly advisorRail?: ReactNode;
   readonly children: ReactNode;
 }
 
 /** DS-CMP-001 customer profile: header + footer, no sidebar; reserves advisor context in an `aside` landmark. */
-export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, headerAction, advisorRail, children }: CustomerShellProps) {
+export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, headerAction, advisorRail, historyNavigationKey, historyAction, children }: CustomerShellProps) {
   return (
     <AppShell
       header={{ height: 72 }}
@@ -200,10 +205,13 @@ export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, heade
       <SkipLink />
       <AppShell.Header style={{ backgroundColor: NAV_BACKGROUND, border: 0 }}>
         <Group h="100%" px="md" justify="space-between">
-          {linkComponent({
-            to: "/",
-            children: <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />,
-          })}
+          <Group gap="sm">
+            {linkComponent({
+              to: "/",
+              children: <img src={cctWordmarkDark} alt="Christopher Columbus Travel" height={34} />,
+            })}
+            <HistoryControls navigationKey={historyNavigationKey} action={historyAction} />
+          </Group>
           <Group gap="sm">
             {headerAction}
             <ShellUserMenu {...userMenu} />

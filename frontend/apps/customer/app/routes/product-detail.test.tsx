@@ -46,31 +46,28 @@ describe("ProductDetail (VIEW-C-010 availability check)", () => {
   });
 
   it("offers a real alternative date when the requested date has no stock but a later day does", async () => {
-    getMock.mockImplementation(((path: string, options: { params?: { path?: Record<string, string> } }) => {
+    getMock.mockImplementation(((path: string, options: { params?: { query?: { serviceDateFrom?: string } } }) => {
       if (path === "/products/{product_id}") {
         return Promise.resolve({ data: FLIGHT_PRODUCT, response: { ok: true, status: 200 } });
       }
       if (path === "/products/{product_id}/components") {
         return Promise.resolve({ data: [], response: { ok: true, status: 200 } });
       }
-      if (path === "/stock-items/{stock_item_id}") {
-        const stockItemId = options.params?.path?.stock_item_id ?? "";
-        if (stockItemId === "STK-FLT-01-2027-04-07-U1") {
+      if (path === "/stock-items") {
+        if (options.params?.query?.serviceDateFrom === "2027-04-07") {
           return Promise.resolve({
             data: {
-              entityId: stockItemId,
+              items: [{
+              entityId: "STK-000005",
               entityKind: "StockItem",
               type: "stock/airline/flight/seat",
               schemaVersion: 1,
-              properties: { serviceDate: "2027-04-07", unitPriceAmount: "199.00", currencyCode: "EUR" },
-            },
+              productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight", productDisplayNameChain: ["Flight"], productAncestors: [], supplierRole: null, supplierOrganisationId: null, supplierDisplayName: null, availableQuantity: 3, availabilityState: "available", properties: { serviceDate: "2027-04-07", unitPriceAmount: "199.00", currencyCode: "EUR", capacityQuantity: 3, remainingCapacity: 3, inventoryStatusCode: "inventory/active", searchText: "" },
+              }], nextCursor: null },
             response: { ok: true, status: 200 },
           });
         }
-        return Promise.resolve({
-          error: { type: "not_found", title: "Not found", detail: "no stock" },
-          response: { ok: false, status: 404 },
-        });
+        return Promise.resolve({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } });
       }
       throw new Error(`Unexpected path ${path}`);
     }) as never);
@@ -90,11 +87,8 @@ describe("ProductDetail (VIEW-C-010 availability check)", () => {
       if (path === "/products/{product_id}/components") {
         return Promise.resolve({ data: [], response: { ok: true, status: 200 } });
       }
-      if (path === "/stock-items/{stock_item_id}") {
-        return Promise.resolve({
-          error: { type: "not_found", title: "Not found", detail: "no stock" },
-          response: { ok: false, status: 404 },
-        });
+      if (path === "/stock-items") {
+        return Promise.resolve({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } });
       }
       throw new Error(`Unexpected path ${path}`);
     }) as never);

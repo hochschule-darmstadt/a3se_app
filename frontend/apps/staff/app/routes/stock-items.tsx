@@ -12,6 +12,7 @@ import { STAFF_VIEW_PARAM, patchStaffViewState, readStaffViewOption } from "../l
 import { StockCreatePanel } from "../lib/stock-create-panel";
 import { StockDetailPanel } from "../lib/stock-detail-panel";
 import { useCursorPage } from "../lib/use-cursor-page";
+import { dateRangeFromChange } from "../lib/date-range";
 
 type StockItem = components["schemas"]["StockItemResponse"];
 type RightPane = { readonly mode: "none" } | { readonly mode: "detail"; readonly stockItemId: string } | { readonly mode: "create" };
@@ -34,6 +35,10 @@ export default function StockItemsRoute() {
 
   function updateView(patch: Parameters<typeof patchStaffViewState>[1], replace = false) {
     setSearchParams(patchStaffViewState(searchParams, patch), { replace });
+  }
+  function updateFromDate(value: string) {
+    const range = dateRangeFromChange(value);
+    updateView({ [STAFF_VIEW_PARAM.fromDate]: range.from, [STAFF_VIEW_PARAM.toDate]: range.to }, true);
   }
 
   const page = useCursorPage<StockItem>(["stock-items", "filtered", search, fromDate, toDate, availability, productType, productId, supplierRoleId], (cursor) => apiClient.GET("/stock-items", { params: { query: {
@@ -59,7 +64,7 @@ export default function StockItemsRoute() {
           <Stack gap="sm" style={{ flex: "0 0 auto" }}>
             <Group align="flex-end">
               <TextInput label="Search" placeholder="Product, supplier, chain text, or ID" value={search} onChange={(event) => updateView({ [STAFF_VIEW_PARAM.search]: event.currentTarget.value }, true)} style={{ flex: 1 }} />
-              <TextInput label="From" type="date" value={fromDate} onChange={(event) => updateView({ [STAFF_VIEW_PARAM.fromDate]: event.currentTarget.value }, true)} />
+              <TextInput label="From" type="date" value={fromDate} onChange={(event) => updateFromDate(event.currentTarget.value)} />
               <TextInput label="To" type="date" value={toDate} onChange={(event) => updateView({ [STAFF_VIEW_PARAM.toDate]: event.currentTarget.value }, true)} />
             </Group>
             <Group align="flex-end">

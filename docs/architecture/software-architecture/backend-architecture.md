@@ -285,6 +285,15 @@ traversal, invalid-graph behavior, and response shape. It must not become a
 hidden second source of truth or generic graph-query service. DR-0019 governs
 the current display-name projection contract.
 
+Stock item identifiers are backend-owned immutable references and are not
+derived from product identifiers or service dates. Clients resolve dated stock
+through the filtered `GET /stock-items` projection (`productId`,
+`serviceDateFrom`, and `serviceDateTo`) and use the returned `entityId` for
+detail, availability, and allocation operations. `remainingCapacity` in the
+projection is authoritative for current availability; a successful lookup
+does not by itself authorize an allocation, which is revalidated by the
+transactional order operation.
+
 ## 11. Identifiers
 
 Entity IDs are immutable references and are never authorization secrets. The

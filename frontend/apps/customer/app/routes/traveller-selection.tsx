@@ -1,4 +1,4 @@
-import { Button, Container, Radio, Stack, TextInput, Title } from "@mantine/core";
+import { Button, Modal, Radio, Stack, TextInput } from "@mantine/core";
 import { StatusBanner, useMockActor } from "@cct/ui";
 import { type FormEvent, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
@@ -13,6 +13,7 @@ export default function TravellerSelection() {
   const travel = useTravel();
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  const returnTo = params.get("returnTo") || "/travel";
   const [selected, setSelected] = useState("self");
   const [givenName, setGivenName] = useState("");
   const [familyName, setFamilyName] = useState("");
@@ -36,12 +37,11 @@ export default function TravellerSelection() {
     if (!traveller || !travel.pending) return;
     travel.addTraveller(traveller);
     travel.addPendingPosition(traveller.clientTravellerId);
-    navigate("/travel");
+    navigate(returnTo);
   }
 
   return <CustomerShell breadcrumbs={[{ label: "Travel portal", to: "/" }, { label: t("travel.traveller.heading") }]}>
-    <Container size="sm" py="xl"><Stack gap="lg">
-      <Title order={1}>{t("travel.traveller.heading")}</Title>
+    <Modal opened onClose={() => navigate(returnTo)} title={t("travel.traveller.heading")} centered size="sm">
       {!travel.pending ? <StatusBanner kind="empty" title={t("travel.empty")} /> : <form onSubmit={submit}><Stack gap="md">
         <Radio.Group value={selected} onChange={setSelected}><Stack gap="xs">
           {travellers.map((traveller) => <Radio key={traveller.clientTravellerId} value={traveller.clientTravellerId}
@@ -52,6 +52,6 @@ export default function TravellerSelection() {
           <TextInput required label="Family name" value={familyName} onChange={(e) => setFamilyName(e.currentTarget.value)} /></> : null}
         <Button type="submit" color="orange">{t("travel.traveller.continue")}</Button>
       </Stack></form>}
-    </Stack></Container>
+    </Modal>
   </CustomerShell>;
 }

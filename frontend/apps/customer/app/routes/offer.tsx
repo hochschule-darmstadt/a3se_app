@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from "react-router";
 
 import { apiClient } from "../api";
 import { useT } from "../i18n";
-import { stockItemId } from "../lib/availability";
+import { findStockItem } from "../lib/availability";
 import { productTitle } from "../lib/product-display";
 import { CustomerShell } from "../lib/shell";
 
@@ -46,10 +46,14 @@ export default function Offer() {
     apiClient.GET("/products/{product_id}", { params: { path: { product_id: productId } } })
   );
 
-  const stockId = stockItemId(productId, date);
+  const stockId = `stock:${productId}:${date}`;
   const stockQuery = useApiQuery(
     ["stock-item", stockId],
-    () => apiClient.GET("/stock-items/{stock_item_id}", { params: { path: { stock_item_id: stockId } } }),
+    async () => {
+      const stockItem = await findStockItem(apiClient, productId, date);
+      if (!stockItem) throw new Error(`No stock found for ${productId} on ${date}`);
+      return { data: stockItem, response: new Response(null, { status: 200 }) };
+    },
     { enabled: Boolean(productId) && Boolean(date) }
   );
 
