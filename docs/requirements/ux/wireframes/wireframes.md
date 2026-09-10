@@ -58,6 +58,11 @@ Follow-up refinement (same date, stakeholder review of the above): the Activate/
 
 VIEW-C-002 (Trip composition) and VIEW-C-003 (Sales offer) are retired. VIEW-C-009 and VIEW-C-010 add a date-specific StockItem to a session-scoped Travel after explicit VIEW-C-014 traveller selection. The selection survives a VIEW-C-011/C-012 identity interruption. VIEW-C-013 My travel shows the Customer, every position's display-name chain, traveller, date and price, permits removal, and calculates the total. Its Order action rechecks every selected StockItem and atomically records the order header, customer relationship, positions, traveller roles and stock allocations; any unavailable position produces a conflict and no partial order. VIEW-C-004 is revised to My orders and is reachable from the signed-in user menu. The persistent header exposes My travel with a cart icon and position count.
 
+The implemented VIEW-C-004 refinement presents order summaries as a selectable
+list and shows the selected order's header plus one detail card per position.
+Each position exposes its product, service date, price, stock reference, and
+travellers; unresolved backend relationships remain explicitly labelled.
+
 New travellers remain client-only until successful order placement, where one Person and `person/traveller` role is created per reusable traveller. If a registered Customer selects “Myself” without an existing traveller role, the same transaction creates that role for the existing Person. Browser `sessionStorage` is the accepted MVP boundary for the pre-order Travel: it survives route navigation and sign-in return but is cleared on sign-out and after successful placement. It is not a persisted quote, reservation, or cross-device cart. Client-displayed prices are indicative; selected StockItem IDs and backend capacity are authoritative at placement.
 
 These wireframes consume the stable views, traversal, classifications, and open questions in [navigation-maps.md](../navigation-maps/navigation-maps.md). They are reviewable interaction hypotheses, not accepted production design or new business requirements. The textual use cases remain authoritative for behaviour.

@@ -52,6 +52,15 @@ independent conventions. Future changes extend the applicable row below:
 | Inventory, #32 | Show dated stock, represented product context, supplier context, capacity and availability projections; preserve product/stock ownership boundaries |
 | Travel orders, #33 | Show order headers, positions, customer/traveller/stock/product context and order status; keep unresolved positions and payment-dependent states truthful |
 
+The customer My orders view uses the order summary collection as the selectable
+list and loads the bounded order-detail projection for the selected order. It
+renders the order number, lifecycle status, customer, service-date range,
+indicative total, and one structured card per position. Position cards retain
+the backend identifiers and show the resolved product chain, service date,
+price, stock reference, and assigned travellers; missing stock or traveller
+data is labelled as unresolved rather than presented as confirmed. Stock
+details are fetched only for the selected order's positions.
+
 The Customer journey is the thin slice from #22, not a claim that all business
 use cases are implemented. Each view must identify which wireframe flow it
 implements and which behavior remains deferred.
