@@ -103,6 +103,10 @@ recreate shell chrome locally. New navigation requires corresponding
 navigation-map/wireframe evidence. Legal/imprint text and real staff login
 remain deferred until confirmed.
 
+The Customer footer has content-dependent height and remains in normal document
+flow. It must not use fixed positioning because that would cover the final
+controls or content on long and responsive pages.
+
 ## 4. Routing and route modules
 
 Declare routes in each `app/routes.ts` with React Router's `index` and `route`
@@ -264,6 +268,10 @@ Use `@cct/ui` and design tokens before creating local equivalents:
 Mantine `Table` + `ScrollArea` is the accepted PoC staff grid; routes own
 sorting/filtering/paging. Revisit DS-Q-003 and NFR-003 before adding an
 enterprise grid or a paid dependency.
+
+Customer catalogue search renders one cursor pager after populated results,
+following the established portal reading flow. The route owns the cursor stack
+and the shared `CursorPager` owns button semantics.
 
 Forms keep unsaved fields local, validate before mutation, focus the shared
 error summary, and leave correction/retry possible. Successful mutations

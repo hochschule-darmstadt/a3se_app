@@ -61,4 +61,18 @@ describe("SearchResults (VIEW-C-009 product-level catalogue search)", () => {
     expect(screen.getByRole("link", { name: "View details" })).toBeInTheDocument();
     expect(screen.queryByText("FLT-01")).not.toBeInTheDocument();
   });
+
+  it("renders pagination after a populated result page", async () => {
+    getMock.mockResolvedValue({ data: { items: [{
+      productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "CA501 BER–LIM",
+      productDisplayNameChain: ["Condorleaf Air", "Airline", "CA501 BER–LIM"], availableDates: ["2027-04-06"],
+      indicativeUnitPriceAmount: "1690", currencyCode: "EUR",
+    }], nextCursor: "next-page" }, response: { ok: true, status: 200 } } as never);
+    renderResults();
+
+    const pagination = await screen.findByRole("button", { name: "Next page" });
+    expect(pagination).toBeVisible();
+    expect(screen.getByRole("button", { name: "Previous page" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Next page" })).toBeEnabled();
+  });
 });

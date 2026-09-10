@@ -227,7 +227,7 @@ export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, heade
           {advisorRail}
         </AppShell.Aside>
       ) : null}
-      <AppShell.Footer p="md">
+      <AppShell.Footer p="md" style={{ position: "static" }}>
         <Stack gap={4}>
           <Group gap="lg" component="nav" aria-label="Legal">
             <Text size="sm">Imprint</Text>
