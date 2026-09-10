@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Management/Implementation
-- Last reviewed: 2026-08-19
+- Last reviewed: 2026-09-10
 
 1. Start from an identified requirement, risk, defect, or decision.
 2. Declare scope and affected stable IDs using the [artifact authority and lifecycle](artifact-lifecycle.md).
@@ -14,9 +14,13 @@
    [frontend](../../architecture/software-architecture/frontend-architecture.md)
    and [backend](../../architecture/software-architecture/backend-architecture.md)
    architecture.
-6. Commit one coherent intent with a descriptive imperative message.
+6. Commit one coherent intent with a descriptive imperative message. When the
+   change is directly assigned to a GitHub issue, include its number in the
+   subject in the form `#<number>`, for example `Improve product descriptions
+   (#60)`. If several issues are directly in scope, include each applicable
+   number; do not invent an issue reference for untracked work.
 
-Do not mix unrelated cleanup with behavior changes. Do not claim tests or reviews that did not run. Technology-specific branching, formatting, linting, testing, and commit-message rules will be added only after the stack and delivery platform are selected.
+Do not mix unrelated cleanup with behavior changes. Do not claim tests or reviews that did not run. The issue-reference convention above applies regardless of the selected delivery platform; additional technology-specific branching, formatting, linting, and testing rules may be added after the stack and delivery platform are selected.
 
 ## Checkpoints
 
