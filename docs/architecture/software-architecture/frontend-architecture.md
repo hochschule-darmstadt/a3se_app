@@ -48,7 +48,7 @@ independent conventions. Future changes extend the applicable row below:
 | Staff home, #28 | Compose the Staff shell and navigation; keep dashboard/summary behavior distinct from resource CRUD views and document deferred actions |
 | Customers and travellers, #29 | Use Person/PersonRole API projections; distinguish customer and traveller roles; edit lifecycle/payment categories only through validated API operations |
 | Suppliers and partners, #30 | Use Organisation/OrgaRole projections and role badges; navigate related entities with the display-chain-plus-ID rule |
-| Touristic product catalogue, #31 | Use the recursive product tree, supplier context, display-name chains, bounded hierarchy reads, and list/detail state |
+| Touristic product catalogue, #31 / #60 | Use the recursive product tree, supplier context, display-name chains, bounded hierarchy reads, and list/detail state; render the optional backend-owned product description in customer and staff product detail views |
 | Inventory, #32 | Show dated stock, represented product context, supplier context, capacity and availability projections; preserve product/stock ownership boundaries |
 | Travel orders, #33 | Show order headers, positions, customer/traveller/stock/product context and order status; keep unresolved positions and payment-dependent states truthful |
 

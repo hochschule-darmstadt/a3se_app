@@ -105,14 +105,14 @@ export const LIFECYCLE_STATUS_LABEL: Record<string, string> = Object.fromEntries
 );
 
 /** Narrows the properties union for catalogue lifecycle display. */
-export function catalogueProperties(properties: unknown): { name?: string | null; lifecycleStatusCode?: LifecycleStatusCode } {
-  return properties as { name?: string | null; lifecycleStatusCode?: LifecycleStatusCode };
+export function catalogueProperties(properties: unknown): { name?: string | null; description?: string | null; lifecycleStatusCode?: LifecycleStatusCode } {
+  return properties as { name?: string | null; description?: string | null; lifecycleStatusCode?: LifecycleStatusCode };
 }
 
 /** Every property beyond source name and lifecycle, which have dedicated controls/presentation. */
 export function productPropertyEntries(properties: unknown, type?: string): PropertyDisplayEntry[] {
   return propertyDisplayEntries(properties, {
-    skipKeys: ["name", "lifecycleStatusCode"],
+    skipKeys: ["name", "description", "lifecycleStatusCode"],
     valueLabels: { roomTypeCode: ROOM_TYPE_LABEL },
     valueFormatters: type === "product/airline/flight"
       ? {

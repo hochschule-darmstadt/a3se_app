@@ -11,7 +11,8 @@
                                             "scheduledDepartureLocalTime":  "08:15:00",
                                             "scheduledArrivalLocalTime":  "18:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 501: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                            "name":  "Flight 501: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM",
+                                            "description":  "Fly from Berlin to Lima with Condorleaf Air on CA501."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -27,7 +28,8 @@
                                             "scheduledDepartureLocalTime":  "09:15:00",
                                             "scheduledArrivalLocalTime":  "19:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 502: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG"
+                                            "name":  "Flight 502: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG",
+                                            "description":  "Fly from Frankfurt to Rio de Janeiro with Blue Pampa Airways on BP502."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -43,7 +45,8 @@
                                             "scheduledDepartureLocalTime":  "10:15:00",
                                             "scheduledArrivalLocalTime":  "20:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 503: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GRU"
+                                            "name":  "Flight 503: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GRU",
+                                            "description":  "Fly from Munich to São Paulo with Condorleaf Air on CA503."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -59,7 +62,8 @@
                                             "scheduledDepartureLocalTime":  "11:15:00",
                                             "scheduledArrivalLocalTime":  "21:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 504: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL"
+                                            "name":  "Flight 504: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL",
+                                            "description":  "Fly from Frankfurt to Santiago with Blue Pampa Airways on BP504."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -75,7 +79,8 @@
                                             "scheduledDepartureLocalTime":  "07:15:00",
                                             "scheduledArrivalLocalTime":  "17:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 505: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE"
+                                            "name":  "Flight 505: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE",
+                                            "description":  "Fly from Berlin to Buenos Aires with Condorleaf Air on CA505."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -91,7 +96,8 @@
                                             "scheduledDepartureLocalTime":  "08:15:00",
                                             "scheduledArrivalLocalTime":  "18:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 506: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG"
+                                            "name":  "Flight 506: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG",
+                                            "description":  "Fly from Frankfurt to Bogotá with Blue Pampa Airways on BP506."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -107,7 +113,8 @@
                                             "scheduledDepartureLocalTime":  "09:15:00",
                                             "scheduledArrivalLocalTime":  "19:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 507: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO"
+                                            "name":  "Flight 507: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO",
+                                            "description":  "Fly from Munich to Quito with Condorleaf Air on CA507."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -123,7 +130,8 @@
                                             "scheduledDepartureLocalTime":  "10:15:00",
                                             "scheduledArrivalLocalTime":  "20:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 508: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                            "name":  "Flight 508: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM",
+                                            "description":  "Fly from Frankfurt to Lima with Blue Pampa Airways on BP508."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -139,7 +147,8 @@
                                             "scheduledDepartureLocalTime":  "11:15:00",
                                             "scheduledArrivalLocalTime":  "21:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 509: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG"
+                                            "name":  "Flight 509: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG",
+                                            "description":  "Fly from Frankfurt to Rio de Janeiro with Condorleaf Air on CA509."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -155,7 +164,8 @@
                                             "scheduledDepartureLocalTime":  "07:15:00",
                                             "scheduledArrivalLocalTime":  "17:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 510: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL"
+                                            "name":  "Flight 510: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL",
+                                            "description":  "Fly from Munich to Santiago with Blue Pampa Airways on BP510."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -171,7 +181,8 @@
                                             "scheduledDepartureLocalTime":  "08:15:00",
                                             "scheduledArrivalLocalTime":  "18:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 511: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GRU"
+                                            "name":  "Flight 511: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GRU",
+                                            "description":  "Fly from Berlin to São Paulo with Condorleaf Air on CA511."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -187,7 +198,8 @@
                                             "scheduledDepartureLocalTime":  "09:15:00",
                                             "scheduledArrivalLocalTime":  "19:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 512: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG"
+                                            "name":  "Flight 512: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG",
+                                            "description":  "Fly from Frankfurt to Bogotá with Blue Pampa Airways on BP512."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -203,7 +215,8 @@
                                             "scheduledDepartureLocalTime":  "10:15:00",
                                             "scheduledArrivalLocalTime":  "20:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 513: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                            "name":  "Flight 513: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM",
+                                            "description":  "Fly from Munich to Lima with Condorleaf Air on CA513."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -219,7 +232,8 @@
                                             "scheduledDepartureLocalTime":  "11:15:00",
                                             "scheduledArrivalLocalTime":  "21:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 514: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE"
+                                            "name":  "Flight 514: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE",
+                                            "description":  "Fly from Berlin to Buenos Aires with Blue Pampa Airways on BP514."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -235,7 +249,8 @@
                                             "scheduledDepartureLocalTime":  "07:15:00",
                                             "scheduledArrivalLocalTime":  "17:40:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 515: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO"
+                                            "name":  "Flight 515: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO",
+                                            "description":  "Fly from Frankfurt to Quito with Condorleaf Air on CA515."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -251,7 +266,8 @@
                                             "scheduledDepartureLocalTime":  "07:20:00",
                                             "scheduledArrivalLocalTime":  "08:55:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 600: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“CUZ"
+                                            "name":  "Flight 600: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“CUZ",
+                                            "description":  "Fly from Lima to Cusco with Condorleaf Air on CA600."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -267,7 +283,8 @@
                                             "scheduledDepartureLocalTime":  "17:10:00",
                                             "scheduledArrivalLocalTime":  "18:45:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 601: CUZÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                            "name":  "Flight 601: CUZÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM",
+                                            "description":  "Fly from Cusco to Lima with Condorleaf Air on CA601."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -283,7 +300,8 @@
                                             "scheduledDepartureLocalTime":  "21:30:00",
                                             "scheduledArrivalLocalTime":  "16:05:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 602: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BER"
+                                            "name":  "Flight 602: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BER",
+                                            "description":  "Fly from Lima to Berlin with Condorleaf Air on CA602."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -295,7 +313,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/single",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Single Room"
+                                            "name":  "Single Room",
+                                            "description":  "Make yourself at home in this welcoming single room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -307,7 +326,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Unwind in this inviting double room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -319,7 +339,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/adjoining",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Adjoining Rooms"
+                                            "name":  "Adjoining Rooms",
+                                            "description":  "Enjoy a relaxed stay in this adjoining rooms, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -331,7 +352,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Make yourself at home in this welcoming double room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -343,7 +365,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/single",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Single Room"
+                                            "name":  "Single Room",
+                                            "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -355,7 +378,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/triple",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Triple Room"
+                                            "name":  "Triple Room",
+                                            "description":  "Enjoy a relaxed stay in this triple room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -367,7 +391,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Make yourself at home in this welcoming double room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -379,7 +404,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/single",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Single Room"
+                                            "name":  "Single Room",
+                                            "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -391,7 +417,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Enjoy a relaxed stay in this double room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -403,7 +430,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/single",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Single Room"
+                                            "name":  "Single Room",
+                                            "description":  "Make yourself at home in this welcoming single room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -415,7 +443,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Unwind in this inviting double room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -427,7 +456,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Enjoy a relaxed stay in this double room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -439,7 +469,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/family",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Family Room"
+                                            "name":  "Family Room",
+                                            "description":  "Make yourself at home in this welcoming family room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -451,7 +482,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/single",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Single Room"
+                                            "name":  "Single Room",
+                                            "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -463,7 +495,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/family",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Family Room"
+                                            "name":  "Family Room",
+                                            "description":  "Enjoy a relaxed stay in this family room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -474,7 +507,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Airport Transfer"
+                                            "name":  "Airport Transfer",
+                                            "description":  "Start the journey smoothly with this airport transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -485,7 +519,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hotel Shuttle"
+                                            "name":  "Hotel Shuttle",
+                                            "description":  "Keep moving with confidence using this hotel shuttle. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -496,7 +531,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "City Center Transfer"
+                                            "name":  "City Center Transfer",
+                                            "description":  "Take the straightforward route with this city center transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -507,7 +543,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Private Transfer"
+                                            "name":  "Private Transfer",
+                                            "description":  "Start the journey smoothly with this private transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -518,7 +555,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Shared Shuttle"
+                                            "name":  "Shared Shuttle",
+                                            "description":  "Keep moving with confidence using this shared shuttle. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -529,7 +567,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Airport Transfer"
+                                            "name":  "Airport Transfer",
+                                            "description":  "Take the straightforward route with this airport transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -540,7 +579,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hotel Shuttle"
+                                            "name":  "Hotel Shuttle",
+                                            "description":  "Start the journey smoothly with this hotel shuttle, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -551,7 +591,8 @@
                          "type":  "product/mobility/rail",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Regional Rail Connection"
+                                            "name":  "Regional Rail Connection",
+                                            "description":  "Keep moving with confidence using this regional rail connection. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -562,7 +603,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "City Center Transfer"
+                                            "name":  "City Center Transfer",
+                                            "description":  "Take the straightforward route with this city center transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -573,7 +615,8 @@
                          "type":  "product/mobility/vehicle-rental",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Compact Car Rental"
+                                            "name":  "Compact Car Rental",
+                                            "description":  "Start the journey smoothly with this compact car rental, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -584,7 +627,8 @@
                          "type":  "product/mobility/coach",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Scheduled Coach Service"
+                                            "name":  "Scheduled Coach Service",
+                                            "description":  "Keep moving with confidence using this scheduled coach service. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -595,7 +639,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Private Transfer"
+                                            "name":  "Private Transfer",
+                                            "description":  "Take the straightforward route with this private transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -606,7 +651,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Shared Shuttle"
+                                            "name":  "Shared Shuttle",
+                                            "description":  "Start the journey smoothly with this shared shuttle, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -617,7 +663,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Airport Transfer"
+                                            "name":  "Airport Transfer",
+                                            "description":  "Keep moving with confidence using this airport transfer. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -628,7 +675,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hotel Shuttle"
+                                            "name":  "Hotel Shuttle",
+                                            "description":  "Take the straightforward route with this hotel shuttle, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -639,7 +687,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Coastal Day Boat Excursion"
+                                            "name":  "Coastal Day Boat Excursion",
+                                            "description":  "Leave the shoreline behind on this coastal day boat excursion, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -650,7 +699,8 @@
                          "type":  "product/water-transport/cruise",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Multi-Day Coastal Cruise"
+                                            "name":  "Multi-Day Coastal Cruise",
+                                            "description":  "Add a sense of escape to the itinerary with this multi-day coastal cruise. Fresh air, open water, and distinctive scenery turn the journey itself into a destination."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -661,7 +711,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Snorkeling Day Boat Trip"
+                                            "name":  "Snorkeling Day Boat Trip",
+                                            "description":  "Discover the coast from the water on this snorkeling day boat trip, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -672,7 +723,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cooking Class"
+                                            "name":  "Cooking Class",
+                                            "description":  "Turn a day away into a story worth telling with this cooking class. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -683,7 +735,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Snorkeling Activity"
+                                            "name":  "Snorkeling Activity",
+                                            "description":  "See the destination from a more vivid angle through this snorkeling activity. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -694,7 +747,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hiking Activity"
+                                            "name":  "Hiking Activity",
+                                            "description":  "Go beyond sightseeing with this hiking activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -705,7 +759,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cultural Workshop"
+                                            "name":  "Cultural Workshop",
+                                            "description":  "Turn a day away into a story worth telling with this cultural workshop. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -716,7 +771,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Wildlife Watching"
+                                            "name":  "Wildlife Watching",
+                                            "description":  "See the destination from a more vivid angle through this wildlife watching. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -727,7 +783,8 @@
                          "type":  "product/experience/guided-tour",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "City Walking Tour"
+                                            "name":  "City Walking Tour",
+                                            "description":  "Go beyond sightseeing with this city walking tour, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -738,7 +795,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Local Market Visit"
+                                            "name":  "Local Market Visit",
+                                            "description":  "Turn a day away into a story worth telling with this local market visit. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -749,7 +807,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cooking Class"
+                                            "name":  "Cooking Class",
+                                            "description":  "See the destination from a more vivid angle through this cooking class. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -760,7 +819,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Snorkeling Activity"
+                                            "name":  "Snorkeling Activity",
+                                            "description":  "Go beyond sightseeing with this snorkeling activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -771,7 +831,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hiking Activity"
+                                            "name":  "Hiking Activity",
+                                            "description":  "Turn a day away into a story worth telling with this hiking activity. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -782,7 +843,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cultural Workshop"
+                                            "name":  "Cultural Workshop",
+                                            "description":  "See the destination from a more vivid angle through this cultural workshop. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -793,7 +855,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Wildlife Watching"
+                                            "name":  "Wildlife Watching",
+                                            "description":  "Go beyond sightseeing with this wildlife watching, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -804,7 +867,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Local Market Visit"
+                                            "name":  "Local Market Visit",
+                                            "description":  "Turn a day away into a story worth telling with this local market visit. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -815,7 +879,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cooking Class"
+                                            "name":  "Cooking Class",
+                                            "description":  "See the destination from a more vivid angle through this cooking class. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -826,7 +891,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Snorkeling Activity"
+                                            "name":  "Snorkeling Activity",
+                                            "description":  "Go beyond sightseeing with this snorkeling activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -837,7 +903,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Standard Travel Protection Plan"
+                                            "name":  "Standard Travel Protection Plan",
+                                            "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -848,7 +915,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Comprehensive Travel Protection Plan"
+                                            "name":  "Comprehensive Travel Protection Plan",
+                                            "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -859,7 +927,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Trip Cancellation Cover"
+                                            "name":  "Trip Cancellation Cover",
+                                            "description":  "Trip cancellation cover helps protect eligible prepaid costs when covered circumstances force you to cancel. It is a practical safeguard for plans arranged well in advance."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -870,7 +939,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Medical Travel Cover"
+                                            "name":  "Medical Travel Cover",
+                                            "description":  "Medical travel cover helps with eligible treatment and assistance costs during a trip. It is designed for travellers who want support close at hand when they are far from home."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -886,7 +956,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 921: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG"
+                                            "name":  "Flight 921: BERÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“GIG",
+                                            "description":  "Fly from Berlin to Rio de Janeiro with Condorleaf Air on CA921."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -902,7 +973,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 922: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE"
+                                            "name":  "Flight 922: FRAÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“EZE",
+                                            "description":  "Fly from Frankfurt to Buenos Aires with Blue Pampa Airways on BP922."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -918,7 +990,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 923: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL"
+                                            "name":  "Flight 923: MUCÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“SCL",
+                                            "description":  "Fly from Munich to Santiago with Condorleaf Air on CA923."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -934,7 +1007,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 924: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“PUQ"
+                                            "name":  "Flight 924: LIMÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“PUQ",
+                                            "description":  "Fly from Lima to Puerto Natales with Blue Pampa Airways on BP924."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -950,7 +1024,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 925: CUZÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG"
+                                            "name":  "Flight 925: CUZÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BOG",
+                                            "description":  "Fly from Cusco to Bogotá with Condorleaf Air on CA925."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -966,7 +1041,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 926: GRUÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO"
+                                            "name":  "Flight 926: GRUÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“UIO",
+                                            "description":  "Fly from São Paulo to Quito with Blue Pampa Airways on BP926."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -982,7 +1058,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 927: GIGÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BER"
+                                            "name":  "Flight 927: GIGÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“BER",
+                                            "description":  "Fly from Rio de Janeiro to Berlin with Condorleaf Air on CA927."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -998,7 +1075,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 928: EZEÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“FRA"
+                                            "name":  "Flight 928: EZEÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“FRA",
+                                            "description":  "Fly from Buenos Aires to Frankfurt with Blue Pampa Airways on BP928."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -1014,7 +1092,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 929: SCLÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“MUC"
+                                            "name":  "Flight 929: SCLÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“MUC",
+                                            "description":  "Fly from Santiago to Munich with Condorleaf Air on CA929."
                                         },
                          "supplierRoleId":  "ORG-000001-AIRLINE",
                          "parentProductId":  null,
@@ -1030,7 +1109,8 @@
                                             "scheduledDepartureLocalTime":  "10:00:00",
                                             "scheduledArrivalLocalTime":  "20:00:00",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Flight 930: PUQÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM"
+                                            "name":  "Flight 930: PUQÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“LIM",
+                                            "description":  "Fly from Puerto Natales to Lima with Blue Pampa Airways on BP930."
                                         },
                          "supplierRoleId":  "ORG-000002-AIRLINE",
                          "parentProductId":  null,
@@ -1042,7 +1122,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Make yourself at home in this welcoming double room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1054,7 +1135,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/family",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Family Room"
+                                            "name":  "Family Room",
+                                            "description":  "Unwind in this inviting family room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1066,7 +1148,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/twin",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Twin Room"
+                                            "name":  "Twin Room",
+                                            "description":  "Enjoy a relaxed stay in this twin room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1078,7 +1161,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/triple",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Triple Room"
+                                            "name":  "Triple Room",
+                                            "description":  "Make yourself at home in this welcoming triple room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1090,7 +1174,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/single",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Single Room"
+                                            "name":  "Single Room",
+                                            "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1102,7 +1187,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/suite",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Suite"
+                                            "name":  "Suite",
+                                            "description":  "Enjoy a relaxed stay in this suite, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1114,7 +1200,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/family",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Family Room"
+                                            "name":  "Family Room",
+                                            "description":  "Make yourself at home in this welcoming family room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1126,7 +1213,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/double",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Double Room"
+                                            "name":  "Double Room",
+                                            "description":  "Unwind in this inviting double room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1138,7 +1226,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/cabin",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cabin"
+                                            "name":  "Cabin",
+                                            "description":  "Enjoy a relaxed stay in this cabin, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1150,7 +1239,8 @@
                          "properties":  {
                                             "roomTypeCode":  "room/twin",
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Twin Room"
+                                            "name":  "Twin Room",
+                                            "description":  "Make yourself at home in this welcoming twin room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
                          "supplierRoleId":  "ORG-000003-ACCOMMODATION",
                          "parentProductId":  null,
@@ -1161,7 +1251,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "City Center Transfer"
+                                            "name":  "City Center Transfer",
+                                            "description":  "Start the journey smoothly with this city center transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1172,7 +1263,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Private Transfer"
+                                            "name":  "Private Transfer",
+                                            "description":  "Keep moving with confidence using this private transfer. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1183,7 +1275,8 @@
                          "type":  "product/mobility/rail",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Express Rail Connection"
+                                            "name":  "Express Rail Connection",
+                                            "description":  "Take the straightforward route with this express rail connection, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1194,7 +1287,8 @@
                          "type":  "product/mobility/coach",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Chartered Coach Service"
+                                            "name":  "Chartered Coach Service",
+                                            "description":  "Start the journey smoothly with this chartered coach service, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1205,7 +1299,8 @@
                          "type":  "product/mobility/vehicle-rental",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "SUV Rental"
+                                            "name":  "SUV Rental",
+                                            "description":  "Keep moving with confidence using this suv rental. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1216,7 +1311,8 @@
                          "type":  "product/mobility/vehicle-rental",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Economy Car Rental"
+                                            "name":  "Economy Car Rental",
+                                            "description":  "Take the straightforward route with this economy car rental, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1227,7 +1323,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Shared Shuttle"
+                                            "name":  "Shared Shuttle",
+                                            "description":  "Start the journey smoothly with this shared shuttle, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1238,7 +1335,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Airport Transfer"
+                                            "name":  "Airport Transfer",
+                                            "description":  "Keep moving with confidence using this airport transfer. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1249,7 +1347,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hotel Shuttle"
+                                            "name":  "Hotel Shuttle",
+                                            "description":  "Take the straightforward route with this hotel shuttle, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1260,7 +1359,8 @@
                          "type":  "product/mobility/transfer",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "City Center Transfer"
+                                            "name":  "City Center Transfer",
+                                            "description":  "Start the journey smoothly with this city center transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
                          "supplierRoleId":  "ORG-000004-MOBILITY",
                          "parentProductId":  null,
@@ -1271,7 +1371,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Sunset Day Boat Cruise"
+                                            "name":  "Sunset Day Boat Cruise",
+                                            "description":  "Leave the shoreline behind on this sunset day boat cruise, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1282,7 +1383,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Island-Hopping Day Boat"
+                                            "name":  "Island-Hopping Day Boat",
+                                            "description":  "Add a sense of escape to the itinerary with this island-hopping day boat. Fresh air, open water, and distinctive scenery turn the journey itself into a destination."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1293,7 +1395,8 @@
                          "type":  "product/water-transport/cruise",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "River Cruise"
+                                            "name":  "River Cruise",
+                                            "description":  "Discover the coast from the water on this river cruise, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1304,7 +1407,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Coastal Day Boat Excursion"
+                                            "name":  "Coastal Day Boat Excursion",
+                                            "description":  "Leave the shoreline behind on this coastal day boat excursion, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1315,7 +1419,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Snorkeling Day Boat Trip"
+                                            "name":  "Snorkeling Day Boat Trip",
+                                            "description":  "Add a sense of escape to the itinerary with this snorkeling day boat trip. Fresh air, open water, and distinctive scenery turn the journey itself into a destination."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1326,7 +1431,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Sunset Day Boat Cruise"
+                                            "name":  "Sunset Day Boat Cruise",
+                                            "description":  "Discover the coast from the water on this sunset day boat cruise, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1337,7 +1443,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Island-Hopping Day Boat"
+                                            "name":  "Island-Hopping Day Boat",
+                                            "description":  "Leave the shoreline behind on this island-hopping day boat, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1348,7 +1455,8 @@
                          "type":  "product/water-transport/cruise",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Archipelago Cruise"
+                                            "name":  "Archipelago Cruise",
+                                            "description":  "Add a sense of escape to the itinerary with this archipelago cruise. Fresh air, open water, and distinctive scenery turn the journey itself into a destination."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1359,7 +1467,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Coastal Day Boat Excursion"
+                                            "name":  "Coastal Day Boat Excursion",
+                                            "description":  "Discover the coast from the water on this coastal day boat excursion, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1370,7 +1479,8 @@
                          "type":  "product/water-transport/day-boat",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Snorkeling Day Boat Trip"
+                                            "name":  "Snorkeling Day Boat Trip",
+                                            "description":  "Leave the shoreline behind on this snorkeling day boat trip, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
                          "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
                          "parentProductId":  null,
@@ -1381,7 +1491,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hiking Activity"
+                                            "name":  "Hiking Activity",
+                                            "description":  "Turn a day away into a story worth telling with this hiking activity. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1392,7 +1503,8 @@
                          "type":  "product/experience/guided-tour",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Guided Heritage Tour"
+                                            "name":  "Guided Heritage Tour",
+                                            "description":  "See the destination from a more vivid angle through this guided heritage tour. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1403,7 +1515,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cultural Workshop"
+                                            "name":  "Cultural Workshop",
+                                            "description":  "Go beyond sightseeing with this cultural workshop, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1414,7 +1527,8 @@
                          "type":  "product/experience/guided-tour",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Guided Nature Trek"
+                                            "name":  "Guided Nature Trek",
+                                            "description":  "Turn a day away into a story worth telling with this guided nature trek. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1425,7 +1539,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Wildlife Watching"
+                                            "name":  "Wildlife Watching",
+                                            "description":  "See the destination from a more vivid angle through this wildlife watching. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1436,7 +1551,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Local Market Visit"
+                                            "name":  "Local Market Visit",
+                                            "description":  "Go beyond sightseeing with this local market visit, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1447,7 +1563,8 @@
                          "type":  "product/experience/guided-tour",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Local Culture Tour"
+                                            "name":  "Local Culture Tour",
+                                            "description":  "Turn a day away into a story worth telling with this local culture tour. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1458,7 +1575,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Cooking Class"
+                                            "name":  "Cooking Class",
+                                            "description":  "See the destination from a more vivid angle through this cooking class. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1469,7 +1587,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Snorkeling Activity"
+                                            "name":  "Snorkeling Activity",
+                                            "description":  "Go beyond sightseeing with this snorkeling activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1480,7 +1599,8 @@
                          "type":  "product/experience/activity",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Hiking Activity"
+                                            "name":  "Hiking Activity",
+                                            "description":  "Turn a day away into a story worth telling with this hiking activity. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
                          "supplierRoleId":  "ORG-000006-EXPERIENCE",
                          "parentProductId":  null,
@@ -1491,7 +1611,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Standard Travel Protection Plan"
+                                            "name":  "Standard Travel Protection Plan",
+                                            "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1502,7 +1623,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Comprehensive Travel Protection Plan"
+                                            "name":  "Comprehensive Travel Protection Plan",
+                                            "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1513,7 +1635,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Trip Cancellation Cover"
+                                            "name":  "Trip Cancellation Cover",
+                                            "description":  "Trip cancellation cover helps protect eligible prepaid costs when covered circumstances force you to cancel. It is a practical safeguard for plans arranged well in advance."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1524,7 +1647,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Medical Travel Cover"
+                                            "name":  "Medical Travel Cover",
+                                            "description":  "Medical travel cover helps with eligible treatment and assistance costs during a trip. It is designed for travellers who want support close at hand when they are far from home."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1535,7 +1659,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Standard Travel Protection Plan"
+                                            "name":  "Standard Travel Protection Plan",
+                                            "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1546,7 +1671,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Comprehensive Travel Protection Plan"
+                                            "name":  "Comprehensive Travel Protection Plan",
+                                            "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1557,7 +1683,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Trip Cancellation Cover"
+                                            "name":  "Trip Cancellation Cover",
+                                            "description":  "Trip cancellation cover helps protect eligible prepaid costs when covered circumstances force you to cancel. It is a practical safeguard for plans arranged well in advance."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1568,7 +1695,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Medical Travel Cover"
+                                            "name":  "Medical Travel Cover",
+                                            "description":  "Medical travel cover helps with eligible treatment and assistance costs during a trip. It is designed for travellers who want support close at hand when they are far from home."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1579,7 +1707,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Standard Travel Protection Plan"
+                                            "name":  "Standard Travel Protection Plan",
+                                            "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
@@ -1590,7 +1719,8 @@
                          "type":  "product/protection/travel",
                          "properties":  {
                                             "lifecycleStatusCode":  "product/active",
-                                            "name":  "Comprehensive Travel Protection Plan"
+                                            "name":  "Comprehensive Travel Protection Plan",
+                                            "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,

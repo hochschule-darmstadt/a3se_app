@@ -31,6 +31,12 @@ class CatalogueItemProperties(StrictProperties):
     """
 
     name: str | None = Field(default=None, min_length=1, max_length=200)
+    description: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=1200,
+        description="Short plain-text product description; normally one to four sentences.",
+    )
     lifecycle_status_code: Literal["product/draft", "product/active", "product/retired"] = Field(
         default="product/draft", alias="lifecycleStatusCode"
     )

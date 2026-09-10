@@ -20,6 +20,7 @@ const FLIGHT_PRODUCT = {
   displayName: "0Q501 BER–LIM",
   displayNameChain: ["Nordwind Airways", "Airline", "0Q501 BER–LIM"],
   properties: {
+    description: "A comfortable synthetic flight for exploring the region.",
     flightNumber: "CA501",
     departureLocationCode: "BER",
     arrivalLocationCode: "LIM",
@@ -75,6 +76,7 @@ describe("ProductDetail (VIEW-C-010 availability check)", () => {
     renderDetail("/products/FLT-01?date=2027-04-06&travellers=1");
 
     expect(await screen.findByText("Not available on 2027-04-06")).toBeInTheDocument();
+    expect(screen.getByText("A comfortable synthetic flight for exploring the region.")).toBeInTheDocument();
     expect(await screen.findByText("An alternative date is available: 2027-04-07.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Add 2027-04-07 to travel" })).toBeInTheDocument();
   });

@@ -27,6 +27,7 @@ const flightProduct = {
   schemaVersion: 1,
   properties: {
     name: "Return flight",
+    description: "A comfortable synthetic flight for exploring the region.",
     lifecycleStatusCode: "product/draft",
     flightNumber: "CA500",
     departureLocationCode: "FRA",
@@ -92,6 +93,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Nordwind Airways · Airline · 0Q500 FRA–GIG" })).toBeInTheDocument();
     expect(screen.getByText("airline/flight")).toBeInTheDocument();
     expect(screen.getByText("Draft")).toBeInTheDocument();
+    expect(screen.getByText("A comfortable synthetic flight for exploring the region.")).toBeInTheDocument();
     expect(screen.getByText(/no supplier set/i)).toBeInTheDocument();
     expect(screen.queryByText("Hierarchy")).not.toBeInTheDocument();
   });

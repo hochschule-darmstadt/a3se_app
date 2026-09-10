@@ -608,6 +608,11 @@ export interface components {
         };
         /** EmptyProductProperties */
         EmptyProductProperties: {
+            /**
+             * Description
+             * @description Short plain-text product description; normally one to four sentences.
+             */
+            description?: string | null;
             /** Imagealttext */
             imageAltText?: string | null;
             /** Imageattributiontext */
@@ -694,6 +699,11 @@ export interface components {
             arrivalLocationCode: string;
             /** Departurelocationcode */
             departureLocationCode: string;
+            /**
+             * Description
+             * @description Short plain-text product description; normally one to four sentences.
+             */
+            description?: string | null;
             /** Flightnumber */
             flightNumber: string;
             /** Imagealttext */
@@ -739,6 +749,11 @@ export interface components {
             arrivalLocationCode: string;
             /** Departurelocationcode */
             departureLocationCode: string;
+            /**
+             * Description
+             * @description Short plain-text product description; normally one to four sentences.
+             */
+            description?: string | null;
             /** Flightnumber */
             flightNumber: string;
             /** Imagealttext */
@@ -1200,6 +1215,11 @@ export interface components {
         };
         /** RoomCategoryProperties */
         RoomCategoryProperties: {
+            /**
+             * Description
+             * @description Short plain-text product description; normally one to four sentences.
+             */
+            description?: string | null;
             /** Imagealttext */
             imageAltText?: string | null;
             /** Imageattributiontext */

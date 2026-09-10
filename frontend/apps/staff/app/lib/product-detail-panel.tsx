@@ -223,6 +223,7 @@ export function ProductDetailPanel({
           <Badge color={isActive ? "green" : isRetired ? "gray" : undefined}>{LIFECYCLE_STATUS_LABEL[lifecycleStatusCode as LifecycleStatusCode]}</Badge>
         ) : null}
       </Group>
+      {catalogueProperties(product.properties).description ? <Text size="lg">{catalogueProperties(product.properties).description}</Text> : null}
 
       {editing ? (
         <form onSubmit={handleEditSubmit} aria-label="Edit product" noValidate>

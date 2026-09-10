@@ -196,6 +196,20 @@
       "EmptyProductProperties": {
         "additionalProperties": false,
         "properties": {
+          "description": {
+            "anyOf": [
+              {
+                "maxLength": 1200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Short plain-text product description; normally one to four sentences.",
+            "title": "Description"
+          },
           "imageAltText": {
             "anyOf": [
               {
@@ -446,6 +460,20 @@
             "title": "Departurelocationcode",
             "type": "string"
           },
+          "description": {
+            "anyOf": [
+              {
+                "maxLength": 1200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Short plain-text product description; normally one to four sentences.",
+            "title": "Description"
+          },
           "flightNumber": {
             "pattern": "^[A-Z]{2}[0-9]{3}$",
             "title": "Flightnumber",
@@ -622,6 +650,20 @@
             "pattern": "^[A-Z]{3}$",
             "title": "Departurelocationcode",
             "type": "string"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "maxLength": 1200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Short plain-text product description; normally one to four sentences.",
+            "title": "Description"
           },
           "flightNumber": {
             "pattern": "^[A-Z]{2}[0-9]{3}$",
@@ -2187,6 +2229,20 @@
       "RoomCategoryProperties": {
         "additionalProperties": false,
         "properties": {
+          "description": {
+            "anyOf": [
+              {
+                "maxLength": 1200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Short plain-text product description; normally one to four sentences.",
+            "title": "Description"
+          },
           "imageAltText": {
             "anyOf": [
               {

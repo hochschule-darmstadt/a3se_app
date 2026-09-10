@@ -66,7 +66,7 @@ hypothetical and are not asserted to be assigned IATA codes.
 | Person Management | `PersonRole` | A contextual role played by a Person, such as customer or traveler, with role-specific properties. |
 | Partner Management | `Organisation` | An organization identified by organization-specific properties such as name. |
 | Partner Management | `OrgaRole` | A contextual role played by an Organisation, such as partner, supplier, airline, or hotel, with role-specific properties. |
-| Touristic Product Management | `TouristicProductItem` | A typed reusable touristic product element. Recursive relationships allow composite structures such as a flight type with seats or a room category with rooms. |
+| Touristic Product Management | `TouristicProductItem` | A typed reusable touristic product element with structured properties and optional short descriptive content. Recursive relationships allow composite structures such as a flight type with seats or a room category with rooms. |
 | Inventory | `StockItem` | A dated, priced, or otherwise qualified unit of pre-procured sellable stock. Recursive relationships allow stock groupings. |
 | Order Management | `OrderItem` | A typed order or ordered component. Recursive relationships allow an order to contain its components. |
 

@@ -82,6 +82,7 @@ export default function ProductDetail() {
           {productQuery.isSuccess ? (
             <Stack gap="md">
               <Title order={2}>{productTitle(productQuery.data)}</Title>
+              {productQuery.data.properties.description ? <Text size="lg">{productQuery.data.properties.description}</Text> : null}
               <Text c="dimmed">{productQuery.data.entityId}</Text>
               <Text size="sm">
                 {t("detail.requestedDate")}: {requestedDate || "–"}

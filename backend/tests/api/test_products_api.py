@@ -20,6 +20,7 @@ def flight_payload(entity_id: str = "I21-FLIGHT", **overrides: object) -> dict[s
         "arrivalLocationCode": "GIG",
         "scheduledDepartureLocalTime": "10:30:00",
         "scheduledArrivalLocalTime": "18:45:00",
+        "description": "A short synthetic flight description.",
     }
     properties.update(overrides)
     return {"entityId": entity_id, "product": {"type": "product/airline/flight", "properties": properties}}
@@ -34,7 +35,7 @@ class ProductsApiTest(unittest.TestCase):
         self.app.dependency_overrides[get_current_actor] = lambda: None
         self.client = TestClient(self.app, raise_server_exceptions=False)
 
-    def link_airline_supplier(self, product_id: str, suffix: str = "") -> None:
+    def link_airline_supplier(self, product_id: str, suffix: str = "", designator: str = "0Q") -> None:
         organisation_id = f"I21-SUPPLIER{suffix}"
         role_id = f"I21-SUPPLIER-ROLE{suffix}"
         self.repository.save(
@@ -45,7 +46,7 @@ class ProductsApiTest(unittest.TestCase):
                 "entityId": role_id,
                 "entityKind": "OrgaRole",
                 "type": "organisation/airline",
-                "properties": {"airlineDesignator": "0Q"},
+                "properties": {"airlineDesignator": designator},
             }
         )
         self.repository.create_relationship(
@@ -62,6 +63,17 @@ class ProductsApiTest(unittest.TestCase):
         response = self.client.post("/products", json=flight_payload())
         self.assertEqual(201, response.status_code)
         self.assertEqual("product/airline/flight", response.json()["type"])
+
+    def test_product_description_is_returned(self) -> None:
+        self.client.post("/products", json=flight_payload())
+        self.link_airline_supplier("I21-FLIGHT", designator="CA")
+        response = self.client.get("/products/I21-FLIGHT")
+        self.assertEqual(200, response.status_code)
+        self.assertEqual("A short synthetic flight description.", response.json()["properties"]["description"])
+
+    def test_product_description_must_not_be_empty(self) -> None:
+        response = self.client.post("/products", json=flight_payload(description=""))
+        self.assertEqual(422, response.status_code)
 
     def test_create_product_duplicate_returns_409(self) -> None:
         self.client.post("/products", json=flight_payload())
