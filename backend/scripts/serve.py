@@ -22,6 +22,7 @@ import uvicorn
 
 from cct.api.app import create_app
 from cct.api.dependencies import ApiDependencies
+from cct.core_processes.customer_care.advisor import create_default_advisor_service, glossary_documents, product_documents
 from cct.infrastructure.neo4j.entity_repository import COMMUNITY_SCHEMA, Neo4jEntityRepository
 from cct.resource_management.contracts import EntityKind
 from cct.resource_management.default_registry import create_entity_registry
@@ -59,6 +60,17 @@ def main() -> None:
 
         app = create_app()
         app.state.dependencies = build_dependencies(driver, database)
+        container_root = os.path.dirname(os.path.dirname(__file__))
+        project_root = (
+            container_root
+            if os.path.isdir(os.path.join(container_root, "docs"))
+            else os.path.dirname(container_root)
+        )
+        glossary_path = os.path.join(project_root, "docs", "requirements", "glossary.md")
+        app.state.advisor_service = create_default_advisor_service(
+            product_documents(app.state.dependencies.product_repository)
+            + glossary_documents(glossary_path)
+        )
         host = os.environ.get("CCT_API_HOST", "127.0.0.1")
         uvicorn.run(app, host=host, port=8000)
     finally:

@@ -8,6 +8,12 @@ export interface AdvisorMessage {
   readonly id: string;
   readonly speaker: "customer" | "advisor";
   readonly text: string;
+  readonly state?: "answered" | "uncertain" | "no-answer" | "handover" | "failed";
+}
+
+export interface AdvisorReply {
+  readonly text: string;
+  readonly state?: AdvisorMessage["state"];
 }
 
 export interface AdvisorConversationLabels {
@@ -20,29 +26,38 @@ export interface AdvisorConversationLabels {
   readonly customer: string;
   readonly advisor: string;
   readonly placeholderReply: string;
+  readonly failedReply: string;
 }
 
 export interface AdvisorConversationProps {
   readonly labels: AdvisorConversationLabels;
   readonly initialMessages?: readonly AdvisorMessage[];
+  readonly onSend?: (message: string) => Promise<string | AdvisorReply>;
 }
 
-/** DS-CMP-009/010: the visual advisor boundary used before live Q&A and actions exist. */
-export function AdvisorConversation({ labels, initialMessages = [] }: AdvisorConversationProps) {
+/** DS-CMP-009/010: shared advisor conversation; action tools remain deferred to #47. */
+export function AdvisorConversation({ labels, initialMessages = [], onSend }: AdvisorConversationProps) {
   const [opened, setOpened] = useState(false);
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<AdvisorMessage[]>(() => [...initialMessages]);
+  const [submitting, setSubmitting] = useState(false);
 
-  function sendMessage() {
+  async function sendMessage() {
     const text = draft.trim();
-    if (!text) return;
+    if (!text || submitting) return;
     const messageId = `${Date.now()}`;
-    setMessages((current) => [
-      ...current,
-      { id: `${messageId}-customer`, speaker: "customer", text },
-      { id: `${messageId}-advisor`, speaker: "advisor", text: labels.placeholderReply },
-    ]);
+    setMessages((current) => [...current, { id: `${messageId}-customer`, speaker: "customer", text }]);
     setDraft("");
+    setSubmitting(true);
+    try {
+      const reply = onSend ? await onSend(text) : labels.placeholderReply;
+      const normalized = typeof reply === "string" ? { text: reply } : reply;
+      setMessages((current) => [...current, { id: `${messageId}-advisor`, speaker: "advisor", text: normalized.text, state: normalized.state }]);
+    } catch {
+      setMessages((current) => [...current, { id: `${messageId}-advisor`, speaker: "advisor", text: labels.failedReply }]);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -65,7 +80,7 @@ export function AdvisorConversation({ labels, initialMessages = [] }: AdvisorCon
             <Stack gap="sm" aria-live="polite" aria-label={labels.title}>
               {messages.length === 0 ? <Text size="sm" c="dimmed">{labels.placeholder}</Text> : null}
               {messages.map((message) => (
-                <Paper key={message.id} withBorder p="sm" radius="md" ml={message.speaker === "customer" ? "xl" : undefined} bg={message.speaker === "customer" ? "orange.0" : "gray.0"}>
+                <Paper key={message.id} withBorder p="sm" radius="md" ml={message.speaker === "customer" ? "xl" : undefined} bg={message.speaker === "customer" ? "orange.0" : message.state === "uncertain" || message.state === "no-answer" ? "yellow.0" : message.state === "failed" ? "red.0" : "gray.0"}>
                   <Text size="xs" fw={700} mb={4}>{message.speaker === "customer" ? labels.customer : labels.advisor}</Text>
                   <Text size="sm">{message.text}</Text>
                 </Paper>
@@ -75,7 +90,7 @@ export function AdvisorConversation({ labels, initialMessages = [] }: AdvisorCon
           <form onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>
             <Group align="end" gap="xs" wrap="nowrap">
               <TextInput style={{ flex: 1 }} label={labels.inputLabel} placeholder={labels.placeholder} value={draft} onChange={(event) => setDraft(event.currentTarget.value)} />
-              <ActionIcon type="submit" color="actionSecondary" variant="filled" size="lg" aria-label={labels.send} disabled={!draft.trim()}>
+              <ActionIcon type="submit" color="actionSecondary" variant="filled" size="lg" aria-label={labels.send} disabled={!draft.trim() || submitting}>
                 <IconSend size={18} aria-hidden />
               </ActionIcon>
             </Group>

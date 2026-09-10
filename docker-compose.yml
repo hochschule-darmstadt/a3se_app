@@ -32,13 +32,44 @@ services:
       CCT_NEO4J_USER: neo4j
       CCT_NEO4J_PASSWORD: "${CCT_NEO4J_PASSWORD:?set CCT_NEO4J_PASSWORD in the environment or a .env file}"
       CCT_API_HOST: 0.0.0.0
+      CCT_OLLAMA_URL: http://ollama:11434
+      CCT_OLLAMA_MODEL: qwen3:8b
+      CCT_ADVISOR_INDEX_PATH: /var/lib/cct/advisor-index
     ports:
       - "127.0.0.1:8000:8000"
+    volumes:
+      - advisor-index:/var/lib/cct/advisor-index
+      - ./docs:/app/docs:ro
     depends_on:
       neo4j:
         condition: service_healthy
+      ollama:
+        condition: service_started
     networks:
       - cct
+
+  ollama:
+    image: ollama/ollama:latest
+    gpus: all
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - cct
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    command: ["pull", "qwen3:8b"]
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    depends_on:
+      ollama:
+        condition: service_started
+    networks:
+      - cct
+    profiles:
+      - advisor-model
 
   seed:
     image: cct-backend:local
@@ -79,3 +110,5 @@ networks:
 
 volumes:
   neo4j-data:
+  advisor-index:
+  ollama-data:

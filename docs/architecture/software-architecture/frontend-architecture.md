@@ -140,8 +140,8 @@ root mounts the shared `AdvisorConversation` component, whose launcher remains
 available on every customer route and whose right-side drawer carries the
 current confirmed context. The `/assistance` route makes the related-order,
 current-issue, confirmed-state, and future handover context explicit. This
-phase uses a deterministic dummy reply; live Q&A, agent actions, and real
-handover remain deferred to issues #46 and #47.
+phase uses the grounded Q&A service from #46; agent actions and real handover
+remain deferred to issue #47 and the staff-assistance follow-up.
 
 VIEW-C-011 and VIEW-C-012 share one account page with an in-page mode switch.
 Registration persists a Person and active `person/customer` role through the

@@ -155,7 +155,7 @@ The annotated thin slice is `VIEW-C-001 → C-009 → C-010 → C-002 → C-011 
 
 The VIEW-C-001 implementation delivers the structured-search half of the Travel portal home. It captures location or theme, earliest departure, latest return, and travellers, then carries the confirmed criteria to VIEW-C-009 in URL state. VIEW-C-009 applies the location/theme and service-date criteria through the product-level catalogue-search API and presents product-level results with indicative stock price and available dates.
 
-The home also presents an explicitly identified Automated Travel Advisor entry point. Conversational answers, action invocation, and operation-state handling remain deferred to issue #46; the disabled launcher is therefore a visible boundary marker, not a second advice channel. Inspiration imagery and curated cards remain deferred to issue #25 and are not fabricated here.
+The home presents an explicitly identified AI Travel Advisor entry point. Grounded conversational answers are implemented by issue #46; action invocation and operation-state handling remain deferred to issue #47. Inspiration imagery and curated cards remain deferred to issue #25 and are not fabricated here.
 
 This is an implementation proposal pending the #34 human review checkpoint: the existing low-fidelity frame remains the UX evidence, and the structured-search field mapping plus deferred advisor/inspiration behaviour are recorded here so they are reviewable rather than silently treated as accepted requirements.
 
@@ -164,9 +164,9 @@ This is an implementation proposal pending the #34 human review checkpoint: the 
 The customer implementation now provides the C-007 assistance context view,
 the persistent bottom-right advisor launcher, and a right-side conversation
 drawer with a labelled transcript, composer, and confirmed order context. The
-prototype returns a fixed dummy reply so the interaction and responsive
-handover boundary can be reviewed. Live grounded answers, agent actions, and
-real staff handover remain deferred to issues #46 and #47; no unconfirmed
+prototype now uses grounded answers from #46 so the interaction and responsive
+handover boundary can be reviewed. Agent actions and real staff handover
+remain deferred to #47; no unconfirmed
 business outcome is represented as completed.
 
 ## MVP scope note (issue #35: VIEW-C-009)

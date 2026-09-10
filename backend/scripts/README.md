@@ -26,4 +26,7 @@ at all, and `cct.resource_management` modules depend only on
 
 Issue #50 changes seeded product properties from `displayName` to `name`.
 Existing prototype databases are disposable: reset and rerun `seed_data.py`
-from the corrected JSON rather than applying an in-place data migration.
+  from the corrected JSON rather than applying an in-place data migration.
+
+- `rebuild_advisor_index.py` (issue #46): rebuilds the local on-disk Qdrant
+  index from the current product projection and approved glossary content.

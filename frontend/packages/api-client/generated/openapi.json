@@ -1,6 +1,121 @@
 {
   "components": {
     "schemas": {
+      "AdvisorAnswer": {
+        "properties": {
+          "answer": {
+            "title": "Answer",
+            "type": "string"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/AdvisorEvidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "state": {
+            "$ref": "#/components/schemas/AdvisorState"
+          },
+          "uncertaintyReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uncertaintyreason"
+          }
+        },
+        "required": [
+          "state",
+          "answer"
+        ],
+        "title": "AdvisorAnswer",
+        "type": "object"
+      },
+      "AdvisorContextItem": {
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Key",
+            "type": "string"
+          },
+          "value": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "value"
+        ],
+        "title": "AdvisorContextItem",
+        "type": "object"
+      },
+      "AdvisorEvidence": {
+        "properties": {
+          "excerpt": {
+            "title": "Excerpt",
+            "type": "string"
+          },
+          "sourceId": {
+            "title": "Sourceid",
+            "type": "string"
+          },
+          "sourceType": {
+            "title": "Sourcetype",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sourceId",
+          "sourceType",
+          "excerpt"
+        ],
+        "title": "AdvisorEvidence",
+        "type": "object"
+      },
+      "AdvisorQuestion": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmedContext": {
+            "items": {
+              "$ref": "#/components/schemas/AdvisorContextItem"
+            },
+            "title": "Confirmedcontext",
+            "type": "array"
+          },
+          "message": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "AdvisorQuestion",
+        "type": "object"
+      },
+      "AdvisorState": {
+        "enum": [
+          "answered",
+          "uncertain",
+          "no-answer",
+          "handover",
+          "failed"
+        ],
+        "title": "AdvisorState",
+        "type": "string"
+      },
       "AirlineRoleProperties": {
         "additionalProperties": false,
         "properties": {
@@ -2931,6 +3046,57 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/advisor/answer": {
+      "post": {
+        "operationId": "answerAdvisorQuestion",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisorQuestion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisorAnswer"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Answer Advisor Question",
+        "tags": [
+          "advisor"
+        ]
+      }
+    },
     "/catalogue-search": {
       "get": {
         "operationId": "searchCatalogue",

@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from fastapi import Request
 
 from cct.resource_management.repository_ports import EntityRepositoryPort
+from cct.core_processes.customer_care.advisor import AdvisorService
 
 
 @dataclass(frozen=True, slots=True)
@@ -61,3 +62,7 @@ def get_stock_repository(request: Request) -> EntityRepositoryPort:
 
 def get_order_repository(request: Request) -> EntityRepositoryPort:
     return request.app.state.dependencies.order_repository
+
+
+def get_advisor_service(request: Request) -> AdvisorService:
+    return request.app.state.advisor_service

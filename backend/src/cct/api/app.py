@@ -13,7 +13,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import catalogue_search, incoming_references, orders, organisations, persons, products, stock_items
+from . import advisor, catalogue_search, incoming_references, orders, organisations, persons, products, stock_items
 from .errors import register_exception_handlers
 
 # The Customer (port 4300) and Staff (port 4301) Vite dev servers (#22) are a
@@ -52,4 +52,5 @@ def create_app() -> FastAPI:
     app.include_router(catalogue_search.router)
     app.include_router(incoming_references.router)
     app.include_router(orders.router)
+    app.include_router(advisor.router)
     return app

@@ -19,6 +19,7 @@ from cct.resource_management.errors import (
     InvalidReferenceError,
     StockUnavailableError,
 )
+from cct.core_processes.customer_care.advisor import AdvisorUnavailable
 
 from .schemas import ErrorResponse
 
@@ -70,6 +71,10 @@ def register_exception_handlers(app: FastAPI) -> None:
         # Only raised by a wiring bug (ScopedEntityRepository misconfiguration),
         # never by caller input -- 500, not a client error.
         return _respond(500, "infrastructure_error", "Internal configuration error", "an internal error occurred")
+
+    @app.exception_handler(AdvisorUnavailable)
+    async def handle_advisor_unavailable(request: Request, exc: AdvisorUnavailable) -> JSONResponse:
+        return _respond(503, "advisor_unavailable", "Travel advisor temporarily unavailable", str(exc))
 
     @app.exception_handler(Exception)
     async def handle_unexpected(request: Request, exc: Exception) -> JSONResponse:

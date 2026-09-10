@@ -1,0 +1,248 @@
+"""Grounded, read-only advisor capability for issue #46.
+
+The service owns orchestration only. Product facts remain in the resource
+repositories; the model receives bounded evidence and no database authority.
+"""
+
+from __future__ import annotations
+
+import json
+import hashlib
+import os
+from dataclasses import dataclass
+from enum import StrEnum
+from pathlib import Path
+from typing import Protocol
+from urllib.error import URLError
+from urllib.request import Request, urlopen
+
+from pydantic import BaseModel, ConfigDict, Field
+
+from cct.resource_management.contracts import EntityKind
+from cct.resource_management.pagination import PageRequest
+
+
+class AdvisorState(StrEnum):
+    ANSWERED = "answered"
+    UNCERTAIN = "uncertain"
+    NO_ANSWER = "no-answer"
+    HANDOVER = "handover"
+    FAILED = "failed"
+
+
+class AdvisorContextItem(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    key: str = Field(min_length=1, max_length=100)
+    value: str = Field(min_length=1, max_length=500)
+
+
+class AdvisorQuestion(BaseModel):
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+
+    message: str = Field(min_length=1, max_length=2000)
+    confirmed_context: list[AdvisorContextItem] = Field(default_factory=list, alias="confirmedContext")
+
+
+class AdvisorEvidence(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
+
+    source_id: str = Field(alias="sourceId")
+    source_type: str = Field(alias="sourceType")
+    excerpt: str
+
+
+class AdvisorAnswer(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
+
+    state: AdvisorState
+    answer: str
+    evidence: list[AdvisorEvidence] = Field(default_factory=list)
+    uncertainty_reason: str | None = Field(default=None, alias="uncertaintyReason")
+
+
+@dataclass(frozen=True, slots=True)
+class KnowledgeDocument:
+    source_id: str
+    source_type: str
+    text: str
+    content_version: str
+
+
+class KnowledgeIndex(Protocol):
+    def search(self, query: str, *, limit: int) -> list[KnowledgeDocument]: ...
+
+
+class AnswerModel(Protocol):
+    def answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> AdvisorAnswer: ...
+
+
+class AdvisorUnavailable(RuntimeError):
+    """The configured local model or index cannot answer this request."""
+
+
+class QdrantKnowledgeIndex:
+    """Small on-disk Qdrant index using local all-MiniLM embeddings."""
+
+    def __init__(self, path: str | Path, *, collection_name: str = "advisor_knowledge_v1") -> None:
+        from fastembed import TextEmbedding
+        from qdrant_client import QdrantClient, models
+
+        self._models = models
+        self._embedding = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        self._client = QdrantClient(path=str(path))
+        self._collection = collection_name
+        if not self._client.collection_exists(collection_name):
+            self._client.create_collection(
+                collection_name=collection_name,
+                vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
+            )
+
+    def replace(self, documents: list[KnowledgeDocument]) -> None:
+        vectors = list(self._embedding.embed([document.text for document in documents]))
+        points = [
+            self._models.PointStruct(
+                id=index,
+                vector=vector.tolist(),
+                payload={
+                    "sourceId": document.source_id,
+                    "sourceType": document.source_type,
+                    "text": document.text,
+                    "contentVersion": document.content_version,
+                },
+            )
+            for index, (document, vector) in enumerate(zip(documents, vectors, strict=True))
+        ]
+        self._client.delete_collection(self._collection)
+        self._client.create_collection(
+            collection_name=self._collection,
+            vectors_config=self._models.VectorParams(size=384, distance=self._models.Distance.COSINE),
+        )
+        if points:
+            self._client.upsert(collection_name=self._collection, points=points)
+
+    def search(self, query: str, *, limit: int) -> list[KnowledgeDocument]:
+        vector = next(iter(self._embedding.embed([query])))
+        hits = self._client.query_points(
+            collection_name=self._collection,
+            query=vector.tolist(),
+            with_payload=True,
+            limit=limit,
+            score_threshold=0.35,
+        ).points
+        return [
+            KnowledgeDocument(
+                source_id=str(hit.payload["sourceId"]),
+                source_type=str(hit.payload["sourceType"]),
+                text=str(hit.payload["text"]),
+                content_version=str(hit.payload["contentVersion"]),
+            )
+            for hit in hits
+            if hit.payload
+        ]
+
+    def rebuild(self, documents: list[KnowledgeDocument]) -> None:
+        self.replace(documents)
+
+
+class OllamaAnswerModel:
+    """Minimal Ollama HTTP adapter; no provider SDK or agent framework needed."""
+
+    def __init__(self, *, base_url: str = "http://ollama:11434", model: str = "qwen3:8b") -> None:
+        self._url = f"{base_url.rstrip('/')}/api/chat"
+        self._model = model
+
+    def answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> AdvisorAnswer:
+        evidence_text = "\n".join(f"[{item.source_id}] {item.text}" for item in evidence)
+        context_text = "\n".join(f"{item.key}: {item.value}" for item in context)
+        system = (
+            "You are the AI Travel Advisor for Christopher Columbus Travel. "
+            "Answer only from the supplied evidence and confirmed context. "
+            "Never invent availability, dates, prices, policy, or order facts. "
+            "If evidence is insufficient, return state uncertain or no-answer. "
+            "Return JSON only with keys state, answer, uncertaintyReason. "
+            "state must be answered, uncertain, no-answer, or handover."
+        )
+        payload = {
+            "model": self._model,
+            "stream": False,
+            "options": {"temperature": 0},
+            "format": "json",
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": f"Question: {question}\nConfirmed context:\n{context_text}\nEvidence:\n{evidence_text}"},
+            ],
+        }
+        request = Request(self._url, data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
+        try:
+            with urlopen(request, timeout=60) as response:
+                body = json.loads(response.read().decode())
+        except (OSError, URLError, TimeoutError) as exc:
+            raise AdvisorUnavailable("the local Ollama model is unavailable") from exc
+        try:
+            generated = json.loads(body["message"]["content"])
+            state = AdvisorState(generated["state"])
+            return AdvisorAnswer(
+                state=state,
+                answer=str(generated.get("answer", "")),
+                uncertaintyReason=generated.get("uncertaintyReason"),
+                evidence=[AdvisorEvidence(sourceId=item.source_id, sourceType=item.source_type, excerpt=item.text) for item in evidence],
+            )
+        except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+            raise AdvisorUnavailable("the local model returned an invalid advisor response") from exc
+
+
+class AdvisorService:
+    def __init__(self, index: KnowledgeIndex, model: AnswerModel) -> None:
+        self._index = index
+        self._model = model
+
+    def answer(self, question: AdvisorQuestion) -> AdvisorAnswer:
+        documents = self._index.search(question.message, limit=8)
+        if not documents:
+            return AdvisorAnswer(
+                state=AdvisorState.NO_ANSWER,
+                answer="I could not find approved travel information for that question.",
+                uncertaintyReason="No approved source matched the question.",
+            )
+        answer = self._model.answer(question.message, documents, question.confirmed_context)
+        if answer.state in {AdvisorState.UNCERTAIN, AdvisorState.NO_ANSWER, AdvisorState.HANDOVER, AdvisorState.FAILED}:
+            return answer.model_copy(update={"evidence": []})
+        return answer
+
+
+def product_documents(product_repository) -> list[KnowledgeDocument]:
+    """Create bounded explanatory records from the owning product projection."""
+    page = product_repository.list(EntityKind.TOURISTIC_PRODUCT_ITEM, type_filter=None, page=PageRequest(limit=100))
+    documents: list[KnowledgeDocument] = []
+    for product in page.items:
+        properties = product.properties.model_dump(by_alias=True, exclude_none=True)
+        fields = [product.entity_id, product.type or ""]
+        fields.extend(f"{key}: {value}" for key, value in properties.items())
+        text = " ".join(fields)
+        documents.append(KnowledgeDocument(product.entity_id, "catalogue-product", text, hashlib.sha256(text.encode()).hexdigest()))
+    return documents
+
+
+def glossary_documents(path: str | Path) -> list[KnowledgeDocument]:
+    """Load the approved glossary table without indexing customer context."""
+    documents: list[KnowledgeDocument] = []
+    for line in Path(path).read_text(encoding="utf-8").splitlines():
+        if not line.startswith("|") or line.startswith("| Term") or line.startswith("|---"):
+            continue
+        columns = [part.strip() for part in line.strip("|").split("|")]
+        if len(columns) >= 3:
+            text = f"{columns[0]}: {columns[1]} Context: {columns[2]}"
+            documents.append(KnowledgeDocument(f"glossary:{columns[0]}", "glossary", text, hashlib.sha256(text.encode()).hexdigest()))
+    return documents
+
+
+def create_default_advisor_service(documents: list[KnowledgeDocument] | None = None) -> AdvisorService:
+    index = QdrantKnowledgeIndex(os.environ.get("CCT_ADVISOR_INDEX_PATH", "/var/lib/cct/advisor-index"))
+    if documents:
+        index.rebuild(documents)
+    model = OllamaAnswerModel(
+        base_url=os.environ.get("CCT_OLLAMA_URL", "http://ollama:11434"),
+        model=os.environ.get("CCT_OLLAMA_MODEL", "qwen3:8b"),
+    )
+    return AdvisorService(index, model)

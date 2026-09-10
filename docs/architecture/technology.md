@@ -74,6 +74,10 @@ If later evidence justifies an independently scalable or isolated AI component, 
 
 No agent framework, model, inference runtime, or external AI provider is selected by DR-0010. Those choices require separate evaluation of functional fit, data protection, latency, availability, evaluation quality, operational control, and cost constraints.
 
+Issue #46's accepted model, embedding, local vector-index, and module-boundary
+choices are recorded in [DR-0024](../governance/decisions/0024-local-grounded-advisor-stack.md)
+and detailed in [AI Assistance Architecture Proposal](ai-assistance.md).
+
 ## Neo4j Community Edition
 
 Neo4j Community Edition is selected for the persistence proof of concept because the concrete object example is a property graph rather than merely a set of relational hierarchies. It includes paths such as Order → Order Position → Stock Item → Touristic Product Item → composite Product Item → Supplier Role → Organisation, alongside order-to-traveller-to-person paths and recursive Order, Stock, and Product structures.
