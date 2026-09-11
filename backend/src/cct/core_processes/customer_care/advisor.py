@@ -12,6 +12,7 @@ import os
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+from collections.abc import Iterator
 from typing import Protocol
 from urllib.error import URLError
 from urllib.request import Request, urlopen
@@ -75,6 +76,8 @@ class KnowledgeIndex(Protocol):
 
 class AnswerModel(Protocol):
     def answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> AdvisorAnswer: ...
+
+    def stream_answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> Iterator[str]: ...
 
 
 class AdvisorUnavailable(RuntimeError):
@@ -166,6 +169,8 @@ class OllamaAnswerModel:
         payload = {
             "model": self._model,
             "stream": False,
+            "keep_alive": "10m",
+            "think": False,
             "options": {"temperature": 0},
             "format": "json",
             "messages": [
@@ -191,6 +196,41 @@ class OllamaAnswerModel:
         except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
             raise AdvisorUnavailable("the local model returned an invalid advisor response") from exc
 
+    def stream_answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> Iterator[str]:
+        evidence_text = "\n".join(f"[{item.source_id}] {item.text}" for item in evidence)
+        context_text = "\n".join(f"{item.key}: {item.value}" for item in context)
+        system = (
+            "You are the AI Travel Advisor for Christopher Columbus Travel. "
+            "Answer only from the supplied evidence and confirmed context. "
+            "Never invent availability, dates, prices, policy, or order facts. "
+            "Return only the concise customer-facing answer as plain text; do not return JSON, labels, or markdown metadata."
+        )
+        payload = {
+            "model": self._model,
+            "stream": True,
+            "keep_alive": "10m",
+            "think": False,
+            "options": {"temperature": 0},
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": f"Question: {question}\nConfirmed context:\n{context_text}\nEvidence:\n{evidence_text}"},
+            ],
+        }
+        request = Request(self._url, data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
+        try:
+            with urlopen(request, timeout=60) as response:
+                for line in response:
+                    if not line.strip():
+                        continue
+                    event = json.loads(line.decode())
+                    chunk = event.get("message", {}).get("content", "")
+                    if chunk:
+                        yield str(chunk)
+                    if event.get("done"):
+                        return
+        except (OSError, URLError, TimeoutError, json.JSONDecodeError) as exc:
+            raise AdvisorUnavailable("the local Ollama model is unavailable") from exc
+
 
 class AdvisorService:
     def __init__(self, index: KnowledgeIndex, model: AnswerModel) -> None:
@@ -209,6 +249,34 @@ class AdvisorService:
         if answer.state in {AdvisorState.UNCERTAIN, AdvisorState.NO_ANSWER, AdvisorState.HANDOVER, AdvisorState.FAILED}:
             return answer.model_copy(update={"evidence": []})
         return answer
+
+    def stream_answer(self, question: AdvisorQuestion) -> Iterator[dict[str, object]]:
+        documents = self._index.search(question.message, limit=8)
+        if not documents:
+            yield {
+                "type": "complete",
+                "state": AdvisorState.NO_ANSWER.value,
+                "answer": "I could not find approved travel information for that question.",
+                "evidence": [],
+                "uncertaintyReason": "No approved source matched the question.",
+            }
+            return
+        try:
+            for chunk in self._model.stream_answer(question.message, documents, question.confirmed_context):
+                yield {"type": "chunk", "text": chunk}
+        except AdvisorUnavailable:
+            yield {"type": "complete", "state": AdvisorState.FAILED.value, "answer": "", "evidence": []}
+            return
+        yield {
+            "type": "complete",
+            "state": AdvisorState.ANSWERED.value,
+            "answer": "",
+            "evidence": [
+                {"sourceId": item.source_id, "sourceType": item.source_type, "excerpt": item.text}
+                for item in documents
+            ],
+            "uncertaintyReason": "",
+        }
 
 
 def product_documents(product_repository) -> list[KnowledgeDocument]:

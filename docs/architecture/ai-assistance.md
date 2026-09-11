@@ -35,7 +35,8 @@ customer prompt or catalogue content leaves the developer machine. The
 application must fail clearly to `failed` when Ollama is unavailable; it must
 not silently call a hosted provider. Temperature is `0`, tool calls are
 disabled for #46, and the answer contract is validated before the response is
-shown.
+shown. Requests set Ollama `keep_alive` to `10m` so the loaded model remains
+resident between questions instead of being reloaded for every request.
 
 This model is selected for the proof of concept because it is small enough for
 ordinary developer hardware while being in the Qwen3 family whose Ollama
@@ -137,8 +138,12 @@ Python modular monolith:
    evidence. A Pydantic response contract validates state, answer, evidence
    IDs, and uncertainty reason.
 5. The HTTP adapter maps the contract to the existing `AdvisorConversation`
-   surface. The frontend contains no retrieval, prompting, catalogue matching,
-   or business rules.
+   surface. The streaming endpoint emits newline-delimited JSON `chunk` events
+   as Ollama produces text, followed by one `complete` event containing the
+   final state and evidence. The frontend appends chunks to the current advisor
+   message and keeps the newest content visible; it does not simulate streaming
+   after a completed response. The frontend contains no retrieval, prompting,
+   catalogue matching, or business rules.
 
 | Source | Indexed in Qdrant | Read live at question time | Chunking / payload |
 |---|---|---|---|

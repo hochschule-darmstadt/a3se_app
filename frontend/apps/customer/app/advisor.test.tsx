@@ -3,9 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
 import { describe, expect, it, vi } from "vitest";
 
-import { apiClient } from "./api";
-
-vi.mock("./api", () => ({ apiClient: { POST: vi.fn() } }));
+vi.mock("./api", () => ({ apiBaseUrl: "http://127.0.0.1:8000" }));
 
 import { CustomerAdvisor } from "./advisor";
 import { TestProviders } from "./test-utils";
@@ -18,10 +16,17 @@ function renderAdvisor(initialEntry = "/") {
 describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
   it("opens from the persistent launcher and returns a reply", async () => {
     const user = userEvent.setup();
-    vi.mocked(apiClient.POST).mockResolvedValue({
-      data: { state: "answered", answer: "The catalogue has a coastal walking option.", evidence: [] },
-      response: { ok: true, status: 200 },
-    } as never);
+    let delivered = false;
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
+      ok: true,
+      body: {
+        getReader: () => ({
+          read: async () => delivered
+            ? { done: true, value: undefined }
+            : (delivered = true, { done: false, value: new TextEncoder().encode('{"type":"chunk","text":"The catalogue has a coastal walking option."}\n{"type":"complete","state":"answered","answer":""}\n') }),
+        }),
+      },
+    }));
     renderAdvisor("/assistance");
 
     await user.click(screen.getByRole("button", { name: "Open AI Travel Advisor" }));

@@ -32,7 +32,7 @@ export interface AdvisorConversationLabels {
 export interface AdvisorConversationProps {
   readonly labels: AdvisorConversationLabels;
   readonly initialMessages?: readonly AdvisorMessage[];
-  readonly onSend?: (message: string) => Promise<string | AdvisorReply>;
+  readonly onSend?: (message: string, onChunk: (chunk: string) => void) => Promise<string | AdvisorReply>;
 }
 
 /** DS-CMP-009/010: shared advisor conversation; action tools remain deferred to #47. */
@@ -58,30 +58,33 @@ export function AdvisorConversation({ labels, initialMessages = [], onSend }: Ad
     return () => cancelAnimationFrame(frame);
   }, [messages, opened]);
 
-  async function revealReply(messageId: string, reply: AdvisorMessage) {
-    const chunks = reply.text.match(/\S+\s*/g) ?? [reply.text];
-    setMessages((current) => [...current, { ...reply, text: "" }]);
-    let text = "";
-    for (const chunk of chunks) {
-      text += chunk;
-      setMessages((current) => current.map((message) => message.id === messageId ? { ...message, text } : message));
-      await new Promise((resolve) => window.setTimeout(resolve, 35));
-    }
-  }
-
   async function sendMessage() {
     const text = draft.trim();
     if (!text || submitting) return;
     const messageId = `${Date.now()}`;
+    const advisorMessageId = `${messageId}-advisor`;
     setMessages((current) => [...current, { id: `${messageId}-customer`, speaker: "customer", text }]);
+    setMessages((current) => [...current, { id: advisorMessageId, speaker: "advisor", text: "" }]);
     setDraft("");
     setSubmitting(true);
     try {
-      const reply = onSend ? await onSend(text) : labels.placeholderReply;
+      const streamedText: string[] = [];
+      const reply = onSend
+        ? await onSend(text, (chunk) => {
+          streamedText.push(chunk);
+          setMessages((current) => current.map((message) => message.id === advisorMessageId
+            ? { ...message, text: `${message.text}${chunk}` }
+            : message));
+        })
+        : labels.placeholderReply;
       const normalized = typeof reply === "string" ? { text: reply } : reply;
-      await revealReply(`${messageId}-advisor`, { id: `${messageId}-advisor`, speaker: "advisor", text: normalized.text, state: normalized.state });
+      setMessages((current) => current.map((message) => message.id === advisorMessageId
+        ? { ...message, text: normalized.text || message.text || streamedText.join(""), state: normalized.state }
+        : message));
     } catch {
-      await revealReply(`${messageId}-advisor`, { id: `${messageId}-advisor`, speaker: "advisor", text: labels.failedReply });
+      setMessages((current) => current.map((message) => message.id === advisorMessageId
+        ? { ...message, text: labels.failedReply, state: "failed" }
+        : message));
     } finally {
       setSubmitting(false);
     }
