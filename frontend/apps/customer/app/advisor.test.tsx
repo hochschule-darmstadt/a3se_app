@@ -33,6 +33,6 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
     await user.click(screen.getByRole("button", { name: "Send message" }));
 
     expect(screen.getByText("What is happening with my documents?")).toBeInTheDocument();
-    expect(screen.getByText("The catalogue has a coastal walking option.")).toBeInTheDocument();
+    expect(await screen.findByText("The catalogue has a coastal walking option.")).toBeInTheDocument();
   });
 });

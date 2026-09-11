@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Drawer, Group, Paper, ScrollArea, Stack, Text, TextInput } from "@mantine/core";
 import { IconSend } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { CctIcon } from "./icons.js";
 
@@ -41,6 +41,33 @@ export function AdvisorConversation({ labels, initialMessages = [], onSend }: Ad
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<AdvisorMessage[]>(() => [...initialMessages]);
   const [submitting, setSubmitting] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!opened) return;
+    const frame = requestAnimationFrame(() => {
+      const viewport = viewportRef.current;
+      if (viewport) {
+        if (typeof viewport.scrollTo === "function") {
+          viewport.scrollTo({ top: viewport.scrollHeight, behavior: "smooth" });
+        } else {
+          viewport.scrollTop = viewport.scrollHeight;
+        }
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [messages, opened]);
+
+  async function revealReply(messageId: string, reply: AdvisorMessage) {
+    const chunks = reply.text.match(/\S+\s*/g) ?? [reply.text];
+    setMessages((current) => [...current, { ...reply, text: "" }]);
+    let text = "";
+    for (const chunk of chunks) {
+      text += chunk;
+      setMessages((current) => current.map((message) => message.id === messageId ? { ...message, text } : message));
+      await new Promise((resolve) => window.setTimeout(resolve, 35));
+    }
+  }
 
   async function sendMessage() {
     const text = draft.trim();
@@ -52,9 +79,9 @@ export function AdvisorConversation({ labels, initialMessages = [], onSend }: Ad
     try {
       const reply = onSend ? await onSend(text) : labels.placeholderReply;
       const normalized = typeof reply === "string" ? { text: reply } : reply;
-      setMessages((current) => [...current, { id: `${messageId}-advisor`, speaker: "advisor", text: normalized.text, state: normalized.state }]);
+      await revealReply(`${messageId}-advisor`, { id: `${messageId}-advisor`, speaker: "advisor", text: normalized.text, state: normalized.state });
     } catch {
-      setMessages((current) => [...current, { id: `${messageId}-advisor`, speaker: "advisor", text: labels.failedReply }]);
+      await revealReply(`${messageId}-advisor`, { id: `${messageId}-advisor`, speaker: "advisor", text: labels.failedReply });
     } finally {
       setSubmitting(false);
     }
@@ -76,7 +103,7 @@ export function AdvisorConversation({ labels, initialMessages = [], onSend }: Ad
 
       <Drawer opened={opened} onClose={() => setOpened(false)} position="right" size={420} title={labels.title} closeButtonProps={{ "aria-label": labels.close }}>
         <Stack gap="md" h="calc(100vh - 7rem)">
-          <ScrollArea flex={1} type="auto" offsetScrollbars>
+          <ScrollArea viewportRef={viewportRef} flex={1} type="auto" offsetScrollbars>
             <Stack gap="sm" aria-live="polite" aria-label={labels.title}>
               {messages.length === 0 ? <Text size="sm" c="dimmed">{labels.placeholder}</Text> : null}
               {messages.map((message) => (
