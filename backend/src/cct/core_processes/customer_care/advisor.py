@@ -111,6 +111,16 @@ class QdrantKnowledgeIndex:
                 vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
             )
 
+    @staticmethod
+    def collection_exists(path: str | Path, *, collection_name: str = "advisor_knowledge_v1") -> bool:
+        from qdrant_client import QdrantClient
+
+        client = QdrantClient(path=str(path))
+        try:
+            return client.collection_exists(collection_name)
+        finally:
+            client.close()
+
     def replace(self, documents: list[KnowledgeDocument]) -> None:
         vectors = list(self._embedding.embed([document.text for document in documents]))
         points = [
@@ -370,9 +380,9 @@ def glossary_documents(path: str | Path) -> list[KnowledgeDocument]:
     return documents
 
 
-def create_default_advisor_service(documents: list[KnowledgeDocument] | None = None) -> AdvisorService:
+def create_default_advisor_service(documents: list[KnowledgeDocument] | None = None, *, rebuild: bool = False) -> AdvisorService:
     index = QdrantKnowledgeIndex(os.environ.get("CCT_ADVISOR_INDEX_PATH", "/var/lib/cct/advisor-index"))
-    if documents:
+    if documents and rebuild:
         index.rebuild(documents)
     model = OllamaAnswerModel(
         base_url=os.environ.get("CCT_OLLAMA_URL", "http://ollama:11434"),

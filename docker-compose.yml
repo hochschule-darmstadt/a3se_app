@@ -1,7 +1,8 @@
 # Localhost PoC topology (DR-0011, DR-0014). `api`/`neo4j` start with the
-# default profile; `seed`/`seed-reset` are profile-gated one-shot services so
-# ordinary `docker compose up` never mutates or duplicates retained data --
-# an operator opts in explicitly. Frontend containerization is intentionally
+# default profile; `seed`/`seed-reset` remain profile-gated one-shot services
+# for explicit resets. API startup conditionally refreshes the disposable
+# local graph and advisor index when its persisted source manifest changes.
+# Frontend containerization is intentionally
 # out of scope here (see backend/scripts/seed/README.md's recorded
 # limitations); this file covers only what issue #12 needed to prove the
 # seed entry point end to end.
@@ -35,10 +36,12 @@ services:
       CCT_OLLAMA_URL: http://ollama:11434
       CCT_OLLAMA_MODEL: qwen3:8b
       CCT_ADVISOR_INDEX_PATH: /var/lib/cct/advisor-index
+      CCT_SEED_STATE_PATH: /var/lib/cct/advisor-state/source-manifest.json
     ports:
       - "127.0.0.1:8000:8000"
     volumes:
       - advisor-index:/var/lib/cct/advisor-index
+      - advisor-state:/var/lib/cct/advisor-state
       - ./docs:/app/docs:ro
     depends_on:
       neo4j:
@@ -80,11 +83,17 @@ services:
       CCT_NEO4J_URI: bolt://neo4j:7687
       CCT_NEO4J_USER: neo4j
       CCT_NEO4J_PASSWORD: "${CCT_NEO4J_PASSWORD:?set CCT_NEO4J_PASSWORD in the environment or a .env file}"
+      CCT_ADVISOR_INDEX_PATH: /var/lib/cct/advisor-index
+      CCT_SEED_STATE_PATH: /var/lib/cct/advisor-state/source-manifest.json
     depends_on:
       neo4j:
         condition: service_healthy
     networks:
       - cct
+    volumes:
+      - advisor-index:/var/lib/cct/advisor-index
+      - advisor-state:/var/lib/cct/advisor-state
+      - ./docs:/app/docs:ro
     profiles:
       - seed
 
@@ -97,11 +106,17 @@ services:
       CCT_NEO4J_URI: bolt://neo4j:7687
       CCT_NEO4J_USER: neo4j
       CCT_NEO4J_PASSWORD: "${CCT_NEO4J_PASSWORD:?set CCT_NEO4J_PASSWORD in the environment or a .env file}"
+      CCT_ADVISOR_INDEX_PATH: /var/lib/cct/advisor-index
+      CCT_SEED_STATE_PATH: /var/lib/cct/advisor-state/source-manifest.json
     depends_on:
       neo4j:
         condition: service_healthy
     networks:
       - cct
+    volumes:
+      - advisor-index:/var/lib/cct/advisor-index
+      - advisor-state:/var/lib/cct/advisor-state
+      - ./docs:/app/docs:ro
     profiles:
       - seed
 
@@ -111,4 +126,5 @@ networks:
 volumes:
   neo4j-data:
   advisor-index:
+  advisor-state:
   ollama-data:

@@ -1,5 +1,9 @@
 # DR-0014: Deterministic seed data representation, generation, and Compose seeding
 
+> The local startup behavior in this record is partially superseded by
+> [DR-0025](0025-conditional-local-seed-and-index-refresh.md). The explicit
+> profile-gated seed job and its always-fresh semantics remain in force.
+
 - Status: accepted
 - Owner: Implementation/Architecture
 - Date: 2026-08-18

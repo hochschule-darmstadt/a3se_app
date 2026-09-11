@@ -28,17 +28,28 @@ From the repository root:
 ```powershell
 docker compose build api
 docker compose up -d
-docker compose --profile seed run --rm seed
 ```
 
-The build command must run before seeding after backend source changes. The
-`api`, `seed`, and `seed-reset` services deliberately share the explicit
-`cct-backend:local` image tag, so the seed job cannot silently use a different
-service-specific image from the API. The first runtime command starts Neo4j and
-the API. The seed command clears the disposable
-local graph and loads the deterministic synthetic inspection data from
-scratch. Every seed invocation starts fresh; it never migrates or merges with
-retained records. Seeding is explicit and is not part of ordinary startup.
+The API computes a manifest at startup. It automatically seeds the empty local
+graph on first use, and reseeds when a seed JSON file or seed/index logic
+changes. It rebuilds the advisor index when its indexed inputs, index logic,
+model, or schema version changes. Unchanged fingerprints reuse the persisted
+`neo4j-data`, `advisor-index`, and `advisor-state` volumes. The build command
+must run before startup after backend source changes so the container contains
+the changed logic. `CCT_FORCE_SEED=1` forces the same reset, reseed, and index
+rebuild behavior.
+
+For a deliberate explicit reseed, use the profile-gated job:
+
+```powershell
+docker compose --profile seed run --rm seed-reset
+```
+
+The `api`, `seed`, and `seed-reset` services share the explicit
+`cct-backend:local` image tag and the advisor volumes. Every seed invocation
+starts fresh; it never migrates or merges retained records. This automatic
+refresh is intentionally a local-development convenience and can discard
+staff-created local records when seed inputs or seed logic change.
 
 ## Start the browser applications
 

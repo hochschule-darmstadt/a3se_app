@@ -1,14 +1,14 @@
 """Load the issue #12 deterministic seed data into a real Neo4j instance.
 
 Usage:
-    python backend/scripts/seed_data.py           # fresh disposable database, then load
+    python backend/scripts/seed_data.py           # fresh disposable database, then load and index
     python backend/scripts/seed_data.py --reset    # accepted for compatibility; same behavior
 
 Reads CCT_NEO4J_URI / CCT_NEO4J_USER / CCT_NEO4J_PASSWORD / CCT_NEO4J_DATABASE
 (only the password is required; the rest default to the same localhost/
 Community values `serve.py` uses). Validates every seed source before
-writing anything; on success prints a deterministic per-kind created/
-already-present summary.
+writing anything; on success rebuilds the local advisor index, updates its
+manifest, and prints a deterministic per-kind created/already-present summary.
 """
 
 from __future__ import annotations
@@ -19,6 +19,7 @@ import sys
 
 from neo4j import GraphDatabase
 
+from startup_state import build_source_manifest, project_root_for, rebuild_advisor_index, write_manifest
 from seed.orchestrator import build_repositories, ensure_schema, reset_seed_data, run_seed
 
 
@@ -44,6 +45,9 @@ def main() -> int:
         reset_seed_data(driver, database)
         repos = build_repositories(driver, database)
         summary = run_seed(repos)
+        project_root = project_root_for(__file__)
+        rebuild_advisor_index(repos.product, repos.partner, project_root)
+        write_manifest(build_source_manifest(project_root))
         print(summary.report())
     finally:
         driver.close()

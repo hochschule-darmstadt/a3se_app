@@ -62,10 +62,21 @@ The accepted local advisor stack is governed by
 `/advisor/answer/stream` FastAPI routes. It is read-only: it has no order,
 inventory, payment, or other mutation tools.
 
-At API startup, `scripts/serve.py` reads up to 100 product records from the
-Touristic Product Management repository and the approved glossary, builds the
-advisor documents, and initialises Qdrant's local on-disk collection in the
-`advisor-index` volume. Product documents contain the product ID, type, all
+At API startup, `scripts/serve.py` computes a persisted manifest in the
+`advisor-state` volume. The manifest contains SHA-256 fingerprints for seed
+JSON inputs, seed logic, indexed inputs (product JSON plus glossary), index
+logic, the embedding model, and the index schema version. On the first start,
+when the Neo4j graph is empty, or when `CCT_FORCE_SEED` is enabled, the
+disposable graph is reset and reseeded. A seed fingerprint change also causes
+an index rebuild. An index-only fingerprint change rebuilds Qdrant without
+re-seeding. If the fingerprints are unchanged, the existing local on-disk
+Qdrant collection in the `advisor-index` volume is reused. The explicit
+`seed`/`seed-reset` Compose jobs always reseed and rebuild the index, then write
+the current manifest.
+
+When an index rebuild is required, the API reads up to 100 product records from
+the Touristic Product Management repository and the approved glossary, and
+builds the advisor documents. Product documents contain the product ID, type, all
 non-null product attributes (including descriptions), and hierarchy-aware
 search text. The search text includes the product's ancestors, supplier roles,
 supplier organisations, scalar values, and known IATA expansions such as
@@ -91,15 +102,20 @@ state/evidence event. The backend does not persist conversation turns.
 
 ### Advisor freshness and known limitations
 
-The index is rebuilt whenever the API starts with its product and glossary
-documents, or explicitly by `scripts/rebuild_advisor_index.py`. A new or
-changed product created through the Staff portal does not update the index
-after its transaction; the API must be restarted or the rebuild script must be
-run. Product projection loading is currently capped at 100 records, policy
-documents are not yet part of the rebuild input, and the exact lexical parser
-only handles the supported directional wording rather than arbitrary natural
-language constraints. The index is therefore a development-time grounded
-content index, not a continuously synchronised search service.
+The manifest is deliberately local and is not a distributed coordination
+mechanism. A new or changed product created through the Staff portal does not
+update the index after its transaction because staff edits are not included in
+the source fingerprint; the explicit rebuild script or a source/logic change
+is still required. A changed seed source resets the disposable local graph and
+therefore discards staff-created local records. Product projection loading is
+currently capped at 100 records, policy documents are not yet part of the
+rebuild input, and the exact lexical parser only handles the supported
+directional wording rather than arbitrary natural-language constraints. A
+manifest can also become stale if only one persistence volume is removed
+manually; deleting both `neo4j-data` and `advisor-state` (and, if necessary,
+`advisor-index`) makes the next startup reconstruct the state. The index is
+therefore a development-time grounded content index, not a continuously
+synchronised search service.
 
 ## 2.1 Capability ownership for delivered views
 

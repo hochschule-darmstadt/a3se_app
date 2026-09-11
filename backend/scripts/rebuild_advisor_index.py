@@ -25,7 +25,8 @@ def main() -> None:
         dependencies = build_dependencies(driver, database)
         glossary_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "docs", "requirements", "glossary.md")
         create_default_advisor_service(
-            product_documents(dependencies.product_repository, dependencies.partner_repository) + glossary_documents(glossary_path)
+            product_documents(dependencies.product_repository, dependencies.partner_repository) + glossary_documents(glossary_path),
+            rebuild=True,
         )
         print("Rebuilt the local advisor index")
     finally:

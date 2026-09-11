@@ -22,11 +22,23 @@ import uvicorn
 
 from cct.api.app import create_app
 from cct.api.dependencies import ApiDependencies
-from cct.core_processes.customer_care.advisor import create_default_advisor_service, glossary_documents, product_documents
+from cct.core_processes.customer_care.advisor import QdrantKnowledgeIndex, create_default_advisor_service
 from cct.infrastructure.neo4j.entity_repository import COMMUNITY_SCHEMA, Neo4jEntityRepository
 from cct.resource_management.contracts import EntityKind
 from cct.resource_management.default_registry import create_entity_registry
 from cct.resource_management.repository_ports import ScopedEntityRepository
+from seed.orchestrator import build_repositories, reset_seed_data, run_seed
+from startup_state import (
+    build_source_manifest,
+    force_requested,
+    index_is_required,
+    load_manifest,
+    manifest_path,
+    project_root_for,
+    rebuild_advisor_index,
+    seed_is_required,
+    write_manifest,
+)
 
 
 def build_dependencies(driver, database: str) -> ApiDependencies:
@@ -58,19 +70,34 @@ def main() -> None:
             for statement in COMMUNITY_SCHEMA:
                 session.run(statement).consume()
 
+        project_root = project_root_for(__file__)
+        current_manifest = build_source_manifest(project_root)
+        previous_manifest = load_manifest(manifest_path())
+        with driver.session(database=database) as session:
+            database_has_data = session.run("MATCH (n) RETURN count(n) > 0 AS has_data").single()["has_data"]
+        seed_required = seed_is_required(
+            previous_manifest,
+            current_manifest,
+            force=force_requested(),
+            database_has_data=database_has_data,
+        )
+        index_required = index_is_required(previous_manifest, current_manifest, seed_required=seed_required)
+        if seed_required:
+            reset_seed_data(driver, database)
+            run_seed(build_repositories(driver, database))
+
         app = create_app()
         app.state.dependencies = build_dependencies(driver, database)
-        container_root = os.path.dirname(os.path.dirname(__file__))
-        project_root = (
-            container_root
-            if os.path.isdir(os.path.join(container_root, "docs"))
-            else os.path.dirname(container_root)
-        )
-        glossary_path = os.path.join(project_root, "docs", "requirements", "glossary.md")
-        app.state.advisor_service = create_default_advisor_service(
-            product_documents(app.state.dependencies.product_repository, app.state.dependencies.partner_repository)
-            + glossary_documents(glossary_path)
-        )
+        index_path = os.environ.get("CCT_ADVISOR_INDEX_PATH", "/var/lib/cct/advisor-index")
+        index_missing = not QdrantKnowledgeIndex.collection_exists(index_path)
+        if index_required or index_missing:
+            rebuild_advisor_index(
+                app.state.dependencies.product_repository,
+                app.state.dependencies.partner_repository,
+                project_root,
+            )
+        app.state.advisor_service = create_default_advisor_service()
+        write_manifest(current_manifest)
         host = os.environ.get("CCT_API_HOST", "127.0.0.1")
         uvicorn.run(app, host=host, port=8000)
     finally:
