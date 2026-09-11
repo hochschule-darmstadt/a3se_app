@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture/Implementation
-- Last reviewed: 2026-08-31
+- Last reviewed: 2026-09-11
 
 This document is the authoritative backend architecture for `backend/src/cct`.
 It specifies the conventions already realized and the conventions every future
@@ -52,6 +52,54 @@ ports, volumes, startup ordering, recovery, and production hosting belong to
 the deployment architecture. Do not infer a production server, HA, horizontal
 scaling, disaster recovery, or one-container-per-module design from this
 document.
+
+## 2.2 AI Travel Advisor: implemented backend
+
+The accepted local advisor stack is governed by
+[DR-0024](../../governance/decisions/0024-local-grounded-advisor-stack.md).
+`MOD-ADVISOR` is currently implemented as Python application logic in
+`core_processes/customer_care/advisor.py`, exposed by the `/advisor/answer` and
+`/advisor/answer/stream` FastAPI routes. It is read-only: it has no order,
+inventory, payment, or other mutation tools.
+
+At API startup, `scripts/serve.py` reads up to 100 product records from the
+Touristic Product Management repository and the approved glossary, builds the
+advisor documents, and initialises Qdrant's local on-disk collection in the
+`advisor-index` volume. Product documents contain the product ID, type, all
+non-null product attributes (including descriptions), and hierarchy-aware
+search text. The search text includes the product's ancestors, supplier roles,
+supplier organisations, scalar values, and known IATA expansions such as
+`FRA`, `Frankfurt`, `Frankfurt am Main`, and `Germany`. Glossary terms are
+separate documents. Stock, capacity, price, availability, service dates, and
+customer/order context are not indexed.
+
+Retrieval first performs a bounded lexical pass over the local Qdrant payloads.
+It recognises product/stock identifiers and directional location expressions
+such as `from BER` and `to FRA`; an exact match is returned alone. If no exact
+match is found, the complete question is embedded with
+`all-MiniLM-L6-v2`, Qdrant returns at most eight candidates with a cosine
+threshold of `0.35`, and those candidates become model evidence. There is no
+separate live catalogue lookup in the advisor path, so this is not an
+authoritative availability or price query. The customer catalogue search has
+its own Neo4j live projection and must be used for those facts.
+
+The backend sends the retrieved evidence, confirmed context, and frontend
+conversation turns to local `qwen3:8b` through Ollama. The model is instructed
+to answer only from the supplied evidence/context; the streaming adapter
+forwards Ollama content as NDJSON `chunk` events and then emits a `complete`
+state/evidence event. The backend does not persist conversation turns.
+
+### Advisor freshness and known limitations
+
+The index is rebuilt whenever the API starts with its product and glossary
+documents, or explicitly by `scripts/rebuild_advisor_index.py`. A new or
+changed product created through the Staff portal does not update the index
+after its transaction; the API must be restarted or the rebuild script must be
+run. Product projection loading is currently capped at 100 records, policy
+documents are not yet part of the rebuild input, and the exact lexical parser
+only handles the supported directional wording rather than arbitrary natural
+language constraints. The index is therefore a development-time grounded
+content index, not a continuously synchronised search service.
 
 ## 2.1 Capability ownership for delivered views
 

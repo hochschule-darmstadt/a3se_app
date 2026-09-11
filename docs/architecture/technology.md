@@ -76,7 +76,8 @@ No agent framework, model, inference runtime, or external AI provider is selecte
 
 Issue #46's accepted model, embedding, local vector-index, and module-boundary
 choices are recorded in [DR-0024](../governance/decisions/0024-local-grounded-advisor-stack.md)
-and detailed in [AI Assistance Architecture Proposal](ai-assistance.md).
+and detailed in [DR-0024](../governance/decisions/0024-local-grounded-advisor-stack.md)
+and the implemented frontend/backend architecture sections.
 
 ## Neo4j Community Edition
 

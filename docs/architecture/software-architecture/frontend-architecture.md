@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture/Implementation
-- Last reviewed: 2026-08-31
+- Last reviewed: 2026-09-11
 
 This document is the authoritative frontend architecture for the Customer and
 Staff Interaction applications. It specifies the conventions already realized
@@ -147,6 +147,33 @@ The advisor transcript is session-scoped frontend state in versioned
 conversation memory and sends confirmed facts through the separate
 `confirmedContext` contract; the backend does not retain either between
 requests.
+
+### 3.1 AI Travel Advisor: implemented frontend
+
+The customer application mounts `CustomerAdvisor` from `root.tsx`, so the
+launcher and right-side Mantine drawer are available on every customer route.
+The shared `AdvisorConversation` component owns the visible transcript,
+composer, submit state, automatic scroll-to-latest behaviour, and incremental
+NDJSON rendering. The welcome message is presentation-only and is not sent as
+conversation history.
+
+The transcript is persisted under
+`cct.customer.advisor.conversation.v1` in browser `sessionStorage`. Before a
+request, the component removes empty messages, excludes the welcome message,
+and sends at most the last twenty customer/advisor turns. The customer app
+reads validated entries from
+`cct.customer.advisor.confirmed-context.v1` and sends them as
+`confirmedContext`; ordinary transcript messages are never converted into
+confirmed facts. There is currently no customer UI action that writes new
+confirmed-context entries, so this store is normally empty until a view
+integration supplies confirmed facts.
+
+Requests use `POST /advisor/answer/stream` with `message`, `conversation`, and
+`confirmedContext`. The response is newline-delimited JSON: each `chunk` is
+appended to the active advisor message immediately and the final `complete`
+event supplies the answer state. The frontend does not perform retrieval,
+interpret product data, or simulate streaming after completion. There is no
+server-side conversation identifier or cross-device persistence.
 
 VIEW-C-011 and VIEW-C-012 share one account page with an in-page mode switch.
 Registration persists a Person and active `person/customer` role through the

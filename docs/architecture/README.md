@@ -10,7 +10,7 @@ Architecture translates accepted requirements and constraints into consequential
 - [entity-model/](entity-model/README.md): reading path for the generic logical entity model, module ownership, cross-module relationship semantics, and concrete object example
 - [api.md](api.md): HTTP contract realization -- operation catalogue, error contract, pagination, bounded relationship reads, and generated TypeScript client
 - [technology.md](technology.md): accepted technology profile, evaluation, open selections, and validation evidence
-- [ai-assistance.md](ai-assistance.md): accepted bounded question-answering architecture, retrieval boundary, and conversational states for issue #46
+- AI assistance is documented as implemented in the [frontend architecture](software-architecture/frontend-architecture.md#31-ai-travel-advisor-implemented-frontend) and [backend architecture](software-architecture/backend-architecture.md#22-ai-travel-advisor-implemented-backend), under [DR-0024](../governance/decisions/0024-local-grounded-advisor-stack.md).
 - [security.md](security.md): security and privacy architecture
 
 Consequential choices belong in [decision records](../governance/decisions/README.md).

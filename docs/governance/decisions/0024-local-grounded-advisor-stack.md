@@ -91,7 +91,8 @@ the local-only boundary only after an explicit data-processing and cost review.
 
 ## Links
 
-- [AI Assistance Architecture Proposal](../../architecture/ai-assistance.md)
+- [Implemented backend advisor architecture](../../architecture/software-architecture/backend-architecture.md#22-ai-travel-advisor-implemented-backend)
+- [Implemented frontend advisor architecture](../../architecture/software-architecture/frontend-architecture.md#31-ai-travel-advisor-implemented-frontend)
 - [FR-008 and FR-009](../../requirements/functional-requirements.md)
 - [NFR-002 and NFR-003](../../requirements/non-functional-requirements.md)
 - [Issue #46](https://github.com/hochschule-darmstadt/a3se_app/issues/46)
