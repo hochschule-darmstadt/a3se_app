@@ -131,7 +131,8 @@ Python modular monolith:
 1. The advisor service receives a customer message and the confirmed
    interaction context allowed for that conversation.
 2. A read-only knowledge adapter exposes bounded records from the sources below.
-3. Retrieval first performs deterministic routing and exact filtering. It then
+3. Retrieval first performs lexical exact matching for identifiers and
+   directional location constraints such as `from BER` or `to FRA`. It then
    uses Qdrant for semantic candidates where wording varies from the source.
 4. Qwen3 receives only the top eight evidence records, each with a source ID
    and freshness metadata, plus an instruction to answer only from that

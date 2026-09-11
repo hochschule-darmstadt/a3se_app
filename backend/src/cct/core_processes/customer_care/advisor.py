@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import hashlib
 import os
+import re
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
@@ -21,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from cct.resource_management.contracts import EntityKind
 from cct.resource_management.pagination import PageRequest
+from cct.resource_management.touristic_product_management.search import LOCATION_TERMS, build_product_search_text
 
 
 class AdvisorState(StrEnum):
@@ -133,6 +135,9 @@ class QdrantKnowledgeIndex:
             self._client.upsert(collection_name=self._collection, points=points)
 
     def search(self, query: str, *, limit: int) -> list[KnowledgeDocument]:
+        exact = self._exact_search(query, limit=limit)
+        if exact:
+            return exact
         vector = next(iter(self._embedding.embed([query])))
         hits = self._client.query_points(
             collection_name=self._collection,
@@ -141,7 +146,7 @@ class QdrantKnowledgeIndex:
             limit=limit,
             score_threshold=0.35,
         ).points
-        return [
+        semantic = [
             KnowledgeDocument(
                 source_id=str(hit.payload["sourceId"]),
                 source_type=str(hit.payload["sourceType"]),
@@ -151,6 +156,51 @@ class QdrantKnowledgeIndex:
             for hit in hits
             if hit.payload
         ]
+        return semantic[:limit]
+
+    def _exact_search(self, query: str, *, limit: int) -> list[KnowledgeDocument]:
+        """Resolve identifiers and directional location constraints lexically."""
+        points, _ = self._client.scroll(collection_name=self._collection, limit=10000, with_payload=True)
+        normalized = query.casefold()
+        tokens = re.findall(r"[a-z0-9-]+", normalized)
+        stop_words = {"a", "an", "and", "flight", "flights", "from", "in", "the", "to"}
+        terms = [token for token in tokens if token not in stop_words and len(token) >= 3]
+
+        location_by_alias = {
+            alias.casefold(): code.casefold()
+            for code, aliases in LOCATION_TERMS.items()
+            for alias in (code, *aliases)
+        }
+        direction_field = None
+        direction_term = None
+        for marker, field in (("to", "arrivallocationcode"), ("from", "departurelocationcode")):
+            try:
+                marker_index = tokens.index(marker)
+                candidate = tokens[marker_index + 1]
+            except (ValueError, IndexError):
+                continue
+            direction_term = location_by_alias.get(candidate, candidate)
+            direction_field = field
+            break
+
+        results: list[KnowledgeDocument] = []
+        for point in points:
+            if not point.payload:
+                continue
+            text = str(point.payload.get("text", "")).casefold()
+            directional_match = direction_field and f"{direction_field}: {direction_term}" in text
+            identifier_match = any(re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", text) for term in terms)
+            if not (directional_match or (direction_field is None and identifier_match)):
+                continue
+            results.append(KnowledgeDocument(
+                source_id=str(point.payload["sourceId"]),
+                source_type=str(point.payload["sourceType"]),
+                text=str(point.payload["text"]),
+                content_version=str(point.payload["contentVersion"]),
+            ))
+            if len(results) >= limit:
+                break
+        return results
 
     def rebuild(self, documents: list[KnowledgeDocument]) -> None:
         self.replace(documents)
@@ -294,15 +344,15 @@ def format_conversation(conversation: list[AdvisorConversationTurn]) -> str:
     return "\n".join(f"{turn.role}: {turn.content}" for turn in conversation)
 
 
-def product_documents(product_repository) -> list[KnowledgeDocument]:
-    """Create bounded explanatory records from the owning product projection."""
+def product_documents(product_repository, partner_repository) -> list[KnowledgeDocument]:
+    """Create bounded explanatory records with hierarchy and all attributes."""
     page = product_repository.list(EntityKind.TOURISTIC_PRODUCT_ITEM, type_filter=None, page=PageRequest(limit=100))
     documents: list[KnowledgeDocument] = []
     for product in page.items:
         properties = product.properties.model_dump(by_alias=True, exclude_none=True)
-        fields = [product.entity_id, product.type or ""]
-        fields.extend(f"{key}: {value}" for key, value in properties.items())
-        text = " ".join(fields)
+        attributes = " ".join(f"{key}: {value}" for key, value in properties.items())
+        hierarchy_context = build_product_search_text(product_repository, partner_repository, product.entity_id)
+        text = f"{hierarchy_context} {attributes}".strip()
         documents.append(KnowledgeDocument(product.entity_id, "catalogue-product", text, hashlib.sha256(text.encode()).hexdigest()))
     return documents
 

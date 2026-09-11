@@ -68,7 +68,7 @@ def main() -> None:
         )
         glossary_path = os.path.join(project_root, "docs", "requirements", "glossary.md")
         app.state.advisor_service = create_default_advisor_service(
-            product_documents(app.state.dependencies.product_repository)
+            product_documents(app.state.dependencies.product_repository, app.state.dependencies.partner_repository)
             + glossary_documents(glossary_path)
         )
         host = os.environ.get("CCT_API_HOST", "127.0.0.1")
