@@ -38,11 +38,19 @@ class AdvisorContextItem(BaseModel):
     value: str = Field(min_length=1, max_length=500)
 
 
+class AdvisorConversationTurn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    role: str = Field(pattern="^(customer|advisor)$")
+    content: str = Field(min_length=1, max_length=2000)
+
+
 class AdvisorQuestion(BaseModel):
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
     message: str = Field(min_length=1, max_length=2000)
     confirmed_context: list[AdvisorContextItem] = Field(default_factory=list, alias="confirmedContext")
+    conversation: list[AdvisorConversationTurn] = Field(default_factory=list, max_length=20)
 
 
 class AdvisorEvidence(BaseModel):
@@ -75,9 +83,9 @@ class KnowledgeIndex(Protocol):
 
 
 class AnswerModel(Protocol):
-    def answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> AdvisorAnswer: ...
+    def answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem], conversation: list[AdvisorConversationTurn]) -> AdvisorAnswer: ...
 
-    def stream_answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> Iterator[str]: ...
+    def stream_answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem], conversation: list[AdvisorConversationTurn]) -> Iterator[str]: ...
 
 
 class AdvisorUnavailable(RuntimeError):
@@ -155,7 +163,7 @@ class OllamaAnswerModel:
         self._url = f"{base_url.rstrip('/')}/api/chat"
         self._model = model
 
-    def answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> AdvisorAnswer:
+    def answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem], conversation: list[AdvisorConversationTurn]) -> AdvisorAnswer:
         evidence_text = "\n".join(f"[{item.source_id}] {item.text}" for item in evidence)
         context_text = "\n".join(f"{item.key}: {item.value}" for item in context)
         system = (
@@ -175,7 +183,7 @@ class OllamaAnswerModel:
             "format": "json",
             "messages": [
                 {"role": "system", "content": system},
-                {"role": "user", "content": f"Question: {question}\nConfirmed context:\n{context_text}\nEvidence:\n{evidence_text}"},
+                {"role": "user", "content": f"Conversation so far:\n{format_conversation(conversation)}\n\nQuestion: {question}\nConfirmed context:\n{context_text}\nEvidence:\n{evidence_text}"},
             ],
         }
         request = Request(self._url, data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
@@ -196,7 +204,7 @@ class OllamaAnswerModel:
         except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
             raise AdvisorUnavailable("the local model returned an invalid advisor response") from exc
 
-    def stream_answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem]) -> Iterator[str]:
+    def stream_answer(self, question: str, evidence: list[KnowledgeDocument], context: list[AdvisorContextItem], conversation: list[AdvisorConversationTurn]) -> Iterator[str]:
         evidence_text = "\n".join(f"[{item.source_id}] {item.text}" for item in evidence)
         context_text = "\n".join(f"{item.key}: {item.value}" for item in context)
         system = (
@@ -213,7 +221,7 @@ class OllamaAnswerModel:
             "options": {"temperature": 0},
             "messages": [
                 {"role": "system", "content": system},
-                {"role": "user", "content": f"Question: {question}\nConfirmed context:\n{context_text}\nEvidence:\n{evidence_text}"},
+                {"role": "user", "content": f"Conversation so far:\n{format_conversation(conversation)}\n\nQuestion: {question}\nConfirmed context:\n{context_text}\nEvidence:\n{evidence_text}"},
             ],
         }
         request = Request(self._url, data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
@@ -245,7 +253,7 @@ class AdvisorService:
                 answer="I could not find approved travel information for that question.",
                 uncertaintyReason="No approved source matched the question.",
             )
-        answer = self._model.answer(question.message, documents, question.confirmed_context)
+        answer = self._model.answer(question.message, documents, question.confirmed_context, question.conversation)
         if answer.state in {AdvisorState.UNCERTAIN, AdvisorState.NO_ANSWER, AdvisorState.HANDOVER, AdvisorState.FAILED}:
             return answer.model_copy(update={"evidence": []})
         return answer
@@ -262,7 +270,7 @@ class AdvisorService:
             }
             return
         try:
-            for chunk in self._model.stream_answer(question.message, documents, question.confirmed_context):
+            for chunk in self._model.stream_answer(question.message, documents, question.confirmed_context, question.conversation):
                 yield {"type": "chunk", "text": chunk}
         except AdvisorUnavailable:
             yield {"type": "complete", "state": AdvisorState.FAILED.value, "answer": "", "evidence": []}
@@ -277,6 +285,13 @@ class AdvisorService:
             ],
             "uncertaintyReason": "",
         }
+
+
+def format_conversation(conversation: list[AdvisorConversationTurn]) -> str:
+    """Render bounded frontend session memory without treating it as evidence."""
+    if not conversation:
+        return "(no previous messages)"
+    return "\n".join(f"{turn.role}: {turn.content}" for turn in conversation)
 
 
 def product_documents(product_repository) -> list[KnowledgeDocument]:

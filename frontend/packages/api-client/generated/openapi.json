@@ -59,6 +59,28 @@
         "title": "AdvisorContextItem",
         "type": "object"
       },
+      "AdvisorConversationTurn": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Content",
+            "type": "string"
+          },
+          "role": {
+            "pattern": "^(customer|advisor)$",
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "AdvisorConversationTurn",
+        "type": "object"
+      },
       "AdvisorEvidence": {
         "properties": {
           "excerpt": {
@@ -90,6 +112,14 @@
               "$ref": "#/components/schemas/AdvisorContextItem"
             },
             "title": "Confirmedcontext",
+            "type": "array"
+          },
+          "conversation": {
+            "items": {
+              "$ref": "#/components/schemas/AdvisorConversationTurn"
+            },
+            "maxItems": 20,
+            "title": "Conversation",
             "type": "array"
           },
           "message": {

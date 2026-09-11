@@ -585,6 +585,13 @@ export interface components {
             /** Value */
             value: string;
         };
+        /** AdvisorConversationTurn */
+        AdvisorConversationTurn: {
+            /** Content */
+            content: string;
+            /** Role */
+            role: string;
+        };
         /** AdvisorEvidence */
         AdvisorEvidence: {
             /** Excerpt */
@@ -598,6 +605,8 @@ export interface components {
         AdvisorQuestion: {
             /** Confirmedcontext */
             confirmedContext?: components["schemas"]["AdvisorContextItem"][];
+            /** Conversation */
+            conversation?: components["schemas"]["AdvisorConversationTurn"][];
             /** Message */
             message: string;
         };

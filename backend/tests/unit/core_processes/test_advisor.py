@@ -24,7 +24,7 @@ class FakeModel:
     def __init__(self, answer):
         self.answer_value = answer
 
-    def answer(self, question, evidence, context):
+    def answer(self, question, evidence, context, conversation):
         return self.answer_value.model_copy(update={"evidence": [
             AdvisorEvidence(sourceId=item.source_id, sourceType=item.source_type, excerpt=item.text)
             for item in evidence

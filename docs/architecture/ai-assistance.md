@@ -158,6 +158,21 @@ or pricing. A question containing an identifier, destination, date, price, or
 availability constraint invokes the corresponding exact read operation; the
 answer may use only that live result for the changing fact.
 
+### Customer session memory
+
+The customer frontend owns the conversation session. The shared advisor
+component keeps the visible transcript under a versioned `sessionStorage` key,
+so route changes and a browser refresh in the same tab retain the conversation;
+closing the browser session clears it. Before each request, the frontend sends
+the bounded previous turns in the request's `conversation` field and sends the
+current view's confirmed facts from the versioned session context store in
+`confirmedContext`. Conversation
+turns are context for follow-up questions, not evidence and not confirmed
+business facts. The backend remains stateless: it validates and uses the
+supplied turns for prompt assembly and never persists them or indexes them.
+The frontend excludes the current empty advisor placeholder and caps history
+at the API contract's twenty-turn limit.
+
 ### Index lifecycle
 
 1. `advisor-index rebuild` reads approved glossary/policy files and product

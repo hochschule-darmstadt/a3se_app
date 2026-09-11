@@ -142,6 +142,11 @@ current confirmed context. The `/assistance` route makes the related-order,
 current-issue, confirmed-state, and future handover context explicit. This
 phase uses the grounded Q&A service from #46; agent actions and real handover
 remain deferred to issue #47 and the staff-assistance follow-up.
+The advisor transcript is session-scoped frontend state in versioned
+`sessionStorage`. Each request sends prior customer/advisor turns as bounded
+conversation memory and sends confirmed facts through the separate
+`confirmedContext` contract; the backend does not retain either between
+requests.
 
 VIEW-C-011 and VIEW-C-012 share one account page with an in-page mode switch.
 Registration persists a Person and active `person/customer` role through the

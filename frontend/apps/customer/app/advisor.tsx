@@ -1,18 +1,41 @@
-import { AdvisorConversation, type AdvisorReply } from "@cct/ui";
+import { AdvisorConversation, type AdvisorConversationTurn, type AdvisorReply } from "@cct/ui";
 
 import { apiBaseUrl } from "./api";
 import { useT } from "./i18n";
+import { useState } from "react";
+
+interface AdvisorContextItem {
+  readonly key: string;
+  readonly value: string;
+}
+
+const CONFIRMED_CONTEXT_KEY = "cct.customer.advisor.confirmed-context.v1";
+
+function readConfirmedContext(): AdvisorContextItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const stored = JSON.parse(window.sessionStorage.getItem(CONFIRMED_CONTEXT_KEY) ?? "null");
+    if (!Array.isArray(stored)) return [];
+    return stored.filter((item): item is AdvisorContextItem =>
+      typeof item?.key === "string" && item.key.length > 0 && item.key.length <= 100
+      && typeof item?.value === "string" && item.value.length > 0 && item.value.length <= 500,
+    );
+  } catch {
+    return [];
+  }
+}
 
 /** Global customer advisor surface for VIEW-C-007; #46 provides read-only grounded answers. */
 export function CustomerAdvisor() {
   const t = useT();
+  const [confirmedContext] = useState(readConfirmedContext);
   const initialMessages = [{ id: "welcome", speaker: "advisor" as const, text: t("advisor.welcome") }];
 
-  async function askAdvisor(message: string, onChunk: (chunk: string) => void): Promise<AdvisorReply> {
+  async function askAdvisor(message: string, onChunk: (chunk: string) => void, conversation: readonly AdvisorConversationTurn[]): Promise<AdvisorReply> {
     const response = await fetch(`${apiBaseUrl.replace(/\/$/, "")}/advisor/answer/stream`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, confirmedContext: [] }),
+      body: JSON.stringify({ message, confirmedContext, conversation }),
     });
     if (!response.ok || !response.body) throw new Error("advisor request failed");
     const reader = response.body.getReader();
@@ -58,6 +81,7 @@ export function CustomerAdvisor() {
         failedReply: t("advisor.failedReply"),
       }}
       initialMessages={initialMessages}
+      sessionStorageKey="cct.customer.advisor.conversation.v1"
       onSend={askAdvisor}
     />
   );

@@ -16,6 +16,11 @@ export interface AdvisorReply {
   readonly state?: AdvisorMessage["state"];
 }
 
+export interface AdvisorConversationTurn {
+  readonly role: "customer" | "advisor";
+  readonly content: string;
+}
+
 export interface AdvisorConversationLabels {
   readonly launcher: string;
   readonly title: string;
@@ -32,16 +37,29 @@ export interface AdvisorConversationLabels {
 export interface AdvisorConversationProps {
   readonly labels: AdvisorConversationLabels;
   readonly initialMessages?: readonly AdvisorMessage[];
-  readonly onSend?: (message: string, onChunk: (chunk: string) => void) => Promise<string | AdvisorReply>;
+  readonly sessionStorageKey?: string;
+  readonly onSend?: (message: string, onChunk: (chunk: string) => void, conversation: readonly AdvisorConversationTurn[]) => Promise<string | AdvisorReply>;
 }
 
 /** DS-CMP-009/010: shared advisor conversation; action tools remain deferred to #47. */
-export function AdvisorConversation({ labels, initialMessages = [], onSend }: AdvisorConversationProps) {
+export function AdvisorConversation({ labels, initialMessages = [], sessionStorageKey, onSend }: AdvisorConversationProps) {
   const [opened, setOpened] = useState(false);
   const [draft, setDraft] = useState("");
-  const [messages, setMessages] = useState<AdvisorMessage[]>(() => [...initialMessages]);
+  const [messages, setMessages] = useState<AdvisorMessage[]>(() => {
+    if (sessionStorageKey && typeof window !== "undefined") {
+      try {
+        const stored = JSON.parse(window.sessionStorage.getItem(sessionStorageKey) ?? "null");
+        if (Array.isArray(stored)) return stored as AdvisorMessage[];
+      } catch { /* discard malformed session memory */ }
+    }
+    return [...initialMessages];
+  });
   const [submitting, setSubmitting] = useState(false);
   const viewportRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (sessionStorageKey) window.sessionStorage.setItem(sessionStorageKey, JSON.stringify(messages));
+  }, [messages, sessionStorageKey]);
 
   useEffect(() => {
     if (!opened) return;
@@ -63,6 +81,10 @@ export function AdvisorConversation({ labels, initialMessages = [], onSend }: Ad
     if (!text || submitting) return;
     const messageId = `${Date.now()}`;
     const advisorMessageId = `${messageId}-advisor`;
+    const conversation = messages
+      .filter((message) => message.id !== "welcome" && message.text.trim())
+      .slice(-20)
+      .map((message) => ({ role: message.speaker, content: message.text } satisfies AdvisorConversationTurn));
     setMessages((current) => [...current, { id: `${messageId}-customer`, speaker: "customer", text }]);
     setMessages((current) => [...current, { id: advisorMessageId, speaker: "advisor", text: "" }]);
     setDraft("");
@@ -75,7 +97,7 @@ export function AdvisorConversation({ labels, initialMessages = [], onSend }: Ad
           setMessages((current) => current.map((message) => message.id === advisorMessageId
             ? { ...message, text: `${message.text}${chunk}` }
             : message));
-        })
+        }, conversation)
         : labels.placeholderReply;
       const normalized = typeof reply === "string" ? { text: reply } : reply;
       setMessages((current) => current.map((message) => message.id === advisorMessageId
