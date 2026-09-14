@@ -3,6 +3,7 @@ import { AdvisorConversation, type AdvisorConversationTurn, type AdvisorReply } 
 import { apiBaseUrl } from "./api";
 import { useT } from "./i18n";
 import { useState } from "react";
+import { useLocation } from "react-router";
 
 interface AdvisorContextItem {
   readonly key: string;
@@ -28,6 +29,7 @@ function readConfirmedContext(): AdvisorContextItem[] {
 /** Global customer advisor surface for VIEW-C-007; #46 provides read-only grounded answers. */
 export function CustomerAdvisor() {
   const t = useT();
+  const location = useLocation();
   const [confirmedContext] = useState(readConfirmedContext);
   const initialMessages = [{ id: "welcome", speaker: "advisor" as const, text: t("advisor.welcome") }];
 
@@ -81,6 +83,7 @@ export function CustomerAdvisor() {
         failedReply: t("advisor.failedReply"),
       }}
       initialMessages={initialMessages}
+      open={location.pathname === "/assistance"}
       sessionStorageKey="cct.customer.advisor.conversation.v1"
       onSend={askAdvisor}
     />

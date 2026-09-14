@@ -98,7 +98,9 @@ authorization.
 Every Customer route composes `CustomerShell`; every Staff route composes
 `StaffShell`. The shell is the boundary established by #27 and owns landmarks,
 skip link, header/footer/sidebar structure, focus behavior, density/theme
-profiles, Staff primary navigation, and shared branding/icons. Views must not
+profiles, Staff primary navigation, and shared branding/icons. The staff logo
+is a home link like the customer logo; both applications expose the icon-only
+Waypoint mark as the browser-tab favicon. Views must not
 recreate shell chrome locally. New navigation requires corresponding
 navigation-map/wireframe evidence. Legal/imprint text and real staff login
 remain deferred until confirmed.
@@ -173,7 +175,10 @@ Requests use `POST /advisor/answer/stream` with `message`, `conversation`, and
 appended to the active advisor message immediately and the final `complete`
 event supplies the answer state. The frontend does not perform retrieval,
 interpret product data, or simulate streaming after completion. There is no
-server-side conversation identifier or cross-device persistence.
+server-side conversation identifier or cross-device persistence. The customer
+home advisor action navigates to `/assistance`, where the shared advisor drawer
+opens automatically while the route's explanatory context remains available
+behind the overlay.
 
 VIEW-C-011 and VIEW-C-012 share one account page with an in-page mode switch.
 Registration persists a Person and active `person/customer` role through the

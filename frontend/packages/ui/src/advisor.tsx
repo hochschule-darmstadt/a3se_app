@@ -38,11 +38,13 @@ export interface AdvisorConversationProps {
   readonly labels: AdvisorConversationLabels;
   readonly initialMessages?: readonly AdvisorMessage[];
   readonly sessionStorageKey?: string;
+  /** Opens the drawer when the owning route requests the advisor surface. */
+  readonly open?: boolean;
   readonly onSend?: (message: string, onChunk: (chunk: string) => void, conversation: readonly AdvisorConversationTurn[]) => Promise<string | AdvisorReply>;
 }
 
 /** DS-CMP-009/010: shared advisor conversation; action tools remain deferred to #47. */
-export function AdvisorConversation({ labels, initialMessages = [], sessionStorageKey, onSend }: AdvisorConversationProps) {
+export function AdvisorConversation({ labels, initialMessages = [], sessionStorageKey, open = false, onSend }: AdvisorConversationProps) {
   const [opened, setOpened] = useState(false);
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<AdvisorMessage[]>(() => {
@@ -56,6 +58,10 @@ export function AdvisorConversation({ labels, initialMessages = [], sessionStora
   });
   const [submitting, setSubmitting] = useState(false);
   const viewportRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open) setOpened(true);
+  }, [open]);
 
   useEffect(() => {
     if (sessionStorageKey) window.sessionStorage.setItem(sessionStorageKey, JSON.stringify(messages));

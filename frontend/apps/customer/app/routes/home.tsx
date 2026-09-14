@@ -100,6 +100,8 @@ export default function CustomerHome() {
                   }} />
                   <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateTo.label")} value={dateTo} onChange={(event) => setDateTo(event.currentTarget.value)} />
                   <Select style={{ flex: "0 1 130px" }} label={t("home.travellers.label")} data={["1", "2", "3", "4", "5+"]} value={travellers} onChange={(value) => setTravellers(value ?? "1")} />
+                </Group>
+                <Group justify="flex-end">
                   <Button type="submit" color="orange" size="md">{t("home.submit")}</Button>
                 </Group>
               </Stack>
