@@ -50,6 +50,11 @@ too.
   demonstrates genuine multi-level recursive composition (its full 4-leg
   itinerary as nested `CONTAINS` children) -- the other 14 flights model
   only their outbound leg, not every itinerary segment.
+- Return-direction counterparts are included for all 18 used flight
+  products and for the used rail and water-transport products. They are
+  separate catalog products and receive the deterministic stock calendar;
+  rail and water products remain generic because their existing contracts do
+  not carry endpoint fields.
 - Reserve catalog entries (`*-11..20`/`*-21..30`) are created as
   Organisations/Products only, per `catalogs.md`'s own rule -- they never
   receive `StockItem`s.

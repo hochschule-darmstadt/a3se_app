@@ -66,7 +66,7 @@ class SeedDataIntegrationTest(unittest.TestCase):
         self.assertEqual(50, created.get("PersonRole"))
         self.assertEqual(67, created.get("Organisation"))
         self.assertEqual(67, created.get("OrgaRole"))
-        self.assertEqual(130, created.get("TouristicProductItem"))
+        self.assertEqual(152, created.get("TouristicProductItem"))
         self.assertEqual(15, created.get("OrderItem (header)"))
         self.assertEqual(67, created.get("OrderItem (position)"))
         self.assertEqual(37, created.get("StockItem (ad hoc)"))
@@ -92,6 +92,17 @@ class SeedDataIntegrationTest(unittest.TestCase):
             "-[:CONTAINS]->(leg:TouristicProductItem) RETURN leg.entityId AS id ORDER BY id"
         )
         self.assertEqual(["FLT-01-L2", "FLT-01-L3", "FLT-01-L4"], [row["id"] for row in rows])
+
+    def test_return_direction_transport_products_are_seeded(self) -> None:
+        rows = self._run(
+            "MATCH (product:TouristicProductItem) "
+            "WHERE product.entityId IN ['PRD-000131', 'PRD-000138', 'PRD-000149', 'PRD-000152'] "
+            "RETURN collect(product.entityId) AS ids"
+        )
+        self.assertEqual(
+            ["PRD-000131", "PRD-000138", "PRD-000149", "PRD-000152"],
+            sorted(rows[0]["ids"]),
+        )
 
     def test_relationship_vocabulary_is_present_across_the_full_chain(self) -> None:
         rows = self._run(

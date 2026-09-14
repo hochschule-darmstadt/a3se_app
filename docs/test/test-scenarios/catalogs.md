@@ -31,6 +31,18 @@ Catalog names are stable synthetic fixtures; entity IDs use system-wide prefixes
 | PRD-000092…PRD-000106 | ORG-000006 | `product/experience/guided-tour` or `product/experience/activity` | Guided or activity component and capacity constraint in the corresponding scenario. |
 | PRD-000117…PRD-000120 | ORG-000007 | `product/protection/travel` | Synthetic travel-protection variants for the referenced traveller group. |
 
+## Return-direction transport products
+
+The seed extends the scenario catalog with 18 return-direction flight
+products (`PRD-000131`…`PRD-000148`) corresponding one-to-one with the 18
+used flight products, plus four return-direction counterparts for the used
+rail and water-transport products (`PRD-000149`…`PRD-000152`). These are
+separate, sellable catalog products for round-trip and return-journey
+experiments. Rail and water products remain generic products without endpoint
+properties; their counterpart relationship is expressed by names and
+descriptions only. The deterministic calendar can still produce zero stock
+on some dates, so availability is not guaranteed daily.
+
 ## Ten unused supplier entries per category
 
 | Category | Additional supplier IDs and names |

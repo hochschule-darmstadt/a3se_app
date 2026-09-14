@@ -146,6 +146,18 @@ meant hand-deriving and verifying every connecting leg's schedule data for
 comparatively little additional proof value once one genuine example
 exists and is tested.
 
+### Return-direction transport extension (2026-09-14)
+
+For local catalogue and advisor experiments, the source data now adds a
+return-direction counterpart for each of the 18 used flight products and for
+each used rail or water-transport product. The additions are separate
+non-reserve products (`PRD-000131`…`PRD-000152`) and receive the same
+deterministic dated stock treatment as other used products. Rail and water
+products have no endpoint properties in their existing contracts, so their
+counterpart relationship is represented in names and descriptions rather
+than by invented route fields. This changes the seeded product count from
+130 to 152 without changing the original scenario orders.
+
 ### Docker Compose
 
 `backend/Dockerfile` (single-stage `python:3.13-slim`, `pip install -e .`

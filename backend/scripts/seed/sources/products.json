@@ -1725,6 +1725,138 @@
                          "supplierRoleId":  "ORG-000007-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
+                     },
+                     {
+                         "entityId": "PRD-000131",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA701", "departureLocationCode": "LIM", "arrivalLocationCode": "BER", "scheduledDepartureLocalTime": "09:15:00", "scheduledArrivalLocalTime": "19:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 701: LIM–BER", "description": "Return flight from Lima to Berlin with Condorleaf Air on CA701."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000132",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP702", "departureLocationCode": "GIG", "arrivalLocationCode": "FRA", "scheduledDepartureLocalTime": "10:15:00", "scheduledArrivalLocalTime": "20:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 702: GIG–FRA", "description": "Return flight from Rio de Janeiro to Frankfurt with Blue Pampa Airways on BP702."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000133",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA703", "departureLocationCode": "GRU", "arrivalLocationCode": "MUC", "scheduledDepartureLocalTime": "11:15:00", "scheduledArrivalLocalTime": "21:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 703: GRU–MUC", "description": "Return flight from Sao Paulo to Munich with Condorleaf Air on CA703."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000134",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP704", "departureLocationCode": "SCL", "arrivalLocationCode": "FRA", "scheduledDepartureLocalTime": "12:15:00", "scheduledArrivalLocalTime": "22:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 704: SCL–FRA", "description": "Return flight from Santiago to Frankfurt with Blue Pampa Airways on BP704."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000135",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA705", "departureLocationCode": "EZE", "arrivalLocationCode": "BER", "scheduledDepartureLocalTime": "08:15:00", "scheduledArrivalLocalTime": "18:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 705: EZE–BER", "description": "Return flight from Buenos Aires to Berlin with Condorleaf Air on CA705."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000136",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP706", "departureLocationCode": "BOG", "arrivalLocationCode": "FRA", "scheduledDepartureLocalTime": "09:15:00", "scheduledArrivalLocalTime": "19:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 706: BOG–FRA", "description": "Return flight from Bogota to Frankfurt with Blue Pampa Airways on BP706."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000137",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA707", "departureLocationCode": "UIO", "arrivalLocationCode": "MUC", "scheduledDepartureLocalTime": "10:15:00", "scheduledArrivalLocalTime": "20:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 707: UIO–MUC", "description": "Return flight from Quito to Munich with Condorleaf Air on CA707."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000138",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP708", "departureLocationCode": "LIM", "arrivalLocationCode": "FRA", "scheduledDepartureLocalTime": "11:15:00", "scheduledArrivalLocalTime": "21:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 708: LIM–FRA", "description": "Return flight from Lima to Frankfurt with Blue Pampa Airways on BP708."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000139",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA709", "departureLocationCode": "GIG", "arrivalLocationCode": "FRA", "scheduledDepartureLocalTime": "12:15:00", "scheduledArrivalLocalTime": "22:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 709: GIG–FRA", "description": "Return flight from Rio de Janeiro to Frankfurt with Condorleaf Air on CA709."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000140",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP710", "departureLocationCode": "SCL", "arrivalLocationCode": "MUC", "scheduledDepartureLocalTime": "07:15:00", "scheduledArrivalLocalTime": "17:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 710: SCL–MUC", "description": "Return flight from Santiago to Munich with Blue Pampa Airways on BP710."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000141",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA711", "departureLocationCode": "GRU", "arrivalLocationCode": "BER", "scheduledDepartureLocalTime": "08:15:00", "scheduledArrivalLocalTime": "18:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 711: GRU–BER", "description": "Return flight from Sao Paulo to Berlin with Condorleaf Air on CA711."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000142",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP712", "departureLocationCode": "BOG", "arrivalLocationCode": "FRA", "scheduledDepartureLocalTime": "09:15:00", "scheduledArrivalLocalTime": "19:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 712: BOG–FRA", "description": "Return flight from Bogota to Frankfurt with Blue Pampa Airways on BP712."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000143",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA713", "departureLocationCode": "LIM", "arrivalLocationCode": "MUC", "scheduledDepartureLocalTime": "10:15:00", "scheduledArrivalLocalTime": "20:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 713: LIM–MUC", "description": "Return flight from Lima to Munich with Condorleaf Air on CA713."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000144",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP714", "departureLocationCode": "EZE", "arrivalLocationCode": "BER", "scheduledDepartureLocalTime": "11:15:00", "scheduledArrivalLocalTime": "21:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 714: EZE–BER", "description": "Return flight from Buenos Aires to Berlin with Blue Pampa Airways on BP714."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000145",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA715", "departureLocationCode": "UIO", "arrivalLocationCode": "FRA", "scheduledDepartureLocalTime": "07:15:00", "scheduledArrivalLocalTime": "17:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 715: UIO–FRA", "description": "Return flight from Quito to Frankfurt with Condorleaf Air on CA715."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000146",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA716", "departureLocationCode": "CUZ", "arrivalLocationCode": "LIM", "scheduledDepartureLocalTime": "08:15:00", "scheduledArrivalLocalTime": "09:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 716: CUZ–LIM", "description": "Return flight from Cusco to Lima with Condorleaf Air on CA716."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000147",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "CA717", "departureLocationCode": "LIM", "arrivalLocationCode": "CUZ", "scheduledDepartureLocalTime": "10:15:00", "scheduledArrivalLocalTime": "11:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 717: LIM–CUZ", "description": "Return flight from Lima to Cusco with Condorleaf Air on CA717."},
+                         "supplierRoleId": "ORG-000001-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000148",
+                         "type": "product/airline/flight",
+                         "properties": {"flightNumber": "BP718", "departureLocationCode": "BER", "arrivalLocationCode": "LIM", "scheduledDepartureLocalTime": "12:15:00", "scheduledArrivalLocalTime": "22:40:00", "lifecycleStatusCode": "product/active", "name": "Flight 718: BER–LIM", "description": "Return-service counterpart from Berlin to Lima with Blue Pampa Airways on BP718."},
+                         "supplierRoleId": "ORG-000002-AIRLINE", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000149",
+                         "type": "product/mobility/rail",
+                         "properties": {"lifecycleStatusCode": "product/active", "name": "Return Regional Rail Connection", "description": "Return-direction counterpart to the regional rail connection, offered as a separate synthetic transport product."},
+                         "supplierRoleId": "ORG-000004-MOBILITY", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000150",
+                         "type": "product/water-transport/day-boat",
+                         "properties": {"lifecycleStatusCode": "product/active", "name": "Return Coastal Day Boat Excursion", "description": "Return-direction counterpart to the coastal day boat excursion, offered as a separate synthetic transport product."},
+                         "supplierRoleId": "ORG-000005-WATER-TRANSPORT", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000151",
+                         "type": "product/water-transport/cruise",
+                         "properties": {"lifecycleStatusCode": "product/active", "name": "Return Multi-Day Coastal Cruise", "description": "Return-direction counterpart to the multi-day coastal cruise, offered as a separate synthetic transport product."},
+                         "supplierRoleId": "ORG-000005-WATER-TRANSPORT", "parentProductId": null, "reserve": false
+                     },
+                     {
+                         "entityId": "PRD-000152",
+                         "type": "product/water-transport/day-boat",
+                         "properties": {"lifecycleStatusCode": "product/active", "name": "Return Snorkeling Day Boat Trip", "description": "Return-direction counterpart to the snorkeling day boat trip, offered as a separate synthetic transport product."},
+                         "supplierRoleId": "ORG-000005-WATER-TRANSPORT", "parentProductId": null, "reserve": false
                      }
                  ]
 }
