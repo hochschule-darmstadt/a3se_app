@@ -4,6 +4,7 @@ import { apiBaseUrl } from "./api";
 import { useT } from "./i18n";
 import { useState } from "react";
 import { useLocation } from "react-router";
+import { useTravel } from "./lib/travel";
 
 interface AdvisorContextItem {
   readonly key: string;
@@ -11,6 +12,16 @@ interface AdvisorContextItem {
 }
 
 const CONFIRMED_CONTEXT_KEY = "cct.customer.advisor.confirmed-context.v1";
+
+function isTravelPlanningRequest(message: string, conversation: readonly AdvisorConversationTurn[] = []) {
+  // Terms such as “itinerary”, “travel”, and “accommodation” also occur in
+  // ordinary glossary/RAG questions. Only explicit planning intent should
+  // leave the streaming Q&A path, where the answer text is available as it is
+  // generated.
+  return /\b(book|booking|plan|planning|compose|add|propose|suggest|missing|plausib|reserve|build)\b/i.test(message)
+    || /^[A-Z][a-z]+\s+[A-Z][a-z]+$/.test(message.trim())
+    || (/^\S+\s+\S+$/.test(message.trim()) && conversation.some((turn) => turn.role === "advisor" && /name of your travel partner/i.test(turn.content)));
+}
 
 function readConfirmedContext(): AdvisorContextItem[] {
   if (typeof window === "undefined") return [];
@@ -31,13 +42,34 @@ export function CustomerAdvisor() {
   const t = useT();
   const location = useLocation();
   const [confirmedContext] = useState(readConfirmedContext);
+  const travel = useTravel();
   const initialMessages = [{ id: "welcome", speaker: "advisor" as const, text: t("advisor.welcome") }];
 
   async function askAdvisor(message: string, onChunk: (chunk: string) => void, conversation: readonly AdvisorConversationTurn[]): Promise<AdvisorReply> {
+    const requestBody = JSON.stringify({ message, confirmedContext, conversation });
+    // Planning uses the typed response so client-side draft actions survive the
+    // round trip. Ordinary RAG questions retain the existing NDJSON streaming UX.
+    if (isTravelPlanningRequest(message, conversation)) {
+      const response = await fetch(`${apiBaseUrl.replace(/\/$/, "")}/advisor/compose`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: requestBody,
+      });
+      if (!response.ok) throw new Error("advisor request failed");
+      const payload = await response.json() as { answer?: string; state?: AdvisorReply["state"]; actions?: AdvisorReply["actions"]; uncertaintyReason?: string };
+      const reply: AdvisorReply = {
+        text: payload.answer || payload.uncertaintyReason || "I could not confirm an answer from the approved travel information.",
+        state: payload.state,
+        actions: payload.actions,
+      };
+      if (reply.text) onChunk(reply.text);
+      if (reply.actions?.length) travel.applyAdvisorActions(reply.actions);
+      return reply;
+    }
     const response = await fetch(`${apiBaseUrl.replace(/\/$/, "")}/advisor/answer/stream`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, confirmedContext, conversation }),
+      body: requestBody,
     });
     if (!response.ok || !response.body) throw new Error("advisor request failed");
     const reader = response.body.getReader();
@@ -46,14 +78,14 @@ export function CustomerAdvisor() {
     let completed: AdvisorReply | undefined;
     const processLine = async (line: string) => {
       if (!line.trim()) return;
-      const event = JSON.parse(line) as { type: string; text?: string; answer?: string; state?: AdvisorReply["state"] };
+      const event = JSON.parse(line) as { type: string; text?: string; answer?: string; state?: AdvisorReply["state"]; actions?: AdvisorReply["actions"] };
       if (event.type === "chunk" && event.text) {
         onChunk(event.text);
         // Several network chunks can arrive in one reader turn. Yield so
         // React/browser rendering can paint each streamed update separately.
         await new Promise((resolve) => window.setTimeout(resolve, 0));
       }
-      if (event.type === "complete") completed = { text: event.answer ?? "", state: event.state };
+      if (event.type === "complete") completed = { text: event.answer ?? "", state: event.state, actions: event.actions };
     };
     while (true) {
       const { done, value } = await reader.read();
@@ -65,6 +97,7 @@ export function CustomerAdvisor() {
       if (done) break;
     }
     if (!completed) throw new Error("advisor stream ended without a completion event");
+    if (completed.actions?.length) travel.applyAdvisorActions(completed.actions);
     return completed;
   }
 

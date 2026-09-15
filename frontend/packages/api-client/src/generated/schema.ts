@@ -38,6 +38,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/advisor/compose": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Compose Advisor Travel
+         * @description Extract and compose a request through internal stock and LangGraph.
+         */
+        post: operations["composeAdvisorTravel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/advisor/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Plan Advisor Travel
+         * @description Run the graph and return local draft actions; never persists a draft.
+         */
+        post: operations["planAdvisorTravel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/advisor/validate-itinerary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Validate Advisor Itinerary
+         * @description Validate the browser's composition without creating or holding a draft.
+         */
+        post: operations["validateAdvisorItinerary"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/catalogue-search": {
         parameters: {
             query?: never;
@@ -568,8 +628,46 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /**
+         * AdvisorAction
+         * @description A proposed client-side draft operation, never a server-side mutation.
+         */
+        AdvisorAction: {
+            /** Clientpositionid */
+            clientPositionId?: string | null;
+            /** Clientpositionids */
+            clientPositionIds?: string[];
+            /** Clienttravellerid */
+            clientTravellerId?: string | null;
+            /** Clienttravellerids */
+            clientTravellerIds?: string[];
+            /** Currencycode */
+            currencyCode?: string | null;
+            /** Displayname */
+            displayName?: string | null;
+            /** Displaynamechain */
+            displayNameChain?: string[];
+            /** Familyname */
+            familyName?: string | null;
+            /** Givenname */
+            givenName?: string | null;
+            /** Productid */
+            productId?: string | null;
+            /** Servicedate */
+            serviceDate?: string | null;
+            /** Stockitemid */
+            stockItemId?: string | null;
+            /** Travellerkind */
+            travellerKind?: string | null;
+            /** Type */
+            type: string;
+            /** Unitpriceamount */
+            unitPriceAmount?: string | null;
+        };
         /** AdvisorAnswer */
         AdvisorAnswer: {
+            /** Actions */
+            actions?: components["schemas"]["AdvisorAction"][];
             /** Answer */
             answer: string;
             /** Evidence */
@@ -650,6 +748,11 @@ export interface components {
             /** Travellerroleid */
             travellerRoleId: string;
         };
+        /**
+         * CapacityUnit
+         * @enum {string}
+         */
+        CapacityUnit: "bed" | "seat";
         /** CatalogueSearchResult */
         CatalogueSearchResult: {
             /** Availabledates */
@@ -667,6 +770,11 @@ export interface components {
             /** Producttype */
             productType: string;
         };
+        /**
+         * ComponentKind
+         * @enum {string}
+         */
+        ComponentKind: "transport" | "accommodation" | "activity";
         /** CustomerRoleProperties */
         CustomerRoleProperties: {
             /** Paymentmethodcode */
@@ -894,6 +1002,73 @@ export interface components {
             };
             /** Entityid */
             entityId: string;
+        };
+        /**
+         * ItineraryComponent
+         * @description A component selected from an authoritative API result.
+         */
+        ItineraryComponent: {
+            /**
+             * Available Capacity
+             * @default 0
+             */
+            available_capacity: number;
+            capacity_unit?: components["schemas"]["CapacityUnit"] | null;
+            /** Component Id */
+            component_id: string;
+            /** Currency */
+            currency: string;
+            /**
+             * Display Name Chain
+             * @default []
+             */
+            display_name_chain: string[];
+            /** End Date */
+            end_date?: string | null;
+            /** From Code */
+            from_code?: string | null;
+            kind: components["schemas"]["ComponentKind"];
+            /** Location Code */
+            location_code?: string | null;
+            /** Product Id */
+            product_id?: string | null;
+            /**
+             * Service Date
+             * Format: date
+             */
+            service_date: string;
+            /** To Code */
+            to_code?: string | null;
+            /** Unit Price */
+            unit_price: number;
+        };
+        /** ItineraryDiagnostic */
+        ItineraryDiagnostic: {
+            /**
+             * Component Ids
+             * @default []
+             */
+            component_ids: string[];
+            /** Message */
+            message: string;
+            /** Rule Id */
+            rule_id: string;
+        };
+        /**
+         * ItineraryValidationRequest
+         * @description Deterministic validation input for the agent workflow.
+         */
+        ItineraryValidationRequest: {
+            /** Components */
+            components: components["schemas"]["ItineraryComponent"][];
+            intent: components["schemas"]["TravelIntent"];
+        };
+        /** ItineraryValidationResponse */
+        ItineraryValidationResponse: {
+            /** Diagnostics */
+            diagnostics: components["schemas"]["ItineraryDiagnostic"][];
+            /** Valid */
+            valid: boolean;
         };
         /** OrderCreateRequest */
         OrderCreateRequest: {
@@ -1486,6 +1661,73 @@ export interface components {
             /** Unitpriceamount */
             unitPriceAmount: number | string;
         };
+        /**
+         * TravelAgentPlanRequest
+         * @description Client composition plus authoritative candidate projections.
+         */
+        TravelAgentPlanRequest: {
+            /** Candidates */
+            candidates?: components["schemas"]["ItineraryComponent"][];
+            /** Currentcomponents */
+            currentComponents?: components["schemas"]["ItineraryComponent"][];
+            intent: components["schemas"]["TravelIntent"];
+            /** Selectedcandidateids */
+            selectedCandidateIds?: string[];
+        };
+        /** TravelAgentPlanResponse */
+        TravelAgentPlanResponse: {
+            /** Actions */
+            actions?: components["schemas"]["AdvisorAction"][];
+            /** Diagnostics */
+            diagnostics?: components["schemas"]["ItineraryDiagnostic"][];
+            /** Question */
+            question?: string | null;
+            /** Status */
+            status: string;
+        };
+        /** TravelAgentQuestion */
+        TravelAgentQuestion: {
+            /** Confirmedcontext */
+            confirmedContext?: {
+                [key: string]: string;
+            }[];
+            /** Conversation */
+            conversation?: components["schemas"]["AdvisorConversationTurn"][];
+            /** Message */
+            message: string;
+        };
+        /**
+         * TravelIntent
+         * @description Structured customer intent after language-model extraction.
+         */
+        TravelIntent: {
+            /** Budget Amount */
+            budget_amount?: number | null;
+            /**
+             * Budget Currency
+             * @default EUR
+             */
+            budget_currency: string;
+            /** Destination */
+            destination?: string | null;
+            /** End Date */
+            end_date?: string | null;
+            /** Max Days */
+            max_days?: number | null;
+            /** Min Days */
+            min_days?: number | null;
+            /** Origin Code */
+            origin_code?: string | null;
+            /** Return Code */
+            return_code?: string | null;
+            /** Start Date */
+            start_date?: string | null;
+            /**
+             * Traveller Count
+             * @default 1
+             */
+            traveller_count: number;
+        };
         /** TravelPositionRequest */
         TravelPositionRequest: {
             /** Clienttravellerid */
@@ -1622,6 +1864,114 @@ export interface operations {
             };
             /** @description Service Unavailable */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    composeAdvisorTravel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TravelAgentQuestion"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdvisorAnswer"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    planAdvisorTravel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TravelAgentPlanRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TravelAgentPlanResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    validateAdvisorItinerary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ItineraryValidationRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ItineraryValidationResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };

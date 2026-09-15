@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture/Implementation
-- Last reviewed: 2026-09-11
+- Last reviewed: 2026-09-15
 
 This document is the authoritative backend architecture for `backend/src/cct`.
 It specifies the conventions already realized and the conventions every future
@@ -116,6 +116,64 @@ manually; deleting both `neo4j-data` and `advisor-state` (and, if necessary,
 `advisor-index`) makes the next startup reconstruct the state. The index is
 therefore a development-time grounded content index, not a continuously
 synchronised search service.
+
+### Client-draft travel-composition workflow (#47)
+
+The composition agent is an application capability in
+`core_processes/customer_care/travel_agent_workflow.py`, governed by
+[DR-0026](../../governance/decisions/0026-use-langgraph-for-client-draft-travel-composition.md).
+It uses a compiled LangGraph `StateGraph` with explicit nodes and conditional
+edges:
+
+1. `check_intent` verifies that the typed intent contains the minimum data
+   needed to plan. Missing destination or arrival/departure dates routes to
+   `awaiting-input` and a focused question.
+2. `select_candidates` invokes an injected selector. The selector receives
+   only bounded, authoritative candidate projections supplied by existing
+   catalogue/Inventory operations; it cannot access repositories, Neo4j, raw
+   Cypher, or external providers.
+3. `validate_composition` combines the browser's current composition with the
+   selected candidates and invokes the deterministic domain validator. It
+   checks duration, endpoint transport, accommodation coverage, capacity, and
+   budget. Invalid compositions terminate with stable diagnostics.
+4. `emit_client_actions` converts only a valid selection into typed
+   `AdvisorAction` values. Actions identify StockItems/products and are
+   proposals for local browser state, not order or reservation commands.
+
+The graph is stateless for this feature: it does not use a checkpointer and
+does not create or persist a server-side draft. `POST /advisor/plan` accepts
+the current client composition, candidate projections, and selected candidate
+IDs, then returns status, diagnostics, and actions. The frontend applies those
+actions through `TravelProvider`, which remains the owner of the editable My
+Travel session state. The agent never calls `/orders/place`; the existing
+customer Order control remains the sole final-submit path.
+
+The customer free-text adapter is `POST /advisor/compose`. It accepts the same
+bounded message, conversation, and `confirmedContext` envelope as the ordinary
+advisor, extracts supported planning fields, queries only the existing
+catalogue/Inventory repository operation, and invokes the graph. It may ask a
+follow-up question before composition. For a party larger than one, a
+two-token partner-name answer becomes a typed client-side `add-traveller`
+action carrying the user-provided given and family names; no synthetic partner
+name is substituted. If the first inferred date in a requested month cannot
+satisfy internal capacity, the adapter tries other dates within that month
+while preserving the requested duration bounds. Structured flight fields,
+rather than possibly malformed free-text product names, provide flight labels.
+
+Capacity selection is party-level: a selected StockItem must have sufficient
+remaining capacity for the whole party, and accommodation selection prefers a
+double-room product for a two-person party. The graph still revalidates
+endpoint transport, every accommodation night, capacity, and budget before it
+emits actions. A capacity or completeness failure is returned as an explicit
+uncertain response with diagnostics, not as a partial order proposal.
+
+This graph is the orchestration seam, not the source of business truth.
+Natural-language intent extraction and live candidate retrieval must call the
+existing authenticated API and populate its typed inputs. Model reasoning may
+interpret language and rank returned candidates, but it may not invent
+availability, dates, prices, capacity, traveller identity, or reservations.
+The ordinary `/advisor/answer/stream` RAG path remains separate and read-only;
+planning uses typed advisor contracts when action data is required.
 
 ## 2.1 Capability ownership for delivered views
 
@@ -478,3 +536,6 @@ defines StockItem type suffix alignment with represented product leaves.
 [DR-0021](../../governance/decisions/0021-transaction-safe-prefixed-identifiers.md)
 is the proposed source for the final generated-ID counter/prefix contract and
 must be accepted before its unresolved details become normative.
+[DR-0026](../../governance/decisions/0026-use-langgraph-for-client-draft-travel-composition.md)
+selects LangGraph for the stateless client-draft composition workflow and
+preserves the existing API/final-order boundaries.

@@ -63,6 +63,28 @@ class AdvisorEvidence(BaseModel):
     excerpt: str
 
 
+class AdvisorAction(BaseModel):
+    """A proposed client-side draft operation, never a server-side mutation."""
+
+    model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True, extra="forbid")
+
+    type: str = Field(pattern="^(add-traveller|add-position|remove-position|replace-position|reorder-positions)$")
+    stock_item_id: str | None = Field(default=None, alias="stockItemId")
+    product_id: str | None = Field(default=None, alias="productId")
+    service_date: str | None = Field(default=None, alias="serviceDate")
+    display_name_chain: list[str] = Field(default_factory=list, alias="displayNameChain")
+    unit_price_amount: str | None = Field(default=None, alias="unitPriceAmount")
+    currency_code: str | None = Field(default=None, alias="currencyCode")
+    client_position_id: str | None = Field(default=None, alias="clientPositionId")
+    client_traveller_ids: list[str] = Field(default_factory=list, alias="clientTravellerIds")
+    client_position_ids: list[str] = Field(default_factory=list, alias="clientPositionIds")
+    client_traveller_id: str | None = Field(default=None, alias="clientTravellerId")
+    display_name: str | None = Field(default=None, alias="displayName")
+    traveller_kind: str | None = Field(default=None, alias="travellerKind")
+    given_name: str | None = Field(default=None, alias="givenName")
+    family_name: str | None = Field(default=None, alias="familyName")
+
+
 class AdvisorAnswer(BaseModel):
     model_config = ConfigDict(populate_by_name=True, serialize_by_alias=True)
 
@@ -70,6 +92,7 @@ class AdvisorAnswer(BaseModel):
     answer: str
     evidence: list[AdvisorEvidence] = Field(default_factory=list)
     uncertainty_reason: str | None = Field(default=None, alias="uncertaintyReason")
+    actions: list[AdvisorAction] = Field(default_factory=list)
 
 
 @dataclass(frozen=True, slots=True)
@@ -231,7 +254,8 @@ class OllamaAnswerModel:
             "Answer only from the supplied evidence and confirmed context. "
             "Never invent availability, dates, prices, policy, or order facts. "
             "If evidence is insufficient, return state uncertain or no-answer. "
-            "Return JSON only with keys state, answer, uncertaintyReason. "
+            "Return JSON only with keys state, answer, uncertaintyReason, actions. "
+            "actions may only propose client-side draft operations; never claim that stock was reserved. "
             "state must be answered, uncertain, no-answer, or handover."
         )
         payload = {
@@ -260,6 +284,7 @@ class OllamaAnswerModel:
                 answer=str(generated.get("answer", "")),
                 uncertaintyReason=generated.get("uncertaintyReason"),
                 evidence=[AdvisorEvidence(sourceId=item.source_id, sourceType=item.source_type, excerpt=item.text) for item in evidence],
+                actions=[AdvisorAction.model_validate(item) for item in generated.get("actions", [])],
             )
         except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
             raise AdvisorUnavailable("the local model returned an invalid advisor response") from exc
@@ -315,7 +340,7 @@ class AdvisorService:
             )
         answer = self._model.answer(question.message, documents, question.confirmed_context, question.conversation)
         if answer.state in {AdvisorState.UNCERTAIN, AdvisorState.NO_ANSWER, AdvisorState.HANDOVER, AdvisorState.FAILED}:
-            return answer.model_copy(update={"evidence": []})
+            return answer.model_copy(update={"evidence": [], "actions": []})
         return answer
 
     def stream_answer(self, question: AdvisorQuestion) -> Iterator[dict[str, object]]:
@@ -326,6 +351,7 @@ class AdvisorService:
                 "state": AdvisorState.NO_ANSWER.value,
                 "answer": "I could not find approved travel information for that question.",
                 "evidence": [],
+                "actions": [],
                 "uncertaintyReason": "No approved source matched the question.",
             }
             return
@@ -333,7 +359,7 @@ class AdvisorService:
             for chunk in self._model.stream_answer(question.message, documents, question.confirmed_context, question.conversation):
                 yield {"type": "chunk", "text": chunk}
         except AdvisorUnavailable:
-            yield {"type": "complete", "state": AdvisorState.FAILED.value, "answer": "", "evidence": []}
+            yield {"type": "complete", "state": AdvisorState.FAILED.value, "answer": "", "evidence": [], "actions": []}
             return
         yield {
             "type": "complete",
@@ -343,6 +369,7 @@ class AdvisorService:
                 {"sourceId": item.source_id, "sourceType": item.source_type, "excerpt": item.text}
                 for item in documents
             ],
+            "actions": [],
             "uncertaintyReason": "",
         }
 
