@@ -24,6 +24,24 @@ export interface TravelPosition extends PendingTravelPosition {
   readonly clientTravellerId: string;
 }
 
+export interface ClientTravelAction {
+  readonly type: "add-traveller" | "add-position" | "remove-position" | "replace-position" | "reorder-positions";
+  readonly stockItemId?: string;
+  readonly productId?: string;
+  readonly serviceDate?: string;
+  readonly displayNameChain?: readonly string[];
+  readonly unitPriceAmount?: string;
+  readonly currencyCode?: string;
+  readonly clientPositionId?: string;
+  readonly clientTravellerIds?: readonly string[];
+  readonly clientPositionIds?: readonly string[];
+  readonly clientTravellerId?: string;
+  readonly displayName?: string;
+  readonly travellerKind?: "self" | "new";
+  readonly givenName?: string;
+  readonly familyName?: string;
+}
+
 interface TravelState {
   readonly travellers: readonly TravelTraveller[];
   readonly positions: readonly TravelPosition[];
@@ -34,6 +52,7 @@ interface TravelContextValue extends TravelState {
   setPending(position: PendingTravelPosition | null): void;
   addTraveller(traveller: TravelTraveller): void;
   addPendingPosition(clientTravellerId: string): void;
+  applyAdvisorActions(actions: readonly ClientTravelAction[]): void;
   removePosition(clientPositionId: string): void;
   clear(): void;
 }
@@ -67,6 +86,52 @@ export function TravelProvider({ children }: { readonly children: ReactNode }) {
       positions: [...current.positions, { ...current.pending, clientTravellerId, clientPositionId: createClientId("position") }],
       pending: null,
     }) : current),
+    applyAdvisorActions: (actions) => setState((current) => actions.reduce((next, action) => {
+      if (action.type === "add-traveller" && action.clientTravellerId && action.displayName) {
+        return {
+          ...next,
+          travellers: next.travellers.some((item) => item.clientTravellerId === action.clientTravellerId)
+            ? next.travellers.map((item) => item.clientTravellerId === action.clientTravellerId
+              ? { ...item, displayName: action.displayName!, givenName: action.givenName ?? item.givenName, familyName: action.familyName ?? item.familyName }
+              : item)
+            : [...next.travellers, {
+              clientTravellerId: action.clientTravellerId,
+              kind: action.travellerKind ?? "new",
+              displayName: action.displayName,
+              givenName: action.givenName,
+              familyName: action.familyName,
+            }],
+        };
+      }
+      if (action.type === "remove-position" && action.clientPositionId) {
+        return { ...next, positions: next.positions.filter((item) => item.clientPositionId !== action.clientPositionId) };
+      }
+      if (action.type === "reorder-positions" && action.clientPositionIds?.length) {
+        const byId = new Map(next.positions.map((item) => [item.clientPositionId, item]));
+        const ordered = action.clientPositionIds.flatMap((id) => {
+          const item = byId.get(id);
+          if (item) byId.delete(id);
+          return item ? [item] : [];
+        });
+        return { ...next, positions: [...ordered, ...byId.values()] };
+      }
+      if ((action.type === "add-position" || action.type === "replace-position") && action.stockItemId && action.productId && action.serviceDate && action.unitPriceAmount && action.currencyCode) {
+        const positions = action.type === "replace-position" && action.clientPositionId
+          ? next.positions.filter((item) => item.clientPositionId !== action.clientPositionId)
+          : next.positions;
+        const travellerIds = action.clientTravellerIds?.length ? action.clientTravellerIds : next.travellers.map((item) => item.clientTravellerId);
+        return {
+          ...next,
+          positions: [...positions, ...travellerIds.map((clientTravellerId) => ({
+            stockItemId: action.stockItemId!, productId: action.productId!,
+            displayNameChain: action.displayNameChain ?? [], serviceDate: action.serviceDate!,
+            unitPriceAmount: action.unitPriceAmount!, currencyCode: action.currencyCode!,
+            clientTravellerId, clientPositionId: createClientId("position"),
+          }))],
+        };
+      }
+      return next;
+    }, current)),
     removePosition: (clientPositionId) => setState((current) => ({
       ...current, positions: current.positions.filter((item) => item.clientPositionId !== clientPositionId),
     })),

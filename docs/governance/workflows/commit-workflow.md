@@ -13,7 +13,10 @@
    architecture document in the same change; those documents are
    [frontend](../../architecture/software-architecture/frontend-architecture.md)
    and [backend](../../architecture/software-architecture/backend-architecture.md)
-   architecture.
+   architecture. For any cross-layer feature, check both documents explicitly:
+   update each one for the responsibilities it owns, or record why one is not
+   affected. A backend-centric implementation does not by itself make the
+   frontend architecture unaffected.
 6. Commit one coherent intent with a descriptive imperative message. When the
    change is directly assigned to a GitHub issue, include its number in the
    subject in the form `#<number>`, for example `Improve product descriptions

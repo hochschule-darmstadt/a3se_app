@@ -1,8 +1,173 @@
 {
   "components": {
     "schemas": {
+      "AdvisorAction": {
+        "additionalProperties": false,
+        "description": "A proposed client-side draft operation, never a server-side mutation.",
+        "properties": {
+          "clientPositionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clientpositionid"
+          },
+          "clientPositionIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Clientpositionids",
+            "type": "array"
+          },
+          "clientTravellerId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clienttravellerid"
+          },
+          "clientTravellerIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Clienttravellerids",
+            "type": "array"
+          },
+          "currencyCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currencycode"
+          },
+          "displayName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Displayname"
+          },
+          "displayNameChain": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Displaynamechain",
+            "type": "array"
+          },
+          "familyName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Familyname"
+          },
+          "givenName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Givenname"
+          },
+          "productId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Productid"
+          },
+          "serviceDate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Servicedate"
+          },
+          "stockItemId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stockitemid"
+          },
+          "travellerKind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Travellerkind"
+          },
+          "type": {
+            "pattern": "^(add-traveller|add-position|remove-position|replace-position|reorder-positions)$",
+            "title": "Type",
+            "type": "string"
+          },
+          "unitPriceAmount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unitpriceamount"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "AdvisorAction",
+        "type": "object"
+      },
       "AdvisorAnswer": {
         "properties": {
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/AdvisorAction"
+            },
+            "title": "Actions",
+            "type": "array"
+          },
           "answer": {
             "title": "Answer",
             "type": "string"
@@ -234,6 +399,14 @@
         "title": "AssignTravellerRequest",
         "type": "object"
       },
+      "CapacityUnit": {
+        "enum": [
+          "bed",
+          "seat"
+        ],
+        "title": "CapacityUnit",
+        "type": "string"
+      },
       "CatalogueSearchResult": {
         "properties": {
           "availableDates": {
@@ -284,6 +457,15 @@
         ],
         "title": "CatalogueSearchResult",
         "type": "object"
+      },
+      "ComponentKind": {
+        "enum": [
+          "transport",
+          "accommodation",
+          "activity"
+        ],
+        "title": "ComponentKind",
+        "type": "string"
       },
       "CustomerRoleProperties": {
         "additionalProperties": false,
@@ -1013,6 +1195,208 @@
           "counts"
         ],
         "title": "IncomingReferenceResponse",
+        "type": "object"
+      },
+      "ItineraryComponent": {
+        "additionalProperties": false,
+        "description": "A component selected from an authoritative API result.",
+        "properties": {
+          "available_capacity": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Available Capacity",
+            "type": "integer"
+          },
+          "capacity_unit": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CapacityUnit"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "component_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Component Id",
+            "type": "string"
+          },
+          "currency": {
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Currency",
+            "type": "string"
+          },
+          "display_name_chain": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Display Name Chain",
+            "type": "array"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          },
+          "from_code": {
+            "anyOf": [
+              {
+                "maxLength": 3,
+                "minLength": 3,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Code"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/ComponentKind"
+          },
+          "location_code": {
+            "anyOf": [
+              {
+                "maxLength": 3,
+                "minLength": 3,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Code"
+          },
+          "product_id": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id"
+          },
+          "service_date": {
+            "format": "date",
+            "title": "Service Date",
+            "type": "string"
+          },
+          "to_code": {
+            "anyOf": [
+              {
+                "maxLength": 3,
+                "minLength": 3,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To Code"
+          },
+          "unit_price": {
+            "minimum": 0.0,
+            "title": "Unit Price",
+            "type": "number"
+          }
+        },
+        "required": [
+          "component_id",
+          "kind",
+          "service_date",
+          "unit_price",
+          "currency"
+        ],
+        "title": "ItineraryComponent",
+        "type": "object"
+      },
+      "ItineraryDiagnostic": {
+        "additionalProperties": false,
+        "properties": {
+          "component_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Component Ids",
+            "type": "array"
+          },
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          },
+          "rule_id": {
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Rule Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule_id",
+          "message"
+        ],
+        "title": "ItineraryDiagnostic",
+        "type": "object"
+      },
+      "ItineraryValidationRequest": {
+        "additionalProperties": false,
+        "description": "Deterministic validation input for the agent workflow.",
+        "properties": {
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/ItineraryComponent"
+            },
+            "title": "Components",
+            "type": "array"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/TravelIntent"
+          }
+        },
+        "required": [
+          "intent",
+          "components"
+        ],
+        "title": "ItineraryValidationRequest",
+        "type": "object"
+      },
+      "ItineraryValidationResponse": {
+        "properties": {
+          "diagnostics": {
+            "items": {
+              "$ref": "#/components/schemas/ItineraryDiagnostic"
+            },
+            "title": "Diagnostics",
+            "type": "array"
+          },
+          "valid": {
+            "title": "Valid",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "valid",
+          "diagnostics"
+        ],
+        "title": "ItineraryValidationResponse",
         "type": "object"
       },
       "OrderCreateRequest": {
@@ -2920,6 +3304,237 @@
         "title": "StockPropertiesTransport",
         "type": "object"
       },
+      "TravelAgentPlanRequest": {
+        "additionalProperties": false,
+        "description": "Client composition plus authoritative candidate projections.",
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/ItineraryComponent"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "currentComponents": {
+            "items": {
+              "$ref": "#/components/schemas/ItineraryComponent"
+            },
+            "title": "Currentcomponents",
+            "type": "array"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/TravelIntent"
+          },
+          "selectedCandidateIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Selectedcandidateids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "intent"
+        ],
+        "title": "TravelAgentPlanRequest",
+        "type": "object"
+      },
+      "TravelAgentPlanResponse": {
+        "properties": {
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/AdvisorAction"
+            },
+            "title": "Actions",
+            "type": "array"
+          },
+          "diagnostics": {
+            "items": {
+              "$ref": "#/components/schemas/ItineraryDiagnostic"
+            },
+            "title": "Diagnostics",
+            "type": "array"
+          },
+          "question": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Question"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "TravelAgentPlanResponse",
+        "type": "object"
+      },
+      "TravelAgentQuestion": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmedContext": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "maxItems": 20,
+            "title": "Confirmedcontext",
+            "type": "array"
+          },
+          "conversation": {
+            "items": {
+              "$ref": "#/components/schemas/AdvisorConversationTurn"
+            },
+            "maxItems": 20,
+            "title": "Conversation",
+            "type": "array"
+          },
+          "message": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "TravelAgentQuestion",
+        "type": "object"
+      },
+      "TravelIntent": {
+        "additionalProperties": false,
+        "description": "Structured customer intent after language-model extraction.",
+        "properties": {
+          "budget_amount": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Amount"
+          },
+          "budget_currency": {
+            "default": "EUR",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Budget Currency",
+            "type": "string"
+          },
+          "destination": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Destination"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          },
+          "max_days": {
+            "anyOf": [
+              {
+                "maximum": 365.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Days"
+          },
+          "min_days": {
+            "anyOf": [
+              {
+                "maximum": 365.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Days"
+          },
+          "origin_code": {
+            "anyOf": [
+              {
+                "maxLength": 3,
+                "minLength": 3,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Origin Code"
+          },
+          "return_code": {
+            "anyOf": [
+              {
+                "maxLength": 3,
+                "minLength": 3,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Code"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          },
+          "traveller_count": {
+            "default": 1,
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Traveller Count",
+            "type": "integer"
+          }
+        },
+        "title": "TravelIntent",
+        "type": "object"
+      },
       "TravelPositionRequest": {
         "properties": {
           "clientTravellerId": {
@@ -3171,6 +3786,142 @@
           }
         },
         "summary": "Stream Advisor Answer",
+        "tags": [
+          "advisor"
+        ]
+      }
+    },
+    "/advisor/compose": {
+      "post": {
+        "description": "Extract and compose a request through internal stock and LangGraph.",
+        "operationId": "composeAdvisorTravel",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TravelAgentQuestion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisorAnswer"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Compose Advisor Travel",
+        "tags": [
+          "advisor"
+        ]
+      }
+    },
+    "/advisor/plan": {
+      "post": {
+        "description": "Run the graph and return local draft actions; never persists a draft.",
+        "operationId": "planAdvisorTravel",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TravelAgentPlanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TravelAgentPlanResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Plan Advisor Travel",
+        "tags": [
+          "advisor"
+        ]
+      }
+    },
+    "/advisor/validate-itinerary": {
+      "post": {
+        "description": "Validate the browser's composition without creating or holding a draft.",
+        "operationId": "validateAdvisorItinerary",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ItineraryValidationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItineraryValidationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Validate Advisor Itinerary",
         "tags": [
           "advisor"
         ]

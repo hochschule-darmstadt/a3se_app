@@ -24,9 +24,16 @@ export default function MyTravel() {
   async function placeOrder() {
     setSubmitting(true); setError(null);
     const referencedIds = new Set(travel.positions.map((item) => item.clientTravellerId));
-    const travellers = travel.travellers.filter((item) => referencedIds.has(item.clientTravellerId)).map((item) => ({
-      clientTravellerId: item.clientTravellerId, kind: item.kind, givenName: item.givenName, familyName: item.familyName,
-    }));
+    const travellers = travel.travellers.filter((item) => referencedIds.has(item.clientTravellerId)).map((item) => {
+      // Migrate older browser drafts created before AI traveller actions
+      // carried structured names. The API intentionally remains strict.
+      if (item.kind === "new" && (!item.givenName || !item.familyName)) {
+        const parts = item.displayName.trim().split(/\s+/);
+        const [givenName, ...familyParts] = parts;
+        return { clientTravellerId: item.clientTravellerId, kind: item.kind, givenName, familyName: familyParts.join(" ") };
+      }
+      return { clientTravellerId: item.clientTravellerId, kind: item.kind, givenName: item.givenName, familyName: item.familyName };
+    });
     const { data, response, error: apiError } = await apiClient.POST("/orders/place", { body: {
       customerPersonId, travellers,
       positions: travel.positions.map((item) => ({ stockItemId: item.stockItemId, clientTravellerId: item.clientTravellerId })),

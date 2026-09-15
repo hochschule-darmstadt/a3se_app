@@ -14,6 +14,26 @@ export interface AdvisorMessage {
 export interface AdvisorReply {
   readonly text: string;
   readonly state?: AdvisorMessage["state"];
+  /** Operations are applied to the browser-owned My Travel draft only. */
+  readonly actions?: readonly AdvisorAction[];
+}
+
+export interface AdvisorAction {
+  readonly type: "add-traveller" | "add-position" | "remove-position" | "replace-position" | "reorder-positions";
+  readonly stockItemId?: string;
+  readonly productId?: string;
+  readonly serviceDate?: string;
+  readonly displayNameChain?: readonly string[];
+  readonly unitPriceAmount?: string;
+  readonly currencyCode?: string;
+  readonly clientPositionId?: string;
+  readonly clientTravellerIds?: readonly string[];
+  readonly clientPositionIds?: readonly string[];
+  readonly clientTravellerId?: string;
+  readonly displayName?: string;
+  readonly travellerKind?: "self" | "new";
+  readonly givenName?: string;
+  readonly familyName?: string;
 }
 
 export interface AdvisorConversationTurn {
@@ -43,7 +63,7 @@ export interface AdvisorConversationProps {
   readonly onSend?: (message: string, onChunk: (chunk: string) => void, conversation: readonly AdvisorConversationTurn[]) => Promise<string | AdvisorReply>;
 }
 
-/** DS-CMP-009/010: shared advisor conversation; action tools remain deferred to #47. */
+/** DS-CMP-009/010: shared advisor conversation; actions affect only client draft state. */
 export function AdvisorConversation({ labels, initialMessages = [], sessionStorageKey, open = false, onSend }: AdvisorConversationProps) {
   const [opened, setOpened] = useState(false);
   const [draft, setDraft] = useState("");

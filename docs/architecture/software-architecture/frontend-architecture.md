@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Architecture/Implementation
-- Last reviewed: 2026-09-11
+- Last reviewed: 2026-09-15
 
 This document is the authoritative frontend architecture for the Customer and
 Staff Interaction applications. It specifies the conventions already realized
@@ -14,7 +14,7 @@ technology profile in
 [DR-0010](../../governance/decisions/0010-adopt-python-centered-modular-technology-stack.md).
 
 This document extends the decisions made in issues #19, #21, #22, #27–#33,
-#50–#53, #56, and #57. Those work items explain delivery scope and evidence;
+#47, #50–#53, #56, and #57. Those work items explain delivery scope and evidence;
 the rules below are the durable answer to “how do future views work here?”.
 This document does not replace requirements, UX wireframes, the API contract,
 or decision records. It must not silently turn a proposal or an incidental
@@ -142,8 +142,9 @@ root mounts the shared `AdvisorConversation` component, whose launcher remains
 available on every customer route and whose right-side drawer carries the
 current confirmed context. The `/assistance` route makes the related-order,
 current-issue, confirmed-state, and future handover context explicit. This
-phase uses the grounded Q&A service from #46; agent actions and real handover
-remain deferred to issue #47 and the staff-assistance follow-up.
+phase uses the grounded Q&A service from #46 and the client-side planning
+action boundary for #47 documented below. Real staff handover remains separate
+implementation work.
 The advisor transcript is session-scoped frontend state in versioned
 `sessionStorage`. Each request sends prior customer/advisor turns as bounded
 conversation memory and sends confirmed facts through the separate
@@ -270,6 +271,76 @@ Stock availability is resolved by querying the backend with `productId` and
 the candidate service-date range. The frontend stores and submits the
 returned `StockItem.entityId`; it must not fabricate an ID from product/date
 values or treat `remainingCapacity` as a frontend-derived convention.
+
+## 6.1 Client-side AI travel-agent composition (#47)
+
+The frontend owns the editable My Travel composition. It stores the current
+travellers, positions, and pending selection in the versioned `sessionStorage`
+state managed by `frontend/apps/customer/app/lib/travel.tsx`. There is
+deliberately no server-side draft aggregate for the advisor workflow. The
+backend may return typed candidates, diagnostics, and proposed actions, but it
+does not persist or hold the composition.
+
+The customer advisor in `frontend/apps/customer/app/advisor.tsx` keeps two
+interaction paths: ordinary knowledge questions use the existing streaming RAG
+endpoint; planning-shaped requests and answers to the advisor's partner-name
+question use `POST /advisor/compose`, whose typed response carries action data
+back to the client.
+
+The client applies only the bounded action vocabulary through `TravelProvider`:
+`add-traveller`, `add-position`, `remove-position`, `replace-position`, and
+`reorder-positions`. An `add-traveller` action contains the user-provided
+client traveller ID, display name, given name, and family name. An add-position
+action contains an authoritative StockItem ID,
+product ID, service date, price, currency, display-name chain, and optional
+traveller IDs. If traveller IDs are omitted, the action expands to the current
+client travellers. Invalid or incomplete action payloads are ignored and the
+existing state is retained. These operations are local state transitions; they
+do not mean that capacity is allocated or reserved.
+
+The My Travel order path includes a compatibility migration for older
+session-storage drafts: if a new traveller has only a display name, the client
+derives the given and family names immediately before calling `/orders/place`.
+The API remains strict and authoritative; the migration does not create a
+reservation or bypass order validation. A newly returned `add-traveller` action
+also updates an existing client entry with missing structured names, so a
+repeated advisor conversation repairs the local draft.
+
+The action contract is one-way: the frontend can apply returned draft changes,
+but the advisor UI has no client path to `/orders/place`. Final ordering remains
+the explicit control on the My Travel route. That route submits the current
+client state through the existing order API, where authoritative availability,
+traveller assignments, capacity, and transaction rules are revalidated. A
+failed order does not convert a draft action into a reservation.
+
+The backend graph and this client boundary are separated as follows:
+
+```text
+advisor message
+      |
+      +--> RAG question --------> streaming answer
+      |
+      +--> planning request ----> typed candidates/diagnostics/actions
+                                      |
+                                      v
+                            TravelProvider session state
+                                      |
+                                      v
+                             user reviews/modifies
+                                      |
+                                      v
+                              explicit Order button
+                                      |
+                                      v
+                                /orders/place
+```
+
+The frontend must not reconstruct business semantics from action text,
+product metadata, or guessed IDs. It renders API-provided projections and uses
+backend diagnostics for plausibility. Assumptions, unresolved gaps, changed
+components, and action failures must be visible and reversible. The UI must
+never display “reserved” or “allocated” for a client draft unless the
+authoritative order/inventory response says so.
 
 ## 7. Entity display, chains, and links
 
@@ -406,6 +477,9 @@ result contract.
 [DR-0019](../../governance/decisions/0019-compute-resource-display-projections.md)
 defines API-owned display projections; [DR-0021](../../governance/decisions/0021-transaction-safe-prefixed-identifiers.md)
 remains the proposed source for the future generated-ID display contract.
+[DR-0026](../../governance/decisions/0026-use-langgraph-for-client-draft-travel-composition.md)
+defines the LangGraph orchestration boundary and the browser-owned draft
+action model.
 
 Staff routes do not render a breadcrumb trail. The persistent staff-area
 sidebar is the authoritative navigation context; route-level breadcrumb data,

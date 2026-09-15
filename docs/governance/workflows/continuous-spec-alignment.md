@@ -17,6 +17,14 @@ Artifact authority, status transitions, and requirements slices are defined in [
 5. Obtain independent review proportional to impact.
 6. Record unresolved divergence explicitly with an owner and due condition.
 
+For a cross-layer feature, “affected artifacts” includes every layer that owns
+part of the observable behavior. In particular, when a capability crosses the
+HTTP boundary, inspect and update both the backend architecture and frontend
+architecture documents. This applies even when one side is only a client-side
+state owner or presentation boundary. For agent features, explicitly trace
+the model/workflow, API contract, client state/action handling, user review
+surface, and final user-authorized mutation path.
+
 ## Initial checks
 
 - No duplicate or orphaned stable IDs.
@@ -25,6 +33,9 @@ Artifact authority, status transitions, and requirements slices are defined in [
 - Business terms have one authoritative definition in their applicable domain or module context.
 - Decision-record status, identity, index, and supersession links agree.
 - Changed behavior has corresponding specification and test changes, or a recorded rationale.
+- Cross-layer behavior has a frontend/backend ownership check; neither
+  architecture document is omitted merely because the other layer contains
+  the primary business logic.
 
 Automate these checks incrementally after document formats stabilize. Automation supports judgment; it cannot decide whether stakeholder intent and system behavior are semantically aligned.
 

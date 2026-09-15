@@ -72,7 +72,7 @@ An agent shall not receive a general-purpose write query tool. Graph exploration
 
 If later evidence justifies an independently scalable or isolated AI component, the controlled tool contracts become its integration boundary. The initial in-process design therefore avoids premature distributed-system cost without making extraction impossible.
 
-No agent framework, model, inference runtime, or external AI provider is selected by DR-0010. Those choices require separate evaluation of functional fit, data protection, latency, availability, evaluation quality, operational control, and cost constraints.
+DR-0010 did not select an agent framework, model, inference runtime, or external AI provider. LangGraph is now selected for the client-draft composition MVP by [DR-0026](../governance/decisions/0026-use-langgraph-for-client-draft-travel-composition.md). Remaining model, inference, and provider choices still require separate evaluation of functional fit, data protection, latency, availability, evaluation quality, operational control, and cost constraints.
 
 Issue #46's accepted model, embedding, local vector-index, and module-boundary
 choices are recorded in [DR-0024](../governance/decisions/0024-local-grounded-advisor-stack.md)
@@ -126,7 +126,7 @@ The implementation may later target a filesystem or object/blob service. Selecti
 2. Select the workspace/package-manager profile, API-client generation, forms, data-grid, client-state, internationalisation, authentication, and frontend test tooling without bypassing NFR-003.
 3. Select and enforce Python packaging, type-checking, dependency, migration, architecture-test, and supply-chain tooling under NFR-003.
 4. Complete the Neo4j proof of concept and record its evidence against every DR-0010 showstopper.
-5. Select authentication and authorisation mechanisms, an agent framework if needed, the AI model and inference/provider profile, and generated-document storage through separate evidence-backed decisions.
+5. Select authentication and authorisation mechanisms, the AI model and inference/provider profile, and generated-document storage through separate evidence-backed decisions; DR-0026 records the current agent-framework selection.
 6. Maintain a licence and edition inventory for every mandatory dependency and operational tool.
 
 ## Primary evidence
