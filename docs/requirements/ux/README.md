@@ -14,3 +14,4 @@ UX work consumes the [use-case activity-diagram pilot](../use-cases/activity-dia
 - [Wireframes](wireframes/): annotated customer and staff interaction and state concepts derived from the navigation maps
 - [Shared UI Design System](design-system/): semantic foundations, customer/staff profiles, evidenced component contracts, governance, and a browser-reviewable catalogue
 - [Logo](logo/): the Christopher Columbus Travel logo — selected concept, assets, and usage rules for issue #24
+- [Portal imagery](imagery/): accepted synthetic assets, provenance, responsive-use rules, and review evidence for VIEW-C-001

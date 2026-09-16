@@ -21,3 +21,20 @@ The six-month interval is a stress case rather than a typical customer search. F
 The joined read materially improves the customer path, but the representative two-week measurement does not yet meet the NFR-001 target. The remaining cost is likely distributed across the flexible substring search over stock, product ancestry, supplier roles, and organisations, plus product-level display-name projection work. Staff product hierarchy loading still uses a bounded all-products read followed by per-product ancestor requests and remains a separate fan-out candidate. This is a measured optimization result, not proof that a particular index or search technology is the final solution.
 
 Issue #55 must next compare the optimized Neo4j path with a dedicated indexed search projection. A vector store is not automatically required: semantic retrieval for #46/#47 should be evaluated separately from exact/full-text location and date filtering. Any additional search component must document update consistency from product/inventory writes, rebuild/replay behavior, operations, licensing, and before/after measurements.
+
+## VIEW-C-001 static imagery evidence (issue #25, 2026-09-16)
+
+This is asset-budget evidence, not a normal-load verification of NFR-001. The home
+route selects a single 1728×720 desktop hero (171,880 bytes), a 1280×720 tablet
+hero (129,858 bytes), or a 768×960 mobile hero (97,690 bytes). It eagerly requests
+only that current hero with high fetch priority. Each lower-page quick link is
+lazy-loaded and selects either a 960×480 rendition (103,465–131,152 bytes) or a
+640×640 rendition (85,874–91,787 bytes). Thus a representative initial desktop
+hero payload is about 168 KiB; a wide quick-link adds at most about 128 KiB when
+it enters the viewport. The three original 1792×1024 master files are retained
+for provenance but never referenced by the page.
+
+All image containers reserve their hero/card aspect ratio before fetch, and the
+shared component leaves its existing design-token gradient visible on image
+failure. Browser-based page-load/LCP and controlled normal-load measurements are
+still outstanding; this evidence must not be read as proof of NFR-001.

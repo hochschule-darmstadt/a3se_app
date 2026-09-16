@@ -1,5 +1,5 @@
 import { Button, Card, Container, Group, Paper, Select, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
-import { CctIcon, FormErrorSummary } from "@cct/ui";
+import { CctIcon, FormErrorSummary, ResponsiveImage } from "@cct/ui";
 import { type FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
@@ -11,9 +11,9 @@ export function meta() {
 }
 
 const QUICK_LINKS = [
-  { key: "brazil", query: "Brazil", accent: "linear-gradient(135deg, #0b7285, #74c0fc)" },
-  { key: "peru", query: "Peru", accent: "linear-gradient(135deg, #2b8a3e, #b2f2bb)" },
-  { key: "chile", query: "Chile", accent: "linear-gradient(135deg, #7048e8, #d0bfff)" },
+  { key: "brazil", query: "Brazil", fallback: "linear-gradient(135deg, #0b7285, #74c0fc)" },
+  { key: "peru", query: "Peru", fallback: "linear-gradient(135deg, #2b8a3e, #b2f2bb)" },
+  { key: "chile", query: "Chile", fallback: "linear-gradient(135deg, #7048e8, #d0bfff)" },
 ];
 
 const PRODUCT_TYPES = [
@@ -71,9 +71,23 @@ export default function CustomerHome() {
   return (
     <CustomerShell>
       <Stack gap={0}>
-        <div style={{ minHeight: 360, display: "flex", alignItems: "flex-end", padding: "clamp(2rem, 8vw, 6rem) 0 3rem", background: "linear-gradient(120deg, rgba(8, 38, 66, .92), rgba(21, 101, 133, .58)), linear-gradient(135deg, #164e63, #f59e0b)" }}>
+        <div style={{ minHeight: 360, position: "relative", display: "flex", alignItems: "flex-end", padding: "clamp(2rem, 8vw, 6rem) 0 3rem", background: "linear-gradient(135deg, #164e63, #f59e0b)", overflow: "hidden" }}>
+          <ResponsiveImage
+            src="/assets/home/hero-desktop.jpg"
+            sources={[
+              { media: "(max-width: 479px)", srcSet: "/assets/home/hero-mobile.jpg" },
+              { media: "(max-width: 1023px)", srcSet: "/assets/home/hero-tablet.jpg" },
+            ]}
+            alt={t("home.hero.imageAlt")}
+            aspectRatio="auto"
+            fallback="linear-gradient(135deg, #164e63, #f59e0b)"
+            priority
+            objectPosition="center"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+          />
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(8, 38, 66, .93) 0%, rgba(8, 38, 66, .72) 46%, rgba(8, 38, 66, .34) 100%)" }} />
           <Container size="lg" w="100%">
-            <Stack gap="xs" c="white">
+            <Stack gap="xs" c="white" pos="relative" style={{ zIndex: 1 }}>
               <Text fw={700} tt="uppercase" size="sm" style={{ letterSpacing: "0.12em" }}>{t("home.hero.eyebrow")}</Text>
               <Title order={1} c="white" maw={680}>{t("home.hero.heading")}</Title>
               <Text size="lg" maw={620}>{t("home.hero.note")}</Text>
@@ -122,7 +136,17 @@ export default function CustomerHome() {
             <div><Title order={2}>{t("home.quickLinks.heading")}</Title><Text c="dimmed">{t("home.quickLinks.note")}</Text></div>
             <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
               {QUICK_LINKS.map((item) => <Card key={item.key} component="button" type="button" onClick={() => setDestinationOrTheme(item.query)} withBorder padding={0} radius="lg" style={{ overflow: "hidden", textAlign: "left", cursor: "pointer" }}>
-                <div style={{ height: 150, background: item.accent, display: "flex", alignItems: "flex-end", padding: "1rem" }}><Title order={3} c="white">{t(`home.quickLinks.${item.key}`)}</Title></div>
+                <div style={{ position: "relative", background: item.fallback }}>
+                  <ResponsiveImage
+                    src={`/assets/home/${item.key}-wide.jpg`}
+                    sources={[{ media: "(max-width: 767px)", srcSet: `/assets/home/${item.key}-square.jpg` }]}
+                    alt=""
+                    aspectRatio="2 / 1"
+                    fallback={item.fallback}
+                  />
+                  <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(8, 38, 66, .86), rgba(8, 38, 66, .08) 72%)" }} />
+                  <Title order={3} c="white" style={{ position: "absolute", insetInline: "1rem", bottom: "1rem" }}>{t(`home.quickLinks.${item.key}`)}</Title>
+                </div>
                 <Text p="md" c="dark">{t("home.quickLinks.explore")}</Text>
               </Card>)}
             </SimpleGrid>

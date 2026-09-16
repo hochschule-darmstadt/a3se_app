@@ -24,6 +24,13 @@ function renderHomeWithCriteria() {
 }
 
 describe("CustomerHome (VIEW-C-001 structured search)", () => {
+  it("uses an informative hero alternative and decorative quick-link images", () => {
+    renderHome();
+
+    expect(screen.getByAltText("Mountain lake and sunlit ridges at dawn.")).toHaveAttribute("fetchpriority", "high");
+    expect(screen.getAllByAltText("")).toHaveLength(3);
+  });
+
   it("shows validation errors and does not navigate when the form is submitted empty", async () => {
     const user = userEvent.setup();
     renderHome();

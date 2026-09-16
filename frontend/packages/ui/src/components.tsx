@@ -11,9 +11,65 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { type ReactNode, useEffect, useRef } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 
 import type { ApiError } from "@cct/api-client";
+
+export interface ResponsiveImageSource {
+  /** Media query selecting this pre-generated rendition. */
+  readonly media: string;
+  readonly srcSet: string;
+}
+
+export interface ResponsiveImageProps {
+  /** Ordered from the narrowest matching source to the widest. */
+  readonly sources?: readonly ResponsiveImageSource[];
+  readonly src: string;
+  readonly alt: string;
+  readonly aspectRatio: string;
+  readonly fallback: string;
+  readonly priority?: boolean;
+  readonly objectPosition?: string;
+  readonly style?: CSSProperties;
+}
+
+/**
+ * DS-CMP-012 responsive image treatment. It reserves layout space, selects a
+ * pre-generated rendition, and exposes its design-token fallback if the image
+ * cannot be displayed. A blank `alt` deliberately marks decorative imagery.
+ */
+export function ResponsiveImage({
+  sources,
+  src,
+  alt,
+  aspectRatio,
+  fallback,
+  priority = false,
+  objectPosition = "center",
+  style,
+}: ResponsiveImageProps) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div style={{ aspectRatio, background: fallback, overflow: "hidden", position: "relative", ...style }}>
+      {!failed ? (
+        <picture style={{ display: "block", width: "100%", height: "100%" }}>
+          {sources?.map((source) => <source key={source.media} media={source.media} srcSet={source.srcSet} />)}
+          <img
+            src={src}
+            alt={alt}
+            aria-hidden={alt === "" || undefined}
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
+            decoding="async"
+            onError={() => setFailed(true)}
+            style={{ display: "block", width: "100%", height: "100%", objectFit: "cover", objectPosition }}
+          />
+        </picture>
+      ) : null}
+    </div>
+  );
+}
 
 /**
  * Renders the loading/empty/error/conflict/success states every list or

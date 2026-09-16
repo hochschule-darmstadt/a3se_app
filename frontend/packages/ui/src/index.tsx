@@ -30,8 +30,9 @@ export {
   CursorPager,
   ResourceCard,
   OfferSummary,
+  ResponsiveImage,
 } from "./components.js";
-export type { DataTableColumn, ResourceCardProps, OfferSummaryProps } from "./components.js";
+export type { DataTableColumn, ResourceCardProps, OfferSummaryProps, ResponsiveImageProps, ResponsiveImageSource } from "./components.js";
 export { CustomerShell, StaffShell } from "./shell.js";
 export { AdvisorConversation } from "./advisor.js";
 export type { AdvisorAction, AdvisorConversationLabels, AdvisorConversationProps, AdvisorConversationTurn, AdvisorMessage, AdvisorReply } from "./advisor.js";
