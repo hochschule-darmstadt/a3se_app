@@ -19,7 +19,7 @@ describe("OrdersRoute", () => {
     getMock.mockImplementation((path: string) => {
       if (path === "/orders") return Promise.resolve({ data: { items: [summary], nextCursor: null }, response: { ok: true, status: 200 } });
       if (path === "/orders/{order_id}/detail") return Promise.resolve({ data: { order: { entityId: "ORD-001", entityKind: "OrderItem", type: "order/header", schemaVersion: 1, properties: summary.properties }, customerRoleId: "PER-1-CUSTOMER", customerPersonId: "PER-1", customerDisplayName: "Ada Kern", positions: [{ positionId: "ORD-001-P1", stockItemId: "STK-1", productId: "FLT-01", travellers: [] }, { positionId: "ORD-001-P2", stockItemId: null, productId: null, travellers: [] }] }, response: { ok: true, status: 200 } });
-      if (path === "/stock-items/{stock_item_id}") return Promise.resolve({ data: { entityId: "STK-1", entityKind: "StockItem", schemaVersion: 1, availabilityState: "available", availableQuantity: 1, productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight 01", productDisplayNameChain: ["Flight 01"], productAncestors: [], properties: { serviceDate: "2027-01-08" } }, response: { ok: true, status: 200 } });
+      if (path === "/stock-items/{stock_item_id}") return Promise.resolve({ data: { entityId: "STK-1", entityKind: "StockItem", schemaVersion: 1, availabilityState: "available", productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight 01", productDisplayNameChain: ["Flight 01"], productAncestors: [], properties: { serviceDate: "2027-01-08" } }, response: { ok: true, status: 200 } });
       throw new Error(`Unexpected GET path: ${path}`);
     });
     mount();
@@ -32,7 +32,7 @@ describe("OrdersRoute", () => {
     getMock.mockImplementation((path: string) => {
       if (path === "/orders") return Promise.resolve({ data: { items: [summary], nextCursor: null }, response: { ok: true, status: 200 } });
       if (path === "/orders/{order_id}/detail") return Promise.resolve({ data: { order: { entityId: "ORD-001", entityKind: "OrderItem", type: "order/header", schemaVersion: 1, properties: summary.properties }, customerRoleId: "PER-1-CUSTOMER", customerPersonId: "PER-1", customerDisplayName: "Ada Kern", positions: [{ positionId: "ORD-001-P1", stockItemId: "STK-1", productId: "FLT-01", travellers: [] }, { positionId: "ORD-001-P2", stockItemId: null, productId: null, travellers: [] }] }, response: { ok: true, status: 200 } });
-      if (path === "/stock-items/{stock_item_id}") return Promise.resolve({ data: { entityId: "STK-1", entityKind: "StockItem", schemaVersion: 1, availabilityState: "available", availableQuantity: 1, productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight 01", productDisplayNameChain: ["Flight 01"], productAncestors: [], properties: { serviceDate: "2027-01-08" } }, response: { ok: true, status: 200 } });
+      if (path === "/stock-items/{stock_item_id}") return Promise.resolve({ data: { entityId: "STK-1", entityKind: "StockItem", schemaVersion: 1, availabilityState: "available", productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight 01", productDisplayNameChain: ["Flight 01"], productAncestors: [], properties: { serviceDate: "2027-01-08" } }, response: { ok: true, status: 200 } });
       throw new Error(`Unexpected GET path: ${path}`);
     });
     mount();

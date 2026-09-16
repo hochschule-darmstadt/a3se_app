@@ -76,6 +76,13 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
         )
         self.assertEqual(
             201,
+            client.post(
+                "/persons/I21-PERSON/roles",
+                json={"entityId": "I21-CUSTOMER-ROLE", "role": {"type": "person/customer", "properties": {}}},
+            ).status_code,
+        )
+        self.assertEqual(
+            201,
             client.post("/organisations", json={"entityId": "I21-SUPPLIER", "properties": {"name": "Condorleaf Air"}}).status_code,
         )
         self.assertEqual(
@@ -130,16 +137,16 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
         )
         self.assertEqual(201, client.post("/orders/I21-ORDER/positions", json={"entityId": "I21-POS"}).status_code)
         self.assertEqual(
-            204, client.put("/orders/I21-ORDER/positions/I21-POS/stock", json={"stockItemId": "I21-STOCK"}).status_code
-        )
-        self.assertEqual(
             204,
             client.put(
                 "/orders/I21-ORDER/positions/I21-POS/traveller", json={"travellerRoleId": "I21-TRAVELLER-ROLE"}
             ).status_code,
         )
         self.assertEqual(
-            204, client.put("/orders/I21-ORDER/customer", json={"customerRoleId": "I21-TRAVELLER-ROLE"}).status_code
+            204, client.put("/orders/I21-ORDER/positions/I21-POS/stock", json={"stockItemId": "I21-STOCK"}).status_code
+        )
+        self.assertEqual(
+            204, client.put("/orders/I21-ORDER/customer", json={"customerRoleId": "I21-CUSTOMER-ROLE"}).status_code
         )
 
         # Recursive product read: a component contained by the flight.
@@ -159,16 +166,15 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
             {"I21-FLIGHT": None, "I21-LOUNGE": "I21-FLIGHT"}, {c["entityId"]: c["parentProductId"] for c in components}
         )
 
-        # Bounded order detail: order -> position -> stock -> product -> supplier
-        # organisation, and position -> traveller -> person, ids only.
+        # Bounded order detail: order -> position -> stock -> product, and
+        # position -> traveller role -> person.
         detail = client.get("/orders/I21-ORDER/detail").json()
         self.assertEqual(
             {
                 "positionId": "I21-POS",
                 "stockItemId": "I21-STOCK",
                 "productId": "I21-FLIGHT",
-                "supplierOrganisationId": "I21-SUPPLIER",
-                "travellerPersonId": "I21-PERSON",
+                "travellers": [{"roleId": "I21-TRAVELLER-ROLE", "personId": "I21-PERSON", "displayName": "Emil Brandt"}],
             },
             detail["positions"][0],
         )

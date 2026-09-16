@@ -42,7 +42,7 @@ describe("Order (VIEW-C-004 submission)", () => {
     window.localStorage.clear();
     signInMockActor();
     getMock.mockImplementation(((path: string) => path === "/stock-items"
-      ? Promise.resolve({ data: { items: [{ entityId: "STK-000004", entityKind: "StockItem", type: "stock/airline/flight/seat", schemaVersion: 1, productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight", productDisplayNameChain: ["Flight"], productAncestors: [], supplierRole: null, supplierOrganisationId: null, supplierDisplayName: null, availableQuantity: 3, availabilityState: "available", properties: { serviceDate: "2027-04-06", unitPriceAmount: "199.00", currencyCode: "EUR", capacityQuantity: 3, remainingCapacity: 3, inventoryStatusCode: "inventory/active", searchText: "" } }], nextCursor: null }, response: { ok: true, status: 200 } })
+      ? Promise.resolve({ data: { items: [{ entityId: "STK-000004", entityKind: "StockItem", type: "stock/airline/flight", schemaVersion: 1, productId: "FLT-01", productType: "product/airline/flight", productDisplayName: "Flight", productDisplayNameChain: ["Flight"], productAncestors: [], supplierRole: null, supplierOrganisationId: null, supplierDisplayName: null, availabilityState: "available", properties: { serviceDate: "2027-04-06", unitPriceAmount: "199.00", currencyCode: "EUR", capacityQuantity: 3, remainingCapacity: 3, inventoryStatusCode: "inventory/active", searchText: "" } }], nextCursor: null }, response: { ok: true, status: 200 } })
       : Promise.resolve({ data: ROLES, response: { ok: true, status: 200 } })) as never);
   });
 

@@ -60,7 +60,6 @@ class StockItemResponse(BaseModel):
     supplier_role: "StockHierarchyLink | None" = Field(alias="supplierRole")
     supplier_organisation_id: str | None = Field(alias="supplierOrganisationId")
     supplier_display_name: str | None = Field(alias="supplierDisplayName")
-    available_quantity: int = Field(alias="availableQuantity")
     availability_state: Literal["available", "allocated", "shortfall", "withdrawn", "expired"] = Field(alias="availabilityState")
 
     @classmethod
@@ -90,7 +89,7 @@ class StockItemResponse(BaseModel):
                    supplierRole=StockHierarchyLink(entityId=supplier_role.entity_id, displayNameChain=list(display_names.orga_role(supplier_role, supplier).display_name_chain)) if supplier_role and supplier else None,
                    supplierOrganisationId=supplier.entity_id if supplier else None,
                    supplierDisplayName=display_names.organisation(supplier).display_name if supplier else None,
-                   availableQuantity=available, availabilityState=state)
+                   availabilityState=state)
 
 
 class StockHierarchyLink(BaseModel):

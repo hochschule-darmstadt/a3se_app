@@ -1478,8 +1478,6 @@ export interface components {
              * @enum {string}
              */
             availabilityState: "available" | "allocated" | "shortfall" | "withdrawn" | "expired";
-            /** Availablequantity */
-            availableQuantity: number;
             /** Entityid */
             entityId: string;
             /**

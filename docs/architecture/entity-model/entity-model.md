@@ -20,7 +20,7 @@ The following synthetic object diagram illustrates how the generic logical entit
 
 ![Concrete object example](objects.svg)
 
-John and Sarah are Persons playing `person/customer` and `person/traveller` roles. Partner Organisations play `organisation/airline` and `organisation/accommodation` roles. Stable partner data, such as the accommodation's address, belongs to the Organisation, while contextual supplier data belongs to its role. Recursive TouristicProductItems use `product/...` types to describe a flight with seats (`product/airline/flight` and its nested `product/airline/flight/seat`) and an accommodation room type with a room (`product/accommodation/room-type` and its nested `product/accommodation/room-type/room`); corresponding `stock/...` StockItems make dated capacity sellable and carry stock-specific commercial data such as the sale price. An `order/header` and its `order/position` OrderItems connect the customer and travelers to the allocated stock.
+John and Sarah are Persons playing `person/customer` and `person/traveller` roles. Partner Organisations play `organisation/airline` and `organisation/accommodation` roles. Stable partner data, such as the accommodation's address, belongs to the Organisation, while contextual supplier data belongs to its role. Recursive TouristicProductItems use `product/...` types to describe products such as a flight (`product/airline/flight`) or an accommodation room type (`product/accommodation/room-type`); corresponding `stock/...` StockItems make dated traveller capacity sellable (DR-0027) and carry stock-specific commercial data such as the sale price. An `order/header` and its `order/position` OrderItems connect the customer and travelers to the allocated stock.
 
 ## Semantic property contracts
 
@@ -66,7 +66,7 @@ hypothetical and are not asserted to be assigned IATA codes.
 | Person Management | `PersonRole` | A contextual role played by a Person, such as customer or traveler, with role-specific properties. |
 | Partner Management | `Organisation` | An organization identified by organization-specific properties such as name. |
 | Partner Management | `OrgaRole` | A contextual role played by an Organisation, such as partner, supplier, airline, or hotel, with role-specific properties. |
-| Touristic Product Management | `TouristicProductItem` | A typed reusable touristic product element with structured properties and optional short descriptive content. Recursive relationships allow composite structures such as a flight type with seats or a room category with rooms. |
+| Touristic Product Management | `TouristicProductItem` | A typed reusable touristic product element with structured properties and optional short descriptive content. Recursive relationships allow composite structures such as a package that contains flights and activities. |
 | Inventory | `StockItem` | A dated, priced, or otherwise qualified unit of pre-procured sellable stock. Recursive relationships allow stock groupings. |
 | Order Management | `OrderItem` | A typed order or ordered component. Recursive relationships allow an order to contain its components. |
 

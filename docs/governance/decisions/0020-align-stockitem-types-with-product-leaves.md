@@ -4,6 +4,7 @@
 - Date: 2026-08-21
 - Deciders: stakeholder and architecture
 - Supersedes: DR-0017's deferred StockItem naming exception
+- Superseded by: DR-0027 in part
 
 ## Context
 

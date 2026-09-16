@@ -117,7 +117,8 @@ class StockItemsApiTest(unittest.TestCase):
         self.client.post("/stock-items", json=stock_payload(capacityQuantity=5, remainingCapacity=2))
         item = self.client.get("/stock-items/I21-STOCK-01").json()
         self.assertEqual("Airport transfer", item["productDisplayName"])
-        self.assertEqual(2, item["availableQuantity"])
+        self.assertNotIn("availableQuantity", item)
+        self.assertEqual(2, item["properties"]["remainingCapacity"])
         self.assertEqual("available", item["availabilityState"])
 
     def test_negative_price_returns_422(self) -> None:

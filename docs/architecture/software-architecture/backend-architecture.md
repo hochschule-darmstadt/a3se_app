@@ -411,7 +411,8 @@ individual seat/room products and nested flights are not the target MVP model.
 persisted non-negative source of truth; `available` is derived as
 `remainingCapacity > 0`. There must not be competing `heldQuantity`,
 `allocatedQuantity`, and traveller-capacity calculations without an accepted
-meaning and transaction rule.
+meaning and transaction rule. [DR-0027](../../governance/decisions/0027-represent-flight-and-room-type-capacity-without-leaf-products.md)
+records this convention.
 
 ## 8. Service operations, aggregates, and transactions
 

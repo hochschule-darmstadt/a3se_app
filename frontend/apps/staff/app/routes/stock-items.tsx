@@ -77,7 +77,6 @@ export default function StockItemsRoute() {
           {page.status === "success" ? <div style={{ flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}><DataTable<StockItem> caption="Availability by service" rowKey={(row) => row.entityId} rows={page.items} emptyMessage="No stock entries match these filters." onRowActivate={(row) => updateView({ [STAFF_VIEW_PARAM.detail]: row.entityId, [STAFF_VIEW_PARAM.panel]: null })} isRowSelected={(row) => rightPane.mode === "detail" && row.entityId === rightPane.stockItemId} columns={[
             { key: "service", header: "Service", render: (row) => `${row.productDisplayNameChain.join(" · ")} · ${row.properties.serviceDate}` },
             { key: "date", header: "Service date", render: (row) => row.properties.serviceDate },
-            { key: "available", header: "Available", render: (row) => row.availableQuantity },
             { key: "remaining", header: "Remaining", render: (row) => row.properties.remainingCapacity },
             { key: "state", header: "State", render: (row) => row.availabilityState },
           ]} /></div> : null}

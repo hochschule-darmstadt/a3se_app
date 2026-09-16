@@ -47,13 +47,11 @@ Add an entry only when the same behavior genuinely governs at least two use case
 | `organisation/water-transport` | `Water transport` |
 | `organisation/experience` | `Experience` |
 | `organisation/protection` | `Protection` |
-| `product/airline/flight` | Supplying role's `airlineDesignator` immediately followed by `flightNumber`, then one space and `departureLocationCode`–`arrivalLocationCode`, for example `CA501 BER–LIM` |
-| `product/airline/flight/seat` | `seatNumber` |
+| `product/airline/flight` | `flightNumber`, which must begin with the supplying role's `airlineDesignator`, then one space and `departureLocationCode`–`arrivalLocationCode`, for example `CA501 BER–LIM` |
 | `product/accommodation/room-type` | `room/single` → `Single room`; `room/double` → `Double room`; `room/twin` → `Twin room`; `room/triple` → `Triple room`; `room/family` → `Family room`; `room/adjoining` → `Adjoining rooms`; `room/suite` → `Suite`; `room/cabin` → `Cabin` |
-| `product/accommodation/room-type/room` | `roomNumber` |
 | Every other current `product/*` type | Required stored `name` |
 
-The product `name` property is optional for flight, room-type, seat, and room types because their display labels come from specific properties; it is required for every other current product type. The corrected seed source preserves every former product `displayName` value as `name`, including values that become non-authoritative for a type-specific computation. Existing prototype databases are reset and reseeded; no in-place migration is supported.
+The product `name` property is optional for flight and room-type products because their display labels come from specific properties; it is required for every other current product type. The corrected seed source preserves every former product `displayName` value as `name`, including values that become non-authoritative for a type-specific computation. Existing prototype databases are reset and reseeded; no in-place migration is supported.
 
 Canonical chains are:
 
@@ -68,8 +66,8 @@ The shared API representation is proposed as two read-only response fields: `dis
 ### Acceptance examples
 
 - `Person(givenName="Ada", familyName="Lovelace")` returns `displayName="Ada Lovelace"` and `displayNameChain=["Ada Lovelace"]` without persisting either derived key.
-- A seat `12A` beneath flight 501 supplied by Condorleaf Air's `organisation/airline` role returns `displayNameChain=["Condorleaf Air", "Airline", "CA501 BER–LIM", "12A"]`, rendered as `Condorleaf Air · Airline · CA501 BER–LIM · 12A`.
-- A `room/double` product and child room `204` return `Double room` and `204` as their respective display names and preserve root-first ordering in both chains.
+- An activity named `Lounge access` beneath flight `CA501` supplied by Condorleaf Air's `organisation/airline` role returns `displayNameChain=["Condorleaf Air", "Airline", "CA501 BER–LIM", "Lounge access"]`, rendered as `Condorleaf Air · Airline · CA501 BER–LIM · Lounge access`.
+- A `room/double` room-type product returns `Double room` as its display name.
 - Renaming a named transfer changes its own and every descendant's next computed chain without persisting a derived field.
 - Two distinct entities may have the same display name; stable entity identifiers continue to distinguish them in links and operations.
 
