@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+from datetime import time
 
 from support.fake_entity_repository import FakeEntityRepository
 
@@ -37,7 +38,7 @@ class DisplayNamesTest(unittest.TestCase):
         self.assertEqual("Ada Lovelace", display_names.person(owner).display_name)
         self.assertEqual(("Ada Lovelace", "Traveller"), display_names.person_role(role, owner).display_name_chain)
 
-    def test_flight_seat_chain_uses_supplier_and_middle_components(self):
+    def test_flight_component_chain_uses_supplier_and_middle_components(self):
         organisation = self.save("ORG-1", "Organisation", {"name": "Condorleaf Air"})
         role = self.save("ROLE-1", "OrgaRole", {"airlineDesignator": "CA"}, "organisation/airline")
         flight = self.save(
@@ -47,19 +48,19 @@ class DisplayNamesTest(unittest.TestCase):
                 "flightNumber": "CA501",
                 "departureLocationCode": "BER",
                 "arrivalLocationCode": "LIM",
-                "scheduledDepartureLocalTime": "08:15:00",
-                "scheduledArrivalLocalTime": "18:40:00",
+                "scheduledDepartureLocalTime": time(8, 15),
+                "scheduledArrivalLocalTime": time(18, 40),
             },
             "product/airline/flight",
         )
-        seat = self.save("SEAT-1", "TouristicProductItem", {"seatNumber": "12A"}, "product/airline/flight/seat")
+        lounge = self.save("ACT-1", "TouristicProductItem", {"name": "Lounge access"}, "product/experience/activity")
         self.relate(EntityKind.ORGANISATION, organisation.entity_id, RelationshipType.HAS_ROLE, EntityKind.ORGA_ROLE, role.entity_id)
         self.relate(EntityKind.TOURISTIC_PRODUCT_ITEM, flight.entity_id, RelationshipType.SUPPLIED_BY, EntityKind.ORGA_ROLE, role.entity_id)
-        self.relate(EntityKind.TOURISTIC_PRODUCT_ITEM, flight.entity_id, RelationshipType.CONTAINS, EntityKind.TOURISTIC_PRODUCT_ITEM, seat.entity_id)
+        self.relate(EntityKind.TOURISTIC_PRODUCT_ITEM, flight.entity_id, RelationshipType.CONTAINS, EntityKind.TOURISTIC_PRODUCT_ITEM, lounge.entity_id)
 
-        projection = display_names.product(seat, self.repository, self.repository)
-        self.assertEqual("12A", projection.display_name)
-        self.assertEqual(("Condorleaf Air", "Airline", "CA501 BER–LIM", "12A"), projection.display_name_chain)
+        projection = display_names.product(lounge, self.repository, self.repository)
+        self.assertEqual("Lounge access", projection.display_name)
+        self.assertEqual(("Condorleaf Air", "Airline", "CA501 BER–LIM", "Lounge access"), projection.display_name_chain)
 
     def test_all_room_type_codes_have_explicit_labels(self):
         for code, expected in display_names.ROOM_TYPE_LABELS.items():
@@ -77,8 +78,8 @@ class DisplayNamesTest(unittest.TestCase):
         root_role = self.save("ROLE-1", "OrgaRole", {"airlineDesignator": "CA"}, "organisation/airline")
         nested_owner = self.save("ORG-2", "Organisation", {"name": "Andes Connect"})
         nested_role = self.save("ROLE-2", "OrgaRole", {"airlineDesignator": "AC"}, "organisation/airline")
-        root = self.save("FLT-1", "TouristicProductItem", {"flightNumber": "CA501", "departureLocationCode": "BER", "arrivalLocationCode": "LIM", "scheduledDepartureLocalTime": "08:15:00", "scheduledArrivalLocalTime": "18:40:00"}, "product/airline/flight")
-        nested = self.save("FLT-2", "TouristicProductItem", {"flightNumber": "AC600", "departureLocationCode": "LIM", "arrivalLocationCode": "CUZ", "scheduledDepartureLocalTime": "07:20:00", "scheduledArrivalLocalTime": "08:55:00"}, "product/airline/flight")
+        root = self.save("FLT-1", "TouristicProductItem", {"flightNumber": "CA501", "departureLocationCode": "BER", "arrivalLocationCode": "LIM", "scheduledDepartureLocalTime": time(8, 15), "scheduledArrivalLocalTime": time(18, 40)}, "product/airline/flight")
+        nested = self.save("FLT-2", "TouristicProductItem", {"flightNumber": "AC600", "departureLocationCode": "LIM", "arrivalLocationCode": "CUZ", "scheduledDepartureLocalTime": time(7, 20), "scheduledArrivalLocalTime": time(8, 55)}, "product/airline/flight")
         for owner, role in ((root_owner, root_role), (nested_owner, nested_role)):
             self.relate(EntityKind.ORGANISATION, owner.entity_id, RelationshipType.HAS_ROLE, EntityKind.ORGA_ROLE, role.entity_id)
         self.relate(EntityKind.TOURISTIC_PRODUCT_ITEM, root.entity_id, RelationshipType.SUPPLIED_BY, EntityKind.ORGA_ROLE, root_role.entity_id)
@@ -86,7 +87,7 @@ class DisplayNamesTest(unittest.TestCase):
         self.relate(EntityKind.TOURISTIC_PRODUCT_ITEM, root.entity_id, RelationshipType.CONTAINS, EntityKind.TOURISTIC_PRODUCT_ITEM, nested.entity_id)
 
         projection = display_names.product(nested, self.repository, self.repository)
-        self.assertEqual(("Condorleaf Air", "Airline", "CA501 BERâ€“LIM", "AC600 LIMâ€“CUZ"), projection.display_name_chain)
+        self.assertEqual(("Condorleaf Air", "Airline", "CA501 BER–LIM", "AC600 LIM–CUZ"), projection.display_name_chain)
 
     def test_source_name_change_is_visible_without_derived_storage(self):
         transfer = self.save("TR-1", "TouristicProductItem", {"name": "Old name"}, "product/mobility/transfer")
@@ -105,8 +106,8 @@ class DisplayNamesTest(unittest.TestCase):
                 "flightNumber": "CA501",
                 "departureLocationCode": "BER",
                 "arrivalLocationCode": "LIM",
-                "scheduledDepartureLocalTime": "08:15:00",
-                "scheduledArrivalLocalTime": "18:40:00",
+                "scheduledDepartureLocalTime": time(8, 15),
+                "scheduledArrivalLocalTime": time(18, 40),
             },
             "product/airline/flight",
         )

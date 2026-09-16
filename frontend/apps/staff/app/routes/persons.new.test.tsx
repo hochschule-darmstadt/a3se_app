@@ -68,7 +68,7 @@ describe("PersonCreateRoute (VIEW-S-002 create flow, issue #29 phase 2)", () => 
     expect(postMock).toHaveBeenCalledWith(
       "/persons",
       expect.objectContaining({
-        body: { entityId: expect.any(String), properties: { givenName: "Casey", familyName: "Example", locality: null } },
+        body: { properties: { givenName: "Casey", familyName: "Example", locality: null } },
       })
     );
     expect(postMock).toHaveBeenCalledWith(

@@ -157,7 +157,7 @@ def update_stock_item(stock_item_id: str, request: StockItemUpdateRequest, repos
 
 
 @router.delete("/{stock_item_id}", status_code=status.HTTP_204_NO_CONTENT, operation_id="withdrawStockItem", responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}})
-def withdraw_stock_item(stock_item_id: str, repository: RepositoryDependency, actor: ActorDependency) -> None:
+def withdraw_stock_item(stock_item_id: str, repository: RepositoryDependency, product_repository: ProductRepositoryDependency, partner_repository: PartnerRepositoryDependency, actor: ActorDependency) -> None:
     entity = service.get_stock_item(repository, stock_item_id)
     properties = entity.properties.model_dump(by_alias=True)
     properties["inventoryStatusCode"] = "inventory/withdrawn"

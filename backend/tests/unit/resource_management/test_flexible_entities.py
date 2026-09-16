@@ -37,7 +37,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
 
     def test_flight_selects_typed_contract_and_supports_attribute_access(self) -> None:
         entity = self.registry.validate(flight())
-        self.assertEqual("500", entity.properties.flight_number)
+        self.assertEqual("CA500", entity.properties.flight_number)
         self.assertEqual(EntityKind.TOURISTIC_PRODUCT_ITEM, entity.entity_kind)
 
     def test_flight_properties_are_rejected_for_room_category(self) -> None:
@@ -89,9 +89,9 @@ class FlexibleEntityValidationTest(unittest.TestCase):
     def test_models_are_immutable_and_revalidate_each_boundary_input(self) -> None:
         entity = self.registry.validate(flight())
         with self.assertRaises(ValidationError):
-            entity.properties.flight_number = "600"  # type: ignore[misc]
-        changed = flight(flightNumber="600")
-        self.assertEqual("600", self.registry.validate(changed).properties.flight_number)
+            entity.properties.flight_number = "CA600"  # type: ignore[misc]
+        changed = flight(flightNumber="CA600")
+        self.assertEqual("CA600", self.registry.validate(changed).properties.flight_number)
 
     def test_person_role_stock_and_order_item_examples_validate(self) -> None:
         customer = self.registry.validate(
@@ -99,7 +99,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
              "properties": {"paymentMethodCode": "payment/paypal"}}
         )
         stock = self.registry.validate(
-            {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
+            {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight",
              "properties": {"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"),
                             "currencyCode": "EUR"}}
         )
@@ -116,7 +116,7 @@ class FlexibleEntityValidationTest(unittest.TestCase):
             date(2027, 2, 29)
         with self.assertRaises(ValidationError):
             self.registry.validate(
-                {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
+                {"entityId": "STOCK-001", "entityKind": "StockItem", "type": "stock/airline/flight",
                  "properties": {"serviceDate": date(2027, 2, 28), "unitPriceAmount": Decimal("-0.01"),
                                 "currencyCode": "EUR"}}
             )

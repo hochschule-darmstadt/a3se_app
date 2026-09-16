@@ -91,7 +91,7 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
     await user.click(screen.getByRole("textbox", { name: /^type/i }));
     await user.click(await screen.findByRole("option", { name: "airline/flight", hidden: true }));
 
-    await user.type(screen.getByLabelText(/flight number/i), "500");
+    await user.type(screen.getByLabelText(/flight number/i), "CA500");
     await user.type(screen.getByLabelText(/departure location code/i), "fra");
     await user.type(screen.getByLabelText(/arrival location code/i), "gig");
     const [departureTime, arrivalTime] = screen.getAllByLabelText(/scheduled (departure|arrival)/i);
@@ -163,38 +163,6 @@ describe("ProductCreateRoute (VIEW-S-003 create flow, issue #31 phase 2)", () =>
 
     expect(await screen.findByText(/supplier link could not be added/i)).toBeInTheDocument();
     expect(screen.queryByText("Product detail page")).not.toBeInTheDocument();
-  });
-
-  it("requires and submits a parent product ID for a structural-child type (seat)", async () => {
-    renderCreate();
-    const user = userEvent.setup();
-
-    await user.click(screen.getByRole("textbox", { name: /^type/i }));
-    await user.click(await screen.findByRole("option", { name: "airline/flight/seat", hidden: true }));
-    await user.click(screen.getByRole("button", { name: /create product/i }));
-
-    expect(await screen.findByText(/enter the id of the parent airline\/flight product/i)).toBeInTheDocument();
-    expect(postMock).not.toHaveBeenCalled();
-
-    postMock.mockResolvedValue({
-      data: { entityId: "PRD-seat", entityKind: "TouristicProductItem", type: "product/airline/flight/seat", schemaVersion: 1, properties: {} },
-      response: { ok: true, status: 201 },
-    });
-    await user.type(screen.getByLabelText(/seat number/i), "12A");
-    await user.type(screen.getByLabelText(/parent product id/i), "PRD-flight-1");
-    await user.click(screen.getByRole("button", { name: /create product/i }));
-
-    expect(await screen.findByText("Product detail page")).toBeInTheDocument();
-    expect(postMock).toHaveBeenCalledWith(
-      "/products",
-      expect.objectContaining({
-        body: expect.objectContaining({
-          parentProductId: "PRD-flight-1",
-          product: { type: "product/airline/flight/seat", properties: { seatNumber: "12A" } },
-        }),
-      })
-    );
-    expect(putMock).not.toHaveBeenCalled();
   });
 
   it("shows an error banner when creation fails", async () => {

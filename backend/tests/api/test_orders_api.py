@@ -110,7 +110,7 @@ class OrdersApiTest(unittest.TestCase):
             "/organisations/I21-SUPPLIER/roles",
             json={
                 "entityId": "I21-SUPPLIER-ROLE",
-                "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "0Q"}},
+                "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "CA"}},
             },
         )
         # Product + supplier link
@@ -131,17 +131,13 @@ class OrdersApiTest(unittest.TestCase):
             },
         )
         self.client.put("/products/I21-FLIGHT/supplier", json={"supplierRoleId": "I21-SUPPLIER-ROLE"})
-        self.client.post(
-            "/products",
-            json={"entityId": "I21-SEAT", "parentProductId": "I21-FLIGHT", "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "1A"}}},
-        )
         # Stock
         self.client.post(
             "/stock-items",
             json={
                 "entityId": "I21-STOCK",
-                "productId": "I21-SEAT",
-                "type": "stock/airline/flight/seat",
+                "productId": "I21-FLIGHT",
+                "type": "stock/airline/flight",
                 "properties": {"serviceDate": "2027-01-08", "unitPriceAmount": "500.00", "currencyCode": "EUR"},
             },
         )
@@ -150,14 +146,15 @@ class OrdersApiTest(unittest.TestCase):
             "/orders", json={"entityId": "I21-ORDER-01", "properties": {"orderNumber": "5766", "orderStatusCode": "order/reserved"}}
         )
         self.client.post("/orders/I21-ORDER-01/positions", json={"entityId": "I21-POS-01"})
-        allocate_response = self.client.put(
-            "/orders/I21-ORDER-01/positions/I21-POS-01/stock", json={"stockItemId": "I21-STOCK"}
-        )
-        self.assertEqual(204, allocate_response.status_code)
+        # Allocation consumes one unit of capacity per traveller already assigned to the position.
         traveller_response = self.client.put(
             "/orders/I21-ORDER-01/positions/I21-POS-01/traveller", json={"travellerRoleId": "I21-TRAVELLER-ROLE"}
         )
         self.assertEqual(204, traveller_response.status_code)
+        allocate_response = self.client.put(
+            "/orders/I21-ORDER-01/positions/I21-POS-01/stock", json={"stockItemId": "I21-STOCK"}
+        )
+        self.assertEqual(204, allocate_response.status_code)
         customer_response = self.client.put("/orders/I21-ORDER-01/customer", json={"customerRoleId": "I21-CUSTOMER-ROLE"})
         self.assertEqual(204, customer_response.status_code)
 
@@ -166,19 +163,19 @@ class OrdersApiTest(unittest.TestCase):
         body = detail_response.json()
         self.assertEqual("I21-ORDER-01", body["order"]["entityId"])
         self.assertEqual(
-            {"positionId": "I21-POS-01", "stockItemId": "I21-STOCK", "productId": "I21-SEAT",
+            {"positionId": "I21-POS-01", "stockItemId": "I21-STOCK", "productId": "I21-FLIGHT",
              "travellers": [{"roleId": "I21-TRAVELLER-ROLE", "personId": "I21-PERSON", "displayName": "Emil Brandt"}]},
             body["positions"][0],
         )
         stock_after_allocation = self.client.get("/stock-items/I21-STOCK").json()
-        self.assertEqual(1, stock_after_allocation["properties"]["allocatedQuantity"])
+        self.assertEqual(0, stock_after_allocation["properties"]["remainingCapacity"])
         self.assertEqual("allocated", stock_after_allocation["availabilityState"])
 
         release_response = self.client.delete(
             "/orders/I21-ORDER-01/positions/I21-POS-01/stock/I21-STOCK"
         )
         self.assertEqual(204, release_response.status_code)
-        self.assertEqual(0, self.client.get("/stock-items/I21-STOCK").json()["properties"]["allocatedQuantity"])
+        self.assertEqual(1, self.client.get("/stock-items/I21-STOCK").json()["properties"]["remainingCapacity"])
         self.assertIsNone(self.client.get("/orders/I21-ORDER-01/detail").json()["positions"][0]["stockItemId"])
 
     def test_allocate_stock_requires_existing_stock_returns_404(self) -> None:

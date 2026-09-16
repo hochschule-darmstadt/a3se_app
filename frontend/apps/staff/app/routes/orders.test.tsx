@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createRoutesStub } from "react-router";
@@ -10,7 +10,7 @@ const summary = { entityId: "ORD-001", entityKind: "OrderItem", schemaVersion: 1
 function mount() { const Stub = createRoutesStub([{ path: "/orders", Component: () => <TestProviders client={createTestQueryClient()}><Route/></TestProviders> }]); return render(<Stub initialEntries={["/orders"]}/>); }
 afterEach(() => { cleanup(); getMock.mockReset(); });
 describe("OrdersRoute", () => {
-  it("renders server summaries in a split pane", async () => { getMock.mockResolvedValue({ data: { items: [summary], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); expect(await screen.findByText("Order 6001")).toBeInTheDocument(); expect(screen.getByText("Ada Kern")).toBeInTheDocument(); expect(screen.getByText("2 (1 unresolved)")).toBeInTheDocument(); expect(screen.getByText("No order selected")).toBeInTheDocument(); });
+  it("renders server summaries in a split pane", async () => { getMock.mockResolvedValue({ data: { items: [summary], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); expect(await screen.findByText("Order ORD-001")).toBeInTheDocument(); expect(screen.getByText("Ada Kern")).toBeInTheDocument(); expect(screen.getByText("2 (1 unresolved)")).toBeInTheDocument(); expect(screen.getByText("No order selected")).toBeInTheDocument(); });
   it("sends status filtering to the API", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); const user = userEvent.setup(); await user.click(screen.getByRole("textbox", { name: "Status" })); await user.click(await screen.findByRole("option", { name: "Paid", hidden: true })); await waitFor(() => expect(getMock).toHaveBeenLastCalledWith("/orders", expect.objectContaining({ params: { query: expect.objectContaining({ status: "order/paid" }) } }))); });
   it("offers active as a status filter", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); const user = userEvent.setup(); await user.click(screen.getByRole("textbox", { name: "Status" })); expect(await screen.findByRole("option", { name: "Active", hidden: true })).toBeInTheDocument(); });
   it("opens add functionality in the right pane", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); mount(); await userEvent.setup().click(await screen.findByRole("button", { name: "Add order" })); expect(screen.getByRole("heading", { name: "Add order" })).toBeInTheDocument(); expect(screen.getByRole("textbox", { name: "Customer role ID" })).toBeInTheDocument(); });
@@ -24,8 +24,8 @@ describe("OrdersRoute", () => {
     });
     mount();
     const user = userEvent.setup();
-    await user.click(await screen.findByRole("button", { name: /expand order 6001/i }));
-    expect(await screen.findByText("Flight 01 · 2027-01-08")).toBeInTheDocument();
+    await user.click(await screen.findByRole("button", { name: /expand order ORD-001/i }));
+    expect(await within(screen.getByRole("treegrid", { name: "Orders tree" })).findByText("Flight 01 · 2027-01-08")).toBeInTheDocument();
     expect(await screen.findByText("Unresolved")).toBeInTheDocument();
   });
   it("opens a position's own detail in the right pane when its tree row is selected", async () => {
@@ -37,8 +37,8 @@ describe("OrdersRoute", () => {
     });
     mount();
     const user = userEvent.setup();
-    await user.click(await screen.findByRole("button", { name: /expand order 6001/i }));
-    await user.click(await screen.findByText("Flight 01 · 2027-01-08"));
+    await user.click(await screen.findByRole("button", { name: /expand order ORD-001/i }));
+    await user.click(await within(screen.getByRole("treegrid", { name: "Orders tree" })).findByText("Flight 01 · 2027-01-08"));
     expect(await screen.findByRole("heading", { level: 1, name: "Flight 01 · 2027-01-08" })).toBeInTheDocument();
   });
 });

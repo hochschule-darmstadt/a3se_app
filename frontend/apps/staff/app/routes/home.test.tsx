@@ -27,12 +27,11 @@ afterEach(() => {
 });
 
 describe("StaffHome (VIEW-S-001, issue #28 phase 2)", () => {
-  it("shows the portal headline and a Staff Portal Home breadcrumb", () => {
+  it("shows the portal headline without a redundant breadcrumb", () => {
     renderHome();
 
     expect(screen.getByRole("heading", { level: 1, name: "CCT Staff Portal" })).toBeInTheDocument();
-    const breadcrumb = screen.getByRole("navigation", { name: "Breadcrumb" });
-    expect(within(breadcrumb).getByText("Staff Portal Home")).toHaveAttribute("aria-current", "page");
+    expect(screen.queryByRole("navigation", { name: "Breadcrumb" })).not.toBeInTheDocument();
   });
 
   it("shows one tile per managed-data area, each with an icon, a heading and a Manage link to its route", () => {

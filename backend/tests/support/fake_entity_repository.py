@@ -389,14 +389,12 @@ class FakeEntityRepository:
         def state_of(stock):
             properties = stock.properties
             lifecycle = properties.inventory_status_code.removeprefix("inventory/")
-            available = properties.capacity_quantity - properties.held_quantity - properties.allocated_quantity
+            available = properties.remaining_capacity
             if lifecycle != "active":
                 return lifecycle
             if available < 0 or properties.capacity_quantity == 0:
                 return "shortfall"
-            if properties.held_quantity > 0:
-                return "held"
-            if available == 0 and properties.allocated_quantity > 0:
+            if available == 0:
                 return "allocated"
             return "available"
 

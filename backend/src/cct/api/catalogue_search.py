@@ -15,7 +15,7 @@ from cct.resource_management.pagination import decode_cursor, encode_cursor
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
 from .dependencies import get_partner_repository, get_product_repository, get_stock_repository
-from .schemas import Page, PageParams
+from .schemas import ErrorResponse, Page, PageParams
 
 router = APIRouter(prefix="/catalogue-search", tags=["catalogue-search"])
 
@@ -59,7 +59,7 @@ def _all_matching_stock(
     ))
 
 
-@router.get("", response_model=Page[CatalogueSearchResult], operation_id="searchCatalogue")
+@router.get("", response_model=Page[CatalogueSearchResult], operation_id="searchCatalogue", responses={422: {"model": ErrorResponse}})
 def search_catalogue(
     params: Annotated[CatalogueSearchParams, Query()],
     stock_repository: StockRepositoryDependency,

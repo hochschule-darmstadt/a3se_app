@@ -62,15 +62,15 @@ class DailyQuantityTest(unittest.TestCase):
 class GenerateStockSpecsTest(unittest.TestCase):
     def test_respects_date_boundaries(self) -> None:
         specs = inventory.generate_stock_specs(
-            {inventory.FLIGHT_TYPE: ["FLT-01-SEAT-1"]}, set(), start=date(2027, 1, 1), end=date(2027, 1, 3)
+            {inventory.FLIGHT_TYPE: ["FLT-01"]}, set(), start=date(2027, 1, 1), end=date(2027, 1, 3)
         )
         dates = {spec.service_date for spec in specs}
         self.assertTrue(dates.issubset({date(2027, 1, 1), date(2027, 1, 2), date(2027, 1, 3)}))
 
     def test_generates_distinct_unit_ids_per_date(self) -> None:
         specs = inventory.generate_stock_specs(
-            {inventory.FLIGHT_TYPE: ["FLT-01-SEAT-1"]},
-            {("FLT-01-SEAT-1", date(2027, 1, 1))},
+            {inventory.FLIGHT_TYPE: ["FLT-01"]},
+            {("FLT-01", date(2027, 1, 1))},
             start=date(2027, 1, 1),
             end=date(2027, 1, 1),
         )
@@ -80,19 +80,19 @@ class GenerateStockSpecsTest(unittest.TestCase):
 
     def test_stock_type_matches_product_family(self) -> None:
         specs = inventory.generate_stock_specs(
-            {inventory.FLIGHT_TYPE: ["FLT-01-SEAT-1"], inventory.ROOM_CATEGORY_TYPE: ["ACC-01-R1"]},
-            {("FLT-01-SEAT-1", date(2027, 1, 1)), ("ACC-01-R1", date(2027, 1, 1))},
+            {inventory.FLIGHT_TYPE: ["FLT-01"], inventory.ROOM_CATEGORY_TYPE: ["ACC-01"]},
+            {("FLT-01", date(2027, 1, 1)), ("ACC-01", date(2027, 1, 1))},
             start=date(2027, 1, 1),
             end=date(2027, 1, 1),
         )
         types_by_product = {spec.product_id: spec.type for spec in specs}
-        self.assertEqual("stock/airline/flight/seat", types_by_product["FLT-01-SEAT-1"])
-        self.assertEqual("stock/accommodation/room-type/room", types_by_product["ACC-01-R1"])
+        self.assertEqual("stock/airline/flight", types_by_product["FLT-01"])
+        self.assertEqual("stock/accommodation/room-type", types_by_product["ACC-01"])
 
     def test_price_has_two_decimal_places(self) -> None:
         specs = inventory.generate_stock_specs(
-            {inventory.FLIGHT_TYPE: ["FLT-01-SEAT-1"]},
-            {("FLT-01-SEAT-1", date(2027, 1, 1))},
+            {inventory.FLIGHT_TYPE: ["FLT-01"]},
+            {("FLT-01", date(2027, 1, 1))},
             start=date(2027, 1, 1),
             end=date(2027, 1, 1),
         )
@@ -101,10 +101,11 @@ class GenerateStockSpecsTest(unittest.TestCase):
 
 
 class AdHocStockSpecTest(unittest.TestCase):
-    def test_builds_one_unit_for_a_mobility_product(self) -> None:
+    def test_builds_one_stock_item_for_a_mobility_product(self) -> None:
+        # The entity ID is a placeholder; the orchestrator assigns the sequential StockItem ID.
         spec = inventory.ad_hoc_stock_spec("MOB-01", "product/mobility/transfer", date(2027, 4, 6))
         self.assertEqual("stock/mobility/transfer", spec.type)
-        self.assertEqual("STK-MOB-01-2027-04-06-U1", spec.entity_id)
+        self.assertEqual("MOB-01", spec.product_id)
         self.assertEqual(date(2027, 4, 6), spec.service_date)
 
 

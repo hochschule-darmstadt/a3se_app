@@ -38,7 +38,7 @@ class ProductServiceTest(unittest.TestCase):
         entity = service.create_product(
             self.repository, entity_id="I21-FLIGHT", type="product/airline/flight", properties=flight_properties()
         )
-        self.assertEqual("500", entity.properties.flight_number)
+        self.assertEqual("CA500", entity.properties.flight_number)
 
     def test_create_product_rejects_duplicate(self) -> None:
         service.create_product(
@@ -53,9 +53,9 @@ class ProductServiceTest(unittest.TestCase):
         with self.assertRaises(EntityNotFoundError):
             service.create_product(
                 self.repository,
-                entity_id="I21-SEAT",
-                type="product/airline/flight/seat",
-                properties={"seatNumber": "5A"},
+                entity_id="I21-LOUNGE",
+                type="product/experience/activity",
+                properties={"name": "Lounge access"},
                 parent_product_id="MISSING",
             )
 
@@ -78,8 +78,8 @@ class ProductServiceTest(unittest.TestCase):
             service.get_product(self.repository, "I21-FLIGHT")
 
     def test_recursive_component_tree_is_created_and_retrieved(self) -> None:
-        # Package -> flight -> seat: a real, multi-level recursive composition,
-        # not just the single-hop flight-with-seats case.
+        # Package -> flight -> activity: a real, multi-level recursive composition,
+        # not just a single-hop parent-child case.
         service.create_product(
             self.repository, entity_id="I21-PKG", type="product/mobility/transfer", properties={"name": "Package"}
         )
@@ -92,14 +92,14 @@ class ProductServiceTest(unittest.TestCase):
         )
         service.create_product(
             self.repository,
-            entity_id="I21-SEAT",
-            type="product/airline/flight/seat",
-            properties={"seatNumber": "5A"},
+            entity_id="I21-LOUNGE",
+            type="product/experience/activity",
+            properties={"name": "Lounge access"},
             parent_product_id="I21-FLIGHT",
         )
         tree = service.get_component_tree(self.repository, "I21-PKG")
         self.assertEqual(
-            {"I21-PKG": None, "I21-FLIGHT": "I21-PKG", "I21-SEAT": "I21-FLIGHT"},
+            {"I21-PKG": None, "I21-FLIGHT": "I21-PKG", "I21-LOUNGE": "I21-FLIGHT"},
             {entity.entity_id: parent_id for entity, parent_id in tree},
         )
 
@@ -156,12 +156,12 @@ class ProductServiceTest(unittest.TestCase):
         )
         service.create_product(
             self.repository,
-            entity_id="I31-ROOM",
-            type="product/accommodation/room-type/room",
-            properties={"roomNumber": "204"},
+            entity_id="I31-SPA",
+            type="product/experience/activity",
+            properties={"name": "Spa access"},
             parent_product_id="I31-CAT",
         )
-        ancestors = service.get_ancestors(self.repository, "I31-ROOM")
+        ancestors = service.get_ancestors(self.repository, "I31-SPA")
         self.assertEqual(("I31-PKG", "I31-CAT"), tuple(entity.entity_id for entity in ancestors))
 
     def test_get_ancestors_requires_existing_product(self) -> None:
@@ -198,76 +198,6 @@ class ProductServiceTest(unittest.TestCase):
         supplier = service.get_supplier(self.repository, "I31-FLIGHT")
         assert supplier is not None
         self.assertEqual("I31-SUPPLIER-ROLE", supplier.entity_id)
-
-    def test_create_seat_accepts_a_flight_parent(self) -> None:
-        service.create_product(
-            self.repository, entity_id="I-FLIGHT", type="product/airline/flight", properties=flight_properties()
-        )
-        seat = service.create_product(
-            self.repository,
-            entity_id="I-SEAT",
-            type="product/airline/flight/seat",
-            properties={"seatNumber": "12A"},
-            parent_product_id="I-FLIGHT",
-        )
-        self.assertEqual("I-SEAT", seat.entity_id)
-
-    def test_create_seat_requires_a_parent(self) -> None:
-        with self.assertRaises(ValueError):
-            service.create_product(
-                self.repository, entity_id="I-SEAT", type="product/airline/flight/seat", properties={"seatNumber": "12A"}
-            )
-
-    def test_create_seat_rejects_a_non_flight_parent(self) -> None:
-        service.create_product(
-            self.repository,
-            entity_id="I-CAT",
-            type="product/accommodation/room-type",
-            properties={"roomTypeCode": "room/double"},
-        )
-        with self.assertRaises(ValueError):
-            service.create_product(
-                self.repository,
-                entity_id="I-SEAT",
-                type="product/airline/flight/seat",
-                properties={"seatNumber": "12A"},
-                parent_product_id="I-CAT",
-            )
-
-    def test_create_room_accepts_a_room_type_parent(self) -> None:
-        service.create_product(
-            self.repository,
-            entity_id="I-CAT",
-            type="product/accommodation/room-type",
-            properties={"roomTypeCode": "room/double"},
-        )
-        room = service.create_product(
-            self.repository,
-            entity_id="I-ROOM",
-            type="product/accommodation/room-type/room",
-            properties={"roomNumber": "204"},
-            parent_product_id="I-CAT",
-        )
-        self.assertEqual("I-ROOM", room.entity_id)
-
-    def test_create_room_requires_a_parent(self) -> None:
-        with self.assertRaises(ValueError):
-            service.create_product(
-                self.repository, entity_id="I-ROOM", type="product/accommodation/room-type/room", properties={"roomNumber": "204"}
-            )
-
-    def test_create_room_rejects_a_non_room_type_parent(self) -> None:
-        service.create_product(
-            self.repository, entity_id="I-FLIGHT", type="product/airline/flight", properties=flight_properties()
-        )
-        with self.assertRaises(ValueError):
-            service.create_product(
-                self.repository,
-                entity_id="I-ROOM",
-                type="product/accommodation/room-type/room",
-                properties={"roomNumber": "204"},
-                parent_product_id="I-FLIGHT",
-            )
 
     def test_create_product_defaults_to_draft_lifecycle_status(self) -> None:
         entity = service.create_product(

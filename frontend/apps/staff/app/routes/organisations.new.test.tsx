@@ -66,7 +66,7 @@ describe("OrganisationCreateRoute (VIEW-S-004 create flow, issue #30 phase 2)", 
     expect(postMock).toHaveBeenCalledWith(
       "/organisations",
       expect.objectContaining({
-        body: { entityId: expect.any(String), properties: { name: "Example Garden Hotel", locality: null } },
+        body: { properties: { name: "Example Garden Hotel", locality: null } },
       })
     );
     expect(postMock).toHaveBeenCalledWith(

@@ -164,7 +164,7 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
     await user.type(screen.getByLabelText(/search/i), "Double");
 
     await waitFor(() => expect(screen.queryByText(/Single Room/)).not.toBeInTheDocument());
-    expect(screen.getByText(/Double Room/)).toBeInTheDocument();
+    expect(within(screen.getByRole("treegrid", { name: "Product catalogue tree" })).getByText(/Double Room/)).toBeInTheDocument();
   });
 
   it("expands a matched row's own children on demand", async () => {

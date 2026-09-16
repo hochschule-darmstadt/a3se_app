@@ -3,7 +3,7 @@ pagination, and delete-conflict protection, enabled by explicit test settings.
 
 Reuses TS-002's synthetic data (docs/test/test-scenarios/test-scenarios.md):
 Emil Brandt as customer/traveller, Condorleaf Air (SUP-AIR-01, designator
-`0Q`) as supplier, flight FLT-02 FRA-GIG. Deletes only nodes whose synthetic
+`CA`) as supplier, flight FLT-02 FRA-GIG. Deletes only nodes whose synthetic
 `entityId` begins with `I21-`; never point it at production data.
 """
 
@@ -84,7 +84,7 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
                 "/organisations/I21-SUPPLIER/roles",
                 json={
                     "entityId": "I21-SUPPLIER-ROLE",
-                    "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "0Q"}},
+                    "role": {"type": "organisation/airline", "properties": {"airlineDesignator": "CA"}},
                 },
             ).status_code,
         )
@@ -117,7 +117,7 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
                 json={
                     "entityId": "I21-STOCK",
                     "productId": "I21-FLIGHT",
-                    "type": "stock/airline/flight/seat",
+                    "type": "stock/airline/flight",
                     "properties": {"serviceDate": "2027-01-08", "unitPriceAmount": "500.00", "currencyCode": "EUR"},
                 },
             ).status_code,
@@ -142,21 +142,21 @@ class ResourceCrudIntegrationTest(unittest.TestCase):
             204, client.put("/orders/I21-ORDER/customer", json={"customerRoleId": "I21-TRAVELLER-ROLE"}).status_code
         )
 
-        # Recursive product read: a seat contained by the flight.
+        # Recursive product read: a component contained by the flight.
         self.assertEqual(
             201,
             client.post(
                 "/products",
                 json={
-                    "entityId": "I21-SEAT",
+                    "entityId": "I21-LOUNGE",
                     "parentProductId": "I21-FLIGHT",
-                    "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "5A"}},
+                    "product": {"type": "product/experience/activity", "properties": {"name": "Lounge access"}},
                 },
             ).status_code,
         )
         components = client.get("/products/I21-FLIGHT/components").json()
         self.assertEqual(
-            {"I21-FLIGHT": None, "I21-SEAT": "I21-FLIGHT"}, {c["entityId"]: c["parentProductId"] for c in components}
+            {"I21-FLIGHT": None, "I21-LOUNGE": "I21-FLIGHT"}, {c["entityId"]: c["parentProductId"] for c in components}
         )
 
         # Bounded order detail: order -> position -> stock -> product -> supplier

@@ -38,9 +38,7 @@ export interface ProductCreatePanelProps {
  * PersonCreatePanel (#29) and
  * OrganisationCreatePanel (#30)'s "parent entity plus its initial link in
  * one guided form" pattern. Which link a type takes is not a user choice:
- * catalogue-root types may optionally link a supplier OrgaRole (by ID);
- * the two structural-child types (seat, room) require a parent product ID
- * of one specific matching type, validated server-side.
+ * catalogue-root types may optionally link a supplier OrgaRole (by ID).
  *
  * Reused both for top-level catalogue creation (this component's own
  * linking field) and, with `parentProductId` set, for adding a component

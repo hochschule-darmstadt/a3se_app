@@ -197,7 +197,7 @@ describe("PersonsRoute (VIEW-S-002, issue #29 phase 2)", () => {
     await user.click(await screen.findByRole("option", { name: "Traveller", hidden: true }));
 
     await waitFor(() => expect(screen.queryByText("Casey Example")).not.toBeInTheDocument());
-    expect(screen.getByText("Morgan Sample")).toBeInTheDocument();
+    expect(within(screen.getByRole("table")).getByText("Morgan Sample")).toBeInTheDocument();
   });
 
   it("shows the person's detail inline in the right pane when a row is activated, without navigating away", async () => {

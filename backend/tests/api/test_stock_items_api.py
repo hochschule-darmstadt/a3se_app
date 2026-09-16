@@ -69,10 +69,10 @@ class StockItemsApiTest(unittest.TestCase):
         self.client.post(
             "/stock-items",
             json=stock_payload(
-                entity_id="I21-STOCK-HELD",
+                entity_id="I21-STOCK-ALLOCATED",
                 serviceDate="2027-02-08",
                 capacityQuantity=5,
-                heldQuantity=2,
+                remainingCapacity=0,
             ),
         )
         response = self.client.get(
@@ -81,12 +81,12 @@ class StockItemsApiTest(unittest.TestCase):
                 "search": "airport transfer",
                 "serviceDateFrom": "2027-02-01",
                 "serviceDateTo": "2027-02-28",
-                "availabilityState": "held",
+                "availabilityState": "allocated",
                 "productType": "product/mobility/transfer",
             },
         )
         self.assertEqual(200, response.status_code)
-        self.assertEqual(["I21-STOCK-HELD"], [item["entityId"] for item in response.json()["items"]])
+        self.assertEqual(["I21-STOCK-ALLOCATED"], [item["entityId"] for item in response.json()["items"]])
 
     def test_list_rejects_reversed_date_range(self) -> None:
         response = self.client.get(
@@ -114,11 +114,11 @@ class StockItemsApiTest(unittest.TestCase):
         self.assertEqual("inventory/withdrawn", detail.json()["properties"]["inventoryStatusCode"])
 
     def test_response_projects_product_and_availability(self) -> None:
-        self.client.post("/stock-items", json=stock_payload(capacityQuantity=5, heldQuantity=1, allocatedQuantity=2))
+        self.client.post("/stock-items", json=stock_payload(capacityQuantity=5, remainingCapacity=2))
         item = self.client.get("/stock-items/I21-STOCK-01").json()
         self.assertEqual("Airport transfer", item["productDisplayName"])
         self.assertEqual(2, item["availableQuantity"])
-        self.assertEqual("held", item["availabilityState"])
+        self.assertEqual("available", item["availabilityState"])
 
     def test_negative_price_returns_422(self) -> None:
         response = self.client.post("/stock-items", json=stock_payload(unitPriceAmount="-1.00"))

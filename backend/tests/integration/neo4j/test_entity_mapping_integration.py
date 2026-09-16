@@ -65,14 +65,14 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
             {"entityId": "I20-ORDER", "entityKind": "OrderItem", "type": "order/header",
              "properties": {"orderNumber": "I20-5766", "orderStatusCode": "order/paid"}},
             {"entityId": "I20-POSITION", "entityKind": "OrderItem", "type": "order/position", "properties": {}},
-            {"entityId": "I20-STOCK", "entityKind": "StockItem", "type": "stock/airline/flight/seat",
+            {"entityId": "I20-STOCK", "entityKind": "StockItem", "type": "stock/airline/flight",
              "properties": {"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"),
                             "currencyCode": "EUR"}},
-            {"entityId": "I20-SEAT", "entityKind": "TouristicProductItem", "type": "product/airline/flight/seat",
-             "properties": {"seatNumber": "5A"}},
+            {"entityId": "I20-LOUNGE", "entityKind": "TouristicProductItem", "type": "product/experience/activity",
+             "properties": {"name": "Lounge access"}},
             {"entityId": "I20-SUPPLIER", "entityKind": "Organisation", "properties": {"name": "Condorleaf Air"}},
             {"entityId": "I20-SUPPLIER-ROLE", "entityKind": "OrgaRole", "type": "organisation/airline",
-             "properties": {"airlineDesignator": "0Q"}},
+             "properties": {"airlineDesignator": "CA"}},
             {"entityId": "I20-PERSON", "entityKind": "Person",
              "properties": {"givenName": "Emil", "familyName": "Brandt"}},
             {"entityId": "I20-TRAVELLER-ROLE", "entityKind": "PersonRole", "type": "person/traveller",
@@ -88,15 +88,15 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
                       -[:ALLOCATES_STOCK]->(s:StockItem)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)
                       -[:SUPPLIED_BY]->(:OrgaRole)<-[:HAS_ROLE]-(supplier:Organisation),
                       (p)-[:ASSIGNED_TRAVELLER]->(:PersonRole)<-[:HAS_ROLE]-(traveller:Person)
-                MATCH (product)-[:CONTAINS]->(seat:TouristicProductItem)
+                MATCH (product)-[:CONTAINS]->(component:TouristicProductItem)
                 RETURN supplier.entityId AS supplier, traveller.entityId AS traveller,
-                       product.entityId AS product, seat.entityId AS seat
+                       product.entityId AS product, component.entityId AS component
                 LIMIT 10
                 """
             ).single(strict=True)
         self.assertEqual(
             {"supplier": "I20-SUPPLIER", "traveller": "I20-PERSON", "product": "I20-FLIGHT",
-             "seat": "I20-SEAT"},
+             "component": "I20-LOUNGE"},
             dict(result),
         )
 
@@ -108,7 +108,7 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
             MATCH (p:OrderItem {entityId: 'I20-POSITION'})
             MATCH (s:StockItem {entityId: 'I20-STOCK'})
             MATCH (product:TouristicProductItem {entityId: 'I20-FLIGHT'})
-            MATCH (seat:TouristicProductItem {entityId: 'I20-SEAT'})
+            MATCH (component:TouristicProductItem {entityId: 'I20-LOUNGE'})
             MATCH (role:OrgaRole {entityId: 'I20-SUPPLIER-ROLE'})
             MATCH (supplier:Organisation {entityId: 'I20-SUPPLIER'})
             MATCH (travellerRole:PersonRole {entityId: 'I20-TRAVELLER-ROLE'})
@@ -120,6 +120,6 @@ class Neo4jEntityMappingIntegrationTest(unittest.TestCase):
             MERGE (supplier)-[:HAS_ROLE]->(role)
             MERGE (p)-[:ASSIGNED_TRAVELLER]->(travellerRole)
             MERGE (traveller)-[:HAS_ROLE]->(travellerRole)
-            MERGE (product)-[:CONTAINS]->(seat)
+            MERGE (product)-[:CONTAINS]->(component)
             """
         ).consume()

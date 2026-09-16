@@ -941,11 +941,6 @@ export interface components {
              */
             type: "product/airline/flight";
         };
-        /** HTTPValidationError */
-        HTTPValidationError: {
-            /** Detail */
-            detail?: components["schemas"]["ValidationError"][];
-        };
         /** IncomingReferenceResponse */
         IncomingReferenceResponse: {
             /** Counts */
@@ -1701,19 +1696,6 @@ export interface components {
              */
             type: "person/traveller";
         };
-        /** ValidationError */
-        ValidationError: {
-            /** Context */
-            ctx?: Record<string, never>;
-            /** Input */
-            input?: unknown;
-            /** Location */
-            loc: (string | number)[];
-            /** Message */
-            msg: string;
-            /** Error Type */
-            type: string;
-        };
     };
     responses: never;
     parameters: never;
@@ -1941,13 +1923,13 @@ export interface operations {
                     "application/json": components["schemas"]["Page_CatalogueSearchResult_"];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Content */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
         };

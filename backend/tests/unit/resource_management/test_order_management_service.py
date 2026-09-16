@@ -118,7 +118,7 @@ class OrderServiceTest(unittest.TestCase):
             entity_id="I21-SUPPLIER-ROLE",
             organisation_id="I21-SUPPLIER",
             type="organisation/airline",
-            properties={"airlineDesignator": "0Q"},
+            properties={"airlineDesignator": "CA"},
         )
         product_service.create_product(
             self.repository,
@@ -135,16 +135,12 @@ class OrderServiceTest(unittest.TestCase):
         product_service.set_supplier(
             self.repository, "I21-FLIGHT", supplier_role_id="I21-SUPPLIER-ROLE", partner_repository=self.repository
         )
-        product_service.create_product(
-            self.repository, entity_id="I21-SEAT", type="product/airline/flight/seat",
-            properties={"seatNumber": "1A"}, parent_product_id="I21-FLIGHT",
-        )
         inventory_service.create_stock_item(
             self.repository,
             entity_id="I21-STOCK",
-            type="stock/airline/flight/seat",
+            type="stock/airline/flight",
             properties={"serviceDate": date(2027, 1, 8), "unitPriceAmount": Decimal("500.00"), "currencyCode": "EUR"},
-            product_id="I21-SEAT",
+            product_id="I21-FLIGHT",
             product_repository=self.repository,
         )
         self.create_order_fixture()
@@ -163,7 +159,7 @@ class OrderServiceTest(unittest.TestCase):
         self.assertEqual(
             {"customerRoleId": None, "customerPersonId": None, "customerDisplayName": None,
              "positions": [{"positionId": "I21-POS-01", "stockItemId": "I21-STOCK",
-             "productId": "I21-SEAT", "travellers": [{"roleId": "I21-TRAVELLER-ROLE",
+             "productId": "I21-FLIGHT", "travellers": [{"roleId": "I21-TRAVELLER-ROLE",
              "personId": "I21-PERSON", "displayName": "Emil Brandt"}]}]},
             detail,
         )

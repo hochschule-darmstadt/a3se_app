@@ -35,7 +35,7 @@ class ProductsApiTest(unittest.TestCase):
         self.app.dependency_overrides[get_current_actor] = lambda: None
         self.client = TestClient(self.app, raise_server_exceptions=False)
 
-    def link_airline_supplier(self, product_id: str, suffix: str = "", designator: str = "0Q") -> None:
+    def link_airline_supplier(self, product_id: str, suffix: str = "", designator: str = "CA") -> None:
         organisation_id = f"I21-SUPPLIER{suffix}"
         role_id = f"I21-SUPPLIER-ROLE{suffix}"
         self.repository.save(
@@ -94,9 +94,9 @@ class ProductsApiTest(unittest.TestCase):
         response = self.client.post(
             "/products",
             json={
-                "entityId": "I21-SEAT",
+                "entityId": "I21-LOUNGE",
                 "parentProductId": "MISSING",
-                "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "5A"}},
+                "product": {"type": "product/experience/activity", "properties": {"name": "Lounge access"}},
             },
         )
         self.assertEqual(404, response.status_code)
@@ -118,9 +118,9 @@ class ProductsApiTest(unittest.TestCase):
         response = self.client.get("/products", params={"type": "product/airline/flight"})
         self.assertEqual(200, response.status_code)
         self.assertEqual(["I21-FLIGHT-1"], [item["entityId"] for item in response.json()["items"]])
-        self.assertEqual("0Q500 FRA–GIG", response.json()["items"][0]["displayName"])
+        self.assertEqual("CA500 FRA–GIG", response.json()["items"][0]["displayName"])
         self.assertEqual(
-            ["Condorleaf Air", "Airline", "0Q500 FRA–GIG"], response.json()["items"][0]["displayNameChain"]
+            ["Condorleaf Air", "Airline", "CA500 FRA–GIG"], response.json()["items"][0]["displayNameChain"]
         )
 
     def test_update_product_replaces_properties(self) -> None:
@@ -130,7 +130,7 @@ class ProductsApiTest(unittest.TestCase):
             json={"product": {"type": "product/airline/flight", "properties": flight_payload()["product"]["properties"] | {"flightNumber": "CA600"}}},
         )
         self.assertEqual(200, response.status_code)
-        self.assertEqual("600", response.json()["properties"]["flightNumber"])
+        self.assertEqual("CA600", response.json()["properties"]["flightNumber"])
 
     def test_delete_product_returns_204(self) -> None:
         self.client.post("/products", json=flight_payload())
@@ -152,18 +152,18 @@ class ProductsApiTest(unittest.TestCase):
         self.client.post(
             "/products",
             json={
-                "entityId": "I21-SEAT-1",
+                "entityId": "I21-LOUNGE-1",
                 "parentProductId": "I21-FLIGHT-2",
-                "product": {"type": "product/airline/flight/seat", "properties": {"seatNumber": "5A"}},
+                "product": {"type": "product/experience/activity", "properties": {"name": "Lounge access"}},
             },
         )
         response = self.client.get("/products/I21-PKG/components")
         self.assertEqual(200, response.status_code)
         by_id = {item["entityId"]: item["parentProductId"] for item in response.json()}
-        self.assertEqual({"I21-PKG": None, "I21-FLIGHT-2": "I21-PKG", "I21-SEAT-1": "I21-FLIGHT-2"}, by_id)
-        seat = next(item for item in response.json() if item["entityId"] == "I21-SEAT-1")
-        self.assertEqual("5A", seat["displayName"])
-        self.assertEqual("5A", seat["displayNameChain"][-1])
+        self.assertEqual({"I21-PKG": None, "I21-FLIGHT-2": "I21-PKG", "I21-LOUNGE-1": "I21-FLIGHT-2"}, by_id)
+        lounge = next(item for item in response.json() if item["entityId"] == "I21-LOUNGE-1")
+        self.assertEqual("Lounge access", lounge["displayName"])
+        self.assertEqual("Lounge access", lounge["displayNameChain"][-1])
 
     def test_get_flight_without_supplier_returns_invalid_graph(self) -> None:
         self.client.post("/products", json=flight_payload())

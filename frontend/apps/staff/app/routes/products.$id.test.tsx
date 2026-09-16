@@ -262,14 +262,14 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     );
   });
 
-  it("only offers the one matching structural-child type when adding a component to a flight", async () => {
+  it("adds a catalogue-type component to a flight without offering removed structural-child types", async () => {
     mockGetImplementation(
       { data: flightProduct, response: { ok: true, status: 200 } },
       { data: [flightProduct], response: { ok: true, status: 200 } },
       { data: null, response: { ok: true, status: 200 } }
     );
     postMock.mockResolvedValue({
-      data: { entityId: "PRD-seat", entityKind: "TouristicProductItem", type: "product/airline/flight/seat", schemaVersion: 1, properties: {} },
+      data: { entityId: "PRD-lounge", entityKind: "TouristicProductItem", type: "product/experience/activity", schemaVersion: 1, properties: {} },
       response: { ok: true, status: 201 },
     });
     renderDetail();
@@ -279,22 +279,22 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
     await user.click(screen.getByRole("button", { name: "Add component" }));
 
     await user.click(screen.getByRole("textbox", { name: /^type/i }));
-    const options = await screen.findAllByRole("option", { hidden: true });
-    expect(options).toHaveLength(1);
-    expect(options[0]).toHaveTextContent("airline/flight/seat");
-    await user.click(options[0]!);
+    const activity = await screen.findByRole("option", { name: "experience/activity", hidden: true });
+    expect(screen.queryByRole("option", { name: "airline/flight/seat", hidden: true })).not.toBeInTheDocument();
+    await user.click(activity);
 
     expect(screen.queryByLabelText(/parent product id/i)).not.toBeInTheDocument();
 
-    await user.type(screen.getByLabelText(/seat number/i), "12A");
-    await user.click(screen.getByRole("button", { name: "Add component" }));
+    await user.type(screen.getByLabelText(/^name/i), "Lounge access");
+    const addButtons = screen.getAllByRole("button", { name: "Add component" });
+    await user.click(addButtons[addButtons.length - 1]!);
 
     expect(postMock).toHaveBeenCalledWith(
       "/products",
       expect.objectContaining({
         body: expect.objectContaining({
           parentProductId: "PRD-001",
-          product: { type: "product/airline/flight/seat", properties: { seatNumber: "12A" } },
+          product: { type: "product/experience/activity", properties: expect.objectContaining({ name: "Lounge access" }) },
         }),
       })
     );
