@@ -12,6 +12,7 @@ from cct.infrastructure.neo4j.entity_mapping import Neo4jEntityMapper, NodeRecor
 from cct.infrastructure.neo4j.entity_repository import (
     COMMUNITY_SCHEMA,
     ORDER_DETAIL_TRAVERSAL,
+    STOCK_FILTER_TRAVERSAL,
     Neo4jEntityRepository,
 )
 from cct.resource_management.default_registry import create_entity_registry
@@ -130,3 +131,6 @@ class Neo4jMappingTest(unittest.TestCase):
         self.assertIn("[:SUPPLIED_BY]", ORDER_DETAIL_TRAVERSAL)
         self.assertIn("[:ASSIGNED_TRAVELLER]", ORDER_DETAIL_TRAVERSAL)
         self.assertIn("OPTIONAL MATCH", ORDER_DETAIL_TRAVERSAL)
+
+    def test_staff_search_includes_stock_item_identifier(self) -> None:
+        self.assertIn("toLower(stock.entityId) CONTAINS $search", STOCK_FILTER_TRAVERSAL)

@@ -79,7 +79,7 @@ export default function OrganisationsRoute() {
       .map((organisation, index) => ({ organisation, roles: roleQueries[index]?.data ?? [] }))
       .filter(({ organisation, roles }) => {
         if (term) {
-          const haystack = `${organisation.properties.name} ${organisation.properties.addressLocalityName ?? ""}`.toLowerCase();
+          const haystack = `${organisation.entityId} ${organisation.properties.name} ${organisation.properties.addressLocalityName ?? ""}`.toLowerCase();
           if (!haystack.includes(term)) return false;
         }
         if (roleType !== "all" || relationshipStatus !== "all") {
@@ -118,7 +118,7 @@ export default function OrganisationsRoute() {
               <Group align="flex-end">
                 <TextInput
                   label="Search"
-                  placeholder="Name or locality"
+                  placeholder="Name, locality, or entity ID"
                   value={search}
                   onChange={(event) => updateView({ [STAFF_VIEW_PARAM.search]: event.currentTarget.value, [STAFF_VIEW_PARAM.page]: null }, true)}
                 />

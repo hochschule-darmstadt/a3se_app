@@ -154,7 +154,24 @@ describe("PersonsRoute (VIEW-S-002, issue #29 phase 2)", () => {
     await user.type(screen.getByLabelText(/search/i), "Morgan");
 
     await waitFor(() => expect(screen.queryByText("Casey Example")).not.toBeInTheDocument());
-    expect(screen.getByText("Morgan Sample")).toBeInTheDocument();
+    expect(within(screen.getByRole("table")).getByText("Morgan Sample")).toBeInTheDocument();
+  });
+
+  it("matches a person entity ID", async () => {
+    mockGetImplementation(
+      {
+        data: { items: [personResponse("PER-001", "Casey", "Example"), personResponse("PER-002", "Morgan", "Sample")], nextCursor: null },
+        response: { ok: true, status: 200 },
+      },
+      { "PER-001": { data: [], response: { ok: true, status: 200 } }, "PER-002": { data: [], response: { ok: true, status: 200 } } }
+    );
+    renderPersons();
+    await screen.findByText("Casey Example");
+
+    await userEvent.type(screen.getByLabelText(/search/i), "PER-002");
+
+    await waitFor(() => expect(screen.queryByText("Casey Example")).not.toBeInTheDocument());
+    expect(within(screen.getByRole("table")).getByText("Morgan Sample")).toBeInTheDocument();
   });
 
   it("filters rows client-side by role type", async () => {

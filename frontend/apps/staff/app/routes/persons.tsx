@@ -82,7 +82,7 @@ export default function PersonsRoute() {
       .map((person, index) => ({ person, roles: roleQueries[index]?.data ?? [] }))
       .filter(({ person, roles }) => {
         if (term) {
-          const haystack = `${person.properties.givenName} ${person.properties.familyName} ${person.properties.addressLocalityName ?? ""}`.toLowerCase();
+          const haystack = `${person.entityId} ${person.properties.givenName} ${person.properties.familyName} ${person.properties.addressLocalityName ?? ""}`.toLowerCase();
           if (!haystack.includes(term)) return false;
         }
         if (roleType !== "all" || roleStatus !== "all") {
@@ -119,7 +119,7 @@ export default function PersonsRoute() {
               <Group align="flex-end">
                 <TextInput
                   label="Search"
-                  placeholder="Given name, family name or locality"
+                  placeholder="Name, locality, or entity ID"
                   value={search}
                   onChange={(event) => updateView({ [STAFF_VIEW_PARAM.search]: event.currentTarget.value, [STAFF_VIEW_PARAM.page]: null }, true)}
                 />

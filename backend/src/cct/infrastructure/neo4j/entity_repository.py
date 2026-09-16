@@ -676,7 +676,7 @@ WHERE ($after IS NULL OR header.entityId > $after)
   AND ($customerRoleId IS NULL OR (header)-[:CUSTOMER]->(:PersonRole {entityId: $customerRoleId}))
   AND ($stockItemId IS NULL OR any(s IN stocks WHERE s.entityId = $stockItemId))
   AND ($travellerRoleId IS NULL OR any(p IN positions WHERE (p)-[:ASSIGNED_TRAVELLER]->(:PersonRole {entityId: $travellerRoleId})))
-  AND ($search IS NULL OR any(n IN [header, customer] + products WHERE n IS NOT NULL AND any(k IN keys(n) WHERE toLower(toString(n[k])) CONTAINS $search)))
+  AND ($search IS NULL OR any(n IN [header, customer] + stocks + products WHERE n IS NOT NULL AND any(k IN keys(n) WHERE toLower(toString(n[k])) CONTAINS $search)))
 RETURN DISTINCT header AS entity, customer.entityId AS customerPersonId,
  trim(coalesce(customer.givenName, '') + ' ' + coalesce(customer.familyName, '')) AS customerDisplayName,
  size(positions) AS positionCount, size(unresolved) AS unresolvedPositionCount,
@@ -710,6 +710,7 @@ WHERE ($after IS NULL OR stock.entityId > $after)
   AND ($productId IS NULL OR product.entityId = $productId)
   AND ($supplierRoleId IS NULL OR any(role IN supplierRoles WHERE role.entityId = $supplierRoleId))
   AND ($search IS NULL
+       OR toLower(stock.entityId) CONTAINS $search
        OR toLower(coalesce(stock.searchText, '')) CONTAINS $search
        OR any(node IN chainNodes + supplierRoles + suppliers
               WHERE any(key IN keys(node) WHERE toLower(toString(node[key])) CONTAINS $search)))

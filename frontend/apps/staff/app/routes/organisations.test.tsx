@@ -154,7 +154,24 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
     await user.type(screen.getByLabelText(/search/i), "Sample");
 
     await waitFor(() => expect(screen.queryByText("Example Garden Hotel")).not.toBeInTheDocument());
-    expect(screen.getByText("Sample Island Transfers")).toBeInTheDocument();
+    expect(within(screen.getByRole("table")).getByText("Sample Island Transfers")).toBeInTheDocument();
+  });
+
+  it("matches an organisation entity ID", async () => {
+    mockGetImplementation(
+      {
+        data: { items: [organisationResponse("ORG-001", "Example Garden Hotel"), organisationResponse("ORG-002", "Sample Island Transfers")], nextCursor: null },
+        response: { ok: true, status: 200 },
+      },
+      { "ORG-001": { data: [], response: { ok: true, status: 200 } }, "ORG-002": { data: [], response: { ok: true, status: 200 } } }
+    );
+    renderOrganisations();
+    await screen.findByText("Example Garden Hotel");
+
+    await userEvent.type(screen.getByLabelText(/search/i), "ORG-002");
+
+    await waitFor(() => expect(screen.queryByText("Example Garden Hotel")).not.toBeInTheDocument());
+    expect(within(screen.getByRole("table")).getByText("Sample Island Transfers")).toBeInTheDocument();
   });
 
   it("filters rows client-side by role type", async () => {
@@ -180,7 +197,7 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
     await user.click(await screen.findByRole("option", { name: "Mobility", hidden: true }));
 
     await waitFor(() => expect(screen.queryByText("Example Garden Hotel")).not.toBeInTheDocument());
-    expect(screen.getByText("Sample Island Transfers")).toBeInTheDocument();
+    expect(within(screen.getByRole("table")).getByText("Sample Island Transfers")).toBeInTheDocument();
   });
 
   it("shows the organisation's detail inline in the right pane when a row is activated, without navigating away", async () => {
