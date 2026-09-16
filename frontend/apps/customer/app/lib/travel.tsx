@@ -71,7 +71,13 @@ export function TravelProvider({ children }: { readonly children: ReactNode }) {
     catch { return initialState; }
   });
 
-  useEffect(() => { window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }, [state]);
+  useEffect(() => {
+    if (state.travellers.length === 0 && state.positions.length === 0 && state.pending === null) {
+      window.sessionStorage.removeItem(STORAGE_KEY);
+    } else {
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+  }, [state]);
 
   const value = useMemo<TravelContextValue>(() => ({
     ...state,
@@ -135,7 +141,10 @@ export function TravelProvider({ children }: { readonly children: ReactNode }) {
     removePosition: (clientPositionId) => setState((current) => ({
       ...current, positions: current.positions.filter((item) => item.clientPositionId !== clientPositionId),
     })),
-    clear: () => setState(initialState),
+    clear: () => {
+      window.sessionStorage.removeItem(STORAGE_KEY);
+      setState(initialState);
+    },
   }), [state]);
   return <TravelContext.Provider value={value}>{children}</TravelContext.Provider>;
 }

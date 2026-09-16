@@ -3,6 +3,7 @@ import { IconSend } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
 import { CctIcon } from "./icons.js";
+import { MOCK_AUTH_SIGNED_OUT_EVENT } from "./auth.js";
 
 export interface AdvisorMessage {
   readonly id: string;
@@ -84,8 +85,17 @@ export function AdvisorConversation({ labels, initialMessages = [], sessionStora
   }, [open]);
 
   useEffect(() => {
-    if (sessionStorageKey) window.sessionStorage.setItem(sessionStorageKey, JSON.stringify(messages));
+    if (!sessionStorageKey) return;
+    if (messages.length === 0) window.sessionStorage.removeItem(sessionStorageKey);
+    else window.sessionStorage.setItem(sessionStorageKey, JSON.stringify(messages));
   }, [messages, sessionStorageKey]);
+
+  useEffect(() => {
+    if (!sessionStorageKey) return;
+    const clearConversation = () => setMessages([]);
+    window.addEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, clearConversation);
+    return () => window.removeEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, clearConversation);
+  }, [sessionStorageKey]);
 
   useEffect(() => {
     if (!opened) return;

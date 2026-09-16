@@ -22,6 +22,7 @@ interface MockAuthContextValue {
 const MockAuthContext = createContext<MockAuthContextValue | null>(null);
 
 const STORAGE_KEY = "cct.mockActor";
+export const MOCK_AUTH_SIGNED_OUT_EVENT = "cct.mock-auth.signed-out";
 
 function readStoredActor(): MockActor | null {
   if (typeof window === "undefined") return null;
@@ -45,6 +46,7 @@ export function MockAuthProvider({ children }: PropsWithChildren) {
 
   const signOut = useCallback(() => {
     window.localStorage.removeItem(STORAGE_KEY);
+    window.dispatchEvent(new Event(MOCK_AUTH_SIGNED_OUT_EVENT));
     setActor(null);
   }, []);
 

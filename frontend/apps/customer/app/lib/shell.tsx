@@ -32,6 +32,8 @@ export function CustomerShell({ breadcrumbs, children }: { readonly breadcrumbs?
             label: "Sign out",
             onSelect: () => {
               travel.clear();
+              window.sessionStorage.removeItem("cct.customer.advisor.conversation.v1");
+              window.sessionStorage.removeItem("cct.customer.advisor.confirmed-context.v1");
               signOut();
               navigate("/");
             },

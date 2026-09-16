@@ -403,11 +403,16 @@ Customer layout text uses the shared translation shape. `en-GB` is authored;
 readiness, not a real second-language requirement. Do not invent a real
 translation or add a full i18n dependency until a language is approved.
 
-`MockAuthProvider`/`useMockActor` are localStorage-backed PoC behavior with no
-credential verification or token. The Customer identity is a fixed synthetic
-demo actor and Staff's user menu is a placeholder. Neither frontend state nor
-an entity ID provides authorization. Future authentication must be enforced by
-the API and must revisit URL leakage, credentialed CORS, and error behavior.
+`MockAuthProvider`/`useMockActor` implement client-only PoC identity: the
+synthetic Customer actor is stored in browser `localStorage`, while no
+credential is verified and no token is issued. Sign-out removes that identity
+and clears the Customer's session-scoped Travel draft, advisor transcript, and
+confirmed context. A new browser tab has separate `sessionStorage`, so those
+session-scoped values start empty there; restarting the frontend server does
+not create a new browser session. Staff's user menu remains a placeholder.
+Neither frontend state nor an entity ID provides authorization. Future real
+authentication must be enforced by the API and must revisit URL leakage,
+credentialed CORS, and error behavior.
 
 ## 10. Loading, error, and alternative behavior
 

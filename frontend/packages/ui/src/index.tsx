@@ -20,7 +20,7 @@ export function StaffUiProvider({ children }: PropsWithChildren) {
 export { designTokens, customerTheme, staffTheme } from "./theme.js";
 export { translate, SUPPORTED_LOCALES } from "./i18n.js";
 export type { Locale } from "./i18n.js";
-export { MockAuthProvider, useMockActor } from "./auth.js";
+export { MOCK_AUTH_SIGNED_OUT_EVENT, MockAuthProvider, useMockActor } from "./auth.js";
 export type { MockActor } from "./auth.js";
 export {
   StatusBanner,
