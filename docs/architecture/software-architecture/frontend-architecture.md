@@ -145,11 +145,13 @@ current-issue, confirmed-state, and future handover context explicit. This
 phase uses the grounded Q&A service from #46 and the client-side planning
 action boundary for #47 documented below. Real staff handover remains separate
 implementation work.
-The advisor transcript is session-scoped frontend state in versioned
-`sessionStorage`. Each request sends prior customer/advisor turns as bounded
-conversation memory and sends confirmed facts through the separate
-`confirmedContext` contract; the backend does not retain either between
-requests.
+The advisor transcript is memory-only frontend state owned by the root-mounted
+customer advisor. It survives customer-route changes and the sign-in redirect
+within the current page lifecycle, but a reload, a new or duplicated tab,
+another browser, or sign-out starts a new transcript. Each request sends prior
+customer/advisor turns as bounded conversation memory and sends confirmed facts
+through the separate `confirmedContext` contract; the backend does not retain
+either between requests.
 
 ### 3.1 AI Travel Advisor: implemented frontend
 
@@ -160,11 +162,11 @@ composer, submit state, automatic scroll-to-latest behaviour, and incremental
 NDJSON rendering. The welcome message is presentation-only and is not sent as
 conversation history.
 
-The transcript is persisted under
-`cct.customer.advisor.conversation.v1` in browser `sessionStorage`. Before a
-request, the component removes empty messages, excludes the welcome message,
-and sends at most the last twenty customer/advisor turns. The customer app
-reads validated entries from
+The transcript is not persisted in browser storage. On startup the customer app
+removes the retired `cct.customer.advisor.conversation.v1` and `.v2` keys so
+transcripts written by earlier builds cannot be restored. Before a request, the
+component removes empty messages, excludes the welcome message, and sends at
+most the last twenty customer/advisor turns. The customer app reads validated entries from
 `cct.customer.advisor.confirmed-context.v1` and sends them as
 `confirmedContext`; ordinary transcript messages are never converted into
 confirmed facts. There is currently no customer UI action that writes new
@@ -405,11 +407,11 @@ translation or add a full i18n dependency until a language is approved.
 
 `MockAuthProvider`/`useMockActor` implement client-only PoC identity: the
 synthetic Customer actor is stored in browser `localStorage`, while no
-credential is verified and no token is issued. Sign-out removes that identity
-and clears the Customer's session-scoped Travel draft, advisor transcript, and
-confirmed context. A new browser tab has separate `sessionStorage`, so those
-session-scoped values start empty there; restarting the frontend server does
-not create a new browser session. Staff's user menu remains a placeholder.
+credential is verified and no token is issued. Sign-out removes that identity,
+clears the Customer's session-scoped Travel draft and confirmed context, and
+resets the memory-only advisor transcript. A new or duplicated browser tab and
+a page reload also start with an empty transcript; the Travel draft and
+confirmed context remain tab-scoped in `sessionStorage`. Staff's user menu remains a placeholder.
 Neither frontend state nor an entity ID provides authorization. Future real
 authentication must be enforced by the API and must revisit URL leakage,
 credentialed CORS, and error behavior.

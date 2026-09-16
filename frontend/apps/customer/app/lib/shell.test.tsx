@@ -81,7 +81,8 @@ describe("CustomerShell (DS-CMP-001 customer profile, issue #27 phase 2)", () =>
   it("clears customer client state on sign out", async () => {
     const user = userEvent.setup();
     signInMockActor("PER-001", "Ada Kern");
-    window.sessionStorage.setItem("cct.customer.advisor.conversation.v1", JSON.stringify([{ id: "1" }]));
+    window.sessionStorage.setItem("cct.customer.advisor.conversation.v1", JSON.stringify([{ id: "old" }]));
+    window.sessionStorage.setItem("cct.customer.advisor.conversation.v2", JSON.stringify([{ id: "newer" }]));
     window.sessionStorage.setItem("cct.customer.advisor.confirmed-context.v1", JSON.stringify([{ key: "order", value: "TO-1" }]));
     window.sessionStorage.setItem("cct.customer.travel.v1", JSON.stringify({ travellers: [], positions: [{ clientPositionId: "P-1" }], pending: null }));
     renderShell();
@@ -91,6 +92,7 @@ describe("CustomerShell (DS-CMP-001 customer profile, issue #27 phase 2)", () =>
 
     expect(window.localStorage.getItem("cct.mockActor")).toBeNull();
     expect(window.sessionStorage.getItem("cct.customer.advisor.conversation.v1")).toBeNull();
+    expect(window.sessionStorage.getItem("cct.customer.advisor.conversation.v2")).toBeNull();
     expect(window.sessionStorage.getItem("cct.customer.advisor.confirmed-context.v1")).toBeNull();
     expect(window.sessionStorage.getItem("cct.customer.travel.v1")).toBeNull();
   });

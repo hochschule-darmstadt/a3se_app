@@ -1,10 +1,9 @@
-import { AdvisorConversation, type AdvisorConversationTurn, type AdvisorReply } from "@cct/ui";
+import { AdvisorConversation, useMockActor, type AdvisorConversationTurn, type AdvisorReply } from "@cct/ui";
 
 import { apiBaseUrl } from "./api";
 import { useT } from "./i18n";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useMockActor } from "@cct/ui";
 import { useTravel } from "./lib/travel";
 
 interface AdvisorContextItem {
@@ -13,6 +12,10 @@ interface AdvisorContextItem {
 }
 
 const CONFIRMED_CONTEXT_KEY = "cct.customer.advisor.confirmed-context.v1";
+const LEGACY_ADVISOR_CONVERSATION_KEYS = [
+  "cct.customer.advisor.conversation.v1",
+  "cct.customer.advisor.conversation.v2",
+] as const;
 
 function isTravelPlanningRequest(message: string, conversation: readonly AdvisorConversationTurn[] = []) {
   // Terms such as “itinerary”, “travel”, and “accommodation” also occur in
@@ -47,6 +50,12 @@ export function CustomerAdvisor() {
   const [confirmedContext] = useState(readConfirmedContext);
   const travel = useTravel();
   const initialMessages = [{ id: "welcome", speaker: "advisor" as const, text: t("advisor.welcome") }];
+
+  useEffect(() => {
+    // The transcript is intentionally memory-only. Remove values written by
+    // earlier builds so pre-sign-in-gate proposals cannot be rehydrated.
+    for (const key of LEGACY_ADVISOR_CONVERSATION_KEYS) window.sessionStorage.removeItem(key);
+  }, []);
 
   async function askAdvisor(message: string, onChunk: (chunk: string) => void, conversation: readonly AdvisorConversationTurn[]): Promise<AdvisorReply> {
     const requestBody = JSON.stringify({ message, confirmedContext, conversation });
@@ -111,6 +120,7 @@ export function CustomerAdvisor() {
 
   return (
     <AdvisorConversation
+      key="customer-advisor-memory-v1"
       labels={{
         launcher: t("advisor.launcher"),
         title: t("advisor.title"),
@@ -125,7 +135,6 @@ export function CustomerAdvisor() {
       }}
       initialMessages={initialMessages}
       open={location.pathname === "/assistance"}
-      sessionStorageKey="cct.customer.advisor.conversation.v1"
       onSend={askAdvisor}
     />
   );

@@ -62,6 +62,8 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
       { role: "customer", content: "What is happening with my documents?" },
       { role: "advisor", content: "The catalogue has a coastal walking option." },
     ]);
+    expect(window.sessionStorage.getItem("cct.customer.advisor.conversation.v1")).toBeNull();
+    expect(window.sessionStorage.getItem("cct.customer.advisor.conversation.v2")).toBeNull();
   });
 
   it("asks an unsigned customer to sign in before invoking composition", async () => {
@@ -79,5 +81,20 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
 
     expect(await screen.findByText("Sign in page")).toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("removes conversations saved before the sign-in gate", async () => {
+    window.sessionStorage.setItem("cct.customer.advisor.conversation.v1", JSON.stringify([
+      { id: "old", speaker: "advisor", text: "I composed a client-side draft for None" },
+    ]));
+    window.sessionStorage.setItem("cct.customer.advisor.conversation.v2", JSON.stringify([
+      { id: "newer", speaker: "advisor", text: "I composed another stale draft" },
+    ]));
+    renderAdvisor("/assistance");
+
+    expect(window.sessionStorage.getItem("cct.customer.advisor.conversation.v1")).toBeNull();
+    expect(window.sessionStorage.getItem("cct.customer.advisor.conversation.v2")).toBeNull();
+    expect(screen.queryByText(/client-side draft for None/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/another stale draft/)).not.toBeInTheDocument();
   });
 });

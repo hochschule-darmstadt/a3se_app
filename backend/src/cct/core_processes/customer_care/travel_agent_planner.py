@@ -28,14 +28,18 @@ def _last_planning_message(message: str, conversation: Iterable[AdvisorConversat
 def extract_travel_intent(message: str) -> TravelIntent:
     """Extract the supported planning fields without inventing live facts."""
     lower = message.casefold()
-    destination_match = re.search(r"\bin\s+([a-z][a-z ]+?)(?:\s+in\s+|\s+for\s+|\s+from/to\b|\.|$)", lower)
+    destination_match = re.search(
+        r"\b(?:to|in)\s+([a-z][a-z '-]*?)(?=\s+(?:in|for|from/to|with|including|incl\.?|and)\b|\s*,|[.;]|$)",
+        lower,
+    )
     destination = destination_match.group(1).strip() if destination_match else None
     month_match = re.search(r"\b(" + "|".join(MONTHS) + r")\s+(20\d{2})\b", lower)
     year = int(month_match.group(2)) if month_match else None
     month = MONTHS[month_match.group(1)] if month_match else None
     range_match = re.search(r"\b(\d+)\s*[–-]\s*(\d+)\s*day", lower)
-    count_match = re.search(r"\b(\d+)\s+travell?ers?\b", lower)
-    word_count = re.search(r"\b(one|two|three|four)\s+travell?ers?\b", lower)
+    duration_match = re.search(r"\b(\d+)\s+days?\b", lower)
+    count_match = re.search(r"\b(\d+)\s+(?:travell?ers?|persons?|people)\b", lower)
+    word_count = re.search(r"\b(one|two|three|four)\s+(?:travell?ers?|persons?|people)\b", lower)
     word_counts = {"one": 1, "two": 2, "three": 3, "four": 4}
     traveller_count = int(count_match.group(1)) if count_match else word_counts.get(word_count.group(1), 1) if word_count else 1
     budget_match = re.search(r"(?:eur|€)\s*([\d,.]+)|([\d,.]+)\s*(?:eur|€)", lower)
@@ -52,8 +56,8 @@ def extract_travel_intent(message: str) -> TravelIntent:
     return TravelIntent(
         origin_code=origin, return_code=origin, destination=destination,
         start_date=start, end_date=end,
-        min_days=int(range_match.group(1)) if range_match else None,
-        max_days=int(range_match.group(2)) if range_match else None,
+        min_days=int(range_match.group(1)) if range_match else int(duration_match.group(1)) if duration_match else None,
+        max_days=int(range_match.group(2)) if range_match else int(duration_match.group(1)) if duration_match else None,
         traveller_count=traveller_count, budget_amount=budget,
     )
 
@@ -187,6 +191,8 @@ def compose_travel(message: str, conversation: list[AdvisorConversationTurn], st
         result = candidate_result
         selected_intent = attempt
     diagnostics = result.get("diagnostics", ())
+    if result.get("status") == "awaiting-input":
+        return str(result.get("question", "Please provide the missing travel details.")), selected_intent, (), ()
     if diagnostics:
         return "I could not complete a reliable internal-stock composition yet. " + " ".join(dict.fromkeys(item.message for item in diagnostics)), selected_intent, (), diagnostics
     actions = result.get("actions", ())
