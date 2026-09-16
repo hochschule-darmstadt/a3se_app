@@ -802,22 +802,6 @@ export interface components {
              * @description Short plain-text product description; normally one to four sentences.
              */
             description?: string | null;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: string | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
-            /** Imageurl */
-            imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -895,22 +879,6 @@ export interface components {
             description?: string | null;
             /** Flightnumber */
             flightNumber: string;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: string | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
-            /** Imageurl */
-            imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -945,22 +913,6 @@ export interface components {
             description?: string | null;
             /** Flightnumber */
             flightNumber: string;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: string | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
-            /** Imageurl */
-            imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft
@@ -1474,22 +1426,6 @@ export interface components {
              * @description Short plain-text product description; normally one to four sentences.
              */
             description?: string | null;
-            /** Imagealttext */
-            imageAltText?: string | null;
-            /** Imageattributiontext */
-            imageAttributionText?: string | null;
-            /** Imagecreatorcredit */
-            imageCreatorCredit?: string | null;
-            /** Imagelicencecode */
-            imageLicenceCode?: string | null;
-            /** Imagelicenceversion */
-            imageLicenceVersion?: string | null;
-            /** Imagesourcepageurl */
-            imageSourcePageUrl?: string | null;
-            /** Imageurl */
-            imageUrl?: string | null;
-            /** Imageverifieddate */
-            imageVerifiedDate?: string | null;
             /**
              * Lifecyclestatuscode
              * @default product/draft

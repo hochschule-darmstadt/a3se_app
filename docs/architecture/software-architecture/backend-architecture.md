@@ -533,12 +533,8 @@ Person, PersonRole, Organisation, OrgaRole, recursive product, order header /
 position, and dated/priced StockItem catalogs; generates applicable 2027
 inventory from 2027-01-01 through 2027-12-31; includes deterministic zero and
 non-zero availability; and preserves the distinction between reusable product
-definitions and dated sellable stock. Representative portal resources may use
-open-licensed images only when source page, creator/credit, exact licence,
-attribution, verification date, meaningful alt text, deterministic selection,
-and an unavailable-image fallback are recorded. Public accessibility alone is
-not licence evidence, and an image must not imply a real supplier or endorse a
-synthetic product.
+definitions and dated sellable stock. Seeded products carry no image
+properties.
 
 The seed package is not a performance benchmark, does not make a partial
 infrastructure failure atomic, and does not prove concurrent allocation. Those
@@ -603,7 +599,7 @@ mapping, supported values, constraints, and Community Edition compensations.
 defines aggregate boundaries, repository scoping, bounded reads, errors,
 pagination, transactions, and OpenAPI/TypeScript generation.
 [DR-0014](../../governance/decisions/0014-deterministic-seed-data-and-compose-seeding.md)
-defines deterministic synthetic seed catalogs, 2027 inventory, image evidence,
+defines deterministic synthetic seed catalogs, 2027 inventory,
 Compose integration, reset/reseed, and seed limitations.
 [DR-0017](../../governance/decisions/0017-align-orgarole-and-touristicproductitem-type-families.md)
 defines family-segment and structural-child naming alignment.

@@ -3,6 +3,11 @@
 > The local startup behavior in this record is partially superseded by
 > [DR-0025](0025-conditional-local-seed-and-index-refresh.md). The explicit
 > profile-gated seed job and its always-fresh semantics remain in force.
+>
+> The representative seed-image selection and its image metadata in this
+> record are superseded by issue #25: the seven seeded product images were
+> dropped without replacement, and product `image*` properties were removed
+> without legacy-data compatibility. Seeded products carry no image properties.
 
 - Status: accepted
 - Owner: Implementation/Architecture
