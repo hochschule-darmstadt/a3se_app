@@ -30,6 +30,9 @@ const PRODUCT_TYPES = [
   "product/water-transport/day-boat",
 ];
 
+const QUICK_LINK_SUGGESTED_DATE_FROM = "2027-01-04";
+const QUICK_LINK_SUGGESTED_DATE_TO = "2027-01-18";
+
 function nextDay(value: string) {
   const date = new Date(`${value}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return "";
@@ -66,6 +69,12 @@ export default function CustomerHome() {
     const params = new URLSearchParams({ destinationOrTheme: destinationOrTheme.trim(), dateFrom, dateTo, travellers, budgetPerPerson: "any" });
     if (productType !== "all") params.set("productType", productType);
     navigate(`/search?${params.toString()}`);
+  }
+
+  function selectQuickLink(query: string) {
+    setDestinationOrTheme(query);
+    setDateFrom(QUICK_LINK_SUGGESTED_DATE_FROM);
+    setDateTo(QUICK_LINK_SUGGESTED_DATE_TO);
   }
 
   return (
@@ -135,7 +144,7 @@ export default function CustomerHome() {
           <Stack gap="lg">
             <div><Title order={2}>{t("home.quickLinks.heading")}</Title><Text c="dimmed">{t("home.quickLinks.note")}</Text></div>
             <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
-              {QUICK_LINKS.map((item) => <Card key={item.key} component="button" type="button" onClick={() => setDestinationOrTheme(item.query)} withBorder padding={0} radius="lg" style={{ overflow: "hidden", textAlign: "left", cursor: "pointer" }}>
+              {QUICK_LINKS.map((item) => <Card key={item.key} component="button" type="button" onClick={() => selectQuickLink(item.query)} withBorder padding={0} radius="lg" style={{ overflow: "hidden", textAlign: "left", cursor: "pointer" }}>
                 <div style={{ position: "relative", background: item.fallback }}>
                   <ResponsiveImage
                     src={`/assets/home/${item.key}-wide.jpg`}

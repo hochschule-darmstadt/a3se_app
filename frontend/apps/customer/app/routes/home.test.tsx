@@ -59,7 +59,7 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
     expect(await screen.findByText("Search results page")).toBeInTheDocument();
   });
 
-  it("fills the destination field when a quick-link tile is clicked", async () => {
+  it("fills the destination and suggested travel dates when a quick-link tile is clicked", async () => {
     const user = userEvent.setup();
     renderHome();
 
@@ -67,6 +67,8 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
     await user.click(screen.getByRole("button", { name: /Chile/ }));
 
     expect(screen.getByLabelText("Destination or theme")).toHaveValue("Chile");
+    expect(screen.getByLabelText("Earliest departure")).toHaveValue("2027-01-04");
+    expect(screen.getByLabelText("Latest return")).toHaveValue("2027-01-18");
     expect(screen.queryByText("Search results page")).not.toBeInTheDocument();
   });
 
