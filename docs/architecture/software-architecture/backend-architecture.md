@@ -152,13 +152,32 @@ The customer free-text adapter is `POST /advisor/compose`. It accepts the same
 bounded message, conversation, and `confirmedContext` envelope as the ordinary
 advisor, extracts supported planning fields, queries only the existing
 catalogue/Inventory repository operation, and invokes the graph. It may ask a
-follow-up question before composition. For a party larger than one, a
-two-token partner-name answer becomes a typed client-side `add-traveller`
-action carrying the user-provided given and family names; no synthetic partner
-name is substituted. If the first inferred date in a requested month cannot
-satisfy internal capacity, the adapter tries other dates within that month
-while preserving the requested duration bounds. Structured flight fields,
-rather than possibly malformed free-text product names, provide flight labels.
+follow-up question before composition.
+
+Planning fields are accumulated over the whole conversation rather than read
+from the latest message alone: every customer turn contributes or corrects
+fields, so a stated duration survives later turns and exact dates supersede
+both an open month and the duration stated before them. The adapter asks for
+one missing fact at a time - destination, partner name, departure city,
+travel period, duration - and resolves short answers ("Berlin") from the
+question they answer. Departure and destination cities are resolved through
+the shared location aliases, excluding aliases such as country names that
+identify no single place. For a party larger than one, a two-token
+partner-name answer becomes a typed client-side `add-traveller` action
+carrying the user-provided given and family names; no synthetic partner name
+is substituted. Structured flight fields, rather than possibly malformed
+free-text product names, provide flight labels.
+
+An open travel period is a first-class input: a bare month, written in full or
+abbreviated, is a search window and not a fixed arrival date. The adapter
+combines that window with the stated duration and tries each arrival date in
+the month, preferring trips that also end inside it, so an unavailable date is
+answered with another date rather than with a demand for exact dates. The
+window is read from the catalogue once per component family and every
+candidate arrival date is then evaluated in memory; reading per candidate date
+made a month-wide search appear to hang. When no date in the window works, the
+attempt with the fewest diagnostics is reported rather than the last one
+tried.
 
 Capacity selection is party-level: a selected StockItem must have sufficient
 remaining capacity for the whole party, and accommodation selection prefers a

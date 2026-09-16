@@ -46,6 +46,7 @@ The Customer sends a message to the Automated Travel Advisor.
 | 4-5. A participating context or external party cannot complete its responsibility | Record the partial or uncertain result, avoid presenting success, and provide a retry, revision, or human-assistance path. |
 | 6. The Customer rejects or changes the result | Preserve the confirmed baseline and continue the conversation from the affected information. |
 | 1-4. The Customer asks the Automated Travel Advisor to propose or compose travel while unsigned | Ask the Customer to sign in before invoking the composition capability, preserve the conversation context, and return to the advisor after successful authentication. |
+| 1-3. The Customer states an open travel period, such as a month, instead of exact dates | Treat the period as a search window together with the stated duration; do not repeat the request for exact dates. |
 
 ## Success guarantee
 
@@ -85,6 +86,19 @@ Scenario: Ask the Automated Travel Advisor to act
   Then the chatbot invokes the supported search operation
   And it identifies whether the search is in progress, confirmed, failed, or uncertain
   And a confirmed result is available in the Search Results view without requiring registration or sign-in
+
+Scenario: Plan with an open travel period
+  Given the Customer asked for a five-day trip to Lima for two travelers
+  When the Customer answers "some time in January" instead of exact dates
+  Then the Automated Travel Advisor searches that month for a five-day period with available stock
+  And it does not repeat the request for exact arrival and departure dates
+
+Scenario: Composed travel stays a client-side draft until the Customer orders
+  Given the signed-in Customer supplied destination, travelers, departure city, and travel period
+  When the Automated Travel Advisor composes a trip from available stock
+  Then the proposed transport, accommodation, and activity appear in the Customer's own travel composition
+  And the Automated Travel Advisor states that nothing is reserved
+  And no booking exists until the Customer submits the composition
 
 Scenario: Request a travel proposal while unsigned
   Given the Customer is not signed in

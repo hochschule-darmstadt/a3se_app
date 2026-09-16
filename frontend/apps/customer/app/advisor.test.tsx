@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("./api", () => ({ apiBaseUrl: "http://127.0.0.1:8000" }));
 
 import { CustomerAdvisor } from "./advisor";
-import { TestProviders } from "./test-utils";
+import { signInMockActor, TestProviders } from "./test-utils";
 
 function renderAdvisor(initialEntry = "/") {
   const Stub = createRoutesStub([{ path: "*", Component: CustomerAdvisor }]);
@@ -81,6 +81,49 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
 
     expect(await screen.findByText("Sign in page")).toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("keeps a started composition on the compose endpoint and applies its draft actions", async () => {
+    const user = userEvent.setup();
+    signInMockActor("PER-001", "Ada Kern");
+    const composeReplies = [
+      { state: "answered", answer: "Which city would you like to depart from?", actions: [] },
+      {
+        state: "answered",
+        answer: "I added a draft for Lima, 2027-01-04 to 2027-01-09, for 2 traveller(s) to My Travel.",
+        actions: [{
+          type: "add-position", stockItemId: "STK-000042", productId: "PRD-000001", serviceDate: "2027-01-04",
+          displayNameChain: ["Flight", "CA501 BER-LIM"], unitPriceAmount: "500.00", currencyCode: "EUR",
+        }],
+      },
+    ];
+    const fetchMock = vi.fn().mockImplementation(() =>
+      Promise.resolve({ ok: true, json: async () => composeReplies.shift() }));
+    vi.stubGlobal("fetch", fetchMock);
+    renderAdvisor("/assistance");
+
+    const input = screen.getByRole("textbox", { name: "Message the advisor" });
+    await user.type(input, "book a 5 day trip to lima, 2 persons");
+    await user.click(screen.getByRole("button", { name: "Send message" }));
+    expect(await screen.findByText("Which city would you like to depart from?")).toBeInTheDocument();
+
+    // "Berlin" carries no planning keyword; it must still reach composition
+    // instead of the generative question-answering path.
+    await user.type(input, "Berlin");
+    await user.click(screen.getByRole("button", { name: "Send message" }));
+    expect(await screen.findByText(/I added a draft for Lima/)).toBeInTheDocument();
+
+    expect(fetchMock.mock.calls.map((call) => call[0])).toEqual([
+      "http://127.0.0.1:8000/advisor/compose",
+      "http://127.0.0.1:8000/advisor/compose",
+    ]);
+    const draft = JSON.parse(window.sessionStorage.getItem("cct.customer.travel.v1") ?? "null") as {
+      travellers: Array<{ clientTravellerId: string }>;
+      positions: Array<{ stockItemId: string; clientTravellerId: string }>;
+    };
+    expect(draft.travellers.map((traveller) => traveller.clientTravellerId)).toEqual(["self"]);
+    expect(draft.positions).toHaveLength(1);
+    expect(draft.positions[0]).toMatchObject({ stockItemId: "STK-000042", clientTravellerId: "self" });
   });
 
   it("removes conversations saved before the sign-in gate", async () => {

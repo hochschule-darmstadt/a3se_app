@@ -285,9 +285,15 @@ does not persist or hold the composition.
 
 The customer advisor in `frontend/apps/customer/app/advisor.tsx` keeps two
 interaction paths: ordinary knowledge questions use the existing streaming RAG
-endpoint; planning-shaped requests and answers to the advisor's partner-name
-question use `POST /advisor/compose`, whose typed response carries action data
-back to the client.
+endpoint; planning-shaped requests use `POST /advisor/compose`, whose typed
+response carries action data back to the client. Composition is multi-turn, and
+the answers it asks for ("Berlin", a travel partner's name, a month) carry no
+planning keyword of their own, so once composition has started every following
+turn stays on the compose endpoint until a draft is proposed. This keeps the
+generative path out of planning, where it has no authority over availability
+and must never report a booking. Before applying returned actions the client
+ensures the signed-in customer exists as the `self` traveller, because
+positions are expanded per traveller.
 
 The client applies only the bounded action vocabulary through `TravelProvider`:
 `add-traveller`, `add-position`, `remove-position`, `replace-position`, and

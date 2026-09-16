@@ -296,6 +296,8 @@ class OllamaAnswerModel:
             "You are the AI Travel Advisor for Christopher Columbus Travel. "
             "Answer only from the supplied evidence and confirmed context. "
             "Never invent availability, dates, prices, policy, or order facts. "
+            "You cannot book, reserve, or confirm anything: never state that a flight, room, "
+            "activity, or trip is booked, reserved, or confirmed. "
             "Return only the concise customer-facing answer as plain text; do not return JSON, labels, or markdown metadata."
         )
         payload = {

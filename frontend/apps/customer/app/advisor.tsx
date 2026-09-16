@@ -2,7 +2,7 @@ import { AdvisorConversation, useMockActor, type AdvisorConversationTurn, type A
 
 import { apiBaseUrl } from "./api";
 import { useT } from "./i18n";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useTravel } from "./lib/travel";
 
@@ -49,6 +49,12 @@ export function CustomerAdvisor() {
   const { actor } = useMockActor();
   const [confirmedContext] = useState(readConfirmedContext);
   const travel = useTravel();
+  // Composition is a multi-turn exchange: the answers to “which city do you
+  // depart from?” or “how many days?” carry no planning keyword of their own.
+  // Once planning has started every turn stays on the deterministic compose
+  // endpoint until a draft is proposed, so the generative Q&A path can never
+  // answer a planning question and claim a booking that did not happen.
+  const planningActive = useRef(false);
   const initialMessages = [{ id: "welcome", speaker: "advisor" as const, text: t("advisor.welcome") }];
 
   useEffect(() => {
@@ -61,12 +67,13 @@ export function CustomerAdvisor() {
     const requestBody = JSON.stringify({ message, confirmedContext, conversation });
     // Planning uses the typed response so client-side draft actions survive the
     // round trip. Ordinary RAG questions retain the existing NDJSON streaming UX.
-    if (isTravelPlanningRequest(message, conversation)) {
+    if (planningActive.current || isTravelPlanningRequest(message, conversation)) {
       if (!actor) {
         const returnTo = `${location.pathname}${location.search}`;
         navigate(`/sign-in?${new URLSearchParams({ returnTo }).toString()}`);
         return { text: t("advisor.signInRequired"), state: "no-answer" };
       }
+      planningActive.current = true;
       const response = await fetch(`${apiBaseUrl.replace(/\/$/, "")}/advisor/compose`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,7 +87,15 @@ export function CustomerAdvisor() {
         actions: payload.actions,
       };
       if (reply.text) onChunk(reply.text);
-      if (reply.actions?.length) travel.applyAdvisorActions(reply.actions);
+      if (reply.actions?.length) {
+        // Positions are created per traveller, so the signed-in customer must
+        // exist in the draft before the proposed components are applied.
+        if (!travel.travellers.some((traveller) => traveller.clientTravellerId === "self")) {
+          travel.addTraveller({ clientTravellerId: "self", kind: "self", displayName: actor.displayName });
+        }
+        travel.applyAdvisorActions(reply.actions);
+        planningActive.current = false;
+      }
       return reply;
     }
     const response = await fetch(`${apiBaseUrl.replace(/\/$/, "")}/advisor/answer/stream`, {
