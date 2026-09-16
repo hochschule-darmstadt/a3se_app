@@ -54,7 +54,7 @@ export function PersonDetailPanel({ personId }: { readonly personId: string }) {
     if (personQuery.data) {
       setGivenName(personQuery.data.properties.givenName);
       setFamilyName(personQuery.data.properties.familyName);
-      setLocality(personQuery.data.properties.addressLocalityName ?? "");
+      setLocality(personQuery.data.properties.locality ?? "");
     }
   }, [personQuery.data]);
 
@@ -71,7 +71,7 @@ export function PersonDetailPanel({ personId }: { readonly personId: string }) {
     if (validation.length > 0) return;
 
     personMutation.mutate(
-      { givenName: givenName.trim(), familyName: familyName.trim(), addressLocalityName: locality.trim() || null },
+      { givenName: givenName.trim(), familyName: familyName.trim(), locality: locality.trim() || null },
       {
         onSuccess: () => {
           setEditingPerson(false);
@@ -122,7 +122,7 @@ export function PersonDetailPanel({ personId }: { readonly personId: string }) {
                   setEditingPerson(false);
                   setGivenName(person.properties.givenName);
                   setFamilyName(person.properties.familyName);
-                  setLocality(person.properties.addressLocalityName ?? "");
+                  setLocality(person.properties.locality ?? "");
                 }}
               >
                 Cancel changes

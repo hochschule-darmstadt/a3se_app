@@ -79,7 +79,7 @@ export default function OrganisationsRoute() {
       .map((organisation, index) => ({ organisation, roles: roleQueries[index]?.data ?? [] }))
       .filter(({ organisation, roles }) => {
         if (term) {
-          const haystack = `${organisation.entityId} ${organisation.properties.name} ${organisation.properties.addressLocalityName ?? ""}`.toLowerCase();
+          const haystack = `${organisation.entityId} ${organisation.properties.name} ${organisation.properties.locality ?? ""}`.toLowerCase();
           if (!haystack.includes(term)) return false;
         }
         if (roleType !== "all" || relationshipStatus !== "all") {
@@ -167,7 +167,7 @@ export default function OrganisationsRoute() {
                             </Group>
                           ),
                       },
-                      { key: "locality", header: "Locality", render: (row) => row.organisation.properties.addressLocalityName ?? "—" },
+                      { key: "locality", header: "Locality", render: (row) => row.organisation.properties.locality ?? "—" },
                     ]}
                   />
                   <CursorPager

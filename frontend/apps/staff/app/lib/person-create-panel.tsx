@@ -87,7 +87,7 @@ export function PersonCreatePanel({ onCreated, onCancel }: PersonCreatePanelProp
         properties: {
           givenName: givenName.trim(),
           familyName: familyName.trim(),
-          addressLocalityName: locality.trim() || null,
+          locality: locality.trim() || null,
         },
       },
       {

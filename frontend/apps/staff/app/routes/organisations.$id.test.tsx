@@ -24,7 +24,7 @@ const organisationData = {
   entityId: "ORG-001",
   entityKind: "Organisation",
   schemaVersion: 1,
-  properties: { name: "Example Garden Hotel", addressLocalityName: "Funchal" },
+  properties: { name: "Example Garden Hotel", locality: "Funchal, Portugal" },
 };
 
 const airlineRole = {
@@ -80,7 +80,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
     renderDetail();
 
     expect(await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel" })).toBeInTheDocument();
-    expect(screen.getByText("Funchal")).toBeInTheDocument();
+    expect(screen.getByText("Funchal, Portugal")).toBeInTheDocument();
     expect(screen.getByText("Airline")).toBeInTheDocument();
     expect(screen.getByText("Active")).toBeInTheDocument();
     expect(screen.getByText(/airline designator: 0Q/i)).toBeInTheDocument();
@@ -109,7 +109,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
       "/organisations/{organisation_id}",
       expect.objectContaining({
         params: { path: { organisation_id: "ORG-001" } },
-        body: { properties: { name: "Updated Hotel", addressLocalityName: "Funchal" } },
+        body: { properties: { name: "Updated Hotel", locality: "Funchal, Portugal" } },
       })
     );
   });

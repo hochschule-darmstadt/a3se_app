@@ -24,7 +24,7 @@ const personData = {
   entityId: "PER-001",
   entityKind: "Person",
   schemaVersion: 1,
-  properties: { givenName: "Casey", familyName: "Example", addressLocalityName: "Springfield" },
+  properties: { givenName: "Casey", familyName: "Example", locality: "Springfield, United States" },
 };
 
 const customerRole = {
@@ -80,7 +80,7 @@ describe("PersonDetailRoute (VIEW-S-002, issue #29 phase 2)", () => {
     renderDetail();
 
     expect(await screen.findByRole("heading", { level: 1, name: "Casey Example" })).toBeInTheDocument();
-    expect(screen.getByText("Springfield")).toBeInTheDocument();
+    expect(screen.getByText("Springfield, United States")).toBeInTheDocument();
     expect(screen.getByText("Customer")).toBeInTheDocument();
     expect(screen.getByText("Active")).toBeInTheDocument();
     expect(screen.getByText(/payment method: paypal/i)).toBeInTheDocument();
@@ -109,7 +109,7 @@ describe("PersonDetailRoute (VIEW-S-002, issue #29 phase 2)", () => {
       "/persons/{person_id}",
       expect.objectContaining({
         params: { path: { person_id: "PER-001" } },
-        body: { properties: { givenName: "Casey", familyName: "Updated", addressLocalityName: "Springfield" } },
+        body: { properties: { givenName: "Casey", familyName: "Updated", locality: "Springfield, United States" } },
       })
     );
   });

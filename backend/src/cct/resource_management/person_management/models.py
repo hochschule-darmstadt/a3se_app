@@ -17,7 +17,7 @@ class PersonProperties(StrictProperties):
         max_length=254,
         pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$",
     )
-    address_locality_name: str | None = Field(default=None, alias="addressLocalityName", min_length=1, max_length=100)
+    locality: str | None = Field(default=None, min_length=1, max_length=100)
 
 
 class PersonRolePropertiesBase(StrictProperties):

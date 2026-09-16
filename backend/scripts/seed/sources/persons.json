@@ -6,7 +6,7 @@
       "properties": {
         "givenName": "Ada",
         "familyName": "Kern",
-        "addressLocalityName": "Berlin"
+        "locality": "Berlin, Germany"
       },
       "roles": [
         {
@@ -27,7 +27,7 @@
       "properties": {
         "givenName": "Emil",
         "familyName": "Brandt",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -48,7 +48,7 @@
       "properties": {
         "givenName": "Noor",
         "familyName": "Brandt",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -64,7 +64,7 @@
       "properties": {
         "givenName": "Lin",
         "familyName": "Vogel",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -85,7 +85,7 @@
       "properties": {
         "givenName": "Mia",
         "familyName": "Vogel",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -101,7 +101,7 @@
       "properties": {
         "givenName": "Jan",
         "familyName": "Vogel",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -117,7 +117,7 @@
       "properties": {
         "givenName": "Liv",
         "familyName": "Vogel",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -133,7 +133,7 @@
       "properties": {
         "givenName": "Mara",
         "familyName": "Winter",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -154,7 +154,7 @@
       "properties": {
         "givenName": "Theo",
         "familyName": "Winter",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -170,7 +170,7 @@
       "properties": {
         "givenName": "Nils",
         "familyName": "Urban",
-        "addressLocalityName": "Berlin"
+        "locality": "Berlin, Germany"
       },
       "roles": [
         {
@@ -191,7 +191,7 @@
       "properties": {
         "givenName": "Sara",
         "familyName": "Roth",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -212,7 +212,7 @@
       "properties": {
         "givenName": "Uwe",
         "familyName": "Roth",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -228,7 +228,7 @@
       "properties": {
         "givenName": "Lio",
         "familyName": "Roth",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -244,7 +244,7 @@
       "properties": {
         "givenName": "Cleo",
         "familyName": "Seidel",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -265,7 +265,7 @@
       "properties": {
         "givenName": "Ivo",
         "familyName": "Seidel",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -281,7 +281,7 @@
       "properties": {
         "givenName": "Jona",
         "familyName": "Falk",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -302,7 +302,7 @@
       "properties": {
         "givenName": "Pia",
         "familyName": "Berg",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -323,7 +323,7 @@
       "properties": {
         "givenName": "Tom",
         "familyName": "Berg",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -339,7 +339,7 @@
       "properties": {
         "givenName": "Zoe",
         "familyName": "Berg",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -355,7 +355,7 @@
       "properties": {
         "givenName": "Ole",
         "familyName": "Berg",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -371,7 +371,7 @@
       "properties": {
         "givenName": "Ravi",
         "familyName": "Blum",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -392,7 +392,7 @@
       "properties": {
         "givenName": "Anja",
         "familyName": "Kraft",
-        "addressLocalityName": "Berlin"
+        "locality": "Berlin, Germany"
       },
       "roles": [
         {
@@ -413,7 +413,7 @@
       "properties": {
         "givenName": "Luis",
         "familyName": "Kraft",
-        "addressLocalityName": "Berlin"
+        "locality": "Berlin, Germany"
       },
       "roles": [
         {
@@ -429,7 +429,7 @@
       "properties": {
         "givenName": "Esra",
         "familyName": "Haas",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -450,7 +450,7 @@
       "properties": {
         "givenName": "Finn",
         "familyName": "Haas",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -466,7 +466,7 @@
       "properties": {
         "givenName": "Kim",
         "familyName": "Wolf",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -487,7 +487,7 @@
       "properties": {
         "givenName": "Sam",
         "familyName": "Wolf",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -503,7 +503,7 @@
       "properties": {
         "givenName": "Ava",
         "familyName": "Wolf",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -519,7 +519,7 @@
       "properties": {
         "givenName": "Ben",
         "familyName": "Wolf",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -535,7 +535,7 @@
       "properties": {
         "givenName": "Evi",
         "familyName": "Wolf",
-        "addressLocalityName": "Munich"
+        "locality": "Munich, Germany"
       },
       "roles": [
         {
@@ -551,7 +551,7 @@
       "properties": {
         "givenName": "Oda",
         "familyName": "Link",
-        "addressLocalityName": "Berlin"
+        "locality": "Berlin, Germany"
       },
       "roles": [
         {
@@ -572,7 +572,7 @@
       "properties": {
         "givenName": "Vera",
         "familyName": "Koch",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -593,7 +593,7 @@
       "properties": {
         "givenName": "Yan",
         "familyName": "Koch",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -609,7 +609,7 @@
       "properties": {
         "givenName": "Max",
         "familyName": "Koch",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {
@@ -625,7 +625,7 @@
       "properties": {
         "givenName": "Ida",
         "familyName": "Koch",
-        "addressLocalityName": "Frankfurt am Main"
+        "locality": "Frankfurt am Main, Germany"
       },
       "roles": [
         {

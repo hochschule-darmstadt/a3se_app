@@ -82,7 +82,7 @@ export default function PersonsRoute() {
       .map((person, index) => ({ person, roles: roleQueries[index]?.data ?? [] }))
       .filter(({ person, roles }) => {
         if (term) {
-          const haystack = `${person.entityId} ${person.properties.givenName} ${person.properties.familyName} ${person.properties.addressLocalityName ?? ""}`.toLowerCase();
+          const haystack = `${person.entityId} ${person.properties.givenName} ${person.properties.familyName} ${person.properties.locality ?? ""}`.toLowerCase();
           if (!haystack.includes(term)) return false;
         }
         if (roleType !== "all" || roleStatus !== "all") {
@@ -172,7 +172,7 @@ export default function PersonsRoute() {
                             </Group>
                           ),
                       },
-                      { key: "locality", header: "Locality", render: (row) => row.person.properties.addressLocalityName ?? "—" },
+                      { key: "locality", header: "Locality", render: (row) => row.person.properties.locality ?? "—" },
                     ]}
                   />
                   <CursorPager

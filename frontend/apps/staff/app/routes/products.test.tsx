@@ -135,7 +135,7 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
         "ACC-01": { entityId: "SUP-ACC-01-ROLE", entityKind: "OrgaRole", type: "organisation/accommodation", schemaVersion: 1, properties: { roleStatusCode: "role/active" } },
       },
       organisationByRole: {
-        "SUP-ACC-01-ROLE": { entityId: "SUP-ACC-01", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Southlight Stays", addressLocalityName: "Lima" } },
+        "SUP-ACC-01-ROLE": { entityId: "SUP-ACC-01", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Southlight Stays", locality: "Lima, Peru" } },
       },
     });
     renderProducts();
@@ -254,7 +254,7 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
           entityId: "ORG-001",
           entityKind: "Organisation",
           schemaVersion: 1,
-          properties: { name: "Southlight Stays", addressLocalityName: "Lima" },
+          properties: { name: "Southlight Stays", locality: "Lima, Peru" },
         },
       },
     });

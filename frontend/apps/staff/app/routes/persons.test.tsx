@@ -52,7 +52,7 @@ function personResponse(entityId: string, givenName: string, familyName: string,
     entityId,
     entityKind: "Person",
     schemaVersion: 1,
-    properties: { givenName, familyName, addressLocalityName: locality ?? null },
+    properties: { givenName, familyName, locality: locality ?? null },
   };
 }
 
@@ -116,7 +116,7 @@ describe("PersonsRoute (VIEW-S-002, issue #29 phase 2)", () => {
   it("renders persons with role badges", async () => {
     mockGetImplementation(
       {
-        data: { items: [personResponse("PER-001", "Casey", "Example", "Springfield")], nextCursor: null },
+        data: { items: [personResponse("PER-001", "Casey", "Example", "Springfield, United States")], nextCursor: null },
         response: { ok: true, status: 200 },
       },
       {

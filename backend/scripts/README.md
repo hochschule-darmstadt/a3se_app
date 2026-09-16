@@ -28,6 +28,10 @@ Issue #50 changes seeded product properties from `displayName` to `name`.
 Existing prototype databases are disposable: reset and rerun `seed_data.py`
   from the corrected JSON rather than applying an in-place data migration.
 
+Person and organisation seed properties likewise change from
+`addressLocalityName` (and the stray `addressCountryName`) to one `locality`
+value in `City, Country` form (TERM-003); reseed rather than migrate.
+
 - `rebuild_advisor_index.py` (issue #46): rebuilds the local on-disk Qdrant
   index from the current product projection and approved glossary content.
 

@@ -52,7 +52,7 @@ function organisationResponse(entityId: string, name: string, locality?: string)
     entityId,
     entityKind: "Organisation",
     schemaVersion: 1,
-    properties: { name, addressLocalityName: locality ?? null },
+    properties: { name, locality: locality ?? null },
   };
 }
 
@@ -116,7 +116,7 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
   it("renders organisations with role badges", async () => {
     mockGetImplementation(
       {
-        data: { items: [organisationResponse("ORG-001", "Example Garden Hotel", "Funchal")], nextCursor: null },
+        data: { items: [organisationResponse("ORG-001", "Example Garden Hotel", "Funchal, Portugal")], nextCursor: null },
         response: { ok: true, status: 200 },
       },
       {

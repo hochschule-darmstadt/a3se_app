@@ -1941,7 +1941,7 @@
       "OrganisationProperties": {
         "additionalProperties": false,
         "properties": {
-          "addressCountryName": {
+          "locality": {
             "anyOf": [
               {
                 "maxLength": 100,
@@ -1952,20 +1952,7 @@
                 "type": "null"
               }
             ],
-            "title": "Addresscountryname"
-          },
-          "addressLocalityName": {
-            "anyOf": [
-              {
-                "maxLength": 100,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Addresslocalityname"
+            "title": "Locality"
           },
           "name": {
             "maxLength": 200,
@@ -2225,19 +2212,6 @@
       "PersonProperties": {
         "additionalProperties": false,
         "properties": {
-          "addressLocalityName": {
-            "anyOf": [
-              {
-                "maxLength": 100,
-                "minLength": 1,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Addresslocalityname"
-          },
           "emailAddress": {
             "anyOf": [
               {
@@ -2263,6 +2237,19 @@
             "minLength": 1,
             "title": "Givenname",
             "type": "string"
+          },
+          "locality": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Locality"
           }
         },
         "required": [

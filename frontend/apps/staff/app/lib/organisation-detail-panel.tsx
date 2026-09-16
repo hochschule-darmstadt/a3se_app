@@ -56,7 +56,7 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
   useEffect(() => {
     if (organisationQuery.data) {
       setName(organisationQuery.data.properties.name);
-      setLocality(organisationQuery.data.properties.addressLocalityName ?? "");
+      setLocality(organisationQuery.data.properties.locality ?? "");
     }
   }, [organisationQuery.data]);
 
@@ -72,7 +72,7 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
     if (validation.length > 0) return;
 
     organisationMutation.mutate(
-      { name: name.trim(), addressLocalityName: locality.trim() || null },
+      { name: name.trim(), locality: locality.trim() || null },
       {
         onSuccess: () => {
           setEditingOrganisation(false);
@@ -119,7 +119,7 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
                 onClick={() => {
                   setEditingOrganisation(false);
                   setName(organisation.properties.name);
-                  setLocality(organisation.properties.addressLocalityName ?? "");
+                  setLocality(organisation.properties.locality ?? "");
                 }}
               >
                 Cancel changes

@@ -1242,10 +1242,8 @@ export interface components {
         };
         /** OrganisationProperties */
         OrganisationProperties: {
-            /** Addresscountryname */
-            addressCountryName?: string | null;
-            /** Addresslocalityname */
-            addressLocalityName?: string | null;
+            /** Locality */
+            locality?: string | null;
             /** Name */
             name: string;
         };
@@ -1321,14 +1319,14 @@ export interface components {
         };
         /** PersonProperties */
         PersonProperties: {
-            /** Addresslocalityname */
-            addressLocalityName?: string | null;
             /** Emailaddress */
             emailAddress?: string | null;
             /** Familyname */
             familyName: string;
             /** Givenname */
             givenName: string;
+            /** Locality */
+            locality?: string | null;
         };
         /** PersonResponse */
         PersonResponse: {

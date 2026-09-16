@@ -21,7 +21,7 @@ function humanizePropertyKey(key: string): string {
  * PersonRole, OrgaRole, TouristicProductItem, ...), beyond whichever keys
  * the caller already surfaces elsewhere (e.g. a title or a status badge) --
  * so a room's `roomNumber`, a flight's `departureLocationCode`, an
- * organisation's `addressLocalityName`, etc. are all visible without
+ * organisation's `locality`, etc. are all visible without
  * opening an edit form (those forms only cover a handful of well-known
  * fields; this covers whatever properties actually exist, on any type,
  * present or future). Used the same way across every staff detail panel so

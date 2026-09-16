@@ -72,7 +72,7 @@ export function OrganisationCreatePanel({ onCreated, onCancel }: OrganisationCre
     if (validation.length > 0) return;
 
     organisationMutation.mutate(
-      { properties: { name: name.trim(), addressLocalityName: locality.trim() || null } },
+      { properties: { name: name.trim(), locality: locality.trim() || null } },
       {
         onSuccess: (organisation) => {
           setCreatedOrganisationId(organisation.entityId);

@@ -9,8 +9,7 @@ from ..contracts import StrictProperties
 
 class OrganisationProperties(StrictProperties):
     name: str = Field(min_length=1, max_length=200)
-    address_locality_name: str | None = Field(default=None, alias="addressLocalityName", min_length=1, max_length=100)
-    address_country_name: str | None = Field(default=None, alias="addressCountryName", min_length=1, max_length=100)
+    locality: str | None = Field(default=None, min_length=1, max_length=100)
 
 
 class OrgaRolePropertiesBase(StrictProperties):
