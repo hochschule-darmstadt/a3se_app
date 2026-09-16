@@ -13,8 +13,10 @@ function -- Inventory's `get_stock_item` or Person Management's
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from cct.resource_management.contracts import EntityKind, ValidatedEntity
-from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError
+from cct.resource_management.errors import DuplicateEntityError, EntityNotFoundError, StockUnavailableError
 from cct.resource_management.inventory import service as inventory_service
 from datetime import date
 from cct.resource_management.pagination import PageRequest, PageResult
@@ -233,6 +235,7 @@ def place_customer_order(
     customer_person_id: str,
     travellers: tuple[dict[str, str], ...],
     positions: tuple[dict[str, str], ...],
+    stock_display_name_resolver: Callable[[tuple[str, ...]], dict[str, tuple[str, ...]]] | None = None,
 ) -> ValidatedEntity:
     """Recheck stock and persist the complete customer order as one transaction."""
     traveller_ids = {traveller["clientTravellerId"] for traveller in travellers}
@@ -240,6 +243,11 @@ def place_customer_order(
         raise ValueError("an order must contain at least one position")
     if any(position["clientTravellerId"] not in traveller_ids for position in positions):
         raise ValueError("every position must reference a submitted traveller")
-    return repository.place_order(
-        customer_person_id=customer_person_id, travellers=travellers, positions=positions
-    )
+    try:
+        return repository.place_order(
+            customer_person_id=customer_person_id, travellers=travellers, positions=positions
+        )
+    except StockUnavailableError as exc:
+        if stock_display_name_resolver is None:
+            raise
+        raise exc.with_display_name_chains(stock_display_name_resolver(exc.stock_item_ids)) from exc

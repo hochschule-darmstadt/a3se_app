@@ -20,8 +20,11 @@ from cct.resource_management.order_management import service
 from cct.resource_management.order_management.models import OrderHeaderProperties, OrderPositionProperties
 from cct.resource_management.pagination import PageRequest, decode_cursor, encode_cursor
 from cct.resource_management.repository_ports import EntityRepositoryPort
+from cct.resource_management.contracts import EntityKind
+from cct.resource_management.relationship_types import RelationshipType
 
-from .dependencies import Actor, get_current_actor, get_order_repository, get_person_repository, get_stock_repository
+from . import display_names
+from .dependencies import Actor, get_current_actor, get_order_repository, get_partner_repository, get_person_repository, get_product_repository, get_stock_repository
 from .schemas import ErrorResponse, Page, PageParams
 
 router = APIRouter(prefix="/orders", tags=["orders"])
@@ -166,7 +169,25 @@ class OrderPageParams(PageParams):
 RepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_order_repository)]
 StockRepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_stock_repository)]
 PersonRepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_person_repository)]
+ProductRepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_product_repository)]
+PartnerRepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_partner_repository)]
 ActorDependency = Annotated[Actor, Depends(get_current_actor)]
+
+
+def _stock_display_name_resolver(stock_repository: EntityRepositoryPort, product_repository: EntityRepositoryPort,
+    partner_repository: EntityRepositoryPort):
+    def resolve(stock_item_ids: tuple[str, ...]) -> dict[str, tuple[str, ...]]:
+        chains: dict[str, tuple[str, ...]] = {}
+        for stock_item_id in stock_item_ids:
+            products = stock_repository.list_related(
+                from_kind=EntityKind.STOCK_ITEM, from_id=stock_item_id,
+                relationship=RelationshipType.REPRESENTS_PRODUCT,
+                to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM,
+            )
+            if len(products) == 1:
+                chains[stock_item_id] = display_names.product(products[0], product_repository, partner_repository).display_name_chain
+        return chains
+    return resolve
 
 
 @router.post(
@@ -191,7 +212,8 @@ def create_order(request: OrderCreateRequest, repository: RepositoryDependency, 
     responses={409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
 def place_customer_order(
-    request: PlaceCustomerOrderRequest, repository: RepositoryDependency, actor: ActorDependency
+    request: PlaceCustomerOrderRequest, repository: RepositoryDependency, stock_repository: StockRepositoryDependency,
+    product_repository: ProductRepositoryDependency, partner_repository: PartnerRepositoryDependency, actor: ActorDependency
 ) -> OrderResponse:
     travellers = tuple(item.model_dump(by_alias=True, exclude_none=True) for item in request.travellers)
     for traveller in travellers:
@@ -202,6 +224,7 @@ def place_customer_order(
         customer_person_id=request.customer_person_id,
         travellers=travellers,
         positions=tuple(item.model_dump(by_alias=True) for item in request.positions),
+        stock_display_name_resolver=_stock_display_name_resolver(stock_repository, product_repository, partner_repository),
     )
     return OrderResponse.from_domain(entity)
 

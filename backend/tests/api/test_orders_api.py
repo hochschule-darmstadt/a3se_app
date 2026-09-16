@@ -196,10 +196,14 @@ class OrdersApiTest(unittest.TestCase):
             properties={"givenName": "Casey", "familyName": "Example"})
         person_service.create_person_role(self.repository, entity_id="ROLE-CUSTOMER", person_id="PER-CUSTOMER",
             type="person/customer", properties={})
+        self.repository.save({"entityId": "PRD-TRANSFER", "entityKind": "TouristicProductItem",
+            "type": "product/mobility/transfer", "properties": {"name": "Airport transfer"}})
         self.repository.save({"entityId": "STK-FULL", "entityKind": "StockItem",
             "type": "stock/mobility/transfer", "properties": {"serviceDate": date(2027, 3, 18),
             "unitPriceAmount": Decimal("40.00"), "currencyCode": "EUR", "capacityQuantity": 1,
             "remainingCapacity": 0, "inventoryStatusCode": "inventory/active"}})
+        self.repository.create_relationship(from_kind=EntityKind.STOCK_ITEM, from_id="STK-FULL",
+            relationship="REPRESENTS_PRODUCT", to_kind=EntityKind.TOURISTIC_PRODUCT_ITEM, to_id="PRD-TRANSFER")
 
         response = self.client.post("/orders/place", json={"customerPersonId": "PER-CUSTOMER",
             "travellers": [{"clientTravellerId": "self", "kind": "self"}],
@@ -207,6 +211,7 @@ class OrdersApiTest(unittest.TestCase):
 
         self.assertEqual(409, response.status_code)
         self.assertEqual("stock_unavailable", response.json()["type"])
+        self.assertIn("STK-FULL (Airport transfer)", response.json()["detail"])
         self.assertEqual((), self.repository.list(EntityKind.ORDER_ITEM, type_filter="order/header").items)
 
 

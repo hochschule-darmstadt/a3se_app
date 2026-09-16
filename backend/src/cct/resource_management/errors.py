@@ -58,7 +58,17 @@ class DependentEntityExistsError(ValueError):
 class StockUnavailableError(ValueError):
     """Raised when optimistic order placement finds unavailable stock."""
 
-    def __init__(self, stock_item_ids: tuple[str, ...]) -> None:
-        joined = ", ".join(stock_item_ids)
-        super().__init__(f"stock is no longer available: {joined}")
+    def __init__(self, stock_item_ids: tuple[str, ...], display_name_chains: dict[str, tuple[str, ...]] | None = None) -> None:
         self.stock_item_ids = stock_item_ids
+        self.display_name_chains = display_name_chains or {}
+        joined = ", ".join(
+            f"{stock_item_id} ({' · '.join(self.display_name_chains[stock_item_id])})"
+            if self.display_name_chains.get(stock_item_id)
+            else stock_item_id
+            for stock_item_id in stock_item_ids
+        )
+        super().__init__(f"stock is no longer available: {joined}")
+
+    def with_display_name_chains(self, display_name_chains: dict[str, tuple[str, ...]]) -> "StockUnavailableError":
+        """Return the same conflict enriched with current presentation labels."""
+        return StockUnavailableError(self.stock_item_ids, display_name_chains)
