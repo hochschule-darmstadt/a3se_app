@@ -14,6 +14,7 @@ from fastapi import Request
 
 from cct.resource_management.repository_ports import EntityRepositoryPort
 from cct.core_processes.customer_care.advisor import AdvisorService
+from cct.core_processes.customer_care.travel_intent_extraction import TravelIntentExtractor
 
 
 @dataclass(frozen=True, slots=True)
@@ -66,3 +67,7 @@ def get_order_repository(request: Request) -> EntityRepositoryPort:
 
 def get_advisor_service(request: Request) -> AdvisorService:
     return request.app.state.advisor_service
+
+
+def get_travel_intent_extractor(request: Request) -> TravelIntentExtractor:
+    return request.app.state.travel_intent_extractor

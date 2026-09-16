@@ -15,14 +15,16 @@ from cct.core_processes.customer_care.advisor import AdvisorAction, AdvisorAnswe
 from cct.core_processes.customer_care.travel_agent import ItineraryComponent, ItineraryDiagnostic, TravelIntent, validate_itinerary
 from cct.core_processes.customer_care.travel_agent_planner import compose_travel
 from cct.core_processes.customer_care.travel_agent_workflow import TravelAgentWorkflow
+from cct.core_processes.customer_care.travel_intent_extraction import TravelIntentExtractor
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
-from .dependencies import get_advisor_service, get_stock_repository
+from .dependencies import get_advisor_service, get_stock_repository, get_travel_intent_extractor
 from .schemas import ErrorResponse
 
 router = APIRouter(prefix="/advisor", tags=["advisor"])
 AdvisorServiceDependency = Annotated[AdvisorService, Depends(get_advisor_service)]
 StockRepositoryDependency = Annotated[EntityRepositoryPort, Depends(get_stock_repository)]
+TravelIntentExtractorDependency = Annotated[TravelIntentExtractor, Depends(get_travel_intent_extractor)]
 
 
 class ItineraryValidationRequest(BaseModel):
@@ -129,9 +131,13 @@ def plan_advisor_travel(request: TravelAgentPlanRequest) -> TravelAgentPlanRespo
     operation_id="composeAdvisorTravel",
     responses={422: {"model": ErrorResponse}, 503: {"model": ErrorResponse}},
 )
-def compose_advisor_travel(question: TravelAgentQuestion, stock_repository: StockRepositoryDependency) -> AdvisorAnswer:
+def compose_advisor_travel(
+    question: TravelAgentQuestion,
+    stock_repository: StockRepositoryDependency,
+    extractor: TravelIntentExtractorDependency,
+) -> AdvisorAnswer:
     """Extract and compose a request through internal stock and LangGraph."""
-    answer, _intent, actions, diagnostics = compose_travel(question.message, question.conversation, stock_repository)
+    answer, _intent, actions, diagnostics = compose_travel(question.message, question.conversation, stock_repository, extractor=extractor)
     return AdvisorAnswer(
         state=AdvisorState.ANSWERED if not diagnostics else AdvisorState.UNCERTAIN,
         answer=answer,

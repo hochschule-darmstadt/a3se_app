@@ -164,16 +164,40 @@ advisor, extracts supported planning fields, queries only the existing
 catalogue/Inventory repository operation, and invokes the graph. It may ask a
 follow-up question before composition.
 
-Planning fields are accumulated over the whole conversation rather than read
-from the latest message alone: every customer turn contributes or corrects
-fields, so a stated duration survives later turns and exact dates supersede
-both an open month and the duration stated before them. The adapter asks for
-one missing fact at a time - destination, partner name, departure city,
-travel period, duration - and resolves short answers ("Berlin") from the
-question they answer. Departure and destination cities are resolved through
-the shared location aliases, excluding aliases such as country names that
-identify no single place. For a party larger than one, a two-token
-partner-name answer becomes a typed client-side `add-traveller` action
+Planning fields are interpreted from the whole conversation in two separated
+steps:
+
+1. **Language interpretation** (`travel_intent_extraction.py`). The local
+   model of [DR-0024](../../governance/decisions/0024-local-grounded-advisor-stack.md)
+   receives every turn, today's date, and the canonical names of the known
+   locations, and must answer in the `ExtractedTravelFields` JSON schema
+   (Ollama structured output, temperature 0). Every schema key is required but
+   nullable, because Ollama otherwise lets the model skip stated facts. The
+   model resolves wording, corrections ("the latest statement wins"),
+   relative dates, trip lengths such as "a week", party size such as "my wife
+   and I", other languages, and short answers from the advisor question they
+   answer. Like Neo4j, the model is a required runtime dependency: there is no
+   rule-based fallback, and an unavailable model or an answer violating the
+   schema raises `AdvisorUnavailable`, returned as HTTP 503.
+2. **Deterministic validation** (`normalise_travel_fields` in
+   `travel_agent_planner.py`). Extracted values are untrusted. Destination,
+   departure city, and partner names are accepted only when grounded in words
+   the customer wrote (a resolved location's aliases count, so "Rio" grounds
+   "Rio de Janeiro"). Places resolve to codes only through the shared location
+   aliases, excluding aliases such as country names that identify no single
+   place. Dates must be valid ISO dates from today to the end of the second
+   following year; an open month becomes a search window, rolled forward to
+   the next year when already past; traveller count, trip length, and budget
+   are bounded. Exact dates supersede a contradicting trip length. Exact dates
+   that fall into an open month stated in the same answer contradict the
+   extraction contract and are discarded in favour of the month, because a
+   searched month is safe while invented dates are not. An invalid value
+   becomes a missing fact, which leads to a follow-up question, never to a
+   guess.
+
+The adapter asks for one missing fact at a time - destination, partner name,
+departure city, travel period, duration. For a party larger than one, a
+grounded partner name becomes a typed client-side `add-traveller` action
 carrying the user-provided given and family names; no synthetic partner name
 is substituted. Structured flight fields, rather than possibly malformed
 free-text product names, provide flight labels.
@@ -223,7 +247,8 @@ Source: [travel-agent-client-draft.puml](travel-agent-client-draft.puml).
 This graph is the orchestration seam, not the source of business truth.
 Natural-language intent extraction and live candidate retrieval must call the
 existing authenticated API and populate its typed inputs. Model reasoning may
-interpret language and rank returned candidates, but it may not invent
+interpret language (as the `/advisor/compose` extractor does) and rank returned
+candidates, but it may not invent
 availability, dates, prices, capacity, traveller identity, or reservations.
 The ordinary `/advisor/answer/stream` RAG path remains separate and read-only;
 planning uses typed advisor contracts when action data is required.

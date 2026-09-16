@@ -23,6 +23,7 @@ import uvicorn
 from cct.api.app import create_app
 from cct.api.dependencies import ApiDependencies
 from cct.core_processes.customer_care.advisor import QdrantKnowledgeIndex, create_default_advisor_service
+from cct.core_processes.customer_care.travel_intent_extraction import create_default_travel_intent_extractor
 from cct.infrastructure.neo4j.entity_repository import COMMUNITY_SCHEMA, Neo4jEntityRepository
 from cct.resource_management.contracts import EntityKind
 from cct.resource_management.default_registry import create_entity_registry
@@ -97,6 +98,7 @@ def main() -> None:
                 project_root,
             )
         app.state.advisor_service = create_default_advisor_service()
+        app.state.travel_intent_extractor = create_default_travel_intent_extractor()
         write_manifest(current_manifest)
         host = os.environ.get("CCT_API_HOST", "127.0.0.1")
         uvicorn.run(app, host=host, port=8000)

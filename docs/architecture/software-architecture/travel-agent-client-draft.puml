@@ -8,6 +8,7 @@ database "sessionStorage\ncct.customer.travel.v1" as SS
 participant "My Travel route\nmy-travel.tsx" as MT
 participant "POST /advisor/compose\napi/advisor.py" as API
 participant "compose_travel\ntravel_agent_planner.py" as PL
+participant "TravelIntentExtractor\nlocal Ollama model" as EX
 participant "TravelAgentWorkflow\n(LangGraph)" as WF
 participant "Inventory / catalogue\nEntityRepositoryPort" as INV
 participant "POST /orders/place" as ORD
@@ -16,7 +17,9 @@ Customer -> UI: planning message
 UI -> UI: planning request? requires signed-in\ncustomer, else redirect to sign-in
 UI -> API: message, conversation (<= 20 turns),\nconfirmedContext
 API -> PL: compose_travel(message, conversation)
-PL -> PL: accumulate planning fields\nover all customer turns
+PL -> EX: extract(all turns, today)
+EX --> PL: ExtractedTravelFields (untrusted)
+PL -> PL: ground and validate fields\ninvalid value = missing fact
 alt required fact missing
   PL --> API: follow-up question, no actions
   API --> UI: AdvisorAnswer(answer)

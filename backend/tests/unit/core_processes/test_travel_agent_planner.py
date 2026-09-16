@@ -1,13 +1,15 @@
-"""Regression evidence for free-text travel-intent extraction and prompts."""
+"""Regression evidence for follow-up questions and client-draft composition."""
 
 from datetime import date, time, timedelta
 from decimal import Decimal
 from unittest import TestCase
 
 from cct.core_processes.customer_care.advisor import AdvisorConversationTurn
-from cct.core_processes.customer_care.travel_agent_planner import build_planning_request, compose_travel, extract_travel_intent
+from cct.core_processes.customer_care.travel_agent_planner import compose_travel
 from cct.resource_management.contracts import EntityKind
 from cct.resource_management.default_registry import create_entity_registry
+
+from .test_travel_intent_extraction import ScriptedExtractor
 
 TODAY = date(2026, 9, 16)
 REGISTRY = create_entity_registry()
@@ -74,28 +76,6 @@ class UnusedStockRepository:
 
 
 class TravelAgentPlannerTest(TestCase):
-    def test_extracts_to_destination_person_count_and_exact_duration(self) -> None:
-        intent = extract_travel_intent("book a 5 day trip to lima, 2 persons, with adventure", TODAY)
-
-        self.assertEqual("lima", intent.destination)
-        self.assertEqual(2, intent.traveller_count)
-        self.assertEqual(5, intent.min_days)
-        self.assertEqual(5, intent.max_days)
-
-    def test_abbreviated_month_and_trailing_phrase_still_yield_place_and_window(self) -> None:
-        request = build_planning_request(
-            _turns("book a 5 day trip to Lima some time in Jan 2027, 2 persons, with adventure"),
-            TODAY,
-        )
-
-        # The destination is the place, not the phrase that followed it: the
-        # phrase is also the catalogue search term for accommodation.
-        self.assertEqual("lima", request.intent.destination)
-        self.assertEqual("LIM", request.destination_code)
-        self.assertEqual(date(2027, 1, 1), request.window_start)
-        self.assertEqual(date(2027, 1, 31), request.window_end)
-        self.assertEqual("January 2027", request.window_label)
-
     def test_incomplete_intent_asks_for_dates_instead_of_reporting_success(self) -> None:
         conversation = _turns(
             "book a 5 day trip to lima, 2 persons, with adventure",
@@ -108,6 +88,10 @@ class TravelAgentPlannerTest(TestCase):
             "Frankfurt",
             conversation,
             UnusedStockRepository(),  # type: ignore[arg-type]
+            ScriptedExtractor(
+                destination="Lima", origin="Frankfurt", min_days=5, max_days=5, traveller_count=2,
+                theme="adventure", partner_given_name="Ada", partner_family_name="Kern",
+            ),
             TODAY,
         )
 
@@ -117,49 +101,6 @@ class TravelAgentPlannerTest(TestCase):
         self.assertNotIn("draft for None", answer)
         self.assertEqual((), actions)
         self.assertEqual((), diagnostics)
-
-    def test_open_month_becomes_a_search_window_with_the_stated_duration(self) -> None:
-        request = build_planning_request(
-            _turns(
-                "book a 5 day trip to lima, 2 persons, with adventure",
-                "What is the name of your travel partner?",
-                "Hannelore Stremme",
-                "Which city would you like to depart from?",
-                "Berlin",
-                "When would you like to travel?",
-                "some time in january - feel free. should be 5 days",
-            ),
-            TODAY,
-        )
-
-        self.assertEqual(date(2027, 1, 1), request.window_start)
-        self.assertEqual(date(2027, 1, 31), request.window_end)
-        self.assertIsNone(request.intent.start_date)
-        self.assertEqual(5, request.intent.min_days)
-        self.assertEqual("BER", request.intent.origin_code)
-        self.assertEqual(("Hannelore", "Stremme"), request.partner_name)
-        self.assertEqual("adventure", request.theme)
-
-    def test_exact_dates_supersede_an_earlier_open_month_and_duration(self) -> None:
-        request = build_planning_request(
-            _turns(
-                "book a 5 day trip to lima, 2 persons",
-                "When would you like to travel?",
-                "some time in january",
-                "Which city would you like to depart from?",
-                "Berlin",
-                "When would you like to travel?",
-                "2027-01-04 - 2027-01-10",
-            ),
-            TODAY,
-        )
-
-        self.assertEqual(date(2027, 1, 4), request.intent.start_date)
-        self.assertEqual(date(2027, 1, 10), request.intent.end_date)
-        self.assertIsNone(request.window_start)
-        # The superseded "5 days" must not reject the dates the customer chose.
-        self.assertIsNone(request.intent.min_days)
-        self.assertIsNone(request.intent.max_days)
 
     def test_open_month_composes_client_actions_without_claiming_a_booking(self) -> None:
         conversation = _turns(
@@ -176,6 +117,10 @@ class TravelAgentPlannerTest(TestCase):
             "some time in january - feel free. should be 5 days",
             conversation,
             repository,  # type: ignore[arg-type]
+            ScriptedExtractor(
+                destination="Lima", origin="Berlin", travel_month=1, min_days=5, max_days=5, traveller_count=2,
+                theme="adventure", partner_given_name="Hannelore", partner_family_name="Stremme",
+            ),
             TODAY,
         )
 
@@ -185,21 +130,9 @@ class TravelAgentPlannerTest(TestCase):
         self.assertEqual(3, repository.calls)
         self.assertEqual(date(2027, 1, 1), intent.start_date)
         self.assertEqual(date(2027, 1, 6), intent.end_date)
-        self.assertNotRegex(answer, r"(?i)\b(booked|confirmed)\b")
+        self.assertNotRegex(answer, r"(?i)(booked|confirmed)")
         self.assertIn("Nothing is reserved yet", answer)
         self.assertEqual("add-traveller", actions[0].type)
         self.assertEqual("Hannelore Stremme", actions[0].display_name)
         # Two flights plus one room per night, proposed as client draft actions.
         self.assertEqual(7, sum(1 for action in actions if action.type == "add-position"))
-
-    def test_answers_without_planning_keywords_still_reach_the_partner_question(self) -> None:
-        answer, intent, actions, _diagnostics = compose_travel(
-            "two persons to lima",
-            [],
-            UnusedStockRepository(),  # type: ignore[arg-type]
-            TODAY,
-        )
-
-        self.assertEqual("What is the name of your travel partner?", answer)
-        self.assertEqual(2, intent.traveller_count)
-        self.assertEqual((), actions)
