@@ -1,0 +1,57 @@
+@startuml
+title AI Travel Agent - Server-Side Composition, Client-Side Draft, Explicit Order
+autonumber
+actor Customer
+participant "Advisor drawer\nadvisor.tsx" as UI
+participant "TravelProvider\nlib/travel.tsx" as TP
+database "sessionStorage\ncct.customer.travel.v1" as SS
+participant "My Travel route\nmy-travel.tsx" as MT
+participant "POST /advisor/compose\napi/advisor.py" as API
+participant "compose_travel\ntravel_agent_planner.py" as PL
+participant "TravelAgentWorkflow\n(LangGraph)" as WF
+participant "Inventory / catalogue\nEntityRepositoryPort" as INV
+participant "POST /orders/place" as ORD
+
+Customer -> UI: planning message
+UI -> UI: planning request? requires signed-in\ncustomer, else redirect to sign-in
+UI -> API: message, conversation (<= 20 turns),\nconfirmedContext
+API -> PL: compose_travel(message, conversation)
+PL -> PL: accumulate planning fields\nover all customer turns
+alt required fact missing
+  PL --> API: follow-up question, no actions
+  API --> UI: AdvisorAnswer(answer)
+  UI --> Customer: question
+else intent complete
+  PL -> INV: read StockItems for window\n(once per component family)
+  INV --> PL: authoritative stock projections
+  loop each candidate arrival date
+    PL -> WF: run(intent, candidates)
+    WF --> PL: status, diagnostics, actions
+  end
+  PL --> API: answer, actions or diagnostics
+  API --> UI: AdvisorAnswer(state, answer,\nactions[], uncertaintyReason)
+  note right of API
+    Response is the only transport of the
+    composition. No server-side draft,
+    checkpoint, reservation, or session.
+  end note
+  UI -> TP: ensure "self" traveller exists;\napplyAdvisorActions(actions)
+  TP -> TP: validate each action;\nignore invalid payloads
+  TP -> SS: persist travellers and positions
+  UI --> Customer: answer ("nothing is reserved yet")
+end
+
+Customer -> MT: review, modify, remove positions
+MT -> TP: local state transitions
+TP -> SS: persist
+Customer -> MT: Order
+MT -> ORD: customerPersonId, travellers,\npositions (stockItemId, clientTravellerId)
+ORD -> ORD: one Neo4j transaction: recheck\nremaining capacity, create order
+alt order placed
+  ORD --> MT: order
+  MT -> TP: clear()
+  TP -> SS: remove draft
+else rejected
+  ORD --> MT: ApiError (draft retained)
+end
+@enduml

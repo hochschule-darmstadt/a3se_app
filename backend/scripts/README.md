@@ -30,3 +30,8 @@ Existing prototype databases are disposable: reset and rerun `seed_data.py`
 
 - `rebuild_advisor_index.py` (issue #46): rebuilds the local on-disk Qdrant
   index from the current product projection and approved glossary content.
+
+- `export_travel_agent_graph.py` (issue #47): writes LangGraph's own Mermaid
+  rendering of the compiled travel-composition graph to
+  `docs/architecture/software-architecture/travel-agent-graph.mmd`; a unit
+  test guards the committed file against topology drift.
