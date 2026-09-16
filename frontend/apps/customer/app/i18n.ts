@@ -50,6 +50,7 @@ export const dictionary: Record<string, string> = {
   "advisor.welcome": "I am ready to receive your travel question.",
   "advisor.placeholderReply": "I am ready to receive your travel question.",
   "advisor.failedReply": "The AI Travel Advisor is temporarily unavailable. Please try again or request human assistance.",
+  "advisor.signInRequired": "Please sign in before I propose a travel. Your conversation will be preserved so we can continue afterwards.",
   "assistance.heading": "Travel assistance",
   "assistance.context.heading": "Assistance context",
   "assistance.context.order": "Related order",

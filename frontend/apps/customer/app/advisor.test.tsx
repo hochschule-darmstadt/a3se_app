@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("./api", () => ({ apiBaseUrl: "http://127.0.0.1:8000" }));
 
@@ -14,9 +14,14 @@ function renderAdvisor(initialEntry = "/") {
 }
 
 describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+    vi.restoreAllMocks();
+  });
+
   it("opens from the persistent launcher and returns a reply", async () => {
     const user = userEvent.setup();
-    window.sessionStorage.clear();
     window.sessionStorage.setItem("cct.customer.advisor.confirmed-context.v1", JSON.stringify([
       { key: "orderReference", value: "TO-2048" },
     ]));
@@ -57,5 +62,22 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
       { role: "customer", content: "What is happening with my documents?" },
       { role: "advisor", content: "The catalogue has a coastal walking option." },
     ]);
+  });
+
+  it("asks an unsigned customer to sign in before invoking composition", async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const Stub = createRoutesStub([
+      { path: "/assistance", Component: CustomerAdvisor },
+      { path: "/sign-in", Component: () => <div>Sign in page</div> },
+    ]);
+
+    render(<TestProviders><Stub initialEntries={["/assistance"]} /></TestProviders>);
+    await user.type(screen.getByRole("textbox", { name: "Message the advisor" }), "Please propose a trip to Lima");
+    await user.click(screen.getByRole("button", { name: "Send message" }));
+
+    expect(await screen.findByText("Sign in page")).toBeInTheDocument();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

@@ -45,6 +45,7 @@ The Customer sends a message to the Automated Travel Advisor.
 | 4. The requested action is unsupported or outside the Automated Travel Advisor's authority | Explain the boundary and offer an available alternative or context-preserving human handover. |
 | 4-5. A participating context or external party cannot complete its responsibility | Record the partial or uncertain result, avoid presenting success, and provide a retry, revision, or human-assistance path. |
 | 6. The Customer rejects or changes the result | Preserve the confirmed baseline and continue the conversation from the affected information. |
+| 1-4. The Customer asks the Automated Travel Advisor to propose or compose travel while unsigned | Ask the Customer to sign in before invoking the composition capability, preserve the conversation context, and return to the advisor after successful authentication. |
 
 ## Success guarantee
 
@@ -84,4 +85,11 @@ Scenario: Ask the Automated Travel Advisor to act
   Then the chatbot invokes the supported search operation
   And it identifies whether the search is in progress, confirmed, failed, or uncertain
   And a confirmed result is available in the Search Results view without requiring registration or sign-in
+
+Scenario: Request a travel proposal while unsigned
+  Given the Customer is not signed in
+  When the Customer asks the Automated Travel Advisor to propose or compose travel
+  Then the advisor asks the Customer to sign in
+  And the composition operation is not invoked
+  And the conversation context is preserved for continuation after sign-in
 ```

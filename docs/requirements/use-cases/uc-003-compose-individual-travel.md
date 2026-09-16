@@ -37,6 +37,7 @@ The Customer asks to create or revise individual travel.
 | 2-3. Required context, authority, or information is missing | Do not infer it; identify what is needed and preserve the last confirmed state. |
 | 4. A participating context or external party cannot complete its responsibility | Record the partial or uncertain result, avoid presenting success, and provide a retry, revision, or human-assistance path. |
 | 5. The primary actor rejects or changes the result | Preserve the confirmed baseline and return the affected information for revision. |
+| 1-2. The Customer is not signed in | Ask the Customer to sign in before proposing or composing travel; preserve the last confirmed conversation context and resume after successful authentication. |
 
 ## Success guarantee
 
@@ -63,4 +64,10 @@ Scenario: Compose Individual Travel
   Given the Customer has confirmed dates, destinations, travelers, and constraints
   When the Customer selects compatible services
   Then the Customer receives a reviewable itinerary with unresolved gaps identified
+
+Scenario: Sign in before advisor composition
+  Given the Customer asks the Automated Travel Advisor to propose an Individual Travel while unsigned
+  When the advisor evaluates the request
+  Then the advisor asks the Customer to sign in before invoking composition
+  And no travel proposal is presented while the Customer remains unsigned
 ```

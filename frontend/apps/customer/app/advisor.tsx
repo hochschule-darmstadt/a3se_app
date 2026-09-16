@@ -3,7 +3,8 @@ import { AdvisorConversation, type AdvisorConversationTurn, type AdvisorReply } 
 import { apiBaseUrl } from "./api";
 import { useT } from "./i18n";
 import { useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { useMockActor } from "@cct/ui";
 import { useTravel } from "./lib/travel";
 
 interface AdvisorContextItem {
@@ -41,6 +42,8 @@ function readConfirmedContext(): AdvisorContextItem[] {
 export function CustomerAdvisor() {
   const t = useT();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { actor } = useMockActor();
   const [confirmedContext] = useState(readConfirmedContext);
   const travel = useTravel();
   const initialMessages = [{ id: "welcome", speaker: "advisor" as const, text: t("advisor.welcome") }];
@@ -50,6 +53,11 @@ export function CustomerAdvisor() {
     // Planning uses the typed response so client-side draft actions survive the
     // round trip. Ordinary RAG questions retain the existing NDJSON streaming UX.
     if (isTravelPlanningRequest(message, conversation)) {
+      if (!actor) {
+        const returnTo = `${location.pathname}${location.search}`;
+        navigate(`/sign-in?${new URLSearchParams({ returnTo }).toString()}`);
+        return { text: t("advisor.signInRequired"), state: "no-answer" };
+      }
       const response = await fetch(`${apiBaseUrl.replace(/\/$/, "")}/advisor/compose`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
