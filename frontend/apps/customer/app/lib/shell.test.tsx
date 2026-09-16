@@ -1,10 +1,21 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { signInMockActor, TestProviders } from "../test-utils";
 import { CustomerShell } from "./shell";
+
+/** Simulates another tab writing the mock actor: `storage` events fire only in the other tabs. */
+function changeActorInOtherTab(next: { personId: string; displayName: string } | null) {
+  const oldValue = window.localStorage.getItem("cct.mockActor");
+  const newValue = next ? JSON.stringify(next) : null;
+  if (newValue) window.localStorage.setItem("cct.mockActor", newValue);
+  else window.localStorage.removeItem("cct.mockActor");
+  act(() => {
+    window.dispatchEvent(new StorageEvent("storage", { key: "cct.mockActor", oldValue, newValue }));
+  });
+}
 
 function renderShell(breadcrumbs?: { label: string; to?: string }[]) {
   const Stub = createRoutesStub([
@@ -95,5 +106,39 @@ describe("CustomerShell (DS-CMP-001 customer profile, issue #27 phase 2)", () =>
     expect(window.sessionStorage.getItem("cct.customer.advisor.conversation.v2")).toBeNull();
     expect(window.sessionStorage.getItem("cct.customer.advisor.confirmed-context.v1")).toBeNull();
     expect(window.sessionStorage.getItem("cct.customer.travel.v1")).toBeNull();
+  });
+
+  it("follows a sign-out made in another tab and clears this tab's draft", () => {
+    signInMockActor("PER-001", "Ada Kern");
+    window.sessionStorage.setItem("cct.customer.travel.v1", JSON.stringify({ travellers: [], positions: [{ clientPositionId: "P-1" }], pending: null }));
+    renderShell();
+    expect(screen.getByRole("link", { name: /my travel \(1\)/i })).toBeInTheDocument();
+
+    changeActorInOtherTab(null);
+
+    expect(screen.getByRole("button", { name: /guest.*sign in/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /my travel \(0\)/i })).toBeInTheDocument();
+    expect(window.sessionStorage.getItem("cct.customer.travel.v1")).toBeNull();
+  });
+
+  it("clears this tab's draft when another tab switches to a different actor", () => {
+    signInMockActor("PER-001", "Ada Kern");
+    window.sessionStorage.setItem("cct.customer.travel.v1", JSON.stringify({ travellers: [], positions: [{ clientPositionId: "P-1" }], pending: null }));
+    renderShell();
+
+    changeActorInOtherTab({ personId: "PER-002", displayName: "Ben Ortiz" });
+
+    expect(screen.getByRole("button", { name: "Ben Ortiz" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /my travel \(0\)/i })).toBeInTheDocument();
+  });
+
+  it("adopts a sign-in made in another tab and keeps the guest draft", () => {
+    window.sessionStorage.setItem("cct.customer.travel.v1", JSON.stringify({ travellers: [], positions: [{ clientPositionId: "P-1" }], pending: null }));
+    renderShell();
+
+    changeActorInOtherTab({ personId: "PER-001", displayName: "Ada Kern" });
+
+    expect(screen.getByRole("button", { name: "Ada Kern" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /my travel \(1\)/i })).toBeInTheDocument();
   });
 });

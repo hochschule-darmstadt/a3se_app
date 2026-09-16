@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type PropsWithChildren } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type PropsWithChildren } from "react";
 
 /**
  * PoC placeholder identity, mirroring the backend's placeholder `Actor`
@@ -22,6 +22,11 @@ interface MockAuthContextValue {
 const MockAuthContext = createContext<MockAuthContextValue | null>(null);
 
 const STORAGE_KEY = "cct.mockActor";
+/**
+ * Dispatched on `window` when this tab's actor ends: a local sign-out, or a
+ * sign-out or identity switch made in another tab. Listeners clear
+ * actor-bound client state (drafts, transcripts, confirmed context).
+ */
 export const MOCK_AUTH_SIGNED_OUT_EVENT = "cct.mock-auth.signed-out";
 
 function readStoredActor(): MockActor | null {
@@ -35,9 +40,32 @@ function readStoredActor(): MockActor | null {
   }
 }
 
-/** Provides a PoC-only mock identity, persisted in `localStorage` for the session. */
+/**
+ * Provides a PoC-only mock identity. It is persisted in `localStorage`, so it
+ * is shared by every tab of the app and survives reloads until sign-out, like
+ * a browser-wide login cookie would. A `storage` listener keeps open tabs in
+ * sync when another tab signs in, signs out, or switches identity.
+ */
 export function MockAuthProvider({ children }: PropsWithChildren) {
   const [actor, setActor] = useState<MockActor | null>(() => readStoredActor());
+  const actorRef = useRef(actor);
+  actorRef.current = actor;
+
+  useEffect(() => {
+    const onStorage = (event: StorageEvent) => {
+      // `key === null` means another tab cleared all of this origin's storage.
+      if (event.key !== STORAGE_KEY && event.key !== null) return;
+      const next = readStoredActor();
+      const previous = actorRef.current;
+      if (previous && previous.personId !== next?.personId) {
+        window.dispatchEvent(new Event(MOCK_AUTH_SIGNED_OUT_EVENT));
+      }
+      actorRef.current = next;
+      setActor(next);
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   const signIn = useCallback((next: MockActor) => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));

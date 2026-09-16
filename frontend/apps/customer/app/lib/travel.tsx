@@ -1,3 +1,4 @@
+import { MOCK_AUTH_SIGNED_OUT_EVENT } from "@cct/ui";
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from "react";
 
 const STORAGE_KEY = "cct.customer.travel.v1";
@@ -70,6 +71,17 @@ export function TravelProvider({ children }: { readonly children: ReactNode }) {
     try { return JSON.parse(window.sessionStorage.getItem(STORAGE_KEY) ?? "null") ?? initialState; }
     catch { return initialState; }
   });
+
+  useEffect(() => {
+    // The draft belongs to the actor who built it, including when that actor
+    // signs out or is replaced in another tab.
+    const clearDraft = () => {
+      window.sessionStorage.removeItem(STORAGE_KEY);
+      setState(initialState);
+    };
+    window.addEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, clearDraft);
+    return () => window.removeEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, clearDraft);
+  }, []);
 
   useEffect(() => {
     if (state.travellers.length === 0 && state.positions.length === 0 && state.pending === null) {

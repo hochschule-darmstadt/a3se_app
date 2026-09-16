@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -124,6 +124,51 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
     expect(draft.travellers.map((traveller) => traveller.clientTravellerId)).toEqual(["self"]);
     expect(draft.positions).toHaveLength(1);
     expect(draft.positions[0]).toMatchObject({ stockItemId: "STK-000042", clientTravellerId: "self" });
+  });
+
+  it("resets the transcript and confirmed context when another tab signs out", async () => {
+    const user = userEvent.setup();
+    signInMockActor("PER-001", "Ada Kern");
+    window.sessionStorage.setItem("cct.customer.advisor.confirmed-context.v1", JSON.stringify([
+      { key: "orderReference", value: "TO-2048" },
+    ]));
+    const fetchMock = vi.fn().mockImplementation(() => {
+      let delivered = false;
+      return Promise.resolve({
+        ok: true,
+        body: {
+          getReader: () => ({
+            read: async () => delivered
+              ? { done: true, value: undefined }
+              : (delivered = true, { done: false, value: new TextEncoder().encode('{"type":"chunk","text":"Ada-specific answer."}\n{"type":"complete","state":"answered","answer":""}\n') }),
+          }),
+        },
+      });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    renderAdvisor("/assistance");
+    await user.click(screen.getByRole("button", { name: "Open AI Travel Advisor" }));
+    await user.type(screen.getByRole("textbox", { name: "Message the advisor" }), "What about my documents?");
+    await user.click(screen.getByRole("button", { name: "Send message" }));
+    expect(await screen.findByText("Ada-specific answer.")).toBeInTheDocument();
+
+    const oldValue = window.localStorage.getItem("cct.mockActor");
+    window.localStorage.removeItem("cct.mockActor");
+    act(() => {
+      window.dispatchEvent(new StorageEvent("storage", { key: "cct.mockActor", oldValue, newValue: null }));
+    });
+
+    expect(screen.queryByText("What about my documents?")).not.toBeInTheDocument();
+    expect(screen.queryByText("Ada-specific answer.")).not.toBeInTheDocument();
+    expect(screen.getByText(/I am ready to receive your travel question/)).toBeInTheDocument();
+    expect(window.sessionStorage.getItem("cct.customer.advisor.confirmed-context.v1")).toBeNull();
+
+    await user.type(screen.getByRole("textbox", { name: "Message the advisor" }), "Hello");
+    await user.click(screen.getByRole("button", { name: "Send message" }));
+    await screen.findByText("Hello");
+    const request = JSON.parse(fetchMock.mock.calls[1]![1]!.body as string) as { confirmedContext: unknown[]; conversation: unknown[] };
+    expect(request.confirmedContext).toEqual([]);
+    expect(request.conversation).toEqual([]);
   });
 
   it("removes conversations saved before the sign-in gate", async () => {

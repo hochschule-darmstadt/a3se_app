@@ -1,4 +1,4 @@
-import { AdvisorConversation, useMockActor, type AdvisorConversationTurn, type AdvisorReply } from "@cct/ui";
+import { AdvisorConversation, MOCK_AUTH_SIGNED_OUT_EVENT, useMockActor, type AdvisorConversationTurn, type AdvisorReply } from "@cct/ui";
 
 import { apiBaseUrl } from "./api";
 import { useT } from "./i18n";
@@ -47,7 +47,7 @@ export function CustomerAdvisor() {
   const location = useLocation();
   const navigate = useNavigate();
   const { actor } = useMockActor();
-  const [confirmedContext] = useState(readConfirmedContext);
+  const [confirmedContext, setConfirmedContext] = useState(readConfirmedContext);
   const travel = useTravel();
   // Composition is a multi-turn exchange: the answers to “which city do you
   // depart from?” or “how many days?” carry no planning keyword of their own.
@@ -61,6 +61,18 @@ export function CustomerAdvisor() {
     // The transcript is intentionally memory-only. Remove values written by
     // earlier builds so pre-sign-in-gate proposals cannot be rehydrated.
     for (const key of LEGACY_ADVISOR_CONVERSATION_KEYS) window.sessionStorage.removeItem(key);
+  }, []);
+
+  useEffect(() => {
+    // Confirmed facts and an unfinished planning exchange belong to the actor
+    // who established them, including when another tab ends that actor.
+    const reset = () => {
+      window.sessionStorage.removeItem(CONFIRMED_CONTEXT_KEY);
+      setConfirmedContext([]);
+      planningActive.current = false;
+    };
+    window.addEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, reset);
+    return () => window.removeEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, reset);
   }, []);
 
   async function askAdvisor(message: string, onChunk: (chunk: string) => void, conversation: readonly AdvisorConversationTurn[]): Promise<AdvisorReply> {

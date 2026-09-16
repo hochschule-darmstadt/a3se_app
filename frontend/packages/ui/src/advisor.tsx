@@ -93,9 +93,12 @@ export function AdvisorConversation({ labels, initialMessages = [], sessionStora
     else window.sessionStorage.setItem(sessionStorageKey, JSON.stringify(messages));
   }, [messages, sessionStorageKey]);
 
+  const initialMessagesRef = useRef(initialMessages);
+  initialMessagesRef.current = initialMessages;
+
   useEffect(() => {
-    if (!sessionStorageKey) return;
-    const clearConversation = () => setMessages([]);
+    // Persisted or memory-only, a transcript belongs to the actor who wrote it.
+    const clearConversation = () => setMessages(sessionStorageKey ? [] : [...initialMessagesRef.current]);
     window.addEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, clearConversation);
     return () => window.removeEventListener(MOCK_AUTH_SIGNED_OUT_EVENT, clearConversation);
   }, [sessionStorageKey]);

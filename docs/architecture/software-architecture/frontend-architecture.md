@@ -413,11 +413,19 @@ translation or add a full i18n dependency until a language is approved.
 
 `MockAuthProvider`/`useMockActor` implement client-only PoC identity: the
 synthetic Customer actor is stored in browser `localStorage`, while no
-credential is verified and no token is issued. Sign-out removes that identity,
-clears the Customer's session-scoped Travel draft and confirmed context, and
-resets the memory-only advisor transcript. A new or duplicated browser tab and
-a page reload also start with an empty transcript; the Travel draft and
-confirmed context remain tab-scoped in `sessionStorage`. Staff's user menu remains a placeholder.
+credential is verified and no token is issued. The identity is therefore
+browser-wide: every tab of the Customer app shows the same actor, and it
+survives reloads until sign-out, as a future session cookie would. Actor-bound
+state is not browser-wide: the Travel draft and confirmed context are
+tab-scoped in `sessionStorage`, and the advisor transcript is memory-only, so a
+new or duplicated tab and a page reload start with an empty transcript.
+Sign-out removes the identity and dispatches `MOCK_AUTH_SIGNED_OUT_EVENT`,
+which clears the Travel draft and confirmed context and resets the advisor
+transcript and any unfinished planning exchange. `MockAuthProvider` listens for
+browser `storage` events, so open tabs follow a sign-in, sign-out, or identity
+switch made in another tab; a sign-out or switch also dispatches the event
+there, so no tab keeps one actor's draft under another actor. A sign-in from
+Guest keeps the Guest's draft. Staff's user menu remains a placeholder.
 Neither frontend state nor an entity ID provides authorization. Future real
 authentication must be enforced by the API and must revisit URL leakage,
 credentialed CORS, and error behavior.
