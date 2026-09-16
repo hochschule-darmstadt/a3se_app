@@ -11,9 +11,9 @@ export function meta() {
 }
 
 const QUICK_LINKS = [
-  { key: "coastal", query: "BER", accent: "linear-gradient(135deg, #0b7285, #74c0fc)" },
-  { key: "southAmerica", query: "LIM", accent: "linear-gradient(135deg, #2b8a3e, #b2f2bb)" },
-  { key: "city", query: "FRA", accent: "linear-gradient(135deg, #7048e8, #d0bfff)" },
+  { key: "brazil", query: "Brazil", accent: "linear-gradient(135deg, #0b7285, #74c0fc)" },
+  { key: "peru", query: "Peru", accent: "linear-gradient(135deg, #2b8a3e, #b2f2bb)" },
+  { key: "chile", query: "Chile", accent: "linear-gradient(135deg, #7048e8, #d0bfff)" },
 ];
 
 const PRODUCT_TYPES = [
@@ -66,10 +66,6 @@ export default function CustomerHome() {
     const params = new URLSearchParams({ destinationOrTheme: destinationOrTheme.trim(), dateFrom, dateTo, travellers, budgetPerPerson: "any" });
     if (productType !== "all") params.set("productType", productType);
     navigate(`/search?${params.toString()}`);
-  }
-
-  function quickLinkHref(query: string) {
-    return `/search?${new URLSearchParams({ destinationOrTheme: query, dateFrom: "", dateTo: "", travellers: "2", budgetPerPerson: "any" })}`;
   }
 
   return (
@@ -125,7 +121,7 @@ export default function CustomerHome() {
           <Stack gap="lg">
             <div><Title order={2}>{t("home.quickLinks.heading")}</Title><Text c="dimmed">{t("home.quickLinks.note")}</Text></div>
             <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
-              {QUICK_LINKS.map((item) => <Card key={item.key} component={Link} to={quickLinkHref(item.query)} withBorder padding={0} radius="lg" style={{ overflow: "hidden", textDecoration: "none" }}>
+              {QUICK_LINKS.map((item) => <Card key={item.key} component="button" type="button" onClick={() => setDestinationOrTheme(item.query)} withBorder padding={0} radius="lg" style={{ overflow: "hidden", textAlign: "left", cursor: "pointer" }}>
                 <div style={{ height: 150, background: item.accent, display: "flex", alignItems: "flex-end", padding: "1rem" }}><Title order={3} c="white">{t(`home.quickLinks.${item.key}`)}</Title></div>
                 <Text p="md" c="dark">{t("home.quickLinks.explore")}</Text>
               </Card>)}

@@ -52,6 +52,17 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
     expect(await screen.findByText("Search results page")).toBeInTheDocument();
   });
 
+  it("fills the destination field when a quick-link tile is clicked", async () => {
+    const user = userEvent.setup();
+    renderHome();
+
+    expect(screen.getByLabelText("Destination or theme")).toHaveAttribute("placeholder", "e.g. Peru");
+    await user.click(screen.getByRole("button", { name: /Chile/ }));
+
+    expect(screen.getByLabelText("Destination or theme")).toHaveValue("Chile");
+    expect(screen.queryByText("Search results page")).not.toBeInTheDocument();
+  });
+
   it("defaults the latest return to the day after the earliest departure", async () => {
     const user = userEvent.setup();
     renderHome();
