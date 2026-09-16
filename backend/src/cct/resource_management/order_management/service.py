@@ -113,7 +113,16 @@ def list_order_positions(repository: EntityRepositoryPort, order_id: str) -> tup
     )
 
 
-def delete_order_position(repository: EntityRepositoryPort, entity_id: str) -> None:
+def delete_order_position(
+    repository: EntityRepositoryPort, entity_id: str, *, stock_repository: EntityRepositoryPort
+) -> None:
+    """Delete a position, first returning any allocated capacity to its StockItem (DR-0027)."""
+    get_order_position(repository, entity_id)
+    for stock_item in repository.list_related(
+        from_kind=EntityKind.ORDER_ITEM, from_id=entity_id,
+        relationship=RelationshipType.ALLOCATES_STOCK, to_kind=EntityKind.STOCK_ITEM,
+    ):
+        release_stock(repository, entity_id, stock_item_id=stock_item.entity_id, stock_repository=stock_repository)
     repository.delete(EntityKind.ORDER_ITEM, entity_id)
 
 
@@ -191,11 +200,28 @@ def assign_traveller(
     *,
     traveller_role_id: str,
     person_repository: EntityRepositoryPort,
+    stock_repository: EntityRepositoryPort,
 ) -> None:
+    """Assign a traveller; if the position already has stock, consume one unit of it (DR-0027)."""
     get_order_position(repository, position_id)
     role = person_service.get_person_role(person_repository, traveller_role_id)
     if role.type != "person/traveller":
         raise ValueError(f"person role {traveller_role_id} is not a traveller role")
+    assigned = repository.list_related(
+        from_kind=EntityKind.ORDER_ITEM, from_id=position_id,
+        relationship=RelationshipType.ASSIGNED_TRAVELLER, to_kind=EntityKind.PERSON_ROLE,
+    )
+    if any(item.entity_id == traveller_role_id for item in assigned):
+        return
+    allocated = repository.list_related(
+        from_kind=EntityKind.ORDER_ITEM, from_id=position_id,
+        relationship=RelationshipType.ALLOCATES_STOCK, to_kind=EntityKind.STOCK_ITEM,
+    )
+    stock_item = inventory_service.get_stock_item(stock_repository, allocated[0].entity_id) if allocated else None
+    if stock_item is not None:
+        properties = stock_item.properties.model_dump(by_alias=True)
+        if properties["inventoryStatusCode"] != "inventory/active" or properties["remainingCapacity"] < 1:
+            raise StockUnavailableError((stock_item.entity_id,))
     repository.create_relationship(
         from_kind=EntityKind.ORDER_ITEM,
         from_id=position_id,
@@ -203,6 +229,11 @@ def assign_traveller(
         to_kind=EntityKind.PERSON_ROLE,
         to_id=traveller_role_id,
     )
+    if stock_item is not None:
+        properties["remainingCapacity"] -= 1
+        inventory_service.update_stock_item(
+            stock_repository, stock_item.entity_id, type=stock_item.type or "", properties=properties
+        )
 
 
 def assign_customer(

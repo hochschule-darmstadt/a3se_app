@@ -178,6 +178,61 @@ class OrdersApiTest(unittest.TestCase):
         self.assertEqual(1, self.client.get("/stock-items/I21-STOCK").json()["properties"]["remainingCapacity"])
         self.assertIsNone(self.client.get("/orders/I21-ORDER-01/detail").json()["positions"][0]["stockItemId"])
 
+    def create_capacity_fixture(self, capacity: int, traveller_count: int) -> None:
+        """One transfer StockItem with `capacity` places, an order with one position, and traveller roles."""
+        self.client.post("/products", json={"entityId": "CAP-PRODUCT", "product": {"type": "product/mobility/transfer", "properties": {"name": "Airport transfer"}}})
+        self.client.post("/stock-items", json={"entityId": "CAP-STOCK", "productId": "CAP-PRODUCT", "type": "stock/mobility/transfer",
+            "properties": {"serviceDate": "2027-01-08", "unitPriceAmount": "50.00", "currencyCode": "EUR", "capacityQuantity": capacity, "remainingCapacity": capacity}})
+        self.client.post("/orders", json={"entityId": "CAP-ORDER", "properties": {"orderStatusCode": "order/reserved"}})
+        self.client.post("/orders/CAP-ORDER/positions", json={"entityId": "CAP-POS"})
+        for index in range(1, traveller_count + 1):
+            self.client.post("/persons", json={"entityId": f"CAP-PERSON-{index}", "properties": {"givenName": "Test", "familyName": f"Traveller {index}"}})
+            self.client.post(f"/persons/CAP-PERSON-{index}/roles", json={"entityId": f"CAP-TRAVELLER-{index}", "role": {"type": "person/traveller", "properties": {}}})
+
+    def remaining_capacity(self) -> int:
+        return self.client.get("/stock-items/CAP-STOCK").json()["properties"]["remainingCapacity"]
+
+    def assign(self, index: int):
+        return self.client.put("/orders/CAP-ORDER/positions/CAP-POS/traveller", json={"travellerRoleId": f"CAP-TRAVELLER-{index}"})
+
+    def allocate(self):
+        return self.client.put("/orders/CAP-ORDER/positions/CAP-POS/stock", json={"stockItemId": "CAP-STOCK"})
+
+    def test_capacity_is_the_same_whether_travellers_are_assigned_before_or_after_allocation(self) -> None:
+        self.create_capacity_fixture(capacity=5, traveller_count=2)
+        self.assertEqual(204, self.assign(1).status_code)
+        self.assertEqual(204, self.allocate().status_code)
+        self.assertEqual(4, self.remaining_capacity())
+        self.assertEqual(204, self.assign(2).status_code)
+        self.assertEqual(3, self.remaining_capacity())
+
+    def test_reassigning_the_same_traveller_does_not_consume_capacity_twice(self) -> None:
+        self.create_capacity_fixture(capacity=5, traveller_count=1)
+        self.allocate()
+        self.assign(1)
+        self.assertEqual(204, self.assign(1).status_code)
+        self.assertEqual(4, self.remaining_capacity())
+
+    def test_assigning_a_traveller_beyond_remaining_capacity_returns_409_without_assigning(self) -> None:
+        self.create_capacity_fixture(capacity=1, traveller_count=2)
+        self.allocate()
+        self.assertEqual(204, self.assign(1).status_code)
+        response = self.assign(2)
+        self.assertEqual(409, response.status_code)
+        self.assertEqual("stock_unavailable", response.json()["type"])
+        self.assertEqual(0, self.remaining_capacity())
+        travellers = self.client.get("/orders/CAP-ORDER/detail").json()["positions"][0]["travellers"]
+        self.assertEqual(["CAP-TRAVELLER-1"], [traveller["roleId"] for traveller in travellers])
+
+    def test_deleting_a_position_returns_its_capacity_to_stock(self) -> None:
+        self.create_capacity_fixture(capacity=5, traveller_count=2)
+        self.assign(1)
+        self.assign(2)
+        self.allocate()
+        self.assertEqual(3, self.remaining_capacity())
+        self.assertEqual(204, self.client.delete("/orders/CAP-ORDER/positions/CAP-POS").status_code)
+        self.assertEqual(5, self.remaining_capacity())
+
     def test_allocate_stock_requires_existing_stock_returns_404(self) -> None:
         self.client.post(
             "/orders", json={"entityId": "I21-ORDER-01", "properties": {"orderNumber": "5766", "orderStatusCode": "order/reserved"}}

@@ -347,8 +347,8 @@ def get_order_position(order_id: str, position_id: str, repository: RepositoryDe
     operation_id="deleteOrderPosition",
     responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
-def delete_order_position(order_id: str, position_id: str, repository: RepositoryDependency, actor: ActorDependency) -> None:
-    service.delete_order_position(repository, position_id)
+def delete_order_position(order_id: str, position_id: str, repository: RepositoryDependency, stock_repository: StockRepositoryDependency, actor: ActorDependency) -> None:
+    service.delete_order_position(repository, position_id, stock_repository=stock_repository)
 
 
 @router.put(
@@ -391,7 +391,7 @@ def release_stock(
     "/{order_id}/positions/{position_id}/traveller",
     status_code=status.HTTP_204_NO_CONTENT,
     operation_id="assignOrderPositionTraveller",
-    responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
+    responses={404: {"model": ErrorResponse}, 409: {"model": ErrorResponse}, 422: {"model": ErrorResponse}},
 )
 def assign_traveller(
     order_id: str,
@@ -399,8 +399,10 @@ def assign_traveller(
     request: AssignTravellerRequest,
     repository: RepositoryDependency,
     person_repository: PersonRepositoryDependency,
+    stock_repository: StockRepositoryDependency,
     actor: ActorDependency,
 ) -> None:
     service.assign_traveller(
-        repository, position_id, traveller_role_id=request.traveller_role_id, person_repository=person_repository
+        repository, position_id, traveller_role_id=request.traveller_role_id,
+        person_repository=person_repository, stock_repository=stock_repository,
     )

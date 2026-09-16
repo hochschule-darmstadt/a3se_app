@@ -335,6 +335,7 @@ def _load_orders(
                     position.entity_id,
                     traveller_role_id=traveller_role_id,
                     person_repository=repos.person,
+                    stock_repository=repos.stock,
                 )
             order_service.allocate_stock(
                 repos.order, position.entity_id, stock_item_id=stock_item_id, stock_repository=repos.stock

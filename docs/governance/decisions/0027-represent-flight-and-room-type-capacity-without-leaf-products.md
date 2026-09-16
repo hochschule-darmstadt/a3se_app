@@ -26,7 +26,8 @@ DR-0020 named every StockItem type after the lowest-level product it represents,
 - `product/airline/flight/seat`, `product/accommodation/room-type/room`, `seatNumber`, and `roomNumber` are retired.
 - The stock types for these products are `stock/airline/flight` and `stock/accommodation/room-type`. The DR-0020 rule for every other family is unchanged: `stock/` followed by the product type's suffix.
 - `capacityQuantity` is the purchased capacity. `remainingCapacity` is the stored source of truth and must not exceed `capacityQuantity`. `heldQuantity`, `allocatedQuantity`, and the `held` availability state are retired.
-- Allocating a StockItem to an order position subtracts one unit from `remainingCapacity` for each traveller assigned to that position. Releasing it adds the same number back.
+- Each traveller on an order position that has allocated stock uses one unit of `remainingCapacity`, whether the traveller is assigned before or after allocation. Allocation subtracts one unit for each traveller already assigned. Assigning a traveller after allocation subtracts one more, or returns `409 stock_unavailable` without assigning if no capacity remains. Assigning the same traveller again changes nothing.
+- Releasing stock, or deleting a position, returns one unit per assigned traveller.
 
 ## Consequences
 
@@ -38,11 +39,12 @@ DR-0020 named every StockItem type after the lowest-level product it represents,
 ### Negative and risks
 
 - Seat or room assignment would need a new decision.
-- Capacity is taken from travellers assigned at allocation time. Travellers added after allocation do not reduce `remainingCapacity`. The seed script and tests assign travellers first, but the API does not enforce this order.
+- A single traveller cannot be removed from a position; only the whole position can be deleted.
+- The capacity check and the capacity update are separate writes, so two simultaneous requests could both pass the check. Customer order placement already runs in one transaction; staff operations do not.
 
 ## Validation and revisit triggers
 
-Evidence: backend unit and API tests for inventory, orders, and seed generation. Revisit this decision if seat or room assignment becomes a requirement, or if staff need to add travellers after allocation.
+Evidence: backend unit and API tests for inventory, orders, and seed generation, including tests that capacity does not depend on assignment order, that reassigning a traveller or exceeding capacity is handled, and that deleting a position returns its capacity. Revisit this decision if seat or room assignment becomes a requirement, if staff need to remove a single traveller from a position, or if simultaneous staff edits cause capacity errors.
 
 ## Links
 

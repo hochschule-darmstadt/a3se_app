@@ -80,7 +80,7 @@ class OrderServiceTest(unittest.TestCase):
     def test_delete_order_position_removes_entity(self) -> None:
         self.create_order_fixture()
         service.create_order_position(self.repository, entity_id="I21-POS-01", order_id="I21-ORDER-01")
-        service.delete_order_position(self.repository, "I21-POS-01")
+        service.delete_order_position(self.repository, "I21-POS-01", stock_repository=self.stock_repository)
         with self.assertRaises(EntityNotFoundError):
             service.get_order_position(self.repository, "I21-POS-01")
 
@@ -97,7 +97,8 @@ class OrderServiceTest(unittest.TestCase):
         service.create_order_position(self.repository, entity_id="I21-POS-01", order_id="I21-ORDER-01")
         with self.assertRaises(EntityNotFoundError):
             service.assign_traveller(
-                self.repository, "I21-POS-01", traveller_role_id="MISSING", person_repository=self.person_repository
+                self.repository, "I21-POS-01", traveller_role_id="MISSING", person_repository=self.person_repository,
+                stock_repository=self.stock_repository,
             )
 
     def test_full_order_detail_resolves_stock_product_supplier_and_traveller(self) -> None:
@@ -153,6 +154,7 @@ class OrderServiceTest(unittest.TestCase):
             "I21-POS-01",
             traveller_role_id="I21-TRAVELLER-ROLE",
             person_repository=self.person_repository,
+            stock_repository=self.stock_repository,
         )
 
         detail = service.get_order_detail(self.repository, "I21-ORDER-01")
