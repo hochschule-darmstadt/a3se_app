@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import { CctIcon } from "./icons.js";
 import { MOCK_AUTH_SIGNED_OUT_EVENT } from "./auth.js";
 
+const CUSTOMER_HEADER_HEIGHT = 72;
+const ADVISOR_DRAWER_Z_INDEX = 200;
+
 export interface AdvisorMessage {
   readonly id: string;
   readonly speaker: "customer" | "advisor";
@@ -162,9 +165,42 @@ export function AdvisorConversation({ labels, initialMessages = [], sessionStora
         <span style={{ position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap", border: 0 }}>{labels.launcher}</span>
       </Button>
 
-      <Drawer opened={opened} onClose={() => setOpened(false)} position="right" size={420} title={labels.title} closeButtonProps={{ "aria-label": labels.close }}>
-        <Stack gap="md" h="calc(100vh - 7rem)">
-          <ScrollArea viewportRef={viewportRef} flex={1} type="auto" offsetScrollbars>
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        position="right"
+        size={420}
+        title={labels.title}
+        zIndex={ADVISOR_DRAWER_Z_INDEX}
+        trapFocus={false}
+        styles={{
+          // The shell header is persistent chrome: the drawer and its backdrop
+          // must start below it so actions such as "My travel" stay visible
+          // and clickable while the advisor is composing a travel.
+          content: {
+            marginTop: CUSTOMER_HEADER_HEIGHT,
+            height: `calc(100vh - ${CUSTOMER_HEADER_HEIGHT}px)`,
+            maxHeight: `calc(100vh - ${CUSTOMER_HEADER_HEIGHT}px)`,
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+          },
+          body: {
+            minHeight: 0,
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+          },
+          overlay: {
+            top: CUSTOMER_HEADER_HEIGHT,
+            height: `calc(100vh - ${CUSTOMER_HEADER_HEIGHT}px)`,
+          },
+        }}
+        closeButtonProps={{ "aria-label": labels.close }}
+      >
+        <Stack gap="md" h="100%" mih={0}>
+          <ScrollArea viewportRef={viewportRef} flex={1} mih={0} type="auto" offsetScrollbars>
             <Stack gap="sm" aria-live="polite" aria-label={labels.title}>
               {messages.length === 0 ? <Text size="sm" c="dimmed">{labels.placeholder}</Text> : null}
               {messages.map((message) => (
@@ -175,7 +211,7 @@ export function AdvisorConversation({ labels, initialMessages = [], sessionStora
               ))}
             </Stack>
           </ScrollArea>
-          <form onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>
+          <form style={{ flexShrink: 0 }} onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>
             <Group align="end" gap="xs" wrap="nowrap">
               <TextInput style={{ flex: 1 }} label={labels.inputLabel} placeholder={labels.placeholder} value={draft} onChange={(event) => setDraft(event.currentTarget.value)} />
               <ActionIcon type="submit" color="actionSecondary" variant="filled" size="lg" aria-label={labels.send} disabled={!draft.trim() || submitting}>

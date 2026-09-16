@@ -39,6 +39,9 @@ export interface ShellUserMenuProps {
 
 const MAIN_CONTENT_ID = "shell-main-content";
 const NAV_BACKGROUND = designTokens.colour.navigationStrong;
+/** Keep global overlays below the customer header so its actions remain usable. */
+const CUSTOMER_HEADER_HEIGHT = 72;
+const CUSTOMER_HEADER_Z_INDEX = 300;
 
 /** Visible-on-focus skip link (DS-FND-004): off-screen until it receives keyboard focus. */
 function SkipLink() {
@@ -203,7 +206,7 @@ export function CustomerShell({ breadcrumbs = [], linkComponent, userMenu, heade
       styles={{ main: { backgroundColor: designTokens.colour.surfaceCanvas } }}
     >
       <SkipLink />
-      <AppShell.Header style={{ backgroundColor: NAV_BACKGROUND, border: 0 }}>
+      <AppShell.Header style={{ backgroundColor: NAV_BACKGROUND, border: 0, zIndex: CUSTOMER_HEADER_Z_INDEX }}>
         <Group h="100%" px="md" justify="space-between">
           <Group gap="sm">
             {linkComponent({
