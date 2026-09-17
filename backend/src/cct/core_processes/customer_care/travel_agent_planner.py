@@ -14,6 +14,7 @@ import re
 from calendar import monthrange
 from dataclasses import dataclass
 from datetime import date, timedelta
+from itertools import product as cross_product
 from typing import Sequence
 
 from cct.resource_management.repository_ports import EntityRepositoryPort
@@ -21,7 +22,15 @@ from cct.resource_management.repository_ports import EntityRepositoryPort
 from .advisor import AdvisorAction, AdvisorConversationTurn
 from .travel_agent import CapacityUnit, ComponentKind, ItineraryComponent, ItineraryDiagnostic, TravelIntent
 from .travel_agent_workflow import TravelAgentWorkflow
-from .travel_intent_extraction import LOCATION_CODES, ExtractedTravelFields, TravelIntentExtractor, location_code, location_match
+from .travel_intent_extraction import (
+    LOCATION_CODE_GROUPS,
+    ExtractedTravelFields,
+    TravelIntentExtractor,
+    location_code,
+    location_group_match,
+    location_match,
+    location_name,
+)
 
 MONTH_NAMES = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
 PARTNER_QUESTION = "What is the name of your travel partner?"
@@ -43,7 +52,7 @@ class PlanningRequest:
     window_start: date | None = None
     window_end: date | None = None
     window_label: str | None = None
-    destination_code: str | None = None
+    destination_codes: tuple[str, ...] = ()
     origin_text: str | None = None
     partner_name: tuple[str, str] | None = None
     theme: str | None = None
@@ -53,28 +62,48 @@ def _customer_words(turns: Sequence[AdvisorConversationTurn]) -> set[str]:
     return {word for turn in turns if turn.role == "customer" for word in re.findall(r"[^\W\d_]+", turn.content.casefold())}
 
 
-def _grounded(value: str, words: set[str], *, code: str | None = None) -> bool:
+def _aliases_of(code: str) -> tuple[str, ...]:
+    return tuple(alias for alias, codes in LOCATION_CODE_GROUPS.items() if codes == (code,))
+
+
+def _customer_named(code: str, words: set[str]) -> bool:
+    """Did the customer write this very place, rather than only its country?"""
+    return any(word in words for alias in _aliases_of(code) for word in re.findall(r"[^\W\d_]{3,}", alias))
+
+
+def _grounded(value: str, words: set[str], *, codes: Sequence[str] = ()) -> bool:
     """Accept a model value only if the customer wrote part of it.
 
     Aliases of a resolved location count too, so "Rio" grounds
     "Rio de Janeiro".  Ungrounded values are dropped rather than trusted.
     """
-    candidates = [value, *(alias for alias, alias_code in LOCATION_CODES.items() if code and alias_code == code)]
+    candidates = [value, *(alias for code in codes for alias in _aliases_of(code))]
     return any(word in words for candidate in candidates for word in re.findall(r"[^\W\d_]{3,}", candidate.casefold()))
 
 
 def _place(value: str | None, words: set[str]) -> tuple[str | None, str | None]:
     """Return a grounded place text and its unambiguous location code."""
+    text, codes = _destination_place(value, words)
+    return text, codes[0] if len(codes) == 1 else None
+
+
+def _destination_place(value: str | None, words: set[str]) -> tuple[str | None, tuple[str, ...]]:
+    """Return a grounded place text and every location code it can mean.
+
+    A country destination such as "Peru" covers several airports; each is a
+    candidate the planner tries, preferring one the customer named themselves.
+    """
     text = (value or "").strip(" .,;:!?")
     if not text or len(text) > 100:
-        return None, None
-    match = location_match(text)
-    code = match[1] if match else None
-    if not _grounded(text, words, code=code):
-        return None, None
+        return None, ()
+    match = location_group_match(text)
+    codes = match[1] if match else ()
+    if not _grounded(text, words, codes=codes):
+        return None, ()
+    ordered = sorted(codes, key=lambda code: not _customer_named(code, words))
     # The resolved alias is also the catalogue search term: "Lima, Peru"
     # must search for "lima", not the whole phrase.
-    return (match[0] if match else text.casefold()), code
+    return (match[0] if match else text.casefold()), tuple(ordered)
 
 
 def _iso_date(value: str | None, today: date) -> date | None:
@@ -115,7 +144,7 @@ def _partner(fields: ExtractedTravelFields, words: set[str]) -> tuple[str, str] 
 def normalise_travel_fields(fields: ExtractedTravelFields, turns: Sequence[AdvisorConversationTurn], today: date) -> PlanningRequest:
     """Validate extracted fields into a planning request; invalid facts become missing."""
     words = _customer_words(turns)
-    destination, destination_code = _place(fields.destination, words)
+    destination, destination_codes = _destination_place(fields.destination, words)
     origin_text, origin_code = _place(fields.origin, words)
     start, end = _iso_date(fields.start_date, today), _iso_date(fields.end_date, today)
     if start and fields.travel_month == start.month:
@@ -150,7 +179,7 @@ def normalise_travel_fields(fields: ExtractedTravelFields, turns: Sequence[Advis
         window_start=window[0] if window else None,
         window_end=window[1] if window else None,
         window_label=window[2] if window else None,
-        destination_code=destination_code,
+        destination_codes=destination_codes,
         origin_text=origin_text,
         partner_name=_partner(fields, words),
         theme=theme if _THEME.match(theme) else None,
@@ -342,6 +371,17 @@ def _date_attempts(request: PlanningRequest) -> tuple[TravelIntent, ...]:
     return tuple(inside + overflowing)
 
 
+def _destination_label(destination: str | None, code: str) -> str:
+    """Name the place the draft is actually for, and its country when asked for.
+
+    A customer who asked for "Peru" gets "Lima, Peru": the composed draft is
+    for one city, and saying which one keeps the answer honest.
+    """
+    city = location_name(code) or (destination or "").title()
+    region = (destination or "").title()
+    return city if region.casefold() in (city.casefold(), "") else f"{city}, {region}"
+
+
 def _travel_period(intent: TravelIntent) -> str:
     return f"{intent.start_date:%Y-%m-%d} to {intent.end_date:%Y-%m-%d}"
 
@@ -361,7 +401,7 @@ def compose_travel(
     question = _next_question(request)
     if question:
         return question, intent, (), ()
-    if not request.destination_code:
+    if not request.destination_codes:
         return (
             f"I do not have internal stock for {intent.destination} yet.",
             intent,
@@ -382,19 +422,22 @@ def compose_travel(
     )
     result: dict = {}
     selected_intent = intent
-    for attempt in attempts:
+    selected_code = request.destination_codes[0]
+    # A country destination covers several airports; each is tried for every
+    # candidate date, in the order the customer's own words prefer.
+    for attempt, destination_code in cross_product(attempts, request.destination_codes):
         candidate_result = workflow.run(
             intent=attempt,
-            candidates=build_internal_candidates(attempt, pool, destination_code=request.destination_code),
+            candidates=build_internal_candidates(attempt, pool, destination_code=destination_code),
         )
         diagnostics = candidate_result.get("diagnostics", ())
         if not diagnostics:
-            result, selected_intent = candidate_result, attempt
+            result, selected_intent, selected_code = candidate_result, attempt, destination_code
             break
         # When no date in the window works, report the closest attempt rather
         # than whichever date happened to be tried last.
         if not result or len(diagnostics) < len(result.get("diagnostics", ())):
-            result, selected_intent = candidate_result, attempt
+            result, selected_intent, selected_code = candidate_result, attempt, destination_code
     diagnostics = result.get("diagnostics", ())
     if result.get("status") == "awaiting-input" or not result:
         return str(result.get("question") or DATE_QUESTION), selected_intent, (), ()
@@ -421,7 +464,7 @@ def compose_travel(
             familyName=family_name,
         ), *actions)
     return (
-        f"I added a draft for {(selected_intent.destination or '').title()}, {_travel_period(selected_intent)}, "
+        f"I added a draft for {_destination_label(selected_intent.destination, selected_code)}, {_travel_period(selected_intent)}, "
         f"for {selected_intent.traveller_count} traveller(s) to My Travel. "
         "Nothing is reserved yet - please review the components and order when they are right.",
         selected_intent,

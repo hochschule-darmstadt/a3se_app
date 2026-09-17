@@ -24,15 +24,15 @@ class LimaCatalogueRepository:
 
     calls: int
 
-    def __init__(self, start: date, nights: int) -> None:
+    def __init__(self, start: date, nights: int, origin_code: str = "BER") -> None:
         self.calls = 0
         self._products = {
             "outbound": _entity(EntityKind.TOURISTIC_PRODUCT_ITEM, "PRD-OUT", "product/airline/flight", {
-                "flightNumber": "CA501", "departureLocationCode": "BER", "arrivalLocationCode": "LIM",
+                "flightNumber": "CA501", "departureLocationCode": origin_code, "arrivalLocationCode": "LIM",
                 "scheduledDepartureLocalTime": time(8, 15), "scheduledArrivalLocalTime": time(18, 40),
             }),
             "inbound": _entity(EntityKind.TOURISTIC_PRODUCT_ITEM, "PRD-IN", "product/airline/flight", {
-                "flightNumber": "CA602", "departureLocationCode": "LIM", "arrivalLocationCode": "BER",
+                "flightNumber": "CA602", "departureLocationCode": "LIM", "arrivalLocationCode": origin_code,
                 "scheduledDepartureLocalTime": time(21, 30), "scheduledArrivalLocalTime": time(16, 5),
             }),
             "room": _entity(EntityKind.TOURISTIC_PRODUCT_ITEM, "PRD-ROOM", "product/accommodation/room-type", {
@@ -136,3 +136,54 @@ class TravelAgentPlannerTest(TestCase):
         self.assertEqual("Hannelore Stremme", actions[0].display_name)
         # Two flights plus one room per night, proposed as client draft actions.
         self.assertEqual(7, sum(1 for action in actions if action.type == "add-position"))
+
+    def test_country_destination_uses_stock_in_that_country(self) -> None:
+        """A customer who names a country must not be told there is no stock.
+
+        Live run: "a travel to Peru ... from Frankfurt to lima" was refused
+        because "Peru" names two airports and resolved to none of them.
+        """
+        conversation = _turns(
+            "book a travel to Peru in June 2027, together with my husband "
+            "we want to stay 3 weeks go from Frankfurt to lima",
+            "What is the name of your travel partner?",
+        )
+
+        repository = LimaCatalogueRepository(date(2027, 6, 1), 21, origin_code="FRA")
+        answer, intent, actions, diagnostics = compose_travel(
+            "Bernhard Humm",
+            conversation,
+            repository,  # type: ignore[arg-type]
+            ScriptedExtractor(
+                destination="Peru", origin="Frankfurt", travel_month=6, travel_year=2027,
+                min_days=21, max_days=21, traveller_count=2,
+                partner_given_name="Bernhard", partner_family_name="Humm",
+            ),
+            TODAY,
+        )
+
+        self.assertEqual((), diagnostics)
+        self.assertNotIn("I do not have internal stock", answer)
+        # The draft is for one city, so the answer says which one.
+        self.assertIn("Lima, Peru", answer)
+        self.assertEqual((date(2027, 6, 1), date(2027, 6, 22)), (intent.start_date, intent.end_date))
+        self.assertEqual("Bernhard Humm", actions[0].display_name)
+        # Two flights plus one room per night of the three weeks.
+        self.assertEqual(23, sum(1 for action in actions if action.type == "add-position"))
+
+    def test_an_unknown_destination_is_still_reported_as_missing_stock(self) -> None:
+        answer, _intent, actions, diagnostics = compose_travel(
+            "two weeks in Reykjavik from Berlin in March 2027, my partner Ada Kern comes along",
+            [],
+            UnusedStockRepository(),  # type: ignore[arg-type]
+            ScriptedExtractor(
+                destination="Reykjavik", origin="Berlin", travel_month=3, travel_year=2027,
+                min_days=14, max_days=14, traveller_count=2,
+                partner_given_name="Ada", partner_family_name="Kern",
+            ),
+            TODAY,
+        )
+
+        self.assertEqual("DESTINATION-UNKNOWN", diagnostics[0].rule_id)
+        self.assertIn("I do not have internal stock for reykjavik yet.", answer)
+        self.assertEqual((), actions)

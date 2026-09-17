@@ -186,8 +186,10 @@ steps:
    departure city, and partner names are accepted only when grounded in words
    the customer wrote (a resolved location's aliases count, so "Rio" grounds
    "Rio de Janeiro"). Places resolve to codes only through the shared location
-   aliases, excluding aliases such as country names that identify no single
-   place. Dates must be valid ISO dates from today to the end of the second
+   aliases. A departure city must resolve to exactly one code, so a country
+   name is no departure. A destination may be a country: it resolves to every
+   location code that country covers, ordered so a place the customer named
+   themselves is tried before the rest. Dates must be valid ISO dates from today to the end of the second
    following year; an open month becomes a search window, rolled forward to
    the next year when already past; traveller count, trip length, and budget
    are bounded. Exact dates supersede a contradicting trip length. Exact dates
@@ -211,7 +213,10 @@ the month, preferring trips that also end inside it, so an unavailable date is
 answered with another date rather than with a demand for exact dates. The
 window is read from the catalogue once per component family and every
 candidate arrival date is then evaluated in memory; reading per candidate date
-made a month-wide search appear to hang. When no date in the window works, the
+made a month-wide search appear to hang. Each candidate date is evaluated
+against each destination code the destination covers, so a trip to "Peru"
+composes from stock in Lima or Cusco, and the answer names the city the draft
+is actually for. When no date in the window works, the
 attempt with the fewest diagnostics is reported rather than the last one
 tried.
 

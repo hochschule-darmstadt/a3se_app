@@ -12,9 +12,8 @@ from __future__ import annotations
 import json
 import os
 import re
-from collections import Counter
 from datetime import date
-from typing import Literal, Protocol, Sequence
+from typing import Literal, Protocol, Sequence, TypeVar
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
@@ -24,34 +23,69 @@ from cct.resource_management.touristic_product_management.search import LOCATION
 
 from .advisor import AdvisorConversationTurn, AdvisorUnavailable, format_conversation
 
+_CodesT = TypeVar("_CodesT", str, tuple[str, ...])
 
-def _unambiguous_location_codes() -> dict[str, str]:
-    """Map location aliases to codes, dropping aliases shared by two places.
 
-    ``LOCATION_TERMS`` also carries country names ("Germany" for BER, FRA and
-    MUC).  Those cannot identify a departure airport, so they are excluded
-    instead of silently resolving to whichever entry happens to come last.
+def _location_code_groups() -> dict[str, tuple[str, ...]]:
+    """Map every location alias to the codes it can mean.
+
+    ``LOCATION_TERMS`` also carries country names ("Peru" for LIM and CUZ).
+    Such an alias names a region rather than one airport, so it is kept with
+    all of its codes instead of resolving to whichever entry comes last.
     """
-    aliases = [(alias.casefold(), code) for code, terms in LOCATION_TERMS.items() for alias in (code, *terms)]
-    occurrences = Counter(alias for alias, _code in aliases)
-    return {alias: code for alias, code in aliases if occurrences[alias] == 1}
+    groups: dict[str, list[str]] = {}
+    for code, terms in LOCATION_TERMS.items():
+        for alias in (code, *terms):
+            groups.setdefault(alias.casefold(), []).append(code)
+    return {alias: tuple(codes) for alias, codes in groups.items()}
 
 
-LOCATION_CODES = _unambiguous_location_codes()
+LOCATION_CODE_GROUPS = _location_code_groups()
+# A departure airport must be unambiguous; a country cannot identify one.
+LOCATION_CODES = {alias: codes[0] for alias, codes in LOCATION_CODE_GROUPS.items() if len(codes) == 1}
+
+
+def _alias_rank(alias: str, codes: str | tuple[str, ...]) -> tuple[int, int]:
+    """Longest alias first, and among equally long ones the more specific.
+
+    "Lima, Peru" must resolve to the city, not to the country that happens to
+    be spelled with as many letters.
+    """
+    return -len(alias), 1 if isinstance(codes, str) else len(codes)
+
+
+def _alias_match(text: str, table: dict[str, _CodesT]) -> tuple[str, _CodesT] | None:
+    """Resolve the longest matching location alias inside free text."""
+    normalized = text.casefold().strip(" .,;:!?")
+    for alias in sorted(table, key=lambda alias: _alias_rank(alias, table[alias])):
+        if re.search(rf"(?<![a-z]){re.escape(alias)}(?![a-z])", normalized):
+            return alias, table[alias]
+    return None
 
 
 def location_match(text: str) -> tuple[str, str] | None:
-    """Resolve the longest matching location alias inside free text."""
-    normalized = text.casefold().strip(" .,;:!?")
-    for alias in sorted(LOCATION_CODES, key=len, reverse=True):
-        if re.search(rf"(?<![a-z]){re.escape(alias)}(?![a-z])", normalized):
-            return alias, LOCATION_CODES[alias]
-    return None
+    """Resolve free text to a single location code, ignoring region aliases."""
+    return _alias_match(text, LOCATION_CODES)
+
+
+def location_group_match(text: str) -> tuple[str, tuple[str, ...]] | None:
+    """Resolve free text to every location code its alias can mean.
+
+    A city alias yields one code, a country alias every airport it covers, so
+    "Peru" is a searchable destination rather than an unknown place.
+    """
+    return _alias_match(text, LOCATION_CODE_GROUPS)
 
 
 def location_code(text: str) -> str | None:
     match = location_match(text)
     return match[1] if match else None
+
+
+def location_name(code: str) -> str | None:
+    """Return the canonical human-readable name of a location code."""
+    terms = LOCATION_TERMS.get(code)
+    return terms[0] if terms else None
 
 
 class ExtractedTravelFields(BaseModel):

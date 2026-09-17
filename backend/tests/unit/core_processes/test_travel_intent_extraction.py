@@ -57,7 +57,7 @@ class NormalisationTest(TestCase):
 
         request = build_planning_request(turns, extractor, TODAY)
 
-        self.assertEqual("GIG", request.destination_code)
+        self.assertEqual(("GIG",), request.destination_codes)
         self.assertEqual("MUC", request.intent.origin_code)
         self.assertEqual((date(2027, 3, 1), date(2027, 3, 31), "March 2027"), (request.window_start, request.window_end, request.window_label))
         self.assertEqual((7, 7, 2, 4000), (request.intent.min_days, request.intent.max_days, request.intent.traveller_count, request.intent.budget_amount))
