@@ -51,6 +51,7 @@ class AdvisorQuestion(BaseModel):
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
     message: str = Field(min_length=1, max_length=2000)
+    is_authenticated: bool = Field(default=False, alias="isAuthenticated")
     confirmed_context: list[AdvisorContextItem] = Field(default_factory=list, alias="confirmedContext")
     conversation: list[AdvisorConversationTurn] = Field(default_factory=list, max_length=20)
 
@@ -333,7 +334,7 @@ class AdvisorService:
         self._model = model
 
     def answer(self, question: AdvisorQuestion) -> AdvisorAnswer:
-        documents = self._index.search(question.message, limit=8)
+        documents = self.retrieve(question)
         if not documents:
             return AdvisorAnswer(
                 state=AdvisorState.NO_ANSWER,
@@ -345,8 +346,12 @@ class AdvisorService:
             return answer.model_copy(update={"evidence": [], "actions": []})
         return answer
 
-    def stream_answer(self, question: AdvisorQuestion) -> Iterator[dict[str, object]]:
-        documents = self._index.search(question.message, limit=8)
+    def retrieve(self, question: AdvisorQuestion) -> list[KnowledgeDocument]:
+        """Retrieve bounded grounded evidence for the graph-selected RAG branch."""
+        return self._index.search(question.message, limit=8)
+
+    def stream_answer_from_documents(self, question: AdvisorQuestion, documents: list[KnowledgeDocument]) -> Iterator[dict[str, object]]:
+        """Generate a streamed answer from evidence already retrieved by the graph."""
         if not documents:
             yield {
                 "type": "complete",
@@ -374,6 +379,10 @@ class AdvisorService:
             "actions": [],
             "uncertaintyReason": "",
         }
+
+    def stream_answer(self, question: AdvisorQuestion) -> Iterator[dict[str, object]]:
+        """Compatibility wrapper for the legacy direct streaming endpoint."""
+        yield from self.stream_answer_from_documents(question, self.retrieve(question))
 
 
 def format_conversation(conversation: list[AdvisorConversationTurn]) -> str:

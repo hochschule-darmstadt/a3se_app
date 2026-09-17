@@ -352,10 +352,11 @@ def compose_travel(
     stock_repository: EntityRepositoryPort,
     extractor: TravelIntentExtractor,
     today: date | None = None,
+    extracted_fields: ExtractedTravelFields | None = None,
 ) -> tuple[str, TravelIntent, tuple[AdvisorAction, ...], tuple[object, ...]]:
     """Compose a client-side draft proposal; never reserve, book, or order."""
     turns = (*conversation, AdvisorConversationTurn(role="customer", content=message))
-    request = build_planning_request(turns, extractor, today)
+    request = normalise_travel_fields(extracted_fields, turns, today or date.today()) if extracted_fields else build_planning_request(turns, extractor, today)
     intent = request.intent
     question = _next_question(request)
     if question:

@@ -58,8 +58,8 @@ document.
 The accepted local advisor stack is governed by
 [DR-0024](../../governance/decisions/0024-local-grounded-advisor-stack.md).
 `MOD-ADVISOR` is currently implemented as Python application logic in
-`core_processes/customer_care/advisor.py`, exposed by the `/advisor/answer` and
-`/advisor/answer/stream` FastAPI routes. It is read-only: it has no order,
+`core_processes/customer_care/advisor.py`, exposed by the advisor FastAPI
+routes. It is read-only: it has no order,
 inventory, payment, or other mutation tools.
 
 At API startup, `scripts/serve.py` computes a persisted manifest in the
@@ -158,11 +158,13 @@ actions through `TravelProvider`, which remains the owner of the editable My
 Travel session state. The agent never calls `/orders/place`; the existing
 customer Order control remains the sole final-submit path.
 
-The customer free-text adapter is `POST /advisor/compose`. It accepts the same
-bounded message, conversation, and `confirmedContext` envelope as the ordinary
-advisor, extracts supported planning fields, queries only the existing
-catalogue/Inventory repository operation, and invokes the graph. It may ask a
-follow-up question before composition.
+`POST /advisor/respond/stream` is the customer free-text entry point. It accepts
+the bounded message, conversation, and `confirmedContext` envelope. The first
+LangGraph node uses local structured model output to classify the complete
+conversation, then routes to grounded RAG or composition; the browser does not
+select a route from keywords. The composition branch extracts supported planning
+fields, queries only the existing catalogue/Inventory repository operation, and
+may ask a follow-up question before composition.
 
 Planning fields are interpreted from the whole conversation in two separated
 steps:
@@ -223,7 +225,8 @@ uncertain response with diagnostics, not as a partial order proposal.
 #### Server-client interplay
 
 The composition is computed server-side but owned client-side. The server
-holds no draft between requests: each `/advisor/compose` call re-derives the
+holds no draft between requests: each `/advisor/respond/stream` composition
+branch re-derives the
 planning fields from the conversation the browser sends, reads authoritative
 StockItems, runs the graph, and returns the result only inside the
 `AdvisorAnswer` response. Its `actions` array is the transport of the proposed
@@ -247,11 +250,13 @@ Source: [travel-agent-client-draft.puml](travel-agent-client-draft.puml).
 This graph is the orchestration seam, not the source of business truth.
 Natural-language intent extraction and live candidate retrieval must call the
 existing authenticated API and populate its typed inputs. Model reasoning may
-interpret language (as the `/advisor/compose` extractor does) and rank returned
+interpret language (as the unified advisor extractor does) and rank returned
 candidates, but it may not invent
 availability, dates, prices, capacity, traveller identity, or reservations.
-The ordinary `/advisor/answer/stream` RAG path remains separate and read-only;
-planning uses typed advisor contracts when action data is required.
+The RAG branch remains read-only and streams its generated answer after the
+graph selects it; the composition branch uses typed advisor contracts when
+action data is required. [DR-0028](../../governance/decisions/0028-unify-advisor-routing-in-langgraph.md)
+records the unified routing decision and its NFR-002 latency risk.
 
 ## 2.1 Capability ownership for delivered views
 

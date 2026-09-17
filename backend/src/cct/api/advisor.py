@@ -16,6 +16,7 @@ from cct.core_processes.customer_care.travel_agent import ItineraryComponent, It
 from cct.core_processes.customer_care.travel_agent_planner import compose_travel
 from cct.core_processes.customer_care.travel_agent_workflow import TravelAgentWorkflow
 from cct.core_processes.customer_care.travel_intent_extraction import TravelIntentExtractor
+from cct.core_processes.customer_care.advisor_workflow import AdvisorWorkflow
 from cct.resource_management.repository_ports import EntityRepositoryPort
 
 from .dependencies import get_advisor_service, get_stock_repository, get_travel_intent_extractor
@@ -73,6 +74,23 @@ class TravelAgentQuestion(BaseModel):
     # confirmed context must remain part of the validated contract so the UI
     # does not receive a misleading generic failure.
     confirmed_context: list[dict[str, str]] = Field(default_factory=list, alias="confirmedContext", max_length=20)
+
+
+def _compose_answer(
+    question: AdvisorQuestion,
+    stock_repository: EntityRepositoryPort,
+    extractor: TravelIntentExtractor,
+    extracted_fields=None,
+) -> AdvisorAnswer:
+    answer, _intent, actions, diagnostics = compose_travel(
+        question.message, question.conversation, stock_repository, extractor=extractor, extracted_fields=extracted_fields,
+    )
+    return AdvisorAnswer(
+        state=AdvisorState.ANSWERED if not diagnostics else AdvisorState.UNCERTAIN,
+        answer=answer,
+        actions=list(actions),
+        uncertaintyReason="; ".join(item.message for item in diagnostics) if diagnostics else None,
+    )
 
 
 @router.post(
@@ -137,13 +155,45 @@ def compose_advisor_travel(
     extractor: TravelIntentExtractorDependency,
 ) -> AdvisorAnswer:
     """Extract and compose a request through internal stock and LangGraph."""
-    answer, _intent, actions, diagnostics = compose_travel(question.message, question.conversation, stock_repository, extractor=extractor)
-    return AdvisorAnswer(
-        state=AdvisorState.ANSWERED if not diagnostics else AdvisorState.UNCERTAIN,
-        answer=answer,
-        actions=list(actions),
-        uncertaintyReason="; ".join(item.message for item in diagnostics) if diagnostics else None,
-    )
+    return _compose_answer(AdvisorQuestion.model_validate(question.model_dump(by_alias=True)), stock_repository, extractor)
+
+
+def _single_answer_events(answer: AdvisorAnswer) -> Iterator[str]:
+    yield json.dumps({
+        "type": "complete",
+        "state": answer.state.value,
+        "answer": answer.answer,
+        "evidence": [item.model_dump(by_alias=True) for item in answer.evidence],
+        "actions": [item.model_dump(by_alias=True) for item in answer.actions],
+        "uncertaintyReason": answer.uncertainty_reason or "",
+    }) + "\n"
+
+
+@router.post(
+    "/respond/stream",
+    operation_id="streamAdvisorResponse",
+    response_class=StreamingResponse,
+    responses={
+        200: {"content": {"application/x-ndjson": {"schema": {"type": "string"}}}},
+        422: {"model": ErrorResponse},
+        503: {"model": ErrorResponse},
+    },
+)
+def stream_advisor_response(
+    question: AdvisorQuestion,
+    service: AdvisorServiceDependency,
+    stock_repository: StockRepositoryDependency,
+    extractor: TravelIntentExtractorDependency,
+) -> StreamingResponse:
+    """Route every customer message server-side, streaming the grounded branch."""
+    state = AdvisorWorkflow(extractor=extractor, retrieve=service.retrieve).route(question)
+    if answer := state.get("answer"):
+        events = _single_answer_events(answer)
+    elif state["route"] == "compose":
+        events = _single_answer_events(_compose_answer(question, stock_repository, extractor, state["extracted_fields"]))
+    else:
+        events = (json.dumps(event) + "\n" for event in service.stream_answer_from_documents(question, state["documents"]))
+    return StreamingResponse(events, media_type="application/x-ndjson")
 
 
 def _stream_events(question: AdvisorQuestion, service: AdvisorService) -> Iterator[str]:

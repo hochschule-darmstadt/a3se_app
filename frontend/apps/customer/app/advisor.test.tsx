@@ -13,6 +13,20 @@ function renderAdvisor(initialEntry = "/") {
   return render(<TestProviders><Stub initialEntries={[initialEntry]} /></TestProviders>);
 }
 
+function streamedResponse(answer: string, state: "answered" | "no-answer" = "answered", actions: unknown[] = []) {
+  let delivered = false;
+  return {
+    ok: true,
+    body: {
+      getReader: () => ({
+        read: async () => delivered
+          ? { done: true, value: undefined }
+          : (delivered = true, { done: false, value: new TextEncoder().encode(`${JSON.stringify({ type: "complete", state, answer, actions })}\n`) }),
+      }),
+    },
+  };
+}
+
 describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
   beforeEach(() => {
     window.localStorage.clear();
@@ -25,19 +39,7 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
     window.sessionStorage.setItem("cct.customer.advisor.confirmed-context.v1", JSON.stringify([
       { key: "orderReference", value: "TO-2048" },
     ]));
-    const fetchMock = vi.fn().mockImplementation(() => {
-      let delivered = false;
-      return Promise.resolve({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: async () => delivered
-              ? { done: true, value: undefined }
-              : (delivered = true, { done: false, value: new TextEncoder().encode('{"type":"chunk","text":"The catalogue has a coastal walking option."}\n{"type":"complete","state":"answered","answer":""}\n') }),
-          }),
-        },
-      });
-    });
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(streamedResponse("The catalogue has a coastal walking option.")));
     vi.stubGlobal("fetch", fetchMock);
     renderAdvisor("/assistance");
 
@@ -68,7 +70,9 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
 
   it("asks an unsigned customer to sign in before invoking composition", async () => {
     const user = userEvent.setup();
-    const fetchMock = vi.fn();
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(streamedResponse(
+      "Please sign in before I can propose or compose travel. Your conversation will be kept so you can continue afterwards.", "no-answer",
+    )));
     vi.stubGlobal("fetch", fetchMock);
     const Stub = createRoutesStub([
       { path: "/assistance", Component: CustomerAdvisor },
@@ -80,10 +84,33 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
     await user.click(screen.getByRole("button", { name: "Send message" }));
 
     expect(await screen.findByText("Sign in page")).toBeInTheDocument();
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://127.0.0.1:8000/advisor/respond/stream",
+      expect.objectContaining({ method: "POST" }),
+    );
   });
 
-  it("keeps a started composition on the compose endpoint and applies its draft actions", async () => {
+  it("sends a narrative trip request to composition rather than grounded Q&A", async () => {
+    const user = userEvent.setup();
+    signInMockActor("PER-001", "Ada Kern");
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(streamedResponse("What is the name of your travel partner?")));
+    vi.stubGlobal("fetch", fetchMock);
+    renderAdvisor("/assistance");
+
+    await user.type(
+      screen.getByRole("textbox", { name: "Message the advisor" }),
+      "I will travel to Peru in June 2027. Together with my husband, we want to stay 3 weeks and go from Frankfurt to Lima.",
+    );
+    await user.click(screen.getByRole("button", { name: "Send message" }));
+
+    expect(await screen.findByText("What is the name of your travel partner?")).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://127.0.0.1:8000/advisor/respond/stream",
+      expect.objectContaining({ method: "POST" }),
+    );
+  });
+
+  it("sends every follow-up through the unified endpoint and applies draft actions", async () => {
     const user = userEvent.setup();
     signInMockActor("PER-001", "Ada Kern");
     const composeReplies = [
@@ -97,8 +124,10 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
         }],
       },
     ];
-    const fetchMock = vi.fn().mockImplementation(() =>
-      Promise.resolve({ ok: true, json: async () => composeReplies.shift() }));
+    const fetchMock = vi.fn().mockImplementation(() => {
+      const reply = composeReplies.shift()!;
+      return Promise.resolve(streamedResponse(reply.answer, "answered", reply.actions));
+    });
     vi.stubGlobal("fetch", fetchMock);
     renderAdvisor("/assistance");
 
@@ -107,15 +136,14 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
     await user.click(screen.getByRole("button", { name: "Send message" }));
     expect(await screen.findByText("Which city would you like to depart from?")).toBeInTheDocument();
 
-    // "Berlin" carries no planning keyword; it must still reach composition
-    // instead of the generative question-answering path.
+    // The backend sees the full transcript and classifies this short answer.
     await user.type(input, "Berlin");
     await user.click(screen.getByRole("button", { name: "Send message" }));
     expect(await screen.findByText(/I added a draft for Lima/)).toBeInTheDocument();
 
     expect(fetchMock.mock.calls.map((call) => call[0])).toEqual([
-      "http://127.0.0.1:8000/advisor/compose",
-      "http://127.0.0.1:8000/advisor/compose",
+      "http://127.0.0.1:8000/advisor/respond/stream",
+      "http://127.0.0.1:8000/advisor/respond/stream",
     ]);
     const draft = JSON.parse(window.sessionStorage.getItem("cct.customer.travel.v1") ?? "null") as {
       travellers: Array<{ clientTravellerId: string }>;
@@ -132,19 +160,7 @@ describe("CustomerAdvisor (VIEW-C-007 / DS-CMP-009)", () => {
     window.sessionStorage.setItem("cct.customer.advisor.confirmed-context.v1", JSON.stringify([
       { key: "orderReference", value: "TO-2048" },
     ]));
-    const fetchMock = vi.fn().mockImplementation(() => {
-      let delivered = false;
-      return Promise.resolve({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: async () => delivered
-              ? { done: true, value: undefined }
-              : (delivered = true, { done: false, value: new TextEncoder().encode('{"type":"chunk","text":"Ada-specific answer."}\n{"type":"complete","state":"answered","answer":""}\n') }),
-          }),
-        },
-      });
-    });
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(streamedResponse("Ada-specific answer.")));
     vi.stubGlobal("fetch", fetchMock);
     renderAdvisor("/assistance");
     await user.click(screen.getByRole("button", { name: "Open AI Travel Advisor" }));

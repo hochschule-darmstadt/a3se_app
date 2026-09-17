@@ -14,7 +14,7 @@ import os
 import re
 from collections import Counter
 from datetime import date
-from typing import Protocol, Sequence
+from typing import Literal, Protocol, Sequence
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
@@ -64,6 +64,10 @@ class ExtractedTravelFields(BaseModel):
 
     model_config = ConfigDict(extra="ignore")
 
+    request_kind: Literal["advice", "compose"] = Field(
+        default="advice",
+        description="Whether the customer is seeking general travel information or wants to plan, revise, reserve, book, or otherwise compose travel.",
+    )
     destination: str | None = Field(default=None, description="Place the customer wants to travel to, as an English place name.")
     origin: str | None = Field(default=None, description="City the customer wants to depart from and return to.")
     start_date: str | None = Field(default=None, description="Exact arrival date as YYYY-MM-DD, only if the customer fixed a day.")
@@ -96,10 +100,11 @@ class TravelIntentExtractor(Protocol):
 
 
 _EXTRACTION_INSTRUCTIONS = """\
-You extract travel planning facts for a tour operator from a conversation.
+You classify the customer's current request and extract travel planning facts for a tour operator from a conversation.
 Return JSON matching the schema. Use null for every fact the customer has not stated.
 
 Rules:
+- Set request_kind to "compose" if the customer wants to plan, create, revise, reserve, or book travel, including when they simply describe a desired journey, dates, duration, route, party, or constraints. Set it to "advice" only for a question or request that does not advance a travel composition. A short reply to a previous composition question remains "compose".
 - Only the customer's statements are facts. Advisor turns only explain what a short customer reply answers (e.g. "Berlin" after "Which city would you like to depart from?").
 - The customer may correct earlier statements; the latest statement wins. A retracted fact becomes null.
 - Never guess or invent names, places, dates, counts, or budgets.

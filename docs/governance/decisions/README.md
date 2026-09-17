@@ -40,3 +40,4 @@ Decision records intentionally use the `Status/Date/Deciders/Supersedes` metadat
 | [DR-0025](0025-conditional-local-seed-and-index-refresh.md) | Refresh local seed data and advisor index from persisted fingerprints | accepted | 2026-09-11 | DR-0014 in part |
 | [DR-0026](0026-use-langgraph-for-client-draft-travel-composition.md) | Use LangGraph for client-draft travel composition | accepted | 2026-09-15 | none |
 | [DR-0027](0027-represent-flight-and-room-type-capacity-without-leaf-products.md) | Represent flight and room-type capacity without seat and room products | accepted | 2026-09-16 | DR-0020 in part |
+| [DR-0028](0028-unify-advisor-routing-in-langgraph.md) | Unify advisor routing in LangGraph | proposed | 2026-09-17 | DR-0026 in part |
