@@ -296,7 +296,7 @@ export function ProductDetailPanel({
                     to={organisationHref?.(supplierOrganisation.entityId)
                       ?? `/organisations/${supplierOrganisation.entityId}`}
                   >
-                    {supplierOrganisation.properties.name}
+                    {supplierOrganisation.displayName}
                   </ProductChipLink>
                 ) : null}
               </Group>

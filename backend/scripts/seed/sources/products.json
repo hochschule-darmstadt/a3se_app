@@ -316,7 +316,7 @@
                                             "name":  "Single Room",
                                             "description":  "Make yourself at home in this welcoming single room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000021-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -329,7 +329,7 @@
                                             "name":  "Double Room",
                                             "description":  "Unwind in this inviting double room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000021-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -342,7 +342,7 @@
                                             "name":  "Adjoining Rooms",
                                             "description":  "Enjoy a relaxed stay in this adjoining rooms, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000021-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -355,7 +355,7 @@
                                             "name":  "Double Room",
                                             "description":  "Make yourself at home in this welcoming double room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000022-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -368,7 +368,7 @@
                                             "name":  "Single Room",
                                             "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000022-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -381,7 +381,7 @@
                                             "name":  "Triple Room",
                                             "description":  "Enjoy a relaxed stay in this triple room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000023-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -394,7 +394,7 @@
                                             "name":  "Double Room",
                                             "description":  "Make yourself at home in this welcoming double room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000023-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -407,7 +407,7 @@
                                             "name":  "Single Room",
                                             "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000024-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -420,7 +420,7 @@
                                             "name":  "Double Room",
                                             "description":  "Enjoy a relaxed stay in this double room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000025-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -433,7 +433,7 @@
                                             "name":  "Single Room",
                                             "description":  "Make yourself at home in this welcoming single room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000025-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -446,7 +446,7 @@
                                             "name":  "Double Room",
                                             "description":  "Unwind in this inviting double room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000024-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -459,7 +459,7 @@
                                             "name":  "Double Room",
                                             "description":  "Enjoy a relaxed stay in this double room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000026-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -472,7 +472,7 @@
                                             "name":  "Family Room",
                                             "description":  "Make yourself at home in this welcoming family room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000027-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -485,7 +485,7 @@
                                             "name":  "Single Room",
                                             "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000028-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -498,7 +498,7 @@
                                             "name":  "Family Room",
                                             "description":  "Enjoy a relaxed stay in this family room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000028-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -510,7 +510,7 @@
                                             "name":  "Airport Transfer",
                                             "description":  "Start the journey smoothly with this airport transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000031-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -522,7 +522,7 @@
                                             "name":  "Hotel Shuttle",
                                             "description":  "Keep moving with confidence using this hotel shuttle. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000032-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -534,7 +534,7 @@
                                             "name":  "City Center Transfer",
                                             "description":  "Take the straightforward route with this city center transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000033-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -546,7 +546,7 @@
                                             "name":  "Private Transfer",
                                             "description":  "Start the journey smoothly with this private transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000034-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -558,7 +558,7 @@
                                             "name":  "Shared Shuttle",
                                             "description":  "Keep moving with confidence using this shared shuttle. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000035-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -570,7 +570,7 @@
                                             "name":  "Airport Transfer",
                                             "description":  "Take the straightforward route with this airport transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000036-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -582,7 +582,7 @@
                                             "name":  "Hotel Shuttle",
                                             "description":  "Start the journey smoothly with this hotel shuttle, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000037-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -594,7 +594,7 @@
                                             "name":  "Regional Rail Connection",
                                             "description":  "Keep moving with confidence using this regional rail connection. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000038-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -606,7 +606,7 @@
                                             "name":  "City Center Transfer",
                                             "description":  "Take the straightforward route with this city center transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000039-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -618,7 +618,7 @@
                                             "name":  "Compact Car Rental",
                                             "description":  "Start the journey smoothly with this compact car rental, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000040-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -642,7 +642,7 @@
                                             "name":  "Private Transfer",
                                             "description":  "Take the straightforward route with this private transfer, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000031-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -654,7 +654,7 @@
                                             "name":  "Shared Shuttle",
                                             "description":  "Start the journey smoothly with this shared shuttle, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000032-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -666,7 +666,7 @@
                                             "name":  "Airport Transfer",
                                             "description":  "Keep moving with confidence using this airport transfer. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000033-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -678,7 +678,7 @@
                                             "name":  "Hotel Shuttle",
                                             "description":  "Take the straightforward route with this hotel shuttle, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000034-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -690,7 +690,7 @@
                                             "name":  "Coastal Day Boat Excursion",
                                             "description":  "Leave the shoreline behind on this coastal day boat excursion, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000041-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -702,7 +702,7 @@
                                             "name":  "Multi-Day Coastal Cruise",
                                             "description":  "Add a sense of escape to the itinerary with this multi-day coastal cruise. Fresh air, open water, and distinctive scenery turn the journey itself into a destination."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000042-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -714,7 +714,7 @@
                                             "name":  "Snorkeling Day Boat Trip",
                                             "description":  "Discover the coast from the water on this snorkeling day boat trip, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000043-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -726,7 +726,7 @@
                                             "name":  "Cooking Class",
                                             "description":  "Turn a day away into a story worth telling with this cooking class. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000051-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -738,7 +738,7 @@
                                             "name":  "Snorkeling Activity",
                                             "description":  "See the destination from a more vivid angle through this snorkeling activity. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000052-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -750,7 +750,7 @@
                                             "name":  "Hiking Activity",
                                             "description":  "Go beyond sightseeing with this hiking activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000053-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -762,7 +762,7 @@
                                             "name":  "Cultural Workshop",
                                             "description":  "Turn a day away into a story worth telling with this cultural workshop. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000054-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -774,7 +774,7 @@
                                             "name":  "Wildlife Watching",
                                             "description":  "See the destination from a more vivid angle through this wildlife watching. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000055-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -786,7 +786,7 @@
                                             "name":  "City Walking Tour",
                                             "description":  "Go beyond sightseeing with this city walking tour, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000056-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -798,7 +798,7 @@
                                             "name":  "Local Market Visit",
                                             "description":  "Turn a day away into a story worth telling with this local market visit. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000057-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -810,7 +810,7 @@
                                             "name":  "Cooking Class",
                                             "description":  "See the destination from a more vivid angle through this cooking class. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000058-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -822,7 +822,7 @@
                                             "name":  "Snorkeling Activity",
                                             "description":  "Go beyond sightseeing with this snorkeling activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000059-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -834,7 +834,7 @@
                                             "name":  "Hiking Activity",
                                             "description":  "Turn a day away into a story worth telling with this hiking activity. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000060-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -858,7 +858,7 @@
                                             "name":  "Wildlife Watching",
                                             "description":  "Go beyond sightseeing with this wildlife watching, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000051-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -870,7 +870,7 @@
                                             "name":  "Local Market Visit",
                                             "description":  "Turn a day away into a story worth telling with this local market visit. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000052-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -882,7 +882,7 @@
                                             "name":  "Cooking Class",
                                             "description":  "See the destination from a more vivid angle through this cooking class. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000053-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -894,7 +894,7 @@
                                             "name":  "Snorkeling Activity",
                                             "description":  "Go beyond sightseeing with this snorkeling activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000054-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -906,7 +906,7 @@
                                             "name":  "Standard Travel Protection Plan",
                                             "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000061-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -918,7 +918,7 @@
                                             "name":  "Comprehensive Travel Protection Plan",
                                             "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000062-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -930,7 +930,7 @@
                                             "name":  "Trip Cancellation Cover",
                                             "description":  "Trip cancellation cover helps protect eligible prepaid costs when covered circumstances force you to cancel. It is a practical safeguard for plans arranged well in advance."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000063-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -942,7 +942,7 @@
                                             "name":  "Medical Travel Cover",
                                             "description":  "Medical travel cover helps with eligible treatment and assistance costs during a trip. It is designed for travellers who want support close at hand when they are far from home."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000064-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  false
                      },
@@ -1125,7 +1125,7 @@
                                             "name":  "Double Room",
                                             "description":  "Make yourself at home in this welcoming double room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000029-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1138,7 +1138,7 @@
                                             "name":  "Family Room",
                                             "description":  "Unwind in this inviting family room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000029-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1151,7 +1151,7 @@
                                             "name":  "Twin Room",
                                             "description":  "Enjoy a relaxed stay in this twin room, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000030-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1164,7 +1164,7 @@
                                             "name":  "Triple Room",
                                             "description":  "Make yourself at home in this welcoming triple room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000030-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1177,7 +1177,7 @@
                                             "name":  "Single Room",
                                             "description":  "Unwind in this inviting single room after a day on the road. It pairs a calm retreat with the practical comfort travellers appreciate when exploring somewhere new."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000030-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1190,7 +1190,7 @@
                                             "name":  "Suite",
                                             "description":  "Enjoy a relaxed stay in this suite, designed to turn a good itinerary into an even better holiday. It gives travellers a comfortable place to recharge between memorable outings."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000030-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1203,7 +1203,7 @@
                                             "name":  "Family Room",
                                             "description":  "Make yourself at home in this welcoming family room, a restful base for days spent discovering the destination. Thoughtful comfort and an easy sense of place make it simple to settle in."
                                         },
-                         "supplierRoleId":  "ORG-000003-ACCOMMODATION",
+                         "supplierRoleId":  "ORG-000030-ACCOMMODATION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1254,7 +1254,7 @@
                                             "name":  "City Center Transfer",
                                             "description":  "Start the journey smoothly with this city center transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000035-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1266,7 +1266,7 @@
                                             "name":  "Private Transfer",
                                             "description":  "Keep moving with confidence using this private transfer. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000036-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1278,7 +1278,7 @@
                                             "name":  "Express Rail Connection",
                                             "description":  "Take the straightforward route with this express rail connection, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000037-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1290,7 +1290,7 @@
                                             "name":  "Chartered Coach Service",
                                             "description":  "Start the journey smoothly with this chartered coach service, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000038-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1302,7 +1302,7 @@
                                             "name":  "SUV Rental",
                                             "description":  "Keep moving with confidence using this suv rental. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000039-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1314,7 +1314,7 @@
                                             "name":  "Economy Car Rental",
                                             "description":  "Take the straightforward route with this economy car rental, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000040-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1338,7 +1338,7 @@
                                             "name":  "Airport Transfer",
                                             "description":  "Keep moving with confidence using this airport transfer. Practical connections and a traveller-friendly rhythm make it an easy fit for a well-planned escape."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000035-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1350,7 +1350,7 @@
                                             "name":  "Hotel Shuttle",
                                             "description":  "Take the straightforward route with this hotel shuttle, built to remove friction from the day. It keeps the transfer comfortable, punctual, and pleasantly uncomplicated."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000036-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1362,7 +1362,7 @@
                                             "name":  "City Center Transfer",
                                             "description":  "Start the journey smoothly with this city center transfer, a dependable way to connect the key points of your itinerary. Clear arrangements leave more time for the places you came to see."
                                         },
-                         "supplierRoleId":  "ORG-000004-MOBILITY",
+                         "supplierRoleId":  "ORG-000034-MOBILITY",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1374,7 +1374,7 @@
                                             "name":  "Sunset Day Boat Cruise",
                                             "description":  "Leave the shoreline behind on this sunset day boat cruise, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000044-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1386,7 +1386,7 @@
                                             "name":  "Island-Hopping Day Boat",
                                             "description":  "Add a sense of escape to the itinerary with this island-hopping day boat. Fresh air, open water, and distinctive scenery turn the journey itself into a destination."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000045-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1398,7 +1398,7 @@
                                             "name":  "River Cruise",
                                             "description":  "Discover the coast from the water on this river cruise, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000046-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1410,7 +1410,7 @@
                                             "name":  "Coastal Day Boat Excursion",
                                             "description":  "Leave the shoreline behind on this coastal day boat excursion, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000047-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1422,7 +1422,7 @@
                                             "name":  "Snorkeling Day Boat Trip",
                                             "description":  "Add a sense of escape to the itinerary with this snorkeling day boat trip. Fresh air, open water, and distinctive scenery turn the journey itself into a destination."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000048-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1434,7 +1434,7 @@
                                             "name":  "Sunset Day Boat Cruise",
                                             "description":  "Discover the coast from the water on this sunset day boat cruise, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000049-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1446,7 +1446,7 @@
                                             "name":  "Island-Hopping Day Boat",
                                             "description":  "Leave the shoreline behind on this island-hopping day boat, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000050-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1470,7 +1470,7 @@
                                             "name":  "Coastal Day Boat Excursion",
                                             "description":  "Discover the coast from the water on this coastal day boat excursion, pairing relaxed travel with a front-row view of the landscape. It is a memorable choice for travellers who like their days to feel different."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000042-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1482,7 +1482,7 @@
                                             "name":  "Snorkeling Day Boat Trip",
                                             "description":  "Leave the shoreline behind on this snorkeling day boat trip, where the changing view becomes part of the adventure. It is an evocative way to experience the destination at a gentler pace."
                                         },
-                         "supplierRoleId":  "ORG-000005-WATER-TRANSPORT",
+                         "supplierRoleId":  "ORG-000044-WATER-TRANSPORT",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1494,7 +1494,7 @@
                                             "name":  "Hiking Activity",
                                             "description":  "Turn a day away into a story worth telling with this hiking activity. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000055-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1506,7 +1506,7 @@
                                             "name":  "Guided Heritage Tour",
                                             "description":  "See the destination from a more vivid angle through this guided heritage tour. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000056-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1518,7 +1518,7 @@
                                             "name":  "Cultural Workshop",
                                             "description":  "Go beyond sightseeing with this cultural workshop, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000057-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1530,7 +1530,7 @@
                                             "name":  "Guided Nature Trek",
                                             "description":  "Turn a day away into a story worth telling with this guided nature trek. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000058-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1542,7 +1542,7 @@
                                             "name":  "Wildlife Watching",
                                             "description":  "See the destination from a more vivid angle through this wildlife watching. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000059-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1554,7 +1554,7 @@
                                             "name":  "Local Market Visit",
                                             "description":  "Go beyond sightseeing with this local market visit, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000060-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1578,7 +1578,7 @@
                                             "name":  "Cooking Class",
                                             "description":  "See the destination from a more vivid angle through this cooking class. It brings together atmosphere, discovery, and the kind of hands-on moments that make a trip feel personal."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000054-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1590,7 +1590,7 @@
                                             "name":  "Snorkeling Activity",
                                             "description":  "Go beyond sightseeing with this snorkeling activity, an invitation to taste, meet, learn, or wander your way into the character of the place. It is a highlight made for curious travellers."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000056-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1602,7 +1602,7 @@
                                             "name":  "Hiking Activity",
                                             "description":  "Turn a day away into a story worth telling with this hiking activity. Expect an engaging introduction to local life, with memorable moments that stay with you long after the journey."
                                         },
-                         "supplierRoleId":  "ORG-000006-EXPERIENCE",
+                         "supplierRoleId":  "ORG-000057-EXPERIENCE",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1614,7 +1614,7 @@
                                             "name":  "Standard Travel Protection Plan",
                                             "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000065-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1626,7 +1626,7 @@
                                             "name":  "Comprehensive Travel Protection Plan",
                                             "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000066-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1638,7 +1638,7 @@
                                             "name":  "Trip Cancellation Cover",
                                             "description":  "Trip cancellation cover helps protect eligible prepaid costs when covered circumstances force you to cancel. It is a practical safeguard for plans arranged well in advance."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000067-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1650,7 +1650,7 @@
                                             "name":  "Medical Travel Cover",
                                             "description":  "Medical travel cover helps with eligible treatment and assistance costs during a trip. It is designed for travellers who want support close at hand when they are far from home."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000068-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1662,7 +1662,7 @@
                                             "name":  "Standard Travel Protection Plan",
                                             "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000069-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1674,7 +1674,7 @@
                                             "name":  "Comprehensive Travel Protection Plan",
                                             "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000070-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1686,7 +1686,7 @@
                                             "name":  "Trip Cancellation Cover",
                                             "description":  "Trip cancellation cover helps protect eligible prepaid costs when covered circumstances force you to cancel. It is a practical safeguard for plans arranged well in advance."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000061-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1698,7 +1698,7 @@
                                             "name":  "Medical Travel Cover",
                                             "description":  "Medical travel cover helps with eligible treatment and assistance costs during a trip. It is designed for travellers who want support close at hand when they are far from home."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000062-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1710,7 +1710,7 @@
                                             "name":  "Standard Travel Protection Plan",
                                             "description":  "Standard travel protection covers the everyday essentials of a planned trip, helping you handle common disruptions with less worry. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000063-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },
@@ -1722,7 +1722,7 @@
                                             "name":  "Comprehensive Travel Protection Plan",
                                             "description":  "Comprehensive travel protection brings broader reassurance to a carefully planned holiday, including support for several common travel disruptions. Check the policy terms for the covered circumstances and limits."
                                         },
-                         "supplierRoleId":  "ORG-000007-PROTECTION",
+                         "supplierRoleId":  "ORG-000064-PROTECTION",
                          "parentProductId":  null,
                          "reserve":  true
                      },

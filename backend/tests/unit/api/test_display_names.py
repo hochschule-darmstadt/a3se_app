@@ -38,6 +38,19 @@ class DisplayNamesTest(unittest.TestCase):
         self.assertEqual("Ada Lovelace", display_names.person(owner).display_name)
         self.assertEqual(("Ada Lovelace", "Traveller"), display_names.person_role(role, owner).display_name_chain)
 
+    def test_organisation_display_name_includes_locality_when_present(self):
+        organisation = self.save("ORG-1", "Organisation", {"name": "Bramble House", "locality": "Rio de Janeiro, Brazil"})
+        role = self.save("ROLE-1", "OrgaRole", {}, "organisation/accommodation")
+        self.assertEqual("Bramble House Rio de Janeiro, Brazil", display_names.organisation(organisation).display_name)
+        self.assertEqual(
+            ("Bramble House Rio de Janeiro, Brazil", "Accommodation"),
+            display_names.orga_role(role, organisation).display_name_chain,
+        )
+
+    def test_organisation_display_name_uses_name_when_locality_is_absent(self):
+        organisation = self.save("ORG-1", "Organisation", {"name": "Condorleaf Air"})
+        self.assertEqual("Condorleaf Air", display_names.organisation(organisation).display_name)
+
     def test_flight_component_chain_uses_supplier_and_middle_components(self):
         organisation = self.save("ORG-1", "Organisation", {"name": "Condorleaf Air"})
         role = self.save("ROLE-1", "OrgaRole", {"airlineDesignator": "CA"}, "organisation/airline")

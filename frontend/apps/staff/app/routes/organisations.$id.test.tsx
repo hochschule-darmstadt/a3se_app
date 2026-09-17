@@ -25,6 +25,8 @@ const organisationData = {
   entityKind: "Organisation",
   schemaVersion: 1,
   properties: { name: "Example Garden Hotel", locality: "Funchal, Portugal" },
+  displayName: "Example Garden Hotel Funchal, Portugal",
+  displayNameChain: ["Example Garden Hotel Funchal, Portugal"],
 };
 
 const airlineRole = {
@@ -79,7 +81,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
     );
     renderDetail();
 
-    expect(await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel Funchal, Portugal" })).toBeInTheDocument();
     expect(screen.getByText("Funchal, Portugal")).toBeInTheDocument();
     expect(screen.getByText("Airline")).toBeInTheDocument();
     expect(screen.getByText("Active")).toBeInTheDocument();
@@ -92,11 +94,11 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
       { data: [airlineRole], response: { ok: true, status: 200 } }
     );
     putMock.mockResolvedValue({
-      data: { ...organisationData, properties: { ...organisationData.properties, name: "Updated Hotel" } },
+      data: { ...organisationData, properties: { ...organisationData.properties, name: "Updated Hotel" }, displayName: "Updated Hotel Funchal, Portugal", displayNameChain: ["Updated Hotel Funchal, Portugal"] },
       response: { ok: true, status: 200 },
     });
     renderDetail();
-    await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel" });
+    await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel Funchal, Portugal" });
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "Edit organisation" }));
@@ -124,7 +126,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
       response: { ok: true, status: 200 },
     });
     renderDetail();
-    await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel" });
+    await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel Funchal, Portugal" });
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: /deactivate airline/i }));
@@ -145,7 +147,7 @@ describe("OrganisationDetailRoute (VIEW-S-004, issue #30 phase 2)", () => {
     );
     postMock.mockResolvedValue({ data: { entityId: "ROLE-2" }, response: { ok: true, status: 201 } });
     renderDetail();
-    await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel" });
+    await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel Funchal, Portugal" });
 
     expect(screen.queryByRole("button", { name: /add airline role/i })).not.toBeInTheDocument();
 

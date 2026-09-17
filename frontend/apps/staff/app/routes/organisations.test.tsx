@@ -53,6 +53,8 @@ function organisationResponse(entityId: string, name: string, locality?: string)
     entityKind: "Organisation",
     schemaVersion: 1,
     properties: { name, locality: locality ?? null },
+    displayName: locality ? `${name} ${locality}` : name,
+    displayNameChain: [locality ? `${name} ${locality}` : name],
   };
 }
 
@@ -214,6 +216,17 @@ describe("OrganisationsRoute (VIEW-S-004, issue #30 phase 2)", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Example Garden Hotel" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Suppliers and partners" })).toBeInTheDocument();
     expect(screen.getByLabelText("Current URL")).toHaveTextContent("/organisations?detail=ORG-001");
+  });
+
+  it("orders organisation detail fields as ID, Name, then Locality", async () => {
+    mockGetImplementation(
+      { data: { items: [organisationResponse("ORG-001", "Bramble House", "Rio de Janeiro, Brazil")], nextCursor: null }, response: { ok: true, status: 200 } },
+      { "ORG-001": { data: [], response: { ok: true, status: 200 } } }
+    );
+    renderOrganisations("/organisations?detail=ORG-001");
+    await screen.findByRole("heading", { level: 1, name: "Bramble House Rio de Janeiro, Brazil" });
+    const labels = screen.getAllByText(/^(ID|Name|Locality)$/).map((element) => element.textContent);
+    expect(labels.slice(-3)).toEqual(["ID", "Name", "Locality"]);
   });
 
   it("restores filters and detail selection from the URL and browser history", async () => {

@@ -62,7 +62,11 @@ def person_role(entity: ValidatedEntity, owner: ValidatedEntity) -> DisplayProje
 
 
 def organisation(entity: ValidatedEntity) -> DisplayProjection:
-    label = str(_properties(entity)["name"]).strip()
+    properties = _properties(entity)
+    label = str(properties["name"]).strip()
+    locality = properties.get("locality")
+    if isinstance(locality, str) and locality.strip():
+        label = f"{label} {locality.strip()}"
     return DisplayProjection(label, (label,))
 
 

@@ -135,7 +135,7 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
         "ACC-01": { entityId: "SUP-ACC-01-ROLE", entityKind: "OrgaRole", type: "organisation/accommodation", schemaVersion: 1, properties: { roleStatusCode: "role/active" } },
       },
       organisationByRole: {
-        "SUP-ACC-01-ROLE": { entityId: "SUP-ACC-01", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Southlight Stays", locality: "Lima, Peru" } },
+        "SUP-ACC-01-ROLE": { entityId: "SUP-ACC-01", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Southlight Stays", locality: "Lima, Peru" }, displayName: "Southlight Stays Lima, Peru", displayNameChain: ["Southlight Stays Lima, Peru"] },
       },
     });
     renderProducts();
@@ -255,6 +255,8 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
           entityKind: "Organisation",
           schemaVersion: 1,
           properties: { name: "Southlight Stays", locality: "Lima, Peru" },
+          displayName: "Southlight Stays Lima, Peru",
+          displayNameChain: ["Southlight Stays Lima, Peru"],
         },
       },
     });
@@ -266,7 +268,7 @@ describe("ProductsRoute (VIEW-S-003 tree view, issue #31 follow-up)", () => {
       "Brazil Explorer · Outbound flight",
       "Brazil Explorer",
       "Southlight Stays · Accommodation",
-      "Southlight Stays",
+      "Southlight Stays Lima, Peru",
     ]);
     expect(links.every((link) => link.classList.contains("mantine-Badge-root"))).toBe(true);
     expect(links[2]).toHaveAttribute("href", "/organisations?detail=ORG-001#role-ROLE-001");

@@ -2,7 +2,7 @@
 
 - Status: draft
 - Owner: Requirements
-- Last reviewed: 2026-08-21
+- Last reviewed: 2026-09-17
 
 This catalog is authoritative only for required behavior that applies across multiple use cases. Actor goals, interaction steps, alternatives, and guarantees remain in the [use-case specifications](use-cases/use-cases.md). Do not restate them here.
 
@@ -40,7 +40,7 @@ Add an entry only when the same behavior genuinely governs at least two use case
 | `Person` | `givenName + " " + familyName` |
 | `person/customer` | `Customer` |
 | `person/traveller` | `Traveller` |
-| `Organisation` | `name` |
+| `Organisation` | `name`; when a non-empty `locality` is present, `name + " " + locality` |
 | `organisation/airline` | `Airline` |
 | `organisation/accommodation` | `Accommodation` |
 | `organisation/mobility` | `Mobility` |
@@ -61,7 +61,7 @@ Canonical chains are:
 
 Each role has exactly one owning person or organisation. Each nested product has exactly one parent and the `CONTAINS` ancestry is acyclic. More than one owner/parent/supplier or a cycle is an invalid graph under FR-013. A supplier is otherwise optional, but every flight in a multi-leg product uses its own supplying `organisation/airline` role and `airlineDesignator`; a flight without one cannot satisfy its display-name rule and is invalid for a display-bearing read. Only the catalogue root's organisation and role prefix the chain, while each nested flight's own supplier determines that flight component's airline code.
 
-The shared API representation is proposed as two read-only response fields: `displayName: string` and `displayNameChain: string[]`. An ordered array keeps the chain's semantics independent of visual punctuation; VIEW-S-003 joins the returned components with ` · `. Both collection and detail responses use the same backend computation. Requests retain strict `extra="forbid"` validation, so neither derived field is writable.
+The shared API representation is proposed as two read-only response fields: `displayName: string` and `displayNameChain: string[]`. An ordered array keeps the chain's semantics independent of visual punctuation; VIEW-S-003 joins the returned components with ` · `. Both collection and detail responses use the same backend computation. Every consumer SHALL render these returned derived values and SHALL NOT recompose a label from source properties. Requests retain strict `extra="forbid"` validation, so neither derived field is writable.
 
 ### Acceptance examples
 
@@ -69,6 +69,7 @@ The shared API representation is proposed as two read-only response fields: `dis
 - An activity named `Lounge access` beneath flight `CA501` supplied by Condorleaf Air's `organisation/airline` role returns `displayNameChain=["Condorleaf Air", "Airline", "CA501 BER–LIM", "Lounge access"]`, rendered as `Condorleaf Air · Airline · CA501 BER–LIM · Lounge access`.
 - A `room/double` room-type product returns `Double room` as its display name.
 - Renaming a named transfer changes its own and every descendant's next computed chain without persisting a derived field.
+- An Organisation named `Bramble House` with locality `Rio de Janeiro, Brazil` returns `displayName="Bramble House Rio de Janeiro, Brazil"`; an airline without locality remains its name alone.
 - Two distinct entities may have the same display name; stable entity identifiers continue to distinguish them in links and operations.
 
 ### Accepted scope boundary

@@ -35,7 +35,7 @@ export default function OrganisationDetailRoute() {
     );
   }
 
-  const label = organisationQuery.data?.properties.name ?? "Organisation detail";
+  const label = organisationQuery.data?.displayName ?? "Organisation detail";
 
   return (
     <StaffShell breadcrumbs={[{ label: "Suppliers and partners", to: "/organisations" }, { label }]}>

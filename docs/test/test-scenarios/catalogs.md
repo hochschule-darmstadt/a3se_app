@@ -2,11 +2,11 @@
 
 - Status: proposed
 - Owner: Test/Requirements
-- Last reviewed: 2026-08-17
+- Last reviewed: 2026-09-17
 
 ## Taxonomy and rules
 
-Catalog names are stable synthetic fixtures; entity IDs use system-wide prefixes and six-digit sequences. Supplier categories are `airline`, `accommodation`, `mobility`, `water`, `experience`, and `protection`; product entity IDs use `PRD`. Every scenario-used item is defined below. Each represented category also has exactly ten explicit reserve entries, none consumed by `TS-001`–`TS-015`. Names do not identify operating businesses.
+Catalog names are stable synthetic fixtures; entity IDs use system-wide prefixes and six-digit sequences. Supplier categories are `airline`, `accommodation`, `mobility`, `water`, `experience`, and `protection`; product entity IDs use `PRD`. Every scenario-used item is defined below. Each represented category also has ten additional supplier fixtures, used to give otherwise similarly named products distinct supplier context. Names do not identify operating businesses.
 
 ## Scenario-used suppliers
 
@@ -14,7 +14,7 @@ Catalog names are stable synthetic fixtures; entity IDs use system-wide prefixes
 |---|---|---|---|
 | ORG-000001 | Condorleaf Air | `organisation/airline` | Fictional, non-operational; synthetic designator `CA` |
 | ORG-000002 | Blue Pampa Airways | `organisation/airline` | Fictional, non-operational; synthetic designator `BP` |
-| ORG-000003 | Southlight Stays | `organisation/accommodation` | Fictional accommodation group |
+| ORG-000003 | Southlight Stays | `organisation/accommodation` | Fictional individual hotel; no hotel-chain model is assumed. |
 | ORG-000004 | Meridian Groundways | `organisation/mobility` | Fictional transfer, coach, rail, and rental supplier |
 | ORG-000005 | Pelican Passage | `organisation/water-transport` | Fictional boat and cruise supplier |
 | ORG-000006 | Andes & Atlantic Guides | `organisation/experience` | Fictional guided-tour/activity supplier |
@@ -25,10 +25,10 @@ Catalog names are stable synthetic fixtures; entity IDs use system-wide prefixes
 | IDs | Supplier | Type | Definition |
 |---|---|---|---|
 | PRD-000001…PRD-000018 | ORG-000001/02 | `product/flight` | The flight sequences written in the corresponding `TS-nnn`; each leg has departure/arrival IATA code, local times, complete airline-designated flight number (for example `CA509`), and supplier designator. |
-| PRD-000029…PRD-000043 | ORG-000003 | `product/accommodation/room-type` | Corresponding destination stay; capacity and room count follow its scenario constraints. |
-| PRD-000054…PRD-000068 | ORG-000004 | `product/mobility/transfer`, `/rail`, `/coach`, or `/vehicle-rental` | Ground component described in the corresponding scenario. PRD-000061 is rail, PRD-000063 rental, PRD-000064 coach; others are transfers. |
+| PRD-000029…PRD-000043 | Accommodation suppliers | `product/accommodation/room-type` | Corresponding destination stay; each fixture is assigned to its individual hotel supplier so repeated room types have distinct catalogue context. |
+| PRD-000054…PRD-000068 | Mobility suppliers | `product/mobility/transfer`, `/rail`, `/coach`, or `/vehicle-rental` | Ground component described in the corresponding scenario; repeated service names use distinct supplier context. PRD-000061 is rail, PRD-000063 rental, PRD-000064 coach; others are transfers. |
 | PRD-000079…PRD-000081 | ORG-000005 | `product/water-transport/day-boat` or `product/water-transport/cruise` | PRD-000079 and PRD-000081 are day boats; PRD-000080 is the Rio–Buenos Aires cruise. |
-| PRD-000092…PRD-000106 | ORG-000006 | `product/experience/guided-tour` or `product/experience/activity` | Guided or activity component and capacity constraint in the corresponding scenario. |
+| PRD-000092…PRD-000106 | Experience suppliers | `product/experience/guided-tour` or `product/experience/activity` | Guided or activity component and capacity constraint in the corresponding scenario; repeated activity names use distinct supplier context. |
 | PRD-000117…PRD-000120 | ORG-000007 | `product/protection/travel` | Synthetic travel-protection variants for the referenced traveller group. |
 
 ## Return-direction transport products
@@ -43,7 +43,7 @@ properties; their counterpart relationship is expressed by names and
 descriptions only. The deterministic calendar can still produce zero stock
 on some dates, so availability is not guaranteed daily.
 
-## Ten unused supplier entries per category
+## Additional supplier fixtures per category
 
 | Category | Additional supplier IDs and names |
 |---|---|
@@ -65,6 +65,6 @@ on some dates, so availability is not guaranteed daily.
 | experience | PRD-000107 Historic Centre Walk; ORG-000022 Market Workshop; ORG-000023 Mountain Day Hike; ORG-000024 Museum Guide; ORG-000025 Wildlife Excursion; ORG-000026 Food Trail; ORG-000027 Cycling Tour; ORG-000028 Archaeology Visit; ORG-000029 Coastal Hike; ORG-000030 Family Nature Activity |
 | protection | PRD-000121 Basic Cancellation; ORG-000022 Premium Cancellation; ORG-000023 Family Medical; ORG-000024 Adventure Medical; ORG-000025 Baggage Delay; ORG-000026 Connection Protection; ORG-000027 Cruise Protection; ORG-000028 Rental Excess; ORG-000029 Multi-city Cover; ORG-000030 Long-stay Cover |
 
-Reserve entries are discovery fixtures, not sellable inventory. A future seed specification must materialize them as organisations/products only unless separate stock rules authorize more.
+Reserve products are discovery fixtures, not sellable inventory. A future seed specification must materialize them as organisations/products only unless separate stock rules authorize more.
 
 Issue #12's [seed data](../../../backend/scripts/seed/README.md) materializes every ID in this document -- reserve entries as `Organisation`/`TouristicProductItem` only, exactly as required above.

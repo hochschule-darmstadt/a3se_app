@@ -102,7 +102,7 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
 
   return (
     <Stack gap="md">
-      <Group gap="xs"><CctIcon.supplier size={28} aria-hidden /><Title order={1}>{organisation.properties.name}</Title></Group>
+      <Group gap="xs"><CctIcon.supplier size={28} aria-hidden /><Title order={1}>{organisation.displayName}</Title></Group>
 
       {editingOrganisation ? (
         <form onSubmit={handleOrganisationSubmit} aria-label="Edit organisation" noValidate>
@@ -134,7 +134,7 @@ export function OrganisationDetailPanel({ organisationId }: { readonly organisat
             <Text fw={500} size="sm" w={160}>ID</Text>
             <Text size="sm">{organisation.entityId}</Text>
           </Group>
-          {propertyDisplayEntries(organisation.properties, { skipKeys: ["name"] }).map(({ key, label, value }) => (
+          {propertyDisplayEntries(organisation.properties, { orderKeys: ["name", "locality"] }).map(({ key, label, value }) => (
             <Group key={key}>
               <Text fw={500} size="sm" w={160}>{label}</Text>
               <Text size="sm">{value}</Text>

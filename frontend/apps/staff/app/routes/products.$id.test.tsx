@@ -190,7 +190,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       }
       if (path === "/organisations/roles/{role_id}/organisation") {
         return Promise.resolve({
-          data: { entityId: "ORG-001", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Nordwind Airways" } },
+          data: { entityId: "ORG-001", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Nordwind Airways" }, displayName: "Nordwind Airways", displayNameChain: ["Nordwind Airways"] },
           response: { ok: true, status: 200 },
         });
       }
@@ -226,7 +226,7 @@ describe("ProductDetailRoute (VIEW-S-003, issue #31 phase 2)", () => {
       }
       if (path === "/organisations/roles/{role_id}/organisation") {
         return Promise.resolve({
-          data: { entityId: "ORG-001", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Nordwind Airways" } },
+          data: { entityId: "ORG-001", entityKind: "Organisation", schemaVersion: 1, properties: { name: "Nordwind Airways" }, displayName: "Nordwind Airways", displayNameChain: ["Nordwind Airways"] },
           response: { ok: true, status: 200 },
         });
       }

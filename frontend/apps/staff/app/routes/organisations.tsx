@@ -79,7 +79,7 @@ export default function OrganisationsRoute() {
       .map((organisation, index) => ({ organisation, roles: roleQueries[index]?.data ?? [] }))
       .filter(({ organisation, roles }) => {
         if (term) {
-          const haystack = `${organisation.entityId} ${organisation.properties.name} ${organisation.properties.locality ?? ""}`.toLowerCase();
+          const haystack = `${organisation.entityId} ${organisation.displayName}`.toLowerCase();
           if (!haystack.includes(term)) return false;
         }
         if (roleType !== "all" || relationshipStatus !== "all") {
@@ -146,7 +146,7 @@ export default function OrganisationsRoute() {
                     onRowActivate={(row) => updateView({ [STAFF_VIEW_PARAM.detail]: row.organisation.entityId, [STAFF_VIEW_PARAM.panel]: null })}
                     isRowSelected={(row) => rightPane.mode === "detail" && row.organisation.entityId === rightPane.organisationId}
                     columns={[
-                      { key: "name", header: "Organisation", render: (row) => row.organisation.properties.name },
+                      { key: "name", header: "Organisation", render: (row) => row.organisation.displayName },
                       {
                         key: "roles",
                         header: "Roles",

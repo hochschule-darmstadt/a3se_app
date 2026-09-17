@@ -4,8 +4,7 @@
                           {
                               "entityId":  "ORG-000001",
                               "properties":  {
-                                                 "name":  "Condorleaf Air",
-                                                 "locality":  "Berlin, Germany"
+                                                 "name":  "Condorleaf Air"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000001-AIRLINE",
@@ -19,8 +18,7 @@
                           {
                               "entityId":  "ORG-000002",
                               "properties":  {
-                                                 "name":  "Blue Pampa Airways",
-                                                 "locality":  "Frankfurt am Main, Germany"
+                                                 "name":  "Blue Pampa Airways"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000002-AIRLINE",
@@ -109,8 +107,7 @@
                           {
                               "entityId":  "ORG-000011",
                               "properties":  {
-                                                 "name":  "Alderwing Air",
-                                                 "locality":  "Munich, Germany"
+                                                 "name":  "Alderwing Air"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000011-AIRLINE",
@@ -124,8 +121,7 @@
                           {
                               "entityId":  "ORG-000012",
                               "properties":  {
-                                                 "name":  "Brisa Meridian",
-                                                 "locality":  "Hamburg, Germany"
+                                                 "name":  "Brisa Meridian"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000012-AIRLINE",
@@ -139,8 +135,7 @@
                           {
                               "entityId":  "ORG-000013",
                               "properties":  {
-                                                 "name":  "Copper Kite",
-                                                 "locality":  "Cologne, Germany"
+                                                 "name":  "Copper Kite"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000013-AIRLINE",
@@ -154,8 +149,7 @@
                           {
                               "entityId":  "ORG-000014",
                               "properties":  {
-                                                 "name":  "Estuary Air",
-                                                 "locality":  "Lima, Peru"
+                                                 "name":  "Estuary Air"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000014-AIRLINE",
@@ -169,8 +163,7 @@
                           {
                               "entityId":  "ORG-000015",
                               "properties":  {
-                                                 "name":  "Fjordleaf Aviation",
-                                                 "locality":  "Cusco, Peru"
+                                                 "name":  "Fjordleaf Aviation"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000015-AIRLINE",
@@ -184,8 +177,7 @@
                           {
                               "entityId":  "ORG-000016",
                               "properties":  {
-                                                 "name":  "Golden Tern",
-                                                 "locality":  "Rio de Janeiro, Brazil"
+                                                 "name":  "Golden Tern"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000016-AIRLINE",
@@ -199,8 +191,7 @@
                           {
                               "entityId":  "ORG-000017",
                               "properties":  {
-                                                 "name":  "Horizon Quipu",
-                                                 "locality":  "Sao Paulo, Brazil"
+                                                 "name":  "Horizon Quipu"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000017-AIRLINE",
@@ -214,8 +205,7 @@
                           {
                               "entityId":  "ORG-000018",
                               "properties":  {
-                                                 "name":  "Indigo Pampas",
-                                                 "locality":  "Santiago, Chile"
+                                                 "name":  "Indigo Pampas"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000018-AIRLINE",
@@ -229,8 +219,7 @@
                           {
                               "entityId":  "ORG-000019",
                               "properties":  {
-                                                 "name":  "Juniper Condor",
-                                                 "locality":  "Buenos Aires, Argentina"
+                                                 "name":  "Juniper Condor"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000019-AIRLINE",
@@ -244,8 +233,7 @@
                           {
                               "entityId":  "ORG-000020",
                               "properties":  {
-                                                 "name":  "Kestrel Sur",
-                                                 "locality":  "Bogota, Colombia"
+                                                 "name":  "Kestrel Sur"
                                              },
                               "role":  {
                                            "entityId":  "ORG-000020-AIRLINE",

@@ -32,6 +32,11 @@ class OrganisationsApiTest(unittest.TestCase):
         self.assertEqual("Condorleaf Air", response.json()["displayName"])
         self.assertEqual(["Condorleaf Air"], response.json()["displayNameChain"])
 
+    def test_organisation_display_name_includes_locality(self) -> None:
+        response = self.client.post("/organisations", json=organisation_payload(locality="Rio de Janeiro, Brazil"))
+        self.assertEqual(201, response.status_code)
+        self.assertEqual("Condorleaf Air Rio de Janeiro, Brazil", response.json()["displayName"])
+
     def test_create_organisation_duplicate_returns_409(self) -> None:
         self.client.post("/organisations", json=organisation_payload())
         response = self.client.post("/organisations", json=organisation_payload())
