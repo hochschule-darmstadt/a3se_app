@@ -31,6 +31,23 @@ export async function findStockItem(apiClient: ApiClient, productId: string, dat
   return data.items.find((item) => item.productId === productId && item.properties.serviceDate === date) ?? null;
 }
 
+/** Resolves the actual available dates for a product in the search criteria window. */
+export async function findAvailableDates(
+  apiClient: ApiClient,
+  productId: string,
+  serviceDateFrom: string,
+  serviceDateTo: string,
+): Promise<string[]> {
+  const { data, error, response } = await apiClient.GET("/stock-items", {
+    params: { query: { productId, serviceDateFrom, serviceDateTo, limit: 100 } },
+  });
+  if (!response.ok || !data) throw toApiError(error, response) as ApiError;
+  return data.items
+    .filter((item) => item.productId === productId)
+    .map((item) => item.properties.serviceDate)
+    .sort();
+}
+
 /**
  * The date-specific availability check resolves stock through the API's
  * product/date filters, trying the requested date first and then up to

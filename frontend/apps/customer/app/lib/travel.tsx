@@ -53,6 +53,7 @@ interface TravelContextValue extends TravelState {
   setPending(position: PendingTravelPosition | null): void;
   addTraveller(traveller: TravelTraveller): void;
   addPendingPosition(clientTravellerId: string): void;
+  addPositions(positions: readonly (PendingTravelPosition & { readonly clientTravellerId: string })[]): void;
   applyAdvisorActions(actions: readonly ClientTravelAction[]): void;
   removePosition(clientPositionId: string): void;
   clear(): void;
@@ -104,6 +105,7 @@ export function TravelProvider({ children }: { readonly children: ReactNode }) {
       positions: [...current.positions, { ...current.pending, clientTravellerId, clientPositionId: createClientId("position") }],
       pending: null,
     }) : current),
+    addPositions: (positions) => setState((current) => ({ ...current, positions: [...current.positions, ...positions.map((position) => ({ ...position, clientPositionId: createClientId("position") }))] })),
     applyAdvisorActions: (actions) => setState((current) => actions.reduce((next, action) => {
       if (action.type === "add-traveller" && action.clientTravellerId && action.displayName) {
         return {

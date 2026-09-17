@@ -1,4 +1,4 @@
-import { Button, Container, Group, Select, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { Button, Container, Group, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useApiQuery, type components } from "@cct/api-client";
 import { ApiErrorBanner, CursorPager, ResourceCard, StatusBanner, useMockActor } from "@cct/ui";
 import { useMemo, useState } from "react";
@@ -9,6 +9,7 @@ import { useT } from "../i18n";
 import { CustomerShell } from "../lib/shell";
 import { findStockItem } from "../lib/availability";
 import { useTravel } from "../lib/travel";
+import { DateTravellerPicker } from "../lib/date-traveller-picker";
 
 export function meta() { return [{ title: "Search results – Christopher Columbus Travel" }]; }
 const PAGE_SIZE = 20;
@@ -30,7 +31,6 @@ export default function SearchResults() {
   const budgetPerPerson = searchParams.get("budgetPerPerson") ?? "any";
   const [cursorStack, setCursorStack] = useState<(string | undefined)[]>([]);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
-  const [selectedDates, setSelectedDates] = useState<Record<string, string>>({});
   const query = useApiQuery(["catalogue-search", destinationOrTheme, dateFrom, dateTo, productType, cursor], () => apiClient.GET("/catalogue-search", {
     params: { query: { limit: PAGE_SIZE, cursor, search: destinationOrTheme, productType: productType === "all" ? undefined : productType, serviceDateFrom: dateFrom || undefined, serviceDateTo: dateTo || undefined } },
   }));
@@ -56,22 +56,7 @@ export default function SearchResults() {
   function detailHref(productId: string) {
     const params = new URLSearchParams({ destinationOrTheme, dateFrom, dateTo, travellers, budgetPerPerson });
     if (productType !== "all") params.set("productType", productType);
-    const date = selectedDates[productId];
-    if (date) params.set("date", date);
     return `/products/${encodeURIComponent(productId)}?${params.toString()}`;
-  }
-
-  async function addToTravel(product: SearchResult) {
-    const serviceDate = selectedDates[product.productId];
-    if (!serviceDate) return;
-    const stockItem = await findStockItem(apiClient, product.productId, serviceDate);
-    if (!stockItem) return;
-    travel.setPending({ stockItemId: stockItem.entityId, productId: stockItem.productId,
-      displayNameChain: stockItem.productDisplayNameChain, serviceDate,
-      unitPriceAmount: String(stockItem.properties.unitPriceAmount), currencyCode: stockItem.properties.currencyCode });
-    const returnTo = `${location.pathname}${location.search}`;
-    const selection = `/travel/add?${new URLSearchParams({ returnTo }).toString()}`;
-    navigate(actor ? selection : `/sign-in?${new URLSearchParams({ returnTo: selection }).toString()}`);
   }
 
   return <CustomerShell breadcrumbs={[{ label: "Travel portal", to: "/" }, { label: t("results.heading") }]}><Container py="xl" size="lg"><Stack gap="lg">
@@ -87,7 +72,7 @@ export default function SearchResults() {
     {query.isError ? <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} /> : null}
     {query.isSuccess ? query.data.items.length === 0 ? <StatusBanner kind="empty" title={t("results.empty")} /> : <>
       {groups.map(([type, products]) => <Stack key={type} gap="sm"><Title order={2}>{type.replace(/^product\//, "").replaceAll("/", " · ")}</Title><SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-        {products.map((product) => <ResourceCard key={product.productId} title={product.productDisplayNameChain.join(" · ")} badge={type.replace(/^product\//, "")} details={[{ label: t("results.price"), value: `${product.indicativeUnitPriceAmount} ${product.currencyCode}` }]} action={<Stack gap="xs"><Select aria-label={`${product.productDisplayName} date`} placeholder={t("results.chooseDate")} data={product.availableDates} value={selectedDates[product.productId] ?? null} onChange={(value) => setSelectedDates((current) => ({ ...current, [product.productId]: value ?? "" }))} /><Group grow><Button component={Link} to={detailHref(product.productId)} variant="light" color="blue">{t("results.viewDetail")}</Button><Button color="orange" disabled={!selectedDates[product.productId]} onClick={() => addToTravel(product)}>{t("travel.add")}</Button></Group></Stack>} />)}
+        {products.map((product) => <ResourceCard key={product.productId} title={product.productDisplayNameChain.join(" · ")} badge={type.replace(/^product\//, "")} details={[{ label: t("results.price"), value: `${product.indicativeUnitPriceAmount} ${product.currencyCode}` }]} action={<Stack gap="xs"><DateTravellerPicker dates={product.availableDates.map((date) => ({ date, position: { stockItemId: "", productId: product.productId, displayNameChain: product.productDisplayNameChain, serviceDate: date, unitPriceAmount: product.indicativeUnitPriceAmount, currencyCode: product.currencyCode } }))} onAdded={async (positions) => { const resolved = await Promise.all(positions.map(async (position) => { const stock = await findStockItem(apiClient, position.productId, position.serviceDate); return stock ? { ...position, stockItemId: stock.entityId, unitPriceAmount: String(stock.properties.unitPriceAmount), currencyCode: stock.properties.currencyCode } : null; })); const valid = resolved.filter((position): position is NonNullable<typeof position> => Boolean(position)); if (!valid.length) throw new Error("No stock"); travel.addPositions(valid); if (!actor) navigate(`/sign-in?${new URLSearchParams({ returnTo: `${location.pathname}${location.search}` }).toString()}`); }} /><Button component={Link} to={detailHref(product.productId)} variant="light" color="blue">{t("results.viewDetail")}</Button></Stack>} />)}
       </SimpleGrid></Stack>)}
       <CursorPager hasPrevious={cursorStack.length > 0} hasNext={Boolean(query.data.nextCursor)} onPrevious={goPrevious} onNext={goNext} loading={query.isFetching} />
     </> : null}
