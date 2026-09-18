@@ -50,7 +50,7 @@ class LimaCatalogueRepository:
         })
         return stock, product
 
-    def list_catalogue_stock_matches(self, *, search, service_date_from, service_date_to, product_type):
+    def list_catalogue_stock_matches(self, *, search, service_date_from, service_date_to, product_type, min_travellers=1):
         self.calls += 1
         end = self._start + timedelta(days=self._nights)
         matches = []
@@ -61,6 +61,7 @@ class LimaCatalogueRepository:
         return tuple(
             match for match in matches
             if service_date_from <= match[0].properties.service_date <= service_date_to
+            and match[0].properties.remaining_capacity >= min_travellers
         )
 
 

@@ -29,6 +29,7 @@ class CatalogueSearchParams(PageParams):
     product_type: str | None = Field(default=None, alias="productType")
     service_date_from: date | None = Field(default=None, alias="serviceDateFrom")
     service_date_to: date | None = Field(default=None, alias="serviceDateTo")
+    travellers: int = Field(default=1, ge=1, le=20)
 
 
 class CatalogueSearchResult(BaseModel):
@@ -50,12 +51,14 @@ def _all_matching_stock(
     service_date_from: date | None,
     service_date_to: date | None,
     product_type: str | None,
+    min_travellers: int,
 ) -> list:
     return list(repository.list_catalogue_stock_matches(
         search=search,
         service_date_from=service_date_from,
         service_date_to=service_date_to,
         product_type=product_type,
+        min_travellers=min_travellers,
     ))
 
 
@@ -76,6 +79,7 @@ def search_catalogue(
         service_date_from=params.service_date_from,
         service_date_to=params.service_date_to,
         product_type=params.product_type,
+        min_travellers=params.travellers,
     ):
         item = grouped.setdefault(product.entity_id, {"product": product, "stocks": []})
         item["stocks"].append(stock)

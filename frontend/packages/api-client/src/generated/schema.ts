@@ -1972,6 +1972,7 @@ export interface operations {
                 productType?: string | null;
                 serviceDateFrom?: string | null;
                 serviceDateTo?: string | null;
+                travellers?: number;
             };
             header?: never;
             path?: never;

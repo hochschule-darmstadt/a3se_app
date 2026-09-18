@@ -230,23 +230,27 @@ def _stock_components(stock, product, *, kind: ComponentKind, location: str | No
     )
 
 
-def _matches(repository: EntityRepositoryPort, *, search: str, start: date, end: date, product_type: str | None = None):
-    return list(repository.list_catalogue_stock_matches(search=search, service_date_from=start, service_date_to=end, product_type=product_type))
+def _matches(repository: EntityRepositoryPort, *, search: str, start: date, end: date, product_type: str | None = None, min_travellers: int = 1):
+    return list(repository.list_catalogue_stock_matches(
+        search=search, service_date_from=start, service_date_to=end, product_type=product_type,
+        min_travellers=min_travellers,
+    ))
 
 
-def _take_units(matches, service_date: date, traveller_count: int, predicate) -> list[tuple[object, object]]:
+def _take_units(matches, service_date: date, predicate) -> list[tuple[object, object]]:
     """Select one coherent stock service that can serve the whole party.
 
     The browser creates one client position per traveller from the returned
     action.  Consequently the selected stock item must have enough remaining
     capacity for the whole party; selecting two unrelated alternatives (for
     example two different outbound flights) would create an invalid itinerary.
+    ``matches`` is already restricted to stock with enough remaining capacity
+    by the repository query, so no capacity check is repeated here.
     """
     eligible = [
         (stock, product)
         for stock, product in matches
         if stock.properties.service_date == service_date
-        and stock.properties.remaining_capacity >= traveller_count
         and predicate(product)
     ]
     return eligible[:1]
@@ -276,11 +280,12 @@ class CandidatePool:
         theme: str | None,
         start: date,
         end: date,
+        traveller_count: int,
     ) -> "CandidatePool":
         return cls(
-            flights=tuple(_matches(stock_repository, search=origin_code, start=start, end=end, product_type="product/airline/flight")),
-            accommodation=tuple(_matches(stock_repository, search=destination, start=start, end=end, product_type="product/accommodation/room-type")),
-            activities=tuple(_matches(stock_repository, search=theme or destination, start=start, end=end, product_type=None)),
+            flights=tuple(_matches(stock_repository, search=origin_code, start=start, end=end, product_type="product/airline/flight", min_travellers=traveller_count)),
+            accommodation=tuple(_matches(stock_repository, search=destination, start=start, end=end, product_type="product/accommodation/room-type", min_travellers=traveller_count)),
+            activities=tuple(_matches(stock_repository, search=theme or destination, start=start, end=end, product_type=None, min_travellers=traveller_count)),
         )
 
 
@@ -302,13 +307,12 @@ def build_internal_candidates(
     for stock, product in _take_units(
         flight_matches,
         start,
-        intent.traveller_count,
         lambda p: _product_properties(p).get("departureLocationCode") == intent.origin_code
         and _product_properties(p).get("arrivalLocationCode") == destination_code,
     ):
         props = _product_properties(product)
         components.append(_stock_components(stock, product, kind=ComponentKind.TRANSPORT, from_code=str(props.get("departureLocationCode")), to_code=str(props.get("arrivalLocationCode")), capacity_unit=CapacityUnit.SEAT))
-    for stock, product in _take_units(flight_matches, end, intent.traveller_count, lambda p: _product_properties(p).get("arrivalLocationCode") == intent.return_code and _product_properties(p).get("departureLocationCode") == destination_code):
+    for stock, product in _take_units(flight_matches, end, lambda p: _product_properties(p).get("arrivalLocationCode") == intent.return_code and _product_properties(p).get("departureLocationCode") == destination_code):
         props = _product_properties(product)
         components.append(_stock_components(stock, product, kind=ComponentKind.TRANSPORT, from_code=str(props.get("departureLocationCode")), to_code=str(props.get("arrivalLocationCode")), capacity_unit=CapacityUnit.SEAT))
     for night_offset in range((end - start).days):
@@ -316,14 +320,13 @@ def build_internal_candidates(
         units = _take_units(
             accommodation_matches,
             night,
-            intent.traveller_count,
             lambda p: _product_properties(p).get("roomTypeCode") == "room/double",
         )
         if not units:
-            units = _take_units(accommodation_matches, night, intent.traveller_count, lambda _p: True)
+            units = _take_units(accommodation_matches, night, lambda _p: True)
         components.extend(_stock_components(stock, product, kind=ComponentKind.ACCOMMODATION, location=destination_code, end_date=night + timedelta(days=1), capacity_unit=CapacityUnit.BED) for stock, product in units)
     activity_date = start + timedelta(days=min(2, max((end - start).days - 1, 0)))
-    for stock, product in _take_units(activity_matches, activity_date, intent.traveller_count, lambda p: "experience" in (p.type or "") or "transport" in (p.type or "")):
+    for stock, product in _take_units(activity_matches, activity_date, lambda p: "experience" in (p.type or "") or "transport" in (p.type or "")):
         components.append(_stock_components(stock, product, kind=ComponentKind.ACTIVITY, location=destination_code, capacity_unit=CapacityUnit.SEAT))
     return tuple(components)
 
@@ -419,6 +422,7 @@ def compose_travel(
         theme=request.theme,
         start=min(attempt.start_date for attempt in attempts),  # type: ignore[type-var]
         end=max(attempt.end_date for attempt in attempts),  # type: ignore[type-var]
+        traveller_count=intent.traveller_count,
     )
     result: dict = {}
     selected_intent = intent

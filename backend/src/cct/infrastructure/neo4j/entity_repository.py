@@ -322,19 +322,23 @@ class Neo4jEntityRepository:
         service_date_from: date | None,
         service_date_to: date | None,
         product_type: str | None,
+        min_travellers: int = 1,
     ) -> tuple[tuple[ValidatedEntity, ValidatedEntity], ...]:
         """Read matching sellable stock and its represented product together.
 
         Catalogue aggregation must not page StockItems and then issue one
         relationship query per row. This joined read keeps the traversal in
         one Neo4j request; the API still performs the product-level projection
-        and display-name calculation afterward.
+        and display-name calculation afterward. ``min_travellers`` filters out
+        stock that cannot seat the whole party, reusing the existing
+        ``stock_remaining_capacity`` index rather than fetching every
+        available row and discarding short-capacity ones in Python.
         """
         with self._driver.session(database=self._database) as session:
             records = session.execute_read(
                 self._read_catalogue_stock_matches,
                 search.casefold(), service_date_from, service_date_to,
-                product_type,
+                product_type, min_travellers,
             )
         stock_label = LABELS[EntityKind.STOCK_ITEM]
         product_label = LABELS[EntityKind.TOURISTIC_PRODUCT_ITEM]
@@ -611,13 +615,14 @@ class Neo4jEntityRepository:
         )
 
     @staticmethod
-    def _read_catalogue_stock_matches(tx: Transaction, search: str, service_date_from: date | None, service_date_to: date | None, product_type: str | None):
+    def _read_catalogue_stock_matches(tx: Transaction, search: str, service_date_from: date | None, service_date_to: date | None, product_type: str | None, min_travellers: int):
         return list(tx.run(
             CATALOGUE_STOCK_MATCHES,
             search=search,
             serviceDateFrom=service_date_from,
             serviceDateTo=service_date_to,
             productType=product_type,
+            minTravellers=min_travellers,
         ))
 
 
@@ -734,6 +739,7 @@ WITH stock, product, chainNodes, collect(DISTINCT supplierRole) AS supplierRoles
        ELSE 'available'
      END AS state
 WHERE state = 'available'
+  AND coalesce(stock.remainingCapacity, 0) >= $minTravellers
   AND ($productType IS NULL OR product.type = $productType)
   AND ($serviceDateFrom IS NULL OR stock.serviceDate >= $serviceDateFrom)
   AND ($serviceDateTo IS NULL OR stock.serviceDate <= $serviceDateTo)

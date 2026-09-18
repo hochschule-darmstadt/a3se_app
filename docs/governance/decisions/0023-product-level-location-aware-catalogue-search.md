@@ -40,10 +40,12 @@ sellable.
    product, its product ancestry, relevant location terms, and supplier
    context. The same generation path is used for seeded and staff-created
    StockItems.
-3. `GET /catalogue-search` accepts location/theme `search` and inclusive
-   `serviceDateFrom`/`serviceDateTo` criteria. It returns one result per
-   product, with matching sellable `availableDates`, indicative price, and
-   product type/display projections.
+3. `GET /catalogue-search` accepts location/theme `search`, inclusive
+   `serviceDateFrom`/`serviceDateTo`, and a `travellers` party-size criterion
+   (default 1). Only stock with enough `remainingCapacity` for the requested
+   party is matched. It returns one result per product, with matching
+   sellable `availableDates`, indicative price, and product type/display
+   projections.
 4. The Customer portal groups product results by product type and lets the user
    select one available date. Departure region is not part of the Customer
    search contract.
@@ -63,8 +65,8 @@ sellable.
 - Redundant location terms can become stale when product or supplier data
   changes; stock search fields must be regenerated on affected mutations.
 - Full-text matching is intentionally simple and may produce broad matches.
-- Traveller-specific capacity, package compatibility, and final pricing are
-  not solved by this search projection.
+- Only whole-party remaining-capacity filtering is applied; package
+  compatibility and final pricing are not solved by this search projection.
 
 ## Validation and revisit triggers
 

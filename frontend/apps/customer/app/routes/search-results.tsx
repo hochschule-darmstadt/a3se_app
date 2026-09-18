@@ -31,8 +31,9 @@ export default function SearchResults() {
   const budgetPerPerson = searchParams.get("budgetPerPerson") ?? "any";
   const [cursorStack, setCursorStack] = useState<(string | undefined)[]>([]);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
-  const query = useApiQuery(["catalogue-search", destinationOrTheme, dateFrom, dateTo, productType, cursor], () => apiClient.GET("/catalogue-search", {
-    params: { query: { limit: PAGE_SIZE, cursor, search: destinationOrTheme, productType: productType === "all" ? undefined : productType, serviceDateFrom: dateFrom || undefined, serviceDateTo: dateTo || undefined } },
+  const travellerCount = Math.min(20, Math.max(1, Number.parseInt(travellers, 10) || 1));
+  const query = useApiQuery(["catalogue-search", destinationOrTheme, dateFrom, dateTo, productType, travellerCount, cursor], () => apiClient.GET("/catalogue-search", {
+    params: { query: { limit: PAGE_SIZE, cursor, search: destinationOrTheme, productType: productType === "all" ? undefined : productType, serviceDateFrom: dateFrom || undefined, serviceDateTo: dateTo || undefined, travellers: travellerCount } },
   }));
 
   const groups = useMemo(() => {

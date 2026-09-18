@@ -3595,6 +3595,18 @@
               ],
               "title": "Servicedateto"
             }
+          },
+          {
+            "in": "query",
+            "name": "travellers",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "maximum": 20,
+              "minimum": 1,
+              "title": "Travellers",
+              "type": "integer"
+            }
           }
         ],
         "responses": {
