@@ -1,15 +1,19 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createRoutesStub } from "react-router";
+import { createRoutesStub, useLocation } from "react-router";
 import { describe, expect, it } from "vitest";
 
 import { TestProviders } from "../test-utils";
 import CustomerHome from "./home";
 
 function renderHome() {
+  function SearchResultsStub() {
+    return <div>Search results page{useLocation().search}</div>;
+  }
+
   const Stub = createRoutesStub([
     { path: "/", Component: CustomerHome },
-    { path: "/search", Component: () => <div>Search results page</div> },
+    { path: "/search", Component: SearchResultsStub },
   ]);
   return render(
     <TestProviders>
@@ -56,7 +60,21 @@ describe("CustomerHome (VIEW-C-001 structured search)", () => {
     await user.type(screen.getByLabelText("Latest return"), "2027-04-06");
     await user.click(screen.getByRole("button", { name: "Search the catalogue" }));
 
-    expect(await screen.findByText("Search results page")).toBeInTheDocument();
+    expect(await screen.findByText(/Search results page/)).toBeInTheDocument();
+  });
+
+  it("accepts a typed traveller count above five and carries it to the results route", async () => {
+    const user = userEvent.setup();
+    renderHome();
+
+    const travellers = screen.getByLabelText("Number of travellers");
+    await user.clear(travellers);
+    await user.type(travellers, "7");
+    await user.type(screen.getByLabelText("Destination or theme"), "Peru");
+    await user.type(screen.getByLabelText("Earliest departure"), "2027-04-01");
+    await user.click(screen.getByRole("button", { name: "Search the catalogue" }));
+
+    expect(await screen.findByText("Search results page?destinationOrTheme=Peru&dateFrom=2027-04-01&dateTo=2027-04-02&travellers=7&budgetPerPerson=any")).toBeInTheDocument();
   });
 
   it("fills the destination and suggested travel dates when a quick-link tile is clicked", async () => {

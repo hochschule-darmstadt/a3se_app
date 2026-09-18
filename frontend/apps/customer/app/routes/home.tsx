@@ -1,4 +1,4 @@
-import { Button, Card, Container, Group, Paper, Select, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Button, Card, Container, Group, NumberInput, Paper, Select, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
 import { CctIcon, FormErrorSummary, ResponsiveImage } from "@cct/ui";
 import { type FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
@@ -118,7 +118,7 @@ export default function CustomerHome() {
                     setDateTo(selectedDate ? nextDay(selectedDate) : "");
                   }} />
                   <TextInput style={{ flex: "1 1 150px" }} type="date" label={t("home.dateTo.label")} value={dateTo} onChange={(event) => setDateTo(event.currentTarget.value)} />
-                  <Select style={{ flex: "0 1 130px" }} label={t("home.travellers.label")} data={["1", "2", "3", "4", "5+"]} value={travellers} onChange={(value) => setTravellers(value ?? "1")} />
+                  <NumberInput style={{ flex: "0 1 130px" }} label={t("home.travellers.label")} min={1} max={20} allowDecimal={false} allowNegative={false} clampBehavior="blur" value={travellers} onChange={(value) => setTravellers(String(value))} />
                 </Group>
                 <Group justify="flex-end">
                   <Button type="submit" color="orange" size="md">{t("home.submit")}</Button>
