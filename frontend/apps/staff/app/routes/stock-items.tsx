@@ -49,6 +49,10 @@ export default function StockItemsRoute() {
     availabilityState: availability === "all" ? undefined : availability as never,
     productType: productType === "all" ? undefined : productType, productId: productId || undefined, supplierRoleId: supplierRoleId || undefined,
   } } }));
+  const PAGE_SIZE = 20;
+  const pageIndex = page.pageIndex;
+  const totalCount = page.totalCount ?? page.items.length;
+  const caption = `Inventory · ${totalCount === 0 ? 0 : pageIndex * PAGE_SIZE + 1}–${Math.min(totalCount, pageIndex * PAGE_SIZE + page.items.length)} of ${totalCount}`;
 
   useEffect(() => {
     if (page.status === "success" && page.items.length === 1 && !detailId && searchParams.get(STAFF_VIEW_PARAM.panel) !== "create") {
@@ -74,7 +78,7 @@ export default function StockItemsRoute() {
             {page.status === "pending" ? <StatusBanner kind="loading" title="Loading inventory…" /> : null}
             {page.status === "error" && page.error ? <ApiErrorBanner error={page.error} onRetry={page.refetch} /> : null}
           </Stack>
-          {page.status === "success" ? <div style={{ flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}><DataTable<StockItem> caption="Availability by service" rowKey={(row) => row.entityId} rows={page.items} emptyMessage="No stock entries match these filters." onRowActivate={(row) => updateView({ [STAFF_VIEW_PARAM.detail]: row.entityId, [STAFF_VIEW_PARAM.panel]: null })} isRowSelected={(row) => rightPane.mode === "detail" && row.entityId === rightPane.stockItemId} columns={[
+          {page.status === "success" ? <div style={{ flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}><DataTable<StockItem> caption={caption} rowKey={(row) => row.entityId} rows={page.items} emptyMessage="No stock entries match these filters." onRowActivate={(row) => updateView({ [STAFF_VIEW_PARAM.detail]: row.entityId, [STAFF_VIEW_PARAM.panel]: null })} isRowSelected={(row) => rightPane.mode === "detail" && row.entityId === rightPane.stockItemId} columns={[
             { key: "service", header: "Service", render: (row) => `${row.productDisplayNameChain.join(" · ")} · ${row.properties.serviceDate}` },
             { key: "date", header: "Service date", render: (row) => row.properties.serviceDate },
             { key: "remaining", header: "Remaining", render: (row) => row.properties.remainingCapacity },

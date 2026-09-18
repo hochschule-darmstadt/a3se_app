@@ -145,8 +145,14 @@ def list_stock_items(repository: RepositoryDependency, product_repository: Produ
         product_id=params.product_id, supplier_role_id=params.supplier_role_id,
         page=PageRequest(limit=params.limit, after=after),
     )
+    total_count = None if params.cursor else repository.count_stock_items(
+        search=params.search.strip() if params.search and params.search.strip() else None,
+        service_date_from=params.service_date_from, service_date_to=params.service_date_to,
+        availability_state=params.availability_state, product_type=params.product_type,
+        product_id=params.product_id, supplier_role_id=params.supplier_role_id,
+    )
     next_cursor = encode_cursor(result.next_cursor) if result.next_cursor else None
-    return Page[StockItemResponse](items=[_response(entity, repository, product_repository, partner_repository) for entity in result.items], next_cursor=next_cursor)
+    return Page[StockItemResponse](items=[_response(entity, repository, product_repository, partner_repository) for entity in result.items], next_cursor=next_cursor, total_count=total_count)
 
 
 @router.put("/{stock_item_id}", response_model=StockItemResponse, operation_id="updateStockItem", responses={404: {"model": ErrorResponse}, 422: {"model": ErrorResponse}})

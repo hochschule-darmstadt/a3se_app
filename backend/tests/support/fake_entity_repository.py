@@ -365,6 +365,15 @@ class FakeEntityRepository:
         if page.after: rows = [pair for pair in rows if pair[0].entity_id > page.after]
         return tuple(rows[:page.limit + 1])
 
+    def count_orders(self, *, search=None, status=None, product_type=None,
+        service_date_from=None, service_date_to=None, unresolved_only=False,
+        customer_role_id=None, stock_item_id=None, traveller_role_id=None):
+        return len(self.list_orders(
+            search=search, status=status, product_type=product_type,
+            service_date_from=service_date_from, service_date_to=service_date_to,
+            unresolved_only=unresolved_only, page=PageRequest(limit=100),
+        ))
+
     def list_stock_items(
         self,
         *,
@@ -373,7 +382,7 @@ class FakeEntityRepository:
         service_date_to=None,
         availability_state=None,
         product_type=None,
-        page=PageRequest(),
+        page=PageRequest(), product_id=None, supplier_role_id=None,
     ):
         stocks = [entity for (kind, _), entity in self._entities.items() if kind == EntityKind.STOCK_ITEM]
 
@@ -439,3 +448,13 @@ class FakeEntityRepository:
         page_items = filtered[: page.limit]
         next_cursor = page_items[-1].entity_id if len(filtered) > page.limit else None
         return PageResult(items=tuple(page_items), next_cursor=next_cursor)
+
+    def count_stock_items(
+        self, *, search=None, service_date_from=None, service_date_to=None,
+        availability_state=None, product_type=None, product_id=None, supplier_role_id=None,
+    ):
+        return len(self.list_stock_items(
+            search=search, service_date_from=service_date_from, service_date_to=service_date_to,
+            availability_state=availability_state, product_type=product_type,
+            product_id=product_id, supplier_role_id=supplier_role_id, page=PageRequest(limit=100),
+        ).items)

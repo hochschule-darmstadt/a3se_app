@@ -28,4 +28,19 @@ describe("StockItemsRoute", () => {
   it("opens create functionality in the right pane", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); renderRoute(); await userEvent.click(await screen.findByRole("button", { name: /add stock entry/i })); expect(screen.getByRole("form", { name: /add stock entry/i })).toBeInTheDocument(); expect(screen.getByRole("heading", { name: /inventory/i })).toBeInTheDocument(); });
   it("uses the Product-detail label/value layout with a root-to-leaf name", async () => { const stock = item("STK-1", "Airport transfer", "available"); getMock.mockImplementation((path: string) => Promise.resolve({ data: path.includes("{stock_item_id}") ? stock : { items: [stock], nextCursor: null }, response: { ok: true, status: 200 } })); renderRoute(); const chain = await screen.findByText("Example Mobility · Mobility · Airport transfer · 2027-05-12"); await userEvent.click(chain); expect(await screen.findByRole("heading", { level: 1, name: "Example Mobility · Mobility · Airport transfer · 2027-05-12" })).toBeInTheDocument(); expect(screen.getByText("stock/mobility/transfer")).toBeInTheDocument(); expect(screen.getByText("ID")).toBeInTheDocument(); expect(screen.getByText("STK-1")).toBeInTheDocument(); expect(screen.getByText("Lifecycle status")).toBeInTheDocument(); expect(screen.queryByText(/^Product$/)).not.toBeInTheDocument(); expect(screen.queryByText(/^Supplier$/)).not.toBeInTheDocument(); expect(screen.getByRole("button", { name: /edit stock entry/i })).toBeInTheDocument(); expect(screen.queryByRole("button", { name: /allocate to order/i })).not.toBeInTheDocument(); expect(screen.queryByRole("button", { name: /withdraw capacity/i })).not.toBeInTheDocument(); });
   it("shows loading and empty states", async () => { getMock.mockResolvedValue({ data: { items: [], nextCursor: null }, response: { ok: true, status: 200 } }); renderRoute(); expect(await screen.findByText(/no stock entries match/i)).toBeInTheDocument(); });
+  it("advances the result caption with the cursor page", async () => {
+    const firstPage = Array.from({ length: 20 }, (_, index) => item(`STK-${index + 1}`, `Transfer ${index + 1}`, "available"));
+    const secondPage = Array.from({ length: 20 }, (_, index) => item(`STK-${index + 21}`, `Transfer ${index + 21}`, "available"));
+    getMock.mockImplementation((_path: string, options: { params: { query: { cursor?: string } } }) => Promise.resolve({
+      data: options.params.query.cursor
+        ? { items: secondPage, nextCursor: null }
+        : { items: firstPage, nextCursor: "next-page", totalCount: 33_580 },
+      response: { ok: true, status: 200 },
+    }));
+    renderRoute();
+
+    expect(await screen.findByText("Inventory · 1–20 of 33580")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Next page" }));
+    expect(await screen.findByText("Inventory · 21–40 of 33580")).toBeInTheDocument();
+  });
 });

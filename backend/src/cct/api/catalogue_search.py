@@ -101,9 +101,10 @@ def search_catalogue(
         ))
 
     results.sort(key=lambda result: result.product_id)
+    total_count = len(results)
     after = decode_cursor(params.cursor) if params.cursor else None
     if after:
         results = [result for result in results if result.product_id > after]
     page_items = results[: params.limit]
     next_cursor = encode_cursor(page_items[-1].product_id) if len(results) > params.limit else None
-    return Page[CatalogueSearchResult](items=page_items, nextCursor=next_cursor)
+    return Page[CatalogueSearchResult](items=page_items, nextCursor=next_cursor, totalCount=total_count)

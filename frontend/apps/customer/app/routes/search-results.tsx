@@ -29,19 +29,22 @@ export default function SearchResults() {
   const productType = searchParams.get("productType") ?? "all";
   const travellers = searchParams.get("travellers") ?? "";
   const budgetPerPerson = searchParams.get("budgetPerPerson") ?? "any";
+  const travellerCount = Math.min(20, Math.max(1, Number.parseInt(travellers, 10) || 1));
   const [cursorStack, setCursorStack] = useState<(string | undefined)[]>([]);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
-  const travellerCount = Math.min(20, Math.max(1, Number.parseInt(travellers, 10) || 1));
   const query = useApiQuery(["catalogue-search", destinationOrTheme, dateFrom, dateTo, productType, travellerCount, cursor], () => apiClient.GET("/catalogue-search", {
     params: { query: { limit: PAGE_SIZE, cursor, search: destinationOrTheme, productType: productType === "all" ? undefined : productType, serviceDateFrom: dateFrom || undefined, serviceDateTo: dateTo || undefined, travellers: travellerCount } },
   }));
+  const total = query.data?.totalCount ?? query.data?.items.length ?? 0;
+  const pageItems = query.data?.items ?? [];
+  const pageIndex = cursorStack.length;
+  const caption = `Search results · ${total === 0 ? 0 : pageIndex * PAGE_SIZE + 1}–${Math.min(total, pageIndex * PAGE_SIZE + pageItems.length)} of ${total}`;
 
   const groups = useMemo(() => {
     const grouped = new Map<string, SearchResult[]>();
-    for (const result of query.data?.items ?? []) grouped.set(result.productType, [...(grouped.get(result.productType) ?? []), result]);
+    for (const result of pageItems) grouped.set(result.productType, [...(grouped.get(result.productType) ?? []), result]);
     return [...grouped.entries()];
-  }, [query.data]);
-
+  }, [pageItems]);
   function goNext() {
     if (!query.data?.nextCursor) return;
     setCursorStack((stack) => [...stack, cursor]);
@@ -71,11 +74,12 @@ export default function SearchResults() {
     </Stack>
     {query.isPending ? <StatusBanner kind="loading" title={t("results.loading")} /> : null}
     {query.isError ? <ApiErrorBanner error={query.error} onRetry={() => query.refetch()} /> : null}
-    {query.isSuccess ? query.data.items.length === 0 ? <StatusBanner kind="empty" title={t("results.empty")} /> : <>
+    {query.isSuccess ? total === 0 ? <StatusBanner kind="empty" title={t("results.empty")} /> : <>
+      <Text size="sm" component="p">{caption}</Text>
       {groups.map(([type, products]) => <Stack key={type} gap="sm"><Title order={2}>{type.replace(/^product\//, "").replaceAll("/", " · ")}</Title><SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
         {products.map((product) => <ResourceCard key={product.productId} title={product.productDisplayNameChain.join(" · ")} badge={type.replace(/^product\//, "")} details={[{ label: t("results.price"), value: `${product.indicativeUnitPriceAmount} ${product.currencyCode}` }]} action={<Stack gap="xs"><DateTravellerPicker dates={product.availableDates.map((date) => ({ date, position: { stockItemId: "", productId: product.productId, displayNameChain: product.productDisplayNameChain, serviceDate: date, unitPriceAmount: product.indicativeUnitPriceAmount, currencyCode: product.currencyCode } }))} onAdded={async (positions) => { const resolved = await Promise.all(positions.map(async (position) => { const stock = await findStockItem(apiClient, position.productId, position.serviceDate); return stock ? { ...position, stockItemId: stock.entityId, unitPriceAmount: String(stock.properties.unitPriceAmount), currencyCode: stock.properties.currencyCode } : null; })); const valid = resolved.filter((position): position is NonNullable<typeof position> => Boolean(position)); if (!valid.length) throw new Error("No stock"); travel.addPositions(valid); if (!actor) navigate(`/sign-in?${new URLSearchParams({ returnTo: `${location.pathname}${location.search}` }).toString()}`); }} /><Button component={Link} to={detailHref(product.productId)} variant="light" color="blue">{t("results.viewDetail")}</Button></Stack>} />)}
       </SimpleGrid></Stack>)}
-      <CursorPager hasPrevious={cursorStack.length > 0} hasNext={Boolean(query.data.nextCursor)} onPrevious={goPrevious} onNext={goNext} loading={query.isFetching} />
+      <CursorPager hasPrevious={cursorStack.length > 0} hasNext={Boolean(query.data?.nextCursor)} onPrevious={goPrevious} onNext={goNext} loading={query.isFetching} />
     </> : null}
   </Stack></Container></CustomerShell>;
 }

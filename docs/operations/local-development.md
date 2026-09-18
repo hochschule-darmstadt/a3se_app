@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Development/Operations
-- Last reviewed: 2026-09-01
+- Last reviewed: 2026-09-18
 
 This runbook starts the local proof-of-concept environment for browser
 inspection. It uses Docker Compose for Neo4j and the API, and the React Router
@@ -26,8 +26,7 @@ production credentials or customer data.
 From the repository root:
 
 ```powershell
-docker compose build api
-docker compose up -d
+docker compose up -d --build api
 ```
 
 The API computes a manifest at startup. It automatically seeds the empty local
@@ -38,6 +37,14 @@ model, or schema version changes. Unchanged fingerprints reuse the persisted
 must run before startup after backend source changes so the container contains
 the changed logic. `CCT_FORCE_SEED=1` forces the same reset, reseed, and index
 rebuild behavior.
+
+`docker compose restart api` only restarts the existing image; it does not copy
+new backend source into the container. Use `docker compose up -d --build api`
+after changes under `backend/`. A plain restart is appropriate only when the
+image is already current and the process needs to be restarted. Verify the
+running container with `docker compose ps api` and, when relevant, an affected
+API response instead of assuming that a successful restart deployed source
+changes.
 
 For a deliberate explicit reseed, use the profile-gated job:
 

@@ -57,3 +57,4 @@ class Page(BaseModel, Generic[T]):
 
     items: list[T]
     next_cursor: str | None = Field(default=None, alias="nextCursor")
+    total_count: int | None = Field(default=None, alias="totalCount", description="Total number of results matching the query, when available.")

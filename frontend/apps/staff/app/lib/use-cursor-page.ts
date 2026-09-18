@@ -6,10 +6,12 @@ import { toApiError, useApiQuery, type ApiError } from "@cct/api-client";
 interface PageResult<T> {
   readonly items: T[];
   readonly nextCursor?: string | null;
+  readonly totalCount?: number | null;
 }
 
 export interface CursorPageState<T> {
   readonly items: T[];
+  readonly pageIndex: number;
   readonly status: "pending" | "error" | "success";
   readonly error: ApiError | null;
   readonly isFetching: boolean;
@@ -18,6 +20,7 @@ export interface CursorPageState<T> {
   readonly onPrevious: () => void;
   readonly onNext: () => void;
   readonly refetch: () => void;
+  readonly totalCount: number | null;
 }
 
 /**
@@ -34,19 +37,23 @@ export function useCursorPage<T>(
   const [cursorStack, setCursorStack] = useState<readonly (string | undefined)[]>([undefined]);
   const queryKeySignature = JSON.stringify(queryKeyBase);
   const previousQueryKeySignature = useRef(queryKeySignature);
+  const totalCount = useRef<number | null>(null);
   useEffect(() => {
     if (previousQueryKeySignature.current !== queryKeySignature) {
       previousQueryKeySignature.current = queryKeySignature;
       setCursorStack([undefined]);
+      totalCount.current = null;
     }
   }, [queryKeySignature]);
   const cursor = cursorStack[cursorStack.length - 1];
 
   const query = useApiQuery<PageResult<T>>([...queryKeyBase, cursor], () => fetchPage(cursor));
   const nextCursor = query.data?.nextCursor ?? null;
+  if (query.data?.totalCount !== undefined && query.data.totalCount !== null) totalCount.current = query.data.totalCount;
 
   return {
     items: query.data?.items ?? [],
+    pageIndex: cursorStack.length - 1,
     status: query.status,
     error: query.error ?? null,
     isFetching: query.isFetching,
@@ -57,6 +64,7 @@ export function useCursorPage<T>(
       if (nextCursor) setCursorStack((stack) => [...stack, nextCursor]);
     },
     refetch: () => void query.refetch(),
+    totalCount: totalCount.current,
   };
 }
 

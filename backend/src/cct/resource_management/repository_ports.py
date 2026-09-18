@@ -77,6 +77,13 @@ class EntityRepositoryPort(Protocol):
         unresolved_only: bool, page: PageRequest, customer_role_id: str | None = None, stock_item_id: str | None = None, traveller_role_id: str | None = None,
     ) -> tuple[tuple[ValidatedEntity, dict[str, object]], ...]: ...
 
+    def count_orders(
+        self, *, search: str | None, status: str | None, product_type: str | None,
+        service_date_from: date | None, service_date_to: date | None,
+        unresolved_only: bool, customer_role_id: str | None = None, stock_item_id: str | None = None,
+        traveller_role_id: str | None = None,
+    ) -> int: ...
+
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None: ...
 
     def list_stock_items(
@@ -89,6 +96,12 @@ class EntityRepositoryPort(Protocol):
         product_type: str | None,
         page: PageRequest, product_id: str | None = None, supplier_role_id: str | None = None,
     ) -> PageResult[ValidatedEntity]: ...
+
+    def count_stock_items(
+        self, *, search: str | None, service_date_from: date | None, service_date_to: date | None,
+        availability_state: str | None, product_type: str | None, product_id: str | None = None,
+        supplier_role_id: str | None = None,
+    ) -> int: ...
 
     def list_catalogue_stock_matches(
         self,
@@ -205,6 +218,10 @@ class ScopedEntityRepository:
         self._require_allowed(EntityKind.ORDER_ITEM)
         return self._repository.list_orders(**kwargs)
 
+    def count_orders(self, **kwargs) -> int:
+        self._require_allowed(EntityKind.ORDER_ITEM)
+        return self._repository.count_orders(**kwargs)
+
     def get_organisation_for_role(self, role_id: str) -> ValidatedEntity | None:
         self._require_allowed(EntityKind.ORGA_ROLE)
         return self._repository.get_organisation_for_role(role_id)
@@ -235,6 +252,10 @@ class ScopedEntityRepository:
             product_id=product_id, supplier_role_id=supplier_role_id,
             page=page,
         )
+
+    def count_stock_items(self, **kwargs) -> int:
+        self._require_allowed(EntityKind.STOCK_ITEM)
+        return self._repository.count_stock_items(**kwargs)
 
     def list_catalogue_stock_matches(
         self,

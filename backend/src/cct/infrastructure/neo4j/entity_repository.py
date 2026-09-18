@@ -281,6 +281,15 @@ class Neo4jEntityRepository:
                 "serviceDateTo": last_date}))
         return tuple(result)
 
+    def count_orders(self, *, search, status, product_type, service_date_from,
+        service_date_to, unresolved_only, customer_role_id=None, stock_item_id=None, traveller_role_id=None):
+        with self._driver.session(database=self._database) as session:
+            row = session.execute_read(
+                self._read_order_count, search, status, product_type, service_date_from,
+                service_date_to, unresolved_only, customer_role_id, stock_item_id, traveller_role_id,
+            )
+        return int(row["totalCount"] if row else 0)
+
     def list_stock_items(
         self,
         *,
@@ -314,6 +323,17 @@ class Neo4jEntityRepository:
             items=tuple(entities),
             next_cursor=entities[-1].entity_id if has_more and entities else None,
         )
+
+    def count_stock_items(
+        self, *, search, service_date_from, service_date_to, availability_state,
+        product_type, product_id=None, supplier_role_id=None,
+    ):
+        with self._driver.session(database=self._database) as session:
+            row = session.execute_read(
+                self._read_stock_count, search, service_date_from, service_date_to,
+                availability_state, product_type, product_id, supplier_role_id,
+            )
+        return int(row["totalCount"] if row else 0)
 
     def list_catalogue_stock_matches(
         self,
@@ -593,6 +613,16 @@ class Neo4jEntityRepository:
             after=page.after, limit=page.limit + 1, customerRoleId=customer_role_id, stockItemId=stock_item_id, travellerRoleId=traveller_role_id))
 
     @staticmethod
+    def _read_order_count(tx: Transaction, search, status, product_type, service_date_from,
+        service_date_to, unresolved_only, customer_role_id, stock_item_id, traveller_role_id):
+        if not any((search, status, product_type, service_date_from, service_date_to, unresolved_only, customer_role_id, stock_item_id, traveller_role_id)):
+            return tx.run("MATCH (header:OrderItem {type: 'order/header'}) RETURN count(header) AS totalCount").single(strict=False)
+        return tx.run(ORDER_FILTER_COUNT, search=search.lower() if search else None,
+            status=status, productType=product_type, serviceDateFrom=service_date_from,
+            serviceDateTo=service_date_to, unresolvedOnly=unresolved_only, after=None, limit=0,
+            customerRoleId=customer_role_id, stockItemId=stock_item_id, travellerRoleId=traveller_role_id).single(strict=False)
+
+    @staticmethod
     def _read_stock_page(
         tx: Transaction,
         search: str | None,
@@ -613,6 +643,26 @@ class Neo4jEntityRepository:
                 limit=page.limit + 1,
             )
         )
+
+    @staticmethod
+    def _read_stock_count(
+        tx: Transaction, search, service_date_from, service_date_to, availability_state,
+        product_type, product_id, supplier_role_id,
+    ):
+        if not any((search, service_date_from, service_date_to, availability_state, product_type, product_id, supplier_role_id)):
+            return tx.run("MATCH (stock:StockItem) RETURN count(stock) AS totalCount").single(strict=False)
+        return tx.run(
+            STOCK_FILTER_COUNT,
+            search=search.lower() if search else None,
+            serviceDateFrom=service_date_from,
+            serviceDateTo=service_date_to,
+            availabilityState=availability_state,
+            productType=product_type,
+            productId=product_id,
+            supplierRoleId=supplier_role_id,
+            after=None,
+            limit=0,
+        ).single(strict=False)
 
     @staticmethod
     def _read_catalogue_stock_matches(tx: Transaction, search: str, service_date_from: date | None, service_date_to: date | None, product_type: str | None, min_travellers: int):
@@ -721,6 +771,24 @@ WHERE ($after IS NULL OR stock.entityId > $after)
               WHERE any(key IN keys(node) WHERE toLower(toString(node[key])) CONTAINS $search)))
 RETURN DISTINCT stock AS entity ORDER BY stock.entityId LIMIT $limit
 """.strip()
+
+STOCK_FILTER_COUNT = STOCK_FILTER_TRAVERSAL.replace(
+    "WHERE ($after IS NULL OR stock.entityId > $after)\n", "WHERE "
+).replace(
+    "WHERE   AND", "WHERE "
+).replace(
+    "RETURN DISTINCT stock AS entity ORDER BY stock.entityId LIMIT $limit",
+    "RETURN count(DISTINCT stock) AS totalCount",
+)
+
+ORDER_FILTER_COUNT = ORDER_FILTER_TRAVERSAL.replace(
+    "WHERE ($after IS NULL OR header.entityId > $after)\n", "WHERE "
+).replace(
+    "WHERE   AND", "WHERE "
+).replace(
+    "RETURN DISTINCT header AS entity, customer.entityId AS customerPersonId,\n trim(coalesce(customer.givenName, '') + ' ' + coalesce(customer.familyName, '')) AS customerDisplayName,\n size(positions) AS positionCount, size(unresolved) AS unresolvedPositionCount,\n reduce(d = null, s IN stocks | CASE WHEN d IS NULL OR s.serviceDate < d THEN s.serviceDate ELSE d END) AS serviceDateFrom,\n reduce(d = null, s IN stocks | CASE WHEN d IS NULL OR s.serviceDate > d THEN s.serviceDate ELSE d END) AS serviceDateTo\nORDER BY header.entityId LIMIT $limit",
+    "RETURN count(DISTINCT header) AS totalCount",
+)
 
 CATALOGUE_STOCK_MATCHES = """
 MATCH (stock:StockItem)-[:REPRESENTS_PRODUCT]->(product:TouristicProductItem)

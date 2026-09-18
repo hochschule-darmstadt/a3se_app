@@ -1247,6 +1247,11 @@ export interface components {
             items: components["schemas"]["CatalogueSearchResult"][];
             /** Nextcursor */
             nextCursor?: string | null;
+            /**
+             * Totalcount
+             * @description Total number of results matching the query, when available.
+             */
+            totalCount?: number | null;
         };
         /** Page[OrderSummaryResponse] */
         Page_OrderSummaryResponse_: {
@@ -1254,6 +1259,11 @@ export interface components {
             items: components["schemas"]["OrderSummaryResponse"][];
             /** Nextcursor */
             nextCursor?: string | null;
+            /**
+             * Totalcount
+             * @description Total number of results matching the query, when available.
+             */
+            totalCount?: number | null;
         };
         /** Page[OrganisationResponse] */
         Page_OrganisationResponse_: {
@@ -1261,6 +1271,11 @@ export interface components {
             items: components["schemas"]["OrganisationResponse"][];
             /** Nextcursor */
             nextCursor?: string | null;
+            /**
+             * Totalcount
+             * @description Total number of results matching the query, when available.
+             */
+            totalCount?: number | null;
         };
         /** Page[PersonResponse] */
         Page_PersonResponse_: {
@@ -1268,6 +1283,11 @@ export interface components {
             items: components["schemas"]["PersonResponse"][];
             /** Nextcursor */
             nextCursor?: string | null;
+            /**
+             * Totalcount
+             * @description Total number of results matching the query, when available.
+             */
+            totalCount?: number | null;
         };
         /** Page[ProductResponse] */
         Page_ProductResponse_: {
@@ -1275,6 +1295,11 @@ export interface components {
             items: components["schemas"]["ProductResponse"][];
             /** Nextcursor */
             nextCursor?: string | null;
+            /**
+             * Totalcount
+             * @description Total number of results matching the query, when available.
+             */
+            totalCount?: number | null;
         };
         /** Page[StockItemResponse] */
         Page_StockItemResponse_: {
@@ -1282,6 +1307,11 @@ export interface components {
             items: components["schemas"]["StockItemResponse"][];
             /** Nextcursor */
             nextCursor?: string | null;
+            /**
+             * Totalcount
+             * @description Total number of results matching the query, when available.
+             */
+            totalCount?: number | null;
         };
         /** PersonCreateRequest */
         PersonCreateRequest: {

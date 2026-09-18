@@ -248,11 +248,17 @@ def list_orders(repository: RepositoryDependency, params: Annotated[OrderPagePar
         product_type=params.product_type, service_date_from=params.service_date_from,
         service_date_to=params.service_date_to, unresolved_only=params.unresolved_only,
         page=PageRequest(limit=params.limit, after=after), customer_role_id=params.customer_role_id, stock_item_id=params.stock_item_id, traveller_role_id=params.traveller_role_id)
+    total_count = None if params.cursor else repository.count_orders(
+        search=params.search, status=params.status, product_type=params.product_type,
+        service_date_from=params.service_date_from, service_date_to=params.service_date_to,
+        unresolved_only=params.unresolved_only, customer_role_id=params.customer_role_id,
+        stock_item_id=params.stock_item_id, traveller_role_id=params.traveller_role_id,
+    )
     has_more = len(rows) > params.limit
     visible = rows[:params.limit]
     items = [OrderSummaryResponse(**OrderResponse.from_domain(entity).model_dump(by_alias=True), **summary) for entity, summary in visible]
     next_cursor = encode_cursor(visible[-1][0].entity_id) if has_more and visible else None
-    return Page[OrderSummaryResponse](items=items, next_cursor=next_cursor)
+    return Page[OrderSummaryResponse](items=items, next_cursor=next_cursor, total_count=total_count)
 
 
 @router.put(

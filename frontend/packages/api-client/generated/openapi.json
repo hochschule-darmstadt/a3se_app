@@ -1723,6 +1723,18 @@
               }
             ],
             "title": "Nextcursor"
+          },
+          "totalCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total number of results matching the query, when available.",
+            "title": "Totalcount"
           }
         },
         "required": [
@@ -1750,6 +1762,18 @@
               }
             ],
             "title": "Nextcursor"
+          },
+          "totalCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total number of results matching the query, when available.",
+            "title": "Totalcount"
           }
         },
         "required": [
@@ -1777,6 +1801,18 @@
               }
             ],
             "title": "Nextcursor"
+          },
+          "totalCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total number of results matching the query, when available.",
+            "title": "Totalcount"
           }
         },
         "required": [
@@ -1804,6 +1840,18 @@
               }
             ],
             "title": "Nextcursor"
+          },
+          "totalCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total number of results matching the query, when available.",
+            "title": "Totalcount"
           }
         },
         "required": [
@@ -1831,6 +1879,18 @@
               }
             ],
             "title": "Nextcursor"
+          },
+          "totalCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total number of results matching the query, when available.",
+            "title": "Totalcount"
           }
         },
         "required": [
@@ -1858,6 +1918,18 @@
               }
             ],
             "title": "Nextcursor"
+          },
+          "totalCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total number of results matching the query, when available.",
+            "title": "Totalcount"
           }
         },
         "required": [

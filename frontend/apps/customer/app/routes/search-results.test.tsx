@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { createRoutesStub } from "react-router";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -74,5 +75,33 @@ describe("SearchResults (VIEW-C-009 product-level catalogue search)", () => {
     expect(pagination).toBeVisible();
     expect(screen.getByRole("button", { name: "Previous page" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Next page" })).toBeEnabled();
+  });
+
+  it("keeps the total and advances the caption on the next cursor page", async () => {
+    const product = (number: number) => ({
+      productId: `FLT-${number.toString().padStart(2, "0")}`,
+      productType: "product/airline/flight",
+      productDisplayName: `Flight ${number}`,
+      productDisplayNameChain: ["Condorleaf Air", "Airline", `Flight ${number}`],
+      availableDates: ["2027-04-06"],
+      indicativeUnitPriceAmount: "1690",
+      currencyCode: "EUR",
+    });
+    const firstPage = Array.from({ length: 20 }, (_, index) => product(index + 1));
+    const secondPage = Array.from({ length: 8 }, (_, index) => product(index + 21));
+    getMock.mockImplementation(((...args: never[]) => {
+      const options = (args as unknown[]).find((arg): arg is { params: { query: { cursor?: string } } } => typeof arg === "object" && arg !== null && "params" in arg);
+      return Promise.resolve({
+        data: options?.params.query.cursor
+          ? { items: secondPage, nextCursor: null, totalCount: 28 }
+          : { items: firstPage, nextCursor: "next-page", totalCount: 28 },
+        response: { ok: true, status: 200 },
+      }) as never;
+    }) as never);
+    renderResults();
+
+    expect(await screen.findByText("Search results · 1–20 of 28")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Next page" }));
+    expect(await screen.findByText("Search results · 21–28 of 28")).toBeInTheDocument();
   });
 });
