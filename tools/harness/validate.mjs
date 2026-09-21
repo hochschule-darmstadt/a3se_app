@@ -5,7 +5,7 @@ const root = resolve(import.meta.dirname, '../..');
 const docs = resolve(root, 'docs');
 const decisionDirectory = resolve(docs, 'governance/decisions');
 const issueTemplateDirectory = resolve(root, '.github/ISSUE_TEMPLATE');
-const ignoredDirectories = new Set(['.git', '.diagram-tools', 'node_modules']);
+const ignoredDirectories = new Set(['.git', '.diagram-tools', 'build', 'node_modules']);
 const knownPrefixes = ['ACT', 'UC', 'FR', 'NFR', 'SE', 'CON'];
 const authoritativeDefinitions = new Map([
   ['ACT', 'docs/requirements/actors.md'],

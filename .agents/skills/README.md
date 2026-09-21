@@ -1,5 +1,6 @@
 # Repository Skills
 
+- [commit-readiness](commit-readiness/SKILL.md): determine and run the proportionate validation checks before committing or opening a pull request, then report their outcome
 - [create-product-vision](create-product-vision/SKILL.md): discover, challenge, and record the authoritative Product Vision and hand off evidenced domain-term candidates
 - [create-glossary](create-glossary/SKILL.md): establish authoritative domain terminology and apply only meaning-preserving editorial reconciliation to the Product Vision
 - [create-domains](create-domains/SKILL.md): collaboratively discover and document strategic DDD domains, subdomains, and justified bounded contexts
