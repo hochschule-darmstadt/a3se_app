@@ -48,7 +48,7 @@ Before reading, define a small context packet for the task: the intended outcome
 
 Stop loading context when the authoritative artifact and its directly affected links, terminology, acceptance evidence, and applicable decisions have been checked. Expand the packet only when new evidence reveals a contradiction, material uncertainty, or a security, privacy, legal, payment, identity, accessibility, or operational risk. Record excluded context, skipped checks, and residual risks when they could affect confidence. Summaries may route work, but normative edits require checking the authoritative source.
 
-Use the compact [task-context template](governance/templates/task-context.md) for non-trivial changes. Specialists should receive the same bounded packet, not the whole repository; independence concerns the review, not unnecessary duplication of context.
+Specialists should receive the same bounded context packet, not the whole repository; independence concerns the review, not unnecessary duplication of context.
 
 ## Topic growth strategy
 

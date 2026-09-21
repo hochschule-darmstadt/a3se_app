@@ -1,7 +1,6 @@
 @startuml
 title Main Use Cases by Owning Domain
 
-left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
 skinparam actorStyle awesome
@@ -12,19 +11,22 @@ actor "Travel Advisor" as Advisor
 actor "Seasonal Planner" as Planner
 actor Purchaser
 
-rectangle "Christopher Columbus Travel" {
-  package "Season Planning" <<domain>> {
+rectangle "Christopher Columbus Travel" as CCT <<Domain>> {
+  package "Season Planning" as SeasonPlanning <<Sub-Domain>> {
     usecase "UC-015\nMaintain Travel Products\nand Services" as UC015
   }
-  package "Procurement" <<domain>> {
+  package "Procurement" as ProcurementDomain <<Sub-Domain>> {
     usecase "UC-006\nProcure Stock Services" as UC006
   }
-  package "Touristic Product Design" <<domain>> {
+  package "Touristic Product Design" as ProductDesign <<Sub-Domain>> {
     usecase "UC-003\nCompose Individual Travel" as UC003
     usecase "UC-004\nDesign Package Travel" as UC004
     usecase "UC-005\nObtain Plausible Itinerary" as UC005
+
+    UC003 -[hidden]down- UC004
+    UC004 -[hidden]down- UC005
   }
-  package "Sales" <<domain>> {
+  package "Sales" as SalesDomain <<Sub-Domain>> {
     usecase "UC-001\nSeek Travel Advice" as UC001
     usecase "UC-008\nReceive Sales Offer" as UC008
     usecase "UC-009\nConfirm Availability" as UC009
@@ -32,32 +34,60 @@ rectangle "Christopher Columbus Travel" {
     usecase "UC-016\nPlace Travel Order" as UC016
     usecase "UC-017\nSecure Required Services" as UC017
     usecase "UC-018\nPay for Travel" as UC018
+
+    UC001 -[hidden]down- UC008
+    UC008 -[hidden]down- UC009
+    UC009 -[hidden]down- UC010
+    UC010 -[hidden]down- UC016
+    UC016 -[hidden]down- UC017
+    UC017 -[hidden]down- UC018
   }
-  package "Customer Care" <<domain>> {
+  package "Customer Care" as CustomerCare <<Sub-Domain>> {
     usecase "UC-002\nObtain Ongoing Assistance" as UC002
     usecase "UC-011\nPrepare Ordered Travel" as UC011
     usecase "UC-012\nReceive Travel Documents" as UC012
     usecase "UC-013\nCoordinate Active Travel" as UC013
     usecase "UC-014\nMaintain Customer Record" as UC014
+
+    UC002 -[hidden]down- UC011
+    UC011 -[hidden]down- UC012
+    UC012 -[hidden]down- UC013
+    UC013 -[hidden]down- UC014
   }
+
+  SeasonPlanning -[hidden]right-> ProcurementDomain
+  ProcurementDomain -[hidden]right-> ProductDesign
+  ProductDesign -[hidden]right-> SalesDomain
+  SalesDomain -[hidden]right-> CustomerCare
 }
 
-Customer -- UC001
-Traveler -- UC002
-Customer -- UC003
-Planner -- UC004
-Customer -- UC005
-Purchaser -- UC006
-Customer -- UC008
-Customer -- UC009
-Customer -- UC010
-Advisor -- UC011
-Customer -- UC012
-Traveler -- UC013
-Customer -- UC014
-Planner -- UC015
-Customer -- UC016
-Customer -- UC017
-Customer -- UC018
+Planner -[hidden]right-> Purchaser
+Purchaser -[hidden]right-> Customer
+Customer -[hidden]right-> Advisor
+Advisor -[hidden]right-> Traveler
+
+Planner -[hidden]down-> SeasonPlanning
+Purchaser -[hidden]down-> ProcurementDomain
+Customer -[hidden]down-> ProductDesign
+Advisor -[hidden]down-> SalesDomain
+Traveler -[hidden]down-> CustomerCare
+
+Customer -[norank]- UC001
+Traveler -[norank]- UC002
+Customer -[norank]- UC003
+Planner -[norank]- UC004
+Customer -[norank]- UC005
+Purchaser -[norank]- UC006
+Customer -[norank]- UC008
+Customer -[norank]- UC009
+Customer -[norank]- UC010
+Advisor -[norank]- UC011
+Customer -[norank]- UC012
+Traveler -[norank]- UC013
+Customer -[norank]- UC014
+Planner -[norank]- UC015
+Customer -[norank]- UC016
+Customer -[norank]- UC017
+Customer -[norank]- UC018
 
 @enduml
