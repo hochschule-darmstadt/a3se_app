@@ -36,13 +36,13 @@ For a new Product Vision, establish the product intent and evidence from the ava
 
 ## Capture capability, terminology, and actor-candidate evidence
 
-Make the Product Vision's capability areas collectively expose the intended product surface. For each material area, establish its intended contribution or outcome, representative capabilities, evidence and status, and material boundaries or open questions. The result must make intended feature families and candidate features derivable at a coarse level. Include scope-defining or distinguishing capabilities, but do not turn the vision into an exhaustive feature list, backlog, detailed requirement catalog, domain model, or architecture.
+Make the Product Vision clear enough to communicate the intended product surface, outcomes, and material boundaries. Include capability areas when they help explain that surface; concise prose or bullets are acceptable, and a complete capability table is not required. Use enough detail to distinguish material capabilities without turning the vision into an exhaustive feature list, backlog, detailed requirement catalog, domain model, or architecture. Put finer-grained coverage in linked authoritative artifacts when that improves reviewability.
 
-Retain substantive stakeholder wording and detailed current-state or proposed capabilities that do not belong in the concise Product Vision as source evidence with provenance and classification. Link that evidence from the relevant capability area rather than discarding or duplicating it.
+Retain substantive stakeholder wording, provenance, or detailed current-state and proposed capabilities as source evidence when those details are material and are not already preserved in an authoritative artifact. Link evidence where it helps reviewers trace consequential or uncertain statements. Do not create a parallel evidence catalog solely to populate template fields.
 
-Derive a visible glossary-candidate handoff from the Product Vision and its linked evidence. For each material candidate, retain the original wording and source context, the ambiguity or distinction that makes it relevant, and the Product Vision statement or capability area it affects. Persist unresolved candidates and stakeholder terminology statements in source evidence or the repository's authoritative open-question location so a later glossary task does not depend on chat history. Do not propose a definition as if it were established domain meaning.
+When discovery identifies unresolved domain terminology that needs follow-up, make the glossary handoff visible in the Vision or linked evidence. Preserve original wording, source context, relevant ambiguity or distinction, and the affected Vision statement where useful. Persist material unresolved candidates when a later glossary task would otherwise depend on chat history. Do not create candidate lists for established terms that already agree with the glossary, and do not propose a definition as if it were established domain meaning.
 
-Derive a separate visible actor-candidate handoff for people, organizations, external systems, or devices that appear to interact with the intended product. Retain the candidate role, target-user or stakeholder context, hypothesized interaction, evidence, and uncertainty. Do not assign an `ACT-` identifier, create the actor catalog, or decide a final role boundary. Beneficiaries and interested stakeholders remain candidates only when direct interaction is evidenced or needs validation.
+When discovery identifies a plausible interacting role whose boundary or interaction needs validation, make the actor handoff visible in the Vision or linked evidence. Capture the candidate role, context, hypothesized interaction, and uncertainty to the level needed for `create-actors` to continue without relying on chat history. Do not duplicate established actor definitions, assign an `ACT-` identifier, create the actor catalog, or decide a final role boundary. Beneficiaries and interested stakeholders are actor candidates only when direct interaction is evidenced or needs validation.
 
 ## Interview before drafting
 
@@ -57,11 +57,11 @@ Ensure the interview establishes, where material:
 - the current situation and why it is inadequate;
 - the outcomes users and stakeholders need;
 - the product's intended identity, role, and distinguishing value;
-- the complete set of coarse capability areas needed to understand the intended product surface;
-- representative scope-defining or distinguishing capabilities within each area;
+- enough coarse capability coverage to understand the intended product surface and its material distinctions;
+- representative scope-defining capabilities where they clarify intent or boundaries;
 - the intended product boundary and explicit non-goals;
 - product principles and the trade-offs they imply;
-- proposed indicators of success, including direction, timeframe, baseline, and target when supported;
+- useful proposed indicators of success, including direction, timeframe, baseline, and target when supported by evidence;
 - material business, regulatory, organisational, temporal, safety, privacy, and other constraints;
 - the evidence and accountable authority behind consequential statements.
 
@@ -75,13 +75,13 @@ Do not repeat an answered question unless new evidence conflicts with the answer
 
 Continue the interview until:
 
-- every required template section can be supported by stakeholder input or identified evidence;
+- the Product Vision can communicate the intended outcome and scope clearly in a concise form; use supporting detail where it materially improves understanding or traceability;
 - target users, problems, outcomes, value, principles, capability areas, and product boundaries form a coherent whole;
-- every material capability area states an intended contribution and representative capabilities or links to evidence that supplies the necessary detail;
+- the intended capability surface and its material distinctions are clear enough for the vision's purpose; use linked detail only where it improves understanding or traceability;
 - no material contradiction remains hidden;
 - every material assumption is acknowledged and has a validation condition;
-- every unresolved material question has an owner and resolution condition;
-- proposed success measures are meaningful, or their deliberate deferral is explicit;
+- every unresolved material question that affects intent, scope, or a pending decision has an owner and resolution condition;
+- proposed success measures are meaningful where known; do not require baselines, targets, or timeframes without evidence, and make a deferral explicit when a measure is material to a pending decision;
 - architecture or implementation choices are not being presented as product intent without justification;
 - domain terms material to interpreting the vision agree with the existing glossary or are retained as evidenced glossary candidates or owned open questions;
 - product, software, modernization, governance, and delivery terms have not been misclassified as domain vocabulary.
@@ -107,17 +107,17 @@ Ask the user to confirm or correct the synthesis before writing the Product Visi
 
 After confirmation:
 
-1. Update the authoritative Product Vision using the resolved template.
-2. Create or update the source evidence needed to preserve detailed stakeholder statements, capability information, terminology candidates, provenance, and uncertainty that the concise vision only summarizes.
+1. Update the authoritative Product Vision using the resolved template as a guide to coverage, not a mandatory layout. Keep the vision concise and use prose, bullets, or tables as best fits its scope.
+2. Create or update supporting source evidence when material stakeholder statements, provenance, capability detail, terminology candidates, or uncertainty are not already preserved in an authoritative location and would otherwise be lost. Do not create supporting documents merely to fill template fields.
 3. Do not create the domain glossary or make a semantic glossary change. Apply only explicitly meaning-preserving editorial glossary repairs that are necessary and within the user's requested scope; otherwise produce a glossary handoff.
 4. Do not create the actor catalog or assign `ACT-` identifiers. Retain actor candidates and their evidence for `create-actors`; link existing authoritative actors when they already exist.
 5. Keep product names, software components, product-capability labels, and modernization, migration, acceptance, and delivery-process terminology in the Product Vision. Define them there on first material use when needed for clarity; link purely organizational or lifecycle detail to its authoritative project artifact.
 6. Write repository artifacts in English unless repository instructions say otherwise; retain original-language source wording when it resolves ambiguity.
 7. Preserve required metadata and established headings; remove template instructions from completed artifacts.
-8. Keep the vision concise, outcome-oriented, and independent of architecture and implementation while retaining the capability areas and representative capabilities needed to understand its product surface.
+8. Keep the vision concise, outcome-oriented, and independent of architecture and implementation. Include capability-area and representative-capability detail only to the extent needed to communicate its product surface.
 9. Preserve facts, assumptions, proposals, decisions, and open questions as distinct statement types.
 10. Keep a new or materially changed Product Vision in `draft` unless the accountable authority explicitly approves another lifecycle state. Preserve an existing lifecycle status when no semantic change occurred. Never change the glossary or actor-catalog status solely because this workflow ran.
-11. Keep unapproved targets visibly proposed and never fabricate missing values.
+11. Keep unapproved targets visibly proposed and never fabricate missing values. Record baseline, target, timeframe, and authority when supported; otherwise use a directional indicator or defer the detail without making the Vision a measurement plan.
 12. Link directly and relatively to authoritative repository artifacts and source evidence. Link to the glossary and actor catalog rather than duplicating established definitions.
 13. Summarize rather than duplicate detailed actor definitions, requirements, constraints, scope exclusions, domain definitions, or feature specifications.
 14. Give stable identifiers only in their authoritative catalogs. Do not assign identifiers to vision placeholders, proposals, open questions, capability areas, glossary candidates, or actor candidates.
@@ -126,10 +126,10 @@ After confirmation:
 
 ## Validate and report
 
-Critically compare the completed Product Vision and evidence with the interview and the existing glossary. Check that no statement changed meaning, no assumption became a fact, no proposal became a decision, capability areas expose the intended product surface without becoming a backlog, established domain terminology remains consistent, links and identifiers remain valid, and affected artifacts do not contradict one another.
+Critically compare the completed Product Vision and any supporting evidence with the interview and the existing glossary. Check that no statement changed meaning, no assumption became a fact, no proposal became a decision, the Vision communicates its intended product surface without becoming a backlog, established domain terminology remains consistent, links and identifiers remain valid, and affected artifacts do not contradict one another.
 
-After any editorial secondary-artifact repair, repeat the impact check. Do not claim full alignment while a semantic glossary handoff remains unresolved. A repeated run with unchanged evidence and intent should produce no semantic or stylistic churn.
+After any editorial secondary-artifact repair, repeat the impact check. Do not claim full alignment while a material semantic glossary handoff remains unresolved. A repeated run with unchanged evidence and intent should produce no semantic or stylistic churn.
 
 Run the repository's documentation validation command when it is available. If configured validation tooling is missing, do not rebuild it as part of this workflow; perform the feasible checks manually and report the skipped automated check as a limitation.
 
-Report the changed files, validation performed and its result, capability-area changes, source-evidence changes, the complete glossary-candidate and actor-candidate handoffs, affected Vision statements, remaining assumptions and open questions, the resulting alignment state, and any skipped check or residual limitation.
+Report changed files, validation performed and its result, material Vision changes, supporting evidence or candidate handoffs created or updated, affected statements, remaining material assumptions and open questions, alignment state, and skipped checks or residual limitations. Omit handoff categories that did not arise; do not manufacture candidates to complete a report checklist.

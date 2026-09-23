@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-08-01
+- Last reviewed: 2026-09-23
 
 ## Vision
 
@@ -32,6 +32,7 @@ The defining value is not AI-generated conversation by itself. It is the ability
 ## Scope
 
 - Offering both package travel and individual travel.
+- Individual travel is limited to travel components backed by capacity procured before sale; on-demand acquisition in response to a customer enquiry or order, including through intermediaries, is excluded under [SE-002](scope-exclusions.md).
 - Conversational discovery and refinement of customer needs.
 - AI-assisted composition of individual travel from travel services.
 - Plausibility and availability checks needed to progress toward an orderable composition.

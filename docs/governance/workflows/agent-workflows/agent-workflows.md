@@ -53,7 +53,7 @@ The following table records the current task-to-artifact contracts at coordinati
 
 | Agent task | Principal inputs | Authoritative output or handoff |
 |---|---|---|
-| [`create-product-vision`](../../../../.agents/skills/create-product-vision/SKILL.md) | Source evidence and stakeholder expertise | Product Vision; constraints and assumptions; scope exclusions; glossary-term and actor candidates rather than authoritative glossary or actor entries. |
+| [`create-product-vision`](../../../../.agents/skills/create-product-vision/SKILL.md) | Source evidence and stakeholder expertise | Product Vision; affected constraints, assumptions, or scope exclusions; linked supporting evidence and glossary-term or actor-candidate handoffs when material follow-up is needed. The task does not create authoritative glossary or actor entries. |
 | [`create-glossary`](../../../../.agents/skills/create-glossary/SKILL.md) | Product Vision, evidence, constraints, scope exclusions, and domain expertise | Authoritative glossary; meaning-preserving Product Vision reconciliation or a handoff for material intent changes. |
 | [`create-domains`](../../../../.agents/skills/create-domains/SKILL.md) | Product Vision, glossary, constraints, scope exclusions, and domain expertise | Strategic domain and subdomain landscape, including unresolved boundary candidates and justified context distinctions. |
 | [`create-actors`](../../../../.agents/skills/create-actors/SKILL.md) | Product intent, glossary, domain boundaries, constraints, scope exclusions, and actor candidates | Authoritative actor catalog. |
