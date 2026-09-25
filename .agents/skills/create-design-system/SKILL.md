@@ -118,7 +118,7 @@ Establish only what is material from the following:
 - which states and variants are genuinely reusable and which remain interaction-specific;
 - what content tone, terminology, action-label, status-message, and error-message rules preserve domain meaning;
 - which responsive, keyboard, assistive-technology, touch, zoom, and text-resizing needs apply;
-- what patient, clinical, financial, or organizational information must be minimized or protected;
+- what traveler, customer, payment, or organizational information must be minimized or protected;
 - which legacy or familiar visual conventions measurably support performance and which are accidental constraints;
 - which draft values require contrast, usability, accessibility, or cross-context validation;
 - what evidence or accountable authority can resolve remaining uncertainty.
@@ -159,10 +159,10 @@ Preserve traceability without allowing existing names to freeze a defective syst
 
 Test proposed design-system entries across materially different representative interactions:
 
-- clinical review or documentation;
-- patient administration and operational coordination;
-- scheduling, billing, collaboration, or other high-density work where applicable;
-- patient-facing or external-party interaction where applicable;
+- conversational travel advice and itinerary composition;
+- sales offer, travel order, and payment handling;
+- seasonal planning, procurement, inventory, or other high-density staff work where applicable;
+- customer-facing, traveler-facing, or external-party interaction where applicable;
 - empty, loading, success, warning, validation, authorization, conflict, interruption, failure, and recovery states;
 - keyboard-only, assistive-technology, zoom, text-resizing, narrow viewport, touch, and high-density desktop contexts as evidenced;
 - different organizations, locations, roles, working contexts, and information-sensitivity levels.

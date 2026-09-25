@@ -40,7 +40,7 @@ Do not equate any of the following with a use case without evidence of a distinc
 - a screen, page, button, menu entry, form, field, or interaction gesture;
 - a database CRUD operation, entity, document type, report, message, API, batch job, integration endpoint, or technical event;
 - a product capability area, subdomain, bounded context, software module, service, team, or delivery item;
-- a broad epic such as “manage patients” or a small implementation task such as “validate postal code”;
+- a broad epic such as “manage customers” or a small implementation task such as “validate postal code”;
 - every legacy feature, current workflow step, or external ecosystem.
 
 Name a use case with a concise verb-object goal at the actor's level. Prefer channel-neutral goals unless a channel changes the actor, business outcome, policies, or material interaction boundary. Split create, read, update, and delete operations only when they represent genuinely different actor goals, authority, outcomes, or lifecycles.

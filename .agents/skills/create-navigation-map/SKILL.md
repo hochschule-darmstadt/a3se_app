@@ -116,7 +116,7 @@ Establish only what is material from the following:
 - what the default destination and high-frequency entry points should be;
 - how users retain orientation, return safely, and resume interrupted work;
 - which destinations or entry points vary by role, organization, location, channel, or device without defining permissions;
-- which patient, clinical, financial, or organizational information must not be exposed merely through navigation;
+- which traveler, customer, payment, or organizational information must not be exposed merely through navigation;
 - which legacy conventions are validated needs and which are accidental constraints;
 - which alternative hierarchies or labels deserve comparison or usability testing;
 - what evidence or accountable authority can resolve remaining uncertainty.
@@ -151,7 +151,7 @@ Verify proportionately that:
 - frequent and safety-sensitive goals have appropriate entry points without overwhelming the primary hierarchy;
 - labels use glossary-aligned actor language;
 - the default destination, global navigation, contextual navigation, and return paths are coherent;
-- organization, location, patient, and other working contexts remain understandable;
+- customer, travel order, season, and other working contexts remain understandable;
 - role-dependent visibility does not become an unevidenced permissions model;
 - navigation does not expose protected information or imply unauthorized access;
 - keyboard, assistive-technology, small-viewport, interruption, empty-state, and error-recovery implications have been considered at the appropriate level;

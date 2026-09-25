@@ -31,7 +31,7 @@ For a new Product Vision, establish the product intent and evidence from the ava
 - The domain glossary defines the language domain experts use for concepts in the problem domain. Only a glossary-focused workflow may add, remove, rename, redefine, or materially change the context, distinctions, or synonyms of a glossary entry.
 - This workflow may make a meaning-preserving editorial repair to an existing glossary only when it is required for consistency and indisputably does not change domain meaning, scope, authority, or lifecycle status. Otherwise identify the exact required change and hand it off to `create-glossary`.
 - If no glossary exists, do not create one. A domain term mentioned or clarified during Product Vision discovery remains a candidate supported by evidence, not an authoritative definition.
-- Product names, software-component names, product-capability labels, and terms used to describe modernization, migration, acceptance, or the delivery process belong in the Product Vision when needed to understand product intent.
+- Product names, software-component names, product-capability labels, and terms used to describe the project, its acceptance, or the delivery process belong in the Product Vision when needed to understand product intent.
 - Link from the Product Vision to existing glossary definitions that materially aid understanding. Do not duplicate full definitions.
 
 ## Capture capability, terminology, and actor-candidate evidence
@@ -84,7 +84,7 @@ Continue the interview until:
 - proposed success measures are meaningful where known; do not require baselines, targets, or timeframes without evidence, and make a deferral explicit when a measure is material to a pending decision;
 - architecture or implementation choices are not being presented as product intent without justification;
 - domain terms material to interpreting the vision agree with the existing glossary or are retained as evidenced glossary candidates or owned open questions;
-- product, software, modernization, governance, and delivery terms have not been misclassified as domain vocabulary.
+- product, software, project, governance, and delivery terms have not been misclassified as domain vocabulary.
 
 Do not demand perfect knowledge. Non-blocking uncertainty may remain when it is explicit and owned. If the user asks to stop the interview early, comply, keep a new or materially changed Product Vision in `draft`, and make the resulting gaps visible.
 
@@ -111,7 +111,7 @@ After confirmation:
 2. Create or update supporting source evidence when material stakeholder statements, provenance, capability detail, terminology candidates, or uncertainty are not already preserved in an authoritative location and would otherwise be lost. Do not create supporting documents merely to fill template fields.
 3. Do not create the domain glossary or make a semantic glossary change. Apply only explicitly meaning-preserving editorial glossary repairs that are necessary and within the user's requested scope; otherwise produce a glossary handoff.
 4. Do not create the actor catalog or assign `ACT-` identifiers. Retain actor candidates and their evidence for `create-actors`; link existing authoritative actors when they already exist.
-5. Keep product names, software components, product-capability labels, and modernization, migration, acceptance, and delivery-process terminology in the Product Vision. Define them there on first material use when needed for clarity; link purely organizational or lifecycle detail to its authoritative project artifact.
+5. Keep product names, software components, product-capability labels, and project, acceptance, and delivery-process terminology in the Product Vision. Define them there on first material use when needed for clarity; link purely organizational or lifecycle detail to its authoritative project artifact.
 6. Write repository artifacts in English unless repository instructions say otherwise; retain original-language source wording when it resolves ambiguity.
 7. Preserve required metadata and established headings; remove template instructions from completed artifacts.
 8. Keep the vision concise, outcome-oriented, and independent of architecture and implementation. Include capability-area and representative-capability detail only to the extent needed to communicate its product surface.

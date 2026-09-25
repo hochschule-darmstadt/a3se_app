@@ -78,7 +78,7 @@ State provisionally:
 - actors, goals, use cases, channels, devices, and contexts being represented;
 - starting destination and supported entry points from the navigation map;
 - observable completion, alternative outcomes, failures, and handoffs;
-- working contexts that must remain visible, such as organization, location, patient, visit, appointment, referral, or work item;
+- working contexts that must remain visible, such as customer, traveler, travel order, itinerary, season, or work item;
 - whether the task seeks broad consistency, a focused interaction concept, or correction of selected frames;
 - applicable privacy, safety, regulatory, accessibility, and interruption constraints.
 
@@ -257,7 +257,7 @@ When HTML rendering is selected:
 - map every rendered frame or material state to its stable `WF-NNN` or `UX-WF-NNN` identifier and provide stable hash or equivalent local entry points when practical;
 - derive screen sequence and observable outcomes from linked use cases without reproducing domain logic in JavaScript;
 - use semantic HTML, persistent labels, meaningful headings, logical reading and focus order, live status where warranted, keyboard-operable controls, and non-color indicators;
-- use synthetic, visibly non-production information and minimize patient, financial, identity, or other sensitive detail;
+- use synthetic, visibly non-production information and minimize traveler, payment, identity, or other sensitive detail;
 - use plain HTML and CSS by default, adding only the minimum local JavaScript needed to switch frames, expose states, retain illustrative input, or demonstrate feedback;
 - do not add a framework, package, service, network dependency, build system, backend, storage, authentication, authorization, telemetry, or application architecture merely to render the wireframes;
 - mark preview-only controls, state selectors, annotations, or test affordances so reviewers cannot mistake them for proposed product UI;

@@ -28,8 +28,8 @@ For a revision, begin with the requested or evidence-driven terminology delta, p
 
 ## Preserve semantic ownership and vocabulary boundaries
 
-- Include vocabulary that domain experts use to describe concepts in the problem domain, such as ophthalmic care and practice operation. Clinical, administrative, scheduling, billing, patient-flow, and other business-process terms qualify when their meaning exists independently of the modernization project or a particular software implementation.
-- Do not include product names, software-component names, product-capability labels, or terms whose primary purpose is to describe modernization, migration, acceptance, or the delivery process. Their necessary meaning belongs in the Product Vision or another authoritative artifact.
+- Include vocabulary that domain experts use to describe concepts in the problem domain, such as tour operation and travel sales. Seasonal-planning, procurement, travel-product, sales, travel-order, payment, customer-care, and other business-process terms qualify when their meaning exists independently of the project or a particular software implementation; for example, stock service, travel component, or travel order.
+- Do not include product names, software-component names, product-capability labels, or terms whose primary purpose is to describe the project, its acceptance, or the delivery process. Their necessary meaning belongs in the Product Vision or another authoritative artifact.
 - Do not turn the glossary into a feature list, product catalog, business-object catalog, data dictionary, requirements catalog, or domain model. Link to those artifacts when the distinction matters.
 - When a term has different meanings in different domain contexts, record context-specific meanings instead of forcing a false global definition.
 - Include only terms whose explicit definition materially improves shared understanding. Do not collect every noun or commonplace word.
@@ -72,7 +72,7 @@ Assess readiness at two levels: readiness to write the current terminology slice
 - each material term in the selected glossary slice has a recognizable domain meaning and explicit context, or remains a persistently recorded owned open question;
 - important boundaries, collisions, synonyms, and context-specific meanings are visible;
 - proposed definitions are supported by stakeholder input or identified evidence;
-- product, software, capability, modernization, migration, acceptance, and delivery-process terms have been excluded from the domain glossary and retained or proposed for their proper authoritative destination;
+- product, software, capability, project, acceptance, and delivery-process terms have been excluded from the domain glossary and retained or proposed for their proper authoritative destination;
 - material impacts on the Product Vision have been identified and classified as editorial or requiring a Product Vision handoff;
 - no material contradiction or assumption remains hidden.
 
@@ -106,7 +106,7 @@ After confirmation:
 5. Preserve facts, assumptions, proposals, decisions, and open questions as distinct statement types according to repository conventions.
 6. Keep a new or materially changed glossary in `draft` unless the accountable authority explicitly approves another lifecycle state. Preserve its existing lifecycle status when no semantic change occurred. Never change the Product Vision status solely because this workflow ran.
 7. Do not assign requirement identifiers to glossary terms or candidates unless the repository explicitly requires glossary identifiers.
-8. Remove product names, software components, product-capability labels, and modernization, migration, acceptance, and delivery-process terminology from the glossary when confirmed to be misplaced. Apply only meaning-preserving editorial repairs needed to retain already established wording in the Product Vision; hand any material addition or change of product intent to `create-product-vision`.
+8. Remove product names, software components, product-capability labels, and project, acceptance, and delivery-process terminology from the glossary when confirmed to be misplaced. Apply only meaning-preserving editorial repairs needed to retain already established wording in the Product Vision; hand any material addition or change of product intent to `create-product-vision`.
 9. Apply Product Vision edits only when they are meaning-preserving consequences of a confirmed definition, such as terminology or link corrections. Do not change product intent, scope, capability areas, target users, principles, or success measures; record the exact proposed change as a handoff instead.
 10. Link directly and relatively between the Product Vision, glossary, source evidence, open questions, and other authoritative artifacts. Do not duplicate full definitions.
 11. Reconcile only artifacts affected by the terminology change. Do not create detailed requirements, domain models, architecture, implementation, or roadmap content unless the user separately requests it.

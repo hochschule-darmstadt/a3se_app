@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Requirements
-- Last reviewed: 2026-08-14
+- Last reviewed: 2026-09-25
 
 The glossary defines the shared business vocabulary for the tour operator information system. Use each term according to its definition and context; do not assume that a term has the same meaning across contexts.
 

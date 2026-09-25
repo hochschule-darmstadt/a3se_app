@@ -241,7 +241,7 @@ After confirmation:
 
 When the model contains enough objects or relationships to benefit from a diagram, use a PlantUML UML class diagram as a conceptual notation. Keep an authoritative sibling source such as `business-object-landscape.puml`, render it locally to `business-object-landscape.svg`, embed the SVG near the beginning of the artifact, and link the source directly below it. Never edit the generated SVG by hand.
 
-- Represent each business object as a plain UML `class`, without a stereotype, attributes, or operations. Put the raw `BO-NNN` identifier on the first line and the complete name on the second, for example `class "BO-001\nOphthalmic Examination" as BO001`.
+- Represent each business object as a plain UML `class`, without a stereotype, attributes, or operations. Put the raw `BO-NNN` identifier on the first line and the complete name on the second, for example `class "BO-001\nTravel Order" as BO001`.
 - Set `skinparam SameClassWidth true` so every business-object class uses the width of the widest label. Do not simulate equal widths with padding, HTML labels, invisible text, or generated SVG edits.
 - Use `top to bottom direction`, disable shadows, use an available readable sans-serif font at approximately 14 points, and use rectangular packages. Keep text large enough for normal Markdown rendering instead of compensating with browser zoom.
 - Enclose the complete model in a light-grey overall-domain package. Within it, use horizontally ordered classification packages Core, Supporting, then Generic when present. Group objects by their one primary subdomain in nested packages.
