@@ -1,6 +1,6 @@
 <mxfile host="Electron">
   <diagram name="Seite-1" id="l9swvpI5E2eQOQMiUnZY">
-    <mxGraphModel dx="3667" dy="1210" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2027" dy="691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -34,7 +34,7 @@
         <mxCell id="NTAZB--WmAy5JrvD6Zpf-23" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Subd&lt;/span&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;omain&lt;/span&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Reporting&lt;/div&gt;" vertex="1">
           <mxGeometry height="70" width="160" x="-370" y="530" as="geometry" />
         </mxCell>
-        <mxCell id="NTAZB--WmAy5JrvD6Zpf-24" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Sub-Domain&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Human Resources&lt;/div&gt;" vertex="1">
+        <mxCell id="NTAZB--WmAy5JrvD6Zpf-24" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;verticalAlign=top;" value="&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;Subdomain&amp;gt;&amp;gt;&lt;/span&gt;&lt;div&gt;Human Resources&lt;/div&gt;" vertex="1">
           <mxGeometry height="70" width="160" x="-200" y="530" as="geometry" />
         </mxCell>
       </root>
