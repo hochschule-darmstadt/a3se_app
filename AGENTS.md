@@ -4,9 +4,6 @@
 
 Build a tour operator business information system while demonstrating disciplined AI assistance across the complete software lifecycle, not merely rapid code generation. Treat requirements, models, decisions, tests, infrastructure, operational evidence, and code as one evolving product specification.
 
-## Current phase
-
-The project continues in requirements engineering while implementing the accepted technology profile in [DR-0010](docs/governance/decisions/0010-adopt-python-centered-modular-technology-stack.md) and its validation conditions. Do not introduce a new or changed technology choice without a recorded decision authorizing it. Prefer clarifying the business problem, terminology, workflows, rules, risks, and quality needs.
 
 ## Required working behavior
 
