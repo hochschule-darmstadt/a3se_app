@@ -99,5 +99,5 @@
 - [Non-functional requirements](../../requirements/non-functional-requirements.md)
 - [Scope exclusions](../../requirements/scope-exclusions.md)
 - [Constraints and assumptions](../../requirements/constraints.md)
-- [Navigation Maps](../../requirements/ux/navigation-maps/navigation-maps.md)
+- [Navigation Map](../../requirements/ux/navigation-maps/navigation-maps.md)
 - [Wireframes](../../requirements/ux/wireframes/wireframes.md)

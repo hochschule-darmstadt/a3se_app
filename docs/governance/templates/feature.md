@@ -1,18 +1,18 @@
 # Feature
 
-Use this template for one proposed actor goal represented by a use case within an epic. A feature is a planning item, not the authoritative use-case specification.
+Use this template for one independently evaluable product capability or coherent body of behavior within an epic. A feature often aligns with a use case, but it is a planning item rather than the authoritative behavioral specification.
 
 ## Outcome and rationale
 
-Describe the actor outcome and why it matters.
+Describe the observable product or operational outcome, who benefits, and why it matters.
 
-## Parent epic and use case
+## Parent epic and authoritative anchors
 
-Link exactly one epic parent and exactly one use case within that epic's domain. Link relevant source evidence and accepted requirement IDs; classify unsupported statements as assumptions or proposals.
+Link exactly one epic parent and the authoritative use cases, requirements, rules, and sources that support the outcome. Identify the primary behavioral anchor. When a broad use case is split across features or several related use cases are combined, explain why the resulting feature remains coherent and independently evaluable. Classify unsupported statements as assumptions or proposals.
 
 ## Scope
 
-State the use-case flows included and explicitly excluded. List the intended story child issues, or explain why slicing is still pending.
+State the behavior and use-case flows included and explicitly excluded. List intended story child issues, or explain why slicing is deferred until iteration planning.
 
 ## Acceptance evidence
 
@@ -28,7 +28,7 @@ List unresolved matters with an owner and the evidence or decision required to c
 
 ## Completion
 
-- [ ] The parent epic, use case, and requirement links are current.
+- [ ] The parent epic, primary authoritative anchors, mapping rationale, and requirement links are current.
 - [ ] Every intended story is linked or its removal is explained.
 - [ ] Feature-level acceptance evidence is present.
 - [ ] Residual risks, skipped checks, and follow-up work are explicit.

@@ -2,9 +2,10 @@
 
 - Status: accepted
 - Owner: Management
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-10-20
 
 - [artifact-lifecycle.md](artifact-lifecycle.md): authority, statement types, identifiers, and promotion
+- [agent-workflows/](agent-workflows/README.md): Basic Concept, Prototype and Slice delivery, review, and release/sprint coordination
 - [requirements-workflow.md](requirements-workflow.md): operational requirements-engineering procedure
 - [modular-software-architecture.md](modular-software-architecture.md): derive and iteratively refine modules, interactions, and acyclic layer dependencies from domains and use cases
 - [deployment-architecture.md](deployment-architecture.md): map accepted logical architecture to Docker runtime units and UML deployment nodes while preserving deferred infrastructure choices

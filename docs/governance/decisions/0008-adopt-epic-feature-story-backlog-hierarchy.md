@@ -65,6 +65,8 @@ Validate canonical templates and Issue Forms together with `npm run harness:vali
 
 ## Links
 
+- Partially superseded by [DR-0029](0029-adopt-oculus-lifecycle-skills-and-templates.md) for flexible Epic/Feature mappings, tracker-independent planning identities, and separate Story/Slice boundaries.
+
 - [Project Management](../../management/project-management/project-management.md)
 - [Business Domains](../../requirements/domains/domains.md)
 - [Use Cases](../../requirements/use-cases/use-cases.md)

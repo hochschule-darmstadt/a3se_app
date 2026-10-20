@@ -4,9 +4,9 @@
 - Owner: Implementation
 - Last reviewed: YYYY-MM-DD
 
-Use this template to specify one bounded prototype or proof of concept before implementation. Replace instructional text and placeholders with evidence-supported content. The artifact is the authoritative charter and evidence index for the selected prototype: it defines what will be exercised, why, under which restrictions, and how the result will later be evaluated.
+Use this template to specify one bounded prototype or proof of concept before implementation planning. Replace instructional text and placeholders with evidence-supported content. The artifact is the authoritative charter and evidence index for the selected prototype: it defines what will be exercised, why, under which restrictions, and how the architecture and technology result will later be reviewed.
 
-The charter does not replace the complete use-case specification, UX, Software Architecture, Logical Entity Model, Technology, Security and Privacy Architecture, implementation, tests, delivery evidence, or accountable approval. A prototype validates only its declared hypotheses; it does not establish production readiness by existing or by passing its checks.
+The charter does not replace the complete use-case specification, UX, Software Architecture, Logical Entity Model, Technology, Security and Privacy Architecture, implementation plan, implementation, tests, delivery evidence, or accountable approval. The selected business behavior and UX are fixed representative inputs. The prototype validates only declared architecture and technology hypotheses, including technical-security and delivery mechanisms; it does not validate whether the product behavior itself is correct and does not establish production readiness.
 
 Assign stable local identifiers such as `POC-HYP-NNN` to hypotheses and `POC-SC-NNN` to evidence scenarios. Preserve an identifier while its meaning continues; retire rather than reuse it when the meaning changes.
 
@@ -26,7 +26,7 @@ Record the lifecycle status and authority of material inputs. Draft inputs may s
 | Prototype outcome | State the observable point at which this slice succeeds, fails, or hands off. |
 | Included scenario steps and extensions | Link exact use-case steps, extensions, guarantees, and acceptance examples. |
 | Required context and information | Identify only the business context and information needed by the slice and link their authority. |
-| Representativeness | Explain which product, architecture, technology, security, UX, delivery, or method concerns make this slice useful. |
+| Representativeness | Explain which architecture or technology concerns, including technical security and delivery mechanisms, make this fixed representative slice useful. |
 | Detailed-specification readiness | State whether the full actor goal is sufficiently specified and identify any active `specify-use-case` handoff. |
 
 The slice is delivery and validation scope, not a redefinition of the complete actor goal. State explicitly which parts of the full use case remain unimplemented without declaring them globally out of scope.
@@ -35,7 +35,7 @@ The slice is delivery and validation scope, not a redefinition of the complete a
 
 | ID | Falsifiable hypothesis | Driver and source | Evidence required | Decision enabled |
 |---|---|---|---|---|
-| `POC-HYP-NNN` | Statement that this bounded prototype can support, reject, or leave inconclusive | Use case, UX, architecture, entity, technology, security, quality, delivery, or workflow evidence | Observable result and suitable verification | Continue, revise, reject, defer, or investigate |
+| `POC-HYP-NNN` | Statement that this bounded prototype can support, reject, or leave inconclusive | Architecture, entity realization, technology, technical security, or delivery-mechanism evidence | Observable result and suitable verification | Continue, revise, reject, defer, or investigate |
 
 Do not claim to validate a quality that the prototype will not measure under representative conditions.
 
@@ -43,7 +43,7 @@ Do not claim to validate a quality that the prototype will not measure under rep
 
 ### Included behavior
 
-Describe the coherent normal, alternative, error, denied, cancellation, boundary, and recovery behavior included in implementation and evaluation. Preserve the applicable success and minimal guarantees.
+Describe the coherent normal, alternative, error, denied, cancellation, boundary, and recovery behavior used as fixed implementation and technical-review input. Preserve the applicable success and minimal guarantees.
 
 ### Excluded behavior
 
@@ -109,9 +109,9 @@ Do not prescribe a production release or external mutation without explicit auth
 
 ## Completion and abort criteria
 
-### Ready for evaluation
+### Ready for review
 
-List the implementation and evidence conditions that must hold before evaluation begins. Include applicable scenario coverage, reproducibility, traceability, module and security checks, data constraints, UX review, and known limitations.
+List the implementation and evidence conditions that must hold before technical review begins. Include applicable scenario coverage, reproducibility, traceability, module and security checks, data constraints, implementation conformance to fixed UX inputs, and known limitations.
 
 ### Abort or re-specify
 
@@ -119,23 +119,37 @@ List contradictions, unsafe conditions, missing authority, unavailable evidence,
 
 Passing automated checks is necessary where specified but is not equivalent to prototype approval.
 
+## Implementation-planning input routing
+
+This section is the bounded input contract for implementation planning, whether performed through `plan-implementation` or directly within the optional `implement-prototype` assignment for a stronger model capable of the combined complexity. Link exact authoritative identifiers, headings, or rows instead of copying their content or listing whole artifacts by default.
+
+| Planning concern or boundary | Exact authoritative source and anchor | Why it constrains this slice | Consult when |
+|---|---|---|---|
+| Behavior, UX, module, entity, technology, security, environment, test, delivery, or another material concern | Direct link plus stable use-case step, acceptance example, wireframe, module, entity, control, profile, or named section | Slice-specific relevance without restating the source | At planning start, before the dependent increment is planned, or only for continuation/correction |
+
+At planning start, route only the charter sections, Technical Foundation record, target execution baseline, and repository state needed to establish readiness and the executable path. Route additional sources immediately before their dependent planning boundary. Mark prior plans, implementation evidence, or review history as continuation- or correction-only; they are not default inputs to an initial plan.
+
+The broad **Sources and related artifacts** bibliography below supports traceability and later review. It is not an instruction to load every listed artifact during planning.
+
 ## Planned evidence and implementation handoff
 
 | Evidence or deliverable | Expected location or form | Owning task | Status |
 |---|---|---|---|
-| Executable result, source, tests, migrations, configuration, build output, browser review, accessibility review, architecture report, security evidence, or delivery log | Link or intended repository location | `implement-prototype`, Test, CI/CD, reviewer, or another owner | planned, available, missing, or superseded |
+| Implementation plan, executable result, source, tests, migrations, configuration, build output, architecture report, security evidence, or delivery log | Link or intended repository location | Individual delivery task, the selected `implement-prototype` alternative, `review-prototype`, or another owner | planned, available, missing, or superseded |
+
+Record the selected implementation path. The optional `implement-prototype` assignment directly owns planning, test creation, implementation, and authorized delivery execution; it retains the same durable plan and evidence locations and the subsequent separate Prototype review.
 
 This section indexes evidence; it does not duplicate source code, generated reports, or raw logs.
 
-## Evaluation record
+## Prototype review record
 
-Complete this section through the prototype-evaluation task after implementation evidence exists. Do not pre-populate successful conclusions during specification.
+Complete this section through `review-prototype` after implementation evidence exists. Review only declared architecture and technology hypotheses and their technical completion criteria. Do not pre-populate successful conclusions during specification and do not reinterpret the review as validation of product behavior or UX correctness.
 
 | Hypothesis or criterion | Result | Evidence | Limitations and residual risk | Required feedback or decision |
 |---|---|---|---|---|
 | `POC-HYP-NNN`, evidence scenario, or completion criterion | supported, rejected, inconclusive, not run, or not applicable | Direct link | What the evidence cannot establish | Continue, revise, reject, defer, or reactivate an owning artifact |
 
-Record the accountable approval decision separately from the evaluator's recommendation.
+Record the accountable approval decision separately from the reviewer's recommendation.
 
 ## Assumptions and open questions
 
@@ -158,10 +172,11 @@ Record:
 - hypothesis-to-evidence coverage;
 - included, excluded, provisional, real, mocked, and deferred distinctions;
 - UX, module, entity, technology, data, security, and delivery alignment;
-- completion, abort, evaluation, and feedback semantics;
+- completion, abort, technical-review, and feedback semantics;
+- precise implementation-planning routing to the minimum authoritative anchors and phase-appropriate history;
 - stable local identifiers and valid direct links;
 - repository validation, skipped checks, input limitations, and residual uncertainty.
 
 ## Sources and related artifacts
 
-Link directly to the Product Vision, glossary, actors, Domain Landscape, selected use-case catalog entry and detailed specification, neighboring use cases, Business Objects and rules, functional and non-functional requirements, constraints, exclusions, source evidence, navigation, wireframes, design system, Software Architecture, Logical Entity Model, Technology, Security and Privacy Architecture, Deployment Architecture, implementation guidance, test strategy and scenarios, CI/CD, operations, risks, decisions, workflow, and definition of done used by the declared scope.
+Link directly to the Product Vision, glossary, actors, Domain Landscape, selected use-case catalog entry and detailed specification, neighboring use cases, Business Objects and rules, functional and non-functional requirements, constraints, exclusions, source evidence, navigation, wireframes, design system, Software Architecture, Logical Entity Model, Technology, Security and Privacy Architecture, Deployment Architecture, Technical Foundation record, implementation guidance, test strategy and scenarios, CI/CD, operations, risks, decisions, workflow, and definition of done used by the declared scope. This is a traceability bibliography; use **Implementation-planning input routing** to identify the smaller planning working set.

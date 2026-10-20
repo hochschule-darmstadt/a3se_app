@@ -1,77 +1,64 @@
 # Canonical source: docs/governance/templates/story.md
 name: Story
-description: Plan one independently reviewable use-case slice.
-title: "[Story] "
+description: Define one negotiable iteration-planning outcome within a feature.
+title: "[ST-NNN]: "
 labels:
   - story
 projects:
   - hochschule-darmstadt/2
 body:
-  - type: markdown
+  - type: input
+    id: story_id
     attributes:
-      value: |
-        A story is a planning item, not an authoritative requirement. Add it as a sub-issue of its feature and repeat the feature URL below. Use synthetic data.
+      label: Story ID
+      description: Enter the assigned tracker-independent ST-NNN from the governed planning artifact. Do not allocate a new ID here when the Story already exists elsewhere.
+      placeholder: ST-001
+    validations:
+      required: true
   - type: textarea
     id: outcome
     attributes:
       label: Actor outcome
-      description: State the observable outcome for the actor and why this slice matters.
+      description: State the observable outcome and why this Story matters.
     validations:
       required: true
   - type: textarea
     id: parent
     attributes:
       label: Parent feature and authoritative links
-      description: Link exactly one feature, its use case, the selected flow or rules, and requirement IDs. Identify assumptions and proposals.
-    validations:
-      required: true
-  - type: dropdown
-    id: slice_type
-    attributes:
-      label: Slice type
-      description: Select the primary reason this behavior is independently reviewable.
-      options:
-        - Main success path
-        - Alternative path
-        - Exception path
-        - Boundary condition
-        - Cohesive business-rule subset
+      description: Link exactly one feature and the requirements, constraints, evidence, and solution boundaries that support planning this outcome.
     validations:
       required: true
   - type: textarea
-    id: scope
+    id: planning_boundary
     attributes:
-      label: Slice and exclusions
-      description: State exact included behavior and exclude adjacent flows, rules, and technical work.
+      label: Planning boundary and exclusions
+      description: State enough intended inclusion and adjacent exclusion to size, sequence, and later specify the Story without defining the exact Slice.
     validations:
       required: true
   - type: textarea
-    id: acceptance
+    id: evidence
     attributes:
-      label: Acceptance examples
-      description: Provide Given/When/Then examples with synthetic data for this path and its relevant boundaries.
+      label: Evidence expectation
+      description: State the observable evidence expected for Story acceptance and link authoritative examples when available.
+    validations:
+      required: true
+  - type: textarea
+    id: planning_assessment
+    attributes:
+      label: Relative planning assessment
+      description: Record the team-confirmed relative size, planning confidence, important uncertainty, and material capacity implications.
+    validations:
+      required: true
+  - type: textarea
+    id: allocation_and_slices
+    attributes:
+      label: Iteration allocation and Slice mappings
+      description: Link the governing Sprint Backlog and allocated SL-NNN Slice Manifests, or state Unallocated and Not specified.
     validations:
       required: true
   - type: textarea
     id: dependencies
     attributes:
-      label: Dependencies and lifecycle considerations
-      description: State dependencies and relevant security, privacy, accessibility, data, test, operations, and management implications; link supporting tasks or bugs.
-    validations:
-      required: true
-  - type: textarea
-    id: questions
-    attributes:
-      label: Open questions
-      description: List unresolved matters, owners, and the evidence or decision needed to close them.
-    validations:
-      required: false
-  - type: checkboxes
-    id: completion
-    attributes:
-      label: Completion
-      options:
-        - label: The parent feature, use-case slice, and requirement links are current.
-        - label: Acceptance examples for this slice pass or have review evidence.
-        - label: Authoritative artifacts and affected stable IDs are updated or linked.
-        - label: Residual risks, skipped checks, and follow-up work are explicit.
+      label: Dependencies, lifecycle considerations, and open questions
+      description: State relevant implications, owners, and required evidence.

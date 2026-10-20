@@ -1,16 +1,12 @@
 # Canonical source: docs/governance/templates/epic.md
 name: Epic
-description: Group proposed system scope associated with one bounded context.
-title: "[Epic] "
+description: Propose a coherent product outcome or capability area.
+title: "[Epic]: "
 labels:
   - epic
 projects:
   - hochschule-darmstadt/2
 body:
-  - type: markdown
-    attributes:
-      value: |
-        An epic is a planning item, not the authoritative bounded-context definition. Add child features through GitHub sub-issues and keep their URLs in Scope.
   - type: textarea
     id: outcome
     attributes:
@@ -21,44 +17,26 @@ body:
   - type: textarea
     id: context
     attributes:
-      label: Bounded-context evidence
-      description: Link exactly one candidate or accepted bounded context, state its status, and identify evidence, assumptions, and unresolved boundary questions.
+      label: Domain and capability evidence
+      description: Link a primary domain or subdomain where meaningful, any additional authoritative anchors, and the rationale for cross-domain scope.
     validations:
       required: true
   - type: textarea
     id: scope
     attributes:
       label: Scope
-      description: State included and excluded capabilities and list intended feature child issues, or explain why refinement is pending.
+      description: State included and excluded capabilities and link intended features.
     validations:
       required: true
   - type: textarea
-    id: success
+    id: evidence
     attributes:
       label: Success evidence
-      description: Describe observable epic-level outcomes without duplicating feature acceptance criteria.
+      description: Describe observable epic-level outcomes.
     validations:
       required: true
   - type: textarea
     id: dependencies
     attributes:
-      label: Dependencies and lifecycle considerations
-      description: Link related contexts, risks, decisions, and relevant security, privacy, accessibility, data, test, operations, and management concerns.
-    validations:
-      required: true
-  - type: textarea
-    id: questions
-    attributes:
-      label: Open questions
-      description: List unresolved matters, owners, and the evidence or decision needed to close them.
-    validations:
-      required: false
-  - type: checkboxes
-    id: completion
-    attributes:
-      label: Completion
-      options:
-        - label: The bounded-context link and its status are current.
-        - label: Every intended feature is linked or its removal is explained.
-        - label: Epic-level success evidence is present.
-        - label: Residual risks, skipped checks, and follow-up work are explicit.
+      label: Dependencies, lifecycle considerations, and open questions
+      description: Link related contexts, risks, decisions, owners, and required evidence.

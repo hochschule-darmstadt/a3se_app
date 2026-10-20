@@ -1,14 +1,14 @@
 # Epic
 
-Use this template for proposed system scope associated with exactly one domain. An epic is a planning item, not the authoritative domain definition.
+Use this template for a coherent product outcome or capability area that normally contains multiple features. An epic may align with a domain or subdomain, but it is a planning item rather than the authoritative domain definition.
 
 ## Outcome and rationale
 
 Describe the stakeholder outcomes and why they belong together.
 
-## Bounded-context evidence
+## Domain and capability evidence
 
-Link exactly one candidate or accepted domain and the evidence supporting the boundary. State its status and identify assumptions or unresolved boundary questions.
+Link the primary candidate or accepted domain or subdomain when one provides a meaningful anchor, plus any additional domains, use cases, or capability evidence needed by the outcome. Explain cross-domain scope or why no single primary anchor is appropriate. State lifecycle status and identify assumptions or unresolved boundary questions.
 
 ## Scope
 
@@ -28,7 +28,7 @@ List unresolved matters with an owner and the evidence or decision required to c
 
 ## Completion
 
-- [ ] The bounded-context link and its status are current.
+- [ ] Primary authoritative anchors, mapping rationale, and lifecycle status are current.
 - [ ] Every intended feature is linked or its removal is explained.
 - [ ] Epic-level success evidence is present.
 - [ ] Residual risks, skipped checks, and follow-up work are explicit.

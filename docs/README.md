@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Owner: Management
-- Last reviewed: 2026-09-21
+- Last reviewed: 2026-10-20
 
 This directory is the durable context harness for humans and AI agents. Start here, then load only the lifecycle information needed for the task. The folders organize authoritative information; they are not sequential phase gates or exclusive role boundaries.
 
@@ -36,8 +36,9 @@ Cross-cutting concerns such as security, privacy, accessibility, reliability, an
 | Implementation | [implementation/README.md](implementation/README.md) | accepted architecture and technology decision |
 | Test | [test/README.md](test/README.md) | requirements, acceptance examples, scenarios, and validation evidence |
 | Operations | [operations/README.md](operations/README.md) | architecture, deployment architecture, and operational risks |
-| Management | [management/README.md](management/README.md) | project management, stakeholder management, and risk management |
-| Agent responsibilities | [governance/agents/README.md](governance/agents/README.md) | operating model, applicable charter, and the linked skill or workflow |
+| Management | [management/README.md](management/README.md) | project management, release and sprint backlogs, stakeholder management, and risk management |
+| Lifecycle responsibilities | [governance/lifecycle/README.md](governance/lifecycle/README.md) | accountability, authority, independence, and collaboration; [agent charters](governance/agents/README.md) where applicable |
+| Agent workflow | [governance/workflows/agent-workflows/README.md](governance/workflows/agent-workflows/README.md) | Basic Concept, iteration or sprint, relevant skills, and owning artifacts |
 | Workflow | [governance/workflows/README.md](governance/workflows/README.md) | artifact lifecycle and definition of done |
 | Standards and notations | [governance/standards/README.md](governance/standards/README.md) | relevant notation and tooling guidance |
 | Decisions | [governance/decisions/README.md](governance/decisions/README.md) | applicable decision records |
@@ -76,6 +77,6 @@ Do not create a directory merely to hold one short document. Existing multi-docu
 
 ## Context hygiene
 
-Every directory has a `README.md`. Every substantive document begins with status, owner, and last-reviewed metadata. Prefer stable IDs and relative links. Link to one authoritative definition rather than copying it.
+Every directory under `docs/` has a `README.md`. Immediate skill directories under `.agents/skills/` use `SKILL.md` as their entrypoint without redundant README files; the skills collection retains its index. Every substantive document begins with status, owner, and last-reviewed metadata. Prefer stable IDs and relative links. Link to one authoritative definition rather than copying it.
 
 A grown topic's routing `README.md` is exempt from the status/owner/last-reviewed triad: it is a pointer to the same-named authoritative topic document, which carries that metadata instead.

@@ -55,7 +55,7 @@ Before asking substantive questions:
 
 Record the lifecycle status and authority of material inputs. Draft requirements and coarse use cases may support a draft security architecture, but preserve their uncertainty. Do not turn a plausible permission, retention period, legal obligation, identity-assurance level, cryptographic choice, threat likelihood, or operational responsibility into an accepted fact by implication.
 
-Preserve the repository's established artifact location and compatible structure. In this repository, maintain the authoritative artifact at `docs/architecture/security-architecture.md`.
+Preserve the repository's established artifact location and compatible structure. In this repository, maintain the authoritative artifact at `docs/architecture/security.md`.
 
 ## Select the operating mode and scope
 
@@ -76,8 +76,8 @@ State the product boundary, environments, channels, actors, data flows, modules,
 
 Build a visible evidence inventory from:
 
-- personal, health, financial, credential, operational, intellectual-property, and other sensitive information;
-- traveler-safety, legal, financial, privacy, contractual, certification, and continuity harms;
+- customer, order, payment, credential, operational, intellectual-property, and other sensitive information;
+- harms and consequences affecting customers, safety, legal duties, finances, privacy, contracts, certification, or continuity;
 - actor goals, misuse opportunities, corrections, exceptional behavior, and guarantees;
 - information identity, provenance, history, retention, deletion, export, and migration lifecycles;
 - external systems, devices, organizations, users, operators, environments, and supply-chain participants;
@@ -131,7 +131,7 @@ Link each control objective to its driver and define proportionate verification.
 
 Separate business actors from digital subjects, accounts, service identities, devices, credentials, roles, entitlements, and sessions. For every channel determine, only as far as evidence supports, identity ownership and lifecycle, proofing and authentication assurance, session and credential lifecycle, recovery and revocation, distinct human and non-human identities, decision context, enforcement location, and exceptional or delegated authority.
 
-A role may be one authorization input but must not silently become the complete policy. Test whether action, resource, organization, location, purpose, customer or traveler relationship, travel-order or case context, time, delegation, and cross-organization arrangement matter. Navigation and frontend state may communicate authorization but never replace authoritative enforcement.
+A role may be one authorization input but must not silently become the complete policy. Test whether action, resource, organization, location, purpose, customer or account relationship, transaction or order context, time, delegation, and cross-organization arrangement matter. Navigation and frontend state may communicate authorization but never replace authoritative enforcement.
 
 Allocate domain-specific policy to the module or capability owning the protected action and information. A common identity or policy mechanism may carry verified context and execute reusable primitives without becoming the owner of every domain decision. Introduce a dedicated identity, access, consent, policy, or audit module only when its behavior and lifecycle are cohesive and evidenced.
 

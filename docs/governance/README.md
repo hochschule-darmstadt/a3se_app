@@ -2,11 +2,12 @@
 
 - Status: accepted
 - Owner: Management
-- Last reviewed: 2026-07-29
+- Last reviewed: 2026-10-20
 
 Governance defines how lifecycle work is performed, reviewed, evidenced, and changed.
 
-- [agents/](agents/): lifecycle responsibility charters and collaboration model
+- [lifecycle/](lifecycle/README.md): authoritative lifecycle responsibilities, authority, and collaboration model
+- [agents/](agents/): retained responsibility charters and skill entry points
 - [workflows/](workflows/): artifact lifecycle, requirements workflow, continuous alignment, commit workflow, and definition of done
 - [standards/](standards/): approved specification languages and notations
 - [templates/](templates/): reusable document structures

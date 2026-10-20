@@ -19,7 +19,7 @@ Build a tour operator business information system while demonstrating discipline
 10. Preserve user work and keep changes scoped to the assigned task.
 11. Critically validate AI-generated artifacts. Record material limitations, rejected output, human decisions, and validation evidence when they affect engineering decisions; do not present AI output as inherently correct.
 12. Write repository artifacts in English. Translate non-English sources by domain meaning, retaining the original term only when it is needed to resolve ambiguity.
-13. Follow the topic growth strategy in [docs/README.md](docs/README.md): begin with `topic.md`; when it needs independently reviewable parts or supporting assets, grow it into `topic/README.md`, the authoritative `topic/topic.md`, and constituent files. The routing README declares and links the same-named topic document. Every directory must contain a `README.md`.
+13. Follow the topic growth strategy in [docs/README.md](docs/README.md): begin with `topic.md`; when it needs independently reviewable parts or supporting assets, grow it into `topic/README.md`, the authoritative `topic/topic.md`, and constituent files. The routing README declares and links the same-named topic document. Every directory under `docs/` must contain a `README.md`. An immediate skill directory under `.agents/skills/` uses `SKILL.md` as its entrypoint without a redundant `README.md`; the skills collection retains its `README.md` index.
 
 ## Definition of done
 

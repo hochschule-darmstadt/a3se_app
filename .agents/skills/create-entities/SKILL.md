@@ -61,7 +61,7 @@ Before asking substantive questions:
 
 Record the lifecycle status of material inputs. Draft Business Objects and coarse use cases may support a draft Entity Model, but preserve their uncertainty. Do not promote provisional meanings, multiplicities, properties, or invariants by implication.
 
-Preserve the repository's established artifact location and compatible structure. In this repository, maintain the authoritative model at `docs/architecture/entities/entities.md`, its routing page at `docs/architecture/entities/README.md`, and adjacent authoritative UML sources and derived renderings.
+Preserve the repository's established artifact location and compatible structure. In this repository, maintain the authoritative model at `docs/architecture/entity-model/entity-model.md`, its routing page at `docs/architecture/entity-model/README.md`, and adjacent authoritative UML sources and derived renderings.
 
 ## Select the operating mode and scope
 
@@ -264,7 +264,7 @@ Use a UML class diagram for logical entity ownership and selected relationships 
 - Show module containment and selected lifecycle-significant relationships. Keep comprehensive properties, evidence, alternatives, and cross-module reference semantics in the Markdown catalog.
 - Use UML composition, aggregation, association, dependency, and multiplicity deliberately. Do not use composition merely because one table might contain another key.
 - Use dotted dependencies for selected cross-module references or derived facts and state that they do not imply shared ownership.
-- Omit repetitive customer, supplier, or external references when showing all of them would obscure the landscape; catalog them in text.
+- Omit repetitive customer, order, organization, or external references when showing all of them would obscure the landscape; catalog them in text.
 - Identify modules with no entities in the accompanying artifact or legend rather than adding artificial classes.
 - Split dense diagrams into coherent module or use-case views rather than shrinking labels or drawing an unreadable network.
 - Use repository notation and diagram-tooling standards, render locally, and visually inspect ownership containment, identifiers, relationships, multiplicities, labels, contrast, spacing, and readability.

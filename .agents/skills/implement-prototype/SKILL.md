@@ -1,166 +1,128 @@
 ---
 name: implement-prototype
-description: Assess implementation readiness and autonomously realize a reviewed prototype or proof-of-concept slice as executable code, migrations, tests, configuration, local delivery, and raw verification evidence, asking the user only for material missing decisions. Use after a prototype charter defines a bounded slice and evaluation criteria; do not use it to select the slice, redefine authoritative requirements or architecture, evaluate hypotheses, approve the result, or claim production readiness.
+description: Implement, continue, correct, or align one reviewed Basic Concept Prototype as a complete assignment, including implementation planning, unit and integration tests, product code, migrations, configuration, delivery execution, and reproducible evidence. Use as an alternative to the decomposed delivery path when a stronger model can reliably manage the combined complexity. Requires a usable Technical Foundation and fixed authoritative inputs; excludes Prototype specification, technical-hypothesis review, approval, and unauthorized deployment.
 ---
 
 # Implement Prototype
 
-Realize one reviewed prototype or proof-of-concept charter as a bounded executable vertical slice. Begin with a short readiness check. Resolve ordinary, reversible implementation details autonomously; ask the user only when missing authority or a material choice would change behavior, scope, architecture, security, privacy, or the meaning of the intended evidence. Once ready, implement and verify the complete slice without requiring step-by-step orchestration.
+Turn one reviewed Prototype Charter into an executable, tested result with current evidence ready for technical review. Own the entire implementation assignment: work out the realization sequence, create the tests, implement the bounded behavior, execute the established delivery path, diagnose and correct implementation failures, and maintain the evidence needed to reproduce the result.
 
-The user's instructions take precedence. Authorization to implement the prototype permits the repository-local code, tests, migrations, configuration, and delivery work needed by the declared slice. It does not authorize a broader product implementation, global tool upgrades, production data or credentials, external deployment, changes to authoritative requirements, prototype evaluation, approval, or unrelated repository edits.
+Perform this work directly from the instructions below and the governing artifacts. Do not invoke, delegate to, or require reading separate planning, test-creation, code-creation, or delivery-operation skills. Planning, testing, coding, and delivery are responsibilities within this assignment, rather than separate skill handoffs.
 
-## Preserve artifact authority
+## Choose this alternative deliberately
 
-- The prototype charter owns the selected slice, hypotheses, included and excluded behavior, provisional treatments, security restrictions, evidence scenarios, and completion or abort criteria.
-- Requirements and use-case artifacts own product behavior, business rules, guarantees, and acceptance examples. UX artifacts own interaction intent and experience guidance.
-- Software Architecture owns module responsibilities, dependency rules, contracts, consistency boundaries, and distribution strategy. The Logical Entity Model owns technology-neutral entity meaning and module ownership.
-- Technology and Security Architecture own accepted mechanisms, usage boundaries, control objectives, and prototype restrictions.
-- Implementation owns source layout, packages, APIs, persistence mappings, physical schemas, migrations, exact dependencies, executable configuration, and other realization details that remain within those constraints.
-- Test and delivery artifacts own executable checks and raw run evidence. Prototype evaluation owns conclusions about hypotheses. Accountable authority owns approval.
+This skill is the optional implementation path for a stronger model that can retain the fixed scope and relevant constraints, reason across tests and implementation, and maintain a coherent plan and evidence over several increments. The decomposed path remains available for models or scopes that benefit from narrower tasks. Select by demonstrated ability to handle this Prototype's complexity, rather than by a hard-coded model name or an assumed capability label.
 
-Do not alter an owning specification merely to make the implementation pass. Record a precise handoff when code or tests expose a material gap or contradiction.
+If sustained loss of constraints or incoherent execution makes this combined assignment unreliable, checkpoint completed work, exact source state, remaining increments, and unresolved findings. Recommend continuation through narrower tasks without silently changing models or invoking another skill.
 
-## Load the authoritative context
+## Preserve scope and authority
 
-Before changing code:
+- The Prototype Charter owns the representative slice, technical hypotheses, included and excluded behavior, provisional treatments, evidence scenarios, and completion and abort criteria.
+- Use cases, rules, acceptance examples, Navigation Map, Wireframes, and Design System supply fixed behavior and UX. Realize their relevant states, feedback, recovery, and accessibility expectations faithfully.
+- Software Architecture, Logical Entities, Technology, Security, Deployment Architecture, Test Strategy, and CI/CD retain authority over their respective boundaries.
+- The Technical Foundation establishes the reusable executable mechanisms available to this assignment. Missing shared mechanisms are a foundation gap, not permission to bootstrap a new stack or delivery framework.
+- One scope-specific Implementation Plan owns sequence and ordinary realization decisions. Source, tests, migrations, configuration, and linked raw reports own the implemented result and execution evidence.
+- Technical-hypothesis assessment, review recommendations, and accountable approval follow implementation. Do not populate successful review conclusions or infer approval from green checks.
 
-1. Read every applicable `AGENTS.md`, the repository context map, lifecycle workflow, implementation guidance, continuous-alignment guidance, and definition of done.
-2. Read the current prototype charter, especially the selected slice, hypotheses, scope, provisional treatments, evidence scenarios, security profile, completion criteria, abort criteria, and implementation handoff.
-3. Read the linked detailed use-case specification, acceptance examples, business rules, glossary entries, actor definitions, relevant UX artifacts, constraints, exclusions, and decisions.
-4. Read the relevant Software Architecture, Logical Entity Model, Technology, Security and Privacy Architecture, test guidance, CI/CD and local-execution guidance, and operational constraints.
-5. Inspect the current repository structure, code, migrations, tests, dependency manifests, tool wrappers, runtime versions, configuration examples, and available local services before proposing additions.
-6. Check the lifecycle status and authority of material inputs. A draft charter may support implementation only when its uncertainty is explicit and the requested experiment remains safe and meaningful.
+Authorization to implement covers the plan, tests and synthetic fixtures, product code, scope-specific migrations and configuration, local verification, and evidence maintenance for this Prototype. Publication, promotion, shared-environment changes, rollback, and external deployment remain bounded by existing authorization for the exact target and action.
 
-Work from the current repository state. Preserve user-authored and unrelated changes, and do not assume an earlier implementation attempt still matches the current charter.
+## Establish the working context
 
-## Select the operating mode
+Read applicable repository instructions, [documentation routing](../../../docs/README.md), the [Agent Workflows](../../../docs/governance/workflows/agent-workflows/agent-workflows.md), [Artifact Authority and Lifecycle](../../../docs/governance/workflows/artifact-lifecycle.md), [Definition of Done](../../../docs/governance/workflows/definition-of-done.md), and the [Implementation Plan template](../../../docs/governance/templates/implementation-plan.md).
 
-- **Initial implementation:** create the first executable realization of the reviewed slice.
-- **Continuation:** resume an incomplete implementation after rechecking the charter, code, evidence, and unresolved findings.
-- **Correction:** repair a divergence or defect while preserving the agreed slice and authoritative behavior.
-- **Readiness assessment:** determine whether autonomous implementation can begin, without changing code unless the user also authorizes implementation.
-- **Evidence completion:** add missing tests, repeatable execution, or raw evidence for an already implemented slice without performing evaluation.
+Read the complete governing Charter and its exact input-routing anchors. Load the relevant Technical Foundation, fixed behavior and UX, architecture, entity, technology, security, environment, test, and delivery sections before their dependent work. Consult the established runbook for executable commands. A bibliography does not require loading the entire repository.
 
-State the prototype, slice, mode, repository areas, environment, and evidence scenarios in scope. Do not infer implementation scope from existing code, a screen, database contents, or a branch name.
+Inspect source paths, executable manifests, current tests, commands, branch or revision, working-tree changes, and relevant environment state. Preserve overlapping user work. Do not guess paths or present old results as evidence of the current source.
 
-## Gate implementation readiness
+State the mode and the single Prototype in scope:
 
-Check that:
+- **Initial:** plan and implement a reviewed Charter for the first time.
+- **Continuation:** resume incomplete work from the current plan and evidence.
+- **Correction:** fix demonstrated planning, test, code, migration, configuration, or execution defects within the unchanged Charter.
+- **Alignment:** reconcile implementation after an authorized change to the Charter or governing baselines.
 
-- the actor goal and slice boundary are stable enough to identify the start, observable outcome, and deliberately omitted behavior;
-- relevant normal, alternative, error, denied, boundary, and recovery behavior is defined proportionately;
-- each hypothesis has feasible evidence and the ready-for-evaluation criteria are testable;
-- provisional, mocked, fixture-driven, real, and deferred treatments are distinguishable;
-- required UX states, module responsibilities, logical entities, technology mechanisms, data constraints, and security restrictions are known;
-- the local build, runtime, persistence, and review path is available or can be created within repository-local authority;
-- no abort criterion, contradictory authority, unsafe data need, unavailable dependency, or unresolved central behavior makes implementation misleading.
+On repeated invocation, use the existing plan, implementation, tests, and evidence. Preserve stable `POC-HYP-NNN`, `POC-SC-NNN`, `IP-INC-NNN`, and `IP-DEC-NNN` identifiers while their meaning continues. Resume from the earliest affected responsibility; retain valid completed work.
 
-Classify every gap before deciding whether to ask:
+## Confirm readiness
 
-- **Authoritative fact available:** follow it.
-- **Ordinary reversible implementation choice:** choose autonomously, keep it simple, and make it visible in code, tests, or implementation notes as appropriate.
-- **Authorized prototype treatment:** implement it exactly as provisional and keep its limitation visible.
-- **Non-blocking uncertainty:** continue only when a safe, replaceable treatment preserves the intended evidence; record the assumption and reconsideration trigger.
-- **Material missing decision:** ask the user when the answer would change product behavior, slice scope, module or consistency boundaries, data meaning, identity or authorization, security or privacy exposure, a consequential technology choice, or whether a hypothesis can be evaluated.
+Confirm that the Charter has been reviewed for implementation; its fixed slice, technical hypotheses, treatments, and restrictions are explicit; the relevant Technical Foundation mechanisms are usable; and the required evidence can be obtained in an authorized environment. Artifact status alone does not establish readiness or execution permission.
 
-Ask the smallest useful set of focused questions and explain which implementation or evidence decision each answer controls. Group closely related questions where practical. Do not ask the user to choose package names, endpoint shapes, table names, minor library configuration, or other ordinary realization details unless they are themselves accepted constraints or hypotheses.
+Identify contradictions and missing requirements, UX states, architecture boundaries, technology selections, security rules, test policy, or delivery mechanisms before dependent work. Record each blocker with the affected identifiers, owning artifact, and required decision or evidence. Continue independent safe work when possible, but do not invent an authoritative input to unblock execution.
 
-After receiving the necessary answers, reload affected artifacts and proceed autonomously. If a required answer belongs in another authoritative artifact, record or initiate the corresponding handoff rather than treating the conversation alone as permanent specification.
+## Make implementation intent durable
 
-## Plan the vertical slice
+Create or revise one Implementation Plan, normally `docs/implementation/prototype-implementation-plan.md`, using the canonical template. Record verified current-state facts, exact authoritative anchors, ordinary implementation choices and rationale, dependencies, migration and compatibility needs, configuration, reset or rollback obligations, and evidence destinations.
 
-Before editing, map every included evidence scenario to the minimum implementation work needed across applicable boundaries:
+Divide the Prototype into independently checkable `IP-INC-NNN` increments ordered to expose technical risk early. Each increment specifies:
 
-- actor-facing interaction and feedback;
-- application orchestration and module entry points;
-- domain behavior and business-rule enforcement;
-- module collaboration through the accepted dependency direction and contracts;
-- persistence, migration, and transaction behavior;
-- identity, authorization, validation, safe error handling, and logging;
-- unit, integration, architecture, security, browser, and delivery checks;
-- reproducible local build, startup, data setup, and review.
+1. an observable outcome and its fixed behavior, UX, hypothesis, or scenario anchors;
+2. verified affected realization areas;
+3. unit and integration expectations to establish before changing behavior;
+4. bounded code, migration, fixture, and configuration work;
+5. applicable verification commands, expected observations, and report locations;
+6. dependencies, exit conditions, and stop conditions.
 
-Prefer the smallest coherent implementation that can falsify the declared hypotheses. Do not reduce the slice so far that it bypasses a boundary or behavior the charter intends to test, and do not add adjacent capabilities merely because they are convenient.
+Map every in-scope hypothesis, evidence scenario, and completion criterion to a feasible test, inspection, delivery result, or review observation. Record a reason when a test level is not applicable. Do not use invented requirements or speculative abstractions to fill the plan.
 
-## Implement autonomously
+Present the concrete scope, sequence, material choices, risks, and evidence mapping for the human plan review required by the workflow. Record actual feedback or existing explicit delegation; do not fabricate a review or request the same authorization again. Resolve material plan-review findings before dependent implementation. Ordinary reversible choices within the agreed constraints remain part of this assignment.
 
-Implement the reviewed slice end to end, applying these constraints:
+## Implement and verify each increment
 
-- Preserve module ownership and dependency rules. A direct in-process call is acceptable when the Software Architecture permits it; do not invent remote boundaries or unnecessary abstraction.
-- Derive the minimum physical data model from the logical entities and exercised behavior. Add forward, reviewable migrations and required content migration; do not rewrite already applied migration history merely to make the current database convenient.
-- Keep prototype-only fixtures, stubs, reduced controls, and adapters visibly provisional and replaceable. Do not encode an unresolved business assumption as if it were an accepted rule.
-- Implement positive and denied behavior required by the security profile. Use synthetic data, safe errors, non-secret configuration examples, and the declared network and integration boundaries.
-- Add tests with the behavior, not as an afterthought. Cover the evidence scenarios and guarantees at the narrowest reliable level, with integration or browser coverage where boundary behavior matters.
-- Keep source code and repository artifacts in the repository language and follow existing formatting, structure, conventions, and established tool wrappers.
-- Make incremental, scoped changes and inspect overlapping user work before editing it.
+Establish executable expectations from authoritative sources before writing the corresponding product behavior. Use the accepted test framework and existing conventions, with deterministic synthetic data and the smallest necessary test support.
 
-Do not silently weaken a test, acceptance example, security control, module rule, or completion criterion to obtain a passing result.
+Unit tests exercise focused behavior or policy. Integration tests exercise real accepted boundaries such as persistence, serialization, module collaboration, framework wiring, or adapter contracts. Cover relevant normal, alternative, error, denied, boundary, retry, and recovery paths in proportion to the Charter and Test Strategy. Mock-only interactions do not prove a real integration boundary.
 
-## Protect the local environment
+Run focused tests. For missing behavior, distinguish the intended failing expectation from compilation failures or unavailable infrastructure. Record expected-red results honestly. When adequate tests already exist, retain them and add only missing coverage; a continuation does not require recreating tests or forcing green tests to fail.
 
-Inspect existing runtimes, containers, package managers, wrappers, lockfiles, and compatible installed versions before adding anything. Prefer repository-scoped dependencies, project wrappers, containers, and pinned toolchains.
+Implement the smallest complete production change that satisfies these expectations while preserving module ownership, dependency direction, contracts, logical-entity meaning, selected technology, and security restrictions. Realize the fixed UX, including failure and recovery states. Apply only Charter-authorized simulations and reduced treatments, and keep their limitations visible.
 
-- Do not globally install, remove, or upgrade Java, Node.js, databases, package managers, frameworks, or other shared tools merely for this prototype.
-- Do not replace a compatible existing version without evidence that the selected Technology baseline requires a different one.
-- Keep new services isolated through repository configuration, explicit ports, named volumes, and synthetic data.
-- Ask before an external deployment, account change, shared-service mutation, destructive database operation, or any action outside the authorized local/repository scope.
+Add planned forward migrations and compatible configuration. Preserve shared or released migration history. Use explicit non-secret configuration and synthetic fixtures; keep reset and disposal confined to the identified permitted data and environment.
 
-An autonomous run may execute normal repository-local builds, tests, migrations, and local services needed by the charter. Autonomy does not expand environmental or external authority.
+Run the increment's unit and integration tests plus proportionate nearby regression checks. Diagnose failures, correct the causal defect, and rerun the affected checks. Refactor within the bounded increment when evidence remains valid. Do not skip, weaken, or rewrite a valid expectation to match defective code. Repair a demonstrated test defect directly, preserving its authoritative intent and recording the reason.
 
-## Verify and capture raw evidence
+Update the plan and evidence after each increment with completed work, exact realization locations, results, deviations, and remaining obligations. Continue until all planned increments and applicable delivery conditions are complete or a genuine blocker prevents dependent work.
 
-Run the checks required by the charter and affected definition of done. Depending on scope, establish evidence for:
+## Execute the established delivery path
 
-- clean dependency resolution and build;
-- unit, integration, architecture, migration, security, and browser tests;
-- fresh-database migration and, where relevant, upgrade or content-migration behavior;
-- startup, health, configuration, and reproducible local execution;
-- expected UI states, accessibility checks, validation, feedback, and recovery;
-- normal, alternative, error, denied, boundary, and recovery scenarios;
-- module dependency and persistence boundaries;
-- safe data, secret, logging, and network treatment;
-- CI/CD or equivalent repeatable delivery execution available for the prototype.
+Use the accepted CI/CD definitions, environment profile, wrappers, and runbook. Confirm required services, safe data handling, cleanup, artifact retention, and operation authority before execution. An unavailable gate is an explicit gap; do not invent a substitute pipeline and claim equivalence.
 
-Record exact commands, environment conditions, relevant versions, results, timestamps when useful, and links to durable reports or source locations. Distinguish current verified evidence from expected, skipped, unavailable, stale, or manually observed evidence. Never fabricate execution or report a check as passing because the code appears plausible.
+Execute the stages required by the plan and target environment, including applicable structural and architecture checks, unit and integration tests, build, migration, packaging, startup, smoke checks, and declared browser or end-to-end scenarios. Perform publication, promotion, deployment, or rollback verification only where the target and action are already authorized. Complete locally available preparation and evidence before requesting any missing external authority.
 
-## Handle findings and stopping conditions
+For every required stage or scenario record the exact command or run, attributable source state, relevant tool and environment context, result, direct report or observation link, and limitations. Distinguish passed, failed, skipped, unavailable, expected-red, and superseded results. Record cleanup, reset, or rollback outcomes where applicable. Link durable raw reports rather than copying long logs into the Charter. Exclude secrets and personal data from evidence.
 
-Fix implementation defects within the reviewed charter autonomously and rerun affected checks. Route other findings according to ownership:
+After a causal change, rerun the affected stages and any downstream gates whose evidence was invalidated. Preserve earlier runs as history and mark superseded evidence explicitly. Do not claim that an unchanged older report verifies newly modified source.
 
-- unclear or contradictory behavior to the use case or requirement owner;
-- interaction defects or missing states to the relevant UX artifact;
-- module, contract, consistency, or distribution problems to Software Architecture;
-- entity meaning or ownership problems to the Logical Entity Model;
-- unsuitable mechanisms or compatibility problems to Technology;
-- threat, identity, authorization, privacy, or control gaps to Security Architecture;
-- infeasible hypotheses, misleading scope, or invalid provisional treatments to `specify-prototype`;
-- delivery-path defects to CI/CD or operational ownership.
+## Diagnose, correct, and re-plan within the assignment
 
-Stop and request direction when an abort criterion is met, safe progress requires new authority, the requested evidence cannot test the hypothesis, or continuing would embed a material unresolved decision. Do not treat repeated technical difficulty alone as authority to broaden or redefine the slice.
+Classify failures by evidence before editing:
 
-## Update the evidence index
+| Finding | Action within this assignment |
+|---|---|
+| Test implementation or fixture defect | Repair it directly against the unchanged source expectation and rerun the affected tests. |
+| Product logic, wiring, migration, or scope configuration defect | Reproduce, correct the causal implementation defect, and refresh affected evidence. |
+| Increment ordering or ordinary realization choice defect | Revise the existing plan, obtain any required review of a material change, and resume the affected increments. |
+| Transient execution or dependency failure | Diagnose the exact stage and perform a safe bounded rerun when conditions justify it. |
+| Missing shared foundation, pipeline policy, or environment architecture | Record the gap and its owning artifact; stop dependent execution while completing independent work. |
+| Defective Charter hypothesis, scope, fixed behavior, UX, or technical baseline | Record the contradiction and required upstream change; resume dependent implementation after the input is corrected and reviewed. |
 
-After verification:
+Keep observations separate from cause hypotheses. After two substantially similar unsuccessful corrections, stop speculative editing, reduce the reproduction, inspect exact versions and boundaries, and form a materially different diagnosis. Stop unsafe, unauthorized, or misleading execution according to the Charter's abort criteria.
 
-1. Update the current prototype charter's planned-evidence and implementation-handoff entries with direct links and accurate statuses.
-2. Record implementation limitations, deviations, assumptions, skipped checks, and cross-artifact handoffs where the charter provides for them.
-3. Add or update consequential decision records only when the choice is within implementation authority and meets the repository's decision threshold.
-4. Keep raw logs and generated reports in their owning locations; link rather than duplicate them into the charter.
-5. Leave the evaluation record unevaluated. Do not mark hypotheses supported or rejected, issue an approval recommendation, or change accountable approval state.
-6. Preserve stable hypothesis and scenario identifiers and the charter's lifecycle semantics.
+Rejection or failure alone does not justify replaying unchanged work. Correct an evidenced implementation defect, update the affected reviewed input when necessary, or obtain the missing evidence. A result that contradicts a technical hypothesis is legitimate experiment evidence; do not redesign the experiment to manufacture success.
 
-## Validate and report
+## Complete the implementation handoff
 
-Before concluding, compare the executable result with the current charter and authoritative inputs. Run repository validation and all proportionate implementation checks. Confirm that the slice is reproducible from documented repository state and that another evaluator can locate the executable result and evidence.
+Maintain the current plan and the linked evidence index, normally `docs/implementation/prototype-evidence.md`. Update the Charter's implementation and evidence links and factual execution state without changing hypotheses, expected behavior, review conclusions, or approval. Update affected run instructions and derived implementation documentation when the realized authorized path changes.
 
-Report:
+The result is ready for technical review when:
 
-- what part of the slice was implemented and what remains deliberately excluded;
-- code, migrations, tests, configuration, and delivery paths changed;
-- exact checks run and their results;
-- evidence now available for each relevant scenario or completion criterion;
-- autonomous implementation choices and provisional treatments that remain non-authoritative;
-- deviations, failed or skipped checks, residual risks, and targeted handoffs;
-- whether the prototype is ready for `evaluate-prototype` or why it is not.
+- all included behavior and required increments are implemented against the fixed inputs;
+- required tests and delivery gates have current attributable results;
+- every technical hypothesis, scenario, and completion criterion has its required evidence or a Charter-permitted documented limitation; evidence gaps that defeat a completion criterion remain blockers;
+- provisional treatments, deviations, skipped checks, failed scenarios, and residual limitations are visible;
+- evidence is reproducible and matches the delivered source and environment;
+- cleanup and applicable rollback obligations are satisfied;
+- repository validation, direct links, and stable identifiers are consistent.
 
-Never describe a completed implementation as an evaluated, accepted, secure, compliant, production-ready, or release-ready product.
+Check the Charter's exact completion and abort criteria. A failed experiment may still supply useful review evidence; distinguish implementation incompleteness from evidence that challenges a hypothesis. Report missing completion conditions honestly rather than declaring the implementation complete.
+
+Report the Prototype and mode, implemented outcomes, source and environment identity, plan and evidence locations, executed checks and scenarios, material failures or skipped work, provisional treatments, cleanup state, and remaining blockers with owners. Identify what the subsequent Prototype review can examine. Leave technical-hypothesis classifications, the review recommendation, and accountable approval to that review. Implementation completion does not establish product correctness, release readiness, or production readiness.

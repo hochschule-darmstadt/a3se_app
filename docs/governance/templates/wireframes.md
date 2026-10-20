@@ -93,7 +93,7 @@ Annotations:
 - [Domain glossary](../../requirements/glossary.md)
 - [Actors](../../requirements/actors.md)
 - [Use-case catalog](../../requirements/use-cases/use-cases.md)
-- [Navigation Maps](../../requirements/ux/navigation-maps/navigation-maps.md)
+- [Navigation Map](../../requirements/ux/navigation-maps/navigation-maps.md)
 - [Design System](../../requirements/ux/design-system/design-system.md)
 - [Scope exclusions](../../requirements/scope-exclusions.md)
 - [Constraints and assumptions](../../requirements/constraints.md)

@@ -2,9 +2,15 @@
 
 - Status: draft
 - Owner: Management
-- Last reviewed: 2026-08-17
+- Last reviewed: 2026-10-20
 
-This overview communicates the coarse logical structure of the project without calendar dates or delivery forecasts. [GitHub Issues](https://github.com/hochschule-darmstadt/a3se_app/issues) are authoritative for individual tasks, dependencies, scope, and completion evidence; the [GitHub Project board](https://github.com/orgs/hochschule-darmstadt/projects/2/views/2) is authoritative for the workflow states `Open`, `In progress`, and `Done`.
+This overview communicates the coarse logical structure of the project without calendar dates or delivery forecasts. [GitHub Issues](https://github.com/hochschule-darmstadt/a3se_app/issues) remain the current adapter for individual work items, dependencies, workflow state, and linked completion evidence; the [GitHub Project board](https://github.com/orgs/hochschule-darmstadt/projects/2/views/2) is authoritative for the workflow states `Open`, `In progress`, and `Done`.
+
+## Planning authority and adopted lifecycle
+
+[DR-0029](../../governance/decisions/0029-adopt-oculus-lifecycle-skills-and-templates.md) adopts tracker-independent Release and Sprint Backlogs, stable planning identities, separate Slice Manifests, and the shared implementation/review workflow. These governed artifacts own planning outcomes and allocations as they are established; GitHub issue numbers remain tracker mappings. Existing issue identifiers and historical delivery evidence remain valid and are reconciled when the affected work is next refined rather than renumbered by this harness update.
+
+Use [Create Release Backlog](../../../.agents/skills/create-release-backlog/SKILL.md), [Create Sprint Backlog](../../../.agents/skills/create-sprint-backlog/SKILL.md), and [Update Release Backlog](../../../.agents/skills/update-release-backlog/SKILL.md) for planning. Use [Specify Slice](../../../.agents/skills/specify-slice/SKILL.md) for exact vertical scope and the [Agent Workflows](../../governance/workflows/agent-workflows/agent-workflows.md) for delivery coordination. The existing coarse issue map below records the established project context; it does not allocate new Stories or Slices.
 
 ## Logical structure
 

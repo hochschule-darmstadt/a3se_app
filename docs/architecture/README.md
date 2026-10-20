@@ -2,7 +2,7 @@
 
 - Status: draft
 - Owner: Architecture
-- Last reviewed: 2026-08-05
+- Last reviewed: 2026-10-20
 
 Architecture translates accepted requirements and constraints into consequential structural and technology decisions when their drivers and validation needs are explicit.
 
@@ -16,3 +16,5 @@ Architecture translates accepted requirements and constraints into consequential
 Consequential choices belong in [decision records](../governance/decisions/README.md).
 
 Software architecture describes logical modules and dependencies. [Deployment architecture](../operations/deployment-architecture/deployment-architecture.md) separately describes processes, containers, infrastructure nodes, and runtime placement without selecting a production server.
+
+The [repository skill index](../../.agents/skills/README.md) routes architecture, logical-entity, technology, security, and deployment work. The [Agent Workflows](../governance/workflows/agent-workflows/agent-workflows.md) coordinate these baselines with test strategy, CI/CD, and Technical Foundation before delivery; existing A3SE decisions remain the authority for selected technologies.

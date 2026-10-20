@@ -44,7 +44,7 @@ State where credentials, secrets, keys, session material, policy, configuration,
 
 ## Security context
 
-Describe the verified context available to security decisions, such as subject identity and assurance, business role, action, resource, organization, location, purpose, customer or patient relationship, care or case context, delegation, representation, time, device, service, or operating arrangement.
+Describe the verified context available to security decisions, such as subject identity and assurance, business role, action, resource, organization, location, purpose, customer or account relationship, transaction or order context, delegation, representation, time, device, service, or operating arrangement.
 
 Do not treat an actor, role, organization membership, frontend route, possession of an identifier, or successful authentication as sufficient authorization unless authoritative behavior explicitly establishes that rule.
 
