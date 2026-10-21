@@ -2,9 +2,11 @@
 
 - Status: accepted
 - Owner: Operations/Architecture
-- Last reviewed: 2026-08-14
+- Last reviewed: 2026-10-21
 
 Use this workflow to map accepted logical architecture and technology decisions to runtime units and infrastructure nodes without changing module responsibilities.
+
+The [Create Deployment Architecture](../../../.agents/skills/create-deployment-architecture/SKILL.md) skill provides the task procedure and the [deployment architecture](../templates/deployment-architecture.md) and [environment](../templates/environment.md) templates. This workflow adds the binding A3SE constraints: the Docker-on-localhost boundary, UML deployment diagrams in PlantUML, and deferred production topology.
 
 ## Inputs
 

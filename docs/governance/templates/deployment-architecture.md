@@ -52,7 +52,7 @@ Map accepted logical and technology choices to deployable artifacts and placemen
 |---|---|---|---|---|---|
 | Frontend, backend, worker, gateway, database, migration, scheduler, telemetry component, administrative surface, or external dependency | Versioned package, image, static assets, runtime, store, protocol, or deliberately unresolved mechanism | Browser, process, container, host, managed service, device, or external node | Accepted count, elasticity, redundancy, or unresolved requirement | Ingress, egress, protocol, exposure, and identity boundary at landscape depth | Software Architecture, Technology, Security Architecture, requirement, or decision |
 
-Add a C4 deployment view only when it communicates material node, instance, or trust-boundary relationships more clearly than the tables. Link its authoritative source and rendered output.
+Add a deployment diagram in the repository's established deployment-topology notation (see [notations](../standards/notations.md)) only when it communicates material node, instance, or trust-boundary relationships more clearly than the tables. Link its authoritative source and rendered output.
 
 ## Cross-environment requirements
 

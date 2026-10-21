@@ -173,7 +173,7 @@ Keep exact setup, routine commands, backup operation, incident procedure, and tr
 
 ## Use diagrams only when they add precision
 
-Use C4 deployment views for concrete runtime nodes and deployed instances when a diagram materially improves understanding. Use UML where precise interaction or state semantics are needed. Keep source beside the owning specification, render it with repository tooling, inspect the result, and never edit a generated image as the source.
+Use the deployment-topology notation established by the repository's notation guidance for concrete runtime nodes and deployed instances when a diagram materially improves understanding; in this repository that is UML deployment diagrams in PlantUML. Use C4 deployment views only where no deployment notation is established. Use UML where precise interaction or state semantics are needed. Keep source beside the owning specification, render it with repository tooling, inspect the result, and never edit a generated image as the source.
 
 Do not create a diagram merely to repeat a small topology table. Never imply an unaccepted service, cluster, region, trust boundary, redundancy model, or scaling topology through layout.
 

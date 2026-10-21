@@ -33,6 +33,10 @@
 - [specify-slice](specify-slice/SKILL.md): turn a selected Sprint Backlog Story into a coherent vertical Slice Manifest by coordinating the necessary authoritative artifact refinements and implementation-planning handoff
 - [review-slice](review-slice/SKILL.md): assess one implemented Slice against its acceptance claims and completion conditions and record the bounded human review result
 
-## A3SE-specific extension
+## Local adaptations
 
-- [commit-readiness](commit-readiness/SKILL.md): select and run proportionate checks for commits and pull requests under the A3SE commit workflow.
+Reconcile these deliberate A3SE deviations from the Oculus source before adopting a later Oculus update:
+
+- Artifact paths for Product Vision, Navigation Maps, Logical Entity Model, Security, and Project Management, and decision references, as recorded in [DR-0029](../../docs/governance/decisions/0029-adopt-oculus-lifecycle-skills-and-templates.md).
+- No `commit-readiness` skill; commit checks live in the [commit workflow](../../docs/governance/workflows/commit-workflow.md) per [DR-0030](../../docs/governance/decisions/0030-move-commit-checks-into-commit-workflow.md).
+- `create-deployment-architecture` and the deployment-architecture and environment templates use the repository's deployment notation from the [notation guidance](../../docs/governance/standards/notations.md) instead of prescribing C4 deployment views.

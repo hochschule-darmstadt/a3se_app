@@ -42,3 +42,4 @@ Decision records intentionally use the `Status/Date/Deciders/Supersedes` metadat
 | [DR-0027](0027-represent-flight-and-room-type-capacity-without-leaf-products.md) | Represent flight and room-type capacity without seat and room products | accepted | 2026-09-16 | DR-0020 in part |
 | [DR-0028](0028-unify-advisor-routing-in-langgraph.md) | Unify advisor routing in LangGraph | proposed | 2026-09-17 | DR-0026 in part |
 | [DR-0029](0029-adopt-oculus-lifecycle-skills-and-templates.md) | Adopt the Oculus lifecycle skills and templates | accepted | 2026-10-20 | DR-0008 in part |
+| [DR-0030](0030-move-commit-checks-into-commit-workflow.md) | Move commit checks into the commit workflow | accepted | 2026-10-21 | DR-0029 in part |

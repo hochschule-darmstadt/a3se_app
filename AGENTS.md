@@ -23,7 +23,7 @@ Build a tour operator business information system while demonstrating discipline
 
 ## Definition of done
 
-A change is complete only when its acceptance evidence is present, links and identifiers remain valid, relevant specifications agree, and the checks in [docs/governance/workflows/definition-of-done.md](docs/governance/workflows/definition-of-done.md) pass.
+A change is complete only when its acceptance evidence is present, links and identifiers remain valid, relevant specifications agree, and the checks in [docs/governance/workflows/definition-of-done.md](docs/governance/workflows/definition-of-done.md) pass. Before proposing any commit or pull request, follow [docs/governance/workflows/commit-workflow.md](docs/governance/workflows/commit-workflow.md), including its proportionate checks and Checkpoint stops.
 
 ## Agent collaboration
 

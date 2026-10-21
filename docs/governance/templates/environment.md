@@ -42,7 +42,7 @@ Include only drivers that materially affect this environment.
 |---|---|---|---|---|---|
 | Frontend, backend, worker, database, gateway, external integration, migration, scheduler, telemetry component, or administrative surface | Selected mechanism | Process, container, host, managed service, browser, device, or external node | Count, elasticity, active/passive, or deliberately unresolved | Ingress, egress, protocol, origin, and boundary | Delivery or operational owner |
 
-Add a C4 deployment view only when it communicates material node, instance, or boundary relationships more clearly than the table. Link its authoritative source and rendered output.
+Add a deployment diagram in the repository's established deployment-topology notation (see [notations](../standards/notations.md)) only when it communicates material node, instance, or boundary relationships more clearly than the table. Link its authoritative source and rendered output.
 
 ## Environment requirements
 

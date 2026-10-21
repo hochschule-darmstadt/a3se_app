@@ -8,4 +8,4 @@ Independently challenge ambiguity, testability, edge cases, state transitions, a
 
 Test does not redefine intended behavior. Return contradictions to the authoritative owner and record unresolved risk explicitly.
 
-No dedicated Test skill is currently defined. Use the [definition of done](../workflows/definition-of-done.md) and [continuous specification alignment](../workflows/continuous-spec-alignment.md); any future skill must preserve this responsibility's independent challenge and authority boundaries.
+Use [Create Test Strategy](../../../.agents/skills/create-test-strategy/SKILL.md) for the test baseline, [Create Tests](../../../.agents/skills/create-tests/SKILL.md) for a prepared increment, and [Review Prototype](../../../.agents/skills/review-prototype/SKILL.md) or [Review Slice](../../../.agents/skills/review-slice/SKILL.md) for evidence-led review, together with the [definition of done](../workflows/definition-of-done.md) and [continuous specification alignment](../workflows/continuous-spec-alignment.md). Skills must preserve this responsibility's independent challenge and authority boundaries.

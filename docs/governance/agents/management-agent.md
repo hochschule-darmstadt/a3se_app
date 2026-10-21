@@ -8,4 +8,4 @@ Scope work, coordinate lifecycle responsibilities, manage dependencies, plans, s
 
 Management integrates outcomes but does not approve material business intent or technical choices without the required stakeholder or specialist authority.
 
-Use [commit readiness](../../../.agents/skills/commit-readiness/SKILL.md) for commit or pull-request preparation and the governing workflows for task coordination. Skills do not replace management's accountability for scope, evidence, escalation, or durable ownership.
+Use the [commit workflow](../workflows/commit-workflow.md) for commit or pull-request preparation and the governing workflows for task coordination. Skills do not replace management's accountability for scope, evidence, escalation, or durable ownership.

@@ -15,7 +15,7 @@ The authoritative [SDLC responsibility model](../lifecycle/lifecycle.md) defines
 
 ## Using repository skills
 
-The [repository skill index](../../../.agents/skills/README.md) lists the adopted Oculus baseline and the local commit-readiness extension. The [Agent Workflows](../workflows/agent-workflows/agent-workflows.md) own task-to-artifact contracts and coordination. Skills define bounded procedures; they do not transfer stakeholder authority or replace independent challenge.
+The [repository skill index](../../../.agents/skills/README.md) lists the adopted Oculus baseline. Commit and pull-request checks follow the [commit workflow](../workflows/commit-workflow.md). The [Agent Workflows](../workflows/agent-workflows/agent-workflows.md) own task-to-artifact contracts and coordination. Skills define bounded procedures; they do not transfer stakeholder authority or replace independent challenge.
 
 | Responsibility | Skill entry points |
 |---|---|
@@ -24,6 +24,6 @@ The [repository skill index](../../../.agents/skills/README.md) lists the adopte
 | Implementation | Technical foundation, coding guidelines, implementation planning, code creation, and the optional integrated Prototype implementation. |
 | Test | Test strategy, test creation, Prototype technical review, and Slice acceptance review. |
 | Operations | Deployment architecture, CI/CD baseline, and operation of the accepted delivery path. |
-| Management | Release and sprint backlogs, Slice coordination, and commit readiness. |
+| Management | Release and sprint backlogs and Slice coordination. |
 
-See [DR-0006](../decisions/0006-align-harness-with-lifecycle-terminology.md) and [DR-0029](../decisions/0029-adopt-oculus-lifecycle-skills-and-templates.md).
+See [DR-0006](../decisions/0006-align-harness-with-lifecycle-terminology.md), [DR-0029](../decisions/0029-adopt-oculus-lifecycle-skills-and-templates.md), and [DR-0030](../decisions/0030-move-commit-checks-into-commit-workflow.md).

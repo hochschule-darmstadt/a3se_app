@@ -2,12 +2,14 @@
 
 - Status: accepted
 - Owner: Management/Implementation
-- Last reviewed: 2026-09-10
+- Last reviewed: 2026-10-21
+
+This workflow applies to every commit and pull request. Within Prototype or Slice delivery, [`operate-ci-cd`](../../../.agents/skills/operate-ci-cd/SKILL.md) runs the same checks as part of the delivery path and records their evidence; this workflow still governs the commit itself.
 
 1. Start from an identified requirement, risk, defect, or decision.
 2. Declare scope and affected stable IDs using the [artifact authority and lifecycle](artifact-lifecycle.md).
 3. Make the smallest coherent change, including specifications and acceptance evidence.
-4. Run proportionate checks and independent specialist review where risk warrants it.
+4. Run proportionate checks and independent specialist review where risk warrants it. Select checks from the [proportionate checks](#proportionate-checks) table, run them, and report the outcome before proposing the commit.
 5. Reconcile cross-artifact links and continuous alignment. When an
    implementation convention changes, update the applicable as-built
    architecture document in the same change; those documents are
@@ -24,6 +26,21 @@
    number; do not invent an issue reference for untracked work.
 
 Do not mix unrelated cleanup with behavior changes. Do not claim tests or reviews that did not run. The issue-reference convention above applies regardless of the selected delivery platform; additional technology-specific branching, formatting, linting, and testing rules may be added after the stack and delivery platform are selected.
+
+## Proportionate checks
+
+Inspect the pending change (`git status`, `git diff`) and run every check whose trigger applies. Do not run unrelated checks unconditionally.
+
+| Change | Check |
+|---|---|
+| Any Markdown file or stable identifier | `npm run harness:validate` |
+| `docs/architecture/software-architecture/` modules, `.puml` sequences, or `.drawio` | `npm run architecture:validate` |
+| `.puml`, `.mmd`, `.bpmn`, or `.dsl` diagram sources elsewhere | `npm run diagrams:validate` |
+| `frontend/` | `npm run frontend:typecheck` and `npm run frontend:test` for the affected workspaces |
+| `backend/` | `npm run backend:check` |
+| OpenAPI contract or generated API client | `npm run api-client:validate` |
+
+Report each check as ran or skipped, with its result; state why each skipped check does not apply. When a check fails, stop and surface the failure. Do not propose the commit until it is fixed or the residual risk is explicitly recorded and accepted.
 
 ## Checkpoints
 
