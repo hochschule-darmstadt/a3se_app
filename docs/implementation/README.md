@@ -38,6 +38,8 @@ The guides prescribe capabilities where a concrete supporting tool is not yet se
 
 ## Prototype and Slice delivery
 
+The [Technical Foundation](technical-foundation.md) record indexes the current executable mechanisms, their smoke checks, and known gaps.
+
 Use the [Agent Workflows](../governance/workflows/agent-workflows/agent-workflows.md) and [repository skill index](../../.agents/skills/README.md) for Technical Foundation, coding guidelines, implementation planning, tests, code, and delivery evidence. The [canonical templates](../governance/templates/README.md) define the corresponding records; create them only when their owning task establishes actual scope and evidence. Existing language guides and accepted technology decisions remain authoritative inputs.
 
 Prototype review uses [review-prototype](../../.agents/skills/review-prototype/SKILL.md) for declared architecture and technology hypotheses. Regular Slice acceptance uses [review-slice](../../.agents/skills/review-slice/SKILL.md). Prior proof-of-concept evidence retains its original scope and does not become a new technical review or Slice acceptance by this harness update.
