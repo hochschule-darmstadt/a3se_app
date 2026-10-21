@@ -15,7 +15,7 @@ Authority stays with the owning artifacts:
 - [Technology](../architecture/technology.md) and its decisions ([DR-0010](../governance/decisions/0010-adopt-python-centered-modular-technology-stack.md), [DR-0015](../governance/decisions/0015-frontend-thin-slice-testing-i18n-and-catalog-listing.md)) own the selected test mechanisms.
 - [Security Architecture](../architecture/security.md) owns control objectives; none is accepted yet.
 - [Deployment Architecture](../operations/deployment-architecture/deployment-architecture.md) owns environments, exposure, and data classes.
-- Slice Manifests own their bounded evidence claims. The CI/CD baseline (not yet created) will own repeatable execution of the checks required here.
+- Slice Manifests own their bounded evidence claims. The [CI/CD baseline](../operations/ci-cd.md) owns repeatable execution of the checks required here.
 - This strategy owns cross-cutting test objectives, policies, test-level responsibilities, data and environment use, evidence semantics, human review, and the Slice readiness gate.
 
 Detailed test designs, executable tests, and generated results are evidence, not requirements. Accountable evaluation and acceptance are outside automated execution.
